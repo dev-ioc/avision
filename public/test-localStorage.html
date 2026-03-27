@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test localStorage pour thèmes</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .result { background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 3px; }
+        button { margin: 5px; padding: 8px 15px; }
+    </style>
+</head>
+<body>
+    <h1>Test localStorage pour les thèmes</h1>
+    
+    <div class="test-section">
+        <h3>1. Test de sauvegarde</h3>
+        <button onclick="saveTheme('light')">Sauvegarder Light</button>
+        <button onclick="saveTheme('dark')">Sauvegarder Dark</button>
+        <button onclick="saveTheme('semi-dark')">Sauvegarder Semi-Dark</button>
+        <div class="result" id="saveResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>2. Test de récupération</h3>
+        <button onclick="loadTheme()">Charger le thème</button>
+        <div class="result" id="loadResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>3. État actuel du localStorage</h3>
+        <button onclick="showLocalStorage()">Afficher localStorage</button>
+        <div class="result" id="localStorageResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>4. Test d'application du thème</h3>
+        <button onclick="applySemiDark()">Appliquer Semi-Dark</button>
+        <button onclick="applyLight()">Appliquer Light</button>
+        <button onclick="applyDark()">Appliquer Dark</button>
+        <div class="result" id="applyResult"></div>
+    </div>
+
+    <script>
+        const templateName = 'avision'; // Utiliser le même nom que dans l'application
+        
+        function saveTheme(theme) {
+            try {
+                localStorage.setItem(`theme-${templateName}`, theme);
+                
+                if (theme === 'semi-dark') {
+                    localStorage.setItem(`semi-dark-${templateName}`, 'true');
+                } else {
+                    localStorage.removeItem(`semi-dark-${templateName}`);
+                }
+                
+                document.getElementById('saveResult').innerHTML = 
+                    `<strong>Succès:</strong> Thème "${theme}" sauvegardé<br>
+                     theme-${templateName}: ${localStorage.getItem(`theme-${templateName}`)}<br>
+                     semi-dark-${templateName}: ${localStorage.getItem(`semi-dark-${templateName}`)}`;
+            } catch (error) {
+                document.getElementById('saveResult').innerHTML = 
+                    `<strong>Erreur:</strong> ${error.message}`;
+            }
+        }
+        
+        function loadTheme() {
+            try {
+                const storedTheme = localStorage.getItem(`theme-${templateName}`);
+                const isSemiDark = localStorage.getItem(`semi-dark-${templateName}`) === 'true';
+                
+                document.getElementById('loadResult').innerHTML = 
+                    `<strong>Thème stocké:</strong> ${storedTheme || 'aucun'}<br>
+                     <strong>Semi-dark:</strong> ${isSemiDark}<br>
+                     <strong>Thème détecté:</strong> ${storedTheme === 'semi-dark' || isSemiDark ? 'semi-dark' : storedTheme || 'light'}`;
+            } catch (error) {
+                document.getElementById('loadResult').innerHTML = 
+                    `<strong>Erreur:</strong> ${error.message}`;
+            }
+        }
+        
+        function showLocalStorage() {
+            try {
+                let result = '<strong>Contenu du localStorage:</strong><br>';
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    const value = localStorage.getItem(key);
+                    result += `${key}: ${value}<br>`;
+                }
+                document.getElementById('localStorageResult').innerHTML = result;
+            } catch (error) {
+                document.getElementById('localStorageResult').innerHTML = 
+                    `<strong>Erreur:</strong> ${error.message}`;
+            }
+        }
+        
+        function applySemiDark() {
+            document.documentElement.setAttribute('data-bs-theme', 'light');
+            document.documentElement.setAttribute('data-semidark-menu', 'true');
+            document.getElementById('applyResult').innerHTML = 
+                `<strong>Semi-Dark appliqué:</strong><br>
+                 data-bs-theme: ${document.documentElement.getAttribute('data-bs-theme')}<br>
+                 data-semidark-menu: ${document.documentElement.getAttribute('data-semidark-menu')}`;
+        }
+        
+        function applyLight() {
+            document.documentElement.setAttribute('data-bs-theme', 'light');
+            document.documentElement.removeAttribute('data-semidark-menu');
+            document.getElementById('applyResult').innerHTML = 
+                `<strong>Light appliqué:</strong><br>
+                 data-bs-theme: ${document.documentElement.getAttribute('data-bs-theme')}<br>
+                 data-semidark-menu: ${document.documentElement.getAttribute('data-semidark-menu') || 'non défini'}`;
+        }
+        
+        function applyDark() {
+            document.documentElement.setAttribute('data-bs-theme', 'dark');
+            document.documentElement.removeAttribute('data-semidark-menu');
+            document.getElementById('applyResult').innerHTML = 
+                `<strong>Dark appliqué:</strong><br>
+                 data-bs-theme: ${document.documentElement.getAttribute('data-bs-theme')}<br>
+                 data-semidark-menu: ${document.documentElement.getAttribute('data-semidark-menu') || 'non défini'}`;
+        }
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            showLocalStorage();
+        });
+    </script>
+</body>
+</html>

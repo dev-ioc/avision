@@ -1,0 +1,5 @@
+Câblage demandé
+Assesseur : 2 Fibres et 4 RJ
+	Table : 2 fibres 6 RJ
+	Projecteur 2 RJ 45
+ 

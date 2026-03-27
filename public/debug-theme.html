@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Thème Semi-Dark</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Inclure le CSS de l'application -->
+    <link href="assets/vendor/css/core.css" rel="stylesheet">
+    <style>
+        .debug-info {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            z-index: 9999;
+        }
+        
+        .test-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .layout-menu {
+            width: 250px;
+            background: var(--bs-menu-bg);
+            color: var(--bs-menu-color);
+            padding: 20px;
+        }
+        
+        .content-wrapper {
+            flex: 1;
+            padding: 20px;
+            background: var(--bs-body-bg);
+            color: var(--bs-body-color);
+        }
+        
+        .menu-link {
+            display: block;
+            padding: 8px 12px;
+            color: var(--bs-menu-color);
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 4px;
+        }
+        
+        .menu-link:hover {
+            background: var(--bs-menu-hover-bg);
+            color: var(--bs-menu-hover-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-info" id="debugInfo">
+        <div>data-bs-theme: <span id="themeValue">-</span></div>
+        <div>data-semidark-menu: <span id="semiDarkValue">-</span></div>
+        <div>--bs-menu-bg: <span id="menuBg">-</span></div>
+        <div>--bs-menu-color: <span id="menuColor">-</span></div>
+    </div>
+
+    <div class="test-layout">
+        <aside class="layout-menu">
+            <h5>Menu de navigation</h5>
+            <a href="#" class="menu-link">Tableau de bord</a>
+            <a href="#" class="menu-link">Interventions</a>
+            <a href="#" class="menu-link">Clients</a>
+            <a href="#" class="menu-link">Contrats</a>
+            <a href="#" class="menu-link">Matériel</a>
+        </aside>
+        
+        <main class="content-wrapper">
+            <h1>Test du thème Semi-Dark</h1>
+            <p>Cette page teste le CSS pour le mode semi-dark.</p>
+            
+            <div class="mb-3">
+                <button class="btn btn-primary me-2" onclick="setTheme('light')">Light</button>
+                <button class="btn btn-secondary me-2" onclick="setTheme('dark')">Dark</button>
+                <button class="btn btn-success me-2" onclick="setTheme('semi-dark')">Semi-Dark</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5>Zone de contenu</h5>
+                </div>
+                <div class="card-body">
+                    <p>Cette zone doit rester claire en mode semi-dark.</p>
+                    <button class="btn btn-primary">Bouton test</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function updateDebugInfo() {
+            const themeValue = document.documentElement.getAttribute('data-bs-theme');
+            const semiDarkValue = document.documentElement.getAttribute('data-semidark-menu');
+            const menuBg = getComputedStyle(document.documentElement).getPropertyValue('--bs-menu-bg');
+            const menuColor = getComputedStyle(document.documentElement).getPropertyValue('--bs-menu-color');
+            
+            document.getElementById('themeValue').textContent = themeValue || 'non défini';
+            document.getElementById('semiDarkValue').textContent = semiDarkValue || 'non défini';
+            document.getElementById('menuBg').textContent = menuBg || 'non défini';
+            document.getElementById('menuColor').textContent = menuColor || 'non défini';
+        }
+        
+        function setTheme(theme) {
+            console.log('Setting theme to:', theme);
+            
+            if (theme === 'semi-dark') {
+                document.documentElement.setAttribute('data-bs-theme', 'light');
+                document.documentElement.setAttribute('data-semidark-menu', 'true');
+            } else {
+                document.documentElement.setAttribute('data-bs-theme', theme);
+                document.documentElement.removeAttribute('data-semidark-menu');
+            }
+            
+            updateDebugInfo();
+        }
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDebugInfo();
+            
+            // Mettre à jour les infos toutes les secondes
+            setInterval(updateDebugInfo, 1000);
+        });
+    </script>
+</body>
+</html>

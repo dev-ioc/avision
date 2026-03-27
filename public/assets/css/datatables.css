@@ -1,0 +1,106 @@
+/* Style pour les en-têtes de tableau DataTables */
+.dataTables_wrapper .table thead th {
+    background-color: #343a40;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 12px 8px;
+    border-bottom: 2px solid #dee2e6;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.dataTables_wrapper .table thead th.sorting:after,
+.dataTables_wrapper .table thead th.sorting_asc:after,
+.dataTables_wrapper .table thead th.sorting_desc:after {
+    color: #ffffff;
+    opacity: 1;
+}
+
+.dataTables_wrapper .table thead th.sorting:hover,
+.dataTables_wrapper .table thead th.sorting_asc:hover,
+.dataTables_wrapper .table thead th.sorting_desc:hover {
+    background-color: #495057;
+    cursor: pointer;
+}
+
+/* Style pour le champ de recherche */
+.dataTables_filter {
+    text-align: left !important;
+    margin-bottom: 1rem;
+}
+
+.dataTables_filter label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #343a40;
+    font-weight: 600;
+}
+
+.dataTables_filter input {
+    width: 250px !important;
+    margin-left: 0.5rem;
+}
+
+/* Style pour la pagination */
+.dataTables_wrapper .row:last-child {
+    margin-top: 1rem;
+}
+
+.dataTables_wrapper .row:last-child .col-sm-12.col-md-6 {
+    width: 100%;
+    text-align: center;
+}
+
+.dataTables_wrapper .row:last-child .col-sm-12.col-md-6:first-child {
+    display: none;
+}
+
+/* Masquer la colonne vide de la pagination */
+.dataTables_wrapper .row:last-child .col-sm-12.col-md-6:empty {
+    display: none;
+}
+
+/* Style pour l'affichage responsive en cartes */
+@media screen and (max-width: 767px) {
+    .dataTables_wrapper .table tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+        background-color: #fff;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+
+    .dataTables_wrapper .table tbody tr td {
+        display: block;
+        padding: 0.75rem;
+        border: none;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .dataTables_wrapper .table tbody tr td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0.75rem;
+        width: 45%;
+        padding-right: 0.75rem;
+        font-weight: 600;
+        color: #343a40;
+    }
+
+    .dataTables_wrapper .table tbody tr td.actions {
+        padding-left: 0.75rem;
+        text-align: center;
+    }
+
+    .dataTables_wrapper .table tbody tr td.actions:before {
+        display: none;
+    }
+
+    .dataTables_wrapper .table thead {
+        display: none;
+    }
+} 

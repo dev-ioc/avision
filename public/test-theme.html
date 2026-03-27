@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Thème Semi-Dark</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* Styles pour tester le mode semi-dark */
+        [data-semidark-menu="true"] .layout-menu {
+            background-color: #1a1a1a !important;
+            color: #ffffff !important;
+        }
+        
+        [data-semidark-menu="true"] .menu-link {
+            color: #ffffff !important;
+        }
+        
+        [data-semidark-menu="true"] .menu-link:hover {
+            background-color: #2a2a2a !important;
+        }
+        
+        .test-container {
+            min-height: 100vh;
+            display: flex;
+        }
+        
+        .layout-menu {
+            width: 250px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #dee2e6;
+        }
+        
+        .content-area {
+            flex: 1;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        
+        .theme-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-switcher">
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="bi bi-sun"></i> Thème
+            </button>
+            <ul class="dropdown-menu">
+                <li><button class="dropdown-item" data-bs-theme-value="light">Light</button></li>
+                <li><button class="dropdown-item" data-bs-theme-value="dark">Dark</button></li>
+                <li><button class="dropdown-item" data-bs-theme-value="system">System</button></li>
+                <li><button class="dropdown-item" data-bs-theme-value="semi-dark">Menu sombre</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <aside class="layout-menu">
+            <h5>Menu de navigation</h5>
+            <ul class="list-unstyled">
+                <li class="mb-2"><a href="#" class="menu-link text-decoration-none d-block p-2 rounded">Tableau de bord</a></li>
+                <li class="mb-2"><a href="#" class="menu-link text-decoration-none d-block p-2 rounded">Interventions</a></li>
+                <li class="mb-2"><a href="#" class="menu-link text-decoration-none d-block p-2 rounded">Clients</a></li>
+                <li class="mb-2"><a href="#" class="menu-link text-decoration-none d-block p-2 rounded">Contrats</a></li>
+                <li class="mb-2"><a href="#" class="menu-link text-decoration-none d-block p-2 rounded">Matériel</a></li>
+            </ul>
+        </aside>
+        
+        <main class="content-area">
+            <h1>Test du thème Semi-Dark</h1>
+            <p>Cette page teste le nouveau thème "Menu sombre" qui applique un style sombre uniquement au menu de gauche.</p>
+            
+            <div class="alert alert-info">
+                <h5>Instructions de test :</h5>
+                <ol>
+                    <li>Cliquez sur le sélecteur de thème en haut à droite</li>
+                    <li>Sélectionnez "Menu sombre"</li>
+                    <li>Observez que le menu de gauche devient sombre</li>
+                    <li>Le contenu principal reste clair</li>
+                </ol>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Zone de contenu</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Cette zone doit rester claire même en mode "Menu sombre".</p>
+                            <button class="btn btn-primary">Bouton test</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Autre contenu</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Le contenu principal ne doit pas être affecté par le mode semi-dark.</p>
+                            <div class="form-group">
+                                <label>Champ de test :</label>
+                                <input type="text" class="form-control" placeholder="Saisie de test">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Script de test simplifié pour le thème semi-dark
+        const templateName = 'test';
+        
+        // Fonction pour appliquer le thème
+        function applyTheme(theme) {
+            if (theme === 'semi-dark') {
+                document.documentElement.setAttribute('data-bs-theme', 'light');
+                document.documentElement.setAttribute('data-semidark-menu', 'true');
+                localStorage.setItem(`theme-${templateName}`, 'semi-dark');
+                localStorage.setItem(`semi-dark-${templateName}`, 'true');
+            } else {
+                document.documentElement.setAttribute('data-bs-theme', theme);
+                document.documentElement.removeAttribute('data-semidark-menu');
+                localStorage.setItem(`theme-${templateName}`, theme);
+                localStorage.removeItem(`semi-dark-${templateName}`);
+            }
+        }
+        
+        // Initialisation au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            const storedTheme = localStorage.getItem(`theme-${templateName}`);
+            const isSemiDark = localStorage.getItem(`semi-dark-${templateName}`) === 'true';
+            
+            if (storedTheme === 'semi-dark' || isSemiDark) {
+                applyTheme('semi-dark');
+            } else {
+                applyTheme(storedTheme || 'light');
+            }
+        });
+        
+        // Gestion des clics sur les boutons de thème
+        document.querySelectorAll('[data-bs-theme-value]').forEach(button => {
+            button.addEventListener('click', function() {
+                const theme = this.getAttribute('data-bs-theme-value');
+                applyTheme(theme);
+                
+                // Mettre à jour l'état actif
+                document.querySelectorAll('[data-bs-theme-value]').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

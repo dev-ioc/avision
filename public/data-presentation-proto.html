@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototype - Gestion Matériel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* En-tête */
+        .header {
+            padding: 24px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Filtres */
+        .filters {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .filter-group label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .filter-group select {
+            padding: 8px 32px 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+            min-width: 180px;
+        }
+
+        .filter-group select:hover {
+            border-color: #2196F3;
+        }
+
+        /* Barre d'outils */
+        .toolbar {
+            padding: 16px 24px;
+            background: #fafafa;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toolbar-left {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 8px 12px 8px 36px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 300px;
+            font-size: 14px;
+        }
+
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            background: #f5f5f5;
+        }
+
+        .btn-primary {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
+        .btn-primary:hover {
+            background: #1976D2;
+        }
+
+        .results-count {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Tableau */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #fafafa;
+            position: sticky;
+            top: 0;
+        }
+
+        th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e0e0e0;
+            white-space: nowrap;
+        }
+
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th.sortable:hover {
+            background: #f0f0f0;
+        }
+
+        th.sortable::after {
+            content: ' ⇅';
+            opacity: 0.3;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        tr.expandable {
+            cursor: pointer;
+        }
+
+        /* Badges et statuts */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-warning {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .badge-danger {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        /* Documents */
+        .docs-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #2196F3;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .docs-count:hover {
+            text-decoration: underline;
+        }
+
+        /* Ligne étendue */
+        .expanded-row {
+            background: #f9f9f9;
+            display: none;
+        }
+
+        .expanded-row.show {
+            display: table-row;
+        }
+
+        .expanded-content {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .info-group h4 {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .info-group p {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        /* Modal colonnes */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .column-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .column-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: move;
+        }
+
+        .column-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .column-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .drag-handle {
+            color: #999;
+            cursor: move;
+        }
+
+        /* Section documents de la salle */
+        .room-docs-section {
+            border-bottom: 1px solid #e0e0e0;
+            background: #fefefe;
+        }
+
+        .room-docs-header {
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            cursor: pointer;
+        }
+
+        .room-docs-header:hover {
+            background: #f0f2f5;
+        }
+
+        .room-docs-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .room-docs-title h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .room-docs-count {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .room-docs-content {
+            padding: 0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .room-docs-content.collapsed {
+            display: none;
+        }
+
+        /* Barre d'outils documents */
+        .docs-toolbar {
+            padding: 16px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .docs-search-box {
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .docs-search-box input {
+            width: 100%;
+            padding: 8px 12px 8px 36px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .docs-search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .docs-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .doc-filter-btn {
+            padding: 6px 14px;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            color: #666;
+            transition: all 0.2s;
+        }
+
+        .doc-filter-btn:hover {
+            background: #f5f5f5;
+            border-color: #2196F3;
+        }
+
+        .doc-filter-btn.active {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
+        /* Liste documents avec catégories */
+        .docs-list {
+            padding: 20px 24px;
+        }
+
+        .docs-category {
+            margin-bottom: 24px;
+        }
+
+        .docs-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .category-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 10px;
+        }
+
+        .doc-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .doc-card:hover {
+            border-color: #2196F3;
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.15);
+        }
+
+        .doc-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .doc-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .doc-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .doc-meta {
+            font-size: 12px;
+            color: #666;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- En-tête avec filtres -->
+        <div class="header">
+            <h1>Gestion du Matériel</h1>
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Client</label>
+                    <select id="clientFilter">
+                        <option value="">Tous les clients</option>
+                        <option value="acme">ACME Corporation</option>
+                        <option value="techcorp">TechCorp Industries</option>
+                        <option value="globalinc">Global Inc.</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Site</label>
+                    <select id="siteFilter">
+                        <option value="">Tous les sites</option>
+                        <option value="paris">Paris - Siège</option>
+                        <option value="lyon">Lyon - Entrepôt</option>
+                        <option value="marseille">Marseille - Centre</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Salle</label>
+                    <select id="roomFilter">
+                        <option value="">Toutes les salles</option>
+                        <option value="a101">Salle A101</option>
+                        <option value="b205">Salle B205</option>
+                        <option value="c312">Salle C312</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section documents de la salle -->
+        <div class="room-docs-section" id="roomDocsSection" style="display: none;">
+            <div class="room-docs-header">
+                <div class="room-docs-title">
+                    <h3>📁 Documents de la salle <span id="roomName"></span></h3>
+                    <span class="room-docs-count" id="roomDocsCount"></span>
+                </div>
+                <button class="btn" onclick="toggleRoomDocs()">
+                    <span id="roomDocsToggleIcon">▼</span> Masquer
+                </button>
+            </div>
+            <div class="room-docs-content" id="roomDocsContent">
+                <!-- Barre de recherche et filtres pour les documents -->
+                <div class="docs-toolbar">
+                    <div class="docs-search-box">
+                        <input type="text" placeholder="Rechercher dans les documents..." id="docsSearch">
+                    </div>
+                    <div class="docs-filters">
+                        <button class="doc-filter-btn active" data-category="all">Tous (40)</button>
+                        <button class="doc-filter-btn" data-category="plans">Plans (8)</button>
+                        <button class="doc-filter-btn" data-category="technique">Technique (12)</button>
+                        <button class="doc-filter-btn" data-category="admin">Administratif (10)</button>
+                        <button class="doc-filter-btn" data-category="photos">Photos (7)</button>
+                        <button class="doc-filter-btn" data-category="other">Autres (3)</button>
+                    </div>
+                </div>
+
+                <!-- Liste des documents avec scroll -->
+                <div class="docs-list">
+                    <div class="docs-category">
+                        <div class="category-header">📐 Plans et schémas (8)</div>
+                        <div class="docs-grid">
+                            <div class="doc-card" data-category="plans">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Plan de la salle A101.pdf</div>
+                                    <div class="doc-meta">15/01/2025 • 2.4 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="plans">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Schéma électrique général.dwg</div>
+                                    <div class="doc-meta">10/12/2024 • 5.8 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="plans">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Schéma réseau informatique.vsd</div>
+                                    <div class="doc-meta">22/11/2024 • 1.2 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="plans">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Plan CVC et ventilation.pdf</div>
+                                    <div class="doc-meta">05/10/2024 • 3.1 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="plans">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Schéma courants faibles.dwg</div>
+                                    <div class="doc-meta">18/09/2024 • 2.7 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="plans">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Plan d'évacuation incendie.pdf</div>
+                                    <div class="doc-meta">12/08/2024 • 890 KB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="plans">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Implantation mobilier.pdf</div>
+                                    <div class="doc-meta">25/07/2024 • 1.5 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="plans">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Plan faux-plafond.dwg</div>
+                                    <div class="doc-meta">10/06/2024 • 4.2 MB</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="docs-category">
+                        <div class="category-header">🔧 Documentation technique (12)</div>
+                        <div class="docs-grid">
+                            <div class="doc-card" data-category="technique">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Dossier technique CVC.pdf</div>
+                                    <div class="doc-meta">28/01/2025 • 8.5 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="technique">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Spécifications électriques.pdf</div>
+                                    <div class="doc-meta">20/01/2025 • 3.2 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="technique">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Manuel onduleur centralisé.pdf</div>
+                                    <div class="doc-meta">15/12/2024 • 12.4 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="technique">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Guide configuration baie réseau.pdf</div>
+                                    <div class="doc-meta">08/11/2024 • 2.1 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="technique">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Procédure mise en service.docx</div>
+                                    <div class="doc-meta">25/10/2024 • 456 KB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="technique">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Check-list maintenance préventive.xlsx</div>
+                                    <div class="doc-meta">10/09/2024 • 234 KB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="technique">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Consignes sécurité électrique.pdf</div>
+                                    <div class="doc-meta">05/08/2024 • 1.8 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="technique">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Documentation système contrôle d'accès.pdf</div>
+                                    <div class="doc-meta">22/07/2024 • 5.6 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="technique">
+                                <div class="doc-icon">📊</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Rapport mesures électriques.xlsx</div>
+                                    <div class="doc-meta">15/06/2024 • 890 KB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="technique">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Configuration switches réseau.txt</div>
+                                    <div class="doc-meta">30/05/2024 • 45 KB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="technique">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Documentation système détection incendie.pdf</div>
+                                    <div class="doc-meta">18/04/2024 • 7.3 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="technique">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Procédure arrêt d'urgence.pdf</div>
+                                    <div class="doc-meta">05/03/2024 • 678 KB</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="docs-category">
+                        <div class="category-header">📋 Documents administratifs (10)</div>
+                        <div class="docs-grid">
+                            <div class="doc-card" data-category="admin">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Certificat conformité incendie.pdf</div>
+                                    <div class="doc-meta">22/06/2024 • 890 KB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="admin">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Attestation conformité électrique.pdf</div>
+                                    <div class="doc-meta">15/06/2024 • 1.2 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="admin">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Procédure d'accès.docx</div>
+                                    <div class="doc-meta">05/11/2024 • 156 KB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="admin">
+                                <div class="doc-icon">📊</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Inventaire initial.xlsx</div>
+                                    <div class="doc-meta">12/03/2023 • 245 KB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="admin">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Contrat maintenance CVC.pdf</div>
+                                    <div class="doc-meta">01/01/2024 • 2.3 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="admin">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Contrat nettoyage.pdf</div>
+                                    <div class="doc-meta">01/01/2024 • 1.1 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="admin">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Assurance locaux.pdf</div>
+                                    <div class="doc-meta">15/09/2024 • 890 KB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="admin">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Règlement intérieur salle.pdf</div>
+                                    <div class="doc-meta">10/05/2024 • 234 KB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="admin">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Liste contacts urgence.pdf</div>
+                                    <div class="doc-meta">20/08/2024 • 123 KB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="admin">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Rapport visite sécurité 2024.pdf</div>
+                                    <div class="doc-meta">12/12/2024 • 3.4 MB</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="docs-category">
+                        <div class="category-header">📷 Photos et médias (7)</div>
+                        <div class="docs-grid">
+                            <div class="doc-card" data-category="photos">
+                                <div class="doc-icon">📷</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Photos aménagement initial (12)</div>
+                                    <div class="doc-meta">Album • 08/03/2023</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="photos">
+                                <div class="doc-icon">📷</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Photos avant/après rénovation (24)</div>
+                                    <div class="doc-meta">Album • 15/06/2023</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="photos">
+                                <div class="doc-icon">📷</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Photos tableaux électriques (8)</div>
+                                    <div class="doc-meta">Album • 22/09/2023</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="photos">
+                                <div class="doc-icon">📷</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Photos installation réseau (15)</div>
+                                    <div class="doc-meta">Album • 10/10/2023</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="photos">
+                                <div class="doc-icon">🎥</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Vidéo visite virtuelle.mp4</div>
+                                    <div class="doc-meta">12/11/2023 • 245 MB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="photos">
+                                <div class="doc-icon">📷</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Photos faux-plafond technique (6)</div>
+                                    <div class="doc-meta">Album • 28/12/2023</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="photos">
+                                <div class="doc-icon">📷</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Photos inspection 2024 (10)</div>
+                                    <div class="doc-meta">Album • 15/01/2025</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="docs-category">
+                        <div class="category-header">📦 Autres documents (3)</div>
+                        <div class="docs-grid">
+                            <div class="doc-card" data-category="other">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Historique modifications.txt</div>
+                                    <div class="doc-meta">08/02/2025 • 34 KB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="other">
+                                <div class="doc-icon">📊</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Budget prévisionnel 2025.xlsx</div>
+                                    <div class="doc-meta">15/12/2024 • 567 KB</div>
+                                </div>
+                            </div>
+                            <div class="doc-card" data-category="other">
+                                <div class="doc-icon">📄</div>
+                                <div class="doc-info">
+                                    <div class="doc-name">Notes réunion kick-off.docx</div>
+                                    <div class="doc-meta">05/02/2023 • 89 KB</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barre d'outils -->
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <div class="search-box">
+                    <input type="text" placeholder="Rechercher du matériel...">
+                </div>
+                <button class="btn" onclick="toggleColumnsModal()">
+                    ⚙️ Colonnes
+                </button>
+                <button class="btn">
+                    📊 Exporter
+                </button>
+            </div>
+            <div class="results-count">
+                <strong>247</strong> équipements
+            </div>
+        </div>
+
+        <!-- Tableau -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 40px;"></th>
+                        <th class="sortable">Référence</th>
+                        <th class="sortable">Désignation</th>
+                        <th class="sortable">Catégorie</th>
+                        <th class="sortable">État</th>
+                        <th class="sortable">Localisation</th>
+                        <th class="sortable">Date install.</th>
+                        <th>Documents</th>
+                        <th class="sortable">Garantie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="expandable" onclick="toggleRow(this)">
+                        <td>▶</td>
+                        <td><strong>MAT-2024-001</strong></td>
+                        <td>Serveur Dell PowerEdge R740</td>
+                        <td>Serveurs</td>
+                        <td><span class="badge badge-success">Opérationnel</span></td>
+                        <td>Paris - A101</td>
+                        <td>12/03/2023</td>
+                        <td><span class="docs-count">📎 5 docs</span></td>
+                        <td>12/03/2026</td>
+                    </tr>
+                    <tr class="expanded-row">
+                        <td colspan="9">
+                            <div class="expanded-content">
+                                <div class="info-group">
+                                    <h4>Informations techniques</h4>
+                                    <p><strong>Numéro de série:</strong> SRV740-2023-XYZ</p>
+                                    <p><strong>Modèle:</strong> PowerEdge R740</p>
+                                    <p><strong>RAM:</strong> 128 GB</p>
+                                    <p><strong>Processeur:</strong> Intel Xeon Gold 6138</p>
+                                </div>
+                                <div class="info-group">
+                                    <h4>Maintenance</h4>
+                                    <p><strong>Dernière maintenance:</strong> 15/01/2025</p>
+                                    <p><strong>Prochaine:</strong> 15/07/2025</p>
+                                    <p><strong>Fournisseur:</strong> Dell Technologies</p>
+                                    <p><strong>Contrat:</strong> CNT-2023-456</p>
+                                </div>
+                                <div class="info-group">
+                                    <h4>Documents</h4>
+                                    <p>📄 Manuel d'utilisation.pdf</p>
+                                    <p>📄 Certificat de garantie.pdf</p>
+                                    <p>📄 Fiche technique.pdf</p>
+                                    <p>📄 Rapport maintenance 01-2025.pdf</p>
+                                    <p>📷 Photo installation.jpg</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="expandable" onclick="toggleRow(this)">
+                        <td>▶</td>
+                        <td><strong>MAT-2024-002</strong></td>
+                        <td>Switch Cisco Catalyst 9300</td>
+                        <td>Réseau</td>
+                        <td><span class="badge badge-success">Opérationnel</span></td>
+                        <td>Paris - A101</td>
+                        <td>15/04/2023</td>
+                        <td><span class="docs-count">📎 3 docs</span></td>
+                        <td>15/04/2028</td>
+                    </tr>
+                    <tr class="expanded-row">
+                        <td colspan="9">
+                            <div class="expanded-content">
+                                <div class="info-group">
+                                    <h4>Informations techniques</h4>
+                                    <p><strong>Numéro de série:</strong> FCW2315L0AB</p>
+                                    <p><strong>Ports:</strong> 48 ports 1Gb</p>
+                                    <p><strong>Uplink:</strong> 4x 10Gb SFP+</p>
+                                </div>
+                                <div class="info-group">
+                                    <h4>Configuration</h4>
+                                    <p><strong>VLAN:</strong> 10, 20, 30, 100</p>
+                                    <p><strong>IP Management:</strong> 192.168.1.10</p>
+                                    <p><strong>Firmware:</strong> 17.9.3</p>
+                                </div>
+                                <div class="info-group">
+                                    <h4>Documents</h4>
+                                    <p>📄 Configuration backup.txt</p>
+                                    <p>📄 Schéma réseau.pdf</p>
+                                    <p>📄 Manuel Cisco 9300.pdf</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="expandable" onclick="toggleRow(this)">
+                        <td>▶</td>
+                        <td><strong>MAT-2024-003</strong></td>
+                        <td>Climatisation Daikin VRV IV</td>
+                        <td>CVC</td>
+                        <td><span class="badge badge-warning">Maintenance requis</span></td>
+                        <td>Lyon - B205</td>
+                        <td>20/06/2022</td>
+                        <td><span class="docs-count">📎 8 docs</span></td>
+                        <td>20/06/2027</td>
+                    </tr>
+                    <tr class="expanded-row">
+                        <td colspan="9">
+                            <div class="expanded-content">
+                                <div class="info-group">
+                                    <h4>Informations techniques</h4>
+                                    <p><strong>Puissance:</strong> 28 kW</p>
+                                    <p><strong>Type:</strong> Reversible</p>
+                                    <p><strong>Fluide:</strong> R410A</p>
+                                </div>
+                                <div class="info-group">
+                                    <h4>Maintenance</h4>
+                                    <p><strong>Dernière:</strong> 10/10/2024</p>
+                                    <p><strong>Prochaine:</strong> 10/01/2025 (en retard)</p>
+                                    <p><strong>Anomalie:</strong> Filtre à remplacer</p>
+                                </div>
+                                <div class="info-group">
+                                    <h4>Documents</h4>
+                                    <p>📄 Manuel technique.pdf</p>
+                                    <p>📄 Schéma installation.pdf</p>
+                                    <p>📄 Rapports maintenance (5)</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="expandable" onclick="toggleRow(this)">
+                        <td>▶</td>
+                        <td><strong>MAT-2024-004</strong></td>
+                        <td>Onduleur APC Smart-UPS 3000</td>
+                        <td>Alimentation</td>
+                        <td><span class="badge badge-success">Opérationnel</span></td>
+                        <td>Paris - A101</td>
+                        <td>12/03/2023</td>
+                        <td><span class="docs-count">📎 4 docs</span></td>
+                        <td>12/03/2026</td>
+                    </tr>
+                    <tr class="expanded-row">
+                        <td colspan="9">
+                            <div class="expanded-content">
+                                <div class="info-group">
+                                    <h4>Caractéristiques</h4>
+                                    <p><strong>Capacité:</strong> 3000 VA / 2700 W</p>
+                                    <p><strong>Autonomie:</strong> 15 min à pleine charge</p>
+                                    <p><strong>Batteries:</strong> 2x 12V 9Ah</p>
+                                </div>
+                                <div class="info-group">
+                                    <h4>État batterie</h4>
+                                    <p><strong>Charge:</strong> 100%</p>
+                                    <p><strong>Santé:</strong> 95%</p>
+                                    <p><strong>Remplacement prévu:</strong> 03/2026</p>
+                                </div>
+                                <div class="info-group">
+                                    <h4>Documents</h4>
+                                    <p>📄 Manuel utilisateur.pdf</p>
+                                    <p>📄 Certificat garantie.pdf</p>
+                                    <p>📄 Tests autonomie.xlsx</p>
+                                    <p>📄 Plan remplacement batterie.pdf</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="expandable" onclick="toggleRow(this)">
+                        <td>▶</td>
+                        <td><strong>MAT-2024-005</strong></td>
+                        <td>Caméra Axis P3225-LVE</td>
+                        <td>Sécurité</td>
+                        <td><span class="badge badge-danger">Hors service</span></td>
+                        <td>Marseille - C312</td>
+                        <td>08/09/2021</td>
+                        <td><span class="docs-count">📎 6 docs</span></td>
+                        <td>Expirée</td>
+                    </tr>
+                    <tr class="expanded-row">
+                        <td colspan="9">
+                            <div class="expanded-content">
+                                <div class="info-group">
+                                    <h4>Informations</h4>
+                                    <p><strong>Résolution:</strong> 1920x1080</p>
+                                    <p><strong>Type:</strong> Dôme IP extérieur</p>
+                                    <p><strong>Connectivité:</strong> PoE</p>
+                                </div>
+                                <div class="info-group">
+                                    <h4>Panne</h4>
+                                    <p><strong>Date:</strong> 05/02/2025</p>
+                                    <p><strong>Problème:</strong> Plus d'image</p>
+                                    <p><strong>Action:</strong> Remplacement planifié</p>
+                                    <p><strong>Ticket:</strong> #INC-2025-089</p>
+                                </div>
+                                <div class="info-group">
+                                    <h4>Documents</h4>
+                                    <p>📄 Fiche technique.pdf</p>
+                                    <p>📄 Manuel installation.pdf</p>
+                                    <p>📄 Rapport incident.pdf</p>
+                                    <p>📄 Devis remplacement.pdf</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal configuration colonnes -->
+    <div id="columnsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Configuration des colonnes</h3>
+                <button class="close-btn" onclick="toggleColumnsModal()">&times;</button>
+            </div>
+            <div class="column-list">
+                <div class="column-item">
+                    <span class="drag-handle">⋮⋮</span>
+                    <input type="checkbox" id="col-ref" checked>
+                    <label for="col-ref">Référence</label>
+                </div>
+                <div class="column-item">
+                    <span class="drag-handle">⋮⋮</span>
+                    <input type="checkbox" id="col-desig" checked>
+                    <label for="col-desig">Désignation</label>
+                </div>
+                <div class="column-item">
+                    <span class="drag-handle">⋮⋮</span>
+                    <input type="checkbox" id="col-cat" checked>
+                    <label for="col-cat">Catégorie</label>
+                </div>
+                <div class="column-item">
+                    <span class="drag-handle">⋮⋮</span>
+                    <input type="checkbox" id="col-etat" checked>
+                    <label for="col-etat">État</label>
+                </div>
+                <div class="column-item">
+                    <span class="drag-handle">⋮⋮</span>
+                    <input type="checkbox" id="col-loc" checked>
+                    <label for="col-loc">Localisation</label>
+                </div>
+                <div class="column-item">
+                    <span class="drag-handle">⋮⋮</span>
+                    <input type="checkbox" id="col-date" checked>
+                    <label for="col-date">Date installation</label>
+                </div>
+                <div class="column-item">
+                    <span class="drag-handle">⋮⋮</span>
+                    <input type="checkbox" id="col-docs" checked>
+                    <label for="col-docs">Documents</label>
+                </div>
+                <div class="column-item">
+                    <span class="drag-handle">⋮⋮</span>
+                    <input type="checkbox" id="col-garantie" checked>
+                    <label for="col-garantie">Garantie</label>
+                </div>
+                <div class="column-item">
+                    <span class="drag-handle">⋮⋮</span>
+                    <input type="checkbox" id="col-serie">
+                    <label for="col-serie">Numéro de série</label>
+                </div>
+                <div class="column-item">
+                    <span class="drag-handle">⋮⋮</span>
+                    <input type="checkbox" id="col-fournisseur">
+                    <label for="col-fournisseur">Fournisseur</label>
+                </div>
+                <div class="column-item">
+                    <span class="drag-handle">⋮⋮</span>
+                    <input type="checkbox" id="col-contrat">
+                    <label for="col-contrat">Contrat maintenance</label>
+                </div>
+                <div class="column-item">
+                    <span class="drag-handle">⋮⋮</span>
+                    <input type="checkbox" id="col-prix">
+                    <label for="col-prix">Prix d'achat</label>
+                </div>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn" onclick="toggleColumnsModal()">Annuler</button>
+                <button class="btn btn-primary" onclick="toggleColumnsModal()">Appliquer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleRow(row) {
+            const expandedRow = row.nextElementSibling;
+            const arrow = row.querySelector('td:first-child');
+            
+            if (expandedRow.classList.contains('show')) {
+                expandedRow.classList.remove('show');
+                arrow.textContent = '▶';
+            } else {
+                expandedRow.classList.add('show');
+                arrow.textContent = '▼';
+            }
+        }
+
+        function toggleColumnsModal() {
+            const modal = document.getElementById('columnsModal');
+            modal.classList.toggle('show');
+        }
+
+        function toggleRoomDocs() {
+            const content = document.getElementById('roomDocsContent');
+            const icon = document.getElementById('roomDocsToggleIcon');
+            const btn = event.target.closest('button');
+            
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                icon.textContent = '▼';
+                btn.innerHTML = '<span id="roomDocsToggleIcon">▼</span> Masquer';
+            } else {
+                content.classList.add('collapsed');
+                icon.textContent = '▶';
+                btn.innerHTML = '<span id="roomDocsToggleIcon">▶</span> Afficher';
+            }
+        }
+
+        // Simuler l'affichage des documents de salle quand on sélectionne une salle
+        document.getElementById('roomFilter').addEventListener('change', function(e) {
+            const roomSection = document.getElementById('roomDocsSection');
+            const roomName = document.getElementById('roomName');
+            const roomDocsCount = document.getElementById('roomDocsCount');
+            
+            if (e.target.value) {
+                roomSection.style.display = 'block';
+                roomName.textContent = e.target.options[e.target.selectedIndex].text;
+                roomDocsCount.textContent = '40 documents';
+            } else {
+                roomSection.style.display = 'none';
+            }
+        });
+
+        // Filtrage des documents par catégorie
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('doc-filter-btn')) {
+                // Retirer l'état actif de tous les boutons
+                document.querySelectorAll('.doc-filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Activer le bouton cliqué
+                e.target.classList.add('active');
+                
+                const category = e.target.dataset.category;
+                const categories = document.querySelectorAll('.docs-category');
+                
+                if (category === 'all') {
+                    // Afficher toutes les catégories
+                    categories.forEach(cat => cat.style.display = 'block');
+                } else {
+                    // Masquer toutes les catégories
+                    categories.forEach(cat => cat.style.display = 'none');
+                    
+                    // Afficher uniquement les cartes de la catégorie sélectionnée
+                    const matchingCards = document.querySelectorAll(`.doc-card[data-category="${category}"]`);
+                    if (matchingCards.length > 0) {
+                        // Trouver la catégorie parente et l'afficher
+                        matchingCards[0].closest('.docs-category').style.display = 'block';
+                    }
+                }
+            }
+        });
+
+        // Recherche dans les documents
+        document.getElementById('docsSearch')?.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const allCards = document.querySelectorAll('.doc-card');
+            const categories = document.querySelectorAll('.docs-category');
+            
+            if (searchTerm === '') {
+                // Réinitialiser : tout afficher
+                allCards.forEach(card => card.style.display = 'flex');
+                categories.forEach(cat => cat.style.display = 'block');
+            } else {
+                // Filtrer les documents
+                allCards.forEach(card => {
+                    const docName = card.querySelector('.doc-name').textContent.toLowerCase();
+                    if (docName.includes(searchTerm)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Masquer les catégories vides
+                categories.forEach(cat => {
+                    const visibleCards = cat.querySelectorAll('.doc-card[style*="display: flex"]');
+                    if (visibleCards.length === 0) {
+                        cat.style.display = 'none';
+                    } else {
+                        cat.style.display = 'block';
+                    }
+                });
+            }
+        });
+
+        // Fermer la modal en cliquant en dehors
+        document.getElementById('columnsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleColumnsModal();
+            }
+        });
+    </script>
+</body>
+</html>

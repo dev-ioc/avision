@@ -1,0 +1,155 @@
+{
+  "processing": "Traitement en cours...",
+  "search": "Rechercher&nbsp;:",
+  "lengthMenu": "Afficher _MENU_ éléments",
+  "info": "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+  "infoEmpty": "Affichage de l'élément 0 à 0 sur 0 élément",
+  "infoFiltered": "(filtré de _MAX_ éléments au total)",
+  "infoPostFix": "",
+  "loadingRecords": "Chargement en cours...",
+  "zeroRecords": "Aucun élément à afficher",
+  "emptyTable": "Aucune donnée disponible dans le tableau",
+  "paginate": {
+    "first": "Premier",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "last": "Dernier"
+  },
+  "aria": {
+    "sortAscending": ": activer pour trier la colonne par ordre croissant",
+    "sortDescending": ": activer pour trier la colonne par ordre décroissant"
+  },
+  "select": {
+    "rows": {
+      "_": "%d lignes sélectionnées",
+      "0": "Cliquez sur une ligne pour la sélectionner",
+      "1": "1 ligne sélectionnée"
+    }
+  },
+  "buttons": {
+    "copy": "Copier",
+    "colvis": "Visibilité",
+    "collection": "Collection",
+    "colvisRestore": "Restaurer la visibilité",
+    "copyKeys": "Appuyez sur ctrl ou u2318 + C pour copier les données du tableau dans votre presse-papiers.",
+    "copySuccess": {
+      "_": "%d lignes copiées",
+      "1": "1 ligne copiée"
+    },
+    "copyTitle": "Copier dans le presse-papiers",
+    "csv": "CSV",
+    "excel": "Excel",
+    "pageLength": {
+      "_": "Afficher %d éléments",
+      "-1": "Tout afficher"
+    },
+    "pdf": "PDF",
+    "print": "Imprimer"
+  },
+  "autoFill": {
+    "cancel": "Annuler",
+    "fill": "Remplir toutes les cellules avec <i>%d<\/i>",
+    "fillHorizontal": "Remplir les cellules horizontalement",
+    "fillVertical": "Remplir les cellules verticalement"
+  },
+  "searchBuilder": {
+    "add": "Ajouter une condition",
+    "button": {
+      "_": "Recherche avancée (%d)",
+      "0": "Recherche avancée"
+    },
+    "clearAll": "Effacer tout",
+    "condition": "Condition",
+    "data": "Données",
+    "deleteTitle": "Supprimer la condition",
+    "leftTitle": "Critères de gauche",
+    "logicAnd": "Et",
+    "logicOr": "Ou",
+    "rightTitle": "Critères de droite",
+    "title": {
+      "_": "Recherche avancée (%d)",
+      "0": "Recherche avancée"
+    },
+    "value": "Valeur"
+  },
+  "searchPanes": {
+    "clearMessage": "Effacer tout",
+    "collapse": {
+      "_": "Panneaux de recherche (%d)",
+      "0": "Panneaux de recherche"
+    },
+    "count": "{total}",
+    "countFiltered": "{shown} ({total})",
+    "emptyPanes": "Aucun panneau de recherche",
+    "loadMessage": "Chargement des panneaux de recherche...",
+    "title": "Filtres actifs - %d"
+  },
+  "thousands": " ",
+  "datetime": {
+    "amPm": [
+      "am",
+      "pm"
+    ],
+    "hours": "Heure",
+    "minutes": "Minute",
+    "months": {
+      "0": "Janvier",
+      "1": "Février",
+      "10": "Novembre",
+      "11": "Décembre",
+      "2": "Mars",
+      "3": "Avril",
+      "4": "Mai",
+      "5": "Juin",
+      "6": "Juillet",
+      "7": "Août",
+      "8": "Septembre",
+      "9": "Octobre"
+    },
+    "next": "Suivant",
+    "previous": "Précédent",
+    "seconds": "Seconde",
+    "unknown": "-",
+    "weekdays": [
+      "Dim",
+      "Lun",
+      "Mar",
+      "Mer",
+      "Jeu",
+      "Ven",
+      "Sam"
+    ]
+  },
+  "decimal": ",",
+  "editor": {
+    "close": "Fermer",
+    "create": {
+      "button": "Nouveau",
+      "submit": "Créer",
+      "title": "Créer une nouvelle entrée"
+    },
+    "edit": {
+      "button": "Modifier",
+      "submit": "Mettre à jour",
+      "title": "Modifier l'entrée"
+    },
+    "error": {
+      "system": "Une erreur système s'est produite (<a target=\"\\\"_blank\\\" href=\"\\\"https://datatables.net/manual/tech-notes/7\\\">Plus d'informations<\/a>)."
+    },
+    "multi": {
+      "info": "Les éléments sélectionnés contiennent différentes valeurs pour cette entrée. Pour modifier et définir tous les éléments de cette entrée à la même valeur, cliquez ou tapez ici, sinon ils conserveront leurs valeurs individuelles.",
+      "noMulti": "Cette entrée peut être modifiée individuellement, mais pas dans le cadre d'un groupe.",
+      "restore": "Annuler les modifications",
+      "title": "Plusieurs valeurs"
+    },
+    "remove": {
+      "button": "Supprimer",
+      "confirm": {
+        "_": "Êtes-vous sûr de vouloir supprimer %d lignes ?",
+        "1": "Êtes-vous sûr de vouloir supprimer 1 ligne ?"
+      },
+      "submit": "Supprimer",
+      "title": "Supprimer"
+    }
+  }
+} 

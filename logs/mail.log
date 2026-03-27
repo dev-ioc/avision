@@ -1,0 +1,231 @@
+[2026-02-16 16:51:33][INFO] Test SMTP - Tentative connexion mx.caspeo.fr:587 {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"","username_set":true}
+[2026-02-16 16:51:43][ERROR] Test SMTP - Échec connexion : Impossible de se connecter à mx.caspeo.fr:587 (Code: 110 - Connection timed out) {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"","errno":110,"errstr":"Connection timed out","error_message":"Impossible de se connecter \u00e0 mx.caspeo.fr:587 (Code: 110 - Connection timed out)"}
+[2026-02-16 16:55:57][INFO] Config email sauvegardée {"host":"mx.caspeo.fr","port":"587","encryption":"none","from_address":"avision@caspeo.fr","from_name":"Support Avision \/ Vid\u00e9osonic","username_set":true,"password_set":true}
+[2026-02-16 16:55:59][INFO] Test SMTP - Tentative connexion mx.caspeo.fr:587 {"host":"mx.caspeo.fr","port":"587","encryption":"none","from_address":"","username_set":true}
+[2026-02-16 16:56:09][ERROR] Test SMTP - Échec connexion : Impossible de se connecter à mx.caspeo.fr:587 (Code: 110 - Connection timed out) {"host":"mx.caspeo.fr","port":"587","encryption":"none","from_address":"","errno":110,"errstr":"Connection timed out","error_message":"Impossible de se connecter \u00e0 mx.caspeo.fr:587 (Code: 110 - Connection timed out)"}
+[2026-02-16 16:56:17][INFO] Config email sauvegardée {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"avision@caspeo.fr","from_name":"Support Avision \/ Vid\u00e9osonic","username_set":true,"password_set":true}
+[2026-02-16 16:56:19][INFO] Test SMTP - Tentative connexion mx.caspeo.fr:587 {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"","username_set":true}
+[2026-02-16 16:56:29][ERROR] Test SMTP - Échec connexion : Impossible de se connecter à mx.caspeo.fr:587 (Code: 110 - Connection timed out) {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"","errno":110,"errstr":"Connection timed out","error_message":"Impossible de se connecter \u00e0 mx.caspeo.fr:587 (Code: 110 - Connection timed out)"}
+[2026-02-16 16:56:56][INFO] Test SMTP - Tentative connexion mx.caspeo.fr:587 {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"","username_set":true}
+[2026-02-16 16:57:06][ERROR] Test SMTP - Échec connexion : Impossible de se connecter à mx.caspeo.fr:587 (Code: 110 - Connection timed out) {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"","errno":110,"errstr":"Connection timed out","error_message":"Impossible de se connecter \u00e0 mx.caspeo.fr:587 (Code: 110 - Connection timed out)"}
+[2026-02-16 16:58:11][INFO] Test SMTP - Tentative connexion mx.caspeo.fr:587 {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"","username_set":true}
+[2026-02-16 16:58:31][ERROR] Test SMTP - Échec connexion : Impossible de se connecter à mx.caspeo.fr:587 (Code: 0 - php_network_getaddresses: getaddrinfo for mx.caspeo.fr failed: Temporary failure in name resolution) {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"","errno":0,"errstr":"php_network_getaddresses: getaddrinfo for mx.caspeo.fr failed: Temporary failure in name resolution","error_message":"Impossible de se connecter \u00e0 mx.caspeo.fr:587 (Code: 0 - php_network_getaddresses: getaddrinfo for mx.caspeo.fr failed: Temporary failure in name resolution)"}
+[2026-02-16 16:58:31][INFO] Config email sauvegardée {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"avision@caspeo.fr","from_name":"Support Avision \/ Vid\u00e9osonic","username_set":true,"password_set":true}
+[2026-02-16 16:58:39][INFO] Test SMTP - Tentative connexion mx.caspeo.fr:587 {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"","username_set":true}
+[2026-02-16 16:58:49][ERROR] Test SMTP - Échec connexion : Impossible de se connecter à mx.caspeo.fr:587 (Code: 110 - Connection timed out) {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"","errno":110,"errstr":"Connection timed out","error_message":"Impossible de se connecter \u00e0 mx.caspeo.fr:587 (Code: 110 - Connection timed out)"}
+[2026-02-16 17:04:14][INFO] Test SMTP - Tentative connexion mx.caspeo.fr:587 {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"","username_set":true}
+[2026-02-16 17:04:24][ERROR] Test SMTP - Échec connexion : Impossible de se connecter à mx.caspeo.fr:587 (Code: 110 - Connection timed out) {"host":"mx.caspeo.fr","port":"587","encryption":"tls","from_address":"","errno":110,"errstr":"Connection timed out","error_message":"Impossible de se connecter \u00e0 mx.caspeo.fr:587 (Code: 110 - Connection timed out)"}
+[2026-02-16 17:04:33][INFO] Config email sauvegardée {"host":"172.20.64.14","port":"587","encryption":"tls","from_address":"avision@caspeo.fr","from_name":"Support Avision \/ Vid\u00e9osonic","username_set":true,"password_set":true}
+[2026-02-16 17:04:35][INFO] Test SMTP - Tentative connexion 172.20.64.14:587 {"host":"172.20.64.14","port":"587","encryption":"tls","from_address":"","username_set":true}
+[2026-02-16 17:04:35][INFO] TLS activé avec la méthode: 65 
+[2026-02-16 17:04:35][INFO] Email SMTP envoyé avec succès à avision@caspeo.fr 
+[2026-02-16 17:04:35][INFO] Test SMTP - Connexion et envoi réussis {"host":"172.20.64.14","port":"587"}
+[2026-02-16 17:05:21][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"660612d900622a28a6b204dc805e5650a7a1f66a6f6adb6d4a7fd248790cdc76","template_id":"2"} 
+[2026-02-16 17:05:21][INFO] Aucune pièce jointe sélectionnée dans le formulaire 
+[2026-02-16 17:05:21][INFO] Nombre total de pièces jointes à envoyer : 0 
+[2026-02-16 17:05:21][WARNING] ATTENTION: Aucune pièce jointe ne sera envoyée 
+[2026-02-16 17:05:21][INFO] Envoi email à natacha.lanoe@gmail.com avec 0 pièce(s) jointe(s) 
+[2026-02-16 17:05:21][INFO] TLS activé avec la méthode: 65 
+[2026-02-16 17:05:21][INFO] Email SMTP envoyé avec succès à natacha.lanoe@gmail.com 
+[2026-02-16 17:05:21][INFO] Email envoyé avec succès à natacha.lanoe@gmail.com 
+[2026-02-16 17:05:21][INFO] Email envoyé avec succès pour l'intervention 5 via template 2 
+[2026-02-16 17:14:00][INFO] Test SMTP - Tentative connexion 172.20.64.14:587 {"host":"172.20.64.14","port":"587","encryption":"tls","from_address":"","username_set":true}
+[2026-02-16 17:14:00][INFO] TLS activé avec la méthode: 65 
+[2026-02-16 17:14:01][INFO] Email SMTP envoyé avec succès à avision@caspeo.fr 
+[2026-02-16 17:14:01][INFO] Test SMTP - Connexion et envoi réussis {"host":"172.20.64.14","port":"587"}
+[2026-02-16 17:14:16][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"660612d900622a28a6b204dc805e5650a7a1f66a6f6adb6d4a7fd248790cdc76","template_id":"2"} 
+[2026-02-16 17:14:16][INFO] Aucune pièce jointe sélectionnée dans le formulaire 
+[2026-02-16 17:14:16][INFO] Nombre total de pièces jointes à envoyer : 0 
+[2026-02-16 17:14:16][WARNING] ATTENTION: Aucune pièce jointe ne sera envoyée 
+[2026-02-16 17:14:16][INFO] Envoi email à e.cartier@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-02-16 17:14:17][INFO] TLS activé avec la méthode: 65 
+[2026-02-16 17:14:17][INFO] Email SMTP envoyé avec succès à e.cartier@videosonic.fr 
+[2026-02-16 17:14:17][INFO] Email envoyé avec succès à e.cartier@videosonic.fr 
+[2026-02-16 17:14:17][INFO] Email envoyé avec succès pour l'intervention 5 via template 2 
+[2026-02-16 17:33:20][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"bb338bc17ca254f13475ba4dfd6b25c9bdb85d56da55b717147161ca71831316","template_id":"4"} 
+[2026-02-16 17:33:20][INFO] Aucune pièce jointe sélectionnée dans le formulaire 
+[2026-02-16 17:33:20][INFO] Nombre total de pièces jointes à envoyer : 0 
+[2026-02-16 17:33:20][WARNING] ATTENTION: Aucune pièce jointe ne sera envoyée 
+[2026-02-16 17:33:20][INFO] Envoi email à e.cartier@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-02-16 17:33:20][INFO] TLS activé avec la méthode: 65 
+[2026-02-16 17:33:20][INFO] Email SMTP envoyé avec succès à e.cartier@videosonic.fr 
+[2026-02-16 17:33:20][INFO] Email envoyé avec succès à e.cartier@videosonic.fr 
+[2026-02-16 17:33:20][INFO] Email envoyé avec succès pour l'intervention 247 via template 4 
+[2026-02-18 09:23:29][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"b7da00bdc27f7bea05fba22ca439960343057f90d644de5e30283e22e7eafa88","template_id":"4"} 
+[2026-02-18 09:23:29][INFO] Aucune pièce jointe sélectionnée dans le formulaire 
+[2026-02-18 09:23:29][INFO] Nombre total de pièces jointes à envoyer : 0 
+[2026-02-18 09:23:29][WARNING] ATTENTION: Aucune pièce jointe ne sera envoyée 
+[2026-02-18 09:23:29][INFO] Envoi email à e.cartier@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-02-18 09:23:29][INFO] TLS activé avec la méthode: 65 
+[2026-02-18 09:23:30][INFO] Email SMTP envoyé avec succès à e.cartier@videosonic.fr 
+[2026-02-18 09:23:30][INFO] Email envoyé avec succès à e.cartier@videosonic.fr 
+[2026-02-18 09:23:30][INFO] Email envoyé avec succès pour l'intervention 246 via template 4 
+[2026-02-18 09:23:49][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"b7da00bdc27f7bea05fba22ca439960343057f90d644de5e30283e22e7eafa88","template_id":"1"} 
+[2026-02-18 09:23:49][INFO] Aucune pièce jointe sélectionnée dans le formulaire 
+[2026-02-18 09:23:49][INFO] Nombre total de pièces jointes à envoyer : 0 
+[2026-02-18 09:23:49][WARNING] ATTENTION: Aucune pièce jointe ne sera envoyée 
+[2026-02-18 09:23:49][INFO] Envoi email à e.cartier@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-02-18 09:23:49][INFO] TLS activé avec la méthode: 65 
+[2026-02-18 09:23:49][INFO] Email SMTP envoyé avec succès à e.cartier@videosonic.fr 
+[2026-02-18 09:23:49][INFO] Email envoyé avec succès à e.cartier@videosonic.fr 
+[2026-02-18 09:23:49][INFO] Email envoyé avec succès pour l'intervention 246 via template 1 
+[2026-02-18 14:19:05][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"614d5faf68712c212c8fa54af2cdbba6751c25d3801f089563d8e9594a22ba55","template_id":"3"} 
+[2026-02-18 14:19:05][INFO] Aucune pièce jointe sélectionnée dans le formulaire 
+[2026-02-18 14:19:05][INFO] Nombre total de pièces jointes à envoyer : 0 
+[2026-02-18 14:19:05][WARNING] ATTENTION: Aucune pièce jointe ne sera envoyée 
+[2026-02-18 14:19:05][INFO] Envoi email à e.cartier@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-02-18 14:19:06][INFO] TLS activé avec la méthode: 65 
+[2026-02-18 14:19:06][INFO] Email SMTP envoyé avec succès à e.cartier@videosonic.fr 
+[2026-02-18 14:19:06][INFO] Email envoyé avec succès à e.cartier@videosonic.fr 
+[2026-02-18 14:19:06][INFO] Email envoyé avec succès pour l'intervention 245 via template 3 
+[2026-02-18 14:28:59][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"b4966a066df1d24a6c9f82a4293da7ff1cb31420e5cff69f1c3f6aa216d26c44","template_id":"3","attachments":["246"]} 
+[2026-02-18 14:28:59][INFO] Pièces jointes sélectionnées reçues : [246] 
+[2026-02-18 14:28:59][INFO] Traitement de 1 pièce(s) jointe(s) sélectionnée(s) 
+[2026-02-18 14:28:59][INFO] Pièce jointe ajoutée : /var/www/vhosts/avision.videosonic.fr/httpdocs/uploads/interventions/246/BI_#VS2426-3601_20260218_1145.pdf (chemin DB: uploads/interventions/246/BI_#VS2426-3601_20260218_1145.pdf) 
+[2026-02-18 14:28:59][INFO] Nombre total de pièces jointes à envoyer : 1 
+[2026-02-18 14:28:59][INFO] Envoi email avec 1 pièce(s) jointe(s) pour intervention 246 
+[2026-02-18 14:28:59][INFO]   - Pièce jointe : /var/www/vhosts/avision.videosonic.fr/httpdocs/uploads/interventions/246/BI_#VS2426-3601_20260218_1145.pdf (existe: OUI) 
+[2026-02-18 14:28:59][INFO] Envoi email à barbara.domingues@te-traiteur.fr avec 1 pièce(s) jointe(s) 
+[2026-02-18 14:28:59][INFO]   PJ 1: /var/www/vhosts/avision.videosonic.fr/httpdocs/uploads/interventions/246/BI_#VS2426-3601_20260218_1145.pdf (existe: OUI, taille: 1618445 bytes) 
+[2026-02-18 14:28:59][INFO] TLS activé avec la méthode: 65 
+[2026-02-18 14:28:59][INFO] Ajout de 1 pièce(s) jointe(s) à l'email SMTP Basic 
+[2026-02-18 14:28:59][INFO] Pièce jointe 1 ajoutée à l'email SMTP Basic : BI_#VS2426-3601_20260218_1145.pdf (1618445 bytes) 
+[2026-02-18 14:28:59][INFO] Email SMTP envoyé avec succès à barbara.domingues@te-traiteur.fr avec 1 pièce(s) jointe(s) 
+[2026-02-18 14:28:59][INFO] Email envoyé avec succès à barbara.domingues@te-traiteur.fr 
+[2026-02-18 14:28:59][INFO] Email envoyé avec succès pour l'intervention 246 via template 3 
+[2026-02-19 16:43:40][INFO] Envoi automatique de création désactivé pour l'intervention 248 
+[2026-02-23 15:28:09][INFO] Envoi automatique de création désactivé pour l'intervention 249 
+[2026-02-23 15:29:18][INFO] Envoi automatique de création désactivé pour l'intervention 250 
+[2026-02-23 15:30:43][INFO] Envoi automatique de création désactivé pour l'intervention 251 
+[2026-02-23 15:32:28][INFO] Envoi automatique de création désactivé pour l'intervention 252 
+[2026-02-23 15:45:17][INFO] Envoi automatique de création désactivé pour l'intervention 253 
+[2026-02-23 15:53:44][INFO] Envoi automatique de création désactivé pour l'intervention 254 
+[2026-02-25 10:52:38][INFO] Envoi automatique de création désactivé pour l'intervention 255 
+[2026-02-27 11:24:25][INFO] Envoi automatique de création désactivé pour l'intervention 256 
+[2026-02-27 11:32:08][INFO] Envoi automatique de création désactivé pour l'intervention 257 
+[2026-02-27 11:46:16][INFO] Envoi automatique de création désactivé pour l'intervention 258 
+[2026-02-27 11:52:55][INFO] Envoi automatique de création désactivé pour l'intervention 259 
+[2026-02-27 11:58:53][INFO] Envoi automatique de création désactivé pour l'intervention 260 
+[2026-02-27 12:05:22][INFO] Envoi automatique de création désactivé pour l'intervention 261 
+[2026-02-27 12:17:50][INFO] Envoi automatique de création désactivé pour l'intervention 262 
+[2026-02-27 18:40:42][INFO] Envoi automatique de création désactivé pour l'intervention 263 
+[2026-02-27 18:40:42][INFO] Envoi email à f.ribot@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-02-27 18:40:42][INFO] TLS activé avec la méthode: 65 
+[2026-02-27 18:40:42][INFO] Email SMTP envoyé avec succès à f.ribot@videosonic.fr 
+[2026-02-27 18:40:42][INFO] Email envoyé avec succès à f.ribot@videosonic.fr 
+[2026-02-27 18:40:42][INFO] Email de notification envoyé au technicien 7 pour l'intervention 263 
+[2026-02-27 18:41:35][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"76ee2bcdf34f269e07fd627f06fe3df8f1c6c66f196df7a74f85b1b07ed776f0","template_id":"2"} 
+[2026-02-27 18:41:35][INFO] Aucune pièce jointe sélectionnée dans le formulaire 
+[2026-02-27 18:41:35][INFO] Nombre total de pièces jointes à envoyer : 0 
+[2026-02-27 18:41:35][WARNING] ATTENTION: Aucune pièce jointe ne sera envoyée 
+[2026-02-27 18:41:35][INFO] Envoi email à cyril.lebraud@caissedesdepots.fr avec 0 pièce(s) jointe(s) 
+[2026-02-27 18:41:36][INFO] TLS activé avec la méthode: 65 
+[2026-02-27 18:41:36][INFO] Email SMTP envoyé avec succès à cyril.lebraud@caissedesdepots.fr 
+[2026-02-27 18:41:36][INFO] Email envoyé avec succès à cyril.lebraud@caissedesdepots.fr 
+[2026-02-27 18:41:36][INFO] Envoi email à f.ribot@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-02-27 18:41:36][INFO] TLS activé avec la méthode: 65 
+[2026-02-27 18:41:36][INFO] Email SMTP envoyé avec succès à f.ribot@videosonic.fr 
+[2026-02-27 18:41:36][INFO] Email envoyé avec succès à f.ribot@videosonic.fr 
+[2026-02-27 18:41:36][INFO] Email envoyé avec succès pour l'intervention 263 via template 2 
+[2026-02-27 18:46:06][INFO] Envoi automatique de création désactivé pour l'intervention 264 
+[2026-02-27 18:46:06][INFO] Envoi email à f.ribot@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-02-27 18:46:07][INFO] TLS activé avec la méthode: 65 
+[2026-02-27 18:46:07][INFO] Email SMTP envoyé avec succès à f.ribot@videosonic.fr 
+[2026-02-27 18:46:07][INFO] Email envoyé avec succès à f.ribot@videosonic.fr 
+[2026-02-27 18:46:07][INFO] Email de notification envoyé au technicien 7 pour l'intervention 264 
+[2026-02-27 18:48:28][INFO] Envoi email à g.feniou@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-02-27 18:48:28][INFO] TLS activé avec la méthode: 65 
+[2026-02-27 18:48:28][INFO] Email SMTP envoyé avec succès à g.feniou@videosonic.fr 
+[2026-02-27 18:48:28][INFO] Email envoyé avec succès à g.feniou@videosonic.fr 
+[2026-02-27 18:48:28][INFO] Email de notification envoyé au technicien 9 pour l'intervention 264 
+[2026-03-02 15:40:11][INFO] Envoi automatique de création désactivé pour l'intervention 265 
+[2026-03-02 15:49:59][INFO] Envoi automatique de création désactivé pour l'intervention 266 
+[2026-03-02 16:00:11][INFO] Envoi automatique de création désactivé pour l'intervention 267 
+[2026-03-06 09:46:12][INFO] Envoi automatique de création désactivé pour l'intervention 268 
+[2026-03-06 09:56:40][INFO] Envoi automatique de création désactivé pour l'intervention 269 
+[2026-03-06 10:04:35][INFO] Envoi automatique de création désactivé pour l'intervention 270 
+[2026-03-06 10:08:57][INFO] Envoi automatique de création désactivé pour l'intervention 271 
+[2026-03-06 10:17:55][INFO] Envoi automatique de création désactivé pour l'intervention 272 
+[2026-03-06 10:20:04][INFO] Envoi automatique de création désactivé pour l'intervention 273 
+[2026-03-06 10:23:18][INFO] Envoi automatique de création désactivé pour l'intervention 274 
+[2026-03-06 10:23:18][INFO] Envoi email à adv@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-03-06 10:23:19][INFO] TLS activé avec la méthode: 65 
+[2026-03-06 10:23:19][INFO] Email SMTP envoyé avec succès à adv@videosonic.fr 
+[2026-03-06 10:23:19][INFO] Email envoyé avec succès à adv@videosonic.fr 
+[2026-03-06 10:23:19][INFO] Email de notification envoyé au technicien 2 pour l'intervention 274 
+[2026-03-06 10:26:19][INFO] Envoi automatique de création désactivé pour l'intervention 275 
+[2026-03-06 10:40:59][INFO] Envoi automatique de création désactivé pour l'intervention 276 
+[2026-03-06 10:40:59][INFO] Envoi email à e.cartier@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-03-06 10:40:59][INFO] TLS activé avec la méthode: 65 
+[2026-03-06 10:40:59][INFO] Email SMTP envoyé avec succès à e.cartier@videosonic.fr 
+[2026-03-06 10:40:59][INFO] Email envoyé avec succès à e.cartier@videosonic.fr 
+[2026-03-06 10:40:59][INFO] Email de notification envoyé au technicien 1 pour l'intervention 276 
+[2026-03-06 10:42:50][INFO] Envoi email à n.lanoe@caspeo.fr avec 0 pièce(s) jointe(s) 
+[2026-03-06 10:42:50][INFO] TLS activé avec la méthode: 65 
+[2026-03-06 10:42:50][INFO] Email SMTP envoyé avec succès à n.lanoe@caspeo.fr 
+[2026-03-06 10:42:50][INFO] Email envoyé avec succès à n.lanoe@caspeo.fr 
+[2026-03-06 10:42:50][INFO] Email de notification envoyé au technicien 15 pour l'intervention 276 
+[2026-03-06 10:43:16][INFO] Envoi automatique de création désactivé pour l'intervention 277 
+[2026-03-06 10:49:03][INFO] Config email sauvegardée {"host":"172.20.64.14","port":"587","encryption":"tls","from_address":"avision@caspeo.fr","from_name":"Support Avision \/ Vid\u00e9osonic","cc_address_set":true,"username_set":true,"password_set":true}
+[2026-03-06 10:49:21][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"92d030e66c755a1facb1fa5ed315d86b53447da66107482d8b1b2cd3296fd2fc","template_id":"1"} 
+[2026-03-06 10:49:21][INFO] Aucune pièce jointe sélectionnée dans le formulaire 
+[2026-03-06 10:49:21][INFO] Nombre total de pièces jointes à envoyer : 0 
+[2026-03-06 10:49:21][WARNING] ATTENTION: Aucune pièce jointe ne sera envoyée 
+[2026-03-06 10:49:21][INFO] Envoi email à info@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-03-06 10:49:21][INFO] TLS activé avec la méthode: 65 
+[2026-03-06 10:49:21][INFO] Email SMTP envoyé avec succès à info@videosonic.fr 
+[2026-03-06 10:49:21][INFO] Email envoyé avec succès à info@videosonic.fr 
+[2026-03-06 10:49:21][INFO] Envoi email à n.lanoe@caspeo.fr avec 0 pièce(s) jointe(s) 
+[2026-03-06 10:49:22][INFO] TLS activé avec la méthode: 65 
+[2026-03-06 10:49:22][INFO] Email SMTP envoyé avec succès à n.lanoe@caspeo.fr 
+[2026-03-06 10:49:22][INFO] Email envoyé avec succès à n.lanoe@caspeo.fr 
+[2026-03-06 10:49:22][INFO] Email envoyé avec succès pour l'intervention 276 via template 1 
+[2026-03-09 15:33:08][INFO] Envoi automatique de création désactivé pour l'intervention 278 
+[2026-03-09 15:38:21][INFO] Envoi automatique de création désactivé pour l'intervention 279 
+[2026-03-09 15:50:19][INFO] Envoi automatique de création désactivé pour l'intervention 280 
+[2026-03-10 15:53:01][INFO] Envoi automatique de création désactivé pour l'intervention 281 
+[2026-03-11 15:14:59][INFO] Envoi automatique de création désactivé pour l'intervention 282 
+[2026-03-11 15:14:59][INFO] Envoi email à f.ribot@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-03-11 15:14:59][INFO] TLS activé avec la méthode: 65 
+[2026-03-11 15:14:59][INFO] Email SMTP envoyé avec succès à f.ribot@videosonic.fr 
+[2026-03-11 15:14:59][INFO] Email envoyé avec succès à f.ribot@videosonic.fr 
+[2026-03-11 15:14:59][INFO] Email de notification envoyé au technicien 7 pour l'intervention 282 
+[2026-03-11 19:02:12][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"6f98191449a1ba4ce5482e89bd8542509a652af5a1c84df1e0a566f55c3602ca","template_id":"2"} 
+[2026-03-11 19:02:12][INFO] Aucune pièce jointe sélectionnée dans le formulaire 
+[2026-03-11 19:02:12][INFO] Nombre total de pièces jointes à envoyer : 0 
+[2026-03-11 19:02:12][WARNING] ATTENTION: Aucune pièce jointe ne sera envoyée 
+[2026-03-11 19:02:12][INFO] Envoi email à Cyrille.Galas@caissedesdepots.fr avec 0 pièce(s) jointe(s) 
+[2026-03-11 19:02:15][INFO] TLS activé avec la méthode: 65 
+[2026-03-11 19:02:15][INFO] Email SMTP envoyé avec succès à Cyrille.Galas@caissedesdepots.fr 
+[2026-03-11 19:02:15][INFO] Email envoyé avec succès à Cyrille.Galas@caissedesdepots.fr 
+[2026-03-11 19:02:15][INFO] Envoi email à f.ribot@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-03-11 19:02:15][INFO] TLS activé avec la méthode: 65 
+[2026-03-11 19:02:15][INFO] Email SMTP envoyé avec succès à f.ribot@videosonic.fr 
+[2026-03-11 19:02:15][INFO] Email envoyé avec succès à f.ribot@videosonic.fr 
+[2026-03-11 19:02:15][INFO] Email envoyé avec succès pour l'intervention 282 via template 2 
+[2026-03-13 10:39:43][INFO] Envoi automatique de création désactivé pour l'intervention 283 
+[2026-03-16 10:17:05][INFO] Envoi automatique de création désactivé pour l'intervention 284 
+[2026-03-16 16:02:26][INFO] Envoi automatique de création désactivé pour l'intervention 285 
+[2026-03-16 16:09:49][INFO] Envoi automatique de création désactivé pour l'intervention 286 
+[2026-03-16 17:37:10][INFO] Envoi automatique de création désactivé pour l'intervention 287 
+[2026-03-16 17:41:53][INFO] Envoi automatique de création désactivé pour l'intervention 288 
+[2026-03-27 13:11:02][INFO] Envoi automatique de création désactivé pour l'intervention 289 
+[2026-03-27 13:11:02][INFO] Envoi email à adv@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-03-27 13:11:23][ERROR] Erreur lors de l'envoi de l'email SMTP: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-03-27 13:11:23][ERROR] Erreur envoi email à adv@videosonic.fr : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-03-27 13:11:23][ERROR] Erreur lors de l'envoi de l'email : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) {"intervention_id":"289","mail_host":"172.20.64.14","mail_port":"587","mail_encryption":"tls","mail_from_address":"avision@caspeo.fr","oauth2_enabled":"0"}
+[2026-03-27 13:11:23][ERROR] Erreur envoi email affectation technicien intervention 289 : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-03-27 13:11:23][WARNING] Échec de l'envoi de l'email de notification au technicien 2 pour l'intervention 289 
+[2026-03-27 13:11:23][INFO] Envoi automatique de création désactivé pour l'intervention 290 
+[2026-03-27 13:11:23][INFO] Envoi email à adv@videosonic.fr avec 0 pièce(s) jointe(s) 
+[2026-03-27 13:11:44][ERROR] Erreur lors de l'envoi de l'email SMTP: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-03-27 13:11:44][ERROR] Erreur envoi email à adv@videosonic.fr : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-03-27 13:11:44][ERROR] Erreur lors de l'envoi de l'email : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) {"intervention_id":"290","mail_host":"172.20.64.14","mail_port":"587","mail_encryption":"tls","mail_from_address":"avision@caspeo.fr","oauth2_enabled":"0"}
+[2026-03-27 13:11:44][ERROR] Erreur envoi email affectation technicien intervention 290 : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-03-27 13:11:44][WARNING] Échec de l'envoi de l'email de notification au technicien 2 pour l'intervention 290 
+[2026-03-27 13:13:56][INFO] Envoi automatique de création désactivé pour l'intervention 291 
+[2026-03-27 13:17:10][INFO] Envoi automatique de création désactivé pour l'intervention 292 
+[2026-03-27 13:21:37][INFO] Envoi automatique de création désactivé pour l'intervention 293 
+[2026-03-27 13:23:17][INFO] Envoi automatique de création désactivé pour l'intervention 294 
+[2026-03-27 13:41:46][INFO] Envoi automatique de création désactivé pour l'intervention 295 
+[2026-03-27 13:44:02][INFO] Envoi automatique de création désactivé pour l'intervention 296 

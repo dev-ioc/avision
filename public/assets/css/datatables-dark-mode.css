@@ -1,0 +1,170 @@
+/**
+ * Corrections CSS pour DataTables en mode sombre
+ * Spécifiquement pour les listes déroulantes et éléments d'interface
+ */
+
+/* Correction des listes déroulantes DataTables en mode sombre */
+:root[data-bs-theme=dark] div.dt-container div.dt-length select,
+:root[data-bs-theme=dark] div.dt-container div.dt-search input {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border-color: var(--bs-border-color);
+}
+
+/* Correction spécifique pour les listes déroulantes de pagination */
+:root[data-bs-theme=dark] div.dt-container div.dt-length select {
+  background-color: var(--bs-body-bg) !important;
+  color: var(--bs-body-color) !important;
+  border-color: var(--bs-border-color) !important;
+}
+
+/* Correction pour les options des listes déroulantes */
+:root[data-bs-theme=dark] div.dt-container div.dt-length select option {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+
+/* Correction pour la barre de recherche */
+:root[data-bs-theme=dark] div.dt-container div.dt-search input {
+  background-color: var(--bs-body-bg) !important;
+  color: var(--bs-body-color) !important;
+  border-color: var(--bs-border-color) !important;
+}
+
+/* Correction pour les boutons de pagination */
+:root[data-bs-theme=dark] div.dt-container div.dt-paging ul.pagination .page-link {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border-color: var(--bs-border-color);
+}
+
+:root[data-bs-theme=dark] div.dt-container div.dt-paging ul.pagination .page-link:hover {
+  background-color: var(--bs-primary);
+  color: white;
+  border-color: var(--bs-primary);
+}
+
+:root[data-bs-theme=dark] div.dt-container div.dt-paging ul.pagination .page-item.active .page-link {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+/* Correction pour les informations de pagination */
+:root[data-bs-theme=dark] div.dt-container div.dt-info {
+  color: var(--bs-body-color);
+}
+
+/* Correction pour les labels */
+:root[data-bs-theme=dark] div.dt-container div.dt-length label {
+  color: var(--bs-body-color);
+}
+
+/* Correction pour les boutons de DataTables */
+:root[data-bs-theme=dark] div.dt-container .dt-buttons .btn {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border-color: var(--bs-border-color);
+}
+
+:root[data-bs-theme=dark] div.dt-container .dt-buttons .btn:hover {
+  background-color: var(--bs-primary);
+  color: white;
+  border-color: var(--bs-primary);
+}
+
+/* Correction pour les collections de boutons */
+:root[data-bs-theme=dark] div.dt-container .dt-button-collection {
+  background-color: var(--bs-body-bg);
+  border-color: var(--bs-border-color);
+}
+
+:root[data-bs-theme=dark] div.dt-container .dt-button-collection .dt-button {
+  color: var(--bs-body-color);
+}
+
+:root[data-bs-theme=dark] div.dt-container .dt-button-collection .dt-button:hover {
+  background-color: var(--bs-primary);
+  color: white;
+}
+
+/* Correction pour les modales responsive */
+:root[data-bs-theme=dark] div.dtr-modal div.dtr-modal-display {
+  background-color: var(--bs-body-bg);
+  border-color: var(--bs-border-color);
+}
+
+:root[data-bs-theme=dark] div.dtr-modal div.dtr-modal-content {
+  color: var(--bs-body-color);
+}
+
+/* Correction pour les contrôles de tri */
+:root[data-bs-theme=dark] table.dataTable thead > tr > th.dt-orderable-asc:before,
+:root[data-bs-theme=dark] table.dataTable thead > tr > th.dt-orderable-desc:before,
+:root[data-bs-theme=dark] table.dataTable thead > tr > th.dt-ordering-asc:before,
+:root[data-bs-theme=dark] table.dataTable thead > tr > th.dt-ordering-desc:before {
+  color: var(--bs-body-color);
+}
+
+/* Correction pour les contrôles responsive */
+:root[data-bs-theme=dark] table.dataTable > tbody > tr > td.dtr-control:before {
+  border-left-color: var(--bs-body-color);
+}
+
+:root[data-bs-theme=dark] table.dataTable > tbody > tr.dtr-expanded > td.dtr-control:before {
+  border-top-color: var(--bs-body-color);
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+/* Styles pour les filtres rapides par statut */
+.status-filter-card {
+  border: 1px solid var(--bs-border-color);
+  background-color: var(--bs-body-bg);
+}
+
+.status-filter-card .card-title {
+  color: var(--bs-body-color);
+  font-weight: 600;
+}
+
+.status-filter-btn {
+  transition: all 0.2s ease-in-out;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-filter-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status-filter-btn.active {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+  color: white;
+}
+
+.status-filter-btn .badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Mode sombre pour les filtres */
+:root[data-bs-theme=dark] .status-filter-btn {
+  border-color: var(--bs-border-color);
+  color: var(--bs-body-color);
+}
+
+:root[data-bs-theme=dark] .status-filter-btn:hover {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+  color: white;
+}
+
+:root[data-bs-theme=dark] .status-filter-btn.active {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+  color: white;
+} 

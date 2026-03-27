@@ -1,0 +1,52 @@
+
+Store 1
+Line      9 (11:03:32):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FF$FE$07$19]
+Line     22 (11:03:41):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FF$FC$07$17]
+Line     35 (11:03:47):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FF$FD$07$18]
+
+Store 2
+Line      9 (11:28:19):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FE$FE$07$18]
+Line     22 (11:28:24):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FE$FC$07$16]
+Line     35 (11:28:29):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FE$FD$07$17]
+
+Store 3
+Line      5 (11:30:07):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FD$FE$07$17]
+Line     18 (11:30:15):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FD$FC$07$15]
+Line     31 (11:30:21):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FD$FD$07$16]
+
+Store 4
+Line      9 (11:31:42):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FC$FE$07$16]
+Line     22 (11:31:47):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FC$FC$07$14]
+Line     35 (11:31:51):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FC$FD$07$15]
+
+Store 5
+Line     55 (11:33:33):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FB$FE$07$15]
+Line     56 (11:33:41):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FB$FC$07$13]
+Line     57 (11:33:48):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FB$FD$07$14]
+
+___
+
+Store 6
+Line      1 (11:35:54):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FA$FE$07$14]
+Line      3 (11:36:05):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FA$FC$07$12]
+Line      4 (11:36:17):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$FA$FD$07$13]
+
+Store 7
+Line      1 (11:37:31):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$F9$FE$07$13]
+Line      2 (11:37:33):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$F9$FC$07$11]
+Line      3 (11:37:36):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$F9$FD$07$12]
+
+Store 8
+Line      1 (11:38:07):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$F8$FE$07$12]
+Line      2 (11:38:11):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$F8$FC$07$10]
+Line      3 (11:38:14):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$F8$FD$07$11]
+
+Store 9
+Line      1 (11:38:58):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$F7$FE$07$11]
+Line      2 (11:39:00):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$F7$FC$07$0F]
+Line      3 (11:39:03):: String To [5001:4:1]-[$7F$F2$FA$FF$00$00Td$FA$F7$FD$07$10]
+
+
+7F F2 FA FF 00 00 FD FF FA FB FD 08 58
+
+7F,F2,FA,FF,0,0,54,64,FA,FF,FC,7,17
