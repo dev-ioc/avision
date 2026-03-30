@@ -515,8 +515,11 @@ class MailService {
             }
             
             // En-têtes de l'email
-            $emailData = "From: $fromName <$fromAddress>\r\n";
-            $emailData .= "To: $toName <$to>\r\n";
+            $encodedFromName = $this->encodeHeader($fromName);
+            $encodedToName = $this->encodeHeader($toName);
+
+            $emailData = "From: $encodedFromName <$fromAddress>\r\n";
+            $emailData .= "To: $encodedToName <$to>\r\n";
             if (!empty($ccEmails)) {
                 $emailData .= "Cc: " . implode(', ', $ccEmails) . "\r\n";
             }
@@ -856,8 +859,11 @@ class MailService {
             }
             
             // Préparer les en-têtes de l'email
-            $emailData = "From: $fromName <$fromAddress>\r\n";
-            $emailData .= "To: $toName <$to>\r\n";
+            $encodedFromName = $this->encodeHeader($fromName);
+            $encodedToName = $this->encodeHeader($toName);
+
+            $emailData = "From: $encodedFromName <$fromAddress>\r\n";
+            $emailData .= "To: $encodedToName <$to>\r\n";
             if (!empty($ccEmails)) {
                 $emailData .= "Cc: " . implode(', ', $ccEmails) . "\r\n";
             }
