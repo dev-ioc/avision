@@ -2,7 +2,9 @@
 require_once __DIR__ . '/../classes/Services/AttachmentService.php';
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 
-class MaterielController {
+
+class MaterielController
+{
     use AccessControlTrait;
     private $db;
     private $materielModel;
@@ -11,18 +13,19 @@ class MaterielController {
     private $roomModel;
     private $accessLevelModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         // Récupérer l'instance de la base de données
         $config = Config::getInstance();
         $this->db = $config->getDb();
-        
+
         // Initialiser les modèles
         require_once MODELS_PATH . '/MaterielModel.php';
         require_once MODELS_PATH . '/ClientModel.php';
         require_once MODELS_PATH . '/SiteModel.php';
         require_once MODELS_PATH . '/RoomModel.php';
         require_once MODELS_PATH . '/AccessLevelModel.php';
-        
+
         $this->materielModel = new MaterielModel($this->db);
         $this->clientModel = new ClientModel($this->db);
         $this->siteModel = new SiteModel($this->db);
@@ -37,20 +40,21 @@ class MaterielController {
     /**
      * Affiche la liste du matériel
      */
-    public function index() {
+    public function index()
+    {
         $this->checkAccess();
 
         // Récupération des filtres (comme dans la documentation)
         $filters = [
-            'client_id' => isset($_GET['client_id']) ? (int)$_GET['client_id'] : null,
-            'site_id' => isset($_GET['site_id']) ? (int)$_GET['site_id'] : null,
-            'salle_id' => isset($_GET['salle_id']) ? (int)$_GET['salle_id'] : null
+            'client_id' => isset($_GET['client_id']) ? (int) $_GET['client_id'] : null,
+            'site_id' => isset($_GET['site_id']) ? (int) $_GET['site_id'] : null,
+            'salle_id' => isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null
         ];
 
         try {
             // Récupération des données pour les filtres (comme dans la documentation)
             $clients = $this->clientModel->getAllClients();
-            
+
             // Initialiser les variables
             $sites = [];
             $salles = [];
@@ -78,7 +82,7 @@ class MaterielController {
                 if (!empty($materiel_list)) {
                     $materiel_ids = array_column($materiel_list, 'id');
                     $visibilites_champs = $this->materielModel->getVisibiliteChampsForMateriels($materiel_ids);
-                    
+
                     // Récupération du nombre de pièces jointes pour chaque matériel
                     foreach ($materiel_ids as $materiel_id) {
                         $pieces_jointes_count[$materiel_id] = $this->materielModel->getPiecesJointesCount($materiel_id);
@@ -94,7 +98,7 @@ class MaterielController {
             $materiel_list = [];
             $visibilites_champs = [];
             $pieces_jointes_count = [];
-            
+
             // Log de l'erreur
             custom_log("Erreur lors du chargement du matériel : " . $e->getMessage(), 'ERROR');
         }
@@ -111,12 +115,13 @@ class MaterielController {
     /**
      * Affiche les détails d'un matériel
      */
-    public function view($id) {
+    public function view($id)
+    {
         $this->checkAccess();
 
         try {
             $materiel = $this->materielModel->getMaterielById($id);
-            
+
             if (!$materiel) {
                 $_SESSION['error'] = "Matériel non trouvé";
                 header('Location: ' . BASE_URL . 'materiel');
@@ -157,20 +162,21 @@ class MaterielController {
     /**
      * Affiche le formulaire d'ajout
      */
-    public function add() {
+    public function add()
+    {
         $this->checkAccess();
 
         try {
             $clients = $this->clientModel->getAllClients();
-            
+
             // Initialiser les variables
             $sites = [];
             $salles = [];
-            
+
             // Récupérer les sites selon le client sélectionné
             if (isset($_GET['client_id']) && !empty($_GET['client_id'])) {
                 $sites = $this->siteModel->getSitesByClientId($_GET['client_id']);
-                
+
                 // Récupérer les salles selon le site sélectionné
                 if (isset($_GET['site_id']) && !empty($_GET['site_id'])) {
                     $salles = $this->roomModel->getRoomsBySiteId($_GET['site_id']);
@@ -179,11 +185,11 @@ class MaterielController {
                     $salles = $this->roomModel->getRoomsByClientId($_GET['client_id']);
                 }
             }
-            
+
             // Récupérer le contrat à partir de la salle sélectionnée
             $contractId = null;
             $contractAccessLevel = null;
-            
+
             if (isset($_GET['salle_id']) && !empty($_GET['salle_id'])) {
                 // Récupérer le contrat de la salle
                 $sql = "SELECT c.id as contract_id, c.access_level_id 
@@ -192,17 +198,17 @@ class MaterielController {
                         WHERE cr.room_id = :room_id 
                         ORDER BY c.created_at DESC 
                         LIMIT 1";
-                
+
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([':room_id' => $_GET['salle_id']]);
                 $contract = $stmt->fetch(PDO::FETCH_ASSOC);
-                
+
                 if ($contract) {
                     $contractId = $contract['contract_id'];
                     $contractAccessLevel = $this->accessLevelModel->getContractAccessLevel($contractId);
                 }
             }
-            
+
             // Récupérer les champs de visibilité avec le niveau d'accès par défaut
             $champs_visibilite = $this->materielModel->getChampsVisibilite(null, $contractId);
 
@@ -222,7 +228,8 @@ class MaterielController {
     /**
      * Traite la création d'un matériel
      */
-    public function store() {
+    public function store()
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -277,7 +284,7 @@ class MaterielController {
             }
 
             $materielId = $this->materielModel->createMateriel($data);
-            
+
             // Sauvegarder la visibilité des champs
             if ($materielId) {
                 // Récupérer le contrat de la salle pour appliquer les règles par défaut
@@ -289,19 +296,19 @@ class MaterielController {
                             WHERE cr.room_id = :room_id 
                             ORDER BY c.created_at DESC 
                             LIMIT 1";
-                    
+
                     $stmt = $this->db->prepare($sql);
                     $stmt->execute([':room_id' => $data['salle_id']]);
                     $contract = $stmt->fetch(PDO::FETCH_ASSOC);
-                    
+
                     if ($contract) {
                         $contractId = $contract['contract_id'];
                     }
                 }
-                
+
                 // Récupérer les visibilités par défaut du contrat
                 $champs_visibilite = $this->materielModel->getChampsVisibilite(null, $contractId);
-                
+
                 $visibilites = [];
                 foreach ($champs_visibilite as $nom_champ => $info) {
                     // Utiliser les valeurs du formulaire si présentes, sinon les valeurs par défaut du contrat
@@ -311,12 +318,12 @@ class MaterielController {
                         $visibilites[$nom_champ] = $info['visible_client'];
                     }
                 }
-                
+
                 $this->materielModel->saveVisibiliteChamps($materielId, $visibilites);
             }
-            
+
             $_SESSION['success'] = "Matériel créé avec succès";
-            
+
             // Construire l'URL de redirection avec les filtres
             $redirectParams = [];
             if (isset($_POST['return_client_id']) && !empty($_POST['return_client_id'])) {
@@ -328,19 +335,19 @@ class MaterielController {
             if (isset($_POST['return_salle_id']) && !empty($_POST['return_salle_id'])) {
                 $redirectParams['salle_id'] = $_POST['return_salle_id'];
             }
-            
+
             $redirectUrl = BASE_URL . 'materiel/view/' . $materielId;
             if (!empty($redirectParams)) {
                 $redirectUrl .= '?' . http_build_query($redirectParams);
             }
-            
+
             header('Location: ' . $redirectUrl);
             exit;
 
         } catch (Exception $e) {
             custom_log("Erreur lors de la création du matériel : " . $e->getMessage(), 'ERROR');
             $_SESSION['error'] = "Erreur lors de la création du matériel : " . $e->getMessage();
-            
+
             // Construire l'URL de redirection avec les filtres
             $redirectParams = [];
             if (isset($_POST['return_client_id']) && !empty($_POST['return_client_id'])) {
@@ -352,12 +359,12 @@ class MaterielController {
             if (isset($_POST['return_salle_id']) && !empty($_POST['return_salle_id'])) {
                 $redirectParams['salle_id'] = $_POST['return_salle_id'];
             }
-            
+
             $redirectUrl = BASE_URL . 'materiel/add';
             if (!empty($redirectParams)) {
                 $redirectUrl .= '?' . http_build_query($redirectParams);
             }
-            
+
             header('Location: ' . $redirectUrl);
             exit;
         }
@@ -366,7 +373,8 @@ class MaterielController {
     /**
      * Affiche le formulaire de modification
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -375,7 +383,7 @@ class MaterielController {
 
         try {
             $materiel = $this->materielModel->getMaterielById($id);
-            
+
             if (!$materiel) {
                 $_SESSION['error'] = "Matériel non trouvé";
                 header('Location: ' . BASE_URL . 'materiel');
@@ -383,18 +391,18 @@ class MaterielController {
             }
 
             $clients = $this->clientModel->getAllClients();
-            
+
             // Récupérer les informations client, site et salle du matériel
             $room = $this->roomModel->getRoomById($materiel['salle_id']);
             $site = $this->siteModel->getSiteById($room['site_id']);
             $client = $this->clientModel->getClientById($site['client_id']);
-            
+
             // Récupérer les sites du client du matériel
             $sites = $this->siteModel->getSitesByClientId($client['id']);
-            
+
             // Récupérer les salles du site du matériel
             $salles = $this->roomModel->getRoomsBySiteId($site['id']);
-            
+
             $champs_visibilite = $this->materielModel->getChampsVisibilite($id);
 
         } catch (Exception $e) {
@@ -413,7 +421,8 @@ class MaterielController {
     /**
      * Traite la modification d'un matériel
      */
-    public function update($id) {
+    public function update($id)
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -468,20 +477,20 @@ class MaterielController {
             }
 
             $success = $this->materielModel->updateMateriel($id, $data);
-            
+
             if ($success) {
                 // Sauvegarder la visibilité des champs
                 $visibilites = [];
                 $champs_visibilite = $this->materielModel->getChampsVisibilite($id);
-                
+
                 foreach ($champs_visibilite as $nom_champ => $info) {
                     $visibilites[$nom_champ] = isset($_POST['visibilite_' . $nom_champ]) ? true : false;
                 }
-                
+
                 $this->materielModel->saveVisibiliteChamps($id, $visibilites);
-                
+
                 $_SESSION['success'] = "Matériel modifié avec succès";
-                
+
                 // Construire l'URL de redirection avec les filtres
                 $redirectParams = [];
                 if (isset($_POST['return_client_id']) && !empty($_POST['return_client_id'])) {
@@ -493,12 +502,12 @@ class MaterielController {
                 if (isset($_POST['return_salle_id']) && !empty($_POST['return_salle_id'])) {
                     $redirectParams['salle_id'] = $_POST['return_salle_id'];
                 }
-                
+
                 $redirectUrl = BASE_URL . 'materiel/view/' . $id;
                 if (!empty($redirectParams)) {
                     $redirectUrl .= '?' . http_build_query($redirectParams);
                 }
-                
+
                 header('Location: ' . $redirectUrl);
             } else {
                 throw new Exception("Erreur lors de la modification");
@@ -508,7 +517,7 @@ class MaterielController {
         } catch (Exception $e) {
             custom_log("Erreur lors de la modification du matériel : " . $e->getMessage(), 'ERROR');
             $_SESSION['error'] = "Erreur lors de la modification du matériel : " . $e->getMessage();
-            
+
             // Construire l'URL de redirection avec les filtres
             $redirectParams = [];
             if (isset($_POST['return_client_id']) && !empty($_POST['return_client_id'])) {
@@ -520,12 +529,12 @@ class MaterielController {
             if (isset($_POST['return_salle_id']) && !empty($_POST['return_salle_id'])) {
                 $redirectParams['salle_id'] = $_POST['return_salle_id'];
             }
-            
+
             $redirectUrl = BASE_URL . 'materiel/edit/' . $id;
             if (!empty($redirectParams)) {
                 $redirectUrl .= '?' . http_build_query($redirectParams);
             }
-            
+
             header('Location: ' . $redirectUrl);
             exit;
         }
@@ -534,7 +543,8 @@ class MaterielController {
     /**
      * Supprime un matériel
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -563,12 +573,12 @@ class MaterielController {
         if (isset($_GET['salle_id']) && !empty($_GET['salle_id'])) {
             $redirectParams['salle_id'] = $_GET['salle_id'];
         }
-        
+
         $redirectUrl = BASE_URL . 'materiel';
         if (!empty($redirectParams)) {
             $redirectUrl .= '?' . http_build_query($redirectParams);
         }
-        
+
         header('Location: ' . $redirectUrl);
         exit;
     }
@@ -576,9 +586,10 @@ class MaterielController {
     /**
      * Supprime plusieurs matériels en masse
      */
-    public function deleteBulk() {
+    public function deleteBulk()
+    {
         custom_log("Début de deleteBulk - Paramètres GET: " . print_r($_GET, true), 'INFO');
-        
+
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             custom_log("Utilisateur non connecté, redirection vers login", 'WARNING');
@@ -598,7 +609,7 @@ class MaterielController {
             // Récupérer les IDs depuis les paramètres GET
             $idsParam = $_GET['ids'] ?? '';
             custom_log("Paramètre ids reçu: '$idsParam'", 'INFO');
-            
+
             if (empty($idsParam)) {
                 $errorMsg = "Aucun matériel sélectionné pour la suppression.";
                 $_SESSION['error'] = $errorMsg;
@@ -608,15 +619,15 @@ class MaterielController {
                 $ids = explode(',', $idsParam);
                 $ids = array_map('trim', $ids);
                 custom_log("IDs convertis en tableau: " . print_r($ids, true), 'INFO');
-                
+
                 // Appeler la méthode du modèle
                 $result = $this->materielModel->deleteMaterielBulk($ids);
                 custom_log("Résultat de deleteMaterielBulk: " . print_r($result, true), 'INFO');
-                
+
                 if ($result['success']) {
                     $_SESSION['success'] = $result['message'];
                     custom_log("Suppression réussie: " . $result['message'], 'INFO');
-                    
+
                     // Ajouter les erreurs individuelles s'il y en a
                     if (!empty($result['errors'])) {
                         $warningMsg = "Attention: " . implode('; ', $result['errors']);
@@ -627,7 +638,7 @@ class MaterielController {
                     $errorMsg = $result['message'];
                     $_SESSION['error'] = $errorMsg;
                     custom_log("Suppression échouée: " . $errorMsg, 'ERROR');
-                    
+
                     // Ajouter les erreurs détaillées
                     if (!empty($result['errors'])) {
                         $errorMsg .= " Détails: " . implode('; ', $result['errors']);
@@ -653,12 +664,12 @@ class MaterielController {
         if (isset($_GET['salle_id']) && !empty($_GET['salle_id'])) {
             $redirectParams['salle_id'] = $_GET['salle_id'];
         }
-        
+
         $redirectUrl = BASE_URL . 'materiel';
         if (!empty($redirectParams)) {
             $redirectUrl .= '?' . http_build_query($redirectParams);
         }
-        
+
         custom_log("Redirection vers: $redirectUrl", 'INFO');
         header('Location: ' . $redirectUrl);
         exit;
@@ -671,7 +682,8 @@ class MaterielController {
      * Ajoute une pièce jointe à un matériel
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function addAttachment($materielId) {
+    public function addAttachment($materielId)
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -697,7 +709,7 @@ class MaterielController {
 
             // Utiliser AttachmentService pour gérer l'upload
             $attachmentService = new AttachmentService($this->db);
-            
+
             // Préparer les options
             $options = [
                 'descriptions' => [$_POST['description'] ?? null],
@@ -733,7 +745,8 @@ class MaterielController {
      * Ajoute plusieurs pièces jointes à un matériel (Drag & Drop)
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function addMultipleAttachments($materielId) {
+    public function addMultipleAttachments($materielId)
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Content-Type: application/json');
@@ -761,7 +774,7 @@ class MaterielController {
 
             // Utiliser AttachmentService pour gérer l'upload
             $attachmentService = new AttachmentService($this->db);
-            
+
             // Préparer les options
             $options = [
                 'descriptions' => $_POST['file_description'] ?? [],
@@ -806,7 +819,8 @@ class MaterielController {
      * Supprime une pièce jointe d'un matériel
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function deleteAttachment($materielId, $pieceJointeId) {
+    public function deleteAttachment($materielId, $pieceJointeId)
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -817,7 +831,7 @@ class MaterielController {
             // Utiliser AttachmentService pour gérer la suppression
             $attachmentService = new AttachmentService($this->db);
             $attachmentService->delete($pieceJointeId, AttachmentService::TYPE_MATERIEL, $materielId);
-            
+
             $_SESSION['success'] = "Pièce jointe supprimée avec succès";
 
         } catch (Exception $e) {
@@ -833,7 +847,8 @@ class MaterielController {
      * Télécharge une pièce jointe
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function download($pieceJointeId) {
+    public function download($pieceJointeId)
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -860,7 +875,8 @@ class MaterielController {
      * Affiche l'aperçu d'une pièce jointe
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function preview($attachmentId) {
+    public function preview($attachmentId)
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -874,7 +890,7 @@ class MaterielController {
 
         } catch (Exception $e) {
             custom_log("Erreur lors de l'aperçu : " . $e->getMessage(), 'ERROR');
-            
+
             // Retourner une réponse JSON pour les requêtes AJAX
             if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
                 header('Content-Type: application/json');
@@ -884,7 +900,7 @@ class MaterielController {
                 ]);
                 exit;
             }
-            
+
             // Redirection pour les requêtes normales
             $_SESSION['error'] = "Erreur lors de l'aperçu : " . $e->getMessage();
             header('Location: ' . BASE_URL . 'materiel');
@@ -896,7 +912,8 @@ class MaterielController {
      * Bascule la visibilité d'une pièce jointe (AJAX)
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function toggleAttachmentVisibility() {
+    public function toggleAttachmentVisibility()
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Content-Type: application/json');
@@ -908,11 +925,11 @@ class MaterielController {
         try {
             $attachmentId = $_POST['attachment_id'] ?? null;
             $masqueClient = $_POST['masque_client'] ?? null;
-            
+
             if (!$attachmentId) {
                 throw new Exception("ID de la pièce jointe manquant");
             }
-            
+
             if ($masqueClient === null) {
                 throw new Exception("Paramètre de visibilité manquant");
             }
@@ -926,8 +943,8 @@ class MaterielController {
             }
 
             // Utiliser AttachmentService pour basculer la visibilité
-            $attachmentService->toggleVisibility($attachmentId, (int)$masqueClient);
-            
+            $attachmentService->toggleVisibility($attachmentId, (int) $masqueClient);
+
             // Récupérer materiel_id depuis la liaison
             $query = "SELECT entite_id as materiel_id 
                      FROM liaisons_pieces_jointes 
@@ -935,7 +952,7 @@ class MaterielController {
             $stmt = $this->db->prepare($query);
             $stmt->execute([':attachment_id' => $attachmentId]);
             $liaison = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             header('Content-Type: application/json');
             echo json_encode([
                 'success' => true,
@@ -958,7 +975,8 @@ class MaterielController {
      * Bascule la visibilité d'une pièce jointe (lien direct)
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function toggleAttachmentVisibilityDirect($materielId, $pieceJointeId) {
+    public function toggleAttachmentVisibilityDirect($materielId, $pieceJointeId)
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -976,12 +994,12 @@ class MaterielController {
 
             // Inverser la visibilité
             $newVisibility = $pieceJointe['masque_client'] == 1 ? 0 : 1;
-            
+
             // Utiliser AttachmentService pour basculer la visibilité
             $attachmentService->toggleVisibility($pieceJointeId, $newVisibility);
-            
-            $_SESSION['success'] = $newVisibility == 1 ? 
-                "Pièce jointe masquée aux clients" : 
+
+            $_SESSION['success'] = $newVisibility == 1 ?
+                "Pièce jointe masquée aux clients" :
                 "Pièce jointe rendue visible aux clients";
 
         } catch (Exception $e) {
@@ -996,7 +1014,8 @@ class MaterielController {
     /**
      * Récupère les pièces jointes d'un matériel via AJAX
      */
-    public function getAttachments($materielId) {
+    public function getAttachments($materielId)
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Content-Type: application/json');
@@ -1017,7 +1036,7 @@ class MaterielController {
 
             // Récupérer les pièces jointes
             $attachments = $this->materielModel->getPiecesJointes($materielId);
-            
+
             header('Content-Type: application/json');
             echo json_encode([
                 'success' => true,
@@ -1038,7 +1057,8 @@ class MaterielController {
     /**
      * Télécharge toutes les pièces jointes d'un matériel en ZIP
      */
-    public function downloadAll($materielId) {
+    public function downloadAll($materielId)
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -1054,7 +1074,7 @@ class MaterielController {
 
             // Récupérer les pièces jointes
             $attachments = $this->materielModel->getPiecesJointes($materielId);
-            
+
             if (empty($attachments)) {
                 $_SESSION['error'] = "Aucune pièce jointe à télécharger";
                 header('Location: ' . BASE_URL . 'materiel/view/' . $materielId);
@@ -1064,7 +1084,7 @@ class MaterielController {
             // Créer un fichier ZIP temporaire
             $zipName = 'materiel_' . $materielId . '_pieces_jointes_' . date('Y-m-d_H-i-s') . '.zip';
             $zipPath = sys_get_temp_dir() . '/' . $zipName;
-            
+
             $zip = new ZipArchive();
             if ($zip->open($zipPath, ZipArchive::CREATE) !== TRUE) {
                 throw new Exception("Impossible de créer le fichier ZIP");
@@ -1107,7 +1127,8 @@ class MaterielController {
     /**
      * Récupère les sites d'un client via AJAX
      */
-    public function get_sites() {
+    public function get_sites()
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Content-Type: application/json');
@@ -1123,7 +1144,7 @@ class MaterielController {
             exit;
         }
 
-        $client_id = (int)$_GET['client_id'];
+        $client_id = (int) $_GET['client_id'];
 
         try {
             $sites = $this->siteModel->getSitesByClientId($client_id);
@@ -1139,7 +1160,8 @@ class MaterielController {
     /**
      * Récupère les salles d'un site (AJAX)
      */
-    public function get_rooms() {
+    public function get_rooms()
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             http_response_code(401);
@@ -1148,7 +1170,7 @@ class MaterielController {
         }
 
         $siteId = $_GET['site_id'] ?? null;
-        
+
         if (!$siteId) {
             http_response_code(400);
             echo json_encode(['error' => 'ID du site manquant']);
@@ -1168,7 +1190,8 @@ class MaterielController {
     /**
      * Récupère le niveau d'accès d'une salle (AJAX)
      */
-    public function get_room_access_level() {
+    public function get_room_access_level()
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             http_response_code(401);
@@ -1177,7 +1200,7 @@ class MaterielController {
         }
 
         $roomId = $_GET['room_id'] ?? null;
-        
+
         if (!$roomId) {
             http_response_code(400);
             echo json_encode(['error' => 'ID de la salle manquant']);
@@ -1192,22 +1215,22 @@ class MaterielController {
                     INNER JOIN contract_access_levels cal ON c.access_level_id = cal.id
                     WHERE cr.room_id = :room_id
                     LIMIT 1";
-            
+
             $stmt = $this->db->prepare($sql);
             $stmt->execute([':room_id' => $roomId]);
             $contract = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if ($contract) {
                 // Récupérer les règles de visibilité par défaut pour ce niveau d'accès
                 $visibilityRules = $this->accessLevelModel->getVisibilityRulesForLevel($contract['access_level_id']);
-                
+
                 $response = [
                     'contract_id' => $contract['contract_id'],
                     'access_level_id' => $contract['access_level_id'],
                     'access_level_name' => $contract['access_level_name'],
                     'visibility_rules' => $visibilityRules
                 ];
-                
+
                 echo json_encode($response);
             } else {
                 echo json_encode(['error' => 'Aucun contrat trouvé pour cette salle']);
@@ -1222,7 +1245,8 @@ class MaterielController {
     /**
      * Affiche la page d'import Excel
      */
-    public function import() {
+    public function import()
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -1260,7 +1284,8 @@ class MaterielController {
     /**
      * Traite l'import Excel de matériels
      */
-    public function process_import() {
+    public function process_import()
+    {
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
             exit;
@@ -1315,19 +1340,21 @@ class MaterielController {
         }
 
         foreach ($rows as $i => $row) {
-            if ($i == 1) continue; // Ignorer l'en-tête
+            if ($i == 1)
+                continue; // Ignorer l'en-tête
             // Fonction pour convertir les dates du format français vers MySQL
-            $convertDate = function($dateString) {
-                if (empty($dateString)) return null;
-                
+            $convertDate = function ($dateString) {
+                if (empty($dateString))
+                    return null;
+
                 // Nettoyer la chaîne
                 $dateString = trim($dateString);
-                
+
                 // Vérifier si c'est déjà au format MySQL (AAAA-MM-JJ)
                 if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $dateString)) {
                     return $dateString;
                 }
-                
+
                 // Convertir du format français (JJ/MM/AAAA) vers MySQL
                 if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $dateString, $matches)) {
                     $jour = str_pad($matches[1], 2, '0', STR_PAD_LEFT);
@@ -1335,11 +1362,11 @@ class MaterielController {
                     $annee = $matches[3];
                     return "$annee-$mois-$jour";
                 }
-                
+
                 // Si le format n'est pas reconnu, retourner null
                 return null;
             };
-            
+
             $data = [
                 'salle_id' => $salle_id,
                 'type_materiel' => trim($row['K'] ?? ''),
@@ -1367,23 +1394,23 @@ class MaterielController {
             try {
                 // Créer le matériel
                 $materielId = $this->materielModel->createMateriel($data);
-                
+
                 // Appliquer les règles de visibilité selon le contrat
                 if ($materielId && $contractId) {
                     custom_log("Application des règles de visibilité pour matériel $materielId avec contrat $contractId", 'DEBUG');
                     $champs_visibilite = $this->materielModel->getChampsVisibilite(null, $contractId);
                     $visibilites = [];
-                    
+
                     foreach ($champs_visibilite as $nom_champ => $info) {
                         $visibilites[$nom_champ] = $info['visible_client'];
                     }
-                    
+
                     custom_log("Règles de visibilité pour matériel $materielId : " . json_encode($visibilites), 'DEBUG');
                     $this->materielModel->saveVisibiliteChamps($materielId, $visibilites);
                 } else {
                     custom_log("Pas de règles de visibilité appliquées - materielId: $materielId, contractId: $contractId", 'DEBUG');
                 }
-                
+
                 $imported++;
             } catch (Exception $e) {
                 $errors[] = "Ligne $i : " . $e->getMessage();
@@ -1393,7 +1420,7 @@ class MaterielController {
         if ($errors) {
             $_SESSION['error'] = implode('<br>', $errors);
         }
-        
+
         // Rediriger vers l'index avec les filtres de la localisation importée
         $redirectUrl = BASE_URL . 'materiel';
         $filters = [];
@@ -1406,11 +1433,11 @@ class MaterielController {
         if ($salle_id) {
             $filters['salle_id'] = $salle_id;
         }
-        
+
         if (!empty($filters)) {
             $redirectUrl .= '?' . http_build_query($filters);
         }
-        
+
         header('Location: ' . $redirectUrl);
         exit;
     }
@@ -1418,25 +1445,26 @@ class MaterielController {
     /**
      * Téléchargement du template Excel
      */
-    public function download_template() {
+    public function download_template()
+    {
         require_once __DIR__ . '/../includes/functions.php';
         if (!canImportMateriel()) {
             $_SESSION['error'] = "Vous n'avez pas les droits pour importer du matériel.";
             header('Location: ' . BASE_URL . 'materiel');
             exit;
         }
-        
+
         $file = ROOT_PATH . '/assets/templates/materiel_import_template.xlsx';
         if (!file_exists($file)) {
             header('HTTP/1.0 404 Not Found');
             exit('Template non trouvé');
         }
-        
+
         // Nettoyer le buffer de sortie
         if (ob_get_level()) {
             ob_end_clean();
         }
-        
+
         // En-têtes pour le téléchargement
         header('Content-Description: File Transfer');
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -1446,7 +1474,7 @@ class MaterielController {
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
         header('Content-Length: ' . filesize($file));
-        
+
         // Lire et envoyer le fichier
         readfile($file);
         exit;
@@ -1459,18 +1487,19 @@ class MaterielController {
      * Upload de pièces jointes pour le matériel (AJAX)
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function uploadAttachment() {
+    public function uploadAttachment()
+    {
         $this->checkAccess();
-        
+
         header('Content-Type: application/json');
-        
+
         try {
             $materielId = $_POST['materiel_id'] ?? null;
-            
+
             if (!$materielId) {
                 throw new Exception('ID du matériel manquant');
             }
-            
+
             // Vérifier que le matériel existe
             $materiel = $this->materielModel->getMaterielById($materielId);
             if (!$materiel) {
@@ -1484,7 +1513,7 @@ class MaterielController {
 
             // Utiliser AttachmentService pour gérer l'upload
             $attachmentService = new AttachmentService($this->db);
-            
+
             // Préparer les options
             $options = [
                 'descriptions' => $_POST['descriptions'] ?? [],
@@ -1506,13 +1535,13 @@ class MaterielController {
                 'uploaded_files' => $result['uploaded_files'],
                 'errors' => $result['errors']
             ];
-            
+
             if (!$result['success'] && !empty($result['errors'])) {
                 $response['error'] = implode(', ', $result['errors']);
             }
-            
+
             echo json_encode($response);
-            
+
         } catch (Exception $e) {
             custom_log("Erreur lors de l'upload des pièces jointes : " . $e->getMessage(), 'ERROR');
             echo json_encode([
@@ -1525,7 +1554,8 @@ class MaterielController {
     /**
      * Affiche le matériel d'une salle spécifique (vue compacte pour staff)
      */
-    public function salle($salleId) {
+    public function salle($salleId)
+    {
         $this->checkAccess();
 
         // Debug temporaire
@@ -1571,4 +1601,4 @@ class MaterielController {
         $pageTitle = "Matériel - " . $site['name'] . " - " . $salle['name'];
         require_once VIEWS_PATH . '/materiel/salle.php';
     }
-} 
+}

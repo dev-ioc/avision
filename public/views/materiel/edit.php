@@ -42,46 +42,29 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </div>
                 <div>
                     <?php
-                    // Construire l'URL de retour avec les paramètres de filtres
-                    $returnParams = [];
-                    if (isset($_GET['client_id']) && !empty($_GET['client_id'])) {
-                        $returnParams['client_id'] = $_GET['client_id'];
-                    }
-                    if (isset($_GET['site_id']) && !empty($_GET['site_id'])) {
-                        $returnParams['site_id'] = $_GET['site_id'];
-                    }
-                    if (isset($_GET['salle_id']) && !empty($_GET['salle_id'])) {
-                        $returnParams['salle_id'] = $_GET['salle_id'];
-                    }
-                    
-                    $returnUrl = BASE_URL . 'materiel';
-                    if (!empty($returnParams)) {
-                        $returnUrl .= '?' . http_build_query($returnParams);
-                    }
-                    
-                    // Construire l'URL pour ajouter un autre matériel avec les valeurs actuelles du formulaire
-                    $addAnotherUrl = BASE_URL . 'materiel/add';
-                    $formParams = [];
-                    if (isset($_GET['client_id']) && !empty($_GET['client_id'])) {
-                        $formParams['client_id'] = $_GET['client_id'];
-                    }
-                    if (isset($_GET['site_id']) && !empty($_GET['site_id'])) {
-                        $formParams['site_id'] = $_GET['site_id'];
-                    }
-                    if (isset($_GET['salle_id']) && !empty($_GET['salle_id'])) {
-                        $formParams['salle_id'] = $_GET['salle_id'];
-                    }
-                    
-                    if (!empty($formParams)) {
-                        $addAnotherUrl .= '?' . http_build_query($formParams);
-                    }
-                    ?>
+                        // Récupérer les IDs à partir du matériel actuel (depuis la base)
+                        $client_id = $materiel['client_id'] ?? '';
+                        $site_id   = $materiel['site_id'] ?? '';
+                        $salle_id  = $materiel['salle_id'] ?? '';
+
+                        // Construire les paramètres pour le retour et le bouton "Ajouter un autre"
+                        $params = [
+                        'client_id' => $client_id,
+                        'site_id'   => $site_id,
+                        'salle_id'  => $salle_id
+                        ];
+
+                        // URL pour retourner à la liste filtrée
+                        $returnUrl = BASE_URL . 'materiel?' . http_build_query($params);
+                        // URL pour ajouter un autre matériel avec les mêmes filtres
+                        $addAnotherUrl = BASE_URL . 'materiel/add?' . http_build_query($params);
+                        ?>
                     <button type="button" class="btn btn-primary me-2" onclick="addAnotherMateriel()">
                         <i class="bi bi-plus me-2 me-1"></i>Ajouter un autre matériel
                     </button>
                     <a href="<?= $returnUrl ?>" class="btn btn-secondary">
                         <i class="bi bi-arrow-left me-2 me-1"></i>Retour à la liste
-                    </a>
+                    </a>  
                 </div>
             </div>
         </div>
