@@ -36,10 +36,10 @@ if (preg_match('#^/(assets|uploads)/#', $path)) {
             'ttf' => 'font/ttf',
             'eot' => 'application/vnd.ms-fontobject'
         ];
-        
+
         $ext = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
         $mime_type = $mime_types[$ext] ?? 'application/octet-stream';
-        
+
         header('Content-Type: ' . $mime_type);
         header('Content-Length: ' . filesize($file_path));
         header('Cache-Control: public, max-age=3600');
@@ -105,6 +105,7 @@ require_once CONTROLLERS_PATH . '/SiteClientController.php'; // SiteClientContro
 require_once CONTROLLERS_PATH . '/SettingsController.php';
 require_once CONTROLLERS_PATH . '/InterventionTypeController.php';
 require_once CONTROLLERS_PATH . '/QRCodeController.php';
+require_once CONTROLLERS_PATH . '/ExcelController.php';
 
 // Récupération de l'URL demandée
 $request_uri = $_SERVER['REQUEST_URI'];
@@ -148,9 +149,9 @@ $current_route = $controller . '/' . $action;
 
 if (!in_array($current_route, $public_routes) && !isset($_SESSION['user'])) {
     // Vérifier si c'est une requête AJAX
-    $isAjaxRequest = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
-                     strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-    
+    $isAjaxRequest = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+        strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
     // Si c'est une requête AJAX, retourner du JSON au lieu de rediriger
     if ($isAjaxRequest) {
         http_response_code(401);
@@ -161,7 +162,7 @@ if (!in_array($current_route, $public_routes) && !isset($_SESSION['user'])) {
         ]);
         exit;
     }
-    
+
     // Ignorer les requêtes pour les fichiers statiques (favicon, robots.txt, etc.)
     $staticFiles = ['favicon.ico', 'robots.txt', '.well-known'];
     $isStaticFile = false;
@@ -171,7 +172,7 @@ if (!in_array($current_route, $public_routes) && !isset($_SESSION['user'])) {
             break;
         }
     }
-    
+
     // Ne sauvegarder l'URL de redirection que si ce n'est pas un fichier statique
     // et si on n'a pas déjà une URL de redirection valide en session
     if (!$isStaticFile && (!isset($_SESSION['redirect_after_login']) || empty($_SESSION['redirect_after_login']) || $_SESSION['redirect_after_login'] === 'favicon.ico')) {
@@ -188,14 +189,14 @@ if (!in_array($current_route, $public_routes) && !isset($_SESSION['user'])) {
             $redirectUrl .= '?' . $_SERVER['QUERY_STRING'];
         }
         $_SESSION['redirect_after_login'] = $redirectUrl;
-        
+
         // Debug: logger l'URL sauvegardée
         custom_log("Redirection vers login - URL sauvegardée: " . $redirectUrl . " (Session ID: " . session_id() . ")", 'DEBUG');
     } else if ($isStaticFile) {
         // Pour les fichiers statiques, rediriger directement sans sauvegarder
         custom_log("Fichier statique ignoré: " . $path, 'DEBUG');
     }
-    
+
     header('Location: ' . BASE_URL . 'auth/login');
     exit;
 }
@@ -221,7 +222,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'user':
             $userController = new UserController($db);
             switch ($action) {
@@ -272,7 +273,17 @@ try {
                     break;
             }
             break;
-            
+        case 'excel':
+            $excel = new ExcelController($pdo);
+            $subAction = $_GET['subaction'] ?? 'index';
+            if ($subAction === 'index') {
+                $excel->index();
+            } elseif ($subAction === 'save') {
+                $excel->save();
+            } else {
+                header('Location: ' . BASE_URL . 'excel');
+            }
+            break;
         case 'dashboard':
             $dashboardController = new DashboardController();
             switch ($action) {
@@ -330,7 +341,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'contacts':
             $contactController = new ContactController();
             switch ($action) {
@@ -348,11 +359,11 @@ try {
                         $contactController->edit($id);
                     } else {
                         $_SESSION['error'] = "Contact ID manquant pour la modification.";
-                        header('Location: ' . BASE_URL . 'dashboard'); 
+                        header('Location: ' . BASE_URL . 'dashboard');
                         exit;
                     }
                     break;
-                case 'store': 
+                case 'store':
                     $contactController->store();
                     break;
                 case 'update':
@@ -379,7 +390,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'documentation':
             $documentationController = new DocumentationController();
             switch ($action) {
@@ -475,7 +486,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'site':
             $siteController = new SiteController();
             switch ($action) {
@@ -539,7 +550,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'contracts':
             $contractController = new ContractController();
             switch ($action) {
@@ -694,7 +705,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'hors_contrat_facturable':
             $horsContratFacturableController = new HorsContratFacturableController();
             switch ($action) {
@@ -713,7 +724,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'hors_contrat_non_facturable':
             $horsContratNonFacturableController = new HorsContratNonFacturableController();
             switch ($action) {
@@ -1039,7 +1050,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'interventions_client':
             $interventionsClientController = new InterventionsClientController($db);
             switch ($action) {
@@ -1117,7 +1128,7 @@ try {
                         echo json_encode(['error' => 'Non autorisé']);
                         exit;
                     }
-                    
+
                     $siteId = $_GET['site_id'] ?? null;
                     if ($siteId) {
                         try {
@@ -1157,7 +1168,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'contracts_client':
             $contractsClientController = new ContractsClientController();
             switch ($action) {
@@ -1193,7 +1204,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'materiel':
             $materielController = new MaterielController();
             switch ($action) {
@@ -1339,7 +1350,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'materiel_v2':
             require_once __DIR__ . '/controllers/MaterielV2Controller.php';
             $materielV2Controller = new MaterielV2Controller();
@@ -1359,7 +1370,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'materiel_bulk':
             require_once __DIR__ . '/controllers/MaterielBulkController.php';
             $materielBulkController = new MaterielBulkController();
@@ -1394,7 +1405,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'materiel_client':
             $materielClientController = new MaterielClientController();
             switch ($action) {
@@ -1440,7 +1451,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'materiel_test':
             $materielTestController = new MaterielTestController();
             switch ($action) {
@@ -1459,7 +1470,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'documentation_client':
             $documentationClientController = new DocumentationClientController();
             switch ($action) {
@@ -1521,7 +1532,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'profileClient':
             $profileClientController = new ProfileClientController($db);
             switch ($action) {
@@ -1536,7 +1547,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'contactClient':
             $contactClientController = new ContactClientController($db);
             switch ($action) {
@@ -1571,7 +1582,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'sites_client':
             $siteClientController = new SiteClientController();
             switch ($action) {
@@ -1590,7 +1601,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'settings':
             $settingsController = new SettingsController();
             switch ($action) {
@@ -1656,11 +1667,11 @@ try {
                 case 'contractTypes':
                     require_once __DIR__ . '/controllers/ContractTypeController.php';
                     $contractTypeController = new ContractTypeController($db);
-                    
+
                     // Récupérer l'action spécifique pour les types de contrats
                     $contractTypeAction = $parts[2] ?? 'index';
                     $contractTypeId = $parts[3] ?? null;
-                    
+
                     switch ($contractTypeAction) {
                         case 'index':
                             $contractTypeController->index();
@@ -1755,7 +1766,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'qrcode':
             $qrcodeController = new QRCodeController();
             switch ($action) {
@@ -1776,7 +1787,7 @@ try {
                     break;
             }
             break;
-            
+
         case 'test':
             switch ($action) {
                 case 'dragDrop':
@@ -1787,7 +1798,6 @@ try {
                     break;
             }
             break;
-            
         default:
             // Redirection vers le tableau de bord par défaut
             header('Location: ' . BASE_URL . 'dashboard');
@@ -1798,8 +1808,8 @@ try {
         'file' => $e->getFile(),
         'line' => $e->getLine()
     ]);
-    
+
     // En production, afficher une page d'erreur générique
     header("HTTP/1.0 500 Internal Server Error");
     echo "Une erreur est survenue";
-} 
+}

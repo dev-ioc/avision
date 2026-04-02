@@ -3,23 +3,55 @@ require_once __DIR__ . '/../models/MaterielClientModel.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 require_once __DIR__ . '/../classes/Services/AttachmentService.php';
+require_once __DIR__ . '/../models/MaterielModel.php';
 
-class MaterielClientController {
+class MaterielClientController
+{
     use AccessControlTrait;
     private $db;
     private $model;
+    private $models;
 
-    public function __construct() {
+    public function __construct()
+    {
         global $db;
         $this->db = $db;
         $this->model = new MaterielClientModel($this->db);
+        $this->models = new MaterielModel($this->db);
+    }
+    public function indexExcel()
+    {
+        require __DIR__ . '/../views/excel.php';
+    }
+    /**
+     * create material using excel
+     */
+    public function save()
+    {
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (!isset($data['data'])) {
+            echo json_encode(["status" => "error"]);
+            return;
+        }
+
+        $this->models->saveAll($data['data']);
+
+        echo json_encode(["status" => "success"]);
     }
 
+    public function load()
+    {
 
+        $data = $this->models->getAll();
+        echo json_encode($data);
+    }
     /**
      * Affiche la liste du matériel du client
      */
-    public function index() {
+    public function index()
+    {
         $this->checkClientPermission('client_view_materiel', "Vous n'avez pas les permissions pour accéder au matériel.");
 
         // Récupérer les localisations autorisées de l'utilisateur
@@ -28,15 +60,15 @@ class MaterielClientController {
 
         // Récupération des filtres
         $filters = [
-            'site_id' => isset($_GET['site_id']) ? (int)$_GET['site_id'] : null,
-            'salle_id' => isset($_GET['salle_id']) ? (int)$_GET['salle_id'] : null,
+            'site_id' => isset($_GET['site_id']) ? (int) $_GET['site_id'] : null,
+            'salle_id' => isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null,
             'search' => $_GET['search'] ?? null
         ];
 
         try {
             // Récupération des données pour les filtres
             $clients = $this->model->getClientsByLocations($userLocations);
-            
+
             // Initialiser les variables
             $sites = [];
             $salles = [];
@@ -44,11 +76,11 @@ class MaterielClientController {
             $visibilites_champs = [];
             $pieces_jointes_count = [];
 
-                    // Récupération des sites selon les localisations autorisées
-        $sites = $this->model->getSitesByLocations($userLocations);
-        
+            // Récupération des sites selon les localisations autorisées
+            $sites = $this->model->getSitesByLocations($userLocations);
 
-        
+
+
 
 
             // Récupération des salles selon le filtre site
@@ -66,11 +98,11 @@ class MaterielClientController {
             if (!empty($materiel_list)) {
                 $materiel_ids = array_column($materiel_list, 'id');
                 $visibilites_champs = $this->model->getVisibiliteChampsForMateriels($materiel_ids);
-                
+
                 // OPTIMISATION N+1 : Récupération du nombre de pièces jointes pour tous les matériels en une seule requête
                 // Au lieu de faire N requêtes (une par matériel), on fait 1 seule requête avec GROUP BY
                 $pieces_jointes_count = $this->model->getPiecesJointesCountForMultiple($materiel_ids);
-                
+
                 // Initialiser à 0 pour les matériels sans pièces jointes
                 foreach ($materiel_ids as $id) {
                     if (!isset($pieces_jointes_count[$id])) {
@@ -87,7 +119,7 @@ class MaterielClientController {
             $materiel_list = [];
             $visibilites_champs = [];
             $pieces_jointes_count = [];
-            
+
             // Log de l'erreur
             custom_log("Erreur lors du chargement du matériel client : " . $e->getMessage(), 'ERROR');
         }
@@ -105,9 +137,10 @@ class MaterielClientController {
     /**
      * Affiche le matériel d'une salle spécifique (vue compacte pour client)
      */
-    public function salle($salleId) {
+    public function salle($salleId)
+    {
         error_log("DEBUG: MaterielClientController::salle() appelé avec salleId = $salleId");
-        
+
         try {
             $this->checkClientPermission('client_view_materiel', "Vous n'avez pas les permissions pour accéder au matériel.");
             error_log("DEBUG: checkAccess() OK");
@@ -119,7 +152,7 @@ class MaterielClientController {
             // Récupérer les informations de la salle avec vérification d'accès
             $salle = $this->model->getRoomByIdWithAccess($salleId, $userLocations);
             error_log("DEBUG: salle = " . json_encode($salle));
-            
+
             if (!$salle) {
                 error_log("DEBUG: Salle non trouvée, redirection");
                 $_SESSION['error'] = "Salle non trouvée ou vous n'avez pas les permissions pour y accéder.";
@@ -144,7 +177,7 @@ class MaterielClientController {
             $pageTitle = "Matériel - " . $salle['site_name'] . " - " . $salle['salle_name'];
             require_once __DIR__ . '/../views/materiel_client/salle.php';
             error_log("DEBUG: Vue chargée avec succès");
-            
+
         } catch (Exception $e) {
             error_log("DEBUG: Erreur dans salle(): " . $e->getMessage());
             error_log("DEBUG: Stack trace: " . $e->getTraceAsString());
@@ -155,7 +188,8 @@ class MaterielClientController {
     /**
      * Affiche les détails d'un matériel
      */
-    public function view($id) {
+    public function view($id)
+    {
         $this->checkClientPermission('client_view_materiel', "Vous n'avez pas les permissions pour accéder au matériel.");
 
         // Récupérer les localisations autorisées de l'utilisateur
@@ -164,7 +198,7 @@ class MaterielClientController {
         try {
             // Récupérer le matériel avec vérification d'accès
             $materiel = $this->model->getByIdWithAccess($id, $userLocations);
-            
+
             if (!$materiel) {
                 $_SESSION['error'] = "Matériel introuvable ou vous n'avez pas les permissions pour y accéder.";
                 header('Location: ' . BASE_URL . 'materiel_client');
@@ -197,7 +231,8 @@ class MaterielClientController {
     /**
      * Récupère les sites selon les localisations autorisées (AJAX)
      */
-    public function get_sites() {
+    public function get_sites()
+    {
         $this->checkClientPermission('client_view_materiel', "Vous n'avez pas les permissions pour accéder au matériel.");
 
         $userLocations = getUserLocations();
@@ -210,7 +245,8 @@ class MaterielClientController {
     /**
      * Récupère les salles d'un site selon les localisations autorisées (AJAX)
      */
-    public function get_rooms() {
+    public function get_rooms()
+    {
         $this->checkClientPermission('client_view_materiel', "Vous n'avez pas les permissions pour accéder au matériel.");
 
         $siteId = $_GET['site_id'] ?? null;
@@ -230,29 +266,30 @@ class MaterielClientController {
      * Télécharge une pièce jointe (client)
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function download($attachmentId) {
+    public function download($attachmentId)
+    {
         $this->checkClientPermission('client_view_materiel');
-        
+
         try {
             $userLocations = getUserLocations();
-            
+
             // Vérifier que la pièce jointe appartient à un matériel accessible
             $attachmentService = new AttachmentService($this->db);
             $attachmentData = $attachmentService->getAttachmentById($attachmentId);
-            
+
             if (!$attachmentData || $attachmentData['type_liaison'] !== AttachmentService::TYPE_MATERIEL) {
                 throw new Exception('Pièce jointe non trouvée.');
             }
-            
+
             // Vérifier l'accès au matériel
             $materiel = $this->model->getByIdWithAccess($attachmentData['entite_id'], $userLocations);
             if (!$materiel) {
                 throw new Exception('Vous n\'êtes pas autorisé à accéder à cette pièce jointe.');
             }
-            
+
             // Utiliser AttachmentService pour gérer le téléchargement
             $attachmentService->download($attachmentId, true);
-            
+
         } catch (Exception $e) {
             custom_log("Erreur lors du téléchargement de la pièce jointe (client matériel) : " . $e->getMessage(), 'ERROR');
             $_SESSION['error'] = "Erreur lors du téléchargement : " . $e->getMessage();
@@ -266,29 +303,30 @@ class MaterielClientController {
      * Aperçu d'une pièce jointe (client)
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function preview($attachmentId) {
+    public function preview($attachmentId)
+    {
         $this->checkClientPermission('client_view_materiel');
-        
+
         try {
             $userLocations = getUserLocations();
-            
+
             // Vérifier que la pièce jointe appartient à un matériel accessible
             $attachmentService = new AttachmentService($this->db);
             $attachmentData = $attachmentService->getAttachmentById($attachmentId);
-            
+
             if (!$attachmentData || $attachmentData['type_liaison'] !== AttachmentService::TYPE_MATERIEL) {
                 throw new Exception('Pièce jointe non trouvée.');
             }
-            
+
             // Vérifier l'accès au matériel
             $materiel = $this->model->getByIdWithAccess($attachmentData['entite_id'], $userLocations);
             if (!$materiel) {
                 throw new Exception('Vous n\'êtes pas autorisé à accéder à cette pièce jointe.');
             }
-            
+
             // Utiliser AttachmentService pour gérer l'aperçu
             $attachmentService->preview($attachmentId);
-            
+
         } catch (Exception $e) {
             custom_log("Erreur lors de l'aperçu de la pièce jointe (client matériel) : " . $e->getMessage(), 'ERROR');
             $_SESSION['error'] = "Erreur lors de l'aperçu : " . $e->getMessage();
@@ -297,4 +335,4 @@ class MaterielClientController {
             exit;
         }
     }
-} 
+}
