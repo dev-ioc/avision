@@ -274,7 +274,7 @@ try {
             }
             break;
         case 'excel':
-            $excel = new ExcelController($pdo);
+            $excel = new ExcelController($db);
             $subAction = $_GET['subaction'] ?? 'index';
             if ($subAction === 'index') {
                 $excel->index();
