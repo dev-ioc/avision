@@ -9,8 +9,14 @@ class ExcelController
 
     public function __construct()
     {
-        // Instancier le modèle ici avec la connexion PDO
         global $db;
+
+        if ($db === null) {
+            header('Content-Type: application/json');
+            echo json_encode(['status' => 'error', 'message' => 'Connexion DB échouée']);
+            exit;
+        }
+
         $this->db = $db;
         $this->model = new ExcelModel($this->db);
     }
@@ -23,30 +29,38 @@ class ExcelController
 
     public function save()
     {
-        header('Content-Type: application/json'); // toujours JSON
+        header('Content-Type: application/json');
 
         $input = json_decode(file_get_contents('php://input'), true);
-
         if (!isset($input['data'])) {
             echo json_encode(['status' => 'error', 'message' => 'Aucune donnée reçue']);
             exit;
         }
 
-        $rows = $input['data'];
+        foreach ($input['data'] as $row) {
+            $designation = trim($row[1] ?? '');
+            if ($designation === '')
+                continue;
 
-        foreach ($rows as $row) {
-            if ($row[0] === null) {
+            if (empty($row[0])) {
                 $this->model->insert($row[1], $row[2], $row[3], $row[4]);
             } else {
                 $this->model->update($row[0], [
                     'designation' => $row[1],
-                    'quantite' => $row[2],
+                    'quantity' => $row[2],
                     'prix' => $row[3],
                     'montant' => $row[4]
                 ]);
             }
         }
 
+        echo json_encode(['status' => 'success']);
+        exit;
+    }
+    public function delete(array $ids)
+    {
+        header('Content-Type: application/json');
+        $this->model->deleteByIds($ids);
         echo json_encode(['status' => 'success']);
         exit;
     }

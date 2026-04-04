@@ -1,4 +1,6 @@
 <?php
+
+// echo password_hash("test1234", PASSWORD_DEFAULT);
 $host = 'localhost';
 $db = 'avision';
 $user = 'root';
@@ -70,7 +72,6 @@ while ($row = $stmt->fetch()) {
     $data[] = [$row['id'], $row['designation'], $row['quantity'], $row['prix'], $row['montant']];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -153,7 +154,6 @@ while ($row = $stmt->fetch()) {
                 .catch(err => console.error("Erreur :", err));
         }
     </script>
-
 </body>
 
 </html>

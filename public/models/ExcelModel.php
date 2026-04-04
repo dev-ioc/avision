@@ -18,49 +18,40 @@ class ExcelModel extends BaseModel
 
     public function insert($designation, $quantity, $prix, $montant)
     {
-        $stmt = $this->db->prepare("INSERT INTO excel_tables (designation, quantity, prix, montant) VALUES (?, ?, ?, ?)");
+        $check = $this->db->prepare("SELECT id FROM excel_tables WHERE designation = ?");
+        $check->execute([trim($designation)]);
+        if ($check->fetchColumn())
+            return false;
+
+        $stmt = $this->db->prepare(
+            "INSERT INTO excel_tables (designation, quantity, prix, montant) VALUES (?, ?, ?, ?)"
+        );
         $stmt->execute([$designation, $quantity, $prix, $montant]);
         return $this->db->lastInsertId();
     }
 
-    public function update($id, $data)
-    {
-        // Exemple de validation minimale
-        $allowedKeys = ['designation', 'quantity', 'prix', 'montant'];
-        $filteredData = array_intersect_key($data, array_flip($allowedKeys));
-
-        if (empty($filteredData)) {
-            return false;
-        }
-
-        $stmt = $this->db->prepare(
-            "UPDATE excel_tables SET designation=?, quantity=?, prix=?, montant=? WHERE id=?"
-        );
-
-        $stmt->execute([
-            $filteredData['designation'] ?? null,
-            $filteredData['quantity'] ?? null,
-            $filteredData['prix'] ?? null,
-            $filteredData['montant'] ?? null,
-            $id
-        ]);
-
-        return true;
-    }
-
-    public function deleteByIds($ids)
+    public function deleteByIds(array $ids)
     {
         if (empty($ids))
-            return;
+            return false;
+
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
         $stmt = $this->db->prepare("DELETE FROM excel_tables WHERE id IN ($placeholders)");
         $stmt->execute(array_values($ids));
+        return true;
     }
-
-    public function exists($designation)
+    public function update($id, $data)
     {
-        $stmt = $this->db->prepare("SELECT id FROM excel_tables WHERE designation=?");
-        $stmt->execute([$designation]);
-        return $stmt->fetchColumn();
+        $stmt = $this->db->prepare(
+            "UPDATE excel_tables SET designation=?, quantity=?, prix=?, montant=? WHERE id=?"
+        );
+        $stmt->execute([
+            $data['designation'],
+            $data['quantity'],
+            $data['prix'],
+            $data['montant'],
+            $id
+        ]);
+        return true;
     }
 }
