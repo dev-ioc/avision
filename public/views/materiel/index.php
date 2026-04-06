@@ -7,16 +7,16 @@ require_once __DIR__ . '/../../includes/functions.php';
 
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['user'])) {
-    header('Location: ' . BASE_URL . 'auth/login');
-    exit;
+  header('Location: ' . BASE_URL . 'auth/login');
+  exit;
 }
 
 // Définir le type d'utilisateur pour le menu
 $userType = $_SESSION['user']['user_type'] ?? null;
 
 setPageVariables(
-    'Matériel',
-    'materiel'
+  'Matériel',
+  'materiel'
 );
 
 // Définir la page courante pour le menu
@@ -33,7 +33,7 @@ $filters = $filters ?? [];
 
 // Définir les breadcrumbs personnalisés pour la page matériel index
 if (isset($filters) && !empty($filters)) {
-    $GLOBALS['customBreadcrumbs'] = generateMaterielIndexBreadcrumbs($filters, $clients, $sites, $salles);
+  $GLOBALS['customBreadcrumbs'] = generateMaterielIndexBreadcrumbs($filters, $clients, $sites, $salles);
 }
 
 // Inclure le header qui contient le menu latéral
@@ -44,2240 +44,1014 @@ include_once __DIR__ . '/../../includes/navbar.php';
 // Récupérer les statistiques
 $stats = [];
 if (isset($materielModel)) {
-    $stats = $materielModel->getStats();
+  $stats = $materielModel->getStats();
 }
 
 // Organiser le matériel par client/site/salle
 $materiel_organise = [];
 foreach ($materiel_list as $materiel) {
-    $client_id = $materiel['client_nom'] ?? 'Sans client';
-    $site_id = $materiel['site_nom'] ?? 'Sans site';
-    $salle_id = $materiel['salle_nom'] ?? 'Sans salle';
-    
-    if (!isset($materiel_organise[$client_id])) {
-        $materiel_organise[$client_id] = [];
-    }
-    if (!isset($materiel_organise[$client_id][$site_id])) {
-        $materiel_organise[$client_id][$site_id] = [];
-    }
-    if (!isset($materiel_organise[$client_id][$site_id][$salle_id])) {
-        $materiel_organise[$client_id][$site_id][$salle_id] = [];
-    }
-    
-    $materiel_organise[$client_id][$site_id][$salle_id][] = $materiel;
+  $client_id = $materiel['client_nom'] ?? 'Sans client';
+  $site_id = $materiel['site_nom'] ?? 'Sans site';
+  $salle_id = $materiel['salle_nom'] ?? 'Sans salle';
+
+  if (!isset($materiel_organise[$client_id])) {
+    $materiel_organise[$client_id] = [];
+  }
+  if (!isset($materiel_organise[$client_id][$site_id])) {
+    $materiel_organise[$client_id][$site_id] = [];
+  }
+  if (!isset($materiel_organise[$client_id][$site_id][$salle_id])) {
+    $materiel_organise[$client_id][$site_id][$salle_id] = [];
+  }
+
+  $materiel_organise[$client_id][$site_id][$salle_id][] = $materiel;
 }
 
 // Définir toutes les colonnes disponibles avec leurs configurations
-$allColumnsConfig = [
-    0 => ['label' => 'Équipement', 'field' => 'equipement', 'default' => true, 'orderable' => true, 'searchable' => true],
-    1 => ['label' => 'Type', 'field' => 'type_materiel', 'default' => true, 'orderable' => true, 'searchable' => true],
-    2 => ['label' => 'S/N', 'field' => 'numero_serie', 'default' => true, 'orderable' => true, 'searchable' => true],
-    3 => ['label' => 'Firmware', 'field' => 'version_firmware', 'default' => true, 'orderable' => true, 'searchable' => true],
-    4 => ['label' => 'IP', 'field' => 'adresse_ip', 'default' => true, 'orderable' => true, 'searchable' => true],
-    5 => ['label' => 'MAC', 'field' => 'adresse_mac', 'default' => true, 'orderable' => true, 'searchable' => true],
-    6 => ['label' => 'Expiration', 'field' => 'expiration', 'default' => true, 'orderable' => true, 'searchable' => true],
-    7 => ['label' => 'Pièces jointes', 'field' => 'pieces_jointes', 'default' => true, 'orderable' => false, 'searchable' => false],
-    // Colonnes supplémentaires
-    8 => ['label' => 'Référence', 'field' => 'reference', 'default' => false, 'orderable' => true, 'searchable' => true],
-    9 => ['label' => 'Usage', 'field' => 'usage_materiel', 'default' => false, 'orderable' => true, 'searchable' => true],
-    10 => ['label' => 'Marque', 'field' => 'marque', 'default' => false, 'orderable' => true, 'searchable' => true],
-    11 => ['label' => 'Modèle', 'field' => 'modele', 'default' => false, 'orderable' => true, 'searchable' => true],
-    12 => ['label' => 'Ancien Firmware', 'field' => 'ancien_firmware', 'default' => false, 'orderable' => true, 'searchable' => true],
-    13 => ['label' => 'Masque', 'field' => 'masque', 'default' => false, 'orderable' => true, 'searchable' => true],
-    14 => ['label' => 'Passerelle', 'field' => 'passerelle', 'default' => false, 'orderable' => true, 'searchable' => true],
-    15 => ['label' => 'Login', 'field' => 'login', 'default' => false, 'orderable' => true, 'searchable' => true],
-    16 => ['label' => 'Password', 'field' => 'password', 'default' => false, 'orderable' => true, 'searchable' => true],
-    17 => ['label' => 'ID Matériel', 'field' => 'id_materiel', 'default' => false, 'orderable' => true, 'searchable' => true],
-    18 => ['label' => 'IP Primaire', 'field' => 'ip_primaire', 'default' => false, 'orderable' => true, 'searchable' => true],
-    19 => ['label' => 'MAC Primaire', 'field' => 'mac_primaire', 'default' => false, 'orderable' => true, 'searchable' => true],
-    20 => ['label' => 'IP Secondaire', 'field' => 'ip_secondaire', 'default' => false, 'orderable' => true, 'searchable' => true],
-    21 => ['label' => 'MAC Secondaire', 'field' => 'mac_secondaire', 'default' => false, 'orderable' => true, 'searchable' => true],
-    22 => ['label' => 'Stream AES67 Reçu', 'field' => 'stream_aes67_recu', 'default' => false, 'orderable' => true, 'searchable' => true],
-    23 => ['label' => 'Stream AES67 Transmis', 'field' => 'stream_aes67_transmis', 'default' => false, 'orderable' => true, 'searchable' => true],
-    24 => ['label' => 'SSID WiFi', 'field' => 'ssid', 'default' => false, 'orderable' => true, 'searchable' => true],
-    25 => ['label' => 'Type Cryptage WiFi', 'field' => 'type_cryptage', 'default' => false, 'orderable' => true, 'searchable' => true],
-    26 => ['label' => 'Password WiFi', 'field' => 'password_wifi', 'default' => false, 'orderable' => true, 'searchable' => true],
-    27 => ['label' => 'Libellé PA Salle', 'field' => 'libelle_pa_salle', 'default' => false, 'orderable' => true, 'searchable' => true],
-    28 => ['label' => 'N° Port Switch', 'field' => 'numero_port_switch', 'default' => false, 'orderable' => true, 'searchable' => true],
-    29 => ['label' => 'VLAN', 'field' => 'vlan', 'default' => false, 'orderable' => true, 'searchable' => true],
-    30 => ['label' => 'Date Fin Maintenance', 'field' => 'date_fin_maintenance', 'default' => false, 'orderable' => true, 'searchable' => true],
-    31 => ['label' => 'Date Fin Garantie', 'field' => 'date_fin_garantie', 'default' => false, 'orderable' => true, 'searchable' => true],
-    32 => ['label' => 'Date Dernière Inter', 'field' => 'date_derniere_inter', 'default' => false, 'orderable' => true, 'searchable' => true],
-    33 => ['label' => 'Commentaire', 'field' => 'commentaire', 'default' => false, 'orderable' => true, 'searchable' => true],
-    34 => ['label' => 'URL GitHub', 'field' => 'url_github', 'default' => false, 'orderable' => true, 'searchable' => true],
+$allColumns = [
+  ['label' => 'Équipement', 'field' => 'equipement', 'default' => true],
+  ['label' => 'Type', 'field' => 'type_nom', 'default' => true],
+  ['label' => 'S/N', 'field' => 'numero_serie', 'default' => true],
+  ['label' => 'Firmware', 'field' => 'version_firmware', 'default' => true],
+  ['label' => 'IP', 'field' => 'adresse_ip', 'default' => true],
+  ['label' => 'MAC', 'field' => 'adresse_mac', 'default' => true],
+  ['label' => 'Expiration', 'field' => 'date_fin_maintenance', 'default' => true],
+  ['label' => 'Pièces jointes', 'field' => 'pieces_jointes', 'default' => true],
+  ['label' => 'Référence', 'field' => 'reference', 'default' => false],
+  ['label' => 'Usage', 'field' => 'usage_materiel', 'default' => false],
+  ['label' => 'Marque', 'field' => 'marque', 'default' => false],
+  ['label' => 'Modèle', 'field' => 'modele', 'default' => false],
+  ['label' => 'Ancien Firmware', 'field' => 'ancien_firmware', 'default' => false],
+  ['label' => 'Masque', 'field' => 'masque', 'default' => false],
+  ['label' => 'Passerelle', 'field' => 'passerelle', 'default' => false],
+  ['label' => 'Login', 'field' => 'login', 'default' => false],
+  ['label' => 'Password', 'field' => 'password', 'default' => false],
+  ['label' => 'ID Matériel', 'field' => 'id', 'default' => false],
+  ['label' => 'IP Primaire', 'field' => 'ip_primaire', 'default' => false],
+  ['label' => 'MAC Primaire', 'field' => 'mac_primaire', 'default' => false],
+  ['label' => 'IP Secondaire', 'field' => 'ip_secondaire', 'default' => false],
+  ['label' => 'MAC Secondaire', 'field' => 'mac_secondaire', 'default' => false],
+  ['label' => 'AES67 Reçu', 'field' => 'stream_aes67_recu', 'default' => false],
+  ['label' => 'AES67 Transmis', 'field' => 'stream_aes67_transmis', 'default' => false],
+  ['label' => 'SSID', 'field' => 'ssid', 'default' => false],
+  ['label' => 'Cryptage', 'field' => 'type_cryptage', 'default' => false],
+  ['label' => 'Password WiFi', 'field' => 'password_wifi', 'default' => false],
+  ['label' => 'Libellé Salle', 'field' => 'libelle_pa_salle', 'default' => false],
+  ['label' => 'Port Switch', 'field' => 'numero_port_switch', 'default' => false],
+  ['label' => 'VLAN', 'field' => 'vlan', 'default' => false],
+  ['label' => 'Date Garantie', 'field' => 'date_fin_garantie', 'default' => false],
+  ['label' => 'Dernière Inter', 'field' => 'date_derniere_inter', 'default' => false],
+  ['label' => 'Commentaire', 'field' => 'commentaire', 'default' => false],
+  ['label' => 'GitHub', 'field' => 'url_github', 'default' => false],
 ];
+
+// Colonnes cachées par défaut
+$hiddenColumns = [];
+foreach ($allColumns as $i => $col) {
+  if (!$col['default']) {
+    $hiddenColumns[] = $i;
+  }
+}
+
+// Headers
+$colHeaders = array_map(fn($c) => $c['label'], $allColumns);
 ?>
-
-<style>
-
-/* Styles pour le mode édition */
-</style>
-
-<div class="container-fluid flex-grow-1 container-p-y">
-    <!-- En-tête avec titre et bouton d'ajout -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h4 class="fw-bold mb-1">
-                        <i class="bi bi-hdd-network me-2 me-1"></i>Liste du Matériel
-                    </h4>
-                    <p class="text-muted mb-0">Gestion et suivi du matériel par site et salle</p>
-                </div>
-                <div class="d-flex gap-2">
-                    <?php
-                    // Bouton retour vers le client si on vient d'un client
-                    if (!empty($filters['client_id'])) {
-                        $clientId = $filters['client_id'];
-                        echo '<a href="' . BASE_URL . 'clients/view/' . $clientId . '" class="btn btn-secondary me-2">';
-                        echo '<i class="bi bi-arrow-left me-1"></i> Retour au client';
-                        echo '</a>';
-                    }
-                    
-                    // Construire l'URL d'ajout avec les paramètres de filtres
-                    $addParams = [];
-                    if (!empty($filters['client_id'])) {
-                        $addParams['client_id'] = $filters['client_id'];
-                    }
-                    if (!empty($filters['site_id'])) {
-                        $addParams['site_id'] = $filters['site_id'];
-                    }
-                    if (!empty($filters['salle_id'])) {
-                        $addParams['salle_id'] = $filters['salle_id'];
-                    }
-                    
-                    $addUrl = BASE_URL . 'materiel/add';
-                    if (!empty($addParams)) {
-                        $addUrl .= '?' . http_build_query($addParams);
-                    }
-                    ?>
-                    <a href="<?= $addUrl ?>" class="btn btn-primary">
-                        <i class="bi bi-plus me-2 me-1"></i>Ajouter du Matériel
-                    </a>
-                    
-                    
-                                        <?php if (canImportMateriel()): ?>
-                        <!-- Bouton pour l'import/export en masse -->
-                        <?php
-                        $bulkParams = [];
-                        if (!empty($filters['client_id'])) {
-                            $bulkParams['client_id'] = $filters['client_id'];
-                        }
-                        if (!empty($filters['site_id'])) {
-                            $bulkParams['site_id'] = $filters['site_id'];
-                        }
-                        
-                        $bulkUrl = BASE_URL . 'materiel_bulk';
-                        if (!empty($bulkParams)) {
-                            $bulkUrl .= '?' . http_build_query($bulkParams);
-                        }
-                        ?>
-                        <a href="<?= $bulkUrl ?>" class="btn btn-info">
-                            <i class="bi bi-arrow-left-right me-2 me-1"></i>Import/Export en Masse
-                        </a>
-                    <?php endif; ?>
-                    <?php if (canDeleteDocumentation()): ?>
-                        <!-- Bouton suppression en masse -->
-                        <?php
-                        $bulkDeleteParams = [];
-                        if (!empty($filters['client_id'])) {
-                            $bulkDeleteParams['client_id'] = $filters['client_id'];
-                        }
-                        if (!empty($filters['site_id'])) {
-                            $bulkDeleteParams['site_id'] = $filters['site_id'];
-                        }
-                        if (!empty($filters['salle_id'])) {
-                            $bulkDeleteParams['salle_id'] = $filters['salle_id'];
-                        }
-                        $bulkDeleteUrl = BASE_URL . 'materiel_bulk/bulk_delete';
-                        if (!empty($bulkDeleteParams)) {
-                            $bulkDeleteUrl .= '?' . http_build_query($bulkDeleteParams);
-                        }
-                        ?>
-                        <a href="<?= $bulkDeleteUrl ?>" class="btn btn-outline-danger">
-                            <i class="bi bi-trash me-2 me-1"></i>Supprimer en masse
-                        </a>
-                    <?php endif; ?>
-                </div>
-            </div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css">
+<script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
+</div>
+<div class="container-fluid grow container-p-y">
+  <!-- En-tête avec titre et bouton d'ajout -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h4 class="fw-bold mb-1">
+            <i class="bi bi-hdd-network me-2 me-1"></i>Liste du Matériel
+          </h4>
+          <p class="text-muted mb-0">Gestion et suivi du matériel par site et salle</p>
         </div>
+        <div class="d-flex gap-2">
+          <?php
+          // Bouton retour vers le client si on vient d'un client
+          if (!empty($filters['client_id'])) {
+            $clientId = $filters['client_id'];
+            echo '<a href="' . BASE_URL . 'clients/view/' . $clientId . '" class="btn btn-secondary me-2">';
+            echo '<i class="bi bi-arrow-left me-1"></i> Retour au client';
+            echo '</a>';
+          }
+
+          // Construire l'URL d'ajout avec les paramètres de filtres
+          $addParams = [];
+          if (!empty($filters['client_id'])) {
+            $addParams['client_id'] = $filters['client_id'];
+          }
+          if (!empty($filters['site_id'])) {
+            $addParams['site_id'] = $filters['site_id'];
+          }
+          if (!empty($filters['salle_id'])) {
+            $addParams['salle_id'] = $filters['salle_id'];
+          }
+
+          $addUrl = BASE_URL . 'materiel/add';
+          if (!empty($addParams)) {
+            $addUrl .= '?' . http_build_query($addParams);
+          }
+          ?>
+          <a href="<?= $addUrl ?>" class="btn btn-primary">
+            <i class="bi bi-plus me-2 me-1"></i>Ajouter du Matériel
+          </a>
+
+          <?php if (canImportMateriel()): ?>
+                    <a href="<?= BASE_URL ?>materiel_bulk<?= !empty($bulkParams) ? '?' . http_build_query($bulkParams) : '' ?>" class="btn btn-info">
+                      <i class="bi bi-arrow-left-right me-2 me-1"></i>Import/Export en Masse
+                    </a>
+          <?php endif; ?>
+          <?php if (canDeleteDocumentation()): ?>
+                    <a href="<?= BASE_URL ?>materiel_bulk/bulk_delete<?= !empty($bulkDeleteParams) ? '?' . http_build_query($bulkDeleteParams) : '' ?>" class="btn btn-outline-danger">
+                      <i class="bi bi-trash me-2 me-1"></i>Supprimer en masse
+                    </a>
+          <?php endif; ?>
+        </div>
+      </div>
     </div>
+  </div>
 
-
-    <!-- Statistiques -->
-    <?php if (!empty($stats)): ?>
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="row g-3">
-                <div class="col-md-3">
+  <!-- Statistiques -->
+  <?php if (!empty($stats)): ?>
+            <div class="row mb-4">
+              <div class="col-12">
+                <div class="row g-3">
+                  <div class="col-md-3">
                     <div class="card border-0 bg-primary bg-opacity-10">
-                        <div class="card-body p-3">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-shrink-0">
-                                    <i class="bi bi-hdd-network fa-2x text-primary me-1"></i>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-1 text-primary fw-bold"><?= $stats['total'] ?? 0 ?></h6>
-                                    <small class="text-muted">Total Matériel</small>
-                                </div>
-                            </div>
+                      <div class="card-body p-3">
+                        <div class="d-flex align-items-center">
+                          <div class="shrink-0">
+                            <i class="bi bi-hdd-network fa-2x text-primary me-1"></i>
+                          </div>
+                          <div class="grow ms-3">
+                            <h6 class="mb-1 text-primary fw-bold"><?= $stats['total'] ?? 0 ?></h6>
+                            <small class="text-muted">Total Matériel</small>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                </div>
-                <div class="col-md-3">
+                  </div>
+                  <div class="col-md-3">
                     <div class="card border-0 bg-success bg-opacity-10">
-                        <div class="card-body p-3">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-shrink-0">
-                                    <i class="fas fa-wifi fa-2x text-success"></i>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-1 text-success fw-bold"><?= $stats['online'] ?? 0 ?></h6>
-                                    <small class="text-muted">En Ligne</small>
-                                </div>
-                            </div>
+                      <div class="card-body p-3">
+                        <div class="d-flex align-items-center">
+                          <div class="shrink-0">
+                            <i class="fas fa-wifi fa-2x text-success"></i>
+                          </div>
+                          <div class="grow ms-3">
+                            <h6 class="mb-1 text-success fw-bold"><?= $stats['online'] ?? 0 ?></h6>
+                            <small class="text-muted">En Ligne</small>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                </div>
-                <div class="col-md-3">
+                  </div>
+                  <div class="col-md-3">
                     <div class="card border-0 bg-warning bg-opacity-10">
-                        <div class="card-body p-3">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-shrink-0">
-                                    <i class="bi bi-tools fa-2x text-warning me-1"></i>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-1 text-warning fw-bold"><?= $stats['maintenance_expired'] ?? 0 ?></h6>
-                                    <small class="text-muted">Maintenance Expirée</small>
-                                </div>
-                            </div>
+                      <div class="card-body p-3">
+                        <div class="d-flex align-items-center">
+                          <div class="shrink-0">
+                            <i class="bi bi-tools fa-2x text-warning me-1"></i>
+                          </div>
+                          <div class="grow ms-3">
+                            <h6 class="mb-1 text-warning fw-bold"><?= $stats['maintenance_expired'] ?? 0 ?></h6>
+                            <small class="text-muted">Maintenance Expirée</small>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                </div>
-                <div class="col-md-3">
+                  </div>
+                  <div class="col-md-3">
                     <div class="card border-0 bg-danger bg-opacity-10">
-                        <div class="card-body p-3">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-shrink-0">
-                                    <i class="fas fa-certificate fa-2x text-danger"></i>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-1 text-danger fw-bold"><?= $stats['garantie_expired'] ?? 0 ?></h6>
-                                    <small class="text-muted">Garantie Expirée</small>
-                                </div>
-                            </div>
+                      <div class="card-body p-3">
+                        <div class="d-flex align-items-center">
+                          <div class="shrink-0">
+                            <i class="fas fa-certificate fa-2x text-danger"></i>
+                          </div>
+                          <div class="grow ms-3">
+                            <h6 class="mb-1 text-danger fw-bold"><?= $stats['garantie_expired'] ?? 0 ?></h6>
+                            <small class="text-muted">Garantie Expirée</small>
+                          </div>
                         </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
-    </div>
-    <?php endif; ?>
+  <?php endif; ?>
 
-    <!-- Filtres -->
-    <div class="card mb-4">
-        <div class="card-header py-2">
-            <h6 class="card-title mb-0">Filtres</h6>
-        </div>
-        <div class="card-body py-2">
-            <form method="get" action="" class="row g-3 align-items-end" id="filterForm">
-                <div class="col-md-3">
-                    <label for="client_id" class="form-label fw-bold mb-0">Client</label>
-                    <select class="form-select bg-body text-body" id="client_id" name="client_id" onchange="updateSitesAndSubmit()">
-                        <option value="">Tous les clients</option>
-                        <?php if (isset($clients) && is_array($clients)): ?>
-                            <?php foreach ($clients as $client): ?>
+  <!-- Filtres -->
+  <div class="card mb-4">
+    <div class="card-header py-2">
+      <h6 class="card-title mb-0">Filtres</h6>
+    </div>
+    <div class="card-body py-2">
+      <form method="get" action="" class="row g-3 align-items-end" id="filterForm">
+        <div class="col-md-3">
+          <label for="client_id" class="form-label fw-bold mb-0">Client</label>
+          <select class="form-select bg-body text-body" id="client_id" name="client_id" onchange="updateSitesAndSubmit()">
+            <option value="">Tous les clients</option>
+            <?php if (isset($clients) && is_array($clients)): ?>
+                      <?php foreach ($clients as $client): ?>
                                 <option value="<?= $client['id'] ?>" <?= ($filters['client_id'] ?? '') == $client['id'] ? 'selected' : '' ?>>
-                                    <?= h($client['name']) ?>
+                                  <?= h($client['name']) ?>
                                 </option>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </select>
-                </div>
-                
-                <div class="col-md-3">
-                    <label for="site_id" class="form-label fw-bold mb-0">Site</label>
-                    <select class="form-select bg-body text-body" id="site_id" name="site_id" onchange="updateRoomsAndSubmit()">
-                        <option value="">Tous les sites</option>
-                        <?php if (isset($sites) && is_array($sites)): ?>
-                            <?php foreach ($sites as $site): ?>
-                                <option value="<?= $site['id'] ?>" <?= ($filters['site_id'] ?? '') == $site['id'] ? 'selected' : '' ?>>
-                                    <?= h($site['name']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </select>
-                </div>
-                
-                <div class="col-md-3">
-                    <label for="salle_id" class="form-label fw-bold mb-0">Salle</label>
-                    <select class="form-select bg-body text-body" id="salle_id" name="salle_id" onchange="document.getElementById('filterForm').submit();">
-                        <option value="">Toutes les salles</option>
-                        <?php foreach ($salles as $salle): ?>
-                            <option value="<?= $salle['id'] ?>" <?= ($filters['salle_id'] ?? '') == $salle['id'] ? 'selected' : '' ?>>
-                                <?= h($salle['name']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                
-                <div class="col-md-3 d-flex align-items-end">
-                    <a href="<?= BASE_URL ?>materiel" class="btn btn-outline-secondary">
-                        <i class="bi bi-x-lg me-2 me-1"></i>Réinitialiser
-                    </a>
-                </div>
-            </form>
+                      <?php endforeach; ?>
+            <?php endif; ?>
+          </select>
         </div>
+        <div class="col-md-3">
+          <label for="site_id" class="form-label fw-bold mb-0">Site</label>
+          <select class="form-select bg-body text-body" id="site_id" name="site_id" onchange="updateRoomsAndSubmit()">
+            <option value="">Tous les sites</option>
+            <?php if (isset($sites) && is_array($sites)): ?>
+                      <?php foreach ($sites as $site): ?>
+                                <option value="<?= $site['id'] ?>" <?= ($filters['site_id'] ?? '') == $site['id'] ? 'selected' : '' ?>>
+                                  <?= h($site['name']) ?>
+                                </option>
+                      <?php endforeach; ?>
+            <?php endif; ?>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="salle_id" class="form-label fw-bold mb-0">Salle</label>
+          <select class="form-select bg-body text-body" id="salle_id" name="salle_id" onchange="document.getElementById('filterForm').submit();">
+            <option value="">Toutes les salles</option>
+            <?php foreach ($salles as $salle): ?>
+                      <option value="<?= $salle['id'] ?>" <?= ($filters['salle_id'] ?? '') == $salle['id'] ? 'selected' : '' ?>>
+                        <?= h($salle['name']) ?>
+                      </option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+          <a href="<?= BASE_URL ?>materiel" class="btn btn-outline-secondary">
+            <i class="bi bi-x-lg me-2 me-1"></i>Réinitialiser
+          </a>
+        </div>
+      </form>
     </div>
+  </div>
 
-    <!-- Liste du matériel organisée -->
-    <?php if (empty($filters['client_id'])): ?>
-        <!-- Message d'instruction quand aucun client n'est sélectionné -->
-        <div class="card">
-            <div class="card-body text-center py-5">
+  <!-- Liste du matériel organisée -->
+  <?php if (empty($filters['client_id'])): ?>
+            <div class="card">
+              <div class="card-body text-center py-5">
                 <i class="fas fa-filter fa-3x text-muted mb-3"></i>
                 <h5 class="text-muted">Sélectionnez un client pour voir le matériel</h5>
                 <p class="text-muted mb-3">Choisissez un client dans le filtre ci-dessus pour afficher le matériel associé.</p>
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <div class="alert alert-info">
-                            <i class="bi bi-info-circle me-2 me-1"></i>
-                            <strong>Astuce :</strong> Commencez par sélectionner un client, puis un site et enfin une salle pour affiner votre recherche.
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-        </div>
-    <?php elseif (empty($materiel_organise)): ?>
-        <div class="card">
-            <div class="card-body text-center py-5">
+  <?php elseif (empty($materiel_organise)): ?>
+            <div class="card">
+              <div class="card-body text-center py-5">
                 <i class="bi bi-hdd-network fa-3x text-muted mb-3 me-1"></i>
                 <h5 class="text-muted">Aucun matériel trouvé</h5>
                 <p class="text-muted mb-3">Aucun matériel ne correspond aux critères sélectionnés.</p>
-                <?php
-                // Construire l'URL d'ajout avec les paramètres de filtres
-                $addParams = [];
-                if (!empty($filters['client_id'])) {
-                    $addParams['client_id'] = $filters['client_id'];
-                }
-                if (!empty($filters['site_id'])) {
-                    $addParams['site_id'] = $filters['site_id'];
-                }
-                if (!empty($filters['salle_id'])) {
-                    $addParams['salle_id'] = $filters['salle_id'];
-                }
-                
-                $addUrl = BASE_URL . 'materiel/add';
-                if (!empty($addParams)) {
-                    $addUrl .= '?' . http_build_query($addParams);
-                }
-                ?>
-                <a href="<?= $addUrl ?>" class="btn btn-primary">
-                    <i class="bi bi-plus me-2 me-1"></i>Ajouter du Matériel
+                <a href="<?= BASE_URL ?>materiel/add<?= !empty($addParams) ? '?' . http_build_query($addParams) : '' ?>" class="btn btn-primary">
+                  <i class="bi bi-plus me-2 me-1"></i>Ajouter du Matériel
                 </a>
+              </div>
             </div>
-        </div>
-    <?php else: ?>
-        <!-- Recherche globale et contrôles -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col-md-6">
-                        <label for="globalSearch" class="form-label fw-bold mb-2">
-                            <i class="bi bi-search me-2"></i>Recherche globale
-                        </label>
-                        <input type="text" 
-                               class="form-control" 
-                               id="globalSearch" 
-                               placeholder="Rechercher dans tous les tableaux..."
-                               autocomplete="off"
-                               style="pointer-events: auto; z-index: 1;">
-                        <small class="text-muted">La recherche s'applique à tous les tableaux de toutes les salles</small>
-                    </div>
-                    <div class="col-md-6 text-end">
-                        <div class="d-flex gap-2 justify-content-end align-items-end">
-                            <button type="button" class="btn btn-outline-secondary" id="clearGlobalSearch" style="display: none;">
-                                <i class="bi bi-x-lg me-1"></i>Effacer
-                            </button>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="globalColvisBtn">
-                                    <i class="bi bi-list-check me-1"></i>Colonnes
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" id="globalColvisMenu" style="max-height: 500px; overflow-y: auto;">
-                                    <li><h6 class="dropdown-header">Afficher/Masquer les colonnes</h6></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <?php
-                                    // Définir toutes les colonnes disponibles avec leurs libellés
-                                    $allColumns = [
-                                        0 => ['label' => 'Équipement', 'field' => 'equipement', 'default' => true],
-                                        1 => ['label' => 'Type', 'field' => 'type_materiel', 'default' => true],
-                                        2 => ['label' => 'S/N', 'field' => 'numero_serie', 'default' => true],
-                                        3 => ['label' => 'Firmware', 'field' => 'version_firmware', 'default' => true],
-                                        4 => ['label' => 'IP', 'field' => 'adresse_ip', 'default' => true],
-                                        5 => ['label' => 'MAC', 'field' => 'adresse_mac', 'default' => true],
-                                        6 => ['label' => 'Expiration', 'field' => 'expiration', 'default' => true],
-                                        7 => ['label' => 'Pièces jointes', 'field' => 'pieces_jointes', 'default' => true],
-                                        // Colonnes supplémentaires disponibles
-                                        8 => ['label' => 'Référence', 'field' => 'reference', 'default' => false],
-                                        9 => ['label' => 'Usage', 'field' => 'usage_materiel', 'default' => false],
-                                        10 => ['label' => 'Marque', 'field' => 'marque', 'default' => false],
-                                        11 => ['label' => 'Modèle', 'field' => 'modele', 'default' => false],
-                                        12 => ['label' => 'Ancien Firmware', 'field' => 'ancien_firmware', 'default' => false],
-                                        13 => ['label' => 'Masque', 'field' => 'masque', 'default' => false],
-                                        14 => ['label' => 'Passerelle', 'field' => 'passerelle', 'default' => false],
-                                        15 => ['label' => 'Login', 'field' => 'login', 'default' => false],
-                                        16 => ['label' => 'Password', 'field' => 'password', 'default' => false],
-                                        17 => ['label' => 'ID Matériel', 'field' => 'id_materiel', 'default' => false],
-                                        18 => ['label' => 'IP Primaire', 'field' => 'ip_primaire', 'default' => false],
-                                        19 => ['label' => 'MAC Primaire', 'field' => 'mac_primaire', 'default' => false],
-                                        20 => ['label' => 'IP Secondaire', 'field' => 'ip_secondaire', 'default' => false],
-                                        21 => ['label' => 'MAC Secondaire', 'field' => 'mac_secondaire', 'default' => false],
-                                        22 => ['label' => 'Stream AES67 Reçu', 'field' => 'stream_aes67_recu', 'default' => false],
-                                        23 => ['label' => 'Stream AES67 Transmis', 'field' => 'stream_aes67_transmis', 'default' => false],
-                                        24 => ['label' => 'SSID WiFi', 'field' => 'ssid', 'default' => false],
-                                        25 => ['label' => 'Type Cryptage WiFi', 'field' => 'type_cryptage', 'default' => false],
-                                        26 => ['label' => 'Password WiFi', 'field' => 'password_wifi', 'default' => false],
-                                        27 => ['label' => 'Libellé PA Salle', 'field' => 'libelle_pa_salle', 'default' => false],
-                                        28 => ['label' => 'N° Port Switch', 'field' => 'numero_port_switch', 'default' => false],
-                                        29 => ['label' => 'VLAN', 'field' => 'vlan', 'default' => false],
-                                        30 => ['label' => 'Date Fin Maintenance', 'field' => 'date_fin_maintenance', 'default' => false],
-                                        31 => ['label' => 'Date Fin Garantie', 'field' => 'date_fin_garantie', 'default' => false],
-                                        32 => ['label' => 'Date Dernière Inter', 'field' => 'date_derniere_inter', 'default' => false],
-                                        33 => ['label' => 'Commentaire', 'field' => 'commentaire', 'default' => false],
-                                        34 => ['label' => 'URL GitHub', 'field' => 'url_github', 'default' => false],
-                                    ];
-                                    
-                                    foreach ($allColumns as $colIndex => $colInfo):
-                                        $checked = $colInfo['default'] ? 'checked' : '';
-                                    ?>
-                                    <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2 global-colvis-checkbox" data-col="<?= $colIndex ?>" data-field="<?= $colInfo['field'] ?>" <?= $checked ?>> <?= h($colInfo['label']) ?></label></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                            <button type="button" class="btn btn-outline-primary" id="openAllAccordions">
-                                <i class="bi bi-chevron-down me-1"></i>Ouvrir tout
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary" id="closeAllAccordions">
-                                <i class="bi bi-chevron-up me-1"></i>Fermer tout
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <?php foreach ($materiel_organise as $client_nom => $sites): ?>
+  <?php else: ?>
+            <style>
+              .card, .card-body, .accordion-body, .table-wrapper { overflow: visible !important; }
+              .dropdown-menu { z-index: 9999 !important; }
+              .handsontable td { transition: background-color 0.2s; }
+              .handsontable tr.hidden-row { display: none !important; }
+            </style>
+
+            <!-- Recherche globale et contrôles -->
             <div class="card mb-4">
-                <div class="card-header bg-body-secondary">
-                    <h5 class="card-title mb-0">
-                        <i class="bi bi-building me-2 text-primary me-1"></i>
-                        <?= h($client_nom) ?>
-                    </h5>
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <label for="globalSearch" class="form-label fw-bold mb-2">
+                      <i class="bi bi-search me-2"></i>Recherche globale
+                    </label>
+                    <input type="text" class="form-control" id="globalSearch" placeholder="Rechercher dans tous les tableaux..." autocomplete="off">
+                    <small class="text-muted">La recherche s'applique à tous les tableaux de toutes les salles</small>
+                  </div>
+                  <div class="col-md-6 text-end">
+                    <div class="d-flex gap-2 justify-content-end align-items-end">
+                      <button type="button" class="btn btn-outline-secondary" id="clearGlobalSearch" style="display: none;">
+                        <i class="bi bi-x-lg me-1"></i>Effacer
+                      </button>
+                      <div class="btn-group">
+                        <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                          <i class="bi bi-list-check me-1"></i>Colonnes
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" style="max-height:500px;overflow:auto;">
+                          <?php foreach ($allColumns as $i => $col): ?>
+                                    <li>
+                                      <label class="dropdown-item">
+                                        <input type="checkbox" class="global-colvis-checkbox me-2" data-col="<?= $i ?>" <?= $col['default'] ? 'checked' : '' ?>>
+                                        <?= h($col['label']) ?>
+                                      </label>
+                                    </li>
+                          <?php endforeach; ?>
+                        </ul>
+                      </div>
+                      <button type="button" class="btn btn-outline-primary" id="openAllAccordions">
+                        <i class="bi bi-chevron-down me-1"></i>Ouvrir tout
+                      </button>
+                      <button type="button" class="btn btn-outline-secondary" id="closeAllAccordions">
+                        <i class="bi bi-chevron-up me-1"></i>Fermer tout
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div class="card-body p-0">
-                    <?php foreach ($sites as $site_nom => $salles): ?>
-                        <div class="border-bottom">
-                            <div class="p-3 bg-body-secondary bg-opacity-10">
-                                <h6 class="mb-0">
-                                    <i class="bi bi-geo-alt me-2 text-success me-1"></i>
-                                    <?= h($site_nom) ?>
-                                </h6>
-                            </div>
-                            <?php 
-                            // Créer un ID unique pour l'accordéon du site
-                            $site_accordion_id = 'accordion-site-' . md5($site_nom);
-                            $accordion_item_index = 0;
-                            ?>
-                            <div class="accordion" id="<?= $site_accordion_id ?>">
-                            <?php foreach ($salles as $salle_nom => $materiels): ?>
-                                <?php
-                                // Créer un ID unique pour chaque salle
-                                $salle_id = !empty($materiels) ? $materiels[0]['salle_id'] : 0;
-                                $salle_accordion_id = 'accordion-salle-' . $salle_id;
-                                $accordion_item_index++;
-                                ?>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="heading-<?= $salle_accordion_id ?>">
-                                        <button class="accordion-button collapsed" 
-                                                type="button" 
-                                                data-bs-toggle="collapse" 
-                                                data-bs-target="#<?= $salle_accordion_id ?>" 
-                                                aria-expanded="false" 
-                                                aria-controls="<?= $salle_accordion_id ?>">
-                                            <i class="bi bi-door-open me-2 text-info me-1"></i>
-                                            <?= h($salle_nom) ?>
-                                            <span class="badge bg-secondary ms-2"><?= count($materiels) ?> équipement(s)</span>
-                                        </button>
-                                    </h2>
-                                    <div id="<?= $salle_accordion_id ?>" 
-                                         class="accordion-collapse collapse" 
-                                         aria-labelledby="heading-<?= $salle_accordion_id ?>" 
-                                         data-bs-parent="#<?= $site_accordion_id ?>"
-                                         data-table-id="table-materiel-<?= $salle_id ?>">
-                                        <div class="accordion-body p-3">
-                                        <div class="table-responsive">
-                                                <table id="table-materiel-<?= $salle_id ?>" class="table table-hover table-sm mb-0">
-                                                <thead class="bg-body-secondary">
-                                                    <tr>
-                                                        <?php foreach ($allColumnsConfig as $colIndex => $colInfo): ?>
-                                                            <th class="<?= !$colInfo['default'] ? 'd-none' : '' ?>" data-col-index="<?= $colIndex ?>" data-field="<?= $colInfo['field'] ?>"><?= h($colInfo['label']) ?></th>
-                                                        <?php endforeach; ?>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php foreach ($materiels as $materiel): ?>
-                                                        <?php
-                                                        // Construire les paramètres de filtres pour les liens
-                                                        $filterParams = [];
-                                                        if (!empty($filters['client_id'])) {
-                                                            $filterParams['client_id'] = $filters['client_id'];
-                                                        }
-                                                        if (!empty($filters['site_id'])) {
-                                                            $filterParams['site_id'] = $filters['site_id'];
-                                                        }
-                                                        if (!empty($filters['salle_id'])) {
-                                                            $filterParams['salle_id'] = $filters['salle_id'];
-                                                        }
-                                                        
-                                                        $viewUrl = BASE_URL . 'materiel/view/' . $materiel['id'];
-                                                        if (!empty($filterParams)) {
-                                                            $viewUrl .= '?' . http_build_query($filterParams);
-                                                        }
-                                                        ?>
-                                                        <tr class="materiel-row">
-                                                            <?php foreach ($allColumnsConfig as $colIndex => $colInfo): ?>
-                                                                <?php
-                                                                $field = $colInfo['field'];
-                                                                $isDefault = $colInfo['default'];
-                                                                $cellClass = !$isDefault ? 'd-none' : '';
-                                                                
-                                                                // Ajouter les classes de warning pour les champs masqués
-                                                                if ($field === 'equipement' || $field === 'marque' || $field === 'modele') {
-                                                                    if ((isset($visibilites_champs[$materiel['id']]['marque']) && !$visibilites_champs[$materiel['id']]['marque']) || 
-                                                                        (isset($visibilites_champs[$materiel['id']]['modele']) && !$visibilites_champs[$materiel['id']]['modele'])) {
-                                                                        $cellClass .= ' bg-warning bg-opacity-25';
-                                                                    }
-                                                                } elseif (isset($visibilites_champs[$materiel['id']][$field]) && !$visibilites_champs[$materiel['id']][$field]) {
-                                                                    $cellClass .= ' bg-warning bg-opacity-25';
-                                                                }
-                                                                ?>
-                                                                <td class="<?= $cellClass ?>" data-col-index="<?= $colIndex ?>" data-field="<?= $field ?>">
-                                                                    <?php if ($field === 'equipement'): ?>
-                                                                        <a href="<?= $viewUrl ?>" class="text-decoration-none" title="Voir le matériel">
-                                                                            <div class="fw-bold"><?= htmlspecialchars($materiel['marque'] ?? 'Marque non définie') ?></div>
-                                                                            <small class="text-muted"><?= htmlspecialchars($materiel['modele'] ?? 'Modèle non défini') ?></small>
-                                                                        </a>
-                                                                    <?php elseif ($field === 'type_materiel'): ?>
-                                                                        <?php if (!empty($materiel['type_nom'])): ?>
-                                                                            <?= htmlspecialchars($materiel['type_nom']) ?>
-                                                                        <?php else: ?>
-                                                                            <span class="text-muted">-</span>
-                                                                        <?php endif; ?>
-                                                                    <?php elseif ($field === 'numero_serie'): ?>
-                                                                        <?php if (!empty($materiel['numero_serie'])): ?>
-                                                                            <?= h($materiel['numero_serie']) ?>
-                                                                        <?php else: ?>
-                                                                            <span class="text-muted">-</span>
-                                                                        <?php endif; ?>
-                                                                    <?php elseif ($field === 'version_firmware'): ?>
-                                                                        <?php if (!empty($materiel['version_firmware'])): ?>
-                                                                            <?= h($materiel['version_firmware']) ?>
-                                                                        <?php else: ?>
-                                                                            <span class="text-muted">-</span>
-                                                                        <?php endif; ?>
-                                                                    <?php elseif ($field === 'adresse_ip'): ?>
-                                                                        <?php if (!empty($materiel['adresse_ip'])): ?>
-                                                                            <?= h($materiel['adresse_ip']) ?>
-                                                                        <?php else: ?>
-                                                                            <span class="text-muted">-</span>
-                                                                        <?php endif; ?>
-                                                                    <?php elseif ($field === 'adresse_mac'): ?>
-                                                                        <?php if (!empty($materiel['adresse_mac'])): ?>
-                                                                            <?= h($materiel['adresse_mac']) ?>
-                                                                        <?php else: ?>
-                                                                            <span class="text-muted">-</span>
-                                                                        <?php endif; ?>
-                                                                    <?php elseif ($field === 'expiration'): ?>
-                                                                        <?php 
-                                                                        $today = new DateTime();
-                                                                        $maintenance_info = [];
-                                                                        
-                                                                        // Vérifier et formater la date de maintenance
-                                                                        if (!empty($materiel['date_fin_maintenance']) && $materiel['date_fin_maintenance'] !== '0000-00-00' && strpos($materiel['date_fin_maintenance'], '0000-00-00') !== 0) {
-                                                                            $formatted_date = formatDateFrench($materiel['date_fin_maintenance']);
-                                                                            if (!empty($formatted_date)) {
-                                                                                try {
-                                                                                    $maintenance_date = new DateTime($materiel['date_fin_maintenance']);
-                                                                                    $maintenance_class = $maintenance_date < $today ? 'danger' : ($maintenance_date->diff($today)->days < 30 ? 'warning' : 'success');
-                                                                                    $maintenance_info[] = '<div class="d-flex justify-content-between align-items-center"><small class="text-muted">Maintenance</small> <span class="text-' . $maintenance_class . '">' . $formatted_date . '</span></div>';
-                                                                                } catch (Exception $e) {
-                                                                                    // Ignorer les dates invalides
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                        
-                                                                        // Vérifier et formater la date de garantie
-                                                                        if (!empty($materiel['date_fin_garantie']) && $materiel['date_fin_garantie'] !== '0000-00-00' && strpos($materiel['date_fin_garantie'], '0000-00-00') !== 0) {
-                                                                            $formatted_date = formatDateFrench($materiel['date_fin_garantie']);
-                                                                            if (!empty($formatted_date)) {
-                                                                                try {
-                                                                                    $garantie_date = new DateTime($materiel['date_fin_garantie']);
-                                                                                    $garantie_class = $garantie_date < $today ? 'danger' : ($garantie_date->diff($today)->days < 30 ? 'warning' : 'success');
-                                                                                    $maintenance_info[] = '<div class="d-flex justify-content-between align-items-center"><small class="text-muted">Garantie</small> <span class="text-' . $garantie_class . '">' . $formatted_date . '</span></div>';
-                                                                                } catch (Exception $e) {
-                                                                                    // Ignorer les dates invalides
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                        
-                                                                        if (!empty($maintenance_info)) {
-                                                                            echo implode('', $maintenance_info);
-                                                                        } else {
-                                                                            echo '<span class="text-muted">-</span>';
-                                                                        }
-                                                                        ?>
-                                                                    <?php elseif ($field === 'pieces_jointes'): ?>
-                                                                        <?php 
-                                                                        $pjCount = isset($pieces_jointes_count[$materiel['id']]) ? $pieces_jointes_count[$materiel['id']] : 0;
-                                                                        $materielName = htmlspecialchars(($materiel['marque'] ?? '') . ' ' . ($materiel['modele'] ?? ''), ENT_QUOTES);
-                                                                        ?>
-                                                                        <button type="button" 
-                                                                                class="btn btn-sm <?= $pjCount > 0 ? 'btn-outline-info' : 'btn-outline-secondary' ?>" 
-                                                                                title="Voir les pièces jointes"
-                                                                                onclick="openAttachmentsModal(<?= $materiel['id'] ?>, '<?= $materielName ?>')">
-                                                                            <i class="<?php echo getIcon('attachment', 'bi bi-paperclip'); ?>"></i>
-                                                                            <span class="badge <?= $pjCount > 0 ? 'bg-info' : 'bg-secondary' ?> ms-1"><?= $pjCount ?></span>
-                                                                        </button>
-                                                                    <?php elseif ($field === 'date_fin_maintenance' || $field === 'date_fin_garantie' || $field === 'date_derniere_inter'): ?>
-                                                                        <?php
-                                                                        $dateValue = $materiel[$field] ?? null;
-                                                                        if (!empty($dateValue) && $dateValue !== '0000-00-00' && strpos($dateValue, '0000-00-00') !== 0) {
-                                                                            echo formatDateFrench($dateValue);
-                                                                        } else {
-                                                                            echo '<span class="text-muted">-</span>';
-                                                                        }
-                                                                        ?>
-                                                                    <?php else: ?>
-                                                                        <?php
-                                                                        $value = $materiel[$field] ?? null;
-                                                                        if (!empty($value)) {
-                                                                            echo h($value);
-                                                                        } else {
-                                                                            echo '<span class="text-muted">-</span>';
-                                                                        }
-                                                                        ?>
-                                                                    <?php endif; ?>
-                                                                </td>
-                                                            <?php endforeach; ?>
-                                                        </tr>
-                                                    <?php endforeach; ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
+              </div>
+            </div>
+
+            <div id="accordionContainer">
+              <?php foreach ($materiel_organise as $client_nom => $sites): ?>
+                        <div class="card mb-4">
+                          <div class="card-header bg-body-secondary">
+                            <h5 class="card-title mb-0">
+                              <i class="bi bi-building me-2 text-primary me-1"></i>
+                              <?= h($client_nom) ?>
+                            </h5>
+                          </div>
+                          <div class="card-body p-0">
+                            <?php foreach ($sites as $site_nom => $salles): ?>
+                                      <?php foreach ($salles as $salle_nom => $materiels):
+                                        $salle_id = 'salle_' . md5($client_nom . $site_nom . $salle_nom);
+                                        $accordion_id = 'accordion_' . $salle_id;
+                                        ?>
+                                                <div class="accordion mb-3" id="<?= $accordion_id ?>">
+                                                  <div class="accordion-item">
+                                                    <h2 class="accordion-header">
+                                                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?= $salle_id ?>">
+                                                        <div class="d-flex justify-content-between w-100 me-3">
+                                                          <span><i class="bi bi-door-open me-2 text-info"></i><strong><?= h($salle_nom) ?></strong></span>
+                                                          <span class="badge bg-secondary ms-3"><?= count($materiels) ?> équipement(s)</span>
+                                                        </div>
+                                                      </button>
+                                                    </h2>
+                                                    <div id="collapse_<?= $salle_id ?>" class="accordion-collapse collapse" data-bs-parent="#accordionContainer">
+                                                      <div class="accordion-body p-0">
+                                                        <div class="table-wrapper">
+                                                          <div id="excelTable-<?= $salle_id ?>"></div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                      <?php endforeach; ?>
                             <?php endforeach; ?>
-                            </div>
+                          </div>
                         </div>
-                    <?php endforeach; ?>
-                </div>
+              <?php endforeach; ?>
             </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+  <?php endif; ?>
 </div>
 
-<script>
-// Variable globale pour l'URL de base
-const baseUrl = '<?= BASE_URL ?>';
-
-// Fonction pour mettre à jour les sites selon le client sélectionné ET soumettre le formulaire
-function updateSitesAndSubmit() {
-    const clientId = document.getElementById('client_id').value;
-    console.log('updateSitesAndSubmit appelé avec clientId:', clientId);
-    
-    if (clientId) {
-        const url = '<?= BASE_URL ?>materiel/get_sites?client_id=' + clientId;
-        console.log('URL de la requête:', url);
-        
-        fetch(url)
-            .then(response => {
-                console.log('Réponse reçue:', response);
-                if (!response.ok) {
-                    throw new Error('Erreur HTTP: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Données reçues:', data);
-                const siteSelect = document.getElementById('site_id');
-                siteSelect.innerHTML = '<option value="">Tous les sites</option>';
-                
-                if (Array.isArray(data)) {
-                    data.forEach(site => {
-                        const option = document.createElement('option');
-                        option.value = site.id;
-                        option.textContent = site.name;
-                        siteSelect.appendChild(option);
-                    });
-                }
-                
-                // Réinitialiser les salles
-                document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-                
-                // Soumettre le formulaire après la mise à jour
-                document.getElementById('filterForm').submit();
-            })
-            .catch(error => {
-                console.error('Erreur lors de la mise à jour des sites:', error);
-                alert('Erreur lors de la mise à jour des sites: ' + error.message);
-            });
-    } else {
-        document.getElementById('site_id').innerHTML = '<option value="">Tous les sites</option>';
-        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-        
-        // Soumettre le formulaire même si aucun client n'est sélectionné
-        document.getElementById('filterForm').submit();
-    }
-}
-
-// Fonction pour mettre à jour les salles selon le site sélectionné ET soumettre le formulaire
-function updateRoomsAndSubmit() {
-    const siteId = document.getElementById('site_id').value;
-    console.log('updateRoomsAndSubmit appelé avec siteId:', siteId);
-    
-    if (siteId) {
-        const url = '<?= BASE_URL ?>materiel/get_rooms?site_id=' + siteId;
-        console.log('URL de la requête:', url);
-        
-        fetch(url)
-            .then(response => {
-                console.log('Réponse reçue:', response);
-                if (!response.ok) {
-                    throw new Error('Erreur HTTP: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Données reçues:', data);
-                const roomSelect = document.getElementById('salle_id');
-                roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
-                
-                if (Array.isArray(data)) {
-                    data.forEach(room => {
-                        const option = document.createElement('option');
-                        option.value = room.id;
-                        option.textContent = room.name;
-                        roomSelect.appendChild(option);
-                    });
-                }
-                
-                // Soumettre le formulaire après la mise à jour
-                document.getElementById('filterForm').submit();
-            })
-            .catch(error => {
-                console.error('Erreur lors de la mise à jour des salles:', error);
-                alert('Erreur lors de la mise à jour des salles: ' + error.message);
-            });
-    } else {
-        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-        
-        // Soumettre le formulaire même si aucun site n'est sélectionné
-        document.getElementById('filterForm').submit();
-    }
-}
-
-// Fonction pour supprimer un matériel
-function deleteMateriel(materielId) {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce matériel ? Cette action est irréversible.')) {
-        const currentUrl = new URL(window.location.href);
-        const params = new URLSearchParams(currentUrl.search);
-        
-        // Filtrer seulement les paramètres de filtres
-        const filterParams = new URLSearchParams();
-        if (params.has('client_id')) {
-            filterParams.set('client_id', params.get('client_id'));
-        }
-        if (params.has('site_id')) {
-            filterParams.set('site_id', params.get('site_id'));
-        }
-        if (params.has('salle_id')) {
-            filterParams.set('salle_id', params.get('salle_id'));
-        }
-        
-        window.location.href = `<?= BASE_URL ?>materiel/delete/${materielId}?${filterParams.toString()}`;
-    }
-}
-
-// ===== INITIALISATION DATATABLES DANS LES ACCORDÉONS =====
-
-// Stocker les instances DataTables pour éviter la réinitialisation
-const dataTablesInstances = {};
-
-// Fonction pour initialiser DataTables sur un tableau
-function initializeDataTable(tableId) {
-    // Vérifier si DataTables est déjà initialisé sur ce tableau
-    if (dataTablesInstances[tableId]) {
-        return dataTablesInstances[tableId];
-    }
-    
-    const table = document.getElementById(tableId);
-    if (!table) {
-        console.warn('Tableau non trouvé:', tableId);
-        return null;
-    }
-    
-    // Vérifier si DataTables est disponible
-    if (typeof DataTable === 'undefined') {
-        console.error('DataTables n\'est pas chargé');
-        return null;
-    }
-    
-    // Vérifier si DataTables est déjà initialisé
-    if (table.classList.contains('dataTable')) {
-        console.log('DataTables déjà initialisé pour:', tableId);
-        return null;
-    }
-    
-    // Vérifier que le tableau a des en-têtes et des lignes
-    const thead = table.querySelector('thead');
-    const tbody = table.querySelector('tbody');
-    if (!thead || !tbody) {
-        console.warn('Tableau incomplet (pas de thead ou tbody):', tableId);
-        return null;
-    }
-    
-    const headerCells = thead.querySelectorAll('th');
-    const rows = tbody.querySelectorAll('tr');
-    
-    if (headerCells.length === 0) {
-        console.warn('Tableau sans colonnes:', tableId);
-        return null;
-    }
-    
-    // Si le tableau est vide, on peut quand même initialiser DataTables
-    if (rows.length === 0) {
-        console.log('Tableau vide, initialisation DataTables quand même:', tableId);
-            } else {
-        // Vérifier que toutes les lignes ont le bon nombre de colonnes
-        const expectedCols = headerCells.length;
-        let hasInvalidRows = false;
-        rows.forEach(function(row, index) {
-            const cells = row.querySelectorAll('td');
-            if (cells.length !== expectedCols) {
-                console.warn(`Ligne ${index} du tableau ${tableId} a ${cells.length} cellules au lieu de ${expectedCols}`);
-                hasInvalidRows = true;
-            }
-        });
-        
-        if (hasInvalidRows) {
-            console.error('Tableau avec lignes invalides:', tableId);
-            return null;
-        }
-    }
-    
-    // Initialiser DataTables
-    try {
-        // Compter les colonnes pour s'assurer qu'elles correspondent
-        const headerCells = table.querySelectorAll('thead th');
-        const numCols = headerCells.length;
-        
-        console.log(`Initialisation DataTables pour ${tableId}: ${numCols} colonnes détectées`);
-        
-        // Configuration simple : laisser DataTables détecter automatiquement les colonnes depuis le HTML
-        // Définir la visibilité par défaut des colonnes
-        const columnDefs = [];
-        headerCells.forEach(function(th, index) {
-            const colIndex = parseInt(th.getAttribute('data-col-index'));
-            const isDefault = !th.classList.contains('d-none');
-            
-            // Si la colonne n'est pas visible par défaut, la masquer dans DataTables
-            if (!isDefault) {
-                columnDefs.push({
-                    targets: index,
-                    visible: false
-                });
-            }
-            
-            // Désactiver le tri sur la colonne pièces jointes
-            if (th.getAttribute('data-field') === 'pieces_jointes') {
-                columnDefs.push({
-                    targets: index,
-                    orderable: false,
-                    searchable: false
-                });
-            }
-        });
-        
-        const dt = new DataTable(table, {
-            paging: false, // Désactiver la pagination
-            order: [[0, 'asc']], // Trier par équipement par défaut
-            language: {
-                url: (window.BASE_URL || '<?= BASE_URL ?>') + 'assets/json/locales/datatables-fr.json',
-                info: 'Affichage de _TOTAL_ entrée(s)',
-                infoEmpty: 'Aucune entrée à afficher',
-                infoFiltered: '(filtré à partir de _MAX_ entrées au total)'
-            },
-            layout: {
-                topStart: {
-                    search: {
-                        placeholder: 'Rechercher...'
-                    }
-                },
-                bottomStart: {
-                    features: ['info']
-                }
-            },
-            // Utiliser uniquement le layout, pas le DOM par défaut
-            dom: 'rt',
-            responsive: true,
-            // Forcer DataTables à lire depuis le HTML
-            processing: false,
-            serverSide: false,
-            // Configuration des colonnes
-            columnDefs: columnDefs,
-            // S'assurer que toutes les colonnes sont correctement détectées
-            autoWidth: false
-        });
-        
-        // Stocker l'instance
-        dataTablesInstances[tableId] = dt;
-        
-        console.log(`DataTables initialisé avec succès pour ${tableId}`);
-        
-        // Attacher l'événement column-visibility pour synchroniser avec le menu global
-        dt.on('column-visibility', function(e, settings, column, state) {
-            const checkbox = document.querySelector('.global-colvis-checkbox[data-col="' + column + '"]');
-            if (checkbox && checkbox.checked !== state) {
-                checkbox.checked = state;
-            }
-        });
-        
-        
-        // Attacher le bouton de sélection de colonnes au bouton personnalisé
-        const colvisBtn = document.getElementById('colvis-btn-' + tableId.replace('table-materiel-', ''));
-        if (colvisBtn && dt.buttons) {
-            const colvisButton = dt.buttons('colvis:name').nodes()[0];
-            if (colvisButton) {
-                colvisBtn.addEventListener('click', function() {
-                    colvisButton.click();
-                });
-            }
-        }
-        
-        // Appliquer l'état sauvegardé des colonnes avant le premier draw
-        const savedState = localStorage.getItem('materiel_colvis_state');
-        if (savedState) {
-            try {
-                const state = JSON.parse(savedState);
-                console.log('Application de l\'état sauvegardé au tableau', tableId, state);
-                Object.keys(state).forEach(function(colIndex) {
-                    const isVisible = state[colIndex];
-                    const colIndexInt = parseInt(colIndex);
-                    const column = dt.column(colIndexInt);
-                    if (column) {
-                        column.visible(isVisible, false);
-                        console.log('Colonne', colIndexInt, 'mise à', isVisible, 'pour le tableau', tableId);
-                    }
-                    // Mettre à jour aussi les classes CSS dans le HTML
-                    const table = document.getElementById(tableId);
-                    if (table) {
-                        table.querySelectorAll('thead th[data-col-index="' + colIndexInt + '"]').forEach(function(th) {
-                            if (isVisible) {
-                                th.classList.remove('d-none');
-                            } else {
-                                th.classList.add('d-none');
-                            }
-                        });
-                        table.querySelectorAll('tbody td[data-col-index="' + colIndexInt + '"]').forEach(function(td) {
-                            if (isVisible) {
-                                td.classList.remove('d-none');
-                            } else {
-                                td.classList.add('d-none');
-                            }
-                        });
-                    }
-                });
-                // Mettre à jour les checkboxes pour refléter l'état
-                Object.keys(state).forEach(function(colIndex) {
-                    const checkbox = document.querySelector('.global-colvis-checkbox[data-col="' + colIndex + '"]');
-                    if (checkbox) {
-                        checkbox.checked = state[colIndex];
-                    }
-                });
-            } catch (e) {
-                console.error('Erreur lors de l\'application de l\'état sauvegardé:', e);
-            }
-        }
-        
-        // Forcer l'affichage de toutes les lignes après l'initialisation
-        setTimeout(function() {
-            try {
-                dt.draw(false); // Redessiner sans réinitialiser
-            } catch (e) {
-                console.error('Erreur lors du redessin:', e);
-            }
-        }, 50);
-        
-        // Ne pas appliquer la recherche automatiquement ici
-        // La recherche sera appliquée par l'événement shown.bs.collapse si nécessaire
-        
-        return dt;
-    } catch (error) {
-        console.error('Erreur lors de l\'initialisation de DataTables pour', tableId, error);
-        console.error('Détails de l\'erreur:', error.message, error.stack);
-        // Afficher les détails du tableau pour le débogage
-        const thead = table.querySelector('thead');
-        const tbody = table.querySelector('tbody');
-        if (thead) {
-            const headerCells = thead.querySelectorAll('th');
-            console.error(`Nombre de colonnes dans thead: ${headerCells.length}`);
-        }
-        if (tbody) {
-            const rows = tbody.querySelectorAll('tr');
-            console.error(`Nombre de lignes dans tbody: ${rows.length}`);
-            if (rows.length > 0) {
-                const firstRowCells = rows[0].querySelectorAll('td');
-                console.error(`Nombre de cellules dans la première ligne: ${firstRowCells.length}`);
-            }
-        }
-        return null;
-    }
-}
-
-// Écouter l'ouverture des accordéons pour initialiser DataTables
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialiser les tableaux dans les accordéons déjà ouverts au chargement
-    document.querySelectorAll('.accordion-collapse.show').forEach(function(collapse) {
-        const tableId = collapse.getAttribute('data-table-id');
-        if (tableId) {
-            // Petit délai pour s'assurer que l'accordéon est complètement rendu
-            setTimeout(function() {
-                initializeDataTable(tableId);
-            }, 100);
-        }
-    });
-    
-    // Écouter l'ouverture des accordéons
-    document.querySelectorAll('.accordion-collapse').forEach(function(collapse) {
-        collapse.addEventListener('shown.bs.collapse', function() {
-            const tableId = this.getAttribute('data-table-id');
-            if (tableId) {
-                // Petit délai pour s'assurer que l'accordéon est complètement rendu
-                setTimeout(function() {
-                    const dt = initializeDataTable(tableId);
-                    // Si une recherche globale existe, l'appliquer après l'initialisation
-                    // Mais seulement si DataTables est bien initialisé
-                    if (dt) {
-                        const globalSearchInput = document.getElementById('globalSearch');
-                        if (globalSearchInput && globalSearchInput.value && globalSearchInput.value.trim() !== '') {
-                            // Attendre que DataTables soit complètement initialisé et rendu
-                            setTimeout(function() {
-                                try {
-                                    // Vérifier que DataTables est toujours valide
-                                    if (dt && typeof dt.search === 'function') {
-                                        dt.search(globalSearchInput.value).draw();
-                                        // Ne PAS appeler updateAccordionsVisibility ici car l'accordéon vient d'être ouvert manuellement
-                                    }
-                                } catch (e) {
-                                    console.error('Erreur lors de l\'application de la recherche:', e);
-                                }
-                            }, 200);
-                        }
-                        // S'assurer que l'accordéon reste visible après l'initialisation
-                        const accordionItem = collapse.closest('.accordion-item');
-                        if (accordionItem) {
-                            accordionItem.style.display = '';
-                            // Forcer l'affichage des lignes du tableau
-                            setTimeout(function() {
-                                try {
-                                    if (dt && typeof dt.search === 'function') {
-                                        dt.search('').draw(false);
-                                    }
-                                } catch (e) {
-                                    console.error('Erreur lors du forçage de l\'affichage:', e);
-                                }
-                            }, 200);
-                        }
-                    }
-                }, 100);
-            }
-        });
-    });
-    
-    // ===== RECHERCHE GLOBALE =====
-    
-    const globalSearchInput = document.getElementById('globalSearch');
-    const clearGlobalSearchBtn = document.getElementById('clearGlobalSearch');
-    
-    // Fonction pour afficher/masquer les accordéons selon les résultats
-    function updateAccordionsVisibility(searchValue) {
-        // Si pas de recherche active, ne rien faire (afficher tous les accordéons)
-        if (!searchValue || searchValue.trim().length === 0) {
-            document.querySelectorAll('.accordion-item').forEach(function(accordionItem) {
-                accordionItem.style.display = '';
-            });
-            return;
-        }
-        
-        // Parcourir tous les accordéons, même ceux dont le tableau n'est pas encore initialisé
-        document.querySelectorAll('.accordion-item').forEach(function(accordionItem) {
-            const accordionCollapse = accordionItem.querySelector('.accordion-collapse');
-            if (!accordionCollapse) return;
-            
-            // Ne JAMAIS masquer un accordéon qui est actuellement ouvert par l'utilisateur
-            const isCurrentlyOpen = accordionCollapse.classList.contains('show');
-            
-            // Si l'accordéon est ouvert, ne pas le toucher du tout
-            if (isCurrentlyOpen) {
-                return; // Sortir de cette itération sans modifier l'accordéon
-            }
-            
-            const tableId = accordionCollapse.getAttribute('data-table-id');
-            if (!tableId) return;
-            
-            const dt = dataTablesInstances[tableId];
-            
-            if (dt) {
-                // Tableau déjà initialisé : vérifier les résultats
-                // Ne masquer que si une recherche est active
-                if (searchValue && searchValue.trim().length > 0) {
-                    try {
-                        const visibleRows = dt.rows({ search: 'applied' }).count();
-                        const totalRows = dt.rows().count();
-                        
-                        // Si le tableau a des lignes mais qu'aucune n'est visible après recherche, masquer
-                        // Mais seulement si le tableau a vraiment des données
-                        if (totalRows > 0 && visibleRows === 0) {
-                            // Masquer l'accordéon s'il n'y a pas de résultats, SAUF s'il est actuellement ouvert
-                            if (!isCurrentlyOpen) {
-                                accordionItem.style.display = 'none';
-                            }
-                        } else {
-                            // Afficher l'accordéon s'il y a des résultats ou si le tableau est vide (pour éviter de masquer par erreur)
-                            accordionItem.style.display = '';
-                            // Ouvrir l'accordéon s'il est fermé (sans animation pour éviter les blocages)
-                            if (accordionCollapse.classList.contains('collapse') && !accordionCollapse.classList.contains('show')) {
-                                // Utiliser directement les classes au lieu de Bootstrap.Collapse pour éviter les conflits
-                                accordionCollapse.classList.remove('collapse');
-                                accordionCollapse.classList.add('show');
-                            }
-                        }
-                    } catch (e) {
-                        // En cas d'erreur, afficher l'accordéon pour éviter de le masquer par erreur
-                        console.error('Erreur lors de la vérification des lignes:', e);
-                        accordionItem.style.display = '';
-                    }
-                } else {
-                    // Pas de recherche active : afficher tous les accordéons
-                    accordionItem.style.display = '';
-                }
-            } else {
-                // Tableau pas encore initialisé : vérifier manuellement dans le HTML
-                const table = document.getElementById(tableId);
-    if (!table) return;
-    
-                const tbody = table.querySelector('tbody');
-                if (!tbody) return;
-                
-                const rows = tbody.querySelectorAll('tr');
-                let hasMatch = false;
-                
-                if (searchValue && searchValue.length > 0) {
-                    const searchLower = searchValue.toLowerCase();
-                    rows.forEach(function(row) {
-                        const text = row.textContent.toLowerCase();
-                        if (text.includes(searchLower)) {
-                            hasMatch = true;
-                        }
-                    });
-                } else {
-                    hasMatch = rows.length > 0;
-                }
-                
-                if (hasMatch || !searchValue || searchValue.trim().length === 0) {
-                    // Afficher si correspondance trouvée OU si pas de recherche active
-                    accordionItem.style.display = '';
-                } else {
-                    // Ne pas masquer si l'accordéon est actuellement ouvert
-                    if (!isCurrentlyOpen) {
-                        accordionItem.style.display = 'none';
-                    }
-                }
-            }
-        });
-    }
-    
-    if (globalSearchInput) {
-        // Fonction pour appliquer la recherche
-        function applySearch() {
-            const searchValue = globalSearchInput.value;
-            
-            // Afficher/masquer le bouton effacer
-            if (searchValue.length > 0) {
-                clearGlobalSearchBtn.style.display = 'inline-block';
-            } else {
-                clearGlobalSearchBtn.style.display = 'none';
-            }
-            
-            // Appliquer la recherche à toutes les instances DataTables
-            Object.keys(dataTablesInstances).forEach(function(tableId) {
-                const dt = dataTablesInstances[tableId];
-                if (dt) {
-                    dt.search(searchValue).draw();
-                }
-            });
-            
-            // Mettre à jour la visibilité des accordéons
-            updateAccordionsVisibility(searchValue);
-        }
-        
-        // Appliquer la recherche uniquement sur Entrée
-        globalSearchInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.keyCode === 13) {
-        e.preventDefault();
-                applySearch();
-            }
-        });
-        
-        // Mettre à jour l'affichage du bouton effacer en temps réel
-        globalSearchInput.addEventListener('input', function() {
-            if (this.value.length > 0) {
-                clearGlobalSearchBtn.style.display = 'inline-block';
-            } else {
-                clearGlobalSearchBtn.style.display = 'none';
-            }
-        });
-        
-        // Effacer la recherche globale
-        if (clearGlobalSearchBtn) {
-            clearGlobalSearchBtn.addEventListener('click', function() {
-                globalSearchInput.value = '';
-                this.style.display = 'none';
-                
-                // Effacer la recherche dans tous les tableaux
-                Object.keys(dataTablesInstances).forEach(function(tableId) {
-                    const dt = dataTablesInstances[tableId];
-                    if (dt) {
-                        dt.search('').draw();
-                    }
-                });
-                
-                // Réafficher tous les accordéons
-                updateAccordionsVisibility('');
-            });
-        }
-    }
-    
-    // ===== BOUTONS OUVRIR/FERMER TOUT =====
-    
-    const openAllBtn = document.getElementById('openAllAccordions');
-    const closeAllBtn = document.getElementById('closeAllAccordions');
-    
-    // Bouton "Ouvrir tout"
-    if (openAllBtn) {
-        openAllBtn.addEventListener('click', function() {
-            const allCollapses = document.querySelectorAll('.accordion-collapse');
-            
-            allCollapses.forEach(function(collapse) {
-                if (!collapse.classList.contains('show')) {
-                    const bsCollapse = bootstrap.Collapse.getOrCreateInstance(collapse);
-                    bsCollapse.show();
-                    
-                    // Initialiser DataTables après ouverture
-                    const tableId = collapse.getAttribute('data-table-id');
-                    if (tableId) {
-                        collapse.addEventListener('shown.bs.collapse', function initTable() {
-                            setTimeout(function() {
-                                initializeDataTable(tableId);
-                            }, 100);
-                            collapse.removeEventListener('shown.bs.collapse', initTable);
-                        }, { once: true });
-                    }
-                }
-            });
-        });
-    }
-    
-    // Bouton "Fermer tout"
-    if (closeAllBtn) {
-        closeAllBtn.addEventListener('click', function() {
-            const allCollapses = document.querySelectorAll('.accordion-collapse');
-            
-            allCollapses.forEach(function(collapse) {
-                if (collapse.classList.contains('show')) {
-                    const bsCollapse = bootstrap.Collapse.getOrCreateInstance(collapse);
-                    bsCollapse.hide();
-                }
-            });
-        });
-    }
-    
-    // ===== BOUTON GLOBAL DE SÉLECTION DE COLONNES =====
-    
-    const STORAGE_KEY = 'materiel_colvis_state';
-    
-    // Fonction pour sauvegarder l'état des colonnes
-    function saveColumnVisibility() {
-        const state = {};
-        const checkboxes = document.querySelectorAll('.global-colvis-checkbox');
-        checkboxes.forEach(function(checkbox) {
-            const colIndex = parseInt(checkbox.getAttribute('data-col'));
-            state[colIndex] = checkbox.checked;
-        });
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        console.log('État sauvegardé:', state);
-    }
-    
-    // Fonction pour restaurer l'état des colonnes
-    function restoreColumnVisibility() {
-        const savedState = localStorage.getItem(STORAGE_KEY);
-        if (savedState) {
-            try {
-                const state = JSON.parse(savedState);
-                console.log('État restauré depuis localStorage:', state);
-                const checkboxes = document.querySelectorAll('.global-colvis-checkbox');
-                checkboxes.forEach(function(checkbox) {
-                    const colIndex = parseInt(checkbox.getAttribute('data-col'));
-                    if (state.hasOwnProperty(colIndex)) {
-                        checkbox.checked = state[colIndex];
-                    }
-                });
-                return state;
-            } catch (e) {
-                console.error('Erreur lors de la restauration de l\'état des colonnes:', e);
-            }
-        } else {
-            console.log('Aucun état sauvegardé trouvé');
-        }
-        return null;
-    }
-    
-    // Fonction pour appliquer la visibilité des colonnes à tous les tableaux
-    function applyColumnVisibility(colIndex, isVisible) {
-        console.log('Application de la visibilité colonne', colIndex, 'à', isVisible);
-        
-        // Mettre à jour DataTables EN PREMIER avec redessin immédiat
-        Object.keys(dataTablesInstances).forEach(function(tableId) {
-            const dt = dataTablesInstances[tableId];
-            if (dt) {
-                try {
-                    const column = dt.column(colIndex);
-                    if (column) {
-                        // Mettre à jour DataTables avec redessin immédiat
-                        column.visible(isVisible, true);
-                        console.log('Colonne', colIndex, 'du tableau', tableId, 'mise à', isVisible);
-                        
-                        // Pour l'affichage, forcer un ajustement supplémentaire des colonnes
-                        if (isVisible) {
-                            // Utiliser requestAnimationFrame pour s'assurer que le DOM est à jour
-                            requestAnimationFrame(function() {
-                                try {
-                                    dt.columns.adjust();
-                                    console.log('Ajustement des colonnes effectué pour', tableId);
-                                } catch (e) {
-                                    console.error('Erreur lors de l\'ajustement des colonnes:', e);
-                                }
-                            });
-                        }
-                    } else {
-                        console.warn('Colonne', colIndex, 'non trouvée dans DataTables pour', tableId);
-                    }
-                } catch (e) {
-                    console.error('Erreur lors de la modification de la visibilité de la colonne', colIndex, 'dans', tableId, ':', e);
-                }
-            }
-        });
-        
-        // Ensuite mettre à jour les classes CSS dans le HTML
-        requestAnimationFrame(function() {
-            document.querySelectorAll('thead th[data-col-index="' + colIndex + '"]').forEach(function(th) {
-                if (isVisible) {
-                    th.classList.remove('d-none');
-                } else {
-                    th.classList.add('d-none');
-                }
-            });
-            
-            document.querySelectorAll('tbody td[data-col-index="' + colIndex + '"]').forEach(function(td) {
-                if (isVisible) {
-                    td.classList.remove('d-none');
-                } else {
-                    td.classList.add('d-none');
-                }
-            });
-        });
-    }
-    
-    const globalColvisCheckboxes = document.querySelectorAll('.global-colvis-checkbox');
-    
-    if (globalColvisCheckboxes.length > 0) {
-        // Restaurer l'état sauvegardé au chargement (met à jour les checkboxes)
-        const restoredState = restoreColumnVisibility();
-        
-        // Écouter les changements sur les checkboxes
-        globalColvisCheckboxes.forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                const colIndex = parseInt(this.getAttribute('data-col'));
-                const isVisible = this.checked;
-                
-                console.log('Checkbox changée - Colonne', colIndex, 'à', isVisible);
-                
-                // Appliquer à tous les tableaux
-                applyColumnVisibility(colIndex, isVisible);
-                
-                // Sauvegarder l'état immédiatement
-                saveColumnVisibility();
-            });
-        });
-        
-        // Si un état a été restauré, l'appliquer aux tableaux déjà initialisés
-        if (restoredState) {
-            console.log('Application de l\'état restauré aux tableaux existants:', restoredState);
-            Object.keys(restoredState).forEach(function(colIndex) {
-                const isVisible = restoredState[colIndex];
-                // Attendre un peu que les tableaux soient prêts
-                setTimeout(function() {
-                    applyColumnVisibility(parseInt(colIndex), isVisible);
-                }, 200);
-            });
-        }
-    }
-});
-
-// ===== MODALE PIÈCES JOINTES =====
-
-// Fonction pour ouvrir la modale des pièces jointes
-function openAttachmentsModal(materielId, materielName) {
-    const modal = new bootstrap.Modal(document.getElementById('attachmentsModal'));
-    const modalTitle = document.getElementById('attachmentsModalLabel');
-    const modalContent = document.getElementById('attachmentsModalContent');
-    
-    modalTitle.textContent = `Pièces jointes - ${materielName}`;
-    modalContent.innerHTML = `
-        <div class="text-center py-3">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Chargement...</span>
-            </div>
-            <p class="mt-2 text-muted">Chargement des pièces jointes...</p>
-        </div>
-    `;
-    
-    // Stocker l'ID du matériel dans la modale pour l'upload
-    document.getElementById('attachmentsModal').setAttribute('data-materiel-id', materielId);
-    
-    modal.show();
-    
-    // Charger les pièces jointes
-    loadAttachments(materielId, modalContent);
-}
-
-// Fonction pour charger les pièces jointes
-function loadAttachments(materielId, container) {
-    fetch('<?= BASE_URL ?>materiel/getAttachments/' + materielId)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success && data.attachments) {
-                renderAttachments(data.attachments, container, materielId);
-            } else {
-                container.innerHTML = `
-                    <div class="alert alert-danger">
-                        <i class="bi bi-exclamation-triangle me-2"></i>
-                        ${data.error || 'Erreur lors du chargement des pièces jointes'}
-                    </div>
-                `;
-            }
-        })
-        .catch(error => {
-            console.error('Erreur:', error);
-            container.innerHTML = `
-                <div class="alert alert-danger">
-                    <i class="bi bi-exclamation-triangle me-2"></i>
-                    Erreur lors du chargement des pièces jointes
-                </div>
-            `;
-        });
-}
-
-// Fonction pour afficher les pièces jointes
-function renderAttachments(attachments, container, materielId) {
-    let html = '<div class="mb-3">';
-    
-    if (attachments.length === 0) {
-        html += `
-            <div class="text-center py-4">
-                <i class="bi bi-inbox fs-1 text-muted"></i>
-                <p class="text-muted mt-3">Aucune pièce jointe disponible</p>
-            </div>
-        `;
-    } else {
-        // Trier par date (plus récent en premier)
-        attachments.sort((a, b) => new Date(b.date_creation) - new Date(a.date_creation));
-        
-        html += '<div class="list-group">';
-        attachments.forEach(attachment => {
-            const isPdf = attachment.type_fichier && attachment.type_fichier.toLowerCase() === 'pdf';
-            const isImage = attachment.type_fichier && ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(attachment.type_fichier.toLowerCase());
-            const fileSize = formatFileSize(attachment.taille_fichier || 0);
-            const dateCreation = attachment.date_creation ? new Date(attachment.date_creation).toLocaleDateString('fr-FR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            }) : '-';
-            
-            html += `
-                <div class="list-group-item ${attachment.masque_client == 1 ? 'bg-light-warning' : ''}">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="flex-grow-1">
-                            <div class="d-flex align-items-center mb-1">
-                                ${attachment.masque_client == 1 ? '<i class="bi bi-eye-slash text-warning me-2" title="Masqué aux clients"></i>' : ''}
-                                <strong>${escapeHtml(attachment.nom_fichier || 'Fichier sans nom')}</strong>
-                            </div>
-                            ${attachment.commentaire ? `<small class="text-muted d-block">${escapeHtml(attachment.commentaire)}</small>` : ''}
-                            <small class="text-muted">
-                                ${fileSize} • ${dateCreation}
-                                ${attachment.created_by_name ? ' • ' + escapeHtml(attachment.created_by_name) : ''}
-                            </small>
-                        </div>
-                        <div class="ms-3">
-                            ${isPdf || isImage ? `
-                                <button type="button" class="btn btn-sm btn-outline-info me-1" 
-                                        onclick="previewAttachment(${attachment.id}, '${escapeHtml(attachment.nom_fichier)}', '${attachment.type_fichier}')"
-                                        title="Aperçu">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                            ` : ''}
-                            <a href="<?= BASE_URL ?>materiel/download/${attachment.id}" 
-                               class="btn btn-sm btn-outline-success me-1" 
-                               title="Télécharger">
-                                <i class="bi bi-download"></i>
-                            </a>
-                            <a href="<?= BASE_URL ?>materiel/toggleAttachmentVisibility/${materielId}/${attachment.id}" 
-                               class="btn btn-sm btn-outline-warning me-1" 
-                               title="${attachment.masque_client == 1 ? 'Rendre visible aux clients' : 'Masquer aux clients'}"
-                               data-confirm="${attachment.masque_client == 1 ? 'Rendre cette pièce jointe visible aux clients ?' : 'Masquer cette pièce jointe aux clients ?'}">
-                                <i class="bi ${attachment.masque_client == 1 ? 'bi-eye' : 'bi-eye-slash'}"></i>
-                            </a>
-                            <a href="<?= BASE_URL ?>materiel/deleteAttachment/${materielId}/${attachment.id}" 
-                               class="btn btn-sm btn-outline-danger" 
-                               title="Supprimer"
-                               data-confirm="Êtes-vous sûr de vouloir supprimer cette pièce jointe ?">
-                                <i class="bi bi-trash"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-        html += '</div>';
-    }
-    
-    html += '</div>';
-    
-    // Ajouter le bouton pour ajouter des PJ
-    html += `
-        <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-primary" onclick="openAddAttachmentModal(${materielId})">
-                <i class="bi bi-plus me-1"></i> Ajouter des pièces jointes
-            </button>
-        </div>
-    `;
-    
-    container.innerHTML = html;
-    
-    // Gérer les actions sur les pièces jointes avec délégation d'événements
-    // Supprimer l'ancien gestionnaire s'il existe pour éviter les doublons
-    const oldHandler = container._attachmentClickHandler;
-    if (oldHandler) {
-        container.removeEventListener('click', oldHandler);
-    }
-    
-    // Créer un nouveau gestionnaire
-    const clickHandler = function(e) {
-        const link = e.target.closest('a[href*="deleteAttachment"], a[href*="toggleAttachmentVisibility"]');
-        if (link) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const confirmMsg = link.getAttribute('data-confirm') || link.getAttribute('title') || 'Confirmer cette action ?';
-            
-            // Si l'utilisateur annule, ne rien faire
-            if (!confirm(confirmMsg)) {
-                return false;
-            }
-            
-            // Le backend utilise GET pour deleteAttachment et toggleAttachmentVisibility
-            // Récupérer le token CSRF si disponible (pour compatibilité future)
-            const csrfToken = window.AppConfig?.csrfToken || window.CSRF_TOKEN || '';
-            const headers = {
-                'X-Requested-With': 'XMLHttpRequest'
-            };
-            if (csrfToken) {
-                headers['X-CSRF-Token'] = csrfToken;
-            }
-            
-            fetch(link.href, {
-                method: 'GET',
-                headers: headers,
-                credentials: 'same-origin'
-            })
-                .then(response => {
-                    if (response.ok || response.redirected) {
-                        loadAttachments(materielId, container);
-                    } else {
-                        alert('Erreur lors de l\'opération');
-                    }
-                })
-                .catch((error) => {
-                    console.error('Erreur lors de la suppression:', error);
-                    alert('Erreur lors de l\'opération');
-                });
-            
-            return false;
-        }
-    };
-    
-    // Stocker la référence du gestionnaire pour pouvoir le supprimer plus tard
-    container._attachmentClickHandler = clickHandler;
-    container.addEventListener('click', clickHandler);
-}
-
-// Fonction pour prévisualiser une pièce jointe
-function previewAttachment(attachmentId, fileName, fileType) {
-    const extension = fileType ? fileType.toLowerCase() : '';
-    const isPdf = extension === 'pdf';
-    const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(extension);
-    
-    const previewModal = new bootstrap.Modal(document.getElementById('previewAttachmentModal'));
-    const previewTitle = document.getElementById('previewAttachmentModalLabel');
-    const previewBody = document.getElementById('previewAttachmentModalBody');
-    
-    previewTitle.textContent = fileName;
-    
-    if (isPdf) {
-        previewBody.innerHTML = `
-            <iframe src="<?= BASE_URL ?>materiel/preview/${attachmentId}" 
-                    width="100%" 
-                    height="600px" 
-                    frameborder="0">
-            </iframe>
-        `;
-    } else if (isImage) {
-        previewBody.innerHTML = `
-            <img src="<?= BASE_URL ?>materiel/preview/${attachmentId}" 
-                 class="img-fluid" 
-                 alt="${escapeHtml(fileName)}">
-        `;
-    } else {
-        previewBody.innerHTML = `
-            <div class="alert alert-info">
-                <i class="bi bi-info-circle me-1"></i> 
-                Ce type de fichier ne peut pas être prévisualisé. 
-                <a href="<?= BASE_URL ?>materiel/download/${attachmentId}" 
-                   class="alert-link" 
-                   target="_blank">
-                    Télécharger le fichier
-                </a>
-            </div>
-        `;
-    }
-    
-    previewModal.show();
-}
-
-// Fonction utilitaire pour formater la taille des fichiers
-function formatFileSize(bytes) {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-}
-
-// Fonction utilitaire pour échapper le HTML
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-</script>
-
-<!-- Modale des pièces jointes -->
+<!-- Modales -->
 <div class="modal fade" id="attachmentsModal" tabindex="-1" aria-labelledby="attachmentsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="attachmentsModalLabel">Pièces jointes</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="attachmentsModalContent">
-                <!-- Le contenu sera chargé dynamiquement -->
-            </div>
-        </div>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="attachmentsModalLabel">Pièces jointes</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="attachmentsModalContent"></div>
     </div>
+  </div>
 </div>
 
-<!-- Modale de prévisualisation -->
 <div class="modal fade" id="previewAttachmentModal" tabindex="-1" aria-labelledby="previewAttachmentModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="previewAttachmentModalLabel"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="previewAttachmentModalBody">
-                <!-- Le contenu sera chargé dynamiquement -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-            </div>
-        </div>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="previewAttachmentModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="previewAttachmentModalBody"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
     </div>
+  </div>
 </div>
 
-<?php
-require_once __DIR__ . '/../../includes/FileUploadValidator.php';
-?>
+<?php require_once __DIR__ . '/../../includes/FileUploadValidator.php'; ?>
 
-<!-- Modale Ajout de pièces jointes avec Drag & Drop -->
 <div class="modal fade" id="addAttachmentModal" tabindex="-1" aria-labelledby="addAttachmentModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <form id="dragDropForm" method="post" enctype="multipart/form-data">
-                    <?= csrf_field() ?>
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addAttachmentModalLabel">
-                        <i class="bi bi-cloud-upload me-2"></i>
-                        Ajouter des pièces jointes
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Zone de Drag & Drop -->
-                    <div class="drop-zone" id="dropZone">
-                        <div class="drop-message">
-                            <i class="bi bi-cloud-upload me-1"></i>
-                            Glissez-déposez vos fichiers ici<br>
-                            <small class="text-muted">ou cliquez pour sélectionner</small>
-                        </div>
-                        
-                        <input type="file" id="fileInput" multiple style="display: none;" 
-                               accept="<?= FileUploadValidator::getAcceptAttribute($GLOBALS['db']) ?>">
-                        
-                        <div class="file-list" id="fileList"></div>
-                        
-                        <div class="stats" id="stats" style="display: none;">
-                            <div class="row">
-                                <div class="col-6">
-                                    <strong>Fichiers valides:</strong> <span id="validCount">0</span>
-                                </div>
-                                <div class="col-6">
-                                    <strong>Fichiers rejetés:</strong> <span id="invalidCount">0</span>
-                                </div>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progressFill"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Liste des fichiers avec options individuelles -->
-                    <div id="filesOptions" style="display: none;">
-                        <h6 class="mt-3 mb-2">Options par fichier :</h6>
-                        <div id="filesOptionsList"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-warning" id="clearAllBtn" style="display: none;">
-                        <i class="bi bi-trash me-1"></i> Tout effacer
-                    </button>
-                    <button type="button" class="btn btn-primary" id="uploadValidBtn" style="display: none;">
-                        <i class="bi bi-upload me-1"></i> Uploader les fichiers valides
-                    </button>
-                </div>
-            </form>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form id="dragDropForm" method="post" enctype="multipart/form-data">
+        <?= csrf_field() ?>
+        <div class="modal-header">
+          <h5 class="modal-title" id="addAttachmentModalLabel"><i class="bi bi-cloud-upload me-2"></i>Ajouter des pièces jointes</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="modal-body">
+          <div class="drop-zone" id="dropZone">
+            <div class="drop-message">
+              <i class="bi bi-cloud-upload me-1"></i>Glissez-déposez vos fichiers ici<br>
+              <small class="text-muted">ou cliquez pour sélectionner</small>
+            </div>
+            <input type="file" id="fileInput" multiple style="display: none;" accept="<?= FileUploadValidator::getAcceptAttribute($GLOBALS['db']) ?>">
+            <div class="file-list" id="fileList"></div>
+            <div class="stats" id="stats" style="display: none;">
+              <div class="row">
+                <div class="col-6"><strong>Fichiers valides:</strong> <span id="validCount">0</span></div>
+                <div class="col-6"><strong>Fichiers rejetés:</strong> <span id="invalidCount">0</span></div>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            </div>
+          </div>
+          <div id="filesOptions" style="display: none;">
+            <h6 class="mt-3 mb-2">Options par fichier :</h6>
+            <div id="filesOptionsList"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-warning" id="clearAllBtn" style="display: none;"><i class="bi bi-trash me-1"></i>Tout effacer</button>
+          <button type="button" class="btn btn-primary" id="uploadValidBtn" style="display: none;"><i class="bi bi-upload me-1"></i>Uploader</button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>
 
 <style>
-.drop-zone {
-    border: 2px dashed var(--bs-border-color);
-    border-radius: 8px;
-    padding: 30px;
-    text-align: center;
-    background-color: var(--bs-body-bg);
-    transition: all 0.3s ease;
-    min-height: 150px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+body { background: #f4f6f9; font-family: "Segoe UI", sans-serif; }
+.card-body { overflow: hidden; }
+.table-wrapper { overflow-x: auto; }
+.handsontable { width: auto !important; }
+.handsontable th { background-color: #f1f3f5 !important; color: #495057; font-weight: 600; text-align: center; padding: 10px; }
+.handsontable td { background-color: #ffffff; border-bottom: 1px solid #dee2e6; padding: 8px; vertical-align: middle; }
+ /* Style de base pour toutes les cellules */
+.handsontable td {
+  background-color: #ffffff;
+  border-bottom: 1px solid #dee2e6;
+  padding: 8px;
+  vertical-align: middle;
 }
 
-.drop-zone.dragover {
-    border-color: var(--bs-primary);
-    background-color: var(--bs-primary-bg-subtle);
+/* Style pour la colonne Équipement (toujours à l'index 0 après rendu) */
+.handsontable td:first-child {
+  background-color: #ffffff !important;
+  color: #0d6efd !important;
+  font-weight: 600;
 }
 
-.drop-zone.dragover .drop-message {
-    color: var(--bs-primary);
+/* Style pour toutes les cellules sauf la première et la dernière (pièces jointes) */
+.handsontable td:not(:first-child) {
+  background-color: #f3e1b5 !important;
 }
 
-.drop-message {
-    font-size: 1.1em;
-    color: var(--bs-secondary-color);
-    margin-bottom: 15px;
+/* Style pour la colonne Pièces jointes (toujours à la dernière position après rendu) */
+.handsontable td:nth-child(8) {
+  background-color: #f8f9fa !important;
+  text-align: center;
 }
 
-.drop-message i {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-    display: block;
+/* Hover */
+.handsontable tbody tr:hover td {
+  background-color: #eef3ff !important;
 }
-
-.file-list {
-    margin-top: 15px;
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-.file-item {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    margin: 3px 0;
-    border-radius: 5px;
-    border: 1px solid var(--bs-border-color);
-    background-color: var(--bs-body-bg);
-}
-
-.file-item.valid {
-    background-color: var(--bs-success-bg-subtle);
-    border-color: var(--bs-success-border-subtle);
-}
-
-.file-item.invalid {
-    background-color: var(--bs-danger-bg-subtle);
-    border-color: var(--bs-danger-border-subtle);
-}
-
-.file-name {
-    flex: 1;
-    font-weight: 500;
-    font-size: 0.9em;
-    color: var(--bs-body-color);
-}
-
-.file-size {
-    color: var(--bs-secondary-color);
-    font-size: 0.8em;
-    margin: 0 8px;
-}
-
-.error-message {
-    color: var(--bs-danger);
-    font-size: 0.8em;
-    margin-left: 8px;
-}
-
-.remove-file {
-    background: none;
-    border: none;
-    color: var(--bs-danger);
-    font-size: 1.1em;
-    cursor: pointer;
-    padding: 0 4px;
-}
-
-.remove-file:hover {
-    color: var(--bs-danger-hover);
-}
-
-.stats {
-    margin-top: 10px;
-    padding: 8px;
-    background-color: var(--bs-secondary-bg);
-    border-radius: 5px;
-    font-size: 0.9em;
-    color: var(--bs-body-color);
-}
-
-.progress-bar {
-    height: 3px;
-    background-color: var(--bs-secondary-bg);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-top: 8px;
-}
-
-.progress-fill {
-    height: 100%;
-    background-color: var(--bs-primary);
-    width: 0%;
-    transition: width 0.3s ease;
-}
-
-.file-options {
-    margin-top: 8px;
-    padding: 8px 12px;
-    background-color: var(--bs-secondary-bg);
-    border-radius: 5px;
-    border: 1px solid var(--bs-border-color);
-}
-
-.file-options .form-control {
-    font-size: 0.85em;
-    background-color: var(--bs-body-bg);
-    border-color: var(--bs-border-color);
-    color: var(--bs-body-color);
-    height: 32px;
-}
-
-.file-options .form-control:focus {
-    background-color: var(--bs-body-bg);
-    border-color: var(--bs-primary);
-    color: var(--bs-body-color);
-}
-
-.file-options .form-check {
-    margin: 0;
-}
-
-.file-options strong {
-    font-size: 0.9em;
-    color: var(--bs-body-color);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+.handsontable tbody tr:hover td { background-color: #eef3ff !important; }
+.drop-zone { border: 2px dashed var(--bs-border-color); border-radius: 8px; padding: 30px; text-align: center; background-color: var(--bs-body-bg); transition: all 0.3s ease; min-height: 150px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.drop-zone.dragover { border-color: var(--bs-primary); background-color: var(--bs-primary-bg-subtle); }
+.file-list { margin-top: 15px; max-height: 200px; overflow-y: auto; }
+.file-item { display: flex; align-items: center; padding: 8px; margin: 3px 0; border-radius: 5px; border: 1px solid var(--bs-border-color); }
+.file-item.valid { background-color: var(--bs-success-bg-subtle); }
+.file-item.invalid { background-color: var(--bs-danger-bg-subtle); }
 </style>
 
 <script>
-// Classe Drag & Drop Uploader pour la modale
-class DragDropUploader {
-    constructor(materielId) {
-        this.materielId = materielId;
-        this.dropZone = document.getElementById('dropZone');
-        this.fileInput = document.getElementById('fileInput');
-        this.fileList = document.getElementById('fileList');
-        this.stats = document.getElementById('stats');
-        this.validCount = document.getElementById('validCount');
-        this.invalidCount = document.getElementById('invalidCount');
-        this.progressFill = document.getElementById('progressFill');
-        this.uploadValidBtn = document.getElementById('uploadValidBtn');
-        this.clearAllBtn = document.getElementById('clearAllBtn');
-        this.filesOptions = document.getElementById('filesOptions');
-        this.filesOptionsList = document.getElementById('filesOptionsList');
-        this.dragDropForm = document.getElementById('dragDropForm');
-        
-        this.files = [];
-        this.allowedExtensions = [];
-        this.maxSize = parsePhpSize('<?php echo ini_get("upload_max_filesize"); ?>');
-        
-        this.init();
-    }
-    
-    async init() {
-        await this.loadAllowedExtensions();
-        this.setupEventListeners();
-    }
-    
-    async loadAllowedExtensions() {
-        try {
-            const response = await fetch('<?php echo BASE_URL; ?>settings/getAllowedExtensions');
-            const data = await response.json();
-            this.allowedExtensions = data.extensions || [];
-        } catch (error) {
-            console.error('Erreur lors du chargement des extensions autorisées:', error);
-        }
-    }
-    
-    setupEventListeners() {
-        // Drag & Drop events
-        this.dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            this.dropZone.classList.add('dragover');
+const baseUrl = '<?= BASE_URL ?>';
+let currentSearchTerm = '';
+let hotInstances = {};
+
+function updateSitesAndSubmit() {
+  const clientId = document.getElementById('client_id').value;
+  if (clientId) {
+    fetch('<?= BASE_URL ?>materiel/get_sites?client_id=' + clientId)
+      .then(res => res.json())
+      .then(data => {
+        const siteSelect = document.getElementById('site_id');
+        siteSelect.innerHTML = '<option value="">Tous les sites</option>';
+        data.forEach(site => {
+          const option = document.createElement('option');
+          option.value = site.id;
+          option.textContent = site.name;
+          siteSelect.appendChild(option);
         });
-        
-        this.dropZone.addEventListener('dragleave', (e) => {
-            e.preventDefault();
-            this.dropZone.classList.remove('dragover');
-        });
-        
-        this.dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            this.dropZone.classList.remove('dragover');
-            const files = Array.from(e.dataTransfer.files);
-            this.handleFiles(files);
-        });
-        
-        // Click to select files
-        this.dropZone.addEventListener('click', () => {
-            this.fileInput.click();
-        });
-        
-        this.fileInput.addEventListener('change', (e) => {
-            const files = Array.from(e.target.files);
-            this.handleFiles(files);
-        });
-        
-        // Action buttons
-        this.uploadValidBtn.addEventListener('click', () => {
-            this.uploadValidFiles();
-        });
-        
-        this.clearAllBtn.addEventListener('click', () => {
-            this.clearAllFiles();
-        });
-    }
-    
-    handleFiles(newFiles) {
-        const validatedFiles = this.validateFiles(newFiles);
-        this.files = [...this.files, ...validatedFiles];
-        this.displayFiles();
-        this.updateStats();
-        this.updateFilesOptions();
-    }
-    
-    validateFiles(files) {
-        return files.map(file => {
-            const extension = file.name.split('.').pop().toLowerCase();
-            const isValid = this.allowedExtensions.includes(extension);
-            const isSizeValid = file.size <= this.maxSize;
-            
-            let error = null;
-            if (!isSizeValid) {
-                error = `Le fichier est trop volumineux (${this.formatFileSize(file.size)}). Taille maximale autorisée : ${this.formatFileSize(this.maxSize)}.`;
-            } else if (!isValid) {
-                error = 'Ce format n\'est pas accepté, rapprochez-vous de l\'administrateur du site, ou utilisez un format compressé.';
-            }
-            
-            return {
-                file,
-                isValid: isValid && isSizeValid,
-                extension,
-                error
-            };
-        });
-    }
-    
-    displayFiles() {
-        this.fileList.innerHTML = '';
-        
-        this.files.forEach((fileData, index) => {
-            const fileItem = document.createElement('div');
-            fileItem.className = `file-item ${fileData.isValid ? 'valid' : 'invalid'}`;
-            
-            fileItem.innerHTML = `
-                <span class="file-name">${fileData.file.name}</span>
-                <span class="file-size">${this.formatFileSize(fileData.file.size)}</span>
-                ${fileData.error ? `<span class="error-message">${fileData.error}</span>` : ''}
-                <button type="button" class="remove-file" onclick="uploader.removeFile(${index})">×</button>
-            `;
-            
-            this.fileList.appendChild(fileItem);
-        });
-    }
-    
-    updateFilesOptions() {
-        const validFiles = this.files.filter(f => f.isValid);
-        
-        if (validFiles.length > 0) {
-            this.filesOptions.style.display = 'block';
-            this.filesOptionsList.innerHTML = '';
-            
-            validFiles.forEach((fileData, index) => {
-                const fileOptionsDiv = document.createElement('div');
-                fileOptionsDiv.className = 'file-options mb-2';
-                fileOptionsDiv.innerHTML = `
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <div class="d-flex align-items-center">
-                                <strong class="me-3" style="min-width: 120px;">${fileData.file.name}</strong>
-                                <input type="text" class="form-control form-control-sm" name="file_description[${index}]" 
-                                       placeholder="Titre ou description (optionnel)" style="max-width: 200px;">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="file_masque_client[${index}]" value="1" id="masque_${index}">
-                                <label class="form-check-label" for="masque_${index}">
-                                    <i class="bi bi-eye-slash text-warning me-1"></i>
-                                    Masquer aux clients
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                this.filesOptionsList.appendChild(fileOptionsDiv);
-            });
-        } else {
-            this.filesOptions.style.display = 'none';
-        }
-    }
-    
-    removeFile(index) {
-        this.files.splice(index, 1);
-        this.displayFiles();
-        this.updateStats();
-        this.updateFilesOptions();
-    }
-    
-    updateStats() {
-        const validFiles = this.files.filter(f => f.isValid);
-        const invalidFiles = this.files.filter(f => !f.isValid);
-        
-        this.validCount.textContent = validFiles.length;
-        this.invalidCount.textContent = invalidFiles.length;
-        
-        if (this.files.length > 0) {
-            this.stats.style.display = 'block';
-            this.uploadValidBtn.style.display = 'inline-block';
-            this.clearAllBtn.style.display = 'inline-block';
-            
-            const progress = (validFiles.length / this.files.length) * 100;
-            this.progressFill.style.width = `${progress}%`;
-        } else {
-            this.stats.style.display = 'none';
-            this.uploadValidBtn.style.display = 'none';
-            this.clearAllBtn.style.display = 'none';
-        }
-    }
-    
-    clearAllFiles() {
-        this.files = [];
-        this.displayFiles();
-        this.updateStats();
-        this.updateFilesOptions();
-        this.fileInput.value = '';
-    }
-    
-    formatFileSize(bytes) {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-    
-    async uploadValidFiles() {
-        const validFiles = this.files.filter(f => f.isValid);
-        
-        if (validFiles.length === 0) {
-            alert('Aucun fichier valide à uploader');
-            return;
-        }
-        
-        // Préparer les données du formulaire
-        const formData = new FormData();
-        formData.append('materiel_id', this.materielId);
-        
-        // Ajouter les fichiers et leurs options
-        validFiles.forEach((fileData, index) => {
-            formData.append(`files[${index}]`, fileData.file);
-            
-            // Ajouter les options individuelles
-            const descriptionInput = document.querySelector(`input[name="file_description[${index}]"]`);
-            const masqueClientInput = document.querySelector(`input[name="file_masque_client[${index}]"]`);
-            
-            if (descriptionInput && descriptionInput.value) {
-                formData.append(`descriptions[${index}]`, descriptionInput.value);
-            }
-            if (masqueClientInput && masqueClientInput.checked) {
-                formData.append(`masque_client[${index}]`, '1');
-            }
-        });
-        
-        // Désactiver le bouton pendant l'upload
-        this.uploadValidBtn.disabled = true;
-        this.uploadValidBtn.innerHTML = '<i class="bi bi-arrow-clockwise spin me-1"></i>Upload en cours...';
-        
-        try {
-            const response = await fetch('<?php echo BASE_URL; ?>materiel/uploadAttachment', {
-                method: 'POST',
-            headers: {
-                'X-CSRF-Token': '<?= csrf_token() ?>'
-            },
-                body: formData
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                alert(`${validFiles.length} fichier(s) uploadé(s) avec succès !`);
-                // Fermer la modale d'ajout
-                const addModal = bootstrap.Modal.getInstance(document.getElementById('addAttachmentModal'));
-                addModal.hide();
-                
-                // Recharger les pièces jointes dans la modale principale si elle est ouverte
-                const attachmentsModal = document.getElementById('attachmentsModal');
-                const materielIdFromMain = attachmentsModal.getAttribute('data-materiel-id');
-                const modalContent = document.getElementById('attachmentsModalContent');
-                if (materielIdFromMain && modalContent) {
-                    loadAttachments(materielIdFromMain, modalContent);
-                } else {
-                    // Sinon, recharger la page pour mettre à jour les compteurs
-                    window.location.reload();
-                }
-            } else {
-                alert(`Erreur lors de l'upload : ${result.error || 'Erreur inconnue'}`);
-            }
-        } catch (error) {
-            console.error('Erreur lors de l\'upload:', error);
-            alert('Erreur lors de l\'upload des fichiers');
-        } finally {
-            this.uploadValidBtn.disabled = false;
-            this.uploadValidBtn.innerHTML = '<i class="bi bi-upload me-1"></i> Uploader les fichiers valides';
-        }
-    }
+        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
+        document.getElementById('filterForm').submit();
+      })
+      .catch(err => console.error('Erreur:', err));
+  } else {
+    document.getElementById('site_id').innerHTML = '<option value="">Tous les sites</option>';
+    document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
+    document.getElementById('filterForm').submit();
+  }
 }
 
-// Fonction pour parser la taille PHP (ex: "8M" -> bytes)
-function parsePhpSize(size) {
-    const units = { 'K': 1024, 'M': 1024 * 1024, 'G': 1024 * 1024 * 1024 };
-    const match = size.match(/^(\d+)([KMG])?$/i);
-    if (!match) return 0;
-    const value = parseInt(match[1]);
-    const unit = match[2] ? match[2].toUpperCase() : '';
-    return value * (units[unit] || 1);
+function updateRoomsAndSubmit() {
+  const siteId = document.getElementById('site_id').value;
+  if (siteId) {
+    fetch('<?= BASE_URL ?>materiel/get_rooms?site_id=' + siteId)
+      .then(res => res.json())
+      .then(data => {
+        const roomSelect = document.getElementById('salle_id');
+        roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
+        data.forEach(room => {
+          const option = document.createElement('option');
+          option.value = room.id;
+          option.textContent = room.name;
+          roomSelect.appendChild(option);
+        });
+        document.getElementById('filterForm').submit();
+      })
+      .catch(err => console.error('Erreur:', err));
+  } else {
+    document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
+    document.getElementById('filterForm').submit();
+  }
 }
 
-// Fonction pour ouvrir la modale d'ajout
+function applyGlobalSearch() {
+  const searchTerm = document.getElementById('globalSearch').value.toLowerCase();
+  currentSearchTerm = searchTerm;
+  
+  const clearBtn = document.getElementById('clearGlobalSearch');
+  clearBtn.style.display = searchTerm.length > 0 ? 'inline-block' : 'none';
+  
+  // Parcourir toutes les instances Handsontable
+  Object.keys(hotInstances).forEach(tableId => {
+    const hot = hotInstances[tableId];
+    if (!hot) return;
+    
+    const data = hot.getData();
+    const totalRows = data.length;
+    
+    for (let i = 0; i < totalRows; i++) {
+      let rowMatches = false;
+      const rowData = data[i];
+      
+      for (let j = 0; j < rowData.length; j++) {
+        // Ignorer la colonne pièces jointes (index 7)
+        if (j === 7) continue;
+        const cellValue = rowData[j];
+        if (cellValue && typeof cellValue === 'object') continue;
+        if (cellValue && cellValue.toString().toLowerCase().includes(searchTerm)) {
+          rowMatches = true;
+          break;
+        }
+      }
+      
+      const visualRowIndex = hot.toVisualRow(i);
+      const rowElement = hot.getCell(visualRowIndex, 0);
+      if (rowElement) {
+        const tr = rowElement.parentNode;
+        if (tr) {
+          tr.style.display = (!searchTerm || rowMatches) ? '' : 'none';
+        }
+      }
+    }
+    
+    hot.render();
+  });
+  
+  updateAccordionsVisibility(searchTerm);
+}
+
+function updateAccordionsVisibility(searchTerm) {
+  if (!searchTerm || searchTerm.trim().length === 0) {
+    document.querySelectorAll('.accordion-item').forEach(item => item.style.display = '');
+    return;
+  }
+  
+  document.querySelectorAll('.accordion-item').forEach(accordionItem => {
+    const collapseDiv = accordionItem.querySelector('.accordion-collapse');
+    if (!collapseDiv) return;
+    
+    const tableId = collapseDiv.id.replace('collapse_', 'excelTable-');
+    const hot = hotInstances[tableId];
+    let hasVisibleRow = false;
+    
+    if (hot) {
+      const data = hot.getData();
+      for (let i = 0; i < data.length; i++) {
+        let rowMatches = false;
+        for (let j = 0; j < data[i].length; j++) {
+          if (j === 7) continue;
+          const cellValue = data[i][j];
+          if (cellValue && typeof cellValue !== 'object' && cellValue.toString().toLowerCase().includes(searchTerm)) {
+            rowMatches = true;
+            break;
+          }
+        }
+        if (rowMatches) {
+          hasVisibleRow = true;
+          break;
+        }
+      }
+    }
+    
+    accordionItem.style.display = hasVisibleRow ? '' : 'none';
+  });
+}
+
+function openAllAccordions() {
+  document.querySelectorAll('.accordion-collapse').forEach(collapse => {
+    if (!collapse.classList.contains('show')) {
+      new bootstrap.Collapse(collapse, { toggle: false }).show();
+    }
+  });
+}
+
+function closeAllAccordions() {
+  document.querySelectorAll('.accordion-collapse.show').forEach(collapse => {
+    bootstrap.Collapse.getInstance(collapse)?.hide();
+  });
+}
+
+function saveColumnVisibility() {
+  const state = {};
+  document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
+    state[parseInt(cb.dataset.col)] = cb.checked;
+  });
+  localStorage.setItem('materiel_columns_visibility', JSON.stringify(state));
+}
+
+function restoreColumnVisibility() {
+  const saved = localStorage.getItem('materiel_columns_visibility');
+  if (saved) {
+    try {
+      const state = JSON.parse(saved);
+      document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
+        const col = parseInt(cb.dataset.col);
+        if (state.hasOwnProperty(col)) cb.checked = state[col];
+      });
+      return state;
+    } catch(e) { console.error(e); }
+  }
+  return null;
+}
+
+function applyColumnVisibility(colIndex, isVisible) {
+  Object.values(hotInstances).forEach(hot => {
+    const plugin = hot.getPlugin('hiddenColumns');
+    if (isVisible) plugin.showColumn(colIndex);
+    else plugin.hideColumn(colIndex);
+    hot.render();
+  });
+}
+
+function openAttachmentsModal(materielId, materielName) {
+  const modal = new bootstrap.Modal(document.getElementById('attachmentsModal'));
+  document.getElementById('attachmentsModalLabel').textContent = `Pièces jointes - ${materielName}`;
+  const content = document.getElementById('attachmentsModalContent');
+  content.innerHTML = '<div class="text-center py-3"><div class="spinner-border text-primary"></div><p class="mt-2">Chargement...</p></div>';
+  document.getElementById('attachmentsModal').setAttribute('data-materiel-id', materielId);
+  modal.show();
+  loadAttachments(materielId, content);
+}
+
+function loadAttachments(materielId, container) {
+  fetch('<?= BASE_URL ?>materiel/getAttachments/' + materielId)
+    .then(res => res.json())
+    .then(data => {
+      if (data.success && data.attachments) renderAttachments(data.attachments, container, materielId);
+      else container.innerHTML = `<div class="alert alert-danger">${data.error || 'Erreur de chargement'}</div>`;
+    })
+    .catch(err => { console.error(err); container.innerHTML = '<div class="alert alert-danger">Erreur de chargement</div>'; });
+}
+
+function renderAttachments(attachments, container, materielId) {
+  let html = '<div class="mb-3">';
+  if (attachments.length === 0) html += '<div class="text-center py-4"><i class="bi bi-inbox fs-1 text-muted"></i><p class="mt-3">Aucune pièce jointe</p></div>';
+  else {
+    attachments.sort((a,b) => new Date(b.date_creation) - new Date(a.date_creation));
+    html += '<div class="list-group">';
+    attachments.forEach(att => {
+      const isPdf = att.type_fichier?.toLowerCase() === 'pdf';
+      const isImage = ['jpg','jpeg','png','gif','webp'].includes(att.type_fichier?.toLowerCase());
+      const size = formatFileSize(att.taille_fichier || 0);
+      const date = att.date_creation ? new Date(att.date_creation).toLocaleDateString('fr-FR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '-';
+      html += `<div class="list-group-item ${att.masque_client == 1 ? 'bg-light-warning' : ''}">
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="flex-grow-1">
+            <div class="d-flex align-items-center mb-1">${att.masque_client == 1 ? '<i class="bi bi-eye-slash text-warning me-2"></i>' : ''}<strong>${escapeHtml(att.nom_fichier)}</strong></div>
+            ${att.commentaire ? `<small class="text-muted d-block">${escapeHtml(att.commentaire)}</small>` : ''}
+            <small class="text-muted">${size} • ${date}${att.created_by_name ? ' • ' + escapeHtml(att.created_by_name) : ''}</small>
+          </div>
+          <div class="ms-3">
+            ${isPdf || isImage ? `<button class="btn btn-sm btn-outline-info me-1" onclick="previewAttachment(${att.id},'${escapeHtml(att.nom_fichier)}','${att.type_fichier}')"><i class="bi bi-eye"></i></button>` : ''}
+            <a href="<?= BASE_URL ?>materiel/download/${att.id}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-download"></i></a>
+            <a href="<?= BASE_URL ?>materiel/toggleAttachmentVisibility/${materielId}/${att.id}" class="btn btn-sm btn-outline-warning me-1"><i class="bi ${att.masque_client == 1 ? 'bi-eye' : 'bi-eye-slash'}"></i></a>
+            <a href="<?= BASE_URL ?>materiel/deleteAttachment/${materielId}/${att.id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer ?')"><i class="bi bi-trash"></i></a>
+          </div>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  }
+  html += '</div><div class="d-flex justify-content-end"><button class="btn btn-primary" onclick="openAddAttachmentModal(' + materielId + ')"><i class="bi bi-plus me-1"></i>Ajouter</button></div>';
+  container.innerHTML = html;
+}
+
+function previewAttachment(id, name, type) {
+  const modal = new bootstrap.Modal(document.getElementById('previewAttachmentModal'));
+  document.getElementById('previewAttachmentModalLabel').textContent = name;
+  const body = document.getElementById('previewAttachmentModalBody');
+  const ext = type?.toLowerCase() || '';
+  if (ext === 'pdf') body.innerHTML = `<iframe src="<?= BASE_URL ?>materiel/preview/${id}" width="100%" height="600px" frameborder="0"></iframe>`;
+  else if (['jpg','jpeg','png','gif','webp'].includes(ext)) body.innerHTML = `<img src="<?= BASE_URL ?>materiel/preview/${id}" class="img-fluid">`;
+  else body.innerHTML = `<div class="alert alert-info">Prévisualisation non disponible. <a href="<?= BASE_URL ?>materiel/download/${id}" target="_blank">Télécharger</a></div>`;
+  modal.show();
+}
+
+function formatFileSize(bytes) {
+  if (!bytes) return '0 Bytes';
+  const k = 1024, sizes = ['Bytes','KB','MB','GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
 function openAddAttachmentModal(materielId) {
-    const addModal = new bootstrap.Modal(document.getElementById('addAttachmentModal'));
-    
-    // Stocker l'ID du matériel dans la modale d'ajout
-    document.getElementById('addAttachmentModal').setAttribute('data-materiel-id', materielId);
-    
-    addModal.show();
+  const modal = new bootstrap.Modal(document.getElementById('addAttachmentModal'));
+  document.getElementById('addAttachmentModal').setAttribute('data-materiel-id', materielId);
+  modal.show();
 }
 
-// Initialiser l'uploader quand la modale d'ajout s'ouvre
+class DragDropUploader {
+  constructor(materielId) {
+    this.materielId = materielId;
+    this.files = [];
+    this.allowedExtensions = [];
+    this.maxSize = parsePhpSize('<?php echo ini_get("upload_max_filesize"); ?>');
+    this.dropZone = document.getElementById('dropZone');
+    this.fileInput = document.getElementById('fileInput');
+    this.fileList = document.getElementById('fileList');
+    this.stats = document.getElementById('stats');
+    this.validCount = document.getElementById('validCount');
+    this.invalidCount = document.getElementById('invalidCount');
+    this.progressFill = document.getElementById('progressFill');
+    this.uploadBtn = document.getElementById('uploadValidBtn');
+    this.clearBtn = document.getElementById('clearAllBtn');
+    this.filesOptions = document.getElementById('filesOptions');
+    this.filesOptionsList = document.getElementById('filesOptionsList');
+    this.init();
+  }
+  
+  async init() {
+    try {
+      const res = await fetch('<?= BASE_URL ?>settings/getAllowedExtensions');
+      const data = await res.json();
+      this.allowedExtensions = data.extensions || [];
+    } catch(e) { console.error(e); }
+    this.setupEvents();
+  }
+  
+  setupEvents() {
+    this.dropZone.addEventListener('dragover', e => { e.preventDefault(); this.dropZone.classList.add('dragover'); });
+    this.dropZone.addEventListener('dragleave', e => { e.preventDefault(); this.dropZone.classList.remove('dragover'); });
+    this.dropZone.addEventListener('drop', e => { e.preventDefault(); this.dropZone.classList.remove('dragover'); this.handleFiles(Array.from(e.dataTransfer.files)); });
+    this.dropZone.addEventListener('click', () => this.fileInput.click());
+    this.fileInput.addEventListener('change', e => this.handleFiles(Array.from(e.target.files)));
+    this.uploadBtn.addEventListener('click', () => this.upload());
+    this.clearBtn.addEventListener('click', () => this.clearAll());
+  }
+  
+  handleFiles(newFiles) {
+    this.files.push(...this.validateFiles(newFiles));
+    this.render();
+  }
+  
+  validateFiles(files) {
+    return files.map(f => {
+      const ext = f.name.split('.').pop().toLowerCase();
+      const validExt = this.allowedExtensions.includes(ext);
+      const validSize = f.size <= this.maxSize;
+      let error = null;
+      if (!validSize) error = `Trop volumineux (${this.formatFileSize(f.size)}). Max: ${this.formatFileSize(this.maxSize)}`;
+      else if (!validExt) error = 'Format non accepté';
+      return { file: f, isValid: validExt && validSize, error };
+    });
+  }
+  
+  render() {
+    this.fileList.innerHTML = '';
+    this.files.forEach((f, i) => {
+      const div = document.createElement('div');
+      div.className = `file-item ${f.isValid ? 'valid' : 'invalid'}`;
+      div.innerHTML = `<span class="file-name">${f.file.name}</span>
+        <span class="file-size">${this.formatFileSize(f.file.size)}</span>
+        ${f.error ? `<span class="error-message">${f.error}</span>` : ''}
+        <button class="remove-file btn btn-sm btn-link" onclick="uploader.removeFile(${i})">×</button>`;
+      this.fileList.appendChild(div);
+    });
+    this.updateStats();
+    this.updateOptions();
+  }
+  
+  updateOptions() {
+    const valid = this.files.filter(f => f.isValid);
+    if (valid.length) {
+      this.filesOptions.style.display = 'block';
+      this.filesOptionsList.innerHTML = '';
+      valid.forEach((f, i) => {
+        const div = document.createElement('div');
+        div.className = 'file-options mb-2 p-2 border rounded';
+        div.innerHTML = `<div class="row align-items-center">
+          <div class="col-md-8"><strong>${f.file.name}</strong><input type="text" class="form-control form-control-sm mt-1" name="desc_${i}" placeholder="Description"></div>
+          <div class="col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" name="hide_${i}" value="1" id="hide_${i}"><label for="hide_${i}"><i class="bi bi-eye-slash me-1"></i>Masquer client</label></div></div>
+        </div>`;
+        this.filesOptionsList.appendChild(div);
+      });
+    } else this.filesOptions.style.display = 'none';
+  }
+  
+  updateStats() {
+    const valid = this.files.filter(f => f.isValid).length;
+    const invalid = this.files.length - valid;
+    this.validCount.textContent = valid;
+    this.invalidCount.textContent = invalid;
+    if (this.files.length) {
+      this.stats.style.display = 'block';
+      this.uploadBtn.style.display = 'inline-block';
+      this.clearBtn.style.display = 'inline-block';
+      this.progressFill.style.width = (valid / this.files.length * 100) + '%';
+    } else {
+      this.stats.style.display = 'none';
+      this.uploadBtn.style.display = 'none';
+      this.clearBtn.style.display = 'none';
+    }
+  }
+  
+  removeFile(index) {
+    this.files.splice(index, 1);
+    this.render();
+  }
+  
+  clearAll() {
+    this.files = [];
+    this.render();
+    this.fileInput.value = '';
+  }
+  
+  formatFileSize(bytes) {
+    if (!bytes) return '0 Bytes';
+    const k = 1024, sizes = ['Bytes','KB','MB','GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i];
+  }
+  
+  async upload() {
+    const valid = this.files.filter(f => f.isValid);
+    if (!valid.length) return alert('Aucun fichier valide');
+    const fd = new FormData();
+    fd.append('materiel_id', this.materielId);
+    valid.forEach((f, i) => {
+      fd.append(`files[${i}]`, f.file);
+      const desc = document.querySelector(`input[name="desc_${i}"]`);
+      const hide = document.querySelector(`input[name="hide_${i}"]`);
+      if (desc?.value) fd.append(`descriptions[${i}]`, desc.value);
+      if (hide?.checked) fd.append(`masque_client[${i}]`, '1');
+    });
+    this.uploadBtn.disabled = true;
+    this.uploadBtn.innerHTML = '<i class="bi bi-arrow-clockwise spin me-1"></i>Upload...';
+    try {
+      const res = await fetch('<?= BASE_URL ?>materiel/uploadAttachment', {
+        method: 'POST',
+        headers: { 'X-CSRF-Token': '<?= csrf_token() ?>' },
+        body: fd
+      });
+      const result = await res.json();
+      if (result.success) {
+        alert('Upload réussi !');
+        bootstrap.Modal.getInstance(document.getElementById('addAttachmentModal')).hide();
+        location.reload();
+      } else alert('Erreur: ' + (result.error || 'Inconnue'));
+    } catch(e) { console.error(e); alert('Erreur réseau'); }
+    finally {
+      this.uploadBtn.disabled = false;
+      this.uploadBtn.innerHTML = '<i class="bi bi-upload me-1"></i>Uploader';
+    }
+  }
+}
+
+function parsePhpSize(size) {
+  const units = { K:1024, M:1048576, G:1073741824 };
+  const match = String(size).match(/^(\d+)([KMG])?$/i);
+  if (!match) return 0;
+  return parseInt(match[1]) * (units[match[2]?.toUpperCase()] || 1);
+}
+
 let uploader;
 document.getElementById('addAttachmentModal').addEventListener('shown.bs.modal', function() {
-    const addModal = document.getElementById('addAttachmentModal');
-    const materielId = addModal.getAttribute('data-materiel-id');
-    
-    if (materielId) {
-        uploader = new DragDropUploader(materielId);
-    }
+  const id = this.getAttribute('data-materiel-id');
+  if (id) uploader = new DragDropUploader(id);
+});
+document.getElementById('addAttachmentModal').addEventListener('hidden.bs.modal', function() {
+  if (uploader) uploader.clearAll();
 });
 
-// Réinitialiser l'uploader quand la modale se ferme
-document.getElementById('addAttachmentModal').addEventListener('hidden.bs.modal', function() {
-    if (uploader) {
-        uploader.clearAllFiles();
-    }
+document.addEventListener('DOMContentLoaded', function() {
+  <?php if (!empty($filters['client_id']) && !empty($materiel_organise)): ?>
+            <?php foreach ($materiel_organise as $client_nom => $sites): ?>
+                      <?php foreach ($sites as $site_nom => $salles): ?>
+                                <?php foreach ($salles as $salle_nom => $materiels):
+                                  $salle_id = 'salle_' . md5($client_nom . $site_nom . $salle_nom);
+                                  ?>
+                                          (function() {
+                                            const container = document.getElementById('excelTable-<?= $salle_id ?>');
+                                            const data = <?= json_encode(array_map(function ($m) use ($allColumns, $pieces_jointes_count) {
+                                              return array_map(function ($col) use ($m, $pieces_jointes_count) {
+                                                if ($col['field'] === 'equipement')
+                                                  return ($m['marque'] ?? '') . "\n" . ($m['modele'] ?? '');
+                                                if ($col['field'] === 'pieces_jointes')
+                                                  return ['count' => $pieces_jointes_count[$m['id']] ?? 0, 'id' => $m['id'], 'name' => ($m['marque'] ?? '') . ' ' . ($m['modele'] ?? '')];
+                                                return $m[$col['field']] ?? '';
+                                              }, $allColumns);
+                                            }, $materiels)); ?>;
+            
+                                            const hot = new Handsontable(container, {
+                                              data: data,
+                                              colHeaders: <?= json_encode($colHeaders) ?>,
+                                              hiddenColumns: { columns: <?= json_encode($hiddenColumns) ?>, indicators: true },
+                                              rowHeaders: false,
+                                              licenseKey: 'non-commercial-and-evaluation',
+                                              stretchH: 'all',
+                                              height: 300,
+                                              cells: function(row, col) {
+                                                const header = this.colHeaders[col];
+                                                if (header === 'Équipement') {
+                                                  return {
+                                                    renderer: function(instance, td, row, col, prop, value) {
+                                                      const parts = (value || '').split('\n');
+                                                      td.innerHTML = parts[0] + '<br><small>' + (parts[1] || '') + '</small>';
+                                                    }
+                                                  };
+                                                }
+                                                if (header === 'Pièces jointes') {
+                                                  return {
+                                                    renderer: function(instance, td, row, col, prop, value) {
+                                                      const count = value?.count ?? 0;
+                                                      const id = value?.id;
+                                                      const name = value?.name ?? '';
+                                                      td.innerHTML = `<button class="flex gap-4 btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}" onclick="openAttachmentsModal(${id}, '${name.replace(/'/g, "\\'")}')"><i class="bi bi-paperclip"></i><span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'}">${count}</span></button>`;
+                      td.style.textAlign = 'center';
+                    }
+                  };
+                }
+                return {};
+              }
+            });
+            hotInstances['excelTable-<?= $salle_id ?>'] = hot;
+          })();
+        <?php endforeach; ?>
+      <?php endforeach; ?>
+    <?php endforeach; ?>
+  <?php endif; ?>
+  
+  const saved = restoreColumnVisibility();
+  if (saved) Object.keys(saved).forEach(col => applyColumnVisibility(parseInt(col), saved[col]));
+  
+  const searchInput = document.getElementById('globalSearch');
+  const clearBtn = document.getElementById('clearGlobalSearch');
+  const openBtn = document.getElementById('openAllAccordions');
+  const closeBtn = document.getElementById('closeAllAccordions');
+  
+  if (searchInput) searchInput.addEventListener('keyup', applyGlobalSearch);
+  if (clearBtn) clearBtn.addEventListener('click', () => { searchInput.value = ''; applyGlobalSearch(); });
+  if (openBtn) openBtn.addEventListener('click', openAllAccordions);
+  if (closeBtn) closeBtn.addEventListener('click', closeAllAccordions);
+  
+  document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
+    cb.addEventListener('change', function() {
+      const col = parseInt(this.dataset.col);
+      const visible = this.checked;
+      Object.values(hotInstances).forEach(hot => {
+        const plugin = hot.getPlugin('hiddenColumns');
+        if (visible) plugin.showColumn(col);
+        else plugin.hideColumn(col);
+        hot.render();
+      });
+      saveColumnVisibility();
+    });
+  });
 });
 </script>
 
-<?php
-// Inclure le footer
-include_once __DIR__ . '/../../includes/footer.php';
-?> 
+<?php include_once __DIR__ . '/../../includes/footer.php'; ?>

@@ -5,5 +5,5 @@
  */
 
 // Redirection vers le dossier public
-header('Location: avision/public/');
+header('Location: public/');
 exit;
