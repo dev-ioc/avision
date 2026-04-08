@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../includes/functions.php';
+require_once __DIR__ . '/../../controllers/MaterielController.php';
 /**
  * Vue de la liste du matériel
  * Affiche la liste du matériel regroupé par site/salle avec filtres
@@ -115,7 +116,10 @@ foreach ($allColumns as $i => $col) {
 
 // Headers
 $colHeaders = array_map(fn($c) => $c['label'], $allColumns);
+
+$allData = [];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -278,8 +282,7 @@ $colHeaders = array_map(fn($c) => $c['label'], $allColumns);
               <option value="">Tous les clients</option>
               <?php if (isset($clients) && is_array($clients)): ?>
                 <?php foreach ($clients as $client): ?>
-                  <option value="<?= $client['id'] ?>" <?= ($filters['client_id'] ?? '') == $client['id'] ? 'selected' : '' ?>
-                    >
+                  <option value="<?= $client['id'] ?>" <?= ($filters['client_id'] ?? '') == $client['id'] ? 'selected' : '' ?>>
                     <?= h($client['name']) ?>
                   </option>
                 <?php endforeach; ?>
@@ -411,11 +414,16 @@ $colHeaders = array_map(fn($c) => $c['label'], $allColumns);
       <div id="accordionContainer">
         <?php foreach ($materiel_organise as $client_nom => $sites): ?>
           <div class="card mb-4">
-            <div class="card-header bg-body-secondary">
-              <h5 class="card-title mb-0">
-                <i class="bi bi-building me-2 text-primary me-1"></i>
+            <div class="card-header bg-body-secondary d-flex align-items-center justify-content-between">
+              <h5 class="card-title mb-0 d-flex align-items-center">
+                <i class="bi bi-building text-primary me-2"></i>
                 <?= h($client_nom) ?>
               </h5>
+
+              <button type="button" class="btn btn-sm btn-outline-primary" onclick="saveAllTablesData()">
+                <i class="bi bi-save-all me-1"></i>
+                Sauvegarder toutes les modifications
+              </button>
             </div>
             <div class="card-body p-0">
               <?php foreach ($sites as $site_nom => $salles): ?>
@@ -435,6 +443,7 @@ $colHeaders = array_map(fn($c) => $c['label'], $allColumns);
                             <span class="badge bg-secondary ms-3">
                               <?= count($materiels) ?> équipement(s)
                             </span>
+
                           </div>
                         </button>
                       </h2>
@@ -455,6 +464,7 @@ $colHeaders = array_map(fn($c) => $c['label'], $allColumns);
         <?php endforeach; ?>
       </div>
     <?php endif; ?>
+
   </div>
 
   <!-- Modales -->
@@ -1085,12 +1095,12 @@ $colHeaders = array_map(fn($c) => $c['label'], $allColumns);
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-  <?php if (!empty($filters['client_id']) && !empty($materiel_organise)): ?>
-              <?php foreach ($materiel_organise as $client_nom => $sites): ?>
-                          <?php foreach ($sites as $site_nom => $salles): ?>
-                                      <?php foreach ($salles as $salle_nom => $materiels):
-                                        $salle_id = 'salle_' . md5($client_nom . $site_nom . $salle_nom);
-                                        ?>
+      <?php if (!empty($filters['client_id']) && !empty($materiel_organise)): ?>
+        <?php foreach ($materiel_organise as $client_nom => $sites): ?>
+          <?php foreach ($sites as $site_nom => $salles): ?>
+            <?php foreach ($salles as $salle_nom => $materiels):
+              $salle_id = 'salle_' . md5($client_nom . $site_nom . $salle_nom);
+              ?>
                 (function () {
                   const container = document.getElementById('excelTable-<?= $salle_id ?>');
                   const data = <?= json_encode(array_map(function ($m) use ($allColumns, $pieces_jointes_count) {
@@ -1103,75 +1113,195 @@ $colHeaders = array_map(fn($c) => $c['label'], $allColumns);
                     }, $allColumns);
                   }, $materiels)); ?>;
 
-            const hot = new Handsontable(container, {
-              data: data,
-              colHeaders: <?= json_encode($colHeaders) ?>,
-              hiddenColumns: { columns: <?= json_encode($hiddenColumns) ?>, indicators: true },
-              rowHeaders: false,
-              licenseKey: 'non-commercial-and-evaluation',
-              stretchH: 'all',
-              height: 300,
-              cells: function (row, col) {
-                const header = this.colHeaders[col];
-                if (header === 'Équipement') {
-                  return {
-                    renderer: function (instance, td, row, col, prop, value) {
-                      const parts = (value || '').split('\n');
-                      td.innerHTML = parts[0] + '<br><small>' + (parts[1] || '') + '</small>';
-                    }
-                  };
-                }
-                if (header === 'Pièces jointes') {
-                  return {
-                    renderer: function (instance, td, row, col, prop, value) {
-                      const count = value?.count ?? 0;
-                      const id = value?.id;
-                      const name = value?.name ?? '';
-                      td.innerHTML = `<button class="flex gap-4 btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}" onclick="openAttachmentsModal(${id}, '${name.replace(/'/g, "\\'")}')"><i class="bi bi-paperclip"></i><span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'}">${count}</span></button>`;
-              td.style.textAlign = 'center';
+                  const hot = new Handsontable(container, {
+                    data: data,
+                    colHeaders: <?= json_encode($colHeaders) ?>,
+                    hiddenColumns: { columns: <?= json_encode($hiddenColumns) ?>, indicators: true },
+                    rowHeaders: false,
+                    licenseKey: 'non-commercial-and-evaluation',
+                    stretchH: 'all',
+                    height: 300,
+                    cells: function (row, col) {
+                      const header = this.colHeaders[col];
+                      if (header === 'Équipement') {
+                        return {
+                          renderer: function (instance, td, row, col, prop, value) {
+                            const parts = (value || '').split('\n');
+                            td.innerHTML = parts[0] + '<br><small>' + (parts[1] || '') + '</small>';
+                          }
+                        };
+                      }
+                      if (header === 'Pièces jointes') {
+                        return {
+                          renderer: function (instance, td, row, col, prop, value) {
+                            const count = value?.count ?? 0;
+                            const id = value?.id;
+                            const name = value?.name ?? '';
+                            td.innerHTML = `<button class="flex gap-4 btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}" onclick="openAttachmentsModal(${id}, '${name.replace(/'/g, "\\'")}')"><i class="bi bi-paperclip"></i><span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'}">${count}</span></button>`;
+                    td.style.textAlign = 'center';
+                  }
+                };
+              }
+              return {};
             }
-          };
-        }
-        return {};
-      }
-    });
-    hotInstances['excelTable-<?= $salle_id ?>'] = hot;
-          }) ();
-        <?php endforeach; ?>
+          });
+          hotInstances['excelTable-<?= $salle_id ?>'] = hot;
+        })();
       <?php endforeach; ?>
-    <?php endforeach; ?>
-  <?php endif; ?>
-  
-  const saved = restoreColumnVisibility();
-    if (saved) Object.keys(saved).forEach(col => applyColumnVisibility(parseInt(col), saved[col]));
+      <?php endforeach; ?>
+      <?php endforeach; ?>
+      <?php endif; ?>
 
-    const searchInput = document.getElementById('globalSearch');
-    const clearBtn = document.getElementById('clearGlobalSearch');
-    const openBtn = document.getElementById('openAllAccordions');
-    const closeBtn = document.getElementById('closeAllAccordions');
+      const saved = restoreColumnVisibility();
+      if (saved) Object.keys(saved).forEach(col => applyColumnVisibility(parseInt(col), saved[col]));
 
-    if (searchInput) searchInput.addEventListener('keyup', applyGlobalSearch);
-    if (clearBtn) clearBtn.addEventListener('click', () => { searchInput.value = ''; applyGlobalSearch(); });
-    if (openBtn) openBtn.addEventListener('click', openAllAccordions);
-    if (closeBtn) closeBtn.addEventListener('click', closeAllAccordions);
+      const searchInput = document.getElementById('globalSearch');
+      const clearBtn = document.getElementById('clearGlobalSearch');
+      const openBtn = document.getElementById('openAllAccordions');
+      const closeBtn = document.getElementById('closeAllAccordions');
 
-    document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
-      cb.addEventListener('change', function () {
-        const col = parseInt(this.dataset.col);
-        const visible = this.checked;
-        Object.values(hotInstances).forEach(hot => {
-          const plugin = hot.getPlugin('hiddenColumns');
-          if (visible) plugin.showColumn(col);
-          else plugin.hideColumn(col);
-          hot.render();
+      if (searchInput) searchInput.addEventListener('keyup', applyGlobalSearch);
+      if (clearBtn) clearBtn.addEventListener('click', () => { searchInput.value = ''; applyGlobalSearch(); });
+      if (openBtn) openBtn.addEventListener('click', openAllAccordions);
+      if (closeBtn) closeBtn.addEventListener('click', closeAllAccordions);
+
+      document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
+        cb.addEventListener('change', function () {
+          const col = parseInt(this.dataset.col);
+          const visible = this.checked;
+          Object.values(hotInstances).forEach(hot => {
+            const plugin = hot.getPlugin('hiddenColumns');
+            if (visible) plugin.showColumn(col);
+            else plugin.hideColumn(col);
+            hot.render();
+          });
+          saveColumnVisibility();
         });
-        saveColumnVisibility();
       });
     });
-});
   </script>
+  <script>
+    window.saveAllTablesData = function () {
+      let totalSaved = 0;
+      let totalErrors = 0;
+      const savePromises = [];
 
-  <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
+      Object.keys(hotInstances).forEach(tableId => {
+        const hot = hotInstances[tableId];
+        if (!hot) return;
+
+        const allData = hot.getData();
+
+        // 🔴 garder seulement lignes avec ID
+        const validData = allData.filter(row => {
+          return row[17] !== null && row[17] !== undefined && row[17] !== '';
+        });
+
+        if (validData.length === 0) return;
+
+        const formattedData = validData.map(row => {
+          console.log("DEBUG ROW", row);
+
+          return {
+            id: row[17] ?? null,
+            marque: row[10] ?? null,
+            type_nom: row[1] ?? null,
+            numero_serie: row[2] ?? null,
+            version_firmware: row[3] ?? null,
+            adresse_ip: row[4] ?? null,
+            adresse_mac: row[5] ?? null,
+            date_fin_maintenance: row[6] || null,
+            reference: row[8] ?? null,
+            usage_materiel: row[9] ?? null,
+            modele: row[11] ?? null,
+            ancien_firmware: row[12] ?? null,
+            masque: row[13] ?? null,
+            passerelle: row[14] ?? null,
+            login: row[15] ?? null,
+            password: row[16] ?? null,
+            ip_primaire: row[18] ?? null,
+            mac_primaire: row[19] ?? null,
+            ip_secondaire: row[20] ?? null,
+            mac_secondaire: row[21] ?? null,
+            stream_aes67_recu: row[22] ?? null,
+            stream_aes67_transmis: row[23] ?? null,
+            ssid: row[24] ?? null,
+            type_cryptage: row[25] ?? null,
+            password_wifi: row[26] ?? null,
+            libelle_pa_salle: row[27] ?? null,
+            numero_port_switch: row[28] ?? null,
+            vlan: row[29] ?? null,
+            date_fin_garantie: row[30] || null,
+            date_derniere_inter: row[31] || null,
+            commentaire: row[32] ?? null,
+            url_github: row[33] ?? null
+          };
+        });
+
+        console.log("DATA ENVOYÉE", formattedData);
+
+        const promise = fetch('<?= BASE_URL ?>views/excel/excel_save.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': '<?= csrf_token() ?>'
+          },
+          body: JSON.stringify({
+            table_id: tableId,
+            salle_id: 23,
+            data: formattedData
+          })
+        })
+          .then(response => response.json())
+          .then(result => {
+            if (result.status === 'success' || result.status === 'partial') {
+              totalSaved++;
+              console.log(`${tableId}: ${result.message}`);
+            } else {
+              totalErrors++;
+              console.error(`${tableId}:`, result.message);
+            }
+          })
+          .catch(error => {
+            totalErrors++;
+            console.error(`${tableId}:`, error);
+          });
+
+        savePromises.push(promise);
+      });
+
+      if (savePromises.length === 0) {
+        alert('Aucune donnée à sauvegarder');
+        return;
+      }
+
+      Promise.all(savePromises).then(() => {
+        alert(`Sauvegarde terminée : ${totalSaved} tableau(x), ${totalErrors} erreur(s)`);
+      });
+    };
+  </script>
+  <style>
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .bi-arrow-clockwise.spin {
+      animation: spin 1s linear infinite;
+      display: inline-block;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  </style>
 </body>
 
 </html>
+<?php include_once __DIR__ . '/../../includes/footer.php'; ?>
