@@ -31,6 +31,10 @@ if (!isset($input['data'])) {
 }
 
 $data = $input['data'];
+file_put_contents(
+    __DIR__ . '/debug.json',
+    json_encode($data, JSON_PRETTY_PRINT)
+);
 
 $updated = 0;
 $errors = [];
@@ -72,7 +76,6 @@ $stmt = $pdo->prepare("
 ");
 
 foreach ($data as $row) {
-
     // 🔴 skip si pas d'id
     if (empty($row['id'])) {
         $errors[] = "ID manquant";

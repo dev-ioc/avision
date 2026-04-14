@@ -1191,8 +1191,6 @@ $allData = [];
         if (!hot) return;
 
         const allData = hot.getData();
-
-        // 🔴 garder seulement lignes avec ID
         const validData = allData.filter(row => {
           return row[17] !== null && row[17] !== undefined && row[17] !== '';
         });
@@ -1248,7 +1246,7 @@ $allData = [];
           },
           body: JSON.stringify({
             table_id: tableId,
-            salle_id: 23,
+            salle_id: formattedData.id,
             data: formattedData
           })
         })
