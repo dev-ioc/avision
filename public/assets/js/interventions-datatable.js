@@ -1,174 +1,103 @@
-/**
- * DataTable configuration for Interventions table
- * Responsive DataTable with modal details
- */
+document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
 
-document.addEventListener('DOMContentLoaded', function() {
-  'use strict';
+  const table = document.querySelector("#interventionsTable");
+  if (!table) return;
 
-  // Get the interventions table
-  const dt_interventions_table = document.querySelector('#interventionsTable');
-  
-  if (dt_interventions_table) {
-    // Récupérer la configuration sauvegardée
-    const savedConfig = window.DataTablePersistence ? 
-      window.DataTablePersistence.getTableConfig('interventionsTable') : 
-      { pageLength: 10, order: [[9, 'desc']] };
+  // === NETTOYAGE COMPLET ===
+  // 1. Supprimer toutes les configurations localStorage
+  Object.keys(localStorage).forEach((key) => {
+    if (key.includes("DataTable") || key.includes("interventionsTable")) {
+      localStorage.removeItem(key);
+      console.log(`🗑️ Supprimé: ${key}`);
+    }
+  });
 
-    let dt_interventions = new DataTable(dt_interventions_table, {
-      // Configuration options avec persistance
-      pageLength: savedConfig.pageLength,
-      lengthMenu: [10, 25, 50, 100],
-      order: savedConfig.order, // Sort by creation date descending by default
-      
-      // Layout configuration
-      layout: {
-        topStart: {
-          search: {
-            placeholder: 'Rechercher...'
-          }
-        },
-        topEnd: {
-          rowClass: 'row mx-3 my-0 justify-content-between',
-          features: [
-            {
-              pageLength: {
-                menu: [10, 25, 50, 100],
-                text: 'Afficher _MENU_ entrées'
-              }
-            }
-          ]
-        },
-        bottomStart: {
-          rowClass: 'row mx-3 justify-content-between',
-          features: ['info']
-        },
-        bottomEnd: {
-          paging: {
-            firstLast: false
-          }
-        }
-      },
-
-      // Language configuration
-      language: {
-        url: (window.BASE_URL || '') + 'assets/json/locales/datatables-fr.json',
-        paginate: {
-          next: '<i class="icon-base bx bx-chevron-right scaleX-n1-rtl icon-sm"></i>',
-          previous: '<i class="icon-base bx bx-chevron-left scaleX-n1-rtl icon-sm"></i>'
-        }
-      },
-
-      // Responsive configuration
-      responsive: {
-        details: {
-          display: DataTable.Responsive.display.modal({
-            header: function (row) {
-              var data = row.data();
-              return 'Détails de l\'intervention ' + (data[0] || '');
-            }
-          }),
-          type: 'column',
-          renderer: function (api, rowIdx, columns) {
-            const data = columns
-              .map(function (col) {
-                return col.title !== '' // Do not show row in modal popup if title is blank
-                  ? `<tr data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
-                      <td><strong>${col.title}:</strong></td>
-                      <td>${col.data}</td>
-                    </tr>`
-                  : '';
-              })
-              .join('');
-
-            if (data) {
-              const div = document.createElement('div');
-              div.classList.add('table-responsive');
-              const table = document.createElement('table');
-              div.appendChild(table);
-              table.classList.add('table');
-              table.classList.add('table-striped');
-              const tbody = document.createElement('tbody');
-              tbody.innerHTML = data;
-              table.appendChild(tbody);
-              return div;
-            }
-            return false;
-          }
-        }
-      },
-
-      // Column definitions
-      columnDefs: [
-        {
-          // Reference column
-          targets: 0,
-          responsivePriority: 1
-        },
-        {
-          // Title column
-          targets: 1,
-          responsivePriority: 2
-        },
-        {
-          // Client column
-          targets: 2,
-          responsivePriority: 3
-        },
-        {
-          // Site column - hide on small screens
-          targets: 3,
-          responsivePriority: 4
-        },
-        {
-          // Room column - hide on small screens
-          targets: 4,
-          responsivePriority: 5
-        },
-        {
-          // Status column
-          targets: 5,
-          responsivePriority: 6
-        },
-        {
-          // Priority column
-          targets: 6,
-          responsivePriority: 7
-        },
-        {
-          // Planned date column
-          targets: 7,
-          responsivePriority: 8
-        },
-        {
-          // Technician column
-          targets: 8,
-          responsivePriority: 9
-        },
-        {
-          // Creation date column
-          targets: 9,
-          responsivePriority: 10
-        },
-      ],
-
-      // Initialization complete callback
-      initComplete: function() {
-        // Add any additional initialization here
-        console.log('Interventions DataTable initialized');
-      },
-
-      // Callbacks pour la persistance
-      drawCallback: function(settings) {
-        // Sauvegarder la configuration actuelle
-        if (window.DataTablePersistence) {
-          window.DataTablePersistence.saveTableConfig('interventionsTable', {
-            pageLength: settings._iDisplayLength,
-            order: settings.aaSorting,
-            page: settings._iDisplayStart / settings._iDisplayLength
-          });
-        }
+  // 2. Détruire toute instance DataTable existante
+  try {
+    // Méthode jQuery si disponible
+    if (
+      typeof $ !== "undefined" &&
+      $.fn.DataTable &&
+      $.fn.DataTable.isDataTable(table)
+    ) {
+      $(table).DataTable().destroy();
+      console.log("✅ Instance DataTable détruite (jQuery)");
+    }
+    // Méthode DataTables native
+    else if (typeof DataTable !== "undefined" && DataTable.isDataTable(table)) {
+      const dt = DataTable.isDataTable(table);
+      if (dt) {
+        // Note: DataTable native ne permet pas toujours de détruire facilement
+        console.log("⚠️ Instance DataTable native détectée");
       }
-    });
+    }
+  } catch (e) {
+    console.log("Aucune instance à détruire");
   }
-}); 
+
+  // 3. Nettoyer les classes et attributs DataTables
+  table.classList.remove("dataTable");
+  table.removeAttribute("data-dt-instance");
+
+  // 4. Supprimer les wrappers DataTables si présents
+  const wrapper = table.closest(".dataTables_wrapper");
+  if (wrapper && wrapper.parentNode) {
+    const parent = wrapper.parentNode;
+    parent.insertBefore(table, wrapper);
+    parent.removeChild(wrapper);
+    console.log("✅ Wrapper DataTables supprimé");
+  }
+
+  // === INITIALISATION ===
+  const dt = new DataTable(table, {
+    pageLength: 10,
+    lengthMenu: [10, 25, 50, 100],
+    order: [[7, "desc"]],
+    layout: {
+      topStart: {
+        search: {
+          placeholder: "Rechercher...",
+        },
+      },
+      topEnd: {
+        features: [
+          {
+            pageLength: {
+              menu: [10, 25, 50, 100],
+            },
+          },
+        ],
+      },
+      bottomStart: ["info"],
+      bottomEnd: ["paging"],
+    },
+    language: {
+      url: (window.BASE_URL || "") + "assets/json/locales/datatables-fr.json",
+    },
+    responsive: {
+      details: {
+        display: DataTable.Responsive.display.modal({
+          header: function (row) {
+            const data = row.data();
+            return "Détails : " + (data[0] || "");
+          },
+        }),
+        type: "column",
+      },
+    },
+    columnDefs: [
+      { targets: 0, responsivePriority: 1 },
+      { targets: 1, responsivePriority: 2 },
+      { targets: 2, responsivePriority: 3 },
+      { targets: 3, responsivePriority: 4 },
+      { targets: 4, responsivePriority: 5 },
+      { targets: 5, responsivePriority: 6 },
+      { targets: 6, responsivePriority: 7 },
+      { targets: 7, responsivePriority: 8 },
+    ],
+    initComplete: function () {
+      console.log("✅ DataTable initialisée avec succès");
+    },
+  });
+});

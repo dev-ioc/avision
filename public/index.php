@@ -52,6 +52,107 @@ if (preg_match('#^/(assets|uploads)/#', $path)) {
     }
 }
 
+// ==============================================
+// SECTION API - AVANT LA VÉRIFICATION D'AUTHENTIFICATION
+// ==============================================
+// Détecter les appels API (commencent par api/)
+if (strpos($path, '/api/') === 0) {
+    // Désactiver l'affichage des erreurs pour l'API
+    error_reporting(0);
+    ini_set('display_errors', 0);
+
+    // Nettoyer les buffers
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+
+    // Définir les headers pour l'API
+    header('Content-Type: application/json; charset=UTF-8');
+    header('Cache-Control: no-cache, must-revalidate');
+
+    // Démarrer la session si nécessaire
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Extraire le chemin API (enlever /api/)
+    $apiPath = substr($path, 5); // Enlève '/api/'
+    $apiParts = explode('/', $apiPath);
+    $apiController = $apiParts[0] ?? '';
+    $apiAction = $apiParts[1] ?? '';
+    $apiId = $apiParts[2] ?? null;
+
+    // Vérifier l'authentification pour l'API (sauf pour certaines routes publiques)
+    $publicApiRoutes = ['auth/login', 'auth/logout'];
+    $currentApiRoute = $apiController . '/' . $apiAction;
+
+    if (!in_array($currentApiRoute, $publicApiRoutes) && !isset($_SESSION['user'])) {
+        http_response_code(401);
+        echo json_encode([
+            'success' => false,
+            'error' => 'Non authentifié. Veuillez vous reconnecter.',
+            'redirect' => BASE_URL . 'auth/login'
+        ]);
+        exit;
+    }
+
+    // Charger l'initialisation
+    require_once __DIR__ . '/includes/init.php';
+
+    // Charger les modèles nécessaires
+    require_once MODELS_PATH . '/UserModel.php';
+    require_once MODELS_PATH . '/InterventionModel.php';
+
+    // Charger les contrôleurs nécessaires
+    require_once CONTROLLERS_PATH . '/InterventionController.php';
+
+    // Router les appels API
+    // try {
+    //     switch ($apiController) {
+    //         case 'interventions':
+    //             $interventionController = new InterventionController($db);
+
+    //             switch ($apiAction) {
+    //                 case 'technicians':
+    //                     if ($apiId) {
+    //                         $interventionController->apiGetTechnicians($apiId);
+    //                     } else {
+    //                         http_response_code(400);
+    //                         echo json_encode(['success' => false, 'error' => 'ID intervention manquant']);
+    //                     }
+    //                     break;
+
+    //                 case 'assignTechnicians':
+    //                     $interventionController->apiAssignTechnicians();
+    //                     break;
+
+    //                 default:
+    //                     http_response_code(404);
+    //                     echo json_encode(['success' => false, 'error' => 'Action API non trouvée']);
+    //                     break;
+    //             }
+    //             break;
+
+    //         default:
+    //             http_response_code(404);
+    //             echo json_encode(['success' => false, 'error' => 'Contrôleur API non trouvé']);
+    //             break;
+    //     }
+    // } catch (Exception $e) {
+    //     http_response_code(500);
+    //     echo json_encode([
+    //         'success' => false,
+    //         'error' => 'Erreur serveur: ' . $e->getMessage()
+    //     ]);
+    // }
+
+    exit; // Arrêter l'exécution pour l'API
+}
+
+// ==============================================
+// FIN SECTION API
+// ==============================================
+
 // Chargement de l'initialisation
 require_once __DIR__ . '/includes/init.php';
 
@@ -748,7 +849,6 @@ try {
             $interventionController = new InterventionController($db);
             switch ($action) {
                 case 'index':
-                    // Rediriger vers curatives par défaut
                     header('Location: ' . BASE_URL . 'interventions/curatives');
                     exit;
                 case 'curatives':
@@ -756,6 +856,22 @@ try {
                     break;
                 case 'preventives':
                     $interventionController->preventives();
+                    break;
+                case 'interventionsTechnician':
+                    if (!$id) {
+                        $id = $_GET['id'] ?? null;
+                    }
+
+                    if (!$id) {
+                        header('Content-Type: application/json');
+                        echo json_encode(['error' => 'ID manquant']);
+                        exit;
+                    }
+
+                    $interventionController->interventionsTechnician($id);
+                    break;
+                case 'assignTechnicians':
+                    $interventionController->assignTechnicians();
                     break;
                 case 'add':
                     $interventionController->create();

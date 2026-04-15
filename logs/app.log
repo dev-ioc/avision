@@ -28289,3 +28289,830 @@ Quant à l’écran n°1, il est HS
 [2026-04-06 17:42:28][WARNING] Undefined variable $allColumns {"file":"C:\\wamp64\\www\\avision\\public\\views\\materiel\\index.php","line":525,"errno":2}
 [2026-04-06 17:42:28][ERROR] array_map(): Argument #2 ($array) must be of type array, null given {"file":"C:\\wamp64\\www\\avision\\public\\views\\materiel\\index.php","line":527,"trace":"#0 C:\\wamp64\\www\\avision\\public\\views\\materiel\\index.php(527): array_map(Object(Closure), NULL)\n#1 [internal function]: MaterielController->{closure}(Array)\n#2 C:\\wamp64\\www\\avision\\public\\views\\materiel\\index.php(525): array_map(Object(Closure), Array)\n#3 C:\\wamp64\\www\\avision\\public\\controllers\\MaterielController.php(111): require_once('C:\\\\wamp64\\\\www\\\\a...')\n#4 C:\\wamp64\\www\\avision\\public\\index.php(1212): MaterielController->index()\n#5 {main}","type":"TypeError"}
 [2026-04-06 17:43:22][WARNING] Undefined variable $colHeaders {"file":"C:\\wamp64\\www\\avision\\public\\views\\materiel\\index.php","line":550,"errno":2}
+[2026-04-08 10:43:07][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: 2e6brmg53iht09hra46maqt16n) 
+[2026-04-08 10:43:18][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-04-08 10:43:27][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-04-08 10:43:36][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_delete_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-08 10:43:36][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-04-08 10:43:36][DEBUG] Login réussi - Session ID: 2e6brmg53iht09hra46maqt16n 
+[2026-04-08 10:43:36][DEBUG] Login réussi - redirect_after_login: dashboard 
+[2026-04-08 10:43:36][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-08 10:43:36][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-04-08 10:43:36][DEBUG] Redirection après login vers: http://localhost/avision/public/dashboard 
+[2026-04-08 10:57:39][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":464,"errno":2}
+[2026-04-08 10:57:42][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":464,"errno":2}
+[2026-04-08 11:01:39][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":464,"errno":2}
+[2026-04-08 11:03:07][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":464,"errno":2}
+[2026-04-08 11:03:25][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":464,"errno":2}
+[2026-04-08 12:12:02][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":120,"errno":2}
+[2026-04-08 12:12:02][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":120,"errno":2}
+[2026-04-08 12:12:02][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":464,"errno":2}
+[2026-04-08 12:12:57][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":120,"errno":2}
+[2026-04-08 12:14:32][WARNING] Undefined variable $input {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":118,"errno":2}
+[2026-04-08 12:14:32][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":118,"errno":2}
+[2026-04-08 12:14:32][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":121,"errno":2}
+[2026-04-08 12:14:32][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":121,"errno":2}
+[2026-04-08 12:14:32][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":465,"errno":2}
+[2026-04-08 12:14:50][WARNING] Undefined variable $input {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":118,"errno":2}
+[2026-04-08 12:14:50][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":118,"errno":2}
+[2026-04-08 12:14:50][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":121,"errno":2}
+[2026-04-08 12:14:50][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":121,"errno":2}
+[2026-04-08 12:14:50][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":465,"errno":2}
+[2026-04-08 12:15:32][WARNING] Undefined variable $input {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":118,"errno":2}
+[2026-04-08 12:15:32][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":118,"errno":2}
+[2026-04-08 12:15:32][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":121,"errno":2}
+[2026-04-08 12:17:26][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":122,"errno":2}
+[2026-04-08 12:17:26][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":122,"errno":2}
+[2026-04-08 12:17:26][WARNING] Undefined variable $data {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":466,"errno":2}
+[2026-04-14 13:50:32][DEBUG] Redirection vers login - URL sauvegardée: materiel?client_id=46&site_id=&salle_id= (Session ID: 2m5sflqismd9eg40cuk7nm681l) 
+[2026-04-14 13:50:35][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-04-14 13:50:42][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-04-14 13:50:51][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_delete_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-14 13:50:51][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-04-14 13:50:51][DEBUG] Login réussi - Session ID: 2m5sflqismd9eg40cuk7nm681l 
+[2026-04-14 13:50:51][DEBUG] Login réussi - redirect_after_login: materiel?client_id=46&site_id=&salle_id= 
+[2026-04-14 13:50:51][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-14 13:50:51][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-04-14 13:50:51][DEBUG] Redirection après login vers: http://localhost/avision/public/materiel?client_id=46&site_id=&salle_id= 
+[2026-04-14 14:45:35][ERROR] syntax error, unexpected token ";" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(761): InterventionController->create()\n#1 {main}","type":"ParseError"}
+[2026-04-14 14:46:41][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 14:46:41][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 14:46:41][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 14:46:41][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 14:46:41][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 14:46:41][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 14:46:41][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 14:51:02][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 14:51:02][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 14:51:02][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 14:51:02][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 14:51:02][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 14:51:02][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 14:51:02][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 14:54:24][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 14:54:24][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 14:54:24][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 14:54:24][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 14:54:24][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 14:54:24][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 14:54:24][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 14:59:34][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":503,"errno":2}
+[2026-04-14 14:59:34][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":503,"errno":2}
+[2026-04-14 14:59:34][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":504,"errno":2}
+[2026-04-14 14:59:34][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":504,"errno":2}
+[2026-04-14 14:59:34][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":504,"errno":8192}
+[2026-04-14 14:59:51][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 14:59:51][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 14:59:51][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 14:59:51][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 14:59:51][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 14:59:51][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 14:59:51][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:05:18][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:05:18][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:05:18][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:05:18][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:05:18][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:05:18][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:05:18][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:06:34][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:06:34][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:06:34][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:06:34][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:06:34][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:06:34][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:06:34][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:07:56][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:07:56][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:07:56][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:07:56][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:07:56][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:07:56][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:07:56][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:10:37][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:10:37][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:10:37][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:10:37][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:10:37][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:10:37][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:10:37][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:15:52][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:15:52][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:15:52][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:15:52][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:15:52][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:15:52][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:15:52][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:16:20][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":149}
+[2026-04-14 15:24:01][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:24:01][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:24:01][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:24:01][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:24:01][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:24:01][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:24:01][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:24:33][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:24:33][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:24:33][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:24:33][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:24:33][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:24:33][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:24:33][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:24:57][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":149}
+[2026-04-14 15:26:08][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:26:08][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:26:08][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:26:08][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:26:08][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:26:08][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:26:08][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:26:37][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":149}
+[2026-04-14 15:29:07][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:29:07][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:29:07][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:29:07][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:29:07][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:29:07][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:29:07][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:29:09][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:29:09][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:29:09][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:29:09][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:29:09][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:29:09][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:29:09][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:29:40][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":149}
+[2026-04-14 15:31:10][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:31:10][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:31:10][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:31:10][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:31:10][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:31:10][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:31:10][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:31:25][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:31:25][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:31:25][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:31:25][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:31:25][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:31:25][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:31:25][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:31:50][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":149}
+[2026-04-14 15:34:23][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:34:23][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:34:23][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:34:23][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:34:23][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:34:23][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:34:23][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:34:26][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:34:26][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:34:26][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:34:26][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:34:26][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:34:26][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:34:26][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:37:51][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":149}
+[2026-04-14 15:38:01][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:38:01][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:38:01][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:38:01][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:38:01][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:38:01][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:38:01][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:38:54][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:38:54][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:38:54][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:38:54][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:38:54][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:38:54][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:38:54][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:39:18][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":149}
+[2026-04-14 15:49:11][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:49:11][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:49:11][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:49:11][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:49:11][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:49:11][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:49:11][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:55:48][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:55:48][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 15:55:48][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:55:48][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 15:55:48][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:55:48][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 15:55:48][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 15:56:18][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":149}
+[2026-04-14 16:05:23][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":149}
+[2026-04-14 16:06:21][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":149}
+[2026-04-14 16:11:12][WARNING] Undefined variable $technician {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 16:11:12][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":456,"errno":2}
+[2026-04-14 16:11:12][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 16:11:12][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":488,"errno":2}
+[2026-04-14 16:11:12][WARNING] Undefined variable $duration {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 16:11:12][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":2}
+[2026-04-14 16:11:12][INFO] number_format(): Passing null to parameter #1 ($num) of type float is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":489,"errno":8192}
+[2026-04-14 16:18:37][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":149}
+[2026-04-14 16:27:09][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:30:02][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:31:12][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:33:28][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:36:16][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:36:19][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:37:43][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:46:35][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:48:29][ERROR] syntax error, unexpected identifier "header" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":1854,"trace":"#0 {main}","type":"ParseError"}
+[2026-04-14 16:49:54][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:52:21][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:53:07][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:53:13][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:53:23][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:57:24][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.type_requires_travel' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 16:59:26][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-04-14 17:01:59][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.first_name' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":90}
+[2026-04-15 08:15:40][DEBUG] Redirection vers login - URL sauvegardée: materiel?client_id=46&site_id=&salle_id= (Session ID: ousqefn5mtlsgudd1rc8161j6g) 
+[2026-04-15 08:15:42][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_delete_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-15 08:15:42][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-04-15 08:15:42][DEBUG] Login réussi - Session ID: ousqefn5mtlsgudd1rc8161j6g 
+[2026-04-15 08:15:42][DEBUG] Login réussi - redirect_after_login: materiel?client_id=46&site_id=&salle_id= 
+[2026-04-15 08:15:42][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-15 08:15:42][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-04-15 08:15:42][DEBUG] Redirection après login vers: http://localhost/avision/public/materiel?client_id=46&site_id=&salle_id= 
+[2026-04-15 08:57:47][WARNING] Undefined variable $interventions {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":168,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:07:17][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":185,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:08:27][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":183,"errno":2}
+[2026-04-15 09:22:04][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: e184uvvar0q49jenepisskptn2) 
+[2026-04-15 09:22:11][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_delete_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-15 09:22:11][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-04-15 09:22:11][DEBUG] Login réussi - Session ID: e184uvvar0q49jenepisskptn2 
+[2026-04-15 09:22:11][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-04-15 09:22:11][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-15 09:22:11][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-04-15 09:22:11][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-04-15 09:22:54][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_delete_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-15 09:22:54][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-04-15 09:22:54][DEBUG] Login réussi - Session ID: cusmb1fa8ni7b8su9vhkspafb2 
+[2026-04-15 09:22:54][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-04-15 09:22:54][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-15 09:22:54][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-04-15 09:22:54][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-04-15 09:22:54][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'field list' 
+[2026-04-15 13:14:30][DEBUG] CSRF: Token manquant dans la requête - URI: /avision/public/interventions/assignTechnicians - Headers disponibles: [] 
+[2026-04-15 13:14:30][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - URI: /avision/public/interventions/assignTechnicians 
+[2026-04-15 13:15:40][DEBUG] CSRF: Token manquant dans la requête - URI: /avision/public/interventions/assignTechnicians - Headers disponibles: [] 
+[2026-04-15 13:15:40][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - URI: /avision/public/interventions/assignTechnicians 
+[2026-04-15 13:21:03][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 13:21:03][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 13:21:31][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - URI: /avision/public/interventions/assignTechnicians 
+[2026-04-15 13:26:07][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 13:26:07][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 13:30:03][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 13:30:03][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 13:32:29][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 13:32:29][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 13:37:21][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 13:37:21][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 13:37:40][DEBUG] CSRF: Token manquant dans la requête - URI: /avision/public/interventions/assignTechnicians - Headers disponibles: [] 
+[2026-04-15 13:37:40][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - URI: /avision/public/interventions/assignTechnicians 
+[2026-04-15 13:38:33][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 13:38:33][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 13:41:28][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 13:41:28][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 13:41:51][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 13:41:51][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 13:48:32][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 13:48:32][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 13:53:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 13:53:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 13:55:19][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 13:55:19][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:00:33][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:00:33][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:03:50][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:03:50][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:07:32][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:07:32][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:09:04][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:09:04][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:10:34][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:10:34][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:11:22][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:11:22][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:12:12][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:12:12][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:14:29][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:14:29][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:15:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:15:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:16:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:16:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:16:30][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:16:30][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:18:02][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:18:02][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:18:04][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:18:04][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:18:35][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:18:35][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:22:26][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:22:26][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:22:57][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:22:57][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:23:45][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:23:45][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:24:46][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:24:46][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":235,"errno":2}
+[2026-04-15 14:25:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:25:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":287,"errno":2}
+[2026-04-15 14:25:54][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:25:54][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":287,"errno":2}
+[2026-04-15 14:26:30][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:26:30][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":287,"errno":2}
+[2026-04-15 14:27:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:27:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":287,"errno":2}
+[2026-04-15 14:48:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:48:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":287,"errno":2}
+[2026-04-15 14:52:43][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:52:43][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":287,"errno":2}
+[2026-04-15 14:55:27][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:55:27][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":287,"errno":2}
+[2026-04-15 14:57:32][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:57:32][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":287,"errno":2}
+[2026-04-15 14:58:27][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:58:27][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":287,"errno":2}
+[2026-04-15 14:58:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:58:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":287,"errno":2}
+[2026-04-15 14:59:19][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 14:59:19][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":287,"errno":2}
+[2026-04-15 15:14:15][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":211,"errno":2}
+[2026-04-15 15:14:15][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":287,"errno":2}
+[2026-04-15 15:31:09][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1858,"errno":2}
+[2026-04-15 15:33:31][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1859,"errno":2}
+[2026-04-15 15:35:45][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1873,"errno":2}
+[2026-04-15 15:39:57][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1725,"errno":2}
+[2026-04-15 15:40:32][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1872,"errno":2}
+[2026-04-15 15:42:03][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1872,"errno":2}
+[2026-04-15 15:44:34][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1872,"errno":2}
+[2026-04-15 15:44:39][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1872,"errno":2}
+[2026-04-15 15:45:20][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1872,"errno":2}
+[2026-04-15 15:46:41][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-15 15:46:46][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1872,"errno":2}
+[2026-04-15 15:46:51][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-15 15:46:54][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1872,"errno":2}
+[2026-04-15 15:50:17][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1872,"errno":2}
+[2026-04-15 15:51:08][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1872,"errno":2}
+[2026-04-15 15:51:47][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1872,"errno":2}
+[2026-04-15 15:52:30][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1872,"errno":2}
+[2026-04-15 15:55:25][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-15 15:55:47][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-15 15:56:11][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-15 15:56:13][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-15 15:56:30][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-15 15:56:33][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-15 15:56:42][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-15 15:57:48][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:00:45][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:02:42][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:02:47][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:02:51][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:03:10][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-15 16:03:12][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:04:30][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:06:12][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:06:13][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:06:15][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:07:00][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-15 16:07:01][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:08:16][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:10:29][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:10:38][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:10:58][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:11:24][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:12:04][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:14:01][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:14:04][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:14:12][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:16:34][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:16:35][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:16:42][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:17:13][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:17:15][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:17:23][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:17:36][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:17:59][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:18:25][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:18:32][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:19:31][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:19:36][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1819,"errno":2}
+[2026-04-15 16:28:52][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1829,"errno":2}
+[2026-04-15 16:29:58][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1823,"errno":2}
+[2026-04-15 16:30:43][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1823,"errno":2}
+[2026-04-15 16:30:49][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1823,"errno":2}
+[2026-04-15 16:31:36][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1823,"errno":2}
+[2026-04-15 16:36:11][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1823,"errno":2}
+[2026-04-15 16:36:35][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1823,"errno":2}
+[2026-04-15 16:38:10][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1823,"errno":2}
+[2026-04-15 16:38:45][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1823,"errno":2}
+[2026-04-15 16:39:20][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1823,"errno":2}
+[2026-04-15 16:39:40][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1823,"errno":2}
+[2026-04-15 16:46:30][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1822,"errno":2}
+[2026-04-15 16:48:03][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1822,"errno":2}
+[2026-04-15 16:50:59][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-15 16:51:31][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-15 16:51:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-15 16:51:54][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-15 16:52:02][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-15 16:52:24][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: l1vkbd7p2thcef038tbcuj5br0) 
+[2026-04-15 16:52:26][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_delete_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-15 16:52:26][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-04-15 16:52:26][DEBUG] Login réussi - Session ID: l1vkbd7p2thcef038tbcuj5br0 
+[2026-04-15 16:52:26][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-04-15 16:52:26][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-15 16:52:26][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-04-15 16:52:26][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-04-15 16:52:26][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-15 16:56:42][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-15 16:57:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-15 16:58:05][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-15 16:58:11][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-15 16:58:58][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-15 16:59:30][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}

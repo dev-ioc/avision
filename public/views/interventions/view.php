@@ -40,122 +40,127 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 <div class="container-fluid flex-grow-1 container-p-y">
 
-<div class="d-flex bd-highlight mb-3">
-    <div class="p-2 bd-highlight"><h4 class="py-4 mb-6">Détails de l'intervention</h4></div>
+    <div class="d-flex bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+            <h4 class="py-4 mb-6">Détails de l'intervention</h4>
+        </div>
 
-    <div class="ms-auto p-2 bd-highlight">
-        <?php
-        // Gérer le retour dynamique
-        // Déterminer si l'intervention est préventive ou curative
-        $isPreventive = false;
-        if (isset($intervention['priority_id']) && isset($preventivePriorityId) && $intervention['priority_id'] == $preventivePriorityId) {
-            $isPreventive = true;
-        }
-        $defaultReturnUrl = $isPreventive ? BASE_URL . 'interventions/preventives' : BASE_URL . 'interventions/curatives';
-        $returnUrl = $defaultReturnUrl;
-        $returnText = 'Retour';
-        
-        if (isset($_GET['return_to']) && isset($_GET['client_id'])) {
-            $returnTo = $_GET['return_to'];
-            $clientId = $_GET['client_id'];
-            $activeTab = $_GET['active_tab'] ?? '';
-            
-            if ($returnTo === 'client') {
-                $returnUrl = BASE_URL . 'clients/view/' . $clientId;
-                if ($activeTab) {
-                    $returnUrl .= '?active_tab=' . $activeTab;
-                }
-                $returnText = 'Retour au client';
+        <div class="ms-auto p-2 bd-highlight">
+            <?php
+            // Gérer le retour dynamique
+            // Déterminer si l'intervention est préventive ou curative
+            $isPreventive = false;
+            if (isset($intervention['priority_id']) && isset($preventivePriorityId) && $intervention['priority_id'] == $preventivePriorityId) {
+                $isPreventive = true;
             }
-        }
-        ?>
-        <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary me-2">
-            <i class="bi bi-arrow-left me-1"></i> <?php echo $returnText; ?>
-        </a>
+            $defaultReturnUrl = $isPreventive ? BASE_URL . 'interventions/preventives' : BASE_URL . 'interventions/curatives';
+            $returnUrl = $defaultReturnUrl;
+            $returnText = 'Retour';
 
-        <?php 
-        $user = $_SESSION['user'];
-        $isAdmin = isAdmin();
-        ?>
+            if (isset($_GET['return_to']) && isset($_GET['client_id'])) {
+                $returnTo = $_GET['return_to'];
+                $clientId = $_GET['client_id'];
+                $activeTab = $_GET['active_tab'] ?? '';
 
-        <a href="<?php echo BASE_URL; ?>interventions/generateBon/<?php echo $intervention['id']; ?>" class="btn btn-info me-2">
-            <i class="bi bi-file-pdf me-1"></i> Générer le bon d'intervention
-        </a>
-
-        <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#sendEmailModal">
-            <i class="bi bi-envelope me-1"></i> Envoyer un email
-        </button>
-
-        <?php if (canModifyInterventions()): ?>
-            <a href="<?php echo BASE_URL; ?>interventions/edit/<?php echo $intervention['id']; ?>" class="btn btn-warning me-2">
-                <i class="bi bi-pencil me-1"></i> Modifier
+                if ($returnTo === 'client') {
+                    $returnUrl = BASE_URL . 'clients/view/' . $clientId;
+                    if ($activeTab) {
+                        $returnUrl .= '?active_tab=' . $activeTab;
+                    }
+                    $returnText = 'Retour au client';
+                }
+            }
+            ?>
+            <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary me-2">
+                <i class="bi bi-arrow-left me-1"></i> <?php echo $returnText; ?>
             </a>
 
-            <?php if ($intervention['status_id'] != 6): ?>
-                <a href="<?php echo BASE_URL; ?>interventions/assignToMe/<?php echo $intervention['id']; ?>" class="btn btn-success me-2">
-                    <i class="bi bi-person-plus me-1"></i> S'attribuer
+            <?php
+            $user = $_SESSION['user'];
+            $isAdmin = isAdmin();
+            ?>
+
+            <a href="<?php echo BASE_URL; ?>interventions/generateBon/<?php echo $intervention['id']; ?>"
+                class="btn btn-info me-2">
+                <i class="bi bi-file-pdf me-1"></i> Générer le bon d'intervention
+            </a>
+
+            <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#sendEmailModal">
+                <i class="bi bi-envelope me-1"></i> Envoyer un email
+            </button>
+
+            <?php if (canModifyInterventions()): ?>
+                <a href="<?php echo BASE_URL; ?>interventions/edit/<?php echo $intervention['id']; ?>"
+                    class="btn btn-warning me-2">
+                    <i class="bi bi-pencil me-1"></i> Modifier
                 </a>
 
-                <?php
-                $canClose = true;
-                $closeReason = [];
-                
-                // Vérifier si un technicien est attribué
-                if (empty($intervention['technician_id'])) {
-                    $canClose = false;
-                    $closeReason[] = "Aucun technicien n'est attribué";
-                }
-                
-                // Vérifier si un contrat est sélectionné
-                if (empty($intervention['contract_id'])) {
-                    $canClose = false;
-                    $closeReason[] = "Aucun contrat n'est sélectionné";
-                }
-                
-                // Vérifier si la durée est supérieure à 0
-                if (empty($intervention['duration']) || $intervention['duration'] <= 0) {
-                    $canClose = false;
-                    $closeReason[] = "La durée doit être supérieure à 0";
-                }
-                
-                if ($canClose): ?>
-                    <?php if (isInterventionLinkedToTicketContract($intervention['id'])): ?>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#closeInterventionModal">
+                <?php if ($intervention['status_id'] != 6): ?>
+                    <a href="<?php echo BASE_URL; ?>interventions/assignToMe/<?php echo $intervention['id']; ?>"
+                        class="btn btn-success me-2">
+                        <i class="bi bi-person-plus me-1"></i> S'attribuer
+                    </a>
+
+                    <?php
+                    $canClose = true;
+                    $closeReason = [];
+
+                    // Vérifier si un technicien est attribué
+                    // if (empty($intervention['technician_id'])) {
+                    //     $canClose = false;
+                    //     $closeReason[] = "Aucun technicien n'est attribué";
+                    // }
+            
+                    // Vérifier si un contrat est sélectionné
+                    if (empty($intervention['contract_id'])) {
+                        $canClose = false;
+                        $closeReason[] = "Aucun contrat n'est sélectionné";
+                    }
+
+                    // Vérifier si la durée est supérieure à 0
+                    if (empty($intervention['duration']) || $intervention['duration'] <= 0) {
+                        $canClose = false;
+                        $closeReason[] = "La durée doit être supérieure à 0";
+                    }
+
+                    if ($canClose): ?>
+                        <?php if (isInterventionLinkedToTicketContract($intervention['id'])): ?>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#closeInterventionModal">
+                                <i class="bi bi-x-lg-circle me-1"></i> Fermer l'intervention
+                            </button>
+                        <?php else: ?>
+                            <a href="<?php echo BASE_URL; ?>interventions/close/<?php echo $intervention['id']; ?>"
+                                class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir fermer cette intervention ?')">
+                                <i class="bi bi-x-lg-circle me-1"></i> Fermer l'intervention
+                            </a>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <button type="button" class="btn btn-danger" disabled title="<?php echo implode(', ', $closeReason); ?>">
                             <i class="bi bi-x-lg-circle me-1"></i> Fermer l'intervention
                         </button>
-                    <?php else: ?>
-                        <a href="<?php echo BASE_URL; ?>interventions/close/<?php echo $intervention['id']; ?>" 
-                           class="btn btn-danger" 
-                           onclick="return confirm('Êtes-vous sûr de vouloir fermer cette intervention ?')">
-                            <i class="bi bi-x-lg-circle me-1"></i> Fermer l'intervention
-                        </a>
                     <?php endif; ?>
                 <?php else: ?>
-                    <button type="button" class="btn btn-danger" disabled title="<?php echo implode(', ', $closeReason); ?>">
-                        <i class="bi bi-x-lg-circle me-1"></i> Fermer l'intervention
+                    <button type="button" class="btn btn-secondary me-2" disabled>
+                        <i class="bi bi-check-circle me-1"></i> Intervention fermée
                     </button>
+
+                    <?php if ($isAdmin && $intervention['status_id'] == 6): ?>
+                        <button type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#forceTicketsModal">
+                            <i class="bi bi-ticket-perforated me-1"></i> Forcer tickets utilisés
+                        </button>
+                    <?php endif; ?>
                 <?php endif; ?>
             <?php else: ?>
-                <button type="button" class="btn btn-secondary me-2" disabled>
-                    <i class="bi bi-check-circle me-1"></i> Intervention fermée
+                <button type="button" class="btn btn-warning me-2" disabled title="Vous n'avez pas les droits nécessaires">
+                    <i class="bi bi-pencil me-1"></i> Modifier
                 </button>
-                
-                <?php if ($isAdmin && $intervention['status_id'] == 6): ?>
-                    <button type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#forceTicketsModal">
-                        <i class="bi bi-ticket-perforated me-1"></i> Forcer tickets utilisés
-                    </button>
-                <?php endif; ?>
             <?php endif; ?>
-        <?php else: ?>
-            <button type="button" class="btn btn-warning me-2" disabled title="Vous n'avez pas les droits nécessaires">
-                <i class="bi bi-pencil me-1"></i> Modifier
-            </button>
-        <?php endif; ?>
 
-        <?php if ($isAdmin): ?>
-            <?php
+            <?php if ($isAdmin): ?>
+                <?php
                 $reference = $intervention['reference'] ?? ('ID ' . ($intervention['id'] ?? ''));
-                $ticketsUsed = (int)($intervention['tickets_used'] ?? 0);
+                $ticketsUsed = (int) ($intervention['tickets_used'] ?? 0);
                 $isTicketContract = isInterventionLinkedToTicketContract($intervention['id']);
 
                 $deleteWarningTitle = "Supprimer définitivement l'intervention {$reference} ?";
@@ -165,51 +170,51 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 } else {
                     $deleteWarningText .= " Si l'intervention est liée à un contrat tickets et que des tickets ont été décomptés, la suppression peut entraîner une réaffectation (re-crédit) des tickets sur le contrat.";
                 }
-            ?>
-            <button type="button"
-                    class="btn btn-outline-danger me-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteInterventionModal"
-                    title="Supprimer l'intervention">
-                <i class="bi bi-trash"></i>
-            </button>
-        <?php endif; ?>
-    </div>
-</div>
-
-<?php if ($isAdmin): ?>
-<div class="modal fade" id="deleteInterventionModal" tabindex="-1" aria-labelledby="deleteInterventionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteInterventionModalLabel">
-                    <i class="bi bi-exclamation-triangle me-2"></i>Confirmation de suppression
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-danger mb-0">
-                    <strong><?php echo h($deleteWarningTitle); ?></strong>
-                    <div class="mt-2"><?php echo h($deleteWarningText); ?></div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <form method="POST" action="<?php echo BASE_URL; ?>interventions/delete/<?php echo $intervention['id']; ?>" class="d-inline">
-                    <?= csrf_field() ?>
-                    <button type="submit" class="btn btn-danger">
-                        <i class="bi bi-trash me-1"></i>Oui, supprimer
-                    </button>
-                </form>
-            </div>
+                ?>
+                <button type="button" class="btn btn-outline-danger me-2" data-bs-toggle="modal"
+                    data-bs-target="#deleteInterventionModal" title="Supprimer l'intervention">
+                    <i class="bi bi-trash"></i>
+                </button>
+            <?php endif; ?>
         </div>
     </div>
-</div>
-<?php endif; ?>
+
+    <?php if ($isAdmin): ?>
+        <div class="modal fade" id="deleteInterventionModal" tabindex="-1" aria-labelledby="deleteInterventionModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteInterventionModalLabel">
+                            <i class="bi bi-exclamation-triangle me-2"></i>Confirmation de suppression
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger mb-0">
+                            <strong><?php echo h($deleteWarningTitle); ?></strong>
+                            <div class="mt-2"><?php echo h($deleteWarningText); ?></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <form method="POST"
+                            action="<?php echo BASE_URL; ?>interventions/delete/<?php echo $intervention['id']; ?>"
+                            class="d-inline">
+                            <?= csrf_field() ?>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash me-1"></i>Oui, supprimer
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <?php if (isset($_SESSION['error'])): ?>
         <div class="alert alert-danger">
-            <?php 
+            <?php
             echo $_SESSION['error'];
             unset($_SESSION['error']);
             ?>
@@ -218,7 +223,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success">
-            <?php 
+            <?php
             echo $_SESSION['success'];
             unset($_SESSION['success']);
             ?>
@@ -240,12 +245,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <?= h($intervention['duration'] ?? '0') ?>h
                         </div>
                         <?php if (isInterventionLinkedToTicketContract($intervention['id'])): ?>
-                        <div class="text-muted me-2">
-                            <i class="bi bi-ticket-perforated me-1 me-1"></i>
-                            <?= h($intervention['tickets_used'] ?? '0') ?>
-                        </div>
+                            <div class="text-muted me-2">
+                                <i class="bi bi-ticket-perforated me-1 me-1"></i>
+                                <?= h($intervention['tickets_used'] ?? '0') ?>
+                            </div>
                         <?php endif; ?>
-                        <span class="badge rounded-pill" style="background-color: <?= h($intervention['status_color'] ?? '') ?>">
+                        <span class="badge rounded-pill"
+                            style="background-color: <?= h($intervention['status_color'] ?? '') ?>">
                             <?= h($intervention['status_name'] ?? '') ?>
                         </span>
                     </div>
@@ -264,18 +270,18 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                             <!-- Site -->
                             <?php if (!empty($intervention['site_name'])): ?>
-                            <div>
-                                <label class="form-label fw-bold mb-0">Site</label>
-                                <p class="form-control-static mb-0"><?= h($intervention['site_name']) ?></p>
-                            </div>
+                                <div>
+                                    <label class="form-label fw-bold mb-0">Site</label>
+                                    <p class="form-control-static mb-0"><?= h($intervention['site_name']) ?></p>
+                                </div>
                             <?php endif; ?>
 
                             <!-- Salle -->
                             <?php if (!empty($intervention['room_name'])): ?>
-                            <div>
-                                <label class="form-label fw-bold mb-0">Salle</label>
-                                <p class="form-control-static mb-0"><?= h($intervention['room_name']) ?></p>
-                            </div>
+                                <div>
+                                    <label class="form-label fw-bold mb-0">Salle</label>
+                                    <p class="form-control-static mb-0"><?= h($intervention['room_name']) ?></p>
+                                </div>
                             <?php endif; ?>
 
 
@@ -295,29 +301,28 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <div>
                                 <label class="form-label fw-bold mb-0">Déplacement</label>
                                 <p class="form-control-static mb-0">
-                                    <?= isset($intervention['type_requires_travel']) && (int)$intervention['type_requires_travel'] === 1 ? 'Oui' : 'Non' ?>
+                                    <?= isset($intervention['type_requires_travel']) && (int) $intervention['type_requires_travel'] === 1 ? 'Oui' : 'Non' ?>
                                 </p>
                             </div>
 
                             <!-- Contrat -->
                             <?php if (!empty($intervention['contract_name']) && !empty($intervention['contract_type_id'])): ?>
-                            <div>
-                                <label class="form-label fw-bold mb-0">Contrat</label>
-                                <p class="form-control-static mb-0">
-                                    <a href="#" 
-                                       class="text-decoration-none contract-info-link" 
-                                       data-contract-id="<?= $intervention['contract_id'] ?>"
-                                       title="Voir les détails du contrat">
-                                        <i class="bi bi-info-circle me-1 me-1"></i>
-                                        <?= h($intervention['contract_name']) ?>
-                                    </a>
-                                </p>
-                            </div>
+                                <div>
+                                    <label class="form-label fw-bold mb-0">Contrat</label>
+                                    <p class="form-control-static mb-0">
+                                        <a href="#" class="text-decoration-none contract-info-link"
+                                            data-contract-id="<?= $intervention['contract_id'] ?>"
+                                            title="Voir les détails du contrat">
+                                            <i class="bi bi-info-circle me-1 me-1"></i>
+                                            <?= h($intervention['contract_name']) ?>
+                                        </a>
+                                    </p>
+                                </div>
                             <?php elseif (!empty($intervention['contract_name'])): ?>
-                            <div>
-                                <label class="form-label fw-bold mb-0">Contrat</label>
-                                <p class="form-control-static mb-0"><?= h($intervention['contract_name']) ?></p>
-                            </div>
+                                <div>
+                                    <label class="form-label fw-bold mb-0">Contrat</label>
+                                    <p class="form-control-static mb-0"><?= h($intervention['contract_name']) ?></p>
+                                </div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -329,7 +334,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <div>
                                 <label class="form-label fw-bold mb-0">Priorité</label>
                                 <p class="form-control-static mb-0">
-                                    <span class="badge" style="background-color: <?= h($intervention['priority_color'] ?? '') ?>">
+                                    <span class="badge"
+                                        style="background-color: <?= h($intervention['priority_color'] ?? '') ?>">
                                         <?= h($intervention['priority_name'] ?? '') ?>
                                     </span>
                                 </p>
@@ -342,13 +348,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </div>
 
                             <!-- Technicien -->
-                            <div>
+                            <!-- <div>
                                 <label class="form-label fw-bold mb-0">Technicien</label>
                                 <p class="form-control-static mb-0"><?= h($intervention['technician_name'] ?? 'Non attribué') ?></p>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
-                    
+
                     <!-- Colonne 4 : Date planifiée, Heure planifiée -->
                     <div class="col-md-3">
                         <div class="d-flex flex-column gap-2">
@@ -397,25 +403,26 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <div class="card-body py-3">
                                 <div class="row g-3">
                                     <?php if (!empty($intervention['demande_par'])): ?>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold mb-0">Demande par</label>
-                                        <p class="mb-0"><?= h($intervention['demande_par']) ?></p>
-                                    </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold mb-0">Demande par</label>
+                                            <p class="mb-0"><?= h($intervention['demande_par']) ?></p>
+                                        </div>
                                     <?php endif; ?>
                                     <?php if (!empty($intervention['ref_client'])): ?>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold mb-0">Référence client</label>
-                                        <p class="mb-0"><?= h($intervention['ref_client']) ?></p>
-                                    </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold mb-0">Référence client</label>
+                                            <p class="mb-0"><?= h($intervention['ref_client']) ?></p>
+                                        </div>
                                     <?php endif; ?>
                                     <?php if (!empty($intervention['contact_client'])): ?>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold mb-0">Contact client</label>
-                                        <p class="mb-0">
-                                            <i class="bi bi-envelope me-2"></i>
-                                            <a href="mailto:<?= h($intervention['contact_client']) ?>"><?= h($intervention['contact_client']) ?></a>
-                                        </p>
-                                    </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold mb-0">Contact client</label>
+                                            <p class="mb-0">
+                                                <i class="bi bi-envelope me-2"></i>
+                                                <a
+                                                    href="mailto:<?= h($intervention['contact_client']) ?>"><?= h($intervention['contact_client']) ?></a>
+                                            </p>
+                                        </div>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -427,25 +434,30 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
         <!-- Section Commentaires et Pièces jointes -->
         <div class="row mt-4">
-            <!-- Section Commentaires -->
-            <div class="col-md-8">
-                <div class="card mb-3">
+            <!-- Colonne 1 : Commentaires (4 colonnes) -->
+            <div class="col-md-4">
+                <div class="card mb-3 h-auto">
                     <div class="card-header py-2 d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">Compte-rendu/observations</h5>
                         <?php if (canModifyInterventions() && $intervention['status_id'] != 6): ?>
-                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addCommentModal">
-                                <i class="bi bi-plus me-1"></i> Ajouter un commentaire
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#addCommentModal">
+                                <i class="bi bi-plus me-1"></i> Ajouter
                             </button>
                         <?php endif; ?>
                     </div>
-                    <div class="card-body py-2">
+                    <div class="card-body py-2" style="max-height: 500px; overflow-y: auto;">
                         <?php if (!empty($comments)): ?>
                             <?php foreach ($comments as $comment): ?>
                                 <div class="comment mb-3 p-3 border rounded">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
                                         <div class="d-flex align-items-center gap-2">
-                                            <strong><?= h($comment['created_by_name'] ?? 'Utilisateur inconnu') ?></strong>
-                                            <small class="text-muted"><?= date('d/m/Y H:i', strtotime($comment['created_at'])) ?></small>
+                                            <strong>
+                                                <?= h($comment['created_by_name'] ?? 'Utilisateur inconnu') ?>
+                                            </strong>
+                                            <small class="text-muted">
+                                                <?= date('d/m/Y H:i', strtotime($comment['created_at'])) ?>
+                                            </small>
                                         </div>
                                         <div>
                                             <?php if ($comment['is_solution']): ?>
@@ -455,79 +467,93 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 <span class="badge bg-warning">Observation</span>
                                             <?php endif; ?>
                                             <?php if ($comment['visible_by_client']): ?>
-                                                <span class="badge bg-info">Visible par le client</span>
+                                                <span class="badge bg-info">Visible client</span>
                                             <?php else: ?>
                                                 <span class="badge bg-secondary">Interne</span>
                                             <?php endif; ?>
                                             <?php if (canModifyInterventions()): ?>
-                                                <button type="button" 
-                                                        class="btn btn-sm btn-outline-warning btn-action" 
-                                                        data-bs-toggle="modal" 
-                                                        data-bs-target="#editCommentModal<?= $comment['id'] ?>"
-                                                        title="Modifier">
-                                                        <i class="bi bi-pencil me-1"></i>
+                                                <button type="button" class="btn btn-sm btn-outline-warning btn-action"
+                                                    data-bs-toggle="modal" data-bs-target="#editCommentModal<?= $comment['id'] ?>"
+                                                    title="Modifier">
+                                                    <i class="bi bi-pencil"></i>
                                                 </button>
-                                                <a href="<?= BASE_URL ?>interventions/deleteComment/<?= $comment['id'] ?>" 
-                                                   class="btn btn-sm btn-outline-danger btn-action" 
-                                                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')"
-                                                   title="Supprimer">
-                                                    <i class="bi bi-trash me-1"></i>
+                                                <a href="<?= BASE_URL ?>interventions/deleteComment/<?= $comment['id'] ?>"
+                                                    class="btn btn-sm btn-outline-danger btn-action"
+                                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')"
+                                                    title="Supprimer">
+                                                    <i class="bi bi-trash"></i>
                                                 </a>
                                             <?php endif; ?>
                                         </div>
                                     </div>
-                                    <p class="mb-0"><?= nl2br(h($comment['comment'])) ?></p>
+                                    <p class="mb-0">
+                                        <?= nl2br(h($comment['comment'])) ?>
+                                    </p>
                                 </div>
 
                                 <!-- Modal Édition de commentaire -->
                                 <?php if (canModifyInterventions()): ?>
-                                <div class="modal fade" id="editCommentModal<?= $comment['id'] ?>" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <form action="<?= BASE_URL ?>interventions/editComment/<?= $comment['id'] ?>" method="post">
-                                                <?= csrf_field() ?>
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Modifier le commentaire</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="mb-3">
-                                                        <label for="comment<?= $comment['id'] ?>" class="form-label">Commentaire</label>
-                                                        <textarea class="form-control" id="comment<?= $comment['id'] ?>" name="comment" rows="4" required><?= h($comment['comment']) ?></textarea>
+                                    <div class="modal fade" id="editCommentModal<?= $comment['id'] ?>" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <form action="<?= BASE_URL ?>interventions/editComment/<?= $comment['id'] ?>"
+                                                    method="post">
+                                                    <?= csrf_field() ?>
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Modifier le commentaire</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" id="visible_by_client<?= $comment['id'] ?>" name="visible_by_client" <?= $comment['visible_by_client'] ? 'checked' : '' ?>>
-                                                            <label class="form-check-label" for="visible_by_client<?= $comment['id'] ?>">
-                                                                Visible par le client
-                                                            </label>
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="comment<?= $comment['id'] ?>"
+                                                                class="form-label">Commentaire</label>
+                                                            <textarea class="form-control" id="comment<?= $comment['id'] ?>"
+                                                                name="comment" rows="4"
+                                                                required><?= h($comment['comment']) ?></textarea>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="visible_by_client<?= $comment['id'] ?>" name="visible_by_client"
+                                                                    <?= $comment['visible_by_client'] ? 'checked' : '' ?>>
+                                                                <label class="form-check-label"
+                                                                    for="visible_by_client<?= $comment['id'] ?>">
+                                                                    Visible par le client
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="is_solution<?= $comment['id'] ?>" name="is_solution"
+                                                                    <?= $comment['is_solution'] ? 'checked' : '' ?>>
+                                                                <label class="form-check-label" for="is_solution<?= $comment['id'] ?>">
+                                                                    Marquer comme solution
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="is_observation<?= $comment['id'] ?>" name="is_observation"
+                                                                    <?= $comment['is_observation'] ? 'checked' : '' ?>>
+                                                                <label class="form-check-label"
+                                                                    for="is_observation<?= $comment['id'] ?>">
+                                                                    Marquer comme observation
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" id="is_solution<?= $comment['id'] ?>" name="is_solution" <?= $comment['is_solution'] ? 'checked' : '' ?>>
-                                                            <label class="form-check-label" for="is_solution<?= $comment['id'] ?>">
-                                                                Marquer comme solution
-                                                            </label>
-                                                        </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Annuler</button>
+                                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" id="is_observation<?= $comment['id'] ?>" name="is_observation" <?= $comment['is_observation'] ? 'checked' : '' ?>>
-                                                            <label class="form-check-label" for="is_observation<?= $comment['id'] ?>">
-                                                                Marquer comme observation
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                                                </div>
-                                            </form>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -537,76 +563,72 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </div>
             </div>
 
-            <!-- Section Pièces jointes -->
+            <!-- Colonne 2 : Pièces jointes (4 colonnes) -->
             <div class="col-md-4">
-                <div class="card mb-3">
+                <div class="card mb-3 h-auto">
                     <div class="card-header py-2 d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">Pièces jointes</h5>
                         <?php if (canModifyInterventions() && $intervention['status_id'] != 6): ?>
-                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addAttachmentModal">
-                                <i class="bi bi-plus me-1"></i> Ajouter une pièce jointe
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#addAttachmentModal">
+                                <i class="bi bi-plus me-1"></i> Ajouter
                             </button>
                         <?php endif; ?>
                     </div>
-                    <div class="card-body py-2">
+                    <div class="card-body py-2" style="max-height: 500px; overflow-y: auto;">
                         <?php if (empty($attachments)): ?>
                             <p class="text-muted mb-0">Aucune pièce jointe pour le moment.</p>
                         <?php else: ?>
-                            <?php 
+                            <?php
                             // Trier les pièces jointes pour mettre les bons d'intervention en premier
-                            usort($attachments, function($a, $b) {
+                            usort($attachments, function ($a, $b) {
                                 $aIsBI = $a['type_liaison'] === 'bi';
                                 $bIsBI = $b['type_liaison'] === 'bi';
-                                if ($aIsBI && !$bIsBI) return -1;
-                                if (!$aIsBI && $bIsBI) return 1;
+                                if ($aIsBI && !$bIsBI)
+                                    return -1;
+                                if (!$aIsBI && $bIsBI)
+                                    return 1;
                                 return strtotime($b['date_creation']) - strtotime($a['date_creation']);
                             });
-                            
-                            foreach ($attachments as $attachment): 
+
+                            foreach ($attachments as $attachment):
                                 $isBI = $attachment['type_liaison'] === 'bi';
-                                // Utiliser nom_fichier pour la détection d'extension (nom physique)
                                 $extension = strtolower(pathinfo($attachment['nom_fichier'], PATHINFO_EXTENSION));
-                                
-                                // Si pas d'extension dans le nom, utiliser le type_fichier
+
                                 if (empty($extension) && !empty($attachment['type_fichier'])) {
                                     $extension = strtolower($attachment['type_fichier']);
                                 }
-                                
-                                // Debug: afficher les valeurs pour les bons d'intervention
-                                if ($attachment['type_liaison'] === 'bi') {
-                                    // echo "<!-- DEBUG BI: nom_fichier=" . $attachment['nom_fichier'] . ", extension=$extension, type_fichier=" . $attachment['type_fichier'] . " -->";
-                                }
+
                                 $isPdf = $extension === 'pdf';
                                 $isImage = in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg']);
                                 $isExcel = in_array($extension, ['xls', 'xlsx']);
-                            ?>
+                                ?>
                                 <div class="card mb-2">
                                     <div class="card-header py-1 d-flex justify-content-between align-items-center">
                                         <div>
-                                            <strong><?php echo h($attachment['created_by_name'] ?? 'Utilisateur inconnu'); ?></strong>
+                                            <strong>
+                                                <?php echo h($attachment['created_by_name'] ?? 'Utilisateur inconnu'); ?>
+                                            </strong>
                                             <small class="text-muted ms-2">
                                                 <?php echo date('d/m/Y H:i', strtotime($attachment['date_creation'])); ?>
                                             </small>
                                         </div>
                                         <div>
-                                            <button type="button" 
-                                                    class="btn btn-sm btn-outline-info btn-action" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#previewModal<?= $attachment['id'] ?>_<?= $attachment['type_liaison'] ?>"
-                                                    title="Aperçu">
-                                                    <i class="<?php echo getIcon('visibility', 'bi bi-eye'); ?>"></i>
+                                            <button type="button" class="btn btn-sm btn-outline-info btn-action"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#previewModal<?= $attachment['id'] ?>_<?= $attachment['type_liaison'] ?>"
+                                                title="Aperçu">
+                                                <i class="<?php echo getIcon('visibility', 'bi bi-eye'); ?>"></i>
                                             </button>
-                                            <a href="<?php echo BASE_URL; ?>interventions/download/<?php echo $attachment['id']; ?>" 
-                                               class="btn btn-sm btn-outline-success btn-action" 
-                                               title="Télécharger">
+                                            <a href="<?php echo BASE_URL; ?>interventions/download/<?php echo $attachment['id']; ?>"
+                                                class="btn btn-sm btn-outline-success btn-action" title="Télécharger">
                                                 <i class="<?php echo getIcon('download', 'bi bi-download'); ?>"></i>
                                             </a>
                                             <?php if (canDelete()): ?>
-                                                <a href="<?php echo BASE_URL; ?>interventions/deleteAttachment/<?php echo $attachment['id']; ?>" 
-                                                   class="btn btn-sm btn-outline-danger btn-action" 
-                                                   title="Supprimer"
-                                                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette pièce jointe ?');">
-                                                    <i class="bi bi-trash me-1"></i>
+                                                <a href="<?php echo BASE_URL; ?>interventions/deleteAttachment/<?php echo $attachment['id']; ?>"
+                                                    class="btn btn-sm btn-outline-danger btn-action" title="Supprimer"
+                                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette pièce jointe ?');">
+                                                    <i class="bi bi-trash"></i>
                                                 </a>
                                             <?php endif; ?>
                                         </div>
@@ -614,27 +636,31 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <div class="card-body py-2">
                                         <div class="d-flex align-items-center">
                                             <?php if ($isBI): ?>
-                                                <i class="bi bi-file-pdf text-danger me-2 me-1"></i>
+                                                <i class="bi bi-file-pdf text-danger me-2"></i>
                                                 <span class="badge bg-info me-2">BI</span>
                                             <?php elseif ($isPdf): ?>
-                                                <i class="bi bi-file-pdf text-danger me-2 me-1"></i>
+                                                <i class="bi bi-file-pdf text-danger me-2"></i>
                                             <?php elseif ($isImage): ?>
-                                                <i class="bi bi-image-fill text-primary me-2 me-1"></i>
+                                                <i class="bi bi-image-fill text-primary me-2"></i>
                                             <?php elseif ($isExcel): ?>
-                                                <i class="bi bi-file-spreadsheet text-success me-2 me-1"></i>
+                                                <i class="bi bi-file-spreadsheet text-success me-2"></i>
                                             <?php else: ?>
-                                                <i class="bi bi-file-earmark text-secondary me-2 me-1"></i>
+                                                <i class="bi bi-file-earmark text-secondary me-2"></i>
                                             <?php endif; ?>
                                             <div class="attachment-name flex-grow-1">
-                                                <div class="display-name"><?php echo h($attachment['nom_personnalise'] ?? $attachment['nom_fichier']); ?></div>
+                                                <div class="display-name">
+                                                    <?php echo h($attachment['nom_personnalise'] ?? $attachment['nom_fichier']); ?>
+                                                </div>
                                                 <?php if (!empty($attachment['nom_personnalise']) && $attachment['nom_personnalise'] !== $attachment['nom_fichier']): ?>
-                                                    <div class="original-name text-muted small"><?php echo h($attachment['nom_fichier']); ?></div>
+                                                    <div class="original-name text-muted small">
+                                                        <?php echo h($attachment['nom_fichier']); ?>
+                                                    </div>
                                                 <?php endif; ?>
                                             </div>
                                             <?php if (canModifyInterventions() && $intervention['status_id'] != 6): ?>
-                                                <button type="button" class="btn btn-sm btn-outline-secondary me-2" 
-                                                        onclick="editAttachmentName(<?= $attachment['id'] ?>, '<?= h($attachment['nom_fichier']) ?>')"
-                                                        title="Modifier le nom">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                    onclick="editAttachmentName(<?= $attachment['id'] ?>, '<?= h($attachment['nom_fichier']) ?>')"
+                                                    title="Modifier le nom">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </button>
                                             <?php endif; ?>
@@ -643,46 +669,47 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 </div>
 
                                 <!-- Modal d'aperçu -->
-                                <div class="modal fade" id="previewModal<?= $attachment['id'] ?>_<?= $attachment['type_liaison'] ?>" tabindex="-1" aria-hidden="true">
+                                <div class="modal fade" id="previewModal<?= $attachment['id'] ?>_<?= $attachment['type_liaison'] ?>"
+                                    tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-xl">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title">
                                                     <div class="attachment-name">
-                                                        <div class="display-name"><?= h($attachment['nom_personnalise'] ?? $attachment['nom_fichier']) ?></div>
+                                                        <div class="display-name">
+                                                            <?= h($attachment['nom_personnalise'] ?? $attachment['nom_fichier']) ?>
+                                                        </div>
                                                         <?php if (!empty($attachment['nom_personnalise']) && $attachment['nom_personnalise'] !== $attachment['nom_fichier']): ?>
-                                                            <div class="original-name text-muted small"><?= h($attachment['nom_fichier']) ?></div>
+                                                            <div class="original-name text-muted small">
+                                                                <?= h($attachment['nom_fichier']) ?>
+                                                            </div>
                                                         <?php endif; ?>
                                                     </div>
                                                 </h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="preview-container">
-                                                    <?php 
-                                                    // Utiliser la même logique de détection d'extension que plus haut
+                                                    <?php
                                                     $previewExtension = strtolower(pathinfo($attachment['nom_fichier'], PATHINFO_EXTENSION));
                                                     if (empty($previewExtension) && !empty($attachment['type_fichier'])) {
                                                         $previewExtension = strtolower($attachment['type_fichier']);
                                                     }
-                                                    if ($previewExtension === 'pdf'): 
-                                                    ?>
-                                                        <iframe src="<?= BASE_URL; ?>interventions/preview/<?= $attachment['id'] ?>" 
-                                                                width="100%" 
-                                                                height="600px" 
-                                                                frameborder="0">
+                                                    if ($previewExtension === 'pdf'):
+                                                        ?>
+                                                        <iframe src="<?= BASE_URL; ?>interventions/preview/<?= $attachment['id'] ?>"
+                                                            width="100%" height="600px" frameborder="0">
                                                         </iframe>
                                                     <?php elseif (in_array($previewExtension, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'])): ?>
-                                                        <img src="<?= BASE_URL; ?>interventions/preview/<?= $attachment['id'] ?>" 
-                                                             class="img-fluid" 
-                                                             alt="<?= h($attachment['nom_fichier']) ?>">
+                                                        <img src="<?= BASE_URL; ?>interventions/preview/<?= $attachment['id'] ?>"
+                                                            class="img-fluid" alt="<?= h($attachment['nom_fichier']) ?>">
                                                     <?php else: ?>
                                                         <div class="alert alert-info">
-                                                            <i class="bi bi-info-circle me-1"></i> 
-                                                            Ce type de fichier ne peut pas être prévisualisé. 
-                                                            <a href="<?= BASE_URL; ?>interventions/download/<?= $attachment['id'] ?>" 
-                                                               class="alert-link" 
-                                                               target="_blank">
+                                                            <i class="bi bi-info-circle me-1"></i>
+                                                            Ce type de fichier ne peut pas être prévisualisé.
+                                                            <a href="<?= BASE_URL; ?>interventions/download/<?= $attachment['id'] ?>"
+                                                                class="alert-link" target="_blank">
                                                                 Télécharger le fichier
                                                             </a>
                                                         </div>
@@ -690,12 +717,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <a href="<?= BASE_URL; ?>interventions/download/<?= $attachment['id'] ?>" 
-                                                   class="btn btn-primary" 
-                                                   target="_blank">
+                                                <a href="<?= BASE_URL; ?>interventions/download/<?= $attachment['id'] ?>"
+                                                    class="btn btn-primary" target="_blank">
                                                     <i class="bi bi-download me-1"></i> Télécharger
                                                 </a>
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Fermer</button>
                                             </div>
                                         </div>
                                     </div>
@@ -705,24 +732,39 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     </div>
                 </div>
             </div>
-        </div>
 
+            <!-- Colonne 3 : Techniciens d'intervention (4 colonnes) -->
+            <div class="col-md-4">
+                <div class="card mb-3 h-150 overflow-auto">
+                    <div class="card-header py-2 d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-people"></i> Techniciens d'intervention
+                        </h5>
+                        <button class="btn btn-sm btn-primary" onclick="openTechModal(<?= $intervention['id'] ?>)">
+                            <i class="bi bi-plus me-1"></i> Ajouter
+                        </button>
+                    </div>
+                    <div class="card-body py-2" id="techniciansListContainer" style="max-height: 500px; overflow-y: auto;">
+                        <div class="text-center py-3">
+                            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                <span class="visually-hidden">Chargement...</span>
+                            </div>
+                            <p class="text-muted mt-2 mb-0">Chargement des techniciens...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Section Historique (Bouton flottant) -->
-        <button type="button" 
-                class="btn btn-sm btn-outline-secondary position-fixed bottom-0 end-0 m-3" 
-                data-bs-toggle="modal" 
-                data-bs-target="#historyModal"
-                title="Historique des modifications">
+        <button type="button" class="btn btn-sm btn-outline-secondary position-fixed bottom-0 end-0 m-3"
+            data-bs-toggle="modal" data-bs-target="#historyModal" title="Historique des modifications">
             <i class="bi bi-clock-history me-1"></i>
         </button>
 
         <!-- Section Historique emails (Bouton flottant à côté) -->
-        <button type="button"
-                class="btn btn-sm btn-outline-primary position-fixed bottom-0 end-0 m-3"
-                style="transform: translateX(-56px);"
-                data-bs-toggle="modal"
-                data-bs-target="#mailHistoryModal"
-                title="Historique des emails">
+        <button type="button" class="btn btn-sm btn-outline-primary position-fixed bottom-0 end-0 m-3"
+            style="transform: translateX(-56px);" data-bs-toggle="modal" data-bs-target="#mailHistoryModal"
+            title="Historique des emails">
             <i class="bi bi-envelope-paper me-1"></i>
         </button>
 
@@ -745,7 +787,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <div class="list-group-item px-0">
                                         <small class="text-muted d-block ps-3">
                                             <?php echo date('d/m/Y H:i', strtotime($entry['created_at'])); ?>
-                                            par <?php echo isset($entry['changed_by_name']) && $entry['changed_by_name'] !== null ? h($entry['changed_by_name']) : 'Utilisateur inconnu'; ?>
+                                            par
+                                            <?php echo isset($entry['changed_by_name']) && $entry['changed_by_name'] !== null ? h($entry['changed_by_name']) : 'Utilisateur inconnu'; ?>
                                         </small>
                                         <div class="mt-1 ps-3">
                                             <?php echo isset($entry['description']) && $entry['description'] !== null ? nl2br(h($entry['description'])) : 'Aucune description disponible.'; ?>
@@ -798,91 +841,91 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
 
         <script>
-        (function() {
-            var interventionId = <?= (int)($intervention['id'] ?? 0) ?>;
-            var baseUrl = '<?= addslashes(BASE_URL) ?>';
-            var modalEl = document.getElementById('mailHistoryModal');
-            if (!modalEl) return;
+            (function () {
+                var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
+                var baseUrl = '<?= addslashes(BASE_URL) ?>';
+                var modalEl = document.getElementById('mailHistoryModal');
+                if (!modalEl) return;
 
-            function esc(s) {
-                return String(s || '')
-                    .replace(/&/g, '&amp;')
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;')
-                    .replace(/"/g, '&quot;');
-            }
+                function esc(s) {
+                    return String(s || '')
+                        .replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;')
+                        .replace(/"/g, '&quot;');
+                }
 
-            function setVisible(el, show) {
-                if (!el) return;
-                el.style.display = show ? '' : 'none';
-            }
+                function setVisible(el, show) {
+                    if (!el) return;
+                    el.style.display = show ? '' : 'none';
+                }
 
-            function loadMailHistory() {
-                var loading = document.getElementById('mailHistoryLoading');
-                var err = document.getElementById('mailHistoryError');
-                var empty = document.getElementById('mailHistoryEmpty');
-                var wrap = document.getElementById('mailHistoryTableWrap');
-                var tbody = document.getElementById('mailHistoryTbody');
-                setVisible(err, false);
-                setVisible(empty, false);
-                setVisible(wrap, false);
-                setVisible(loading, true);
-                if (tbody) tbody.innerHTML = '';
+                function loadMailHistory() {
+                    var loading = document.getElementById('mailHistoryLoading');
+                    var err = document.getElementById('mailHistoryError');
+                    var empty = document.getElementById('mailHistoryEmpty');
+                    var wrap = document.getElementById('mailHistoryTableWrap');
+                    var tbody = document.getElementById('mailHistoryTbody');
+                    setVisible(err, false);
+                    setVisible(empty, false);
+                    setVisible(wrap, false);
+                    setVisible(loading, true);
+                    if (tbody) tbody.innerHTML = '';
 
-                fetch(baseUrl + 'interventions/getMailHistory/' + interventionId, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-                    .then(function(r) { return r.json(); })
-                    .then(function(data) {
-                        setVisible(loading, false);
-                        if (!data || !data.success) {
-                            err.textContent = (data && (data.error || data.message)) ? (data.error || data.message) : 'Erreur lors du chargement.';
+                    fetch(baseUrl + 'interventions/getMailHistory/' + interventionId, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                        .then(function (r) { return r.json(); })
+                        .then(function (data) {
+                            setVisible(loading, false);
+                            if (!data || !data.success) {
+                                err.textContent = (data && (data.error || data.message)) ? (data.error || data.message) : 'Erreur lors du chargement.';
+                                setVisible(err, true);
+                                return;
+                            }
+
+                            var items = data.items || [];
+                            if (!items.length) {
+                                setVisible(empty, true);
+                                return;
+                            }
+
+                            var html = '';
+                            items.forEach(function (it) {
+                                var dt = it.datetime ? esc(it.datetime) : '';
+                                // Affichage "fr" si possible
+                                if (it.datetime) {
+                                    try {
+                                        var d = new Date(it.datetime.replace(' ', 'T'));
+                                        if (!isNaN(d.getTime())) {
+                                            dt = d.toLocaleString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                                        }
+                                    } catch (e) { }
+                                }
+
+                                var title = esc(it.title || '(sans sujet)');
+                                var templateInfo = '';
+                                if (it.template_name) {
+                                    templateInfo = '<div class="text-muted small">Template: ' + esc(it.template_name) + '</div>';
+                                }
+                                var recipients = esc(it.recipients || '');
+
+                                html += '<tr>';
+                                html += '<td><span class="text-muted small">' + dt + '</span></td>';
+                                html += '<td><div class="fw-semibold">' + title + '</div>' + templateInfo + '</td>';
+                                html += '<td>' + recipients + '</td>';
+                                html += '</tr>';
+                            });
+                            tbody.innerHTML = html;
+                            setVisible(wrap, true);
+                        })
+                        .catch(function () {
+                            setVisible(loading, false);
+                            err.textContent = 'Erreur réseau ou serveur.';
                             setVisible(err, true);
-                            return;
-                        }
-
-                        var items = data.items || [];
-                        if (!items.length) {
-                            setVisible(empty, true);
-                            return;
-                        }
-
-                        var html = '';
-                        items.forEach(function(it) {
-                            var dt = it.datetime ? esc(it.datetime) : '';
-                            // Affichage "fr" si possible
-                            if (it.datetime) {
-                                try {
-                                    var d = new Date(it.datetime.replace(' ', 'T'));
-                                    if (!isNaN(d.getTime())) {
-                                        dt = d.toLocaleString('fr-FR', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
-                                    }
-                                } catch (e) {}
-                            }
-
-                            var title = esc(it.title || '(sans sujet)');
-                            var templateInfo = '';
-                            if (it.template_name) {
-                                templateInfo = '<div class="text-muted small">Template: ' + esc(it.template_name) + '</div>';
-                            }
-                            var recipients = esc(it.recipients || '');
-
-                            html += '<tr>';
-                            html += '<td><span class="text-muted small">' + dt + '</span></td>';
-                            html += '<td><div class="fw-semibold">' + title + '</div>' + templateInfo + '</td>';
-                            html += '<td>' + recipients + '</td>';
-                            html += '</tr>';
                         });
-                        tbody.innerHTML = html;
-                        setVisible(wrap, true);
-                    })
-                    .catch(function() {
-                        setVisible(loading, false);
-                        err.textContent = 'Erreur réseau ou serveur.';
-                        setVisible(err, true);
-                    });
-            }
+                }
 
-            modalEl.addEventListener('show.bs.modal', loadMailHistory);
-        })();
+                modalEl.addEventListener('show.bs.modal', loadMailHistory);
+            })();
         </script>
 
     <?php else: ?>
@@ -896,7 +939,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 <div class="modal fade" id="addCommentModal" tabindex="-1" aria-labelledby="addCommentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="<?php echo BASE_URL; ?>interventions/addComment/<?php echo $intervention['id']; ?>" method="post">
+            <form action="<?php echo BASE_URL; ?>interventions/addComment/<?php echo $intervention['id']; ?>"
+                method="post">
                 <?= csrf_field() ?>
                 <div class="modal-header">
                     <h5 class="modal-title" id="addCommentModalLabel">Ajouter un commentaire</h5>
@@ -909,7 +953,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     </div>
                     <div class="mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="visible_by_client" name="visible_by_client">
+                            <input class="form-check-input" type="checkbox" id="visible_by_client"
+                                name="visible_by_client">
                             <label class="form-check-label" for="visible_by_client">
                                 Visible par le client
                             </label>
@@ -942,7 +987,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </div>
 
 <!-- Modal Détails du contrat -->
-<div class="modal fade" id="contractDetailsModal" tabindex="-1" aria-labelledby="contractDetailsModalLabel" aria-hidden="true">
+<div class="modal fade" id="contractDetailsModal" tabindex="-1" aria-labelledby="contractDetailsModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -969,10 +1015,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </div>
 
 <!-- Modal Ajout de pièces jointes avec Drag & Drop -->
-<div class="modal fade" id="addAttachmentModal" tabindex="-1" aria-labelledby="addAttachmentModalLabel" aria-hidden="true">
+<div class="modal fade" id="addAttachmentModal" tabindex="-1" aria-labelledby="addAttachmentModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="<?php echo BASE_URL; ?>interventions/addMultipleAttachments/<?php echo $intervention['id']; ?>" method="post" enctype="multipart/form-data" id="dragDropForm">
+            <form
+                action="<?php echo BASE_URL; ?>interventions/addMultipleAttachments/<?php echo $intervention['id']; ?>"
+                method="post" enctype="multipart/form-data" id="dragDropForm">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addAttachmentModalLabel">
                         <i class="bi bi-cloud-upload me-2 me-1"></i>
@@ -988,12 +1037,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             Glissez-déposez vos fichiers ici<br>
                             <small class="text-muted">ou cliquez pour sélectionner</small>
                         </div>
-                        
-                        <input type="file" id="fileInput" multiple style="display: none;" 
-                               accept="<?= FileUploadValidator::getAcceptAttribute($GLOBALS['db']) ?>">
-                        
+
+                        <input type="file" id="fileInput" multiple style="display: none;"
+                            accept="<?= FileUploadValidator::getAcceptAttribute($GLOBALS['db']) ?>">
+
                         <div class="file-list" id="fileList"></div>
-                        
+
                         <div class="stats" id="stats" style="display: none;">
                             <div class="row">
                                 <div class="col-6">
@@ -1007,7 +1056,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <div class="progress-fill" id="progressFill"></div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -1025,7 +1074,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </div>
 
 <!-- Modal d'édition du nom de pièce jointe -->
-<div class="modal fade" id="editAttachmentNameModal" tabindex="-1" aria-labelledby="editAttachmentNameModalLabel" aria-hidden="true">
+<div class="modal fade" id="editAttachmentNameModal" tabindex="-1" aria-labelledby="editAttachmentNameModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="editAttachmentNameForm">
@@ -1039,8 +1089,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="editAttachmentName" class="form-label">Nom du fichier</label>
-                        <input type="text" class="form-control" id="editAttachmentName" name="nom_fichier" 
-                               placeholder="Nom personnalisé pour ce fichier" maxlength="255" required>
+                        <input type="text" class="form-control" id="editAttachmentName" name="nom_fichier"
+                            placeholder="Nom personnalisé pour ce fichier" maxlength="255" required>
                         <div class="form-text">
                             Le nom original du fichier sera conservé pour référence.
                         </div>
@@ -1065,219 +1115,219 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </div>
 
 <style>
-.drop-zone {
-    border: 2px dashed var(--bs-border-color);
-    border-radius: 8px;
-    padding: 30px;
-    text-align: center;
-    background-color: var(--bs-body-bg);
-    transition: all 0.3s ease;
-    min-height: 150px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+    .drop-zone {
+        border: 2px dashed var(--bs-border-color);
+        border-radius: 8px;
+        padding: 30px;
+        text-align: center;
+        background-color: var(--bs-body-bg);
+        transition: all 0.3s ease;
+        min-height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 
-.drop-zone.dragover {
-    border-color: var(--bs-primary);
-    background-color: var(--bs-primary-bg-subtle);
-}
+    .drop-zone.dragover {
+        border-color: var(--bs-primary);
+        background-color: var(--bs-primary-bg-subtle);
+    }
 
-.drop-zone.dragover .drop-message {
-    color: var(--bs-primary);
-}
+    .drop-zone.dragover .drop-message {
+        color: var(--bs-primary);
+    }
 
-.drop-message {
-    font-size: 1.1em;
-    color: var(--bs-secondary-color);
-    margin-bottom: 15px;
-}
+    .drop-message {
+        font-size: 1.1em;
+        color: var(--bs-secondary-color);
+        margin-bottom: 15px;
+    }
 
-.drop-message i {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-    display: block;
-}
+    .drop-message i {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        display: block;
+    }
 
-.file-list {
-    margin-top: 15px;
-    max-height: 200px;
-    overflow-y: auto;
-}
+    .file-list {
+        margin-top: 15px;
+        max-height: 200px;
+        overflow-y: auto;
+    }
 
-.file-item {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    margin: 3px 0;
-    border-radius: 5px;
-    border: 1px solid var(--bs-border-color);
-    background-color: var(--bs-body-bg);
-    gap: 10px;
-}
+    .file-item {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        margin: 3px 0;
+        border-radius: 5px;
+        border: 1px solid var(--bs-border-color);
+        background-color: var(--bs-body-bg);
+        gap: 10px;
+    }
 
-.file-item.valid {
-    background-color: var(--bs-success-bg-subtle);
-    border-color: var(--bs-success-border-subtle);
-}
+    .file-item.valid {
+        background-color: var(--bs-success-bg-subtle);
+        border-color: var(--bs-success-border-subtle);
+    }
 
-.file-item.invalid {
-    background-color: var(--bs-danger-bg-subtle);
-    border-color: var(--bs-danger-border-subtle);
-}
+    .file-item.invalid {
+        background-color: var(--bs-danger-bg-subtle);
+        border-color: var(--bs-danger-border-subtle);
+    }
 
-.file-info {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+    .file-info {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 
-.file-name {
-    font-weight: 500;
-    font-size: 0.9em;
-    color: var(--bs-body-color);
-}
+    .file-name {
+        font-weight: 500;
+        font-size: 0.9em;
+        color: var(--bs-body-color);
+    }
 
-.file-size {
-    color: var(--bs-secondary-color);
-    font-size: 0.8em;
-}
+    .file-size {
+        color: var(--bs-secondary-color);
+        font-size: 0.8em;
+    }
 
-.error-message {
-    color: var(--bs-danger);
-    font-size: 0.8em;
-    margin-left: 8px;
-}
+    .error-message {
+        color: var(--bs-danger);
+        font-size: 0.8em;
+        margin-left: 8px;
+    }
 
-.remove-file {
-    background: none;
-    border: none;
-    color: var(--bs-danger);
-    font-size: 1.1em;
-    cursor: pointer;
-    padding: 0 4px;
-}
+    .remove-file {
+        background: none;
+        border: none;
+        color: var(--bs-danger);
+        font-size: 1.1em;
+        cursor: pointer;
+        padding: 0 4px;
+    }
 
-.remove-file:hover {
-    color: var(--bs-danger-hover);
-}
+    .remove-file:hover {
+        color: var(--bs-danger-hover);
+    }
 
-.stats {
-    margin-top: 10px;
-    padding: 8px;
-    background-color: var(--bs-secondary-bg);
-    border-radius: 5px;
-    font-size: 0.9em;
-    color: var(--bs-body-color);
-}
+    .stats {
+        margin-top: 10px;
+        padding: 8px;
+        background-color: var(--bs-secondary-bg);
+        border-radius: 5px;
+        font-size: 0.9em;
+        color: var(--bs-body-color);
+    }
 
-.progress-bar {
-    height: 3px;
-    background-color: var(--bs-secondary-bg);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-top: 8px;
-}
+    .progress-bar {
+        height: 3px;
+        background-color: var(--bs-secondary-bg);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-top: 8px;
+    }
 
-.progress-fill {
-    height: 100%;
-    background-color: var(--bs-primary);
-    width: 0%;
-    transition: width 0.3s ease;
-}
+    .progress-fill {
+        height: 100%;
+        background-color: var(--bs-primary);
+        width: 0%;
+        transition: width 0.3s ease;
+    }
 
-/* Dark mode specific adjustments */
-[data-bs-theme="dark"] .drop-zone {
-    border-color: var(--bs-border-color);
-    background-color: var(--bs-body-bg);
-}
+    /* Dark mode specific adjustments */
+    [data-bs-theme="dark"] .drop-zone {
+        border-color: var(--bs-border-color);
+        background-color: var(--bs-body-bg);
+    }
 
-[data-bs-theme="dark"] .file-item {
-    background-color: var(--bs-body-bg);
-    border-color: var(--bs-border-color);
-}
+    [data-bs-theme="dark"] .file-item {
+        background-color: var(--bs-body-bg);
+        border-color: var(--bs-border-color);
+    }
 
-[data-bs-theme="dark"] .file-item.valid {
-    background-color: rgba(25, 135, 84, 0.1);
-    border-color: rgba(25, 135, 84, 0.3);
-}
+    [data-bs-theme="dark"] .file-item.valid {
+        background-color: rgba(25, 135, 84, 0.1);
+        border-color: rgba(25, 135, 84, 0.3);
+    }
 
-[data-bs-theme="dark"] .file-item.invalid {
-    background-color: rgba(220, 53, 69, 0.1);
-    border-color: rgba(220, 53, 69, 0.3);
-}
+    [data-bs-theme="dark"] .file-item.invalid {
+        background-color: rgba(220, 53, 69, 0.1);
+        border-color: rgba(220, 53, 69, 0.3);
+    }
 
-[data-bs-theme="dark"] .stats {
-    background-color: var(--bs-secondary-bg);
-}
+    [data-bs-theme="dark"] .stats {
+        background-color: var(--bs-secondary-bg);
+    }
 
-/* Styles pour le champ de nom personnalisé intégré */
-.custom-name-field {
-    flex: 0 0 200px;
-}
+    /* Styles pour le champ de nom personnalisé intégré */
+    .custom-name-field {
+        flex: 0 0 200px;
+    }
 
-.custom-name-field input {
-    width: 100%;
-    padding: 4px 8px;
-    border: 1px solid var(--bs-border-color);
-    border-radius: 3px;
-    font-size: 0.8em;
-    background-color: var(--bs-body-bg);
-    color: var(--bs-body-color);
-}
+    .custom-name-field input {
+        width: 100%;
+        padding: 4px 8px;
+        border: 1px solid var(--bs-border-color);
+        border-radius: 3px;
+        font-size: 0.8em;
+        background-color: var(--bs-body-bg);
+        color: var(--bs-body-color);
+    }
 
-.custom-name-field input:focus {
-    outline: none;
-    border-color: var(--bs-primary);
-    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
-}
+    .custom-name-field input:focus {
+        outline: none;
+        border-color: var(--bs-primary);
+        box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+    }
 
-[data-bs-theme="dark"] .custom-name-field input {
-    background-color: var(--bs-body-bg);
-    border-color: var(--bs-border-color);
-    color: var(--bs-body-color);
-}
+    [data-bs-theme="dark"] .custom-name-field input {
+        background-color: var(--bs-body-bg);
+        border-color: var(--bs-border-color);
+        color: var(--bs-body-color);
+    }
 
-/* Styles pour l'affichage des noms de fichiers */
-.attachment-name {
-    display: flex;
-    flex-direction: column;
-}
+    /* Styles pour l'affichage des noms de fichiers */
+    .attachment-name {
+        display: flex;
+        flex-direction: column;
+    }
 
-.attachment-name .display-name {
-    font-weight: 500;
-    color: var(--bs-body-color);
-}
+    .attachment-name .display-name {
+        font-weight: 500;
+        color: var(--bs-body-color);
+    }
 
-.attachment-name .original-name {
-    font-size: 0.75em;
-    margin-top: 2px;
-    opacity: 0.7;
-    font-style: italic;
-}
+    .attachment-name .original-name {
+        font-size: 0.75em;
+        margin-top: 2px;
+        opacity: 0.7;
+        font-style: italic;
+    }
 </style>
 
 <script>
-function generateReport(interventionId) {
-    if (confirm('Voulez-vous générer le bon d\'intervention ?')) {
-        // Ouvrir le PDF dans un nouvel onglet
-        window.open('<?php echo BASE_URL; ?>interventions/generateReport/' + interventionId, '_blank');
-        
-        // Actualiser la page d'origine après un court délai
-        setTimeout(function() {
-            window.location.reload();
-        }, 1000);
-    }
-}
+    function generateReport(interventionId) {
+        if (confirm('Voulez-vous générer le bon d\'intervention ?')) {
+            // Ouvrir le PDF dans un nouvel onglet
+            window.open('<?php echo BASE_URL; ?>interventions/generateReport/' + interventionId, '_blank');
 
-// Fonction pour charger les détails du contrat
-function loadContractDetails(contractId) {
-    const contentDiv = document.getElementById('contractDetailsContent');
-    
-    // Afficher le spinner de chargement
-    contentDiv.innerHTML = `
+            // Actualiser la page d'origine après un court délai
+            setTimeout(function () {
+                window.location.reload();
+            }, 1000);
+        }
+    }
+
+    // Fonction pour charger les détails du contrat
+    function loadContractDetails(contractId) {
+        const contentDiv = document.getElementById('contractDetailsContent');
+
+        // Afficher le spinner de chargement
+        contentDiv.innerHTML = `
         <div class="text-center">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Chargement...</span>
@@ -1285,32 +1335,32 @@ function loadContractDetails(contractId) {
             <p class="mt-2">Chargement des détails du contrat...</p>
         </div>
     `;
-    
-    // Faire la requête AJAX
-    fetch('<?php echo BASE_URL; ?>interventions/getContractInfo/' + contractId)
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                contentDiv.innerHTML = `
+
+        // Faire la requête AJAX
+        fetch('<?php echo BASE_URL; ?>interventions/getContractInfo/' + contractId)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    contentDiv.innerHTML = `
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-triangle me-2 me-1"></i>
                         ${data.error}
                     </div>
                 `;
-            } else {
-                // Formater les dates
-                const startDate = data.start_date ? new Date(data.start_date).toLocaleDateString('fr-FR') : 'Non définie';
-                const endDate = data.end_date ? new Date(data.end_date).toLocaleDateString('fr-FR') : 'Non définie';
-                
-                // Déterminer si c'est un contrat à tickets
-                const isTicketContract = data.isticketcontract == 1;
-                
-                // Déterminer la couleur du badge pour les tickets restants
-                const ticketsColor = data.tickets_remaining > 3 ? 'success' : 
-                                   data.tickets_remaining > 0 ? 'warning' : 'danger';
-                
-                // Générer la ligne des tickets restants seulement si c'est un contrat à tickets
-                const ticketsRow = isTicketContract ? `
+                } else {
+                    // Formater les dates
+                    const startDate = data.start_date ? new Date(data.start_date).toLocaleDateString('fr-FR') : 'Non définie';
+                    const endDate = data.end_date ? new Date(data.end_date).toLocaleDateString('fr-FR') : 'Non définie';
+
+                    // Déterminer si c'est un contrat à tickets
+                    const isTicketContract = data.isticketcontract == 1;
+
+                    // Déterminer la couleur du badge pour les tickets restants
+                    const ticketsColor = data.tickets_remaining > 3 ? 'success' :
+                        data.tickets_remaining > 0 ? 'warning' : 'danger';
+
+                    // Générer la ligne des tickets restants seulement si c'est un contrat à tickets
+                    const ticketsRow = isTicketContract ? `
                     <tr>
                         <th class="text-muted">Tickets restants:</th>
                         <td>
@@ -1320,8 +1370,8 @@ function loadContractDetails(contractId) {
                         </td>
                     </tr>
                 ` : '';
-                
-                contentDiv.innerHTML = `
+
+                    contentDiv.innerHTML = `
                     <div class="row">
                         <div class="col-md-6">
                             <h6 class="fw-bold mb-3">Informations du contrat</h6>
@@ -1333,10 +1383,10 @@ function loadContractDetails(contractId) {
                                 <tr>
                                     <th class="text-muted">Nature du contrat:</th>
                                     <td>
-                                        ${isTicketContract ? 
-                                            '<span class="badge bg-info"><i class="bi bi-ticket-perforated me-1"></i>Contrat à tickets</span>' : 
-                                            '<span class="badge bg-secondary"><i class="bi bi-file-text me-1"></i>Contrat sans tickets</span>'
-                                        }
+                                        ${isTicketContract ?
+                            '<span class="badge bg-info"><i class="bi bi-ticket-perforated me-1"></i>Contrat à tickets</span>' :
+                            '<span class="badge bg-secondary"><i class="bi bi-file-text me-1"></i>Contrat sans tickets</span>'
+                        }
                                     </td>
                                 </tr>
                                 <tr>
@@ -1363,20 +1413,20 @@ function loadContractDetails(contractId) {
                         </div>
                     ` : ''}
                 `;
-            }
-        })
-        .catch(error => {
-            console.error('Erreur lors du chargement des détails du contrat:', error);
-            contentDiv.innerHTML = `
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des détails du contrat:', error);
+                contentDiv.innerHTML = `
                 <div class="alert alert-danger">
                     <i class="bi bi-exclamation-triangle me-2 me-1"></i>
                     Erreur lors du chargement des détails du contrat.
                 </div>
             `;
-        });
-}
+            });
+    }
 
-// IMPORTANT: fermer le <script> sinon le HTML suivant est interprété comme du JavaScript
+    // IMPORTANT: fermer le <script> sinon le HTML suivant est interprété comme du JavaScript
 </script>
 
 <!-- JavaScript extrait vers public/assets/js/pages/interventions.js -->
@@ -1385,7 +1435,8 @@ function loadContractDetails(contractId) {
 <!-- Code JavaScript supprimé - Utilise maintenant DragDropUploader.js et interventions.js -->
 
 <!-- JavaScript extrait vers public/assets/js/pages/interventions.js -->
-<script src="<?php echo BASE_URL; ?>assets/js/pages/interventions.js" onerror="console.error('ERREUR: interventions.js n\'a pas pu être chargé. Vérifiez que le fichier existe et est accessible.');"></script>
+<script src="<?php echo BASE_URL; ?>assets/js/pages/interventions.js"
+    onerror="console.error('ERREUR: interventions.js n\'a pas pu être chargé. Vérifiez que le fichier existe et est accessible.');"></script>
 
 <!-- Modal Envoyer un email -->
 <div class="modal fade" id="sendEmailModal" tabindex="-1" aria-labelledby="sendEmailModalLabel" aria-hidden="true">
@@ -1406,10 +1457,11 @@ function loadContractDetails(contractId) {
                     <p class="mb-3">
                         <strong>Destinataire :</strong> <span id="sendEmailRecipient"></span>
                     </p>
-                    <p class="mb-3">
+                    <!-- <p class="mb-3">
                         <strong>Technicien affecté :</strong> <span id="sendEmailTechnician"></span>
-                    </p>
-                    <div id="sendEmailTestModeBlock" class="alert alert-warning mb-3 py-2" style="display: none;" role="status">
+                    </p> -->
+                    <div id="sendEmailTestModeBlock" class="alert alert-warning mb-3 py-2" style="display: none;"
+                        role="status">
                         <i class="bi bi-info-circle me-2"></i>
                         <strong>Mode test</strong> : l'email ne sera pas envoyé au destinataire ci-dessus mais à
                         <strong id="sendEmailTestAddress"></strong>
@@ -1418,11 +1470,13 @@ function loadContractDetails(contractId) {
                         <label class="form-label">Type d'envoi</label>
                         <div class="d-flex gap-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="email_mode" id="emailModeTemplate" value="template" checked>
+                                <input class="form-check-input" type="radio" name="email_mode" id="emailModeTemplate"
+                                    value="template" checked>
                                 <label class="form-check-label" for="emailModeTemplate">Utiliser un template</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="email_mode" id="emailModeCustom" value="custom">
+                                <input class="form-check-input" type="radio" name="email_mode" id="emailModeCustom"
+                                    value="custom">
                                 <label class="form-check-label" for="emailModeCustom">Message personnalisé</label>
                             </div>
                         </div>
@@ -1432,18 +1486,23 @@ function loadContractDetails(contractId) {
                         <select class="form-select" id="sendEmailTemplateId" name="template_id">
                             <option value="">-- Choisir un template --</option>
                         </select>
-                        <button type="button" class="btn btn-sm btn-outline-secondary mt-2" id="sendEmailPreviewBtn">Aperçu</button>
-                        <div id="sendEmailPreview" class="mt-2 small border rounded p-2 bg-light" style="display: none;"></div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary mt-2"
+                            id="sendEmailPreviewBtn">Aperçu</button>
+                        <div id="sendEmailPreview" class="mt-2 small border rounded p-2 bg-light"
+                            style="display: none;"></div>
                     </div>
                     <div id="sendEmailCustomBlock" class="mb-3" style="display: none;">
                         <label for="sendEmailSubject" class="form-label">Sujet</label>
-                        <input type="text" class="form-control" id="sendEmailSubject" name="subject" placeholder="Sujet de l'email">
+                        <input type="text" class="form-control" id="sendEmailSubject" name="subject"
+                            placeholder="Sujet de l'email">
                         <label for="sendEmailMessage" class="form-label mt-2">Message</label>
-                        <textarea class="form-control" id="sendEmailMessage" name="message" rows="5" placeholder="Corps du message"></textarea>
+                        <textarea class="form-control" id="sendEmailMessage" name="message" rows="5"
+                            placeholder="Corps du message"></textarea>
                     </div>
                     <div class="mb-3" id="sendEmailAttachmentsBlock">
                         <label class="form-label">Pièces jointes (optionnel)</label>
-                        <div id="sendEmailAttachmentsList" class="border rounded p-2 bg-light" style="max-height: 150px; overflow-y: auto;"></div>
+                        <div id="sendEmailAttachmentsList" class="border rounded p-2 bg-light"
+                            style="max-height: 150px; overflow-y: auto;"></div>
                     </div>
                     <div id="sendEmailModalError" class="alert alert-danger mt-2" style="display: none;"></div>
                 </div>
@@ -1458,285 +1517,890 @@ function loadContractDetails(contractId) {
     </div>
 </div>
 <script>
-(function() {
-    var interventionId = <?= (int)($intervention['id'] ?? 0) ?>;
-    var baseUrl = '<?= addslashes(BASE_URL) ?>';
-    var csrfToken = '<?= addslashes(csrf_token()) ?>';
-    var emailData = null;
+    (function () {
+        var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
+        var baseUrl = '<?= addslashes(BASE_URL) ?>';
+        var csrfToken = '<?= addslashes(csrf_token()) ?>';
+        var emailData = null;
 
-    var modalEl = document.getElementById('sendEmailModal');
-    if (!modalEl) return;
+        var modalEl = document.getElementById('sendEmailModal');
+        if (!modalEl) return;
 
-    function showLoading(show) {
-        document.getElementById('sendEmailModalLoading').style.display = show ? 'block' : 'none';
-        document.getElementById('sendEmailModalContent').style.display = show ? 'none' : 'block';
-    }
-
-    function toggleMode() {
-        var isTemplate = document.getElementById('emailModeTemplate').checked;
-        document.getElementById('sendEmailTemplateBlock').style.display = isTemplate ? 'block' : 'none';
-        document.getElementById('sendEmailCustomBlock').style.display = isTemplate ? 'none' : 'block';
-        document.getElementById('sendEmailSubmitBtn').disabled = !validateForm();
-    }
-
-    function validateForm() {
-        if (document.getElementById('emailModeTemplate').checked) {
-            return document.getElementById('sendEmailTemplateId').value !== '';
+        function showLoading(show) {
+            document.getElementById('sendEmailModalLoading').style.display = show ? 'block' : 'none';
+            document.getElementById('sendEmailModalContent').style.display = show ? 'none' : 'block';
         }
-        return document.getElementById('sendEmailSubject').value.trim() !== '' && document.getElementById('sendEmailMessage').value.trim() !== '';
-    }
 
-    function loadEmailData() {
-        showLoading(true);
-        document.getElementById('sendEmailModalError').style.display = 'none';
-        fetch(baseUrl + 'interventions/getEmailData/' + interventionId, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                if (!data.success) {
-                    document.getElementById('sendEmailModalError').textContent = data.error || 'Erreur lors du chargement';
+        function toggleMode() {
+            var isTemplate = document.getElementById('emailModeTemplate').checked;
+            document.getElementById('sendEmailTemplateBlock').style.display = isTemplate ? 'block' : 'none';
+            document.getElementById('sendEmailCustomBlock').style.display = isTemplate ? 'none' : 'block';
+            document.getElementById('sendEmailSubmitBtn').disabled = !validateForm();
+        }
+
+        function validateForm() {
+            if (document.getElementById('emailModeTemplate').checked) {
+                return document.getElementById('sendEmailTemplateId').value !== '';
+            }
+            return document.getElementById('sendEmailSubject').value.trim() !== '' && document.getElementById('sendEmailMessage').value.trim() !== '';
+        }
+
+        function loadEmailData() {
+            showLoading(true);
+            document.getElementById('sendEmailModalError').style.display = 'none';
+            fetch(baseUrl + 'interventions/getEmailData/' + interventionId, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (!data.success) {
+                        document.getElementById('sendEmailModalError').textContent = data.error || 'Erreur lors du chargement';
+                        document.getElementById('sendEmailModalError').style.display = 'block';
+                        showLoading(false);
+                        document.getElementById('sendEmailModalContent').style.display = 'block';
+                        return;
+                    }
+                    emailData = data;
+                    document.getElementById('sendEmailRecipient').textContent = data.recipient_email || '(aucun email renseigné)';
+                    // (function () {
+                    //     var techLabel = '(aucun technicien affecté)';
+                    //     var techEmail = (data.technician_email || '').trim();
+                    //     var techName = (data.technician_name || '').trim();
+                    //     if (techEmail !== '' && techName !== '') {
+                    //         techLabel = techName + ' <' + techEmail + '>';
+                    //     } else if (techEmail !== '') {
+                    //         techLabel = techEmail;
+                    //     } else if (techName !== '') {
+                    //         techLabel = techName;
+                    //     }
+                    //     document.getElementById('sendEmailTechnician').textContent = techLabel;
+                    // })();
+                    var testBlock = document.getElementById('sendEmailTestModeBlock');
+                    var testAddressEl = document.getElementById('sendEmailTestAddress');
+                    if (data.test_email && data.test_email.trim() !== '') {
+                        testAddressEl.textContent = data.test_email.trim();
+                        testBlock.style.display = 'block';
+                    } else {
+                        testBlock.style.display = 'none';
+                    }
+                    var sel = document.getElementById('sendEmailTemplateId');
+                    sel.innerHTML = '<option value="">-- Choisir un template --</option>';
+                    (data.templates || []).forEach(function (t) {
+                        var opt = document.createElement('option');
+                        opt.value = t.id;
+                        opt.textContent = t.name || 'Template #' + t.id;
+                        sel.appendChild(opt);
+                    });
+                    var list = document.getElementById('sendEmailAttachmentsList');
+                    list.innerHTML = '';
+                    if (data.attachments && data.attachments.length) {
+                        data.attachments.forEach(function (a) {
+                            var label = document.createElement('label');
+                            label.className = 'd-block mb-1';
+                            var cb = document.createElement('input');
+                            cb.type = 'checkbox';
+                            cb.name = 'attachments[]';
+                            cb.value = a.id;
+                            cb.className = 'form-check-input me-2';
+                            label.appendChild(cb);
+                            label.appendChild(document.createTextNode(a.nom_personnalise || a.nom_fichier || 'Pièce jointe #' + a.id));
+                            list.appendChild(label);
+                        });
+                    } else {
+                        list.innerHTML = '<span class="text-muted">Aucune pièce jointe disponible</span>';
+                    }
+                    document.getElementById('sendEmailSubject').value = '';
+                    document.getElementById('sendEmailMessage').value = '';
+                    document.getElementById('sendEmailPreview').style.display = 'none';
+                    showLoading(false);
+                    toggleMode();
+                    document.getElementById('sendEmailSubmitBtn').disabled = !validateForm();
+                })
+                .catch(function (err) {
+                    document.getElementById('sendEmailModalError').textContent = 'Erreur réseau ou serveur.';
                     document.getElementById('sendEmailModalError').style.display = 'block';
                     showLoading(false);
                     document.getElementById('sendEmailModalContent').style.display = 'block';
-                    return;
-                }
-                emailData = data;
-                document.getElementById('sendEmailRecipient').textContent = data.recipient_email || '(aucun email renseigné)';
-                (function() {
-                    var techLabel = '(aucun technicien affecté)';
-                    var techEmail = (data.technician_email || '').trim();
-                    var techName = (data.technician_name || '').trim();
-                    if (techEmail !== '' && techName !== '') {
-                        techLabel = techName + ' <' + techEmail + '>';
-                    } else if (techEmail !== '') {
-                        techLabel = techEmail;
-                    } else if (techName !== '') {
-                        techLabel = techName;
-                    }
-                    document.getElementById('sendEmailTechnician').textContent = techLabel;
-                })();
-                var testBlock = document.getElementById('sendEmailTestModeBlock');
-                var testAddressEl = document.getElementById('sendEmailTestAddress');
-                if (data.test_email && data.test_email.trim() !== '') {
-                    testAddressEl.textContent = data.test_email.trim();
-                    testBlock.style.display = 'block';
-                } else {
-                    testBlock.style.display = 'none';
-                }
-                var sel = document.getElementById('sendEmailTemplateId');
-                sel.innerHTML = '<option value="">-- Choisir un template --</option>';
-                (data.templates || []).forEach(function(t) {
-                    var opt = document.createElement('option');
-                    opt.value = t.id;
-                    opt.textContent = t.name || 'Template #' + t.id;
-                    sel.appendChild(opt);
                 });
-                var list = document.getElementById('sendEmailAttachmentsList');
-                list.innerHTML = '';
-                if (data.attachments && data.attachments.length) {
-                    data.attachments.forEach(function(a) {
-                        var label = document.createElement('label');
-                        label.className = 'd-block mb-1';
-                        var cb = document.createElement('input');
-                        cb.type = 'checkbox';
-                        cb.name = 'attachments[]';
-                        cb.value = a.id;
-                        cb.className = 'form-check-input me-2';
-                        label.appendChild(cb);
-                        label.appendChild(document.createTextNode(a.nom_personnalise || a.nom_fichier || 'Pièce jointe #' + a.id));
-                        list.appendChild(label);
-                    });
-                } else {
-                    list.innerHTML = '<span class="text-muted">Aucune pièce jointe disponible</span>';
-                }
-                document.getElementById('sendEmailSubject').value = '';
-                document.getElementById('sendEmailMessage').value = '';
-                document.getElementById('sendEmailPreview').style.display = 'none';
-                showLoading(false);
-                toggleMode();
-                document.getElementById('sendEmailSubmitBtn').disabled = !validateForm();
-            })
-            .catch(function(err) {
-                document.getElementById('sendEmailModalError').textContent = 'Erreur réseau ou serveur.';
-                document.getElementById('sendEmailModalError').style.display = 'block';
-                showLoading(false);
-                document.getElementById('sendEmailModalContent').style.display = 'block';
-            });
-    }
-
-    modalEl.addEventListener('show.bs.modal', function() { loadEmailData(); });
-    document.getElementById('emailModeTemplate').addEventListener('change', toggleMode);
-    document.getElementById('emailModeCustom').addEventListener('change', toggleMode);
-    document.getElementById('sendEmailTemplateId').addEventListener('change', function() {
-        document.getElementById('sendEmailSubmitBtn').disabled = !validateForm();
-    });
-    document.getElementById('sendEmailSubject').addEventListener('input', function() { document.getElementById('sendEmailSubmitBtn').disabled = !validateForm(); });
-    document.getElementById('sendEmailMessage').addEventListener('input', function() { document.getElementById('sendEmailSubmitBtn').disabled = !validateForm(); });
-
-    document.getElementById('sendEmailPreviewBtn').addEventListener('click', function() {
-        var tid = document.getElementById('sendEmailTemplateId').value;
-        if (!tid) return;
-        fetch(baseUrl + 'interventions/previewEmailTemplate/' + interventionId + '?template_id=' + encodeURIComponent(tid), { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                var prev = document.getElementById('sendEmailPreview');
-                if (data.success) {
-                    var subjectEscaped = (data.subject || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-                    prev.innerHTML = '<strong>Sujet :</strong> ' + subjectEscaped + '<br><strong>Corps :</strong><div class="mt-2 pt-2 border-top">' + (data.body || '') + '</div>';
-                    prev.style.display = 'block';
-                } else {
-                    prev.innerHTML = data.error || 'Erreur aperçu';
-                    prev.style.display = 'block';
-                }
-            });
-    });
-
-    document.getElementById('sendEmailSubmitBtn').addEventListener('click', function() {
-        var btn = this;
-        btn.disabled = true;
-        document.getElementById('sendEmailModalError').style.display = 'none';
-        var token = (typeof window.CSRF_TOKEN !== 'undefined' && window.CSRF_TOKEN) ? window.CSRF_TOKEN : csrfToken;
-        var formData = new FormData();
-        formData.append('csrf_token', token);
-        var templateId = document.getElementById('sendEmailTemplateId').value;
-        if (document.getElementById('emailModeTemplate').checked && templateId) {
-            formData.append('template_id', templateId);
-        } else {
-            formData.append('subject', document.getElementById('sendEmailSubject').value.trim());
-            formData.append('message', document.getElementById('sendEmailMessage').value.trim());
         }
-        document.querySelectorAll('#sendEmailAttachmentsList input[name="attachments[]"]:checked').forEach(function(cb) {
-            formData.append('attachments[]', cb.value);
+
+        modalEl.addEventListener('show.bs.modal', function () { loadEmailData(); });
+        document.getElementById('emailModeTemplate').addEventListener('change', toggleMode);
+        document.getElementById('emailModeCustom').addEventListener('change', toggleMode);
+        document.getElementById('sendEmailTemplateId').addEventListener('change', function () {
+            document.getElementById('sendEmailSubmitBtn').disabled = !validateForm();
         });
-        fetch(baseUrl + 'interventions/sendEmail/' + interventionId, {
-            method: 'POST',
-            body: formData,
-            headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': token }
-        })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                if (data.success) {
-                    var modalInstance = typeof bootstrap !== 'undefined' && bootstrap.Modal && bootstrap.Modal.getInstance(modalEl);
-                    if (modalInstance) modalInstance.hide();
-                    if (typeof Swal !== 'undefined') {
-                        Swal.fire({ icon: 'success', title: 'Envoyé', text: data.message || 'Email envoyé avec succès.' });
+        document.getElementById('sendEmailSubject').addEventListener('input', function () { document.getElementById('sendEmailSubmitBtn').disabled = !validateForm(); });
+        document.getElementById('sendEmailMessage').addEventListener('input', function () { document.getElementById('sendEmailSubmitBtn').disabled = !validateForm(); });
+
+        document.getElementById('sendEmailPreviewBtn').addEventListener('click', function () {
+            var tid = document.getElementById('sendEmailTemplateId').value;
+            if (!tid) return;
+            fetch(baseUrl + 'interventions/previewEmailTemplate/' + interventionId + '?template_id=' + encodeURIComponent(tid), { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    var prev = document.getElementById('sendEmailPreview');
+                    if (data.success) {
+                        var subjectEscaped = (data.subject || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                        prev.innerHTML = '<strong>Sujet :</strong> ' + subjectEscaped + '<br><strong>Corps :</strong><div class="mt-2 pt-2 border-top">' + (data.body || '') + '</div>';
+                        prev.style.display = 'block';
                     } else {
-                        alert(data.message || 'Email envoyé avec succès.');
+                        prev.innerHTML = data.error || 'Erreur aperçu';
+                        prev.style.display = 'block';
                     }
-                } else {
-                    document.getElementById('sendEmailModalError').textContent = data.error || 'Échec de l\'envoi';
+                });
+        });
+
+        document.getElementById('sendEmailSubmitBtn').addEventListener('click', function () {
+            var btn = this;
+            btn.disabled = true;
+            document.getElementById('sendEmailModalError').style.display = 'none';
+            var token = (typeof window.CSRF_TOKEN !== 'undefined' && window.CSRF_TOKEN) ? window.CSRF_TOKEN : csrfToken;
+            var formData = new FormData();
+            formData.append('csrf_token', token);
+            var templateId = document.getElementById('sendEmailTemplateId').value;
+            if (document.getElementById('emailModeTemplate').checked && templateId) {
+                formData.append('template_id', templateId);
+            } else {
+                formData.append('subject', document.getElementById('sendEmailSubject').value.trim());
+                formData.append('message', document.getElementById('sendEmailMessage').value.trim());
+            }
+            document.querySelectorAll('#sendEmailAttachmentsList input[name="attachments[]"]:checked').forEach(function (cb) {
+                formData.append('attachments[]', cb.value);
+            });
+            fetch(baseUrl + 'interventions/sendEmail/' + interventionId, {
+                method: 'POST',
+                body: formData,
+                headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': token }
+            })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data.success) {
+                        var modalInstance = typeof bootstrap !== 'undefined' && bootstrap.Modal && bootstrap.Modal.getInstance(modalEl);
+                        if (modalInstance) modalInstance.hide();
+                        if (typeof Swal !== 'undefined') {
+                            Swal.fire({ icon: 'success', title: 'Envoyé', text: data.message || 'Email envoyé avec succès.' });
+                        } else {
+                            alert(data.message || 'Email envoyé avec succès.');
+                        }
+                    } else {
+                        document.getElementById('sendEmailModalError').textContent = data.error || 'Échec de l\'envoi';
+                        document.getElementById('sendEmailModalError').style.display = 'block';
+                        btn.disabled = false;
+                    }
+                })
+                .catch(function (err) {
+                    document.getElementById('sendEmailModalError').textContent = 'Erreur lors de l\'envoi.';
                     document.getElementById('sendEmailModalError').style.display = 'block';
                     btn.disabled = false;
-                }
-            })
-            .catch(function(err) {
-                document.getElementById('sendEmailModalError').textContent = 'Erreur lors de l\'envoi.';
-                document.getElementById('sendEmailModalError').style.display = 'block';
-                btn.disabled = false;
-            });
-    });
-})();
+                });
+        });
+    })();
 </script>
 
 <!-- Modale pour forcer les tickets utilisés -->
 <?php if ($isAdmin && $intervention['status_id'] == 6): ?>
-<div class="modal fade" id="forceTicketsModal" tabindex="-1" aria-labelledby="forceTicketsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="forceTicketsModalLabel">
-                    <i class="bi bi-ticket-perforated me-2 me-1"></i>Forcer les tickets utilisés
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal fade" id="forceTicketsModal" tabindex="-1" aria-labelledby="forceTicketsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forceTicketsModalLabel">
+                        <i class="bi bi-ticket-perforated me-2 me-1"></i>Forcer les tickets utilisés
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="<?php echo BASE_URL; ?>interventions/forceTickets/<?php echo $intervention['id']; ?>"
+                    method="POST">
+                    <?= csrf_field() ?>
+                    <div class="modal-body">
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle me-2 me-1"></i>
+                            <strong>Attention !</strong> Cette action va modifier le nombre de tickets utilisés pour cette
+                            intervention fermée.
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="current_tickets" class="form-label">Tickets utilisés actuels</label>
+                            <input type="text" class="form-control" id="current_tickets"
+                                value="<?php echo $intervention['tickets_used'] ?? 0; ?>" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="new_tickets" class="form-label">Nouveau nombre de tickets utilisés <span
+                                    class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="new_tickets" name="tickets_used"
+                                value="<?php echo $intervention['tickets_used'] ?? 0; ?>" min="0" required
+                                data-current-tickets="<?php echo $intervention['tickets_used'] ?? 0; ?>"
+                                data-contract-tickets="<?php echo $intervention['contract_tickets_number'] ?? 0; ?>"
+                                data-contract-remaining="<?php echo $intervention['contract_tickets_remaining'] ?? 0; ?>">
+                            <div class="form-text">Ce nombre sera utilisé pour recalculer les tickets restants du contrat.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reason" class="form-label">Raison de la modification <span
+                                    class="text-danger">*</span></label>
+                            <textarea class="form-control" id="reason" name="reason" rows="3"
+                                placeholder="Expliquez pourquoi vous modifiez le nombre de tickets utilisés..."
+                                required></textarea>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2 me-1"></i>
+                            <strong>Impact sur le contrat :</strong>
+                            <ul class="mb-0 mt-2">
+                                <li>Tickets restants actuels : <span id="current_remaining">Calcul en cours...</span></li>
+                                <li>Tickets restants après modification : <span id="new_remaining">Calcul en cours...</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-info">
+                            <i class="bi bi-ticket-perforated me-1 me-1"></i>Forcer les tickets
+                        </button>
+                    </div>
+                </form>
             </div>
-            <form action="<?php echo BASE_URL; ?>interventions/forceTickets/<?php echo $intervention['id']; ?>" method="POST">
-                <?= csrf_field() ?>
-                <div class="modal-body">
-                    <div class="alert alert-warning">
-                        <i class="bi bi-exclamation-triangle me-2 me-1"></i>
-                        <strong>Attention !</strong> Cette action va modifier le nombre de tickets utilisés pour cette intervention fermée.
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="current_tickets" class="form-label">Tickets utilisés actuels</label>
-                        <input type="text" class="form-control" id="current_tickets" value="<?php echo $intervention['tickets_used'] ?? 0; ?>" readonly>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="new_tickets" class="form-label">Nouveau nombre de tickets utilisés <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="new_tickets" name="tickets_used" 
-                               value="<?php echo $intervention['tickets_used'] ?? 0; ?>" min="0" required
-                               data-current-tickets="<?php echo $intervention['tickets_used'] ?? 0; ?>"
-                               data-contract-tickets="<?php echo $intervention['contract_tickets_number'] ?? 0; ?>"
-                               data-contract-remaining="<?php echo $intervention['contract_tickets_remaining'] ?? 0; ?>">
-                        <div class="form-text">Ce nombre sera utilisé pour recalculer les tickets restants du contrat.</div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="reason" class="form-label">Raison de la modification <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="reason" name="reason" rows="3" 
-                                  placeholder="Expliquez pourquoi vous modifiez le nombre de tickets utilisés..." required></textarea>
-                    </div>
-                    
-                    <div class="alert alert-info">
-                        <i class="bi bi-info-circle me-2 me-1"></i>
-                        <strong>Impact sur le contrat :</strong>
-                        <ul class="mb-0 mt-2">
-                            <li>Tickets restants actuels : <span id="current_remaining">Calcul en cours...</span></li>
-                            <li>Tickets restants après modification : <span id="new_remaining">Calcul en cours...</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-info">
-                        <i class="bi bi-ticket-perforated me-1 me-1"></i>Forcer les tickets
-                    </button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
 
-<!-- JavaScript pour le calcul des tickets déplacé vers interventions.js -->
+    <!-- JavaScript pour le calcul des tickets déplacé vers interventions.js -->
 <?php endif; ?>
 
 <!-- Modal de confirmation de fermeture d'intervention -->
 <?php if (isInterventionLinkedToTicketContract($intervention['id'])): ?>
-<div class="modal fade" id="closeInterventionModal" tabindex="-1" aria-labelledby="closeInterventionModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal fade" id="closeInterventionModal" tabindex="-1" aria-labelledby="closeInterventionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="closeInterventionModalLabel">
+                        <i class="bi bi-x-lg-circle me-2"></i>Confirmation de fermeture d'intervention
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div id="closeInterventionContent">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Chargement...</span>
+                            </div>
+                            <p class="mt-2">Chargement des détails de fermeture...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelCloseBtn" disabled>
+                        <i class="bi bi-x-lg me-1"></i>Annuler
+                    </button>
+                    <button type="button" class="btn btn-danger" id="confirmCloseBtn" disabled>
+                        <i class="bi bi-check-lg me-1"></i>Fermer l'intervention
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if (isInterventionLinkedToTicketContract($intervention['id'])): ?>
+
+<?php endif; ?>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<div class="modal fade" id="techModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="closeInterventionModalLabel">
-                    <i class="bi bi-x-lg-circle me-2"></i>Confirmation de fermeture d'intervention
-                </h5>
+                <h5 class="modal-title"><i class="bi bi-people"></i> Affecter des techniciens</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div id="closeInterventionContent">
-                    <div class="text-center">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Chargement...</span>
+                <input type="hidden" id="intervention_id">
+                <input type="hidden" id="selected_technician_id">
+                <input type="hidden" id="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Technicien</label>
+                    <select id="techSelect" class="form-select">
+                        <option value="">-- Rechercher ou sélectionner --</option>
+                    </select>
+                    <small class="text-muted">Sélectionnez un technicien pour afficher/modifier ses détails</small>
+                </div>
+
+                <div id="technicianDetails">
+                    <hr>
+                    <h6 class="mb-3">Détails pour <span id="selectedTechnicianName" class="fw-bold">---</span></h6>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Date et heure de début</label>
+                            <input type="datetime-local" id="start_time" class="form-control">
+                            <small class="text-muted">Optionnel</small>
                         </div>
-                        <p class="mt-2">Chargement des détails de fermeture...</p>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Date et heure de fin</label>
+                            <input type="datetime-local" id="end_time" class="form-control">
+                            <small class="text-muted">Optionnel</small>
+                        </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Durée</label>
+                            <div class="input-group">
+                                <input type="number" id="temps_passe" class="form-control" min="0" step="30"
+                                    placeholder="Ex: 120" value="0">
+                                <span class="input-group-text">minutes</span>
+                            </div>
+                            <div id="roundedTimeDisplay" class="mt-2 p-2 bg-light rounded" style="display: none;">
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Déplacement</label>
+                            <select id="deplacement" class="form-select">
+                                <option value="0">Non</option>
+                                <option value="1">Oui</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Commentaire</label>
+                        <textarea id="commentaire" class="form-control" rows="3"
+                            placeholder="Commentaire sur l'intervention de ce technicien..."></textarea>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <!-- <button type="button" class="btn btn-success" onclick="addOrUpdateTechnician()">
+                            <i class="bi bi-plus-circle p-1"></i> Ajouter à la liste
+                        </button> -->
+                        <button type="button" class="btn btn-danger" onclick="removeCurrentTechnician()"
+                            id="btnRemoveCurrent" style="display:none;">
+                            <i class="bi bi-trash"></i> Retirer ce technicien
+                        </button>
+                    </div>
+                    <hr>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="cancelCloseBtn" disabled>
-                    <i class="bi bi-x-lg me-1"></i>Annuler
-                </button>
-                <button type="button" class="btn btn-danger" id="confirmCloseBtn" disabled>
-                    <i class="bi bi-check-lg me-1"></i>Fermer l'intervention
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" onclick="saveAllTechnicians()">
+                    <i class="bi bi-save p-1"></i> Enregistrer tous les techniciens
                 </button>
             </div>
         </div>
     </div>
 </div>
-<?php endif; ?>
+<script>
+    let assignedTechnicians = [];
+    let currentEditId = null;
 
-<?php if (isInterventionLinkedToTicketContract($intervention['id'])): ?>
-<!-- JavaScript inline temporairement supprimé pour déboguer l'erreur "Unexpected token '<'" -->
-<!-- TODO: Extraire ce JavaScript vers interventions.js -->
-<!-- Le code JavaScript a été supprimé temporairement - sera réintégré dans interventions.js -->
-<?php endif; ?>
+    // Fonction pour charger et afficher les techniciens dans la page principale
+    function loadTechniciansInPage() {
+        const container = document.getElementById("techniciansListContainer");
+        if (!container) return;
+
+        const interventionId = <?= $intervention['id'] ?>;
+
+        fetch(`${window.BASE_URL}interventions/interventionsTechnician?id=${interventionId}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => response.json())
+            .then((data) => {
+                const assignedDetails = data.data?.assigned || data.assigned || [];
+
+                if (assignedDetails.length === 0) {
+                    container.innerHTML = '<div class="text-center py-3 text-muted">Aucun technicien affecté</div>';
+                    return;
+                }
+
+                let html = '<div class="list-group list-group-flush">';
+                assignedDetails.forEach(tech => {
+                    const name = tech.full_name || `${tech.first_name} ${tech.last_name}`;
+                    const startTime = tech.start_time ? formatDateTime(tech.start_time) : 'Non défini';
+                    const endTime = tech.end_time ? formatDateTime(tech.end_time) : 'Non défini';
+                    const tempsPasse = tech.temps_passe ? tech.temps_passe + ' min' : 'Non défini';
+                    const deplacement = tech.deplacement == 1 ? 'Oui' : 'Non';
+
+                    html += `
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div style="flex: 1;">
+                                <strong><i class="bi bi-person-badge"></i> ${escapeHtml(name)}</strong><br>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar"></i> Début: ${startTime}<br>
+                                            <i class="bi bi-calendar-check"></i> Fin: ${endTime}
+                                        </small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <small class="text-muted">
+                                            <i class="bi bi-clock"></i> Durée: ${tempsPasse}<br>
+                                            <i class="bi bi-car"></i> Déplacement: ${deplacement}
+                                        </small>
+                                    </div>
+                                </div>
+                                ${tech.commentaire ? `<small class="text-info d-block mt-1"><i class="bi bi-chat"></i> ${escapeHtml(tech.commentaire.substring(0, 100))}</small>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            })
+            .catch(error => {
+                console.error("Erreur chargement techniciens:", error);
+                container.innerHTML = '<div class="text-center py-3 text-danger">Erreur lors du chargement des techniciens</div>';
+            });
+    }
+
+    function openTechModal(id) {
+        console.log("Opening modal for intervention:", id);
+
+        if (!id) {
+            console.error("ID intervention manquant");
+            alert("Erreur: ID intervention manquant");
+            return;
+        }
+
+        assignedTechnicians = [];
+        currentEditId = null;
+
+        document.getElementById("intervention_id").value = id;
+        resetTechnicianForm();
+
+        const techSelect = document.getElementById("techSelect");
+        techSelect.innerHTML = '<option value="">Chargement des techniciens...</option>';
+
+        const apiUrl = `${window.BASE_URL}interventions/interventionsTechnician?id=${id}`;
+        console.log("Fetching from:", apiUrl);
+
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => response.json())
+            .then((data) => {
+                console.log("Données reçues:", data);
+
+                const select = document.getElementById("techSelect");
+                select.innerHTML = '<option value="">-- Sélectionner un technicien --</option>';
+
+                const technicians = data.data?.technicians || data.technicians || [];
+                const assignedDetails = data.data?.assigned || data.assigned || [];
+
+                // Charger les techniciens assignés
+                assignedDetails.forEach(assignedTech => {
+                    const techId = assignedTech.technicien_id || assignedTech;
+                    const tech = technicians.find(t => t.id == techId);
+                    if (tech) {
+                        assignedTechnicians.push({
+                            id: tech.id,
+                            name: tech.full_name || `${tech.first_name} ${tech.last_name}`,
+                            start_time: assignedTech.start_time || "",
+                            end_time: assignedTech.end_time || "",
+                            temps_passe: assignedTech.temps_passe || "",
+                            deplacement: assignedTech.deplacement || 0,
+                            commentaire: assignedTech.commentaire || ""
+                        });
+                    }
+                });
+
+                // Ajouter les options
+                if (technicians.length === 0) {
+                    select.innerHTML = '<option value="">Aucun technicien disponible</option>';
+                } else {
+                    technicians.forEach((technician) => {
+                        const option = document.createElement("option");
+                        option.value = technician.id;
+                        option.text = technician.full_name || `${technician.first_name} ${technician.last_name}`;
+                        select.appendChild(option);
+                    });
+                }
+
+                // Initialiser Select2
+                if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+                    $('#techSelect').select2({
+                        placeholder: "Rechercher un technicien",
+                        allowClear: true,
+                        width: '100%',
+                        dropdownParent: $('#techModal')
+                    });
+                }
+
+                refreshTechniciansList();
+
+                const modalElement = document.getElementById("techModal");
+                if (modalElement) {
+                    const modal = new bootstrap.Modal(modalElement);
+                    modal.show();
+                }
+            })
+            .catch((error) => {
+                console.error("❌ Erreur openTechModal:", error);
+                alert(`Erreur lors du chargement des techniciens: ${error.message}`);
+                const select = document.getElementById("techSelect");
+                select.innerHTML = '<option value="">Erreur de chargement</option>';
+            });
+    }
+
+    document.getElementById("techSelect")?.addEventListener("change", function () {
+        const techId = this.value;
+        if (!techId) {
+            resetTechnicianForm();
+            document.getElementById("btnRemoveCurrent").style.display = "none";
+            currentEditId = null;
+            return;
+        }
+
+        const techName = this.options[this.selectedIndex].text;
+        document.getElementById("selectedTechnicianName").textContent = techName;
+        document.getElementById("selected_technician_id").value = techId;
+        const existing = assignedTechnicians.find(t => t.id == techId);
+
+        if (existing) {
+            document.getElementById("start_time").value = existing.start_time || "";
+            document.getElementById("end_time").value = existing.end_time || "";
+            document.getElementById("temps_passe").value = existing.temps_passe || "";
+            document.getElementById("deplacement").value = existing.deplacement || "0";
+            document.getElementById("commentaire").value = existing.commentaire || "";
+            document.getElementById("btnRemoveCurrent").style.display = "inline-block";
+            currentEditId = techId;
+        } else {
+            document.getElementById("start_time").value = "";
+            document.getElementById("end_time").value = "";
+            document.getElementById("temps_passe").value = "";
+            document.getElementById("deplacement").value = "0";
+            document.getElementById("commentaire").value = "";
+            document.getElementById("btnRemoveCurrent").style.display = "none";
+            currentEditId = null;
+        }
+
+        document.getElementById("technicianDetails").style.display = "block";
+    });
+
+    function resetTechnicianForm() {
+        document.getElementById("selected_technician_id").value = "";
+        document.getElementById("selectedTechnicianName").textContent = "---";
+        document.getElementById("start_time").value = "";
+        document.getElementById("end_time").value = "";
+        document.getElementById("temps_passe").value = "";
+        document.getElementById("deplacement").value = "0";
+        document.getElementById("commentaire").value = "";
+        document.getElementById("technicianDetails").style.display = "block";
+        document.getElementById("btnRemoveCurrent").style.display = "none";
+        currentEditId = null;
+    }
+
+    function roundToHalfHour(minutes) {
+        if (!minutes || minutes <= 0) return 0;
+        const roundedMinutes = Math.round(minutes / 30) * 30;
+        if (roundedMinutes === 0 && minutes > 0) return 30;
+        return roundedMinutes;
+    }
+
+    function displayRoundedTime() {
+        const inputMinutes = parseInt(document.getElementById("temps_passe").value) || 0;
+        const roundedMinutes = roundToHalfHour(inputMinutes);
+        const roundedDisplay = document.getElementById("roundedTimeDisplay");
+
+        if (inputMinutes > 0) {
+            const heures = Math.floor(roundedMinutes / 60);
+            const minutes = roundedMinutes % 60;
+            let formattedTime = "";
+            if (heures > 0 && minutes > 0) {
+                formattedTime = `${heures}h${minutes}`;
+            } else if (heures > 0) {
+                formattedTime = `${heures}h`;
+            } else {
+                formattedTime = `${minutes}min`;
+            }
+
+            let warningHtml = "";
+            if (inputMinutes !== roundedMinutes && roundedMinutes > 0) {
+                warningHtml = `<br><small class="text-primary"> Sera arrondi à ${formattedTime} (${roundedMinutes} minutes) lors de l'enregistrement</small>`;
+            }
+
+            roundedDisplay.innerHTML = `
+                <i class="bi bi-calculator-fill text-primary"></i>
+                <strong>Durée saisie :</strong> ${inputMinutes} minutes<br>
+                <strong>Durée après arrondi :</strong> ${formattedTime}
+                ${warningHtml}
+            `;
+            roundedDisplay.style.display = "block";
+        } else {
+            roundedDisplay.style.display = "none";
+        }
+    }
+
+    function onTempsPasseInput() {
+        displayRoundedTime();
+    }
+
+    function onTempsPasseBlur() {
+        let value = parseInt(document.getElementById("temps_passe").value) || 0;
+        const rounded = roundToHalfHour(value);
+        if (rounded !== value && rounded > 0) {
+            document.getElementById("temps_passe").value = rounded;
+            displayRoundedTime();
+        }
+    }
+
+    function addOrUpdateTechnician() {
+        const techId = document.getElementById("selected_technician_id").value;
+        if (!techId) {
+            alert("Veuillez sélectionner un technicien");
+            return;
+        }
+
+        const techSelect = document.getElementById("techSelect");
+        const techName = techSelect.options[techSelect.selectedIndex].text;
+        const startTime = document.getElementById("start_time").value;
+        const endTime = document.getElementById("end_time").value;
+        let tempsPasse = document.getElementById("temps_passe").value;
+
+        if (startTime && endTime && new Date(startTime) >= new Date(endTime)) {
+            alert("La date/heure de fin doit être postérieure à la date/heure de début");
+            return;
+        }
+
+        if ((!tempsPasse || tempsPasse === "") && startTime && endTime) {
+            const start = new Date(startTime);
+            const end = new Date(endTime);
+            if (end > start) {
+                tempsPasse = Math.round((end - start) / (1000 * 60));
+            }
+        }
+
+        const technician = {
+            id: parseInt(techId),
+            name: techName,
+            start_time: startTime,
+            end_time: endTime,
+            temps_passe: tempsPasse ? parseInt(tempsPasse) : null,
+            deplacement: parseInt(document.getElementById("deplacement").value),
+            commentaire: document.getElementById("commentaire").value
+        };
+
+        const existingIndex = assignedTechnicians.findIndex(t => t.id == techId);
+
+        if (existingIndex !== -1) {
+            assignedTechnicians[existingIndex] = technician;
+            alert(`Technicien "${techName}" mis à jour`);
+        } else {
+            assignedTechnicians.push(technician);
+            alert(`Technicien "${techName}" ajouté`);
+        }
+
+        refreshTechniciansList();
+
+        document.getElementById("techSelect").value = "";
+        if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+            $('#techSelect').val('').trigger('change');
+        }
+        resetTechnicianForm();
+    }
+
+    function removeCurrentTechnician() {
+        const techId = document.getElementById("selected_technician_id").value;
+        if (!techId) return;
+
+        const tech = assignedTechnicians.find(t => t.id == techId);
+        if (tech && confirm(`Voulez-vous retirer ${tech.name} de cette intervention ?`)) {
+            assignedTechnicians = assignedTechnicians.filter(t => t.id != techId);
+            refreshTechniciansList();
+            resetTechnicianForm();
+            document.getElementById("techSelect").value = "";
+            if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+                $('#techSelect').val('').trigger('change');
+            }
+            alert(`${tech.name} a été retiré`);
+        }
+    }
+
+    function removeTechnicianById(techId) {
+        const tech = assignedTechnicians.find(t => t.id == techId);
+        if (tech && confirm(`Voulez-vous retirer ${tech.name} de cette intervention ?`)) {
+            assignedTechnicians = assignedTechnicians.filter(t => t.id != techId);
+            refreshTechniciansList();
+
+            if (currentEditId == techId) {
+                resetTechnicianForm();
+                document.getElementById("techSelect").value = "";
+                if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+                    $('#techSelect').val('').trigger('change');
+                }
+            }
+        }
+    }
+
+    function refreshTechniciansList() {
+        const container = document.getElementById("techniciansListContainer");
+        if (!container) return;
+
+        if (assignedTechnicians.length === 0) {
+            container.innerHTML = '<div class="list-group-item text-muted">Aucun technicien affecté</div>';
+            return;
+        }
+
+        container.innerHTML = assignedTechnicians.map(tech => `
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div style="flex: 1;">
+                        <strong><i class="bi bi-person-badge"></i> ${escapeHtml(tech.name)}</strong><br>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar"></i> Début: ${tech.start_time ? formatDateTime(tech.start_time) : 'Non défini'}<br>
+                                    <i class="bi bi-calendar-check"></i> Fin: ${tech.end_time ? formatDateTime(tech.end_time) : 'Non défini'}
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted">
+                                    <i class="bi bi-clock"></i> Durée: ${tech.temps_passe ? tech.temps_passe + ' min' : 'Non défini'}<br>
+                                    <i class="bi bi-car"></i> Déplacement: ${tech.deplacement == 1 ? 'Oui' : 'Non'}
+                                </small>
+                            </div>
+                        </div>
+                        ${tech.commentaire ? `<small class="text-info d-block mt-1"><i class="bi bi-chat"></i> ${escapeHtml(tech.commentaire.substring(0, 150))}</small>` : ''}
+                    </div>
+                    <button class="btn btn-sm btn-outline-danger ms-2" onclick="removeTechnicianById(${tech.id})">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `).join("");
+    }
+
+    function saveAllTechnicians() {
+        const interventionId = document.getElementById("intervention_id").value;
+
+        if (!interventionId) {
+            alert("Erreur: ID intervention manquant");
+            return;
+        }
+
+        // Récupérer le technicien sélectionné dans le select
+        const techSelect = document.getElementById("techSelect");
+        const techId = techSelect.value;
+
+        // Construire la liste des techniciens à partir du select
+        let techniciansToSave = [];
+
+        // Parcourir toutes les options du select
+        for (let i = 0; i < techSelect.options.length; i++) {
+            const option = techSelect.options[i];
+            if (option.selected) {
+                // Récupérer les détails du formulaire
+                const startTime = document.getElementById("start_time").value;
+                const endTime = document.getElementById("end_time").value;
+                let tempsPasse = document.getElementById("temps_passe").value;
+
+                // Validation des dates
+                if (startTime && endTime && new Date(startTime) >= new Date(endTime)) {
+                    alert(`La date/heure de fin doit être postérieure à la date/heure de début pour ${option.text}`);
+                    return;
+                }
+
+                // Arrondir la durée
+                if (tempsPasse && tempsPasse > 0) {
+                    tempsPasse = roundToHalfHour(parseInt(tempsPasse));
+                }
+
+                techniciansToSave.push({
+                    technicien_id: parseInt(option.value),
+                    start_time: startTime || null,
+                    end_time: endTime || null,
+                    temps_passe: tempsPasse || null,
+                    deplacement: parseInt(document.getElementById("deplacement").value),
+                    commentaire: document.getElementById("commentaire").value
+                });
+            }
+        }
+
+        if (techniciansToSave.length === 0) {
+            alert("Veuillez sélectionner au moins un technicien");
+            return;
+        }
+
+        console.log("Saving technicians:", techniciansToSave);
+
+        const url = `${window.BASE_URL}interventions/assignTechnicians`;
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                intervention_id: parseInt(interventionId),
+                technicians: techniciansToSave
+            })
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert("Techniciens affectés avec succès !");
+                    const modal = bootstrap.Modal.getInstance(document.getElementById("techModal"));
+                    if (modal) modal.hide();
+                    location.reload();
+                } else {
+                    alert("Erreur: " + (result.error || "Erreur inconnue"));
+                }
+            })
+            .catch(error => {
+                console.error("Erreur:", error);
+                alert("Erreur lors de l'enregistrement: " + error.message);
+            });
+    }
+    function formatDateTime(dateTimeStr) {
+        if (!dateTimeStr) return '';
+        const date = new Date(dateTimeStr);
+        return date.toLocaleString('fr-FR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function (m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Initialisation au chargement de la page
+    document.addEventListener("DOMContentLoaded", function () {
+        // Charger les techniciens dans la page
+        loadTechniciansInPage();
+
+        // Initialiser les écouteurs pour la durée
+        const tempsPasseInput = document.getElementById("temps_passe");
+        if (tempsPasseInput) {
+            tempsPasseInput.addEventListener("input", onTempsPasseInput);
+            tempsPasseInput.addEventListener("blur", onTempsPasseBlur);
+        }
+    });
+</script>
 
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
