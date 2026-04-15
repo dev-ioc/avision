@@ -256,7 +256,7 @@ class InterventionController
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
         $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsBySiteId($filters['site_id']) : [];
-        $technicians = $this->userModel->getTechnicians();
+        // $technicians = $this->userModel->getTechnicians();
 
         // Récupérer les statuts
         $statuses = $this->getAllStatuses();
@@ -345,8 +345,7 @@ class InterventionController
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
         $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsBySiteId($filters['site_id']) : [];
-        $technicians = $this->userModel->getTechnicians();
-
+        // $technicians = $this->userModel->getTechnicians();
         // Récupérer les statuts
         $statuses = $this->getAllStatuses();
 
@@ -2368,7 +2367,7 @@ class InterventionController
         $types = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Récupérer les durées
-        $durations = $this->durationModel->getAll();
+        // $durations = $this->durationModel->getAll();
 
         // Charger la vue
         require_once __DIR__ . '/../views/interventions/add.php';
@@ -4317,5 +4316,190 @@ class InterventionController
             echo json_encode(['success' => false, 'error' => 'Erreur lors de la prévisualisation']);
         }
         exit;
+    }
+    /**
+     * API: Récupérer les techniciens pour une intervention
+     * GET /api/interventions/technicians/{id}
+     */
+    public function apiGetTechnicians($id)
+    {
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        try {
+            if (!$id || !is_numeric($id)) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'error' => 'ID intervention invalide']);
+                return;
+            }
+
+            // Optimisation : Une seule requête avec LEFT JOIN
+            $stmt = $this->db->prepare("
+            SELECT 
+                u.id as technicien_id,
+                u.first_name,
+                u.last_name,
+                u.email,
+                it.start_time,
+                it.end_time,
+                it.deplacement,
+                it.temps_passe,
+                it.commentaire,
+                CASE WHEN it.technicien_id IS NOT NULL THEN 1 ELSE 0 END as is_assigned
+            FROM users u
+            LEFT JOIN intervention_techniciens it ON u.id = it.technicien_id AND it.intervention_id = ?
+            WHERE u.user_type_id = 1
+            ORDER BY u.first_name, u.last_name
+        ");
+            $stmt->execute([$id]);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $technicians = [];
+            $assigned = [];
+
+            foreach ($results as $row) {
+                $technician = [
+                    'id' => (int) $row['technicien_id'],
+                    'first_name' => $row['first_name'],
+                    'last_name' => $row['last_name'],
+                    'full_name' => $row['first_name'] . ' ' . $row['last_name'],
+                    'email' => $row['email'] ?? ''
+                ];
+                $technicians[] = $technician;
+
+                if ($row['is_assigned']) {
+                    $assigned[] = [
+                        'technicien_id' => (int) $row['technicien_id'],
+                        'start_time' => $row['start_time'],
+                        'end_time' => $row['end_time'],
+                        'deplacement' => (int) $row['deplacement'],
+                        'temps_passe' => $row['temps_passe'] ? (int) $row['temps_passe'] : null,
+                        'commentaire' => $row['commentaire'],
+                        'full_name' => $row['first_name'] . ' ' . $row['last_name']
+                    ];
+                }
+            }
+
+            echo json_encode([
+                'success' => true,
+                'data' => [
+                    'intervention_id' => (int) $id,
+                    'assigned' => $assigned,
+                    'technicians' => $technicians
+                ]
+            ]);
+
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => 'Erreur serveur: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * API: Assigner des techniciens à une intervention
+     * POST /api/interventions/assignTechnicians
+     */
+    public function apiAssignTechnicians()
+    {
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        header('Content-Type: application/json');
+
+        try {
+            $input = json_decode(file_get_contents('php://input'), true);
+
+            if (!$input) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'error' => 'Données JSON invalides']);
+                return;
+            }
+            $interventionId = $input['intervention_id'] ?? null;
+            $technicians = $input['technicians'] ?? [];
+
+            if (!$interventionId) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'error' => 'ID intervention manquant']);
+                return;
+            }
+
+            $this->db->beginTransaction();
+
+            // Pour chaque technicien, on vérifie s'il existe déjà
+            $checkStmt = $this->db->prepare("SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?");
+
+            $insertStmt = $this->db->prepare("
+            INSERT INTO intervention_techniciens 
+            (intervention_id, technicien_id, start_time, end_time, deplacement, temps_passe, commentaire)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ");
+
+            $updateStmt = $this->db->prepare("
+            UPDATE intervention_techniciens 
+            SET start_time = ?, end_time = ?, deplacement = ?, temps_passe = ?, commentaire = ?
+            WHERE intervention_id = ? AND technicien_id = ?
+        ");
+
+            foreach ($technicians as $tech) {
+                $checkStmt->execute([$interventionId, $tech['technicien_id']]);
+                $exists = $checkStmt->fetchColumn() > 0;
+
+                if ($exists) {
+                    // Mettre à jour
+                    $updateStmt->execute([
+                        !empty($tech['start_time']) ? $tech['start_time'] : null,
+                        !empty($tech['end_time']) ? $tech['end_time'] : null,
+                        $tech['deplacement'] ?? 0,
+                        !empty($tech['temps_passe']) ? $tech['temps_passe'] : null,
+                        $tech['commentaire'] ?? null,
+                        $interventionId,
+                        $tech['technicien_id']
+                    ]);
+                } else {
+                    // Insérer
+                    $insertStmt->execute([
+                        $interventionId,
+                        $tech['technicien_id'],
+                        !empty($tech['start_time']) ? $tech['start_time'] : null,
+                        !empty($tech['end_time']) ? $tech['end_time'] : null,
+                        $tech['deplacement'] ?? 0,
+                        !empty($tech['temps_passe']) ? $tech['temps_passe'] : null,
+                        $tech['commentaire'] ?? null
+                    ]);
+                }
+            }
+
+            $this->db->commit();
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Techniciens affectés avec succès'
+            ]);
+
+        } catch (Exception $e) {
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
+
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => 'Erreur serveur: ' . $e->getMessage()
+            ]);
+        }
+    }
+    public function interventionsTechnician($id)
+    {
+        $this->apiGetTechnicians($id);
+    }
+
+    public function assignTechnicians()
+    {
+        $this->apiAssignTechnicians();
     }
 }

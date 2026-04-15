@@ -434,27 +434,30 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
         <!-- Section Commentaires et Pièces jointes -->
         <div class="row mt-4">
-            <!-- Section Commentaires -->
-            <div class="col-md-8">
-                <div class="card mb-3">
+            <!-- Colonne 1 : Commentaires (4 colonnes) -->
+            <div class="col-md-4">
+                <div class="card mb-3 h-auto">
                     <div class="card-header py-2 d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">Compte-rendu/observations</h5>
                         <?php if (canModifyInterventions() && $intervention['status_id'] != 6): ?>
                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#addCommentModal">
-                                <i class="bi bi-plus me-1"></i> Ajouter un commentaire
+                                <i class="bi bi-plus me-1"></i> Ajouter
                             </button>
                         <?php endif; ?>
                     </div>
-                    <div class="card-body py-2">
+                    <div class="card-body py-2" style="max-height: 500px; overflow-y: auto;">
                         <?php if (!empty($comments)): ?>
                             <?php foreach ($comments as $comment): ?>
                                 <div class="comment mb-3 p-3 border rounded">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
                                         <div class="d-flex align-items-center gap-2">
-                                            <strong><?= h($comment['created_by_name'] ?? 'Utilisateur inconnu') ?></strong>
-                                            <small
-                                                class="text-muted"><?= date('d/m/Y H:i', strtotime($comment['created_at'])) ?></small>
+                                            <strong>
+                                                <?= h($comment['created_by_name'] ?? 'Utilisateur inconnu') ?>
+                                            </strong>
+                                            <small class="text-muted">
+                                                <?= date('d/m/Y H:i', strtotime($comment['created_at'])) ?>
+                                            </small>
                                         </div>
                                         <div>
                                             <?php if ($comment['is_solution']): ?>
@@ -464,7 +467,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 <span class="badge bg-warning">Observation</span>
                                             <?php endif; ?>
                                             <?php if ($comment['visible_by_client']): ?>
-                                                <span class="badge bg-info">Visible par le client</span>
+                                                <span class="badge bg-info">Visible client</span>
                                             <?php else: ?>
                                                 <span class="badge bg-secondary">Interne</span>
                                             <?php endif; ?>
@@ -472,18 +475,20 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 <button type="button" class="btn btn-sm btn-outline-warning btn-action"
                                                     data-bs-toggle="modal" data-bs-target="#editCommentModal<?= $comment['id'] ?>"
                                                     title="Modifier">
-                                                    <i class="bi bi-pencil me-1"></i>
+                                                    <i class="bi bi-pencil"></i>
                                                 </button>
                                                 <a href="<?= BASE_URL ?>interventions/deleteComment/<?= $comment['id'] ?>"
                                                     class="btn btn-sm btn-outline-danger btn-action"
                                                     onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')"
                                                     title="Supprimer">
-                                                    <i class="bi bi-trash me-1"></i>
+                                                    <i class="bi bi-trash"></i>
                                                 </a>
                                             <?php endif; ?>
                                         </div>
                                     </div>
-                                    <p class="mb-0"><?= nl2br(h($comment['comment'])) ?></p>
+                                    <p class="mb-0">
+                                        <?= nl2br(h($comment['comment'])) ?>
+                                    </p>
                                 </div>
 
                                 <!-- Modal Édition de commentaire -->
@@ -558,19 +563,19 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </div>
             </div>
 
-            <!-- Section Pièces jointes -->
+            <!-- Colonne 2 : Pièces jointes (4 colonnes) -->
             <div class="col-md-4">
-                <div class="card mb-3">
+                <div class="card mb-3 h-auto">
                     <div class="card-header py-2 d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">Pièces jointes</h5>
                         <?php if (canModifyInterventions() && $intervention['status_id'] != 6): ?>
                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#addAttachmentModal">
-                                <i class="bi bi-plus me-1"></i> Ajouter une pièce jointe
+                                <i class="bi bi-plus me-1"></i> Ajouter
                             </button>
                         <?php endif; ?>
                     </div>
-                    <div class="card-body py-2">
+                    <div class="card-body py-2" style="max-height: 500px; overflow-y: auto;">
                         <?php if (empty($attachments)): ?>
                             <p class="text-muted mb-0">Aucune pièce jointe pour le moment.</p>
                         <?php else: ?>
@@ -588,18 +593,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                             foreach ($attachments as $attachment):
                                 $isBI = $attachment['type_liaison'] === 'bi';
-                                // Utiliser nom_fichier pour la détection d'extension (nom physique)
                                 $extension = strtolower(pathinfo($attachment['nom_fichier'], PATHINFO_EXTENSION));
 
-                                // Si pas d'extension dans le nom, utiliser le type_fichier
                                 if (empty($extension) && !empty($attachment['type_fichier'])) {
                                     $extension = strtolower($attachment['type_fichier']);
                                 }
 
-                                // Debug: afficher les valeurs pour les bons d'intervention
-                                if ($attachment['type_liaison'] === 'bi') {
-                                    // echo "<!-- DEBUG BI: nom_fichier=" . $attachment['nom_fichier'] . ", extension=$extension, type_fichier=" . $attachment['type_fichier'] . " -->";
-                                }
                                 $isPdf = $extension === 'pdf';
                                 $isImage = in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg']);
                                 $isExcel = in_array($extension, ['xls', 'xlsx']);
@@ -607,7 +606,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <div class="card mb-2">
                                     <div class="card-header py-1 d-flex justify-content-between align-items-center">
                                         <div>
-                                            <strong><?php echo h($attachment['created_by_name'] ?? 'Utilisateur inconnu'); ?></strong>
+                                            <strong>
+                                                <?php echo h($attachment['created_by_name'] ?? 'Utilisateur inconnu'); ?>
+                                            </strong>
                                             <small class="text-muted ms-2">
                                                 <?php echo date('d/m/Y H:i', strtotime($attachment['date_creation'])); ?>
                                             </small>
@@ -627,7 +628,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 <a href="<?php echo BASE_URL; ?>interventions/deleteAttachment/<?php echo $attachment['id']; ?>"
                                                     class="btn btn-sm btn-outline-danger btn-action" title="Supprimer"
                                                     onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette pièce jointe ?');">
-                                                    <i class="bi bi-trash me-1"></i>
+                                                    <i class="bi bi-trash"></i>
                                                 </a>
                                             <?php endif; ?>
                                         </div>
@@ -635,16 +636,16 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <div class="card-body py-2">
                                         <div class="d-flex align-items-center">
                                             <?php if ($isBI): ?>
-                                                <i class="bi bi-file-pdf text-danger me-2 me-1"></i>
+                                                <i class="bi bi-file-pdf text-danger me-2"></i>
                                                 <span class="badge bg-info me-2">BI</span>
                                             <?php elseif ($isPdf): ?>
-                                                <i class="bi bi-file-pdf text-danger me-2 me-1"></i>
+                                                <i class="bi bi-file-pdf text-danger me-2"></i>
                                             <?php elseif ($isImage): ?>
-                                                <i class="bi bi-image-fill text-primary me-2 me-1"></i>
+                                                <i class="bi bi-image-fill text-primary me-2"></i>
                                             <?php elseif ($isExcel): ?>
-                                                <i class="bi bi-file-spreadsheet text-success me-2 me-1"></i>
+                                                <i class="bi bi-file-spreadsheet text-success me-2"></i>
                                             <?php else: ?>
-                                                <i class="bi bi-file-earmark text-secondary me-2 me-1"></i>
+                                                <i class="bi bi-file-earmark text-secondary me-2"></i>
                                             <?php endif; ?>
                                             <div class="attachment-name flex-grow-1">
                                                 <div class="display-name">
@@ -652,11 +653,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 </div>
                                                 <?php if (!empty($attachment['nom_personnalise']) && $attachment['nom_personnalise'] !== $attachment['nom_fichier']): ?>
                                                     <div class="original-name text-muted small">
-                                                        <?php echo h($attachment['nom_fichier']); ?></div>
+                                                        <?php echo h($attachment['nom_fichier']); ?>
+                                                    </div>
                                                 <?php endif; ?>
                                             </div>
                                             <?php if (canModifyInterventions() && $intervention['status_id'] != 6): ?>
-                                                <button type="button" class="btn btn-sm btn-outline-secondary me-2"
+                                                <button type="button" class="btn btn-sm btn-outline-secondary"
                                                     onclick="editAttachmentName(<?= $attachment['id'] ?>, '<?= h($attachment['nom_fichier']) ?>')"
                                                     title="Modifier le nom">
                                                     <i class="bi bi-pencil-square"></i>
@@ -679,7 +681,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                         </div>
                                                         <?php if (!empty($attachment['nom_personnalise']) && $attachment['nom_personnalise'] !== $attachment['nom_fichier']): ?>
                                                             <div class="original-name text-muted small">
-                                                                <?= h($attachment['nom_fichier']) ?></div>
+                                                                <?= h($attachment['nom_fichier']) ?>
+                                                            </div>
                                                         <?php endif; ?>
                                                     </div>
                                                 </h5>
@@ -689,7 +692,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <div class="modal-body">
                                                 <div class="preview-container">
                                                     <?php
-                                                    // Utiliser la même logique de détection d'extension que plus haut
                                                     $previewExtension = strtolower(pathinfo($attachment['nom_fichier'], PATHINFO_EXTENSION));
                                                     if (empty($previewExtension) && !empty($attachment['type_fichier'])) {
                                                         $previewExtension = strtolower($attachment['type_fichier']);
@@ -730,8 +732,29 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     </div>
                 </div>
             </div>
-        </div>
 
+            <!-- Colonne 3 : Techniciens d'intervention (4 colonnes) -->
+            <div class="col-md-4">
+                <div class="card mb-3 h-150 overflow-auto">
+                    <div class="card-header py-2 d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-people"></i> Techniciens d'intervention
+                        </h5>
+                        <button class="btn btn-sm btn-primary" onclick="openTechModal(<?= $intervention['id'] ?>)">
+                            <i class="bi bi-plus me-1"></i> Ajouter
+                        </button>
+                    </div>
+                    <div class="card-body py-2" id="techniciansListContainer" style="max-height: 500px; overflow-y: auto;">
+                        <div class="text-center py-3">
+                            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                <span class="visually-hidden">Chargement...</span>
+                            </div>
+                            <p class="text-muted mt-2 mb-0">Chargement des techniciens...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Section Historique (Bouton flottant) -->
         <button type="button" class="btn btn-sm btn-outline-secondary position-fixed bottom-0 end-0 m-3"
             data-bs-toggle="modal" data-bs-target="#historyModal" title="Historique des modifications">
@@ -1780,9 +1803,604 @@ include_once __DIR__ . '/../../includes/navbar.php';
 <?php endif; ?>
 
 <?php if (isInterventionLinkedToTicketContract($intervention['id'])): ?>
-    <!-- JavaScript inline temporairement supprimé pour déboguer l'erreur "Unexpected token '<'" -->
-    <!-- TODO: Extraire ce JavaScript vers interventions.js -->
-    <!-- Le code JavaScript a été supprimé temporairement - sera réintégré dans interventions.js -->
+
 <?php endif; ?>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<div class="modal fade" id="techModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-people"></i> Affecter des techniciens</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="intervention_id">
+                <input type="hidden" id="selected_technician_id">
+                <input type="hidden" id="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Technicien</label>
+                    <select id="techSelect" class="form-select">
+                        <option value="">-- Rechercher ou sélectionner --</option>
+                    </select>
+                    <small class="text-muted">Sélectionnez un technicien pour afficher/modifier ses détails</small>
+                </div>
+
+                <div id="technicianDetails">
+                    <hr>
+                    <h6 class="mb-3">Détails pour <span id="selectedTechnicianName" class="fw-bold">---</span></h6>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Date et heure de début</label>
+                            <input type="datetime-local" id="start_time" class="form-control">
+                            <small class="text-muted">Optionnel</small>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Date et heure de fin</label>
+                            <input type="datetime-local" id="end_time" class="form-control">
+                            <small class="text-muted">Optionnel</small>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Durée</label>
+                            <div class="input-group">
+                                <input type="number" id="temps_passe" class="form-control" min="0" step="30"
+                                    placeholder="Ex: 120" value="0">
+                                <span class="input-group-text">minutes</span>
+                            </div>
+                            <div id="roundedTimeDisplay" class="mt-2 p-2 bg-light rounded" style="display: none;">
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Déplacement</label>
+                            <select id="deplacement" class="form-select">
+                                <option value="0">Non</option>
+                                <option value="1">Oui</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Commentaire</label>
+                        <textarea id="commentaire" class="form-control" rows="3"
+                            placeholder="Commentaire sur l'intervention de ce technicien..."></textarea>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <!-- <button type="button" class="btn btn-success" onclick="addOrUpdateTechnician()">
+                            <i class="bi bi-plus-circle p-1"></i> Ajouter à la liste
+                        </button> -->
+                        <button type="button" class="btn btn-danger" onclick="removeCurrentTechnician()"
+                            id="btnRemoveCurrent" style="display:none;">
+                            <i class="bi bi-trash"></i> Retirer ce technicien
+                        </button>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" onclick="saveAllTechnicians()">
+                    <i class="bi bi-save p-1"></i> Enregistrer tous les techniciens
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let assignedTechnicians = [];
+    let currentEditId = null;
+
+    // Fonction pour charger et afficher les techniciens dans la page principale
+    function loadTechniciansInPage() {
+        const container = document.getElementById("techniciansListContainer");
+        if (!container) return;
+
+        const interventionId = <?= $intervention['id'] ?>;
+
+        fetch(`${window.BASE_URL}interventions/interventionsTechnician?id=${interventionId}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => response.json())
+            .then((data) => {
+                const assignedDetails = data.data?.assigned || data.assigned || [];
+
+                if (assignedDetails.length === 0) {
+                    container.innerHTML = '<div class="text-center py-3 text-muted">Aucun technicien affecté</div>';
+                    return;
+                }
+
+                let html = '<div class="list-group list-group-flush">';
+                assignedDetails.forEach(tech => {
+                    const name = tech.full_name || `${tech.first_name} ${tech.last_name}`;
+                    const startTime = tech.start_time ? formatDateTime(tech.start_time) : 'Non défini';
+                    const endTime = tech.end_time ? formatDateTime(tech.end_time) : 'Non défini';
+                    const tempsPasse = tech.temps_passe ? tech.temps_passe + ' min' : 'Non défini';
+                    const deplacement = tech.deplacement == 1 ? 'Oui' : 'Non';
+
+                    html += `
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div style="flex: 1;">
+                                <strong><i class="bi bi-person-badge"></i> ${escapeHtml(name)}</strong><br>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar"></i> Début: ${startTime}<br>
+                                            <i class="bi bi-calendar-check"></i> Fin: ${endTime}
+                                        </small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <small class="text-muted">
+                                            <i class="bi bi-clock"></i> Durée: ${tempsPasse}<br>
+                                            <i class="bi bi-car"></i> Déplacement: ${deplacement}
+                                        </small>
+                                    </div>
+                                </div>
+                                ${tech.commentaire ? `<small class="text-info d-block mt-1"><i class="bi bi-chat"></i> ${escapeHtml(tech.commentaire.substring(0, 100))}</small>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            })
+            .catch(error => {
+                console.error("Erreur chargement techniciens:", error);
+                container.innerHTML = '<div class="text-center py-3 text-danger">Erreur lors du chargement des techniciens</div>';
+            });
+    }
+
+    function openTechModal(id) {
+        console.log("Opening modal for intervention:", id);
+
+        if (!id) {
+            console.error("ID intervention manquant");
+            alert("Erreur: ID intervention manquant");
+            return;
+        }
+
+        assignedTechnicians = [];
+        currentEditId = null;
+
+        document.getElementById("intervention_id").value = id;
+        resetTechnicianForm();
+
+        const techSelect = document.getElementById("techSelect");
+        techSelect.innerHTML = '<option value="">Chargement des techniciens...</option>';
+
+        const apiUrl = `${window.BASE_URL}interventions/interventionsTechnician?id=${id}`;
+        console.log("Fetching from:", apiUrl);
+
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => response.json())
+            .then((data) => {
+                console.log("Données reçues:", data);
+
+                const select = document.getElementById("techSelect");
+                select.innerHTML = '<option value="">-- Sélectionner un technicien --</option>';
+
+                const technicians = data.data?.technicians || data.technicians || [];
+                const assignedDetails = data.data?.assigned || data.assigned || [];
+
+                // Charger les techniciens assignés
+                assignedDetails.forEach(assignedTech => {
+                    const techId = assignedTech.technicien_id || assignedTech;
+                    const tech = technicians.find(t => t.id == techId);
+                    if (tech) {
+                        assignedTechnicians.push({
+                            id: tech.id,
+                            name: tech.full_name || `${tech.first_name} ${tech.last_name}`,
+                            start_time: assignedTech.start_time || "",
+                            end_time: assignedTech.end_time || "",
+                            temps_passe: assignedTech.temps_passe || "",
+                            deplacement: assignedTech.deplacement || 0,
+                            commentaire: assignedTech.commentaire || ""
+                        });
+                    }
+                });
+
+                // Ajouter les options
+                if (technicians.length === 0) {
+                    select.innerHTML = '<option value="">Aucun technicien disponible</option>';
+                } else {
+                    technicians.forEach((technician) => {
+                        const option = document.createElement("option");
+                        option.value = technician.id;
+                        option.text = technician.full_name || `${technician.first_name} ${technician.last_name}`;
+                        select.appendChild(option);
+                    });
+                }
+
+                // Initialiser Select2
+                if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+                    $('#techSelect').select2({
+                        placeholder: "Rechercher un technicien",
+                        allowClear: true,
+                        width: '100%',
+                        dropdownParent: $('#techModal')
+                    });
+                }
+
+                refreshTechniciansList();
+
+                const modalElement = document.getElementById("techModal");
+                if (modalElement) {
+                    const modal = new bootstrap.Modal(modalElement);
+                    modal.show();
+                }
+            })
+            .catch((error) => {
+                console.error("❌ Erreur openTechModal:", error);
+                alert(`Erreur lors du chargement des techniciens: ${error.message}`);
+                const select = document.getElementById("techSelect");
+                select.innerHTML = '<option value="">Erreur de chargement</option>';
+            });
+    }
+
+    document.getElementById("techSelect")?.addEventListener("change", function () {
+        const techId = this.value;
+        if (!techId) {
+            resetTechnicianForm();
+            document.getElementById("btnRemoveCurrent").style.display = "none";
+            currentEditId = null;
+            return;
+        }
+
+        const techName = this.options[this.selectedIndex].text;
+        document.getElementById("selectedTechnicianName").textContent = techName;
+        document.getElementById("selected_technician_id").value = techId;
+        const existing = assignedTechnicians.find(t => t.id == techId);
+
+        if (existing) {
+            document.getElementById("start_time").value = existing.start_time || "";
+            document.getElementById("end_time").value = existing.end_time || "";
+            document.getElementById("temps_passe").value = existing.temps_passe || "";
+            document.getElementById("deplacement").value = existing.deplacement || "0";
+            document.getElementById("commentaire").value = existing.commentaire || "";
+            document.getElementById("btnRemoveCurrent").style.display = "inline-block";
+            currentEditId = techId;
+        } else {
+            document.getElementById("start_time").value = "";
+            document.getElementById("end_time").value = "";
+            document.getElementById("temps_passe").value = "";
+            document.getElementById("deplacement").value = "0";
+            document.getElementById("commentaire").value = "";
+            document.getElementById("btnRemoveCurrent").style.display = "none";
+            currentEditId = null;
+        }
+
+        document.getElementById("technicianDetails").style.display = "block";
+    });
+
+    function resetTechnicianForm() {
+        document.getElementById("selected_technician_id").value = "";
+        document.getElementById("selectedTechnicianName").textContent = "---";
+        document.getElementById("start_time").value = "";
+        document.getElementById("end_time").value = "";
+        document.getElementById("temps_passe").value = "";
+        document.getElementById("deplacement").value = "0";
+        document.getElementById("commentaire").value = "";
+        document.getElementById("technicianDetails").style.display = "block";
+        document.getElementById("btnRemoveCurrent").style.display = "none";
+        currentEditId = null;
+    }
+
+    function roundToHalfHour(minutes) {
+        if (!minutes || minutes <= 0) return 0;
+        const roundedMinutes = Math.round(minutes / 30) * 30;
+        if (roundedMinutes === 0 && minutes > 0) return 30;
+        return roundedMinutes;
+    }
+
+    function displayRoundedTime() {
+        const inputMinutes = parseInt(document.getElementById("temps_passe").value) || 0;
+        const roundedMinutes = roundToHalfHour(inputMinutes);
+        const roundedDisplay = document.getElementById("roundedTimeDisplay");
+
+        if (inputMinutes > 0) {
+            const heures = Math.floor(roundedMinutes / 60);
+            const minutes = roundedMinutes % 60;
+            let formattedTime = "";
+            if (heures > 0 && minutes > 0) {
+                formattedTime = `${heures}h${minutes}`;
+            } else if (heures > 0) {
+                formattedTime = `${heures}h`;
+            } else {
+                formattedTime = `${minutes}min`;
+            }
+
+            let warningHtml = "";
+            if (inputMinutes !== roundedMinutes && roundedMinutes > 0) {
+                warningHtml = `<br><small class="text-primary"> Sera arrondi à ${formattedTime} (${roundedMinutes} minutes) lors de l'enregistrement</small>`;
+            }
+
+            roundedDisplay.innerHTML = `
+                <i class="bi bi-calculator-fill text-primary"></i>
+                <strong>Durée saisie :</strong> ${inputMinutes} minutes<br>
+                <strong>Durée après arrondi :</strong> ${formattedTime}
+                ${warningHtml}
+            `;
+            roundedDisplay.style.display = "block";
+        } else {
+            roundedDisplay.style.display = "none";
+        }
+    }
+
+    function onTempsPasseInput() {
+        displayRoundedTime();
+    }
+
+    function onTempsPasseBlur() {
+        let value = parseInt(document.getElementById("temps_passe").value) || 0;
+        const rounded = roundToHalfHour(value);
+        if (rounded !== value && rounded > 0) {
+            document.getElementById("temps_passe").value = rounded;
+            displayRoundedTime();
+        }
+    }
+
+    function addOrUpdateTechnician() {
+        const techId = document.getElementById("selected_technician_id").value;
+        if (!techId) {
+            alert("Veuillez sélectionner un technicien");
+            return;
+        }
+
+        const techSelect = document.getElementById("techSelect");
+        const techName = techSelect.options[techSelect.selectedIndex].text;
+        const startTime = document.getElementById("start_time").value;
+        const endTime = document.getElementById("end_time").value;
+        let tempsPasse = document.getElementById("temps_passe").value;
+
+        if (startTime && endTime && new Date(startTime) >= new Date(endTime)) {
+            alert("La date/heure de fin doit être postérieure à la date/heure de début");
+            return;
+        }
+
+        if ((!tempsPasse || tempsPasse === "") && startTime && endTime) {
+            const start = new Date(startTime);
+            const end = new Date(endTime);
+            if (end > start) {
+                tempsPasse = Math.round((end - start) / (1000 * 60));
+            }
+        }
+
+        const technician = {
+            id: parseInt(techId),
+            name: techName,
+            start_time: startTime,
+            end_time: endTime,
+            temps_passe: tempsPasse ? parseInt(tempsPasse) : null,
+            deplacement: parseInt(document.getElementById("deplacement").value),
+            commentaire: document.getElementById("commentaire").value
+        };
+
+        const existingIndex = assignedTechnicians.findIndex(t => t.id == techId);
+
+        if (existingIndex !== -1) {
+            assignedTechnicians[existingIndex] = technician;
+            alert(`Technicien "${techName}" mis à jour`);
+        } else {
+            assignedTechnicians.push(technician);
+            alert(`Technicien "${techName}" ajouté`);
+        }
+
+        refreshTechniciansList();
+
+        document.getElementById("techSelect").value = "";
+        if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+            $('#techSelect').val('').trigger('change');
+        }
+        resetTechnicianForm();
+    }
+
+    function removeCurrentTechnician() {
+        const techId = document.getElementById("selected_technician_id").value;
+        if (!techId) return;
+
+        const tech = assignedTechnicians.find(t => t.id == techId);
+        if (tech && confirm(`Voulez-vous retirer ${tech.name} de cette intervention ?`)) {
+            assignedTechnicians = assignedTechnicians.filter(t => t.id != techId);
+            refreshTechniciansList();
+            resetTechnicianForm();
+            document.getElementById("techSelect").value = "";
+            if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+                $('#techSelect').val('').trigger('change');
+            }
+            alert(`${tech.name} a été retiré`);
+        }
+    }
+
+    function removeTechnicianById(techId) {
+        const tech = assignedTechnicians.find(t => t.id == techId);
+        if (tech && confirm(`Voulez-vous retirer ${tech.name} de cette intervention ?`)) {
+            assignedTechnicians = assignedTechnicians.filter(t => t.id != techId);
+            refreshTechniciansList();
+
+            if (currentEditId == techId) {
+                resetTechnicianForm();
+                document.getElementById("techSelect").value = "";
+                if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+                    $('#techSelect').val('').trigger('change');
+                }
+            }
+        }
+    }
+
+    function refreshTechniciansList() {
+        const container = document.getElementById("techniciansListContainer");
+        if (!container) return;
+
+        if (assignedTechnicians.length === 0) {
+            container.innerHTML = '<div class="list-group-item text-muted">Aucun technicien affecté</div>';
+            return;
+        }
+
+        container.innerHTML = assignedTechnicians.map(tech => `
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div style="flex: 1;">
+                        <strong><i class="bi bi-person-badge"></i> ${escapeHtml(tech.name)}</strong><br>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar"></i> Début: ${tech.start_time ? formatDateTime(tech.start_time) : 'Non défini'}<br>
+                                    <i class="bi bi-calendar-check"></i> Fin: ${tech.end_time ? formatDateTime(tech.end_time) : 'Non défini'}
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted">
+                                    <i class="bi bi-clock"></i> Durée: ${tech.temps_passe ? tech.temps_passe + ' min' : 'Non défini'}<br>
+                                    <i class="bi bi-car"></i> Déplacement: ${tech.deplacement == 1 ? 'Oui' : 'Non'}
+                                </small>
+                            </div>
+                        </div>
+                        ${tech.commentaire ? `<small class="text-info d-block mt-1"><i class="bi bi-chat"></i> ${escapeHtml(tech.commentaire.substring(0, 150))}</small>` : ''}
+                    </div>
+                    <button class="btn btn-sm btn-outline-danger ms-2" onclick="removeTechnicianById(${tech.id})">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `).join("");
+    }
+
+    function saveAllTechnicians() {
+        const interventionId = document.getElementById("intervention_id").value;
+
+        if (!interventionId) {
+            alert("Erreur: ID intervention manquant");
+            return;
+        }
+
+        // Récupérer le technicien sélectionné dans le select
+        const techSelect = document.getElementById("techSelect");
+        const techId = techSelect.value;
+
+        // Construire la liste des techniciens à partir du select
+        let techniciansToSave = [];
+
+        // Parcourir toutes les options du select
+        for (let i = 0; i < techSelect.options.length; i++) {
+            const option = techSelect.options[i];
+            if (option.selected) {
+                // Récupérer les détails du formulaire
+                const startTime = document.getElementById("start_time").value;
+                const endTime = document.getElementById("end_time").value;
+                let tempsPasse = document.getElementById("temps_passe").value;
+
+                // Validation des dates
+                if (startTime && endTime && new Date(startTime) >= new Date(endTime)) {
+                    alert(`La date/heure de fin doit être postérieure à la date/heure de début pour ${option.text}`);
+                    return;
+                }
+
+                // Arrondir la durée
+                if (tempsPasse && tempsPasse > 0) {
+                    tempsPasse = roundToHalfHour(parseInt(tempsPasse));
+                }
+
+                techniciansToSave.push({
+                    technicien_id: parseInt(option.value),
+                    start_time: startTime || null,
+                    end_time: endTime || null,
+                    temps_passe: tempsPasse || null,
+                    deplacement: parseInt(document.getElementById("deplacement").value),
+                    commentaire: document.getElementById("commentaire").value
+                });
+            }
+        }
+
+        if (techniciansToSave.length === 0) {
+            alert("Veuillez sélectionner au moins un technicien");
+            return;
+        }
+
+        console.log("Saving technicians:", techniciansToSave);
+
+        const url = `${window.BASE_URL}interventions/assignTechnicians`;
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                intervention_id: parseInt(interventionId),
+                technicians: techniciansToSave
+            })
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert("Techniciens affectés avec succès !");
+                    const modal = bootstrap.Modal.getInstance(document.getElementById("techModal"));
+                    if (modal) modal.hide();
+                    location.reload();
+                } else {
+                    alert("Erreur: " + (result.error || "Erreur inconnue"));
+                }
+            })
+            .catch(error => {
+                console.error("Erreur:", error);
+                alert("Erreur lors de l'enregistrement: " + error.message);
+            });
+    }
+    function formatDateTime(dateTimeStr) {
+        if (!dateTimeStr) return '';
+        const date = new Date(dateTimeStr);
+        return date.toLocaleString('fr-FR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function (m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Initialisation au chargement de la page
+    document.addEventListener("DOMContentLoaded", function () {
+        // Charger les techniciens dans la page
+        loadTechniciansInPage();
+
+        // Initialiser les écouteurs pour la durée
+        const tempsPasseInput = document.getElementById("temps_passe");
+        if (tempsPasseInput) {
+            tempsPasseInput.addEventListener("input", onTempsPasseInput);
+            tempsPasseInput.addEventListener("blur", onTempsPasseBlur);
+        }
+    });
+</script>
 
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

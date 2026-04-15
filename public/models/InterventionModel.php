@@ -91,12 +91,6 @@ class InterventionModel extends BaseModel
         $stmt->execute($params);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Ajouter le nom complet du technicien pour chaque intervention
-        foreach ($results as &$result) {
-
-            $result['technician_name'] = null;
-        }
-
         return $results;
     }
 
