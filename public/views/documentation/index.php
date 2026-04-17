@@ -427,11 +427,15 @@ foreach ($documentation_list as $doc) {
                                                                     <?php endif; ?>
                                                                     
                                                                     <!-- Bouton suppression (pour les utilisateurs autorisés) -->
+                                                                   <?php 
+                                                                    $name = $doc['nom_personnalise'] ?? $doc['nom_fichier'];
+                                                                    ?>
+
                                                                     <?php if (canDeleteDocumentation()): ?>
-                                                                        <button type="button" 
-                                                                                class="btn btn-sm btn-outline-danger btn-action" 
-                                                                                title="Supprimer"
-                                                                                onclick="confirmDeleteDocument(<?= $doc['id'] ?>, '<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>')">
+                                                                        <button type="button"
+                                                                            class="btn btn-sm btn-outline-danger btn-action"
+                                                                            data-id="<?= (int)$doc['id'] ?>"
+                                                                            data-name="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?>">
                                                                             <i class="bi bi-trash"></i>
                                                                         </button>
                                                                     <?php endif; ?>
@@ -509,28 +513,28 @@ foreach ($documentation_list as $doc) {
 // Variable globale pour l'URL de base
 const baseUrl = '<?= BASE_URL ?>';
 
-// Fonction pour mettre à jour les sites selon le client sélectionné ET soumettre le formulaire
+/* =========================================================
+   🔥 CONFIRM DELETE (SAFE)
+========================================================= */
+function confirmDeleteDocument(documentId, documentName) {
+    if (confirm(`Êtes-vous sûr de vouloir supprimer le document "${documentName}" ?\n\nCette action est irréversible.`)) {
+        window.location.href = `${baseUrl}documentation/delete/${documentId}`;
+    }
+}
+
+/* =========================================================
+   🔥 UPDATE SITES
+========================================================= */
 function updateSitesAndSubmit() {
     const clientId = document.getElementById('client_id').value;
-    console.log('updateSitesAndSubmit appelé avec clientId:', clientId);
-    
+
     if (clientId) {
-        const url = '<?= BASE_URL ?>documentation/get_sites?client_id=' + clientId;
-        console.log('URL de la requête:', url);
-        
-        fetch(url)
-            .then(response => {
-                console.log('Réponse reçue:', response);
-                if (!response.ok) {
-                    throw new Error('Erreur HTTP: ' + response.status);
-                }
-                return response.json();
-            })
+        fetch(`${baseUrl}documentation/get_sites?client_id=${clientId}`)
+            .then(response => response.json())
             .then(data => {
-                console.log('Données reçues:', data);
                 const siteSelect = document.getElementById('site_id');
                 siteSelect.innerHTML = '<option value="">Tous les sites</option>';
-                
+
                 if (Array.isArray(data)) {
                     data.forEach(site => {
                         const option = document.createElement('option');
@@ -539,48 +543,31 @@ function updateSitesAndSubmit() {
                         siteSelect.appendChild(option);
                     });
                 }
-                
-                // Réinitialiser les salles
+
                 document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-                
-                // Soumettre le formulaire après la mise à jour
                 document.getElementById('filterForm').submit();
             })
-            .catch(error => {
-                console.error('Erreur lors de la mise à jour des sites:', error);
-                alert('Erreur lors de la mise à jour des sites: ' + error.message);
-            });
+            .catch(err => console.error(err));
     } else {
         document.getElementById('site_id').innerHTML = '<option value="">Tous les sites</option>';
         document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-        
-        // Soumettre le formulaire même si aucun client n'est sélectionné
         document.getElementById('filterForm').submit();
     }
 }
 
-// Fonction pour mettre à jour les salles selon le site sélectionné ET soumettre le formulaire
+/* =========================================================
+   🔥 UPDATE ROOMS
+========================================================= */
 function updateRoomsAndSubmit() {
     const siteId = document.getElementById('site_id').value;
-    console.log('updateRoomsAndSubmit appelé avec siteId:', siteId);
-    
+
     if (siteId) {
-        const url = '<?= BASE_URL ?>documentation/get_rooms?site_id=' + siteId;
-        console.log('URL de la requête:', url);
-        
-        fetch(url)
-            .then(response => {
-                console.log('Réponse reçue:', response);
-                if (!response.ok) {
-                    throw new Error('Erreur HTTP: ' + response.status);
-                }
-                return response.json();
-            })
+        fetch(`${baseUrl}documentation/get_rooms?site_id=${siteId}`)
+            .then(response => response.json())
             .then(data => {
-                console.log('Données reçues:', data);
                 const roomSelect = document.getElementById('salle_id');
                 roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
-                
+
                 if (Array.isArray(data)) {
                     data.forEach(room => {
                         const option = document.createElement('option');
@@ -589,217 +576,114 @@ function updateRoomsAndSubmit() {
                         roomSelect.appendChild(option);
                     });
                 }
-                
-                // Soumettre le formulaire après la mise à jour
+
                 document.getElementById('filterForm').submit();
             })
-            .catch(error => {
-                console.error('Erreur lors de la mise à jour des salles:', error);
-                alert('Erreur lors de la mise à jour des salles: ' + error.message);
-            });
+            .catch(err => console.error(err));
     } else {
         document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-        
-        // Soumettre le formulaire même si aucun site n'est sélectionné
         document.getElementById('filterForm').submit();
     }
 }
 
-// Les fonctions getFileIcon et formatFileSize sont maintenant définies en PHP dans functions.php
-
-// Fonctions pour gérer l'aperçu des images
-function handleImageError(img, attachmentId, fileName) {
-    console.error('Erreur lors du chargement de l\'image:', fileName);
-    console.error('URL de l\'image:', img.src);
-    
-    // Remplacer l'image par un message d'erreur avec option de téléchargement
-    const container = img.parentElement;
-    container.innerHTML = `
-        <div class="alert alert-warning text-center">
-            <i class="bi bi-exclamation-triangle me-2"></i>
-            <strong>Impossible d'afficher l'aperçu de l'image</strong><br>
-            <small class="text-muted">${fileName}</small><br><br>
-            <a href="<?= BASE_URL ?>documentation/download?attachment_id=${attachmentId}" 
-               class="btn btn-sm btn-outline-primary" 
-               target="_blank">
-                <i class="bi bi-download me-1"></i> Télécharger le fichier
-            </a>
-        </div>
-    `;
-}
-
-function handleImageLoad(img) {
-    // Image chargée avec succès
-    console.log('Image chargée avec succès:', img.src);
-    img.style.display = 'block';
-    img.classList.add('img-fluid');
-}
-
-// Fonction pour confirmer la suppression d'un document
-function confirmDeleteDocument(documentId, documentName) {
-    if (confirm(`Êtes-vous sûr de vouloir supprimer le document "${documentName}" ?\n\nCette action est irréversible et supprimera définitivement le document et toutes ses données associées.`)) {
-        // Rediriger vers la page de suppression
-        window.location.href = `<?= BASE_URL ?>documentation/delete/${documentId}`;
-    }
-}
-
-// Fonction pour éditer le nom personnalisé
+/* =========================================================
+   🔥 EDIT DOCUMENT NAME
+========================================================= */
 function editDocumentName(element) {
     const currentName = element.getAttribute('data-current-name');
     const docId = element.getAttribute('data-id');
-    const span = element;
-    const parent = span.parentElement;
+    const parent = element.parentElement;
     const editBtn = parent.querySelector('.edit-name-btn');
-    
-    // Si déjà en édition, ne rien faire
-    if (parent.querySelector('input.editing-name-input')) {
-        return;
-    }
-    
-    // Créer un input inline
+
+    if (parent.querySelector('input')) return;
+
     const input = document.createElement('input');
     input.type = 'text';
-    input.className = 'form-control form-control-sm editing-name-input';
+    input.className = 'form-control form-control-sm';
     input.value = currentName;
     input.style.minWidth = '200px';
-    input.style.display = 'inline-block';
-    
-    // Cacher le span et le bouton
-    span.style.display = 'none';
+
+    element.style.display = 'none';
     if (editBtn) editBtn.style.display = 'none';
-    
-    // Ajouter l'input après le span
-    parent.insertBefore(input, span.nextSibling);
-    
-    // Focus et sélectionner le texte
+
+    parent.insertBefore(input, element.nextSibling);
     input.focus();
     input.select();
-    
-    // Sauvegarder au Enter ou Escape
-    const saveEdit = () => {
+
+    const save = () => {
         const newName = input.value.trim();
-        if (newName === currentName) {
-            // Pas de changement, restaurer
-            input.remove();
-            span.style.display = '';
-            if (editBtn) editBtn.style.display = '';
-            return;
-        }
-        
-        // Le nom peut être vide (on utilisera nom_fichier dans ce cas)
-        // Désactiver l'input pendant la sauvegarde
-        input.disabled = true;
-        
-        // Sauvegarder via AJAX (envoyer null si vide)
-        const nomToSend = newName || '';
-        fetch('<?= BASE_URL ?>documentation/updateName', {
+
+        fetch(`${baseUrl}documentation/updateName`, {
             method: 'POST',
             headers: {
                 'X-CSRF-Token': '<?= csrf_token() ?>',
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'X-Requested-With': 'XMLHttpRequest'
             },
-            body: `attachment_id=${docId}&nom_personnalise=${encodeURIComponent(nomToSend)}`
+            body: `attachment_id=${docId}&nom_personnalise=${encodeURIComponent(newName)}`
         })
-        .then(response => response.json())
+        .then(r => r.json())
         .then(data => {
             if (data.success) {
-                // Mettre à jour l'affichage avec le nom affiché (nom_personnalise ou nom_fichier)
-                const displayName = data.display_name || newName || currentName;
-                span.setAttribute('data-current-name', displayName);
-                span.textContent = displayName;
-                if (editBtn) {
-                    editBtn.setAttribute('data-current-name', displayName);
-                }
-                // Retirer l'input et réafficher
+                element.textContent = data.display_name || newName || currentName;
+                element.setAttribute('data-current-name', element.textContent);
+
                 input.remove();
-                span.style.display = '';
+                element.style.display = '';
                 if (editBtn) editBtn.style.display = '';
-                // Recharger la page pour mettre à jour l'affichage complet
-                window.location.reload();
             } else {
-                input.disabled = false;
-                alert('Erreur : ' + (data.error || 'Erreur inconnue'));
-                input.focus();
+                alert(data.error || 'Erreur');
             }
         })
-        .catch(error => {
-            console.error('Erreur:', error);
-            input.disabled = false;
-            alert('Erreur de connexion');
-            input.focus();
-        });
+        .catch(() => alert('Erreur de connexion'));
     };
-    
-    const cancelEdit = () => {
-        input.remove();
-        span.style.display = '';
-        if (editBtn) editBtn.style.display = '';
-    };
-    
-    input.addEventListener('blur', saveEdit);
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            input.blur();
-        } else if (e.key === 'Escape') {
-            e.preventDefault();
-            cancelEdit();
+
+    input.addEventListener('blur', save);
+    input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') input.blur();
+        if (e.key === 'Escape') {
+            input.remove();
+            element.style.display = '';
+            if (editBtn) editBtn.style.display = '';
         }
     });
 }
 
-// S'assurer que les fonctions sont disponibles après le chargement du DOM
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM chargé, fonctions de filtres disponibles');
-    
-    // Vérifier que les éléments existent
-    const clientSelect = document.getElementById('client_id');
-    const siteSelect = document.getElementById('site_id');
-    const roomSelect = document.getElementById('salle_id');
-    
-    console.log('Éléments trouvés:', {
-        client: !!clientSelect,
-        site: !!siteSelect,
-        room: !!roomSelect
+/* =========================================================
+   🔥 DOM READY (UNIQUE)
+========================================================= */
+document.addEventListener('DOMContentLoaded', function () {
+    // =========================
+    // DELETE BUTTONS (SAFE)
+    // =========================
+    document.querySelectorAll('.btn-action').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const id = this.dataset.id;
+            const name = this.dataset.name;
+
+            confirmDeleteDocument(id, name);
+        });
     });
-    
-    // Gérer l'édition des noms de documents
-    document.querySelectorAll('.editable-name').forEach(element => {
-        element.addEventListener('dblclick', function() {
+
+    // =========================
+    // EDIT NAME EVENTS
+    // =========================
+    document.querySelectorAll('.editable-name').forEach(el => {
+        el.addEventListener('dblclick', function () {
             editDocumentName(this);
         });
     });
-    
+
     document.querySelectorAll('.edit-name-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', function (e) {
             e.stopPropagation();
             const span = this.parentElement.querySelector('.editable-name');
-            if (span) {
-                editDocumentName(span);
-            }
+            if (span) editDocumentName(span);
         });
     });
-    
-    // Gérer les erreurs d'iframe pour les PDFs
-    const iframes = document.querySelectorAll('iframe[src*="documentation/preview"]');
-    iframes.forEach(iframe => {
-        iframe.addEventListener('error', function() {
-            const container = this.parentElement;
-            const attachmentId = this.src.match(/attachment_id=(\d+)/)?.[1];
-            container.innerHTML = `
-                <div class="alert alert-warning text-center">
-                    <i class="bi bi-exclamation-triangle me-2"></i>
-                    <strong>Impossible d'afficher l'aperçu du PDF</strong><br><br>
-                    <a href="<?= BASE_URL ?>documentation/download?attachment_id=${attachmentId}" 
-                       class="btn btn-sm btn-outline-primary" 
-                       target="_blank">
-                        <i class="bi bi-download me-1"></i> Télécharger le fichier
-                    </a>
-                </div>
-            `;
-        });
-    });
+
 });
 </script>
 

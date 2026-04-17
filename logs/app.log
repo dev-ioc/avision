@@ -29116,3 +29116,347 @@ Quant à l’écran n°1, il est HS
 [2026-04-15 16:58:11][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
 [2026-04-15 16:58:58][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
 [2026-04-15 16:59:30][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-16 15:00:45][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: vgi0ckuvnm58a6up2utseqjr2b) 
+[2026-04-16 15:00:49][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_delete_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-16 15:00:49][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-04-16 15:00:49][DEBUG] Login réussi - Session ID: vgi0ckuvnm58a6up2utseqjr2b 
+[2026-04-16 15:00:49][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-04-16 15:00:49][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-16 15:00:49][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-04-16 15:00:49][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-04-16 15:00:49][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-16 15:16:48][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:17:40][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:19:23][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:21:38][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:27:47][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:28:13][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:29:22][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:29:50][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-16 15:29:52][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:31:22][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:33:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:34:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:35:48][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:36:13][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:37:26][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:38:49][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:41:28][WARNING] Undefined array key "notify_technician" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":4474,"errno":2}
+[2026-04-16 15:41:28][INFO]  
+[2026-04-16 15:44:42][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:45:31][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:47:03][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:48:59][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:50:03][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":4453,"errno":2}
+[2026-04-16 15:50:03][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":4469,"errno":2}
+[2026-04-16 15:52:21][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:52:45][INFO] {"intervention_id":312,"technicians":[{"technicien_id":42,"start_time":"2026-04-16T16:52","end_time":"2026-04-16T17:53","temps_passe":120,"deplacement":0,"commentaire":"fghhh","notify_technician":1}]} 
+[2026-04-16 15:52:47][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:55:06][INFO] {"intervention_id":312,"technicians":[{"technicien_id":42,"start_time":"2026-04-16T16:54","end_time":"2026-04-16T17:55","temps_passe":120,"deplacement":0,"commentaire":"wxw<w","notify_technician":1}]} 
+[2026-04-16 15:55:08][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:57:12][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 15:57:34][INFO] {"intervention_id":312,"technicians":[{"technicien_id":42,"start_time":"2026-04-16T16:57","end_time":"2026-04-16T17:58","temps_passe":120,"deplacement":0,"commentaire":"sdfsfsf","notify_technician":1}]} 
+[2026-04-16 15:57:36][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 16:02:19][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 16:03:03][INFO] {"intervention_id":312,"technicians":[{"technicien_id":42,"start_time":"2026-04-16T17:02","end_time":"2026-04-16T18:03","temps_passe":60,"deplacement":0,"commentaire":"dfdshdshd","notify_technician":1}]} 
+[2026-04-16 16:03:05][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 16:05:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 16:05:35][INFO] 312 
+[2026-04-16 16:05:37][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 16:06:29][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 16:06:55][INFO] 42 
+[2026-04-16 16:06:57][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 16:08:22][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 16:08:43][INFO] 42 
+[2026-04-16 16:08:43][INFO] 312 
+[2026-04-16 16:09:04][ERROR] json_encode(): Argument #2 ($flags) must be of type int, string given {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":4488,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4488): json_encode('\\xC3\\x89chec email te...', 'WARNING')\n#1 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4525): InterventionController->apiAssignTechnicians()\n#2 C:\\xampp\\htdocs\\avision\\public\\index.php(874): InterventionController->assignTechnicians()\n#3 {main}","type":"TypeError"}
+[2026-04-16 16:11:35][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 16:11:55][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 16:16:02][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 16:16:18][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-16 16:41:22][WARNING] require_once(C:\xampp\htdocs\avision\public\classes/../../vendor/autoload.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\MailService.php","line":7,"errno":2}
+[2026-04-16 16:41:22][ERROR] Failed opening required 'C:\xampp\htdocs\avision\public\classes/../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\MailService.php","line":7,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(57): require_once()\n#1 C:\\xampp\\htdocs\\avision\\public\\index.php(849): InterventionController->__construct(Object(PDO))\n#2 {main}","type":"Error"}
+[2026-04-16 16:42:28][WARNING] require_once(C:\xampp\htdocs\avision\public\classes/../../vendor/autoload.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\MailService.php","line":7,"errno":2}
+[2026-04-16 16:42:28][ERROR] Failed opening required 'C:\xampp\htdocs\avision\public\classes/../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\MailService.php","line":7,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(57): require_once()\n#1 C:\\xampp\\htdocs\\avision\\public\\index.php(849): InterventionController->__construct(Object(PDO))\n#2 {main}","type":"Error"}
+[2026-04-16 16:42:43][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-17 13:16:31][DEBUG] Redirection vers login - URL sauvegardée: materiel?client_id=46&site_id=&salle_id= (Session ID: ftadgaeg4sp0e5mnosnudkoc3t) 
+[2026-04-17 13:16:33][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_delete_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-17 13:16:33][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-04-17 13:16:33][DEBUG] Login réussi - Session ID: ftadgaeg4sp0e5mnosnudkoc3t 
+[2026-04-17 13:16:33][DEBUG] Login réussi - redirect_after_login: materiel?client_id=46&site_id=&salle_id= 
+[2026-04-17 13:16:33][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-17 13:16:33][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-04-17 13:16:33][DEBUG] Redirection après login vers: http://localhost/avision/public/materiel?client_id=46&site_id=&salle_id= 
+[2026-04-17 13:16:49][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: j71spjqmdq51he0no0pumdhakb) 
+[2026-04-17 13:17:19][WARNING] Tentative de connexion échouée pour l'utilisateur : FOlyia 
+[2026-04-17 13:17:30][WARNING] Tentative de connexion échouée pour l'utilisateur : FOlyia 
+[2026-04-17 13:17:47][WARNING] Tentative de connexion échouée pour l'utilisateur : FOlyia 
+[2026-04-17 13:33:38][WARNING] Tentative de connexion échouée pour l'utilisateur : FOlyia 
+[2026-04-17 13:33:52][WARNING] Tentative de connexion échouée pour l'utilisateur : FOlyia 
+[2026-04-17 13:35:00][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_delete_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-17 13:35:00][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-04-17 13:35:00][DEBUG] Login réussi - Session ID: dsb06s3hq5n333keji2442aa8b 
+[2026-04-17 13:35:00][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-04-17 13:35:00][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-17 13:35:00][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-04-17 13:35:00][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-04-17 13:35:00][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'field list' 
+[2026-04-17 13:35:25][WARNING] Tentative de connexion échouée pour l'utilisateur : FOlyia 
+[2026-04-17 13:41:06][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'field list' 
+[2026-04-17 13:42:03][DEBUG] Permissions chargées pour FOlyia : {"role":"client","rights":{"client_modify_info":true,"client_view_materiel":true,"client_view_interventions":true,"client_view_documentation":true,"client_view_contracts":true,"client_manage_contacts":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-04-17 13:42:03][INFO] Utilisateur connecté : FOlyia {"user_id":16,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-04-17 13:42:03][DEBUG] Login réussi - Session ID: j71spjqmdq51he0no0pumdhakb 
+[2026-04-17 13:42:03][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-04-17 13:42:03][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-17 13:42:03][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-04-17 13:42:03][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Dashboard client - Récupération des salles... 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 55: 1 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 109: 1 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"room_id":null}] 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Utilisateur connecté : {"id":16,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":{"client_modify_info":true,"client_view_materiel":true,"client_view_interventions":true,"client_view_documentation":true,"client_view_contracts":true,"client_manage_contacts":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}}} 
+[2026-04-17 13:42:03][DEBUG] DEBUG - hasPermission('client_view_interventions') = true 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Utilisateur a la permission client_view_interventions 
+[2026-04-17 13:42:03][DEBUG] DEBUG - getOpenInterventions appelée pour client_id: 35 
+[2026-04-17 13:42:03][ERROR] Erreur lors de la récupération des interventions ouvertes : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' 
+[2026-04-17 13:42:03][DEBUG] DEBUG - Nombre d'interventions ouvertes trouvées : 0 
+[2026-04-17 13:42:11][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"room_id":null}] 
+[2026-04-17 13:44:47][DEBUG] Permissions chargées pour ECARTIERPOSTE : {"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}} 
+[2026-04-17 13:44:47][INFO] Utilisateur connecté : ECARTIERPOSTE {"user_id":36,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-04-17 13:44:47][DEBUG] Login réussi - Session ID: jvh66fp0aqeapsnkfdpas9u52r 
+[2026-04-17 13:44:47][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-04-17 13:44:47][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-17 13:44:47][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-04-17 13:44:47][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-04-17 13:44:48][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-04-17 13:44:48][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-04-17 13:44:48][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-04-17 13:44:48][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-04-17 13:44:48][DEBUG] DEBUG - Dashboard client - Récupération des salles... 
+[2026-04-17 13:44:48][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 55: 1 
+[2026-04-17 13:44:48][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 109: 1 
+[2026-04-17 13:44:48][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-04-17 13:44:48][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"room_id":null}] 
+[2026-04-17 13:44:48][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:44:48][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:44:48][DEBUG] DEBUG - Utilisateur connecté : {"id":36,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-04-17 13:44:48][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-04-17 13:44:48][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-04-17 13:44:50][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-04-17 13:44:50][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-04-17 13:44:50][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-04-17 13:44:50][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-04-17 13:44:50][DEBUG] DEBUG - Dashboard client - Récupération des salles... 
+[2026-04-17 13:44:50][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 55: 1 
+[2026-04-17 13:44:50][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 109: 1 
+[2026-04-17 13:44:50][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-04-17 13:44:50][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"room_id":null}] 
+[2026-04-17 13:44:50][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:44:50][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:44:50][DEBUG] DEBUG - Utilisateur connecté : {"id":36,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-04-17 13:44:50][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-04-17 13:44:50][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-04-17 13:44:52][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-04-17 13:44:52][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-04-17 13:44:52][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-04-17 13:44:52][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-04-17 13:44:52][DEBUG] DEBUG - Dashboard client - Récupération des salles... 
+[2026-04-17 13:44:52][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 55: 1 
+[2026-04-17 13:44:52][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 109: 1 
+[2026-04-17 13:44:52][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-04-17 13:44:52][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"room_id":null}] 
+[2026-04-17 13:44:52][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:44:52][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:44:52][DEBUG] DEBUG - Utilisateur connecté : {"id":36,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-04-17 13:44:52][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-04-17 13:44:52][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-04-17 13:44:54][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-04-17 13:44:54][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-04-17 13:44:54][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-04-17 13:44:54][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-04-17 13:44:54][DEBUG] DEBUG - Dashboard client - Récupération des salles... 
+[2026-04-17 13:44:54][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 55: 1 
+[2026-04-17 13:44:54][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 109: 1 
+[2026-04-17 13:44:54][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-04-17 13:44:54][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"room_id":null}] 
+[2026-04-17 13:44:54][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:44:54][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:44:54][DEBUG] DEBUG - Utilisateur connecté : {"id":36,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-04-17 13:44:54][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-04-17 13:44:54][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-04-17 13:44:57][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-04-17 13:44:57][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-04-17 13:44:57][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-04-17 13:44:57][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-04-17 13:44:57][DEBUG] DEBUG - Dashboard client - Récupération des salles... 
+[2026-04-17 13:44:57][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 55: 1 
+[2026-04-17 13:44:57][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 109: 1 
+[2026-04-17 13:44:57][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-04-17 13:44:57][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"room_id":null}] 
+[2026-04-17 13:44:57][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:44:57][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:44:57][DEBUG] DEBUG - Utilisateur connecté : {"id":36,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-04-17 13:44:57][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-04-17 13:44:57][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-04-17 13:44:58][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-04-17 13:44:58][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-04-17 13:44:58][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-04-17 13:44:58][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-04-17 13:44:58][DEBUG] DEBUG - Dashboard client - Récupération des salles... 
+[2026-04-17 13:44:58][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 55: 1 
+[2026-04-17 13:44:58][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 109: 1 
+[2026-04-17 13:44:58][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-04-17 13:44:58][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"room_id":null}] 
+[2026-04-17 13:44:58][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:44:58][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:44:58][DEBUG] DEBUG - Utilisateur connecté : {"id":36,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-04-17 13:44:58][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-04-17 13:44:58][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-04-17 13:45:04][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-04-17 13:45:04][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-04-17 13:45:04][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-04-17 13:45:04][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-04-17 13:45:04][DEBUG] DEBUG - Dashboard client - Récupération des salles... 
+[2026-04-17 13:45:04][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 55: 1 
+[2026-04-17 13:45:04][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 109: 1 
+[2026-04-17 13:45:04][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-04-17 13:45:04][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"room_id":null}] 
+[2026-04-17 13:45:04][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:45:04][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:45:04][DEBUG] DEBUG - Utilisateur connecté : {"id":36,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-04-17 13:45:04][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-04-17 13:45:04][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-04-17 13:45:08][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-04-17 13:45:08][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-04-17 13:45:08][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-04-17 13:45:08][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-04-17 13:45:08][DEBUG] DEBUG - Dashboard client - Récupération des salles... 
+[2026-04-17 13:45:08][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 55: 1 
+[2026-04-17 13:45:08][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 109: 1 
+[2026-04-17 13:45:08][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-04-17 13:45:08][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"room_id":null}] 
+[2026-04-17 13:45:08][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:45:08][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:45:08][DEBUG] DEBUG - Utilisateur connecté : {"id":36,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-04-17 13:45:08][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-04-17 13:45:08][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-04-17 13:45:09][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-04-17 13:45:09][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-04-17 13:45:09][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-04-17 13:45:09][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-04-17 13:45:09][DEBUG] DEBUG - Dashboard client - Récupération des salles... 
+[2026-04-17 13:45:09][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 55: 1 
+[2026-04-17 13:45:09][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 109: 1 
+[2026-04-17 13:45:09][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-04-17 13:45:09][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"room_id":null}] 
+[2026-04-17 13:45:09][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:45:09][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:45:09][DEBUG] DEBUG - Utilisateur connecté : {"id":36,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-04-17 13:45:09][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-04-17 13:45:09][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-04-17 13:45:10][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-04-17 13:45:10][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-04-17 13:45:10][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-04-17 13:45:10][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-04-17 13:45:10][DEBUG] DEBUG - Dashboard client - Récupération des salles... 
+[2026-04-17 13:45:10][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 55: 1 
+[2026-04-17 13:45:10][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 109: 1 
+[2026-04-17 13:45:10][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-04-17 13:45:10][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"room_id":null}] 
+[2026-04-17 13:45:10][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:45:10][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:45:10][DEBUG] DEBUG - Utilisateur connecté : {"id":36,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-04-17 13:45:10][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-04-17 13:45:10][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-04-17 13:45:12][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-04-17 13:45:12][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-04-17 13:45:12][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-04-17 13:45:12][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-04-17 13:45:12][DEBUG] DEBUG - Dashboard client - Récupération des salles... 
+[2026-04-17 13:45:12][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 55: 1 
+[2026-04-17 13:45:12][DEBUG] DEBUG - Dashboard client - Salles récupérées pour site 109: 1 
+[2026-04-17 13:45:12][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-04-17 13:45:12][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"room_id":null}] 
+[2026-04-17 13:45:12][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:45:12][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-04-17 13:45:12][DEBUG] DEBUG - Utilisateur connecté : {"id":36,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-04-17 13:45:12][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-04-17 13:45:12][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-04-17 13:48:02][DEBUG] load_permissions - Session ID: dsb06s3hq5n333keji2442aa8b, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-04-17 13:48:19][DEBUG] load_client_locations - Session ID: dsb06s3hq5n333keji2442aa8b, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-04-17 13:48:19][INFO] Localisations récupérées avec succès pour le client: 35 
+[2026-04-17 13:48:47][DEBUG] load_permissions - Session ID: dsb06s3hq5n333keji2442aa8b, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-04-17 13:48:57][DEBUG] load_permissions - Session ID: dsb06s3hq5n333keji2442aa8b, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-04-17 13:49:27][INFO] Données POST reçues pour création d'utilisateur: {"csrf_token":"aad234532bad08e914e3ada2737575695af99f5ce028396391c79c2b6bd7479b","username":"Tsilefilaza","email":"dev_mdg@caspeo.fr","first_name":"KARIJA","last_name":"Tsilefilaza","password":"test1234","type":"technicien","status":"1","permissions":["20","25","26","22","21"],"coef_utilisateur":"1.00","client_id":"35","locations":{"client_full":"1","sites":["55","109"],"rooms":["147"]}} 
+[2026-04-17 13:49:27][INFO] Données traitées pour création d'utilisateur: {"username":"Tsilefilaza","email":"dev_mdg@caspeo.fr","password":"test1234","first_name":"KARIJA","last_name":"Tsilefilaza","type":"technicien","is_admin":0,"status":1,"coef_utilisateur":"1.00","client_id":"35"} 
+[2026-04-17 13:49:27][ERROR] Erreurs de validation: ["Cet email existe d\u00e9j\u00e0"] 
+[2026-04-17 13:49:27][DEBUG] load_permissions - Session ID: dsb06s3hq5n333keji2442aa8b, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-04-17 13:49:27][DEBUG] load_permissions - Session ID: dsb06s3hq5n333keji2442aa8b, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-04-17 13:50:52][INFO] Données POST reçues pour création d'utilisateur: {"csrf_token":"aad234532bad08e914e3ada2737575695af99f5ce028396391c79c2b6bd7479b","username":"Tsilefilaza","email":"cafil85398@dwseal.com","first_name":"KARIJA","last_name":"Tsilefilaza","password":"testpassword","type":"technicien","status":"1","permissions":["20","25","26","22","21"],"coef_utilisateur":"1.00","client_id":"35"} 
+[2026-04-17 13:50:52][INFO] Données traitées pour création d'utilisateur: {"username":"Tsilefilaza","email":"cafil85398@dwseal.com","password":"testpassword","first_name":"KARIJA","last_name":"Tsilefilaza","type":"technicien","is_admin":0,"status":1,"coef_utilisateur":"1.00","client_id":"35"} 
+[2026-04-17 13:50:52][INFO] Résultat de la création d'utilisateur: Succès, ID: 44 
+[2026-04-17 13:50:52][INFO] Permissions à ajouter: ["20","25","26","22","21"] 
+[2026-04-17 13:51:17][DEBUG] Permissions chargées pour Tsilefilaza : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-17 13:51:17][INFO] Utilisateur connecté : Tsilefilaza {"user_id":44,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-04-17 13:51:17][DEBUG] Login réussi - Session ID: k1dj2qgvuep2mcntim48o74bmj 
+[2026-04-17 13:51:17][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-04-17 13:51:17][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-17 13:51:17][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-04-17 13:51:17][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-04-17 13:51:18][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'field list' 
+[2026-04-17 14:05:24][DEBUG] Permissions chargées pour Thierry : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-17 14:05:24][INFO] Utilisateur connecté : Thierry {"user_id":8,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-04-17 14:05:24][DEBUG] Login réussi - Session ID: cke80a2g3sid8cekp74bh1gcs1 
+[2026-04-17 14:05:24][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-04-17 14:05:24][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-17 14:05:24][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-04-17 14:05:24][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-04-17 14:05:24][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'field list' 
+[2026-04-17 14:16:37][ERROR] Call to undefined method DocumentationController::delete() {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":526,"trace":"#0 {main}","type":"Error"}
+[2026-04-17 14:23:50][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 14:23:50][INFO] Array 
+[2026-04-17 14:23:50][INFO] Tentative suppression fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/documentation/6/carnet_de_cable_SALLE_DU_CONSEIL_1.pdf 
+[2026-04-17 14:23:50][INFO] Fichier supprimé avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/documentation/6/carnet_de_cable_SALLE_DU_CONSEIL_1.pdf 
+[2026-04-17 14:23:50][INFO] Liaisons supprimées pour ID=340 
+[2026-04-17 14:23:50][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 14:23:50][INFO] Array 
+[2026-04-17 14:23:50][INFO] Redirection vers: http://localhost/avision/public/documentation?client_id=6 
+[2026-04-17 14:29:43][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 14:29:43][INFO] Array 
+[2026-04-17 14:29:43][INFO] Tentative suppression fichier: C:\xampp\htdocs\avision\uploads/documentation/6/carnet_de_cable_SALLE_DU_CONSEIL_1.pdf 
+[2026-04-17 14:29:43][INFO] Fichier supprimé avec succès: C:\xampp\htdocs\avision\uploads/documentation/6/carnet_de_cable_SALLE_DU_CONSEIL_1.pdf 
+[2026-04-17 14:29:43][INFO] Liaisons supprimées pour ID=341 
+[2026-04-17 14:29:43][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 14:29:43][INFO] Array 
+[2026-04-17 14:29:43][INFO] Redirection vers: http://localhost/avision/public/documentation?client_id=6 
+[2026-04-17 14:36:45][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 14:36:45][INFO] Array 
+[2026-04-17 14:36:45][INFO] Tentative suppression fichier: C:\xampp\htdocs\avision\uploads/documentation/6/carnet_de_cable_SALLE_DU_CONSEIL_1.pdf 
+[2026-04-17 14:36:45][INFO] Fichier supprimé avec succès: C:\xampp\htdocs\avision\uploads/documentation/6/carnet_de_cable_SALLE_DU_CONSEIL_1.pdf 
+[2026-04-17 14:36:45][INFO] Liaisons supprimées pour ID=342 
+[2026-04-17 14:36:45][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 14:36:45][INFO] Array 
+[2026-04-17 14:36:45][INFO] Redirection vers: http://localhost/avision/public/documentation?client_id=6 
+[2026-04-17 15:01:38][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 15:01:38][INFO] Array 
+[2026-04-17 15:01:38][INFO] Tentative suppression fichier: C:\xampp\htdocs\avision\uploads/documentation/6/carnet_de_cable_SALLE_DU_CONSEIL.pdf 
+[2026-04-17 15:01:38][INFO] Fichier supprimé avec succès: C:\xampp\htdocs\avision\uploads/documentation/6/carnet_de_cable_SALLE_DU_CONSEIL.pdf 
+[2026-04-17 15:01:38][INFO] Liaisons supprimées pour ID=339 
+[2026-04-17 15:01:38][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 15:01:38][INFO] Array 
+[2026-04-17 15:01:38][INFO] Redirection vers: http://localhost/avision/public/documentation?client_id=6 
+[2026-04-17 15:01:46][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 15:01:46][INFO] Array 
+[2026-04-17 15:01:46][INFO] Tentative suppression fichier: C:\xampp\htdocs\avision\uploads/documentation/6/Groupama_Olivet_-_Salle_du_conseil_-_Synoptique_d_execution_v2_1.pdf 
+[2026-04-17 15:01:46][INFO] Fichier supprimé avec succès: C:\xampp\htdocs\avision\uploads/documentation/6/Groupama_Olivet_-_Salle_du_conseil_-_Synoptique_d_execution_v2_1.pdf 
+[2026-04-17 15:01:46][INFO] Liaisons supprimées pour ID=337 
+[2026-04-17 15:01:46][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 15:01:46][INFO] Array 
+[2026-04-17 15:01:46][INFO] Redirection vers: http://localhost/avision/public/documentation?client_id=6 
