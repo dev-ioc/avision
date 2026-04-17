@@ -34,9 +34,19 @@ require_once __DIR__ . '/../classes/Security/CSRF.php';
  * 
  * @return string HTML du champ hidden avec le token CSRF
  */
-function csrf_field(): string {
-    $token = CSRF::getToken();
-    return '<input type="hidden" name="csrf_token" value="' . h($token) . '">';
+function csrf_field(): string
+{
+    // S'assurer que la session est démarrée
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Générer un token s'il n'existe pas ou si c'est un tableau
+    if (empty($_SESSION['csrf_token']) || is_array($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+
+    return '<input type="hidden" name="csrf_token" value="' . h($_SESSION['csrf_token']) . '">';
 }
 
 /**
@@ -44,6 +54,39 @@ function csrf_field(): string {
  * 
  * @return string Le token CSRF
  */
-function csrf_token(): string {
-    return CSRF::getToken();
+function csrf_token(): string
+{
+    // S'assurer que la session est démarrée
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Générer un token s'il n'existe pas ou si c'est un tableau
+    if (empty($_SESSION['csrf_token']) || is_array($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+
+    return $_SESSION['csrf_token'];
+}
+
+/**
+ * Vérifie le token CSRF
+ * 
+ * @param string|null $token Le token à vérifier (null pour prendre de $_POST)
+ * @return bool True si le token est valide
+ */
+function csrf_verify(?string $token = null): bool
+{
+    // S'assurer que la session est démarrée
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    $token = $token ?? ($_POST['csrf_token'] ?? $_SERVER['HTTP_X_CSRF_TOKEN'] ?? null);
+
+    if (empty($token) || empty($_SESSION['csrf_token']) || is_array($_SESSION['csrf_token'])) {
+        return false;
+    }
+
+    return hash_equals($_SESSION['csrf_token'], $token);
 }

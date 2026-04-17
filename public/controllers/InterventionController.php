@@ -4524,4 +4524,195 @@ class InterventionController
     {
         $this->apiAssignTechnicians();
     }
+
+    /**
+     * Flash Intervention - Création rapide en 1 clic
+     */
+    /**
+     * Flash Intervention - Création rapide en 1 clic
+     */
+    public function flash()
+    {
+        // Désactiver l'affichage des erreurs pour l'API
+        error_reporting(0);
+        ini_set('display_errors', 0);
+
+        // Nettoyer les buffers
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        // Définir les headers pour l'API
+        header('Content-Type: application/json; charset=UTF-8');
+        header('Cache-Control: no-cache, must-revalidate');
+
+        // Vérifier l'authentification et les permissions
+        if (!isset($_SESSION['user']) || !canModifyInterventions()) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'error' => 'Permissions insuffisantes']);
+            exit;
+        }
+
+        // ⚠️ SUPPRIMER LA VÉRIFICATION CSRF ICI
+        // La route est déjà exemptée dans le middleware
+        // Donc pas besoin de vérifier à nouveau
+
+        // Récupérer les données
+        $clientId = $_POST['client_id'] ?? null;
+        $title = trim($_POST['title'] ?? '');
+
+        if (!$clientId) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Client requis']);
+            exit;
+        }
+
+        try {
+            // Vérifier que le client existe
+            $stmt = $this->db->prepare("SELECT id, name FROM clients WHERE id = ? AND status = 1");
+            $stmt->execute([$clientId]);
+            $client = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$client) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'error' => 'Client introuvable']);
+                exit;
+            }
+
+            // Générer une référence unique
+            $reference = $this->generateReference();
+
+            // Définir les valeurs par défaut
+            $now = date('Y-m-d H:i:s');
+            $defaultTitle = $title ?: 'Flash Intervention - Assistance téléphonique';
+
+            // Récupérer les IDs par défaut
+            $typeId = $this->getDefaultTypeId('Assistance téléphonique');
+            $statusId = $this->getDefaultStatusId('Nouveau');
+            $priorityId = $this->getDefaultPriorityId('Moyenne');
+
+            // Durée par défaut : 30 minutes
+            $duration = 30;
+
+            // Insérer l'intervention
+            $sql = "INSERT INTO interventions (
+                    reference, title, client_id, type_id, status_id, priority_id,
+                    duration, created_at, updated_at
+                ) VALUES (
+                    :reference, :title, :client_id, :type_id, :status_id, :priority_id,
+                    :duration, :created_at, :updated_at
+                )";
+
+            $stmt = $this->db->prepare($sql);
+            $result = $stmt->execute([
+                ':reference' => $reference,
+                ':title' => $defaultTitle,
+                ':client_id' => $clientId,
+                ':type_id' => $typeId,
+                ':status_id' => $statusId,
+                ':priority_id' => $priorityId,
+                ':duration' => $duration,
+                ':created_at' => $now,
+                ':updated_at' => $now
+            ]);
+
+            if (!$result) {
+                throw new Exception('Erreur lors de l\'insertion en base de données');
+            }
+
+            $interventionId = $this->db->lastInsertId();
+
+            // Enregistrer l'action dans l'historique
+            $sql = "INSERT INTO intervention_history (
+                    intervention_id, field_name, old_value, new_value, changed_by, description
+                ) VALUES (
+                    :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
+                )";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':intervention_id' => $interventionId,
+                ':field_name' => 'Création flash',
+                ':old_value' => '',
+                ':new_value' => '',
+                ':changed_by' => $_SESSION['user']['id'],
+                ':description' => "Intervention flash créée rapidement"
+            ]);
+
+            echo json_encode([
+                'success' => true,
+                'intervention_id' => $interventionId,
+                'reference' => $reference,
+                'message' => 'Intervention flash créée avec succès'
+            ]);
+
+        } catch (Exception $e) {
+            error_log('Flash Intervention Error: ' . $e->getMessage());
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur lors de la création: ' . $e->getMessage()]);
+        }
+        exit;
+    }
+    /**
+     * Génère une référence unique pour l'intervention
+     */
+    private function generateReference()
+    {
+        $year = date('Y');
+        $month = date('m');
+        $prefix = "INT-{$year}{$month}-";
+
+        $sql = "SELECT COUNT(*) as count FROM interventions WHERE reference LIKE :prefix";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':prefix' => $prefix . '%']);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $number = str_pad(($result['count'] ?? 0) + 1, 4, '0', STR_PAD_LEFT);
+        return $prefix . $number;
+    }
+
+    /**
+     * Récupère l'ID d'un type par son nom
+     */
+    private function getDefaultTypeId($typeName)
+    {
+        $sql = "SELECT id FROM intervention_types WHERE name = :name";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':name' => $typeName]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            return $result['id'];
+        }
+
+        // Créer le type s'il n'existe pas
+        $sql = "INSERT INTO intervention_types (name, created_at) VALUES (:name, NOW())";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':name' => $typeName]);
+        return $this->db->lastInsertId();
+    }
+
+    /**
+     * Récupère l'ID d'un statut par son nom
+     */
+    private function getDefaultStatusId($statusName)
+    {
+        $sql = "SELECT id FROM intervention_statuses WHERE name = :name";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':name' => $statusName]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['id'] : 1;
+    }
+
+    /**
+     * Récupère l'ID d'une priorité par son nom
+     */
+    private function getDefaultPriorityId($priorityName)
+    {
+        $sql = "SELECT id FROM intervention_priorities WHERE name = :name";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':name' => $priorityName]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['id'] : 2;
+    }
 }

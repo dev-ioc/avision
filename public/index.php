@@ -1149,6 +1149,11 @@ try {
                 default:
                     header('Location: ' . BASE_URL . 'interventions');
                     break;
+                case 'flash':
+                    // Ne pas rediriger - la méthode flash() gère sa propre réponse
+                    $interventionController->flash();
+                    break;
+
             }
             break;
 

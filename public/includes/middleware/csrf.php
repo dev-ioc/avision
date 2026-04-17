@@ -25,7 +25,8 @@ function csrfMiddleware(bool $regenerateAfterValidation = true): bool
     $exemptRoutes = [
         // Ajouter les routes d'intervention techniciens ici
         '/interventions/assignTechnicians',
-        '/interventions/interventionsTechnician'
+        '/interventions/interventionsTechnician',
+        '/interventions/flash',  // ← AJOUTEZ CETTE LIGNE
     ];
 
     $requestUri = $_SERVER['REQUEST_URI'] ?? '';

@@ -85,6 +85,16 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </a>
 
             <button type="button" id="createButton" class="btn btn-primary">Créer l'intervention</button>
+            <!-- Dans le HEADER, à côté du bouton Ajouter -->
+            <div class="ms-auto p-2 bd-highlight">
+                <?php if (canModifyInterventions()): ?>
+                    <!-- Bouton Flash Intervention -->
+                    <button type="button" id="flashInterventionBtn" class="btn btn-success me-2" data-bs-toggle="modal"
+                        data-bs-target="#flashInterventionModal">
+                        <i class="bi bi-lightning-charge me-1"></i> Flash Intervention
+                    </button>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 
@@ -1400,7 +1410,64 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 </div>
+<!-- MODALE FLASH INTERVENTION -->
+<div class="modal fade" id="flashInterventionModal" tabindex="-1" aria-labelledby="flashInterventionModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="flashInterventionModalLabel">
+                    <i class="bi bi-lightning-charge me-2"></i>Flash Intervention
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Création rapide d'une intervention de type <strong>Assistance téléphonique</strong> (30 min)
+                </div>
 
+                <form id="flashInterventionForm">
+                    <?= csrf_field() ?>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Client *</label>
+                        <select class="form-select" id="flash_client_id" name="client_id" required>
+                            <option value="">Sélectionner un client</option>
+                            <?php foreach ($clients as $client): ?>
+                                <option value="<?= $client['id'] ?>">
+                                    <?= htmlspecialchars($client['name'] ?? '') ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="invalid-feedback">Veuillez sélectionner un client</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Sujet (optionnel)</label>
+                        <input type="text" class="form-control" id="flash_title" name="title"
+                            placeholder="Ex: Problème de connexion">
+                        <small class="text-muted">Laissez vide pour un titre automatique</small>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <strong>Note :</strong> L'intervention sera créée comme <strong>incomplète</strong>.<br>
+                        Vous devrez compléter le lieu, le sujet et la description après création.
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-success" id="confirmFlashBtn">
+                    <span class="spinner-border spinner-border-sm d-none" id="flashSpinner"></span>
+                    <i class="bi bi-lightning-charge me-1"></i> Créer l'intervention flash
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const createButton = document.getElementById('createButton');
@@ -1460,5 +1527,65 @@ include_once __DIR__ . '/../../includes/navbar.php';
         color: var(--bs-body-color) !important;
     }
 </style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const flashBtn = document.getElementById('confirmFlashBtn');
+        const clientSelect = document.getElementById('flash_client_id');
+        const flashSpinner = document.getElementById('flashSpinner');
 
+        if (flashBtn) {
+            flashBtn.addEventListener('click', function () {
+                // Validation
+                const clientId = clientSelect.value;
+                if (!clientId) {
+                    clientSelect.classList.add('is-invalid');
+                    clientSelect.focus();
+                    return;
+                }
+                clientSelect.classList.remove('is-invalid');
+
+                // Afficher le spinner
+                flashSpinner.classList.remove('d-none');
+                flashBtn.disabled = true;
+
+                // Récupérer le sujet (optionnel)
+                const title = document.getElementById('flash_title').value;
+
+                // Créer les données du formulaire
+                const formData = new URLSearchParams();
+                formData.append('client_id', clientId);
+                formData.append('title', title);
+                formData.append('csrf_token', window.csrfToken);
+
+                // Envoyer la requête AJAX
+                fetch(`${window.BASE_URL}interventions/flash`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-Token': window.csrfToken
+                    },
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Rediriger vers la page d'édition de l'intervention
+                            window.location.href = `${window.BASE_URL}interventions/edit/${data.intervention_id}`;
+                        } else {
+                            alert('Erreur : ' + (data.error || 'Une erreur est survenue'));
+                            flashSpinner.classList.add('d-none');
+                            flashBtn.disabled = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                        alert('Une erreur est survenue lors de la création flash');
+                        flashSpinner.classList.add('d-none');
+                        flashBtn.disabled = false;
+                    });
+            });
+        }
+    });
+</script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
