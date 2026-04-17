@@ -7,14 +7,16 @@ require_once __DIR__ . '/../models/MailHistoryModel.php';
 /**
  * Service de gestion des envois d'emails pour les interventions
  */
-class MailService {
+class MailService
+{
     private $db;
     private $interventionModel;
     private $mailTemplateModel;
     private $mailHistoryModel;
     private $config;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
         $this->interventionModel = new InterventionModel($db);
         $this->mailTemplateModel = new MailTemplateModel($db);
@@ -29,17 +31,18 @@ class MailService {
      * @param string $body Corps de l'email
      * @return bool Succès de l'envoi
      */
-    public function sendTestEmail($to, $subject, $body) {
+    public function sendTestEmail($to, $subject, $body)
+    {
         try {
             $oauth2Enabled = $this->config->get('oauth2_enabled', '0');
-            
+
             if ($oauth2Enabled === '1') {
                 // Vérifier le token OAuth2 avant l'envoi
                 $accessToken = $this->getValidOAuth2Token();
                 if (!$accessToken) {
                     throw new Exception("Token OAuth2 invalide ou expiré. Vérifiez la configuration OAuth2.");
                 }
-                
+
                 custom_log_mail("Token OAuth2 valide trouvé, tentative d'envoi", 'INFO');
                 return $this->sendEmailOAuth2($to, '', $subject, $body);
             } else {
@@ -56,7 +59,8 @@ class MailService {
      * @param int $interventionId ID de l'intervention
      * @return bool Succès de l'envoi
      */
-    public function sendInterventionCreated($interventionId) {
+    public function sendInterventionCreated($interventionId)
+    {
         try {
             // Vérifier si l'envoi automatique est activé
             if ($this->config->get('email_auto_send_creation', '0') != '1') {
@@ -98,7 +102,8 @@ class MailService {
      * @param int $technicianId ID du technicien à notifier
      * @return bool Succès de l'envoi
      */
-    public function sendTechnicianAssigned($interventionId, $technicianId) {
+    public function sendTechnicianAssigned($interventionId, $technicianId)
+    {
         try {
             // Récupérer l'intervention
             $intervention = $this->interventionModel->getById($interventionId);
@@ -110,8 +115,11 @@ class MailService {
             require_once __DIR__ . '/../models/UserModel.php';
             $userModel = new UserModel($this->db);
             $technician = $userModel->getUserById($technicianId);
-            
+            if (empty($technician['email'])) {
+                custom_log_mail("Technicien sans email ID: $technicianId", 'ERROR');
+            }
             if (!$technician || empty($technician['email'])) {
+
                 throw new Exception("Technicien $technicianId introuvable ou sans email");
             }
 
@@ -122,10 +130,12 @@ class MailService {
             }
 
             // Préparer le destinataire (seulement le technicien)
-            $recipients = [[
-                'email' => $technician['email'],
-                'name' => ($technician['first_name'] ?? '') . ' ' . ($technician['last_name'] ?? '')
-            ]];
+            $recipients = [
+                [
+                    'email' => $technician['email'],
+                    'name' => ($technician['first_name'] ?? '') . ' ' . ($technician['last_name'] ?? '')
+                ]
+            ];
 
             // Remplacer les variables dans le template
             $subject = $this->replaceTemplateVariables($template['subject'], $intervention);
@@ -133,6 +143,8 @@ class MailService {
 
             // Envoyer l'email
             return $this->sendEmail($recipients, $subject, $body, 'technician_assigned', $interventionId);
+            // return $this->sendEmailBasic($recipients, $subject, $body, $interventionId);
+
 
         } catch (Exception $e) {
             custom_log_mail("Erreur envoi email affectation technicien intervention $interventionId : " . $e->getMessage(), 'ERROR');
@@ -146,7 +158,8 @@ class MailService {
      * @param bool $force Forcer l'envoi même si l'auto-envoi est désactivé (pour envoi manuel)
      * @return bool Succès de l'envoi
      */
-    public function sendInterventionClosed($interventionId, $force = false) {
+    public function sendInterventionClosed($interventionId, $force = false)
+    {
         try {
             // Vérifier si l'envoi automatique est activé (sauf si forcé)
             if (!$force && $this->config->get('email_auto_send_closing', '0') != '1') {
@@ -188,13 +201,14 @@ class MailService {
      * @param bool $includeTechnician Si true, inclure le technicien affecté (envoi manuel)
      * @return array Liste des destinataires
      */
-    private function prepareRecipients($intervention, $includeTechnician = false) {
+    private function prepareRecipients($intervention, $includeTechnician = false)
+    {
         $recipients = [];
 
         // Destinataire principal : site_email en priorité, puis contact_client
-        $recipientEmail = !empty($intervention['site_email']) ? $intervention['site_email'] : 
-                         (!empty($intervention['contact_client']) ? $intervention['contact_client'] : '');
-        
+        $recipientEmail = !empty($intervention['site_email']) ? $intervention['site_email'] :
+            (!empty($intervention['contact_client']) ? $intervention['contact_client'] : '');
+
         if (!empty($recipientEmail)) {
             $recipients[] = [
                 'email' => $recipientEmail,
@@ -212,7 +226,7 @@ class MailService {
                 try {
                     require_once __DIR__ . '/../models/UserModel.php';
                     $userModel = new UserModel($this->db);
-                    $technician = $userModel->getUserById((int)$intervention['technician_id']);
+                    $technician = $userModel->getUserById((int) $intervention['technician_id']);
                     if (!empty($technician['email'])) {
                         $techEmail = trim($technician['email']);
                     }
@@ -237,7 +251,8 @@ class MailService {
             $unique = [];
             foreach ($recipients as $r) {
                 $email = isset($r['email']) && is_string($r['email']) ? trim($r['email']) : '';
-                if ($email === '') continue;
+                if ($email === '')
+                    continue;
                 $key = strtolower($email);
                 if (!isset($unique[$key])) {
                     $unique[$key] = $r;
@@ -268,9 +283,10 @@ class MailService {
      * @param array $recipients Liste des destinataires
      * @return array Liste des destinataires (modifiée si test_email configuré)
      */
-    private function redirectToTestEmail($recipients) {
+    private function redirectToTestEmail($recipients)
+    {
         $testEmail = $this->config->get('test_email', '');
-        
+
         if (!empty($testEmail)) {
             // Remplacer tous les destinataires par l'email de test
             $redirectedRecipients = [];
@@ -283,7 +299,7 @@ class MailService {
             }
             return $redirectedRecipients;
         }
-        
+
         return $recipients;
     }
 
@@ -297,11 +313,12 @@ class MailService {
      * @param array $attachmentPaths Liste des chemins vers les pièces jointes (optionnel)
      * @return bool Succès de l'envoi
      */
-    private function sendEmail($recipients, $subject, $body, $templateType, $interventionId, $attachmentPaths = []) {
+    private function sendEmail($recipients, $subject, $body, $templateType, $interventionId, $attachmentPaths = [])
+    {
         try {
             // Rediriger vers l'email de test si configuré
             $finalRecipients = $this->redirectToTestEmail($recipients);
-            
+
             // Ajouter une note dans le sujet si redirection active
             $testEmail = $this->config->get('test_email', '');
             if (!empty($testEmail)) {
@@ -314,7 +331,7 @@ class MailService {
             // Snapshot du CC forcé utilisé pour cet envoi (désactivé en mode test)
             $ccEmails = $this->getCcAddressesForCurrentMode();
             $ccSnapshot = !empty($ccEmails) ? implode(', ', $ccEmails) : '';
-            
+
             // Logger les pièces jointes
             if (!empty($attachmentPaths)) {
                 custom_log_mail("Envoi email avec " . count($attachmentPaths) . " pièce(s) jointe(s) pour intervention $interventionId", 'INFO');
@@ -322,14 +339,14 @@ class MailService {
                     custom_log_mail("  - Pièce jointe : $path (existe: " . (file_exists($path) ? 'OUI' : 'NON') . ")", 'INFO');
                 }
             }
-            
+
             // Envoyer à chaque destinataire
             foreach ($finalRecipients as $recipient) {
                 $this->sendSingleEmail($recipient, $subject, $body, $templateType, $interventionId, $attachmentPaths, $sendUuid, $ccSnapshot);
             }
-            
+
             return true;
-            
+
         } catch (Exception $e) {
             custom_log_mail("Erreur lors de l'envoi de l'email : " . $e->getMessage(), 'ERROR', [
                 'intervention_id' => $interventionId,
@@ -352,7 +369,8 @@ class MailService {
      * @param int $interventionId ID de l'intervention
      * @param array $attachmentPaths Liste des chemins vers les pièces jointes
      */
-    private function sendSingleEmail($recipient, $subject, $body, $templateType, $interventionId, $attachmentPaths = [], $sendUuid = null, $ccSnapshot = null) {
+    private function sendSingleEmail($recipient, $subject, $body, $templateType, $interventionId, $attachmentPaths = [], $sendUuid = null, $ccSnapshot = null)
+    {
         // Enregistrer dans l'historique avant envoi
         $templateId = $this->mailTemplateModel->getTemplateIdByType($templateType);
         // Si aucun template trouvé (message personnalisé), passer null explicitement
@@ -361,14 +379,14 @@ class MailService {
         }
         $attachmentPathStr = !empty($attachmentPaths) ? implode(', ', $attachmentPaths) : null;
         $historyId = $this->mailHistoryModel->saveToHistory($interventionId, $templateId, $recipient, $subject, $body, $attachmentPathStr, $sendUuid, $ccSnapshot);
-        
-            custom_log_mail("Envoi email à " . $recipient['email'] . " avec " . count($attachmentPaths) . " pièce(s) jointe(s)", 'INFO');
-            if (!empty($attachmentPaths)) {
-                foreach ($attachmentPaths as $idx => $path) {
-                    custom_log_mail("  PJ " . ($idx + 1) . ": $path (existe: " . (file_exists($path) ? 'OUI' : 'NON') . ", taille: " . (file_exists($path) ? filesize($path) : 0) . " bytes)", 'INFO');
-                }
+
+        custom_log_mail("Envoi email à " . $recipient['email'] . " avec " . count($attachmentPaths) . " pièce(s) jointe(s)", 'INFO');
+        if (!empty($attachmentPaths)) {
+            foreach ($attachmentPaths as $idx => $path) {
+                custom_log_mail("  PJ " . ($idx + 1) . ": $path (existe: " . (file_exists($path) ? 'OUI' : 'NON') . ", taille: " . (file_exists($path) ? filesize($path) : 0) . " bytes)", 'INFO');
             }
-        
+        }
+
         try {
             // Vérifier si OAuth2 est activé
             if ($this->config->get('oauth2_enabled', '0') == '1') {
@@ -376,7 +394,7 @@ class MailService {
             } else {
                 $success = $this->sendEmailBasic($recipient['email'], $recipient['name'], $subject, $body, $attachmentPaths);
             }
-            
+
             if ($success) {
                 // Mettre à jour l'historique
                 $this->mailHistoryModel->updateHistoryStatus($historyId, 'sent');
@@ -384,7 +402,7 @@ class MailService {
             } else {
                 throw new Exception("Échec de l'envoi de l'email");
             }
-            
+
         } catch (Exception $e) {
             // Mettre à jour l'historique avec l'erreur
             $this->mailHistoryModel->updateHistoryStatus($historyId, 'failed', $e->getMessage());
@@ -396,7 +414,8 @@ class MailService {
     /**
      * Envoie un email via OAuth2 (Exchange 365)
      */
-    private function sendEmailOAuth2($to, $toName, $subject, $body, $attachmentPaths = []) {
+    private function sendEmailOAuth2($to, $toName, $subject, $body, $attachmentPaths = [])
+    {
         try {
             // Vérifier si le token OAuth2 est valide
             $accessToken = $this->getValidOAuth2Token();
@@ -429,7 +448,7 @@ class MailService {
             $hostname = $_SERVER['HTTP_HOST'] ?? 'localhost';
             fwrite($socket, "EHLO $hostname\r\n");
             $response = fgets($socket, 1024);
-            
+
             // Lire toutes les lignes de la réponse EHLO
             $ehloResponse = $response;
             while (preg_match('/^250-/', $response)) {
@@ -454,7 +473,7 @@ class MailService {
             // EHLO après TLS
             fwrite($socket, "EHLO $hostname\r\n");
             $response = fgets($socket, 1024);
-            
+
             // Lire toutes les lignes de la nouvelle réponse EHLO
             $ehloResponse = $response;
             while (preg_match('/^250-/', $response)) {
@@ -509,11 +528,11 @@ class MailService {
             // Gérer les pièces jointes si présentes
             $hasAttachments = !empty($attachmentPaths);
             $boundary = null;
-            
+
             if ($hasAttachments) {
                 $boundary = "----=_Part_" . md5(time() . rand());
             }
-            
+
             // En-têtes de l'email
             $encodedFromName = $this->encodeHeader($fromName);
             $encodedToName = $this->encodeHeader($toName);
@@ -526,7 +545,7 @@ class MailService {
             $emailData .= "Reply-To: $fromAddress\r\n";
             $emailData .= "Subject: " . $this->encodeHeader($subject) . "\r\n";
             $emailData .= "MIME-Version: 1.0\r\n";
-            
+
             if ($hasAttachments) {
                 $emailData .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
             } else {
@@ -534,7 +553,7 @@ class MailService {
             }
             $emailData .= "X-Mailer: Avision Mail Service\r\n";
             $emailData .= "\r\n";
-            
+
             if ($hasAttachments) {
                 // Corps du message
                 $emailData .= "--$boundary\r\n";
@@ -542,11 +561,11 @@ class MailService {
                 $emailData .= "Content-Transfer-Encoding: 8bit\r\n";
                 $emailData .= "\r\n";
             }
-            
+
             // Ajouter le corps du message (convertir les \n en \r\n si nécessaire)
             $body = str_replace(["\r\n", "\n"], "\r\n", $body);
             $emailData .= $body;
-            
+
             // Ajouter les pièces jointes
             if ($hasAttachments) {
                 custom_log_mail("Ajout de " . count($attachmentPaths) . " pièce(s) jointe(s) à l'email OAuth2", 'INFO');
@@ -561,10 +580,10 @@ class MailService {
                         }
                         $fileContentBase64 = chunk_split(base64_encode($fileContent));
                         $mimeType = mime_content_type($attachmentPath) ?: 'application/octet-stream';
-                        
+
                         // Encoder le nom de fichier pour les caractères spéciaux
                         $encodedFileName = $this->encodeHeader($fileName);
-                        
+
                         $emailData .= "Content-Type: $mimeType; name=\"$encodedFileName\"\r\n";
                         $emailData .= "Content-Disposition: attachment; filename=\"$encodedFileName\"\r\n";
                         $emailData .= "Content-Transfer-Encoding: base64\r\n";
@@ -577,13 +596,13 @@ class MailService {
                 }
                 $emailData .= "\r\n--$boundary--\r\n";
             }
-            
+
             // Appliquer le dot-stuffing SMTP au contenu DATA
             // IMPORTANT: Ne pas appliquer le dot-stuffing au contenu base64 des pièces jointes
             $emailDataLines = explode("\r\n", $emailData);
             $finalEmailData = "";
             $inBase64Content = false;
-            
+
             foreach ($emailDataLines as $line) {
                 // Détecter si on est dans le contenu base64 d'une pièce jointe
                 if (strpos($line, 'Content-Transfer-Encoding: base64') !== false) {
@@ -592,12 +611,14 @@ class MailService {
                     // Nouvelle section = fin du contenu base64 précédent
                     $inBase64Content = false;
                 }
-                
+
                 // Si la ligne commence par un point ET qu'on n'est pas dans le contenu base64
                 // (et que ce n'est pas un boundary), appliquer le dot-stuffing
-                if (substr($line, 0, 1) === '.' && 
-                    substr($line, 0, 2) !== '--' && 
-                    !$inBase64Content) {
+                if (
+                    substr($line, 0, 1) === '.' &&
+                    substr($line, 0, 2) !== '--' &&
+                    !$inBase64Content
+                ) {
                     $finalEmailData .= '.' . $line . "\r\n";
                 } else {
                     $finalEmailData .= $line . "\r\n";
@@ -607,11 +628,11 @@ class MailService {
             $finalEmailData .= ".\r\n";
 
             fwrite($socket, $finalEmailData);
-            
+
             // Lire la réponse (peut être multi-lignes)
             $response = fgets($socket, 1024);
             $fullResponse = $response;
-            
+
             // Lire toutes les lignes de la réponse si nécessaire
             while (preg_match('/^250-/', $response)) {
                 $response = fgets($socket, 1024);
@@ -640,7 +661,8 @@ class MailService {
     /**
      * Envoie un email via authentification basique SMTP
      */
-    private function sendEmailBasic($to, $toName, $subject, $body, $attachmentPaths = []) {
+    private function sendEmailBasic($to, $toName, $subject, $body, $attachmentPaths = [])
+    {
         try {
             // Configuration SMTP
             $host = $this->config->get('mail_host');
@@ -660,7 +682,7 @@ class MailService {
             // Déterminer le protocole de connexion selon le chiffrement
             $protocol = 'tcp';
             $sslContext = null;
-            
+
             if ($encryption === 'ssl') {
                 $protocol = 'ssl';
                 // Configurer le contexte SSL pour SSL direct
@@ -675,14 +697,14 @@ class MailService {
 
             // Créer la socket (timeout 60s)
             $socket = @stream_socket_client(
-                "$protocol://$host:$port", 
-                $errno, 
-                $errstr, 
+                "$protocol://$host:$port",
+                $errno,
+                $errstr,
                 60,
                 STREAM_CLIENT_CONNECT,
                 $sslContext
             );
-            
+
             if (!$socket) {
                 $errorDetails = "Impossible de se connecter au serveur SMTP ($host:$port): $errstr (code: $errno)";
                 if ($encryption === 'ssl') {
@@ -704,7 +726,7 @@ class MailService {
             $hostname = $_SERVER['HTTP_HOST'] ?? 'localhost';
             fwrite($socket, "EHLO $hostname\r\n");
             $response = fgets($socket, 1024);
-            
+
             // Lire toutes les lignes de la réponse EHLO
             $ehloResponse = $response;
             while (preg_match('/^250-/', $response)) {
@@ -718,7 +740,7 @@ class MailService {
                 if (preg_match('/STARTTLS/i', $ehloResponse)) {
                     fwrite($socket, "STARTTLS\r\n");
                     $response = fgets($socket, 1024);
-                    
+
                     if (!preg_match('/^220/', $response)) {
                         fclose($socket);
                         throw new Exception("STARTTLS non supporté ou échec: " . trim($response));
@@ -726,7 +748,7 @@ class MailService {
 
                     // Configurer le contexte SSL pour permettre les certificats auto-signés (dev)
                     $cryptoMethod = STREAM_CRYPTO_METHOD_TLS_CLIENT;
-                    
+
                     // Essayer différentes méthodes de chiffrement TLS
                     $tlsMethods = [
                         STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT,
@@ -735,10 +757,10 @@ class MailService {
                         STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT,
                         STREAM_CRYPTO_METHOD_TLS_CLIENT,
                     ];
-                    
+
                     $tlsActivated = false;
                     $lastError = '';
-                    
+
                     foreach ($tlsMethods as $method) {
                         // Configurer les options de contexte pour désactiver la vérification des certificats (dev)
                         $context = stream_context_create([
@@ -749,12 +771,12 @@ class MailService {
                                 'crypto_method' => $method
                             ]
                         ]);
-                        
+
                         // Réessayer avec cette méthode
                         @stream_context_set_option($socket, 'ssl', 'verify_peer', false);
                         @stream_context_set_option($socket, 'ssl', 'verify_peer_name', false);
                         @stream_context_set_option($socket, 'ssl', 'allow_self_signed', true);
-                        
+
                         if (@stream_socket_enable_crypto($socket, true, $method)) {
                             $tlsActivated = true;
                             custom_log_mail("TLS activé avec la méthode: " . $method, 'INFO');
@@ -763,7 +785,7 @@ class MailService {
                             $lastError = error_get_last()['message'] ?? 'Erreur inconnue';
                         }
                     }
-                    
+
                     if (!$tlsActivated) {
                         fclose($socket);
                         throw new Exception("Impossible d'activer TLS. Dernière erreur: $lastError. Essayez SSL direct (port 465) ou désactivez le chiffrement.");
@@ -772,7 +794,7 @@ class MailService {
                     // Renvoyer EHLO après TLS
                     fwrite($socket, "EHLO $hostname\r\n");
                     $response = fgets($socket, 1024);
-                    
+
                     // Lire toutes les lignes de la nouvelle réponse EHLO
                     $ehloResponse = $response;
                     while (preg_match('/^250-/', $response)) {
@@ -789,7 +811,7 @@ class MailService {
                 // Essayer l'authentification LOGIN
                 fwrite($socket, "AUTH LOGIN\r\n");
                 $response = fgets($socket, 1024);
-                
+
                 if (!preg_match('/^334/', $response)) {
                     fclose($socket);
                     throw new Exception("Authentification non supportée: " . trim($response));
@@ -798,7 +820,7 @@ class MailService {
                 // Envoyer le nom d'utilisateur (base64)
                 fwrite($socket, base64_encode($username) . "\r\n");
                 $response = fgets($socket, 1024);
-                
+
                 if (!preg_match('/^334/', $response)) {
                     fclose($socket);
                     throw new Exception("Erreur lors de l'envoi du nom d'utilisateur: " . trim($response));
@@ -807,7 +829,7 @@ class MailService {
                 // Envoyer le mot de passe (base64)
                 fwrite($socket, base64_encode($password) . "\r\n");
                 $response = fgets($socket, 1024);
-                
+
                 if (!preg_match('/^235/', $response)) {
                     fclose($socket);
                     throw new Exception("Échec de l'authentification: " . trim($response));
@@ -853,11 +875,11 @@ class MailService {
             // Gérer les pièces jointes si présentes
             $hasAttachments = !empty($attachmentPaths);
             $boundary = null;
-            
+
             if ($hasAttachments) {
                 $boundary = "----=_Part_" . md5(time() . rand());
             }
-            
+
             // Préparer les en-têtes de l'email
             $encodedFromName = $this->encodeHeader($fromName);
             $encodedToName = $this->encodeHeader($toName);
@@ -870,7 +892,7 @@ class MailService {
             $emailData .= "Reply-To: $fromAddress\r\n";
             $emailData .= "Subject: " . $this->encodeHeader($subject) . "\r\n";
             $emailData .= "MIME-Version: 1.0\r\n";
-            
+
             if ($hasAttachments) {
                 $emailData .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
             } else {
@@ -878,7 +900,7 @@ class MailService {
             }
             $emailData .= "X-Mailer: Avision Mail Service\r\n";
             $emailData .= "\r\n";
-            
+
             if ($hasAttachments) {
                 // Corps du message
                 $emailData .= "--$boundary\r\n";
@@ -886,11 +908,11 @@ class MailService {
                 $emailData .= "Content-Transfer-Encoding: 8bit\r\n";
                 $emailData .= "\r\n";
             }
-            
+
             // Ajouter le corps du message (convertir les \n en \r\n si nécessaire)
             $body = str_replace(["\r\n", "\n"], "\r\n", $body);
             $emailData .= $body;
-            
+
             // Ajouter les pièces jointes
             if ($hasAttachments) {
                 custom_log_mail("Ajout de " . count($attachmentPaths) . " pièce(s) jointe(s) à l'email SMTP Basic", 'INFO');
@@ -905,10 +927,10 @@ class MailService {
                         }
                         $fileContentBase64 = chunk_split(base64_encode($fileContent));
                         $mimeType = mime_content_type($attachmentPath) ?: 'application/octet-stream';
-                        
+
                         // Encoder le nom de fichier pour les caractères spéciaux
                         $encodedFileName = $this->encodeHeader($fileName);
-                        
+
                         $emailData .= "Content-Type: $mimeType; name=\"$encodedFileName\"\r\n";
                         $emailData .= "Content-Disposition: attachment; filename=\"$encodedFileName\"\r\n";
                         $emailData .= "Content-Transfer-Encoding: base64\r\n";
@@ -921,13 +943,13 @@ class MailService {
                 }
                 $emailData .= "\r\n--$boundary--\r\n";
             }
-            
+
             // Appliquer le dot-stuffing SMTP au contenu DATA
             // IMPORTANT: Ne pas appliquer le dot-stuffing au contenu base64 des pièces jointes
             $emailDataLines = explode("\r\n", $emailData);
             $finalEmailData = "";
             $inBase64Content = false;
-            
+
             foreach ($emailDataLines as $line) {
                 // Détecter si on est dans le contenu base64 d'une pièce jointe
                 if (strpos($line, 'Content-Transfer-Encoding: base64') !== false) {
@@ -936,12 +958,14 @@ class MailService {
                     // Nouvelle section = fin du contenu base64 précédent
                     $inBase64Content = false;
                 }
-                
+
                 // Si la ligne commence par un point ET qu'on n'est pas dans le contenu base64
                 // (et que ce n'est pas un boundary), appliquer le dot-stuffing
-                if (substr($line, 0, 1) === '.' && 
-                    substr($line, 0, 2) !== '--' && 
-                    !$inBase64Content) {
+                if (
+                    substr($line, 0, 1) === '.' &&
+                    substr($line, 0, 2) !== '--' &&
+                    !$inBase64Content
+                ) {
                     $finalEmailData .= '.' . $line . "\r\n";
                 } else {
                     $finalEmailData .= $line . "\r\n";
@@ -951,11 +975,11 @@ class MailService {
             $finalEmailData .= ".\r\n";
 
             fwrite($socket, $finalEmailData);
-            
+
             // Lire la réponse (peut être multi-lignes)
             $response = fgets($socket, 1024);
             $fullResponse = $response;
-            
+
             // Lire toutes les lignes de la réponse si nécessaire
             while (preg_match('/^250-/', $response)) {
                 $response = fgets($socket, 1024);
@@ -986,7 +1010,8 @@ class MailService {
      * @param string $header L'en-tête à encoder
      * @return string L'en-tête encodé
      */
-    private function encodeHeader($header) {
+    private function encodeHeader($header)
+    {
         // Si l'en-tête contient des caractères non-ASCII, l'encoder
         if (preg_match('/[^\x00-\x7F]/', $header)) {
             return '=?UTF-8?B?' . base64_encode($header) . '?=';
@@ -998,7 +1023,8 @@ class MailService {
      * Récupère l'adresse CC configurée (désactivée en mode test)
      * @return array Liste d'emails CC valides
      */
-    private function getCcAddressesForCurrentMode() {
+    private function getCcAddressesForCurrentMode()
+    {
         $testEmail = $this->config->get('test_email', '');
         $testEmail = is_string($testEmail) ? trim($testEmail) : '';
         if ($testEmail !== '') {
@@ -1033,7 +1059,8 @@ class MailService {
     /**
      * Obtient un token OAuth2 valide (vérifie l'expiration et refresh si nécessaire)
      */
-    private function getValidOAuth2Token() {
+    private function getValidOAuth2Token()
+    {
         $accessToken = $this->config->get('oauth2_access_token', '');
         $refreshToken = $this->config->get('oauth2_refresh_token', '');
         $tokenExpires = $this->config->get('oauth2_token_expires', '');
@@ -1060,7 +1087,8 @@ class MailService {
     /**
      * Rafraîchit le token OAuth2
      */
-    private function refreshOAuth2Token($refreshToken) {
+    private function refreshOAuth2Token($refreshToken)
+    {
         try {
             $clientId = $this->config->get('oauth2_client_id', '');
             $clientSecret = $this->config->get('oauth2_client_secret', '');
@@ -1071,7 +1099,7 @@ class MailService {
             }
 
             $tokenUrl = "https://login.microsoftonline.com/$tenantId/oauth2/v2.0/token";
-            
+
             $postData = [
                 'client_id' => $clientId,
                 'client_secret' => $clientSecret,
@@ -1107,7 +1135,7 @@ class MailService {
             if (isset($tokenData['refresh_token'])) {
                 $this->config->set('oauth2_refresh_token', $tokenData['refresh_token']);
             }
-            
+
             $expiresIn = $tokenData['expires_in'] ?? 3600;
             $expiresAt = date('Y-m-d H:i:s', time() + $expiresIn);
             $this->config->set('oauth2_token_expires', $expiresAt);
@@ -1126,11 +1154,12 @@ class MailService {
      * @param array $comments Liste des commentaires solution uniquement
      * @return string HTML formaté des commentaires
      */
-    private function formatSolutionComments($comments) {
+    private function formatSolutionComments($comments)
+    {
         if (empty($comments)) {
             return '<p><em>Aucune solution documentée pour cette intervention.</em></p>';
         }
-        
+
         $html = '<h3>Solution(s) appliquée(s) :</h3><ul>';
         foreach ($comments as $comment) {
             $html .= '<li>';
@@ -1140,7 +1169,7 @@ class MailService {
             $html .= '</li>';
         }
         $html .= '</ul>';
-        
+
         return $html;
     }
 
@@ -1150,7 +1179,8 @@ class MailService {
      * @param array $intervention Données de l'intervention
      * @return string Template avec variables remplacées
      */
-    private function replaceTemplateVariables($template, $intervention) {
+    private function replaceTemplateVariables($template, $intervention)
+    {
         // Variables de base
         $replacements = [
             // Format standard {variable}
@@ -1177,7 +1207,7 @@ class MailService {
             '{intervention_date}' => isset($intervention['created_at']) ? date('d/m/Y', strtotime($intervention['created_at'])) : '',
             '{intervention_planned_date}' => !empty($intervention['date_planif']) ? date('d/m/Y', strtotime($intervention['date_planif'])) : 'Non planifiée',
             '{intervention_planned_time}' => !empty($intervention['heure_planif']) ? $intervention['heure_planif'] : '',
-            
+
             // Format avec dièse #{variable} (pour compatibilité)
             '#{intervention_id}' => $intervention['id'] ?? '',
             '#{intervention_reference}' => $intervention['reference'] ?? '',
@@ -1203,14 +1233,14 @@ class MailService {
             '#{intervention_planned_date}' => !empty($intervention['date_planif']) ? date('d/m/Y', strtotime($intervention['date_planif'])) : 'Non planifiée',
             '#{intervention_planned_time}' => !empty($intervention['heure_planif']) ? $intervention['heure_planif'] : '',
         ];
-        
+
         // Pour les templates de fermeture, ajouter les commentaires solution
         if (strpos($template, '{solution_comments}') !== false) {
             $solutionComments = $this->interventionModel->getSolutionComments($intervention['id']);
             $replacements['{solution_comments}'] = $this->formatSolutionComments($solutionComments);
             $replacements['#{solution_comments}'] = $this->formatSolutionComments($solutionComments);
         }
-        
+
         return str_replace(array_keys($replacements), array_values($replacements), $template);
     }
 
@@ -1221,14 +1251,15 @@ class MailService {
      * @param array $observations Liste des observations
      * @return string Template avec variables remplacées
      */
-    private function replaceTemplateVariablesWithObservations($template, $intervention, $observations = []) {
+    private function replaceTemplateVariablesWithObservations($template, $intervention, $observations = [])
+    {
         // Utiliser la méthode de base pour remplacer les variables standard
         $template = $this->replaceTemplateVariables($template, $intervention);
-        
+
         // Ajouter les observations
         $observationsHtml = $this->formatObservations($observations);
         $template = str_replace(['{observations}', '#{observations}'], $observationsHtml, $template);
-        
+
         return $template;
     }
 
@@ -1241,22 +1272,23 @@ class MailService {
      * @param bool $includeTechnician Si true, inclure le technicien affecté
      * @return bool Succès de l'envoi
      */
-    public function sendCustomMessage($interventionId, $subject, $body, $attachmentIds = [], $includeTechnician = false) {
+    public function sendCustomMessage($interventionId, $subject, $body, $attachmentIds = [], $includeTechnician = false)
+    {
         try {
             // Récupérer l'intervention
             $interventionModel = new InterventionModel($this->db);
             $intervention = $interventionModel->getById($interventionId);
-            
+
             if (!$intervention) {
                 throw new Exception("Intervention introuvable");
             }
-            
+
             // Préparer les destinataires
             $recipients = $this->prepareRecipients($intervention, $includeTechnician);
-            
+
             // Préparer les pièces jointes
             $attachmentPaths = [];
-            
+
             // Ajouter les pièces jointes sélectionnées
             if (!empty($attachmentIds)) {
                 custom_log_mail("Traitement de " . count($attachmentIds) . " pièce(s) jointe(s) sélectionnée(s) pour message personnalisé", 'INFO');
@@ -1282,7 +1314,7 @@ class MailService {
                     }
                 }
             }
-            
+
             custom_log_mail("Nombre total de pièces jointes à envoyer pour message personnalisé : " . count($attachmentPaths), 'INFO');
             if (empty($attachmentPaths)) {
                 custom_log_mail("Aucune pièce jointe ne sera envoyée avec le message personnalisé", 'INFO');
@@ -1302,11 +1334,12 @@ class MailService {
      * @param array $observations Liste des observations
      * @return string HTML formaté des observations
      */
-    private function formatObservations($observations) {
+    private function formatObservations($observations)
+    {
         if (empty($observations)) {
             return '<p><em>Aucune observation pour cette intervention.</em></p>';
         }
-        
+
         $html = '<h3>Observations :</h3><ul>';
         foreach ($observations as $index => $obs) {
             $html .= '<li>';
@@ -1322,7 +1355,7 @@ class MailService {
             $html .= '</li>';
         }
         $html .= '</ul>';
-        
+
         return $html;
     }
 
@@ -1336,7 +1369,8 @@ class MailService {
      * @param bool $includeTechnician Si true, inclure le technicien affecté
      * @return bool Succès de l'envoi
      */
-    public function sendCustomEmail($interventionId, $templateId, $observations = [], $attachmentIds = [], $autoAttachBon = true, $includeTechnician = false) {
+    public function sendCustomEmail($interventionId, $templateId, $observations = [], $attachmentIds = [], $autoAttachBon = true, $includeTechnician = false)
+    {
         try {
             // Récupérer l'intervention
             $intervention = $this->interventionModel->getById($interventionId);
@@ -1367,7 +1401,7 @@ class MailService {
 
             // Préparer les pièces jointes
             $attachmentPaths = [];
-            
+
             // Si le template est de type "bon_intervention" et autoAttachBon est true, joindre le dernier BI
             if ($templateType === 'bon_intervention' && $autoAttachBon) {
                 $lastBon = $this->getLastBonIntervention($interventionId);
@@ -1390,7 +1424,7 @@ class MailService {
                     custom_log_mail("Aucun bon d'intervention trouvé pour l'intervention $interventionId", 'INFO');
                 }
             }
-            
+
             // Ajouter les pièces jointes sélectionnées
             if (!empty($attachmentIds)) {
                 custom_log_mail("Traitement de " . count($attachmentIds) . " pièce(s) jointe(s) sélectionnée(s)", 'INFO');
@@ -1416,7 +1450,7 @@ class MailService {
                     }
                 }
             }
-            
+
             custom_log_mail("Nombre total de pièces jointes à envoyer : " . count($attachmentPaths), 'INFO');
             if (empty($attachmentPaths)) {
                 custom_log_mail("ATTENTION: Aucune pièce jointe ne sera envoyée", 'WARNING');
@@ -1436,7 +1470,8 @@ class MailService {
      * @param int $interventionId ID de l'intervention
      * @return array|null Le dernier bon d'intervention ou null
      */
-    private function getLastBonIntervention($interventionId) {
+    private function getLastBonIntervention($interventionId)
+    {
         try {
             $sql = "SELECT pj.*, lpj.type_liaison
                     FROM pieces_jointes pj
@@ -1460,7 +1495,8 @@ class MailService {
      * @param int $attachmentId ID de la pièce jointe
      * @return array|null La pièce jointe ou null
      */
-    private function getAttachmentById($interventionId, $attachmentId) {
+    private function getAttachmentById($interventionId, $attachmentId)
+    {
         try {
             $sql = "SELECT pj.*, lpj.type_liaison
                     FROM pieces_jointes pj
@@ -1484,7 +1520,8 @@ class MailService {
      * @param array $observations Liste des observations (optionnel)
      * @return string Template avec variables remplacées
      */
-    public function previewTemplate($template, $intervention, $observations = []) {
+    public function previewTemplate($template, $intervention, $observations = [])
+    {
         if (!empty($observations)) {
             return $this->replaceTemplateVariablesWithObservations($template, $intervention, $observations);
         } else {

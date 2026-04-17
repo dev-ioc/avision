@@ -2325,7 +2325,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     end_time: endTime || null,
                     temps_passe: tempsPasse || null,
                     deplacement: parseInt(document.getElementById("deplacement").value),
-                    commentaire: document.getElementById("commentaire").value
+                    commentaire: document.getElementById("commentaire").value,
+                    notify_technician: 1
                 });
             }
         }
@@ -2348,7 +2349,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             credentials: 'same-origin',
             body: JSON.stringify({
                 intervention_id: parseInt(interventionId),
-                technicians: techniciansToSave
+                technicians: techniciansToSave,
             })
         })
             .then(response => response.json())

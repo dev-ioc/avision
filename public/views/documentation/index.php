@@ -427,14 +427,15 @@ foreach ($documentation_list as $doc) {
                                                                     <?php endif; ?>
                                                                     
                                                                     <!-- Bouton suppression (pour les utilisateurs autorisés) -->
+                                                                   
                                                                     <?php if (canDeleteDocumentation()): ?>
-                                                                        <button type="button" 
-                                                                                class="btn btn-sm btn-outline-danger btn-action" 
-                                                                                title="Supprimer"
-                                                                                onclick="confirmDeleteDocument(<?= $doc['id'] ?>, '<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>')">
+                                                                       <button type="button"
+                                                                            class="btn btn-sm btn-outline-danger btn-action delete-document"
+                                                                            data-id="<?= (int)$doc['id'] ?>"
+                                                                            data-name="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document') ?>">
                                                                             <i class="bi bi-trash"></i>
                                                                         </button>
-                                                                    <?php endif; ?>
+                                                                     <?php endif; ?>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -637,12 +638,12 @@ function handleImageLoad(img) {
 
 // Fonction pour confirmer la suppression d'un document
 function confirmDeleteDocument(documentId, documentName) {
-    if (confirm(`Êtes-vous sûr de vouloir supprimer le document "${documentName}" ?\n\nCette action est irréversible et supprimera définitivement le document et toutes ses données associées.`)) {
-        // Rediriger vers la page de suppression
-        window.location.href = `<?= BASE_URL ?>documentation/delete/${documentId}`;
+    const safeName = documentName || 'ce document';
+
+    if (confirm(`Êtes-vous sûr de vouloir supprimer "${safeName}" ?\n\nCette action est irréversible.`)) {
+        window.location.href = `${baseUrl}documentation/delete/${documentId}`;
     }
 }
-
 // Fonction pour éditer le nom personnalisé
 function editDocumentName(element) {
     const currentName = element.getAttribute('data-current-name');
@@ -753,6 +754,16 @@ function editDocumentName(element) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM chargé, fonctions de filtres disponibles');
     
+       document.querySelectorAll('.delete-document').forEach(btn => {
+        btn.addEventListener('click', function () {
+
+            const id = this.dataset.id;
+            const name = this.dataset.name;
+
+            confirmDeleteDocument(id, name);
+        });
+    });
+
     // Vérifier que les éléments existent
     const clientSelect = document.getElementById('client_id');
     const siteSelect = document.getElementById('site_id');

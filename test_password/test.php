@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 
 // echo password_hash("test1234", PASSWORD_DEFAULT);
 $host = 'localhost';
@@ -156,4 +156,7 @@ while ($row = $stmt->fetch()) {
     </script>
 </body>
 
-</html>
+</html> -->
+
+<?php
+echo password_hash("testpassword", PASSWORD_DEFAULT);

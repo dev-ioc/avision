@@ -4405,6 +4405,7 @@ class InterventionController
      */
     public function apiAssignTechnicians()
     {
+
         while (ob_get_level()) {
             ob_end_clean();
         }
@@ -4413,7 +4414,6 @@ class InterventionController
 
         try {
             $input = json_decode(file_get_contents('php://input'), true);
-
             if (!$input) {
                 http_response_code(400);
                 echo json_encode(['success' => false, 'error' => 'Données JSON invalides']);
@@ -4445,32 +4445,54 @@ class InterventionController
             WHERE intervention_id = ? AND technicien_id = ?
         ");
 
+
+            $notify = $input['notify_technician'] ?? 0;
+
             foreach ($technicians as $tech) {
+
                 $checkStmt->execute([$interventionId, $tech['technicien_id']]);
                 $exists = $checkStmt->fetchColumn() > 0;
 
                 if ($exists) {
-                    // Mettre à jour
                     $updateStmt->execute([
-                        !empty($tech['start_time']) ? $tech['start_time'] : null,
-                        !empty($tech['end_time']) ? $tech['end_time'] : null,
+                        $tech['start_time'] ?? null,
+                        $tech['end_time'] ?? null,
                         $tech['deplacement'] ?? 0,
-                        !empty($tech['temps_passe']) ? $tech['temps_passe'] : null,
+                        $tech['temps_passe'] ?? null,
                         $tech['commentaire'] ?? null,
                         $interventionId,
                         $tech['technicien_id']
                     ]);
                 } else {
-                    // Insérer
                     $insertStmt->execute([
                         $interventionId,
                         $tech['technicien_id'],
-                        !empty($tech['start_time']) ? $tech['start_time'] : null,
-                        !empty($tech['end_time']) ? $tech['end_time'] : null,
+                        $tech['start_time'] ?? null,
+                        $tech['end_time'] ?? null,
                         $tech['deplacement'] ?? 0,
-                        !empty($tech['temps_passe']) ? $tech['temps_passe'] : null,
+                        $tech['temps_passe'] ?? null,
                         $tech['commentaire'] ?? null
                     ]);
+                }
+
+                // MAIL
+                if (!empty($tech['technicien_id']) && $notify == 1) {
+                    custom_log("test");
+                    try {
+                        $emailSent = $this->mailService->sendTechnicianAssigned(
+                            $interventionId,
+                            $tech['technicien_id']
+                        );
+
+                        if ($emailSent) {
+                            custom_log("Email envoyé au technicien {$tech['technicien_id']}", 'INFO');
+                        } else {
+                            custom_log("Échec email technicien {$tech['technicien_id']}", 'WARNING');
+                        }
+
+                    } catch (Exception $e) {
+                        custom_log_mail("Erreur mail: " . $e->getMessage(), 'ERROR');
+                    }
                 }
             }
 
