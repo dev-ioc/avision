@@ -29528,3 +29528,34 @@ Quant à l’écran n°1, il est HS
 [2026-04-17 15:40:01][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
 [2026-04-17 15:40:01][INFO] Array 
 [2026-04-17 15:40:01][INFO] Redirection vers: http://localhost/avision/public/documentation?client_id=6 
+[2026-04-17 16:00:11][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-17 16:00:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1821,"errno":2}
+[2026-04-17 16:01:04][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-17 16:02:46][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":205,"errno":2}
+[2026-04-17 16:04:29][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":249,"errno":2}
+[2026-04-17 16:08:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":224,"errno":2}
+[2026-04-17 16:09:04][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":224,"errno":2}
+[2026-04-17 16:09:28][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":224,"errno":2}
+[2026-04-17 16:09:56][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":224,"errno":2}
+[2026-04-17 16:14:24][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":349,"errno":2}
+[2026-04-17 16:14:33][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":349,"errno":2}
+[2026-04-17 16:15:03][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":349,"errno":2}
+[2026-04-17 16:15:17][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":349,"errno":2}
+[2026-04-17 16:15:21][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":349,"errno":2}
+[2026-04-17 16:15:28][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":349,"errno":2}
+[2026-04-17 16:15:33][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":349,"errno":2}
+[2026-04-17 16:16:09][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":349,"errno":2}
+[2026-04-17 16:16:12][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":349,"errno":2}
+[2026-04-17 16:16:15][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":349,"errno":2}
+[2026-04-17 16:16:19][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":349,"errno":2}
+[2026-04-17 16:16:40][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":349,"errno":2}
+[2026-04-17 16:18:22][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":216,"errno":2}
+[2026-04-17 16:18:22][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":216,"errno":2}
+[2026-04-17 16:18:22][WARNING] Undefined variable $i {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":218,"errno":2}
+[2026-04-17 16:18:22][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":295,"errno":2}
+[2026-04-17 16:20:07][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":349,"errno":2}
+[2026-04-17 16:23:39][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":264,"errno":2}
+[2026-04-17 16:23:51][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":264,"errno":2}
+[2026-04-17 16:23:54][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":264,"errno":2}
+[2026-04-17 16:23:58][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":264,"errno":2}
+[2026-04-17 16:24:06][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\index.php","line":264,"errno":2}
