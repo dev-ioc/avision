@@ -29460,3 +29460,71 @@ Quant à l’écran n°1, il est HS
 [2026-04-17 15:01:46][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
 [2026-04-17 15:01:46][INFO] Array 
 [2026-04-17 15:01:46][INFO] Redirection vers: http://localhost/avision/public/documentation?client_id=6 
+[2026-04-17 15:07:16][ERROR] DELETE ERROR: Document introuvable ID=undefined 
+[2026-04-17 15:07:41][ERROR] DELETE ERROR: Document introuvable ID=undefined 
+[2026-04-17 15:07:53][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 15:07:53][INFO] Array 
+[2026-04-17 15:07:53][INFO] Tentative suppression fichier: C:\xampp\htdocs\avision\uploads/documentation/6/Groupama_Olivet_-_Salle_du_conseil_-_Synoptique_d_execution_v2_1.pdf 
+[2026-04-17 15:07:53][INFO] Fichier supprimé avec succès: C:\xampp\htdocs\avision\uploads/documentation/6/Groupama_Olivet_-_Salle_du_conseil_-_Synoptique_d_execution_v2_1.pdf 
+[2026-04-17 15:07:53][INFO] Liaisons supprimées pour ID=345 
+[2026-04-17 15:07:53][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 15:07:53][INFO] Array 
+[2026-04-17 15:07:53][INFO] Redirection vers: http://localhost/avision/public/documentation?client_id=6 
+[2026-04-17 15:07:58][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 15:07:58][INFO] Array 
+[2026-04-17 15:07:58][INFO] Tentative suppression fichier: C:\xampp\htdocs\avision\uploads/documentation/6/carnet_de_cable_SALLE_DU_CONSEIL_1.pdf 
+[2026-04-17 15:07:58][INFO] Fichier supprimé avec succès: C:\xampp\htdocs\avision\uploads/documentation/6/carnet_de_cable_SALLE_DU_CONSEIL_1.pdf 
+[2026-04-17 15:07:58][INFO] Liaisons supprimées pour ID=344 
+[2026-04-17 15:07:58][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 15:07:58][INFO] Array 
+[2026-04-17 15:07:58][INFO] Redirection vers: http://localhost/avision/public/documentation?client_id=6 
+[2026-04-17 15:11:55][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":2}
+[2026-04-17 15:11:55][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":8192}
+[2026-04-17 15:11:55][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":2}
+[2026-04-17 15:11:55][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":8192}
+[2026-04-17 15:12:00][ERROR] DELETE ERROR: Document introuvable ID=undefined 
+[2026-04-17 15:12:06][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":2}
+[2026-04-17 15:12:06][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":8192}
+[2026-04-17 15:12:06][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":2}
+[2026-04-17 15:12:06][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":8192}
+[2026-04-17 15:12:18][ERROR] DELETE ERROR: Document introuvable ID=undefined 
+[2026-04-17 15:13:32][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":2}
+[2026-04-17 15:13:32][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":8192}
+[2026-04-17 15:13:32][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":2}
+[2026-04-17 15:13:32][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":8192}
+[2026-04-17 15:13:44][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":2}
+[2026-04-17 15:13:44][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":8192}
+[2026-04-17 15:13:44][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":2}
+[2026-04-17 15:13:44][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":8192}
+[2026-04-17 15:28:05][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":2}
+[2026-04-17 15:28:05][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":8192}
+[2026-04-17 15:28:05][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":2}
+[2026-04-17 15:28:05][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":8192}
+[2026-04-17 15:34:07][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":2}
+[2026-04-17 15:34:07][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":8192}
+[2026-04-17 15:34:07][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":2}
+[2026-04-17 15:34:07][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":435,"errno":8192}
+[2026-04-17 15:36:46][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":436,"errno":2}
+[2026-04-17 15:36:46][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":436,"errno":8192}
+[2026-04-17 15:36:46][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":436,"errno":2}
+[2026-04-17 15:36:46][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":436,"errno":8192}
+[2026-04-17 15:37:15][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":436,"errno":2}
+[2026-04-17 15:37:15][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":436,"errno":8192}
+[2026-04-17 15:37:15][WARNING] Undefined variable $name {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":436,"errno":2}
+[2026-04-17 15:37:15][INFO] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\documentation\\index.php","line":436,"errno":8192}
+[2026-04-17 15:39:47][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 15:39:47][INFO] Array 
+[2026-04-17 15:39:47][INFO] Tentative suppression fichier: C:\xampp\htdocs\avision\uploads/documentation/6/carnet_de_cable_SALLE_DU_CONSEIL.pdf 
+[2026-04-17 15:39:47][INFO] Fichier supprimé avec succès: C:\xampp\htdocs\avision\uploads/documentation/6/carnet_de_cable_SALLE_DU_CONSEIL.pdf 
+[2026-04-17 15:39:47][INFO] Liaisons supprimées pour ID=343 
+[2026-04-17 15:39:47][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 15:39:47][INFO] Array 
+[2026-04-17 15:39:47][INFO] Redirection vers: http://localhost/avision/public/documentation?client_id=6 
+[2026-04-17 15:40:01][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 15:40:01][INFO] Array 
+[2026-04-17 15:40:01][INFO] Tentative suppression fichier: C:\xampp\htdocs\avision\uploads/documentation/6/Groupama_Olivet_-_Salle_du_conseil_-_Synoptique_d_execution_v2.pdf 
+[2026-04-17 15:40:01][INFO] Fichier supprimé avec succès: C:\xampp\htdocs\avision\uploads/documentation/6/Groupama_Olivet_-_Salle_du_conseil_-_Synoptique_d_execution_v2.pdf 
+[2026-04-17 15:40:01][INFO] Liaisons supprimées pour ID=199 
+[2026-04-17 15:40:01][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":34,"errno":2}
+[2026-04-17 15:40:01][INFO] Array 
+[2026-04-17 15:40:01][INFO] Redirection vers: http://localhost/avision/public/documentation?client_id=6 
