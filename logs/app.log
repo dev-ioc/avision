@@ -29745,3 +29745,9 @@ Quant à l’écran n°1, il est HS
 [2026-04-20 11:37:57][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/quickCreateContact 
 [2026-04-20 11:41:01][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/quickCreateContact 
 [2026-04-20 11:47:06][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/quickCreateContact 
+[2026-04-20 12:11:23][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /clients/store 
+[2026-04-20 12:12:57][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - URI: /avision/public/clients/store 
+[2026-04-20 12:16:51][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - URI: /avision/public/clients/store 
+[2026-04-20 12:19:06][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractModel.php","line":1258,"errno":2}
+[2026-04-20 12:19:06][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractModel.php","line":1258,"errno":2}
+[2026-04-20 12:19:06][INFO] Contrats par défaut créés pour le client ID: 64 

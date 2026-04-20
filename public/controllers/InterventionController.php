@@ -2758,7 +2758,64 @@ class InterventionController
         header('Location: ' . BASE_URL . 'interventions/view/' . $id);
         exit;
     }
+    /**
+     * Calcule le nombre total de tickets utilisés pour une intervention
+     * en tenant compte de tous les techniciens assignés
+     * 
+     * @param int $interventionId ID de l'intervention
+     * @param float $duration Durée en heures
+     * @param int $typeId ID du type d'intervention
+     * @return int Nombre total de tickets utilisés
+     */
+    private function calculateTotalTicketsUsed($interventionId, $duration, $typeId)
+    {
+        // Récupérer tous les techniciens assignés à cette intervention
+        $sql = "SELECT it.technicien_id, it.temps_passe, u.coef_utilisateur, i.type_requires_travel
+            FROM intervention_techniciens it
+            JOIN users u ON it.technicien_id = u.id
+            JOIN interventions i ON it.intervention_id = i.id
+            WHERE it.intervention_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$interventionId]);
+        $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        if (empty($technicians)) {
+            return 0;
+        }
+
+        // Récupérer le coefficient d'intervention
+        $stmt = $this->db->prepare("SELECT setting_value FROM settings WHERE setting_key = 'coef_intervention'");
+        $stmt->execute();
+        $coefIntervention = floatval($stmt->fetchColumn()) ?? 0;
+
+        // Récupérer le type d'intervention pour savoir s'il y a déplacement
+        $type = $this->interventionModel->getTypeInfo($typeId);
+        $requiresTravel = $type['requires_travel'] ?? false;
+
+        $totalTickets = 0;
+
+        foreach ($technicians as $tech) {
+            $tempsPasse = $tech['temps_passe'] ?? $duration; // Utiliser temps_passe individuel ou durée par défaut
+            $coefUtilisateur = $tech['coef_utilisateur'] ?? 0;
+
+            // Convertir temps_passe en heures (si en minutes)
+            if ($tempsPasse && $tempsPasse > 10) {
+                $durationHours = $tempsPasse / 60;
+            } else {
+                $durationHours = $duration;
+            }
+
+            if ($requiresTravel) {
+                $tickets = $durationHours + $coefUtilisateur + 1 + $coefIntervention;
+            } else {
+                $tickets = $durationHours + $coefUtilisateur + $coefIntervention;
+            }
+
+            $totalTickets += ceil($tickets);
+        }
+
+        return $totalTickets;
+    }
     /**
      * Récupère les détails de calcul de tickets pour la fermeture d'intervention
      */
@@ -2766,36 +2823,23 @@ class InterventionController
     {
         custom_log("DEBUG - getCloseDetails() - Début de la méthode avec ID: $id", "DEBUG");
 
-        // Vérifier les permissions
         checkInterventionManagementAccess();
-        custom_log("DEBUG - getCloseDetails() - Permissions vérifiées", "DEBUG");
 
-        // Récupérer l'intervention
         $intervention = $this->interventionModel->getById($id);
-        custom_log("DEBUG - getCloseDetails() - Intervention récupérée: " . ($intervention ? 'OUI' : 'NON'), "DEBUG");
 
         if (!$intervention) {
-            custom_log("DEBUG - getCloseDetails() - Intervention introuvable", "ERROR");
             http_response_code(404);
             echo json_encode(['error' => 'Intervention introuvable.']);
             exit;
         }
 
-        // Vérifier si l'intervention est déjà fermée
         if ($intervention['status_id'] == 6) {
             http_response_code(400);
             echo json_encode(['error' => 'Cette intervention est déjà fermée.']);
             exit;
         }
 
-        // Vérifier si l'intervention est affectée au technicien connecté
-        if ($intervention['technician_id'] != $_SESSION['user']['id'] && !isAdmin()) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Vous ne pouvez fermer que les interventions qui vous sont affectées.']);
-            exit;
-        }
-
-        // Vérifier tous les prérequis
+        // Vérifier les prérequis
         if (empty($intervention['type_id'])) {
             http_response_code(400);
             echo json_encode(['error' => 'Impossible de fermer l\'intervention sans avoir défini un type d\'intervention.']);
@@ -2808,56 +2852,87 @@ class InterventionController
             exit;
         }
 
-        if (empty($intervention['technician_id'])) {
+        // Vérifier qu'au moins un technicien est assigné
+        $sql = "SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        $technicianCount = $stmt->fetchColumn();
+
+        if ($technicianCount == 0) {
             http_response_code(400);
-            echo json_encode(['error' => 'Impossible de fermer l\'intervention sans avoir assigné un technicien.']);
+            echo json_encode(['error' => 'Impossible de fermer l\'intervention sans avoir assigné au moins un technicien.']);
             exit;
         }
 
-        // Récupérer les informations nécessaires pour le calcul
-        $technician = $this->userModel->getUserById($intervention['technician_id']);
-        $type = $this->interventionModel->getTypeInfo($intervention['type_id']);
+        // Récupérer les techniciens assignés
+        $sql = "SELECT it.*, 
+                   CONCAT(u.first_name, ' ', u.last_name) as technician_name,
+                   u.coef_utilisateur
+            FROM intervention_techniciens it
+            JOIN users u ON it.technicien_id = u.id
+            WHERE it.intervention_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Utiliser la valeur stockée dans l'intervention (le modèle utilise COALESCE pour retourner 
-        // la valeur de l'intervention si elle existe, sinon celle du type)
+        $type = $this->interventionModel->getTypeInfo($intervention['type_id']);
         $requiresTravel = (bool) ($intervention['type_requires_travel'] ?? false);
 
-        // Récupérer le coefficient d'intervention depuis les paramètres
         $stmt = $this->db->prepare("SELECT setting_value FROM settings WHERE setting_key = 'coef_intervention'");
         $stmt->execute();
         $coefIntervention = floatval($stmt->fetchColumn()) ?? 0;
 
-        // Calculer les tickets selon la formule
-        $coefUtilisateur = $technician['coef_utilisateur'] ?? 0;
+        // Calculer les tickets pour chaque technicien
+        $ticketsPerTechnician = [];
+        $totalTickets = 0;
+        $calculations = [];
 
-        if ($requiresTravel) {
-            // Avec déplacement : durée + coef_utilisateur + 1 + coef_intervention
-            $tickets = $intervention['duration'] + $coefUtilisateur + 1 + $coefIntervention;
-        } else {
-            // Sans déplacement : durée + coef_utilisateur + coef_intervention
-            $tickets = $intervention['duration'] + $coefUtilisateur + $coefIntervention;
+        foreach ($technicians as $tech) {
+            $tempsPasse = $tech['temps_passe'] ?? $intervention['duration'];
+            $durationHours = $tempsPasse / 60; // Convertir minutes en heures
+            $coefUtilisateur = $tech['coef_utilisateur'] ?? 0;
+
+            if ($requiresTravel) {
+                $tickets = $durationHours + $coefUtilisateur + 1 + $coefIntervention;
+            } else {
+                $tickets = $durationHours + $coefUtilisateur + $coefIntervention;
+            }
+
+            $roundedTickets = ceil($tickets);
+            $totalTickets += $roundedTickets;
+
+            $ticketsPerTechnician[] = [
+                'name' => $tech['technician_name'],
+                'duration_minutes' => $tempsPasse,
+                'duration_hours' => $durationHours,
+                'coef_utilisateur' => $coefUtilisateur,
+                'tickets_raw' => $tickets,
+                'tickets_rounded' => $roundedTickets
+            ];
+
+            $calculations[] = [
+                'technician' => $tech['technician_name'],
+                'formula' => $requiresTravel ?
+                    "{$durationHours}h + {$coefUtilisateur} + 1 + {$coefIntervention} = {$tickets} → {$roundedTickets}" :
+                    "{$durationHours}h + {$coefUtilisateur} + {$coefIntervention} = {$tickets} → {$roundedTickets}"
+            ];
         }
 
-        // Arrondir à l'entier supérieur
-        $ticketsUsed = ceil($tickets);
-
-        // Récupérer les informations du contrat si applicable
+        // Récupérer les informations du contrat
         $contractInfo = null;
         if (!empty($intervention['contract_id'])) {
-            $stmt = $this->db->prepare("
-                SELECT c.*, ct.name as type_name, 
-                       (c.tickets_number - COALESCE(SUM(i.tickets_used), 0)) as tickets_remaining
-                FROM contracts c
-                LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
-                LEFT JOIN interventions i ON c.id = i.contract_id AND i.status_id = 6
-                WHERE c.id = ?
-                GROUP BY c.id
-            ");
-            $stmt->execute([$intervention['contract_id']]);
-            $contractInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+            $contract = $this->contractModel->getContractById($intervention['contract_id']);
+            if ($contract && isContractTicketById($contract['id'])) {
+                $contractInfo = [
+                    'id' => $contract['id'],
+                    'name' => $contract['name'],
+                    'tickets_remaining' => $contract['tickets_remaining'],
+                    'tickets_number' => $contract['tickets_number'],
+                    'tickets_after_close' => $contract['tickets_remaining'] - $totalTickets
+                ];
+            }
         }
 
-        // Préparer la réponse
         $response = [
             'success' => true,
             'intervention' => [
@@ -2865,30 +2940,18 @@ class InterventionController
                 'reference' => $intervention['reference'],
                 'title' => $intervention['title'],
                 'duration' => $intervention['duration'],
-                'technician_name' => $technician['first_name'] . ' ' . $technician['last_name'],
                 'type_name' => $type['name'],
-                'requires_travel' => $requiresTravel
-            ],
-            'calculation' => [
-                'duration' => $intervention['duration'],
-                'coef_utilisateur' => $coefUtilisateur,
-                'coef_intervention' => $coefIntervention,
                 'requires_travel' => $requiresTravel,
-                'travel_bonus' => $requiresTravel ? 1 : 0,
-                'formula' => $requiresTravel ?
-                    "{$intervention['duration']} + {$coefUtilisateur} + 1 + {$coefIntervention} = {$tickets}" :
-                    "{$intervention['duration']} + {$coefUtilisateur} + {$coefIntervention} = {$tickets}",
-                'tickets_calculated' => $tickets,
-                'tickets_used' => $ticketsUsed
+                'technician_count' => $technicianCount
             ],
+            'technicians' => $ticketsPerTechnician,
+            'calculations' => $calculations,
+            'total_tickets' => $totalTickets,
             'contract' => $contractInfo
         ];
 
-        custom_log("DEBUG - getCloseDetails() - Réponse préparée: " . json_encode($response), "DEBUG");
-
         header('Content-Type: application/json');
         echo json_encode($response);
-        custom_log("DEBUG - getCloseDetails() - Réponse envoyée", "DEBUG");
         exit;
     }
 
@@ -2897,10 +2960,8 @@ class InterventionController
      */
     public function close($id)
     {
-        // Vérifier les permissions
         checkInterventionManagementAccess();
 
-        // Récupérer l'intervention
         $intervention = $this->interventionModel->getById($id);
 
         if (!$intervention) {
@@ -2909,21 +2970,13 @@ class InterventionController
             exit;
         }
 
-        // Vérifier si l'intervention est déjà fermée
         if ($intervention['status_id'] == 6) {
             $_SESSION['info'] = "Cette intervention est déjà fermée.";
             header('Location: ' . BASE_URL . 'interventions/view/' . $id);
             exit;
         }
 
-        // Vérifier si l'intervention est affectée au technicien connecté
-        if ($intervention['technician_id'] != $_SESSION['user']['id'] && !isAdmin()) {
-            $_SESSION['error'] = "Vous ne pouvez fermer que les interventions qui vous sont affectées.";
-            header('Location: ' . BASE_URL . 'interventions/view/' . $id);
-            exit;
-        }
-
-        // Vérifier tous les prérequis
+        // Vérifier les prérequis
         if (empty($intervention['type_id'])) {
             $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir défini un type d'intervention.";
             header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
@@ -2936,100 +2989,49 @@ class InterventionController
             exit;
         }
 
-        if (empty($intervention['technician_id'])) {
-            $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir assigné un technicien.";
-            header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
-            exit;
-        }
+        // Calculer le nombre total de tickets
+        $totalTickets = $this->calculateTotalTicketsUsed($id, $intervention['duration'], $intervention['type_id']);
 
-        // Récupérer le nombre de tickets à utiliser (peut être personnalisé)
-        $ticketsUsed = 0;
-        if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
-            // Vérifier si un nombre de tickets personnalisé a été fourni
-            if (isset($_POST['tickets_used']) && is_numeric($_POST['tickets_used'])) {
-                $ticketsUsed = (int) $_POST['tickets_used'];
-                error_log("DEBUG - close() - Tickets personnalisés: " . $ticketsUsed);
-            } else {
-                // Calculer automatiquement le nombre de tickets
-                error_log("DEBUG - close() - Calcul des tickets pour l'intervention $id (contrat à tickets)");
-                error_log("DEBUG - close() - Durée: " . $intervention['duration']);
-                error_log("DEBUG - close() - Technicien ID: " . $intervention['technician_id']);
-                error_log("DEBUG - close() - Type ID: " . $intervention['type_id']);
-
-                $ticketsUsed = $this->calculateTicketsUsed(
-                    $intervention['duration'],
-                    $intervention['technician_id'],
-                    $intervention['type_id'],
-                    $intervention['type_requires_travel'] ?? null
-                );
-
-                error_log("DEBUG - close() - Tickets calculés: " . $ticketsUsed);
-            }
-        } else {
-            error_log("DEBUG - close() - Pas de calcul de tickets (contrat sans tickets ou pas de contrat)");
+        // Vérifier si un nombre de tickets personnalisé a été fourni
+        if (isset($_POST['tickets_used']) && is_numeric($_POST['tickets_used'])) {
+            $totalTickets = (int) $_POST['tickets_used'];
         }
 
         // Mettre à jour l'intervention
         $sql = "UPDATE interventions SET 
-                status_id = 6, 
-                closed_at = NOW(),
-                tickets_used = :tickets_used 
-                WHERE id = :id";
+            status_id = 6, 
+            closed_at = NOW(),
+            tickets_used = :tickets_used 
+            WHERE id = :id";
 
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([
-            ':tickets_used' => $ticketsUsed,
+            ':tickets_used' => $totalTickets,
             ':id' => $id
         ]);
 
-        error_log("DEBUG - close() - Résultat de la mise à jour: " . ($result ? 'SUCCÈS' : 'ÉCHEC'));
-
         if ($result) {
             // Déduire les tickets du contrat si un contrat est associé
-            if (!empty($intervention['contract_id'])) {
-                $this->deductTicketsFromContract($intervention['contract_id'], $ticketsUsed, $id);
+            if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
+                $this->deductTicketsFromContract($intervention['contract_id'], $totalTickets, $id);
             }
 
             // Enregistrer l'action dans l'historique
-            // OPTIMISATION N+1 : Précharger les status_id nécessaires (ancien et nouveau)
-            $statusIds = array_filter([$intervention['status_id'], 6]);
-            $lookupData = ['statuses' => []];
-            if (!empty($statusIds)) {
-                $placeholders = implode(',', array_fill(0, count($statusIds), '?'));
-                $stmt = $this->db->prepare("SELECT id, name FROM intervention_statuses WHERE id IN ($placeholders)");
-                $stmt->execute(array_values($statusIds));
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    $lookupData['statuses'][$row['id']] = $row['name'];
-                }
-            }
-
             $sql = "INSERT INTO intervention_history (
-                        intervention_id, field_name, old_value, new_value, changed_by, description
-                    ) VALUES (
-                        :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
-                    )";
+                    intervention_id, field_name, old_value, new_value, changed_by, description
+                ) VALUES (
+                    :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
+                )";
 
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
                 ':intervention_id' => $id,
                 ':field_name' => 'Statut',
-                ':old_value' => $this->getDisplayValue('status_id', $intervention['status_id'], $lookupData),
-                ':new_value' => $this->getDisplayValue('status_id', 6, $lookupData),
+                ':old_value' => $intervention['status_name'] ?? 'Inconnu',
+                ':new_value' => 'Fermé',
                 ':changed_by' => $_SESSION['user']['id'],
-                ':description' => "Intervention fermée avec {$ticketsUsed} tickets utilisés"
+                ':description' => "Intervention fermée avec {$totalTickets} tickets utilisés"
             ]);
-
-            // Envoyer l'email de fermeture d'intervention si demandé
-            $sendEmail = isset($_POST['send_email']) && $_POST['send_email'] == '1';
-            if ($sendEmail) {
-                try {
-                    // Forcer l'envoi même si l'auto-envoi est désactivé (envoi manuel)
-                    $this->mailService->sendInterventionClosed($id, true);
-                } catch (Exception $e) {
-                    // Log l'erreur mais ne pas faire échouer la fermeture
-                    custom_log_mail("Erreur envoi email fermeture intervention $id : " . $e->getMessage(), 'ERROR');
-                }
-            }
 
             $_SESSION['success'] = "L'intervention a été fermée avec succès.";
         } else {
@@ -4965,5 +4967,59 @@ class InterventionController
             http_response_code(500);
             exit;
         }
+    }
+    /**
+     * Calcule les tickets pour chaque technicien d'une intervention
+     * 
+     * @param int $interventionId ID de l'intervention
+     * @return array Liste des tickets par technicien
+     */
+    public function calculateTicketsPerTechnician($interventionId)
+    {
+        $intervention = $this->interventionModel->getById($interventionId);
+        if (!$intervention) {
+            return [];
+        }
+
+        $sql = "SELECT it.technicien_id, it.temps_passe,
+                   CONCAT(u.first_name, ' ', u.last_name) as technician_name,
+                   u.coef_utilisateur
+            FROM intervention_techniciens it
+            JOIN users u ON it.technicien_id = u.id
+            WHERE it.intervention_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$interventionId]);
+        $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $type = $this->interventionModel->getTypeInfo($intervention['type_id']);
+        $requiresTravel = $type['requires_travel'] ?? false;
+
+        $stmt = $this->db->prepare("SELECT setting_value FROM settings WHERE setting_key = 'coef_intervention'");
+        $stmt->execute();
+        $coefIntervention = floatval($stmt->fetchColumn()) ?? 0;
+
+        $results = [];
+
+        foreach ($technicians as $tech) {
+            $tempsPasse = $tech['temps_passe'] ?? $intervention['duration'];
+            $durationHours = $tempsPasse / 60;
+            $coefUtilisateur = $tech['coef_utilisateur'] ?? 0;
+
+            if ($requiresTravel) {
+                $tickets = $durationHours + $coefUtilisateur + 1 + $coefIntervention;
+            } else {
+                $tickets = $durationHours + $coefUtilisateur + $coefIntervention;
+            }
+
+            $results[] = [
+                'technician_id' => $tech['technicien_id'],
+                'technician_name' => $tech['technician_name'],
+                'duration_minutes' => $tempsPasse,
+                'coef_utilisateur' => $coefUtilisateur,
+                'tickets' => ceil($tickets)
+            ];
+        }
+
+        return $results;
     }
 }
