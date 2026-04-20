@@ -456,18 +456,23 @@ class InterventionController
      */
     public function edit($id)
     {
-        // Vérifier les permissions
+        if (empty($_SESSION['csrf_token']) || !isset($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
         checkInterventionManagementAccess();
 
         // Récupérer l'intervention
         $intervention = $this->interventionModel->getById($id);
 
         if (!$intervention) {
-            // Rediriger vers la liste si l'intervention n'existe pas
             header('Location: ' . $this->getInterventionsListUrl());
             exit;
         }
 
+        // Vérifier si c'est une intervention flash et ajouter un message
+        if (isset($intervention['is_flash']) && $intervention['is_flash'] == 1 && $intervention['needs_completion'] == 1) {
+            $_SESSION['info'] = "⚠️ Cette intervention a été créée rapidement. Veuillez compléter les informations manquantes : Site, Salle, Description.";
+        }
         // S'assurer que toutes les clés nécessaires existent
         $intervention = array_merge([
             'site_id' => null,
@@ -616,6 +621,19 @@ class InterventionController
         // Code de débogage temporaire
         error_log("DEBUG - Début de update() pour l'intervention $id");
         error_log("DEBUG - POST data: " . print_r($_POST, true));
+        error_log("=== DEBUG CSRF ===");
+        error_log("POST csrf_token: " . ($_POST['csrf_token'] ?? 'NON PRESENT'));
+        error_log("SESSION csrf_token: " . ($_SESSION['csrf_token'] ?? 'NON PRESENT'));
+        error_log("Session ID: " . session_id());
+        error_log("REQUEST_URI: " . ($_SERVER['REQUEST_URI'] ?? ''));
+
+        // Vérifier manuellement le token avant toute chose
+        if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            error_log("CSRF MISMATCH !!!");
+            $_SESSION['error'] = "Token CSRF invalide. Veuillez réessayer.";
+            header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
+            exit;
+        }
 
         // Vérifier les permissions
         checkInterventionManagementAccess();
@@ -4405,7 +4423,6 @@ class InterventionController
      */
     public function apiAssignTechnicians()
     {
-
         while (ob_get_level()) {
             ob_end_clean();
         }
@@ -4419,6 +4436,7 @@ class InterventionController
                 echo json_encode(['success' => false, 'error' => 'Données JSON invalides']);
                 return;
             }
+
             $interventionId = $input['intervention_id'] ?? null;
             $technicians = $input['technicians'] ?? [];
 
@@ -4430,26 +4448,40 @@ class InterventionController
 
             $this->db->beginTransaction();
 
-            // Pour chaque technicien, on vérifie s'il existe déjà
-            $checkStmt = $this->db->prepare("SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?");
+            // 1. Récupérer les IDs des techniciens actuellement assignés
+            $stmt = $this->db->prepare("SELECT technicien_id FROM intervention_techniciens WHERE intervention_id = ?");
+            $stmt->execute([$interventionId]);
+            $currentTechIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
+            // 2. Récupérer les IDs des techniciens à conserver (ceux envoyés dans la requête)
+            $newTechIds = array_column($technicians, 'technicien_id');
+
+            // 3. Supprimer les techniciens qui ne sont plus dans la liste
+            $techsToDelete = array_diff($currentTechIds, $newTechIds);
+            if (!empty($techsToDelete)) {
+                $deleteStmt = $this->db->prepare("DELETE FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?");
+                foreach ($techsToDelete as $techId) {
+                    $deleteStmt->execute([$interventionId, $techId]);
+                    custom_log("Technicien $techId retiré de l'intervention $interventionId", 'INFO');
+                }
+            }
+
+            // 4. Mettre à jour ou insérer les techniciens de la nouvelle liste
+            $checkStmt = $this->db->prepare("SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?");
             $insertStmt = $this->db->prepare("
             INSERT INTO intervention_techniciens 
             (intervention_id, technicien_id, start_time, end_time, deplacement, temps_passe, commentaire)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         ");
-
             $updateStmt = $this->db->prepare("
             UPDATE intervention_techniciens 
             SET start_time = ?, end_time = ?, deplacement = ?, temps_passe = ?, commentaire = ?
             WHERE intervention_id = ? AND technicien_id = ?
         ");
 
-
             $notify = $input['notify_technician'] ?? 0;
 
             foreach ($technicians as $tech) {
-
                 $checkStmt->execute([$interventionId, $tech['technicien_id']]);
                 $exists = $checkStmt->fetchColumn() > 0;
 
@@ -4475,21 +4507,18 @@ class InterventionController
                     ]);
                 }
 
-                // MAIL
+                // Envoi d'email si demandé
                 if (!empty($tech['technicien_id']) && $notify == 1) {
-                    custom_log("test");
                     try {
                         $emailSent = $this->mailService->sendTechnicianAssigned(
                             $interventionId,
                             $tech['technicien_id']
                         );
-
                         if ($emailSent) {
                             custom_log("Email envoyé au technicien {$tech['technicien_id']}", 'INFO');
                         } else {
                             custom_log("Échec email technicien {$tech['technicien_id']}", 'WARNING');
                         }
-
                     } catch (Exception $e) {
                         custom_log_mail("Erreur mail: " . $e->getMessage(), 'ERROR');
                     }
@@ -4507,7 +4536,6 @@ class InterventionController
             if ($this->db->inTransaction()) {
                 $this->db->rollBack();
             }
-
             http_response_code(500);
             echo json_encode([
                 'success' => false,
@@ -4517,6 +4545,7 @@ class InterventionController
     }
     public function interventionsTechnician($id)
     {
+
         $this->apiGetTechnicians($id);
     }
 
@@ -4553,10 +4582,6 @@ class InterventionController
             exit;
         }
 
-        // ⚠️ SUPPRIMER LA VÉRIFICATION CSRF ICI
-        // La route est déjà exemptée dans le middleware
-        // Donc pas besoin de vérifier à nouveau
-
         // Récupérer les données
         $clientId = $_POST['client_id'] ?? null;
         $title = trim($_POST['title'] ?? '');
@@ -4584,23 +4609,23 @@ class InterventionController
 
             // Définir les valeurs par défaut
             $now = date('Y-m-d H:i:s');
-            $defaultTitle = $title ?: 'Flash Intervention - Assistance téléphonique';
+            $defaultTitle = $title ?: 'Flash Intervention - ' . $client['name'];
 
             // Récupérer les IDs par défaut
             $typeId = $this->getDefaultTypeId('Assistance téléphonique');
-            $statusId = $this->getDefaultStatusId('Nouveau');
+            $statusId = $this->getDefaultStatusId('En cours'); // Statut "En cours" ou "Nouveau"
             $priorityId = $this->getDefaultPriorityId('Moyenne');
 
             // Durée par défaut : 30 minutes
             $duration = 30;
 
-            // Insérer l'intervention
+            // Insérer l'intervention avec les flags flash
             $sql = "INSERT INTO interventions (
                     reference, title, client_id, type_id, status_id, priority_id,
-                    duration, created_at, updated_at
+                    duration, created_at, updated_at, is_flash, needs_completion
                 ) VALUES (
                     :reference, :title, :client_id, :type_id, :status_id, :priority_id,
-                    :duration, :created_at, :updated_at
+                    :duration, :created_at, :updated_at, 1, 1
                 )";
 
             $stmt = $this->db->prepare($sql);
@@ -4636,7 +4661,7 @@ class InterventionController
                 ':old_value' => '',
                 ':new_value' => '',
                 ':changed_by' => $_SESSION['user']['id'],
-                ':description' => "Intervention flash créée rapidement"
+                ':description' => "Intervention flash créée rapidement - À compléter"
             ]);
 
             echo json_encode([
@@ -4652,6 +4677,89 @@ class InterventionController
             echo json_encode(['success' => false, 'error' => 'Erreur lors de la création: ' . $e->getMessage()]);
         }
         exit;
+    }
+    /* @return array Liste des interventions flash incomplètes
+     */
+    public function getFlashInterventions()
+    {
+        // Vérifier l'authentification
+        if (!isset($_SESSION['user'])) {
+            return [];
+        }
+
+        $user = $_SESSION['user'];
+        $userId = $user['id'];
+        $userType = $user['user_type'] ?? null;
+
+        // Récupérer les interventions flash incomplètes
+        $flashInterventions = [];
+
+        try {
+            if ($userType === 'technicien') {
+                // Pour un technicien, récupérer ses interventions assignées
+                $sql = "SELECT i.*, 
+                           c.name as client_name,
+                           s.name as site_name,
+                           r.name as room_name,
+                           st.name as status_name,
+                           st.color as status_color,
+                           p.name as priority_name,
+                           p.color as priority_color,
+                           t.name as type_name
+                    FROM interventions i
+                    LEFT JOIN clients c ON i.client_id = c.id
+                    LEFT JOIN sites s ON i.site_id = s.id
+                    LEFT JOIN rooms r ON i.room_id = r.id
+                    LEFT JOIN intervention_statuses st ON i.status_id = st.id
+                    LEFT JOIN intervention_priorities p ON i.priority_id = p.id
+                    LEFT JOIN intervention_types t ON i.type_id = t.id
+                    WHERE i.is_flash = 1 
+                      AND i.needs_completion = 1
+                      AND i.status_id != 6
+                      AND EXISTS (
+                          SELECT 1 FROM intervention_techniciens it 
+                          WHERE it.intervention_id = i.id AND it.technicien_id = :technician_id
+                      )
+                    ORDER BY i.created_at DESC";
+
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([':technician_id' => $userId]);
+                $flashInterventions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            } elseif ($userType === 'admin') {
+                // Pour l'admin, récupérer toutes les interventions flash incomplètes
+                $sql = "SELECT i.*, 
+                           c.name as client_name,
+                           s.name as site_name,
+                           r.name as room_name,
+                           st.name as status_name,
+                           st.color as status_color,
+                           p.name as priority_name,
+                           p.color as priority_color,
+                           t.name as type_name
+                    FROM interventions i
+                    LEFT JOIN clients c ON i.client_id = c.id
+                    LEFT JOIN sites s ON i.site_id = s.id
+                    LEFT JOIN rooms r ON i.room_id = r.id
+                    LEFT JOIN intervention_statuses st ON i.status_id = st.id
+                    LEFT JOIN intervention_priorities p ON i.priority_id = p.id
+                    LEFT JOIN intervention_types t ON i.type_id = t.id
+                    WHERE i.is_flash = 1 
+                      AND i.needs_completion = 1
+                      AND i.status_id != 6
+                    ORDER BY i.created_at DESC";
+
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute();
+                $flashInterventions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+
+        } catch (Exception $e) {
+            error_log('Erreur getFlashInterventions: ' . $e->getMessage());
+            return [];
+        }
+
+        return $flashInterventions;
     }
     /**
      * Génère une référence unique pour l'intervention
@@ -4714,5 +4822,130 @@ class InterventionController
         $stmt->execute([':name' => $priorityName]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result ? $result['id'] : 2;
+    }
+    /**
+     * Envoie un email au technicien assigné
+     */
+    /**
+     * Envoie un email à un technicien spécifique
+     */
+    public function sendTechnicianEmail()
+    {
+        // Désactiver l'affichage des erreurs pour l'API
+        error_reporting(0);
+        ini_set('display_errors', 0);
+
+        // Nettoyer les buffers
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        // Définir les headers pour l'API
+        header('Content-Type: application/json; charset=UTF-8');
+        header('Cache-Control: no-cache, must-revalidate');
+
+        // Vérifier l'authentification et les permissions
+        if (!isset($_SESSION['user']) || !canModifyInterventions()) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'error' => 'Permissions insuffisantes']);
+            exit;
+        }
+
+        // Récupérer les données
+        $interventionId = $_POST['intervention_id'] ?? null;
+        $technicianId = $_POST['technician_id'] ?? null;
+
+        if (!$interventionId) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'ID intervention manquant']);
+            exit;
+        }
+
+        if (!$technicianId) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'ID technicien manquant']);
+            exit;
+        }
+
+        try {
+            // Récupérer l'intervention
+            $intervention = $this->interventionModel->getById($interventionId);
+
+            if (!$intervention) {
+                throw new Exception('Intervention non trouvée');
+            }
+
+            // Envoyer l'email
+            $emailSent = $this->mailService->sendTechnicianAssigned($interventionId, $technicianId);
+
+            if ($emailSent) {
+                custom_log_mail("Email de notification renvoyé au technicien $technicianId pour l'intervention $interventionId", 'INFO');
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Email envoyé avec succès au technicien'
+                ]);
+            } else {
+                custom_log_mail("Échec de l'envoi de l'email de notification au technicien $technicianId pour l'intervention $interventionId", 'WARNING');
+                echo json_encode([
+                    'success' => false,
+                    'error' => 'Échec de l\'envoi de l\'email. Vérifiez la configuration du serveur mail.'
+                ]);
+            }
+
+        } catch (Exception $e) {
+            custom_log_mail("Erreur lors de l'envoi de l'email de notification au technicien : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => 'Erreur lors de l\'envoi: ' . $e->getMessage()
+            ]);
+        }
+        exit;
+    }
+
+    public function getFileData($attachmentId)
+    {
+        // Vérifier les permissions
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            exit;
+        }
+
+        try {
+            $attachment = $this->interventionModel->getPieceJointeById($attachmentId);
+
+            if (!$attachment) {
+                http_response_code(404);
+                exit;
+            }
+
+            $filePath = __DIR__ . '/../../' . $attachment['chemin_fichier'];
+
+            if (!file_exists($filePath)) {
+                http_response_code(404);
+                exit;
+            }
+
+            $extension = strtolower(pathinfo($attachment['nom_fichier'], PATHINFO_EXTENSION));
+            $mimeTypes = [
+                'pdf' => 'application/pdf',
+                'jpg' => 'image/jpeg',
+                'jpeg' => 'image/jpeg',
+                'png' => 'image/png',
+                'gif' => 'image/gif',
+                'webp' => 'image/webp',
+                'svg' => 'image/svg+xml'
+            ];
+
+            $mimeType = $mimeTypes[$extension] ?? 'application/octet-stream';
+
+            header('Content-Type: ' . $mimeType);
+            header('Cache-Control: public, max-age=3600');
+            readfile($filePath);
+
+        } catch (Exception $e) {
+            http_response_code(500);
+            exit;
+        }
     }
 }

@@ -29607,3 +29607,134 @@ Quant à l’écran n°1, il est HS
 [2026-04-20 08:06:16][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-04-20 08:06:16][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
 [2026-04-20 08:06:16][DEBUG] Redirection après login vers: http://localhost/avision/public/materiel?client_id=46&site_id=&salle_id= 
+[2026-04-20 08:21:51][WARNING] Undefined variable $technicians {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":762,"errno":2}
+[2026-04-20 08:21:51][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":762,"errno":2}
+[2026-04-20 08:27:22][WARNING] Undefined variable $technicians {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":762,"errno":2}
+[2026-04-20 08:27:22][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":762,"errno":2}
+[2026-04-20 08:27:29][WARNING] Undefined variable $technicians {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":762,"errno":2}
+[2026-04-20 08:27:29][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":762,"errno":2}
+[2026-04-20 08:28:02][WARNING] Undefined variable $technicians {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":762,"errno":2}
+[2026-04-20 08:28:02][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":762,"errno":2}
+[2026-04-20 08:28:38][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/sendTechnicianEmail 
+[2026-04-20 08:29:55][WARNING] Undefined variable $technicians {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":762,"errno":2}
+[2026-04-20 08:29:55][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":762,"errno":2}
+[2026-04-20 08:30:05][WARNING] Undefined variable $technicians {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":762,"errno":2}
+[2026-04-20 08:30:05][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":762,"errno":2}
+[2026-04-20 08:35:41][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/sendTechnicianEmail 
+[2026-04-20 08:44:14][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'field list' 
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:34:24][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:35:48][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/update/315 
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:37:09][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:42:41][WARNING] Undefined variable $flash {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 09:42:41][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 09:42:48][WARNING] Undefined variable $flash {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 09:42:48][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 09:43:07][WARNING] Undefined variable $flash {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 09:43:07][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 09:47:04][WARNING] Undefined variable $flash {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 09:47:04][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:47:05][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":235,"errno":2}
+[2026-04-20 09:51:56][ERROR] array_key_exists(): Argument #2 ($array) must be of type array, bool given {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":151,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(462): InterventionModel->getById('interventions')\n#1 C:\\xampp\\htdocs\\avision\\public\\index.php(1003): InterventionController->edit('interventions')\n#2 {main}","type":"TypeError"}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 09:52:21][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":256,"errno":2}
+[2026-04-20 10:00:19][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/update/315 
+[2026-04-20 10:03:16][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/update/315 
+[2026-04-20 10:06:39][DEBUG] DEBUG - update() - Vérification de la fermeture 
+[2026-04-20 10:06:39][DEBUG] DEBUG - update() - data['status_id']: 2 
+[2026-04-20 10:06:39][DEBUG] DEBUG - update() - intervention['status_id']: 2 
+[2026-04-20 10:06:39][DEBUG] DEBUG - update() - isSaveBeforeClose: FAUX 
+[2026-04-20 10:06:39][DEBUG] DEBUG - update() - isBeingClosed: FAUX 
+[2026-04-20 10:06:39][DEBUG] SQL Update Intervention: UPDATE interventions SET title = :title, client_id = :client_id, site_id = :site_id, room_id = :room_id, status_id = :status_id, priority_id = :priority_id, type_id = :type_id, description = :description, demande_par = :demande_par, contract_id = :contract_id, created_at = :created_at, ref_client = :ref_client, contact_client = :contact_client WHERE id = :id {"params":{":title":"TEST FLASH",":client_id":"46",":site_id":"81",":room_id":"181",":status_id":"2",":priority_id":"2",":type_id":"10",":description":"desc flash",":demande_par":"Rabe",":contract_id":"158",":created_at":"2026-04-20 09:34:00",":ref_client":"r\u00e9f\u00e9rence",":contact_client":"test@gmail.com",":id":"315"},"updates":["title = :title","client_id = :client_id","site_id = :site_id","room_id = :room_id","status_id = :status_id","priority_id = :priority_id","type_id = :type_id","description = :description","demande_par = :demande_par","contract_id = :contract_id","created_at = :created_at","ref_client = :ref_client","contact_client = :contact_client"]}
+[2026-04-20 10:06:39][WARNING] Undefined variable $flash {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 10:06:39][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 10:07:17][WARNING] Undefined variable $flash {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 10:07:17][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 10:07:41][WARNING] Undefined variable $flash {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 10:07:41][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
+[2026-04-20 10:18:22][ERROR] Call to a member function prepare() on string {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":4356,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4540): InterventionController->apiGetTechnicians('166')\n#1 C:\\xampp\\htdocs\\avision\\public\\index.php(871): InterventionController->interventionsTechnician('166')\n#2 {main}","type":"Error"}
+[2026-04-20 10:21:09][INFO] Technicien 42 retiré de l'intervention 166 

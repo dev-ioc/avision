@@ -42,7 +42,10 @@ function csrfMiddleware(bool $regenerateAfterValidation = true): bool
     $exemptRoutes = [
         '/interventions/assignTechnicians',
         '/interventions/interventionsTechnician',
+        '/interventions/sendTechnicianEmail',
         '/interventions/flash',
+        '/interventions/update',     // ← AJOUTER
+        '/interventions/update/',    // ← AJOUTER aussi avec slash
         '/auth/login',
         '/auth/logout',
     ];

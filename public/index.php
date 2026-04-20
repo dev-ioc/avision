@@ -1125,6 +1125,9 @@ try {
                         exit;
                     }
                     break;
+                case 'sendTechnicianEmail':
+                    $interventionController->sendTechnicianEmail();
+                    break;
                 case 'getContacts':
                     if ($id) {
                         $interventionController->getContacts($id);
@@ -1150,8 +1153,15 @@ try {
                     header('Location: ' . BASE_URL . 'interventions');
                     break;
                 case 'flash':
-                    // Ne pas rediriger - la méthode flash() gère sa propre réponse
                     $interventionController->flash();
+                    break;
+                case 'getFileData':
+                    if ($id) {
+                        $interventionController->getFileData($id);
+                    } else {
+                        http_response_code(400);
+                        echo json_encode(['error' => 'ID manquant']);
+                    }
                     break;
 
             }

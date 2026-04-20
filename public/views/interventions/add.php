@@ -67,37 +67,47 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 <div class="container-fluid flex-grow-1 container-p-y">
 
-    <div class="d-flex bd-highlight mb-3">
-        <div class="p-2 bd-highlight">
+    <div class="d-flex flex-row align-items-center justify-content-between">
+        <div class="p-2">
             <h4 class="py-4 mb-6">Nouvelle Intervention</h4>
         </div>
-
-        <div class="ms-auto p-2 bd-highlight">
+        <div class=""> <!-- Supprimé p-2 ici -->
             <?php
             $returnTo = $_GET['return_to'] ?? 'index';
             $clientId = $_GET['client_id'] ?? null;
             $returnUrl = ($returnTo === 'view' && $clientId) ?
                 BASE_URL . 'clients/view/' . $clientId . '?active_tab=interventions-tab' :
-                BASE_URL . 'interventions/curatives'; // Par défaut, retourner vers les curatives
+                BASE_URL . 'interventions/curatives';
             ?>
-            <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary me-2">
+            <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary">
                 <i class="bi bi-arrow-left me-1"></i> Retour
             </a>
 
-            <button type="button" id="createButton" class="btn btn-primary">Créer l'intervention</button>
-            <!-- Dans le HEADER, à côté du bouton Ajouter -->
-            <div class="ms-auto p-2 bd-highlight">
-                <?php if (canModifyInterventions()): ?>
-                    <!-- Bouton Flash Intervention -->
-                    <button type="button" id="flashInterventionBtn" class="btn btn-success me-2" data-bs-toggle="modal"
-                        data-bs-target="#flashInterventionModal">
-                        <i class="bi bi-lightning-charge me-1"></i> Flash Intervention
-                    </button>
-                <?php endif; ?>
-            </div>
+            <?php if (canModifyInterventions()): ?>
+                <button type="button" id="flashInterventionBtn" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#flashInterventionModal">
+                    <i class="bi bi-lightning-charge me-1"></i> Flash Intervention
+                </button>
+            <?php endif; ?>
+
+            <button type="button" id="createButton" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-1"></i> Créer l'intervention
+            </button>
         </div>
     </div>
+    <style>
+        @media (max-width: 768px) {
+            .d-flex.gap-2 {
+                flex-wrap: wrap;
+                gap: 0.5rem !important;
+            }
 
+            .d-flex.gap-2 .btn {
+                font-size: 0.875rem;
+                padding: 0.375rem 0.75rem;
+            }
+        }
+    </style>
     <?php if (isset($_SESSION['error'])): ?>
         <div class="alert alert-danger">
             <?php

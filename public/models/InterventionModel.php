@@ -1147,4 +1147,54 @@ class InterventionModel extends BaseModel
 
         return $groupedInterventions;
     }
+    /**
+     * Récupère les interventions flash qui nécessitent d'être complétées
+     * 
+     * @param int|null $technicianId ID du technicien (optionnel)
+     * @return array Liste des interventions flash incomplètes
+     */
+    public function getFlashInterventionsNeedingCompletion($technicianId = null)
+    {
+        $sql = "SELECT i.*, 
+                   c.name as client_name,
+                   s.name as site_name,
+                   r.name as room_name,
+                   st.name as status_name,
+                   st.color as status_color,
+                   p.name as priority_name,
+                   p.color as priority_color,
+                   t.name as type_name
+            FROM interventions i
+            LEFT JOIN clients c ON i.client_id = c.id
+            LEFT JOIN sites s ON i.site_id = s.id
+            LEFT JOIN rooms r ON i.room_id = r.id
+            LEFT JOIN intervention_statuses st ON i.status_id = st.id
+            LEFT JOIN intervention_priorities p ON i.priority_id = p.id
+            LEFT JOIN intervention_types t ON i.type_id = t.id
+            WHERE i.is_flash = 1 
+              AND i.needs_completion = 1
+              AND i.status_id != 6";
+
+        if ($technicianId) {
+            $sql .= " AND EXISTS (SELECT 1 FROM intervention_techniciens it WHERE it.intervention_id = i.id AND it.technicien_id = :technician_id)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([':technician_id' => $technicianId]);
+        } else {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+        }
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Marque une intervention flash comme complétée
+     */
+    public function markFlashAsCompleted($interventionId)
+    {
+        $sql = "UPDATE interventions SET needs_completion = 0 WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([':id' => $interventionId]);
+    }
+
 }

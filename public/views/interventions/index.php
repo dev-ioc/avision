@@ -130,7 +130,7 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
               </td>
               <td>
                 <?= !empty($intervention['created_at'])
-                  ? formatDateFrench($intervention['created_at'])
+                  ? date('d/m/Y H:i', strtotime($intervention['created_at']))
                   : '-' ?>
               </td>
             </tr>
@@ -149,36 +149,64 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
     <?php else: ?>
       <?php foreach ($paginatedInterventions as $intervention): ?>
         <div class="intervention-card">
-          <div class="intervention-title">
-            <a href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>">
-              <?= htmlspecialchars($intervention['reference'] ?? '-') ?>
-            </a>
-            —
-            <?= htmlspecialchars($intervention['title'] ?? '-') ?>
+          <!-- En-tête avec référence et titre -->
+          <div class="intervention-header">
+            <div class="intervention-reference">
+              <a href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>">
+                <?= htmlspecialchars($intervention['reference'] ?? '-') ?>
+              </a>
+            </div>
+            <div class="intervention-title">
+              <?= htmlspecialchars($intervention['title'] ?? '-') ?>
+            </div>
           </div>
 
-          <div class="intervention-meta">
-            <?= htmlspecialchars($intervention['client_name'] ?? '-') ?>
-            •
-            <?= htmlspecialchars($intervention['site_name'] ?? '-') ?>
+          <!-- Client et site -->
+          <div class="intervention-location">
+            <div class="client-info">
+              <i class="bi bi-building"></i>
+              <?= htmlspecialchars($intervention['client_name'] ?? '-') ?>
+            </div>
+            <?php if (!empty($intervention['site_name']) && $intervention['site_name'] != '-'): ?>
+              <div class="site-info">
+                <i class="bi bi-geo-alt"></i>
+                <?= htmlspecialchars($intervention['site_name'] ?? '-') ?>
+                <?php if (!empty($intervention['room_name']) && $intervention['room_name'] != '-'): ?>
+                  /
+                  <?= htmlspecialchars($intervention['room_name'] ?? '-') ?>
+                <?php endif; ?>
+              </div>
+            <?php endif; ?>
           </div>
 
+          <!-- Badges statut et priorité -->
           <div class="intervention-badges">
-            <span class="badge" style="background: <?= $intervention['status_color'] ?? '#ccc' ?>">
+            <span class="badge" style="background: <?= $intervention['status_color'] ?? '#6c757d' ?>; color: #fff;">
+              <i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>
               <?= htmlspecialchars($intervention['status_name'] ?? '-') ?>
             </span>
-
-            <span class="badge" style="background: <?= $intervention['priority_color'] ?? '#ccc' ?>">
+            <span class="badge" style="background: <?= $intervention['priority_color'] ?? '#6c757d' ?>; color: #fff;">
+              <i class="bi bi-flag-fill me-1"></i>
               <?= htmlspecialchars($intervention['priority_name'] ?? '-') ?>
             </span>
           </div>
 
+          <!-- Date de création -->
           <div class="intervention-date">
-            📅
+            <i class="bi bi-calendar3"></i>
             <?= !empty($intervention['created_at'])
-              ? formatDateFrench($intervention['created_at'])
+              ? date('d/m/Y H:i', strtotime($intervention['created_at']))
               : '-' ?>
           </div>
+
+          <!-- Salle (si pas déjà affichée) -->
+          <?php if (empty($intervention['site_name']) && !empty($intervention['room_name']) && $intervention['room_name'] != '-'): ?>
+            <div class="intervention-room">
+              <i class="bi bi-door-closed"></i>
+              Salle:
+              <?= htmlspecialchars($intervention['room_name'] ?? '-') ?>
+            </div>
+          <?php endif; ?>
         </div>
       <?php endforeach; ?>
     <?php endif; ?>
@@ -205,6 +233,20 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
             </a>
           <?php endif; ?>
         </div>
+
+        <!-- Sélecteur de page rapide -->
+        <?php if ($totalPages > 5): ?>
+          <div class="mt-2">
+            <select class="form-select form-select-sm d-inline-block w-auto" id="mobilePageSelect">
+              <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <option value="<?= $i ?>" <?= $i == $page ? 'selected' : '' ?>>
+                  Aller à la page
+                  <?= $i ?>
+                </option>
+              <?php endfor; ?>
+            </select>
+          </div>
+        <?php endif; ?>
       </div>
     <?php endif; ?>
   </div>
@@ -215,51 +257,111 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
 <style>
   @media (max-width: 768px) {
     .intervention-card {
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 10px;
+      border: 1px solid var(--bs-border-color);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
       background: var(--bs-body-bg);
-      transition: box-shadow 0.3s ease;
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
     .intervention-card:hover {
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .intervention-header {
+      margin-bottom: 10px;
+      border-bottom: 1px dashed var(--bs-border-color);
+      padding-bottom: 8px;
+    }
+
+    .intervention-reference {
+      font-size: 13px;
+      color: var(--bs-primary);
+      margin-bottom: 4px;
+    }
+
+    .intervention-reference a {
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--bs-primary);
     }
 
     .intervention-title {
       font-weight: 600;
       font-size: 15px;
-      margin-bottom: 6px;
+      color: var(--bs-body-color);
+      line-height: 1.4;
     }
 
-    .intervention-title a {
-      text-decoration: none;
-      color: var(--bs-primary);
+    .intervention-location {
+      margin-bottom: 10px;
     }
 
-    .intervention-meta {
+    .client-info,
+    .site-info {
       font-size: 13px;
-      color: #666;
-      margin-bottom: 8px;
+      color: var(--bs-secondary-color);
+      margin-bottom: 4px;
+    }
+
+    .client-info i,
+    .site-info i,
+    .intervention-date i,
+    .intervention-room i {
+      margin-right: 6px;
+      font-size: 12px;
     }
 
     .intervention-badges {
       display: flex;
-      gap: 6px;
-      margin-top: 6px;
+      gap: 8px;
+      margin: 10px 0;
       flex-wrap: wrap;
+    }
+
+    .intervention-badges .badge {
+      padding: 5px 10px;
+      font-weight: 500;
+      font-size: 11px;
+      border-radius: 20px;
     }
 
     .intervention-date {
       font-size: 12px;
       margin-top: 8px;
-      color: #999;
+      padding-top: 8px;
+      border-top: 1px solid var(--bs-border-color);
+      color: var(--bs-secondary-color);
+    }
+
+    .intervention-room {
+      font-size: 12px;
+      margin-top: 6px;
+      color: var(--bs-secondary-color);
+    }
+
+    .pagination-mobile select {
+      max-width: 150px;
     }
   }
 </style>
 
+<!-- SCRIPT POUR LA NAVIGATION RAPIDE -->
 <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Navigation par select sur mobile
+    const pageSelect = document.getElementById('mobilePageSelect');
+    if (pageSelect) {
+      pageSelect.addEventListener('change', function () {
+        const page = this.value;
+        window.location.href = '<?= $baseUrlWithParams ?>' + page;
+      });
+    }
+  });
+
   window.BASE_URL = '<?= BASE_URL ?>';
   window.csrfToken = '<?= $_SESSION['csrf_token'] ?>';
 </script>
