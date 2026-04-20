@@ -39,13 +39,19 @@ function csrfMiddleware(bool $regenerateAfterValidation = true): bool
         $path = '/';
 
     // Exceptions : certaines routes peuvent être exemptées
+// Exceptions : certaines routes peuvent être exemptées
     $exemptRoutes = [
+        // Routes d'intervention
         '/interventions/assignTechnicians',
         '/interventions/interventionsTechnician',
         '/interventions/sendTechnicianEmail',
         '/interventions/flash',
-        '/interventions/update',     // ← AJOUTER
-        '/interventions/update/',    // ← AJOUTER aussi avec slash
+        '/interventions/update',
+
+        // Toutes les routes quickCreate
+        '/interventions/quickCreate',
+
+        // Routes d'authentification
         '/auth/login',
         '/auth/logout',
     ];
@@ -53,6 +59,7 @@ function csrfMiddleware(bool $regenerateAfterValidation = true): bool
     // Vérifier si la route actuelle est exemptée
     $isExempt = false;
     foreach ($exemptRoutes as $exemptRoute) {
+        // Vérification plus flexible
         if (strpos($path, $exemptRoute) !== false) {
             $isExempt = true;
             break;

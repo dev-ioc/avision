@@ -1274,18 +1274,19 @@ include_once __DIR__ . '/../../includes/navbar.php';
         });
 
         // Créer le contact via AJAX
+        // Créer le contact via AJAX - VERSION CORRIGÉE
         saveQuickContactBtn.addEventListener('click', function () {
-            const formData = new FormData(quickCreateContactForm);
+            // Récupérer les valeurs manuellement depuis le formulaire
+            const firstName = document.getElementById('contact_first_name').value.trim();
+            const lastName = document.getElementById('contact_last_name').value.trim();
+            const email = document.getElementById('contact_email').value.trim();
+            const phone1 = document.getElementById('contact_phone1').value.trim();
+            const phone2 = document.getElementById('contact_phone2').value.trim();
+            const fonction = document.getElementById('contact_fonction').value.trim();
+            const comment = document.getElementById('contact_comment').value.trim();
             const selectedClientId = clientSelect.value;
 
-            // Ajouter le client_id aux données
-            formData.append('client_id', selectedClientId);
-
-            // Validation côté client
-            const firstName = formData.get('first_name').trim();
-            const lastName = formData.get('last_name').trim();
-            const email = formData.get('email').trim();
-
+            // Validation
             if (!firstName) {
                 alert('Le prénom est obligatoire');
                 return;
@@ -1312,13 +1313,25 @@ include_once __DIR__ . '/../../includes/navbar.php';
             contactIcon.classList.add('d-none');
             saveQuickContactBtn.disabled = true;
 
+            // Créer l'objet FormData correctement
+            const formData = new FormData();
+            formData.append('client_id', selectedClientId);
+            formData.append('first_name', firstName);
+            formData.append('last_name', lastName);
+            formData.append('email', email);
+            formData.append('phone1', phone1);
+            formData.append('phone2', phone2);
+            formData.append('fonction', fonction);
+            formData.append('comment', comment);
+            formData.append('csrf_token', window.csrfToken);
+            console.log("data ", formData, "token ", window.csrfToken);
             // Envoyer la requête AJAX
             fetch(`${BASE_URL}interventions/quickCreateContact`, {
                 method: 'POST',
                 headers: {
-                    'X-CSRF-Token': '<?= csrf_token() ?>'
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: formData
+                body: formData  // Ne pas mettre Content-Type avec FormData, le navigateur le gère automatiquement
             })
                 .then(response => response.json())
                 .then(data => {
@@ -1341,7 +1354,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 })
                 .catch(error => {
                     console.error('Erreur:', error);
-                    alert('Une erreur est survenue lors de la création du contact');
+                    alert('Une erreur est survenue lors de la création du contact: ' + error.message);
                 })
                 .finally(() => {
                     // Masquer le spinner
@@ -1425,8 +1438,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="flashInterventionModalLabel">
+            <div class="modal-header bg-success text-white mb-3">
+                <h5 class="modal-title mb-3" id="flashInterventionModalLabel">
                     <i class="bi bi-lightning-charge me-2"></i>Flash Intervention
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
@@ -1597,5 +1610,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
             });
         }
     });
+</script>
+<script>
+    window.BASE_URL = '<?= BASE_URL ?>';
+    window.csrfToken = '<?= csrf_token() ?>';
 </script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

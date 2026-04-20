@@ -2223,6 +2223,19 @@ class InterventionController
      */
     public function quickCreateContact()
     {
+        // Désactiver l'affichage des erreurs pour l'API
+        error_reporting(0);
+        ini_set('display_errors', 0);
+
+        // Nettoyer les buffers
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        // Définir les headers pour l'API
+        header('Content-Type: application/json; charset=UTF-8');
+        header('Cache-Control: no-cache, must-revalidate');
+
         // Vérifier les permissions
         $this->checkAccess();
 
@@ -2233,46 +2246,40 @@ class InterventionController
             return;
         }
 
-        header('Content-Type: application/json');
+        // Récupérer les données du formulaire (POST, pas JSON)
+        $clientId = $_POST['client_id'] ?? '';
+        $firstName = trim($_POST['first_name'] ?? '');
+        $lastName = trim($_POST['last_name'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $phone1 = trim($_POST['phone1'] ?? '');
+        $phone2 = trim($_POST['phone2'] ?? '');
+        $fonction = trim($_POST['fonction'] ?? '');
+        $comment = trim($_POST['comment'] ?? '');
 
         try {
-            // Récupérer les données du formulaire
-            $contactData = [
-                'client_id' => $_POST['client_id'] ?? '',
-                'first_name' => $_POST['first_name'] ?? '',
-                'last_name' => $_POST['last_name'] ?? '',
-                'email' => $_POST['email'] ?? '',
-                'phone1' => $_POST['phone1'] ?? '',
-                'phone2' => $_POST['phone2'] ?? '',
-                'fonction' => $_POST['fonction'] ?? '',
-                'comment' => $_POST['comment'] ?? '',
-                'has_user_account' => 0, // Par défaut pas de compte utilisateur
-                'status' => 1 // Par défaut actif
-            ];
-
             // Valider les données essentielles
-            if (empty($contactData['client_id']) || !is_numeric($contactData['client_id'])) {
+            if (empty($clientId) || !is_numeric($clientId)) {
                 http_response_code(400);
-                echo json_encode(['error' => 'Aucun client sélectionné ou ID invalide - reçu: ' . $contactData['client_id']]);
+                echo json_encode(['error' => 'Aucun client sélectionné ou ID invalide']);
                 return;
             }
 
-            if (empty($contactData['first_name'])) {
+            if (empty($firstName)) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Le prénom est obligatoire']);
                 return;
             }
 
-            if (empty($contactData['last_name'])) {
+            if (empty($lastName)) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Le nom est obligatoire']);
                 return;
             }
 
-            // Vérifier si le client existe (peut être inactif lors de l'édition)
+            // Vérifier si le client existe
             $sql = "SELECT id FROM clients WHERE id = ?";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$contactData['client_id']]);
+            $stmt->execute([$clientId]);
             if (!$stmt->fetch()) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Client introuvable']);
@@ -2282,7 +2289,7 @@ class InterventionController
             // Vérifier si un contact avec ce nom existe déjà pour ce client
             $sql = "SELECT id FROM contacts WHERE first_name = ? AND last_name = ? AND client_id = ? AND status = 1";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$contactData['first_name'], $contactData['last_name'], $contactData['client_id']]);
+            $stmt->execute([$firstName, $lastName, $clientId]);
             if ($stmt->fetch()) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Un contact avec ce nom existe déjà pour ce client']);
@@ -2290,15 +2297,25 @@ class InterventionController
             }
 
             // Créer le contact
+            $contactData = [
+                'client_id' => $clientId,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => $email,
+                'phone1' => $phone1,
+                'phone2' => $phone2,
+                'fonction' => $fonction,
+                'comment' => $comment,
+                'has_user_account' => 0,
+                'status' => 1
+            ];
+
             $success = $this->contactModel->createContact($contactData);
             if (!$success) {
                 throw new Exception('Erreur lors de la création du contact');
             }
 
-            // Récupérer l'ID du contact créé
             $contactId = $this->db->lastInsertId();
-
-            // Récupérer les données du contact créé
             $contact = $this->contactModel->getContactById($contactId);
 
             echo json_encode([
@@ -2315,8 +2332,9 @@ class InterventionController
         } catch (Exception $e) {
             custom_log("Erreur lors de la création rapide du contact : " . $e->getMessage(), 'ERROR');
             http_response_code(500);
-            echo json_encode(['error' => 'Une erreur est survenue lors de la création du contact.']);
+            echo json_encode(['error' => 'Une erreur est survenue lors de la création du contact: ' . $e->getMessage()]);
         }
+        exit;
     }
 
     /**

@@ -29738,3 +29738,10 @@ Quant à l’écran n°1, il est HS
 [2026-04-20 10:07:41][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":1972,"errno":2}
 [2026-04-20 10:18:22][ERROR] Call to a member function prepare() on string {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":4356,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4540): InterventionController->apiGetTechnicians('166')\n#1 C:\\xampp\\htdocs\\avision\\public\\index.php(871): InterventionController->interventionsTechnician('166')\n#2 {main}","type":"Error"}
 [2026-04-20 10:21:09][INFO] Technicien 42 retiré de l'intervention 166 
+[2026-04-20 11:23:16][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/quickCreateContact 
+[2026-04-20 11:25:10][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/quickCreateContact 
+[2026-04-20 11:30:51][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/quickCreateContact 
+[2026-04-20 11:35:01][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/quickCreateContact 
+[2026-04-20 11:37:57][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/quickCreateContact 
+[2026-04-20 11:41:01][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/quickCreateContact 
+[2026-04-20 11:47:06][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions/quickCreateContact 
