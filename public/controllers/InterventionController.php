@@ -722,52 +722,92 @@ class InterventionController
         custom_log("DEBUG - update() - intervention['status_id']: " . ($intervention['status_id'] ?? 'NON DÉFINI'), "DEBUG");
         custom_log("DEBUG - update() - isSaveBeforeClose: " . ($isSaveBeforeClose ? 'VRAI' : 'FAUX'), "DEBUG");
 
-        $isBeingClosed = isset($data['status_id']) && $data['status_id'] == 6 && $intervention['status_id'] != 6;
-        custom_log("DEBUG - update() - isBeingClosed: " . ($isBeingClosed ? 'VRAI' : 'FAUX'), "DEBUG");
+        // $isBeingClosed = isset($data['status_id']) && $data['status_id'] == 6 && $intervention['status_id'] != 6;
+        // custom_log("DEBUG - update() - isBeingClosed: " . ($isBeingClosed ? 'VRAI' : 'FAUX'), "DEBUG");
 
-        // Si l'intervention est en train d'être fermée (et ce n'est pas une sauvegarde avant fermeture), vérifier que la durée est définie
+        // // Si l'intervention est en train d'être fermée (et ce n'est pas une sauvegarde avant fermeture), vérifier que la durée est définie
+        // if ($isBeingClosed && !$isSaveBeforeClose) {
+        //     if (empty($data['duration'])) {
+        //         $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir défini une durée.";
+        //         header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
+        //         exit;
+        //     }
+
+        //     // Vérifier qu'un technicien est assigné
+        //     if (empty($data['technician_id'])) {
+        //         $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir assigné un technicien.";
+        //         header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
+        //         exit;
+        //     }
+
+        //     // Calculer le nombre de tickets utilisés seulement si c'est un contrat à tickets
+        //     $ticketsUsed = 0;
+        //     if (!empty($data['contract_id']) && isContractTicketById($data['contract_id'])) {
+        //         custom_log("DEBUG - update() - Calcul des tickets pour l'intervention $id (contrat à tickets)", "DEBUG");
+        //         custom_log("DEBUG - update() - Durée: " . $data['duration'], "DEBUG");
+        //         // custom_log("DEBUG - update() - Technicien ID: " . $data['technician_id'], "DEBUG");
+        //         custom_log("DEBUG - update() - Type ID: " . $data['type_id'], "DEBUG");
+
+        //         // $ticketsUsed = $this->calculateTicketsUsed($data['duration'], $data['technician_id'], $data['type_id'], $data['type_requires_travel'] ?? null);
+        //         custom_log("DEBUG - update() - Tickets calculés: " . $ticketsUsed, "DEBUG");
+        //     } else {
+        //         custom_log("DEBUG - update() - Pas de calcul de tickets (contrat sans tickets ou pas de contrat)", "DEBUG");
+        //     }
+        //     $data['tickets_used'] = $ticketsUsed;
+
+        //     custom_log("DEBUG - update() - Data après calcul: " . print_r($data, true), "DEBUG");
+
+        //     // Ajouter la date de fermeture seulement si ce n'est pas une sauvegarde avant fermeture
+        //     if (!$isSaveBeforeClose) {
+        //         $data['closed_at'] = date('Y-m-d H:i:s');
+
+        //         // Déduire les tickets du contrat si un contrat est associé
+        //         if (!empty($data['contract_id'])) {
+        //             $this->deductTicketsFromContract($data['contract_id'], $ticketsUsed, $id);
+        //         }
+        //     }
+        // }
+        $alreadyClosed = ($intervention['status_id'] == 6);
+        $isBeingClosed = !$alreadyClosed
+            && isset($data['status_id'])
+            && $data['status_id'] == 6;
+
         if ($isBeingClosed && !$isSaveBeforeClose) {
+            // ── Fermeture fraîche ──────────────────────────────────────────────
             if (empty($data['duration'])) {
                 $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir défini une durée.";
                 header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
                 exit;
             }
 
-            // Vérifier qu'un technicien est assigné
-            if (empty($data['technician_id'])) {
-                $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir assigné un technicien.";
-                header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
-                exit;
-            }
-
-            // Calculer le nombre de tickets utilisés seulement si c'est un contrat à tickets
+            $data['closed_at'] = date('Y-m-d H:i:s');
             $ticketsUsed = 0;
-            if (!empty($data['contract_id']) && isContractTicketById($data['contract_id'])) {
-                custom_log("DEBUG - update() - Calcul des tickets pour l'intervention $id (contrat à tickets)", "DEBUG");
-                custom_log("DEBUG - update() - Durée: " . $data['duration'], "DEBUG");
-                // custom_log("DEBUG - update() - Technicien ID: " . $data['technician_id'], "DEBUG");
-                custom_log("DEBUG - update() - Type ID: " . $data['type_id'], "DEBUG");
 
-                // $ticketsUsed = $this->calculateTicketsUsed($data['duration'], $data['technician_id'], $data['type_id'], $data['type_requires_travel'] ?? null);
-                custom_log("DEBUG - update() - Tickets calculés: " . $ticketsUsed, "DEBUG");
-            } else {
-                custom_log("DEBUG - update() - Pas de calcul de tickets (contrat sans tickets ou pas de contrat)", "DEBUG");
+            if (!empty($data['contract_id']) && isContractTicketById($data['contract_id'])) {
+                $ticketsUsed = $this->calculateTotalTicketsUsed(
+                    $id,
+                    $data['duration'],
+                    $data['type_id'] ?? $intervention['type_id']
+                );
+                $this->deductTicketsFromContract($data['contract_id'], $ticketsUsed, $id);
             }
             $data['tickets_used'] = $ticketsUsed;
 
-            custom_log("DEBUG - update() - Data après calcul: " . print_r($data, true), "DEBUG");
+        } elseif ($alreadyClosed && !$isSaveBeforeClose) {
+            // ── Modification d'une intervention déjà fermée ────────────────────
+            // 1. Gestion du changement de contrat (recrédit + nouvelle déduction)
+            $this->handleTicketManagementOnContractChange($id, $intervention, $data);
 
-            // Ajouter la date de fermeture seulement si ce n'est pas une sauvegarde avant fermeture
-            if (!$isSaveBeforeClose) {
-                $data['closed_at'] = date('Y-m-d H:i:s');
-
-                // Déduire les tickets du contrat si un contrat est associé
-                if (!empty($data['contract_id'])) {
-                    $this->deductTicketsFromContract($data['contract_id'], $ticketsUsed, $id);
-                }
+            // 2. Si un champ ticketable a changé ET que le contrat n'a pas changé
+            //    (si le contrat a changé, handleTicketManagementOnContractChange
+            //    a déjà tout recalculé via le montant d'origine)
+            $contractChanged = ($intervention['contract_id'] ?? null) != ($data['contract_id'] ?? null);
+            if (!$contractChanged && $this->ticketableFieldChanged($intervention, $data)) {
+                // On ajuste après le update() pour avoir les techniciens à jour
+                // On stocke un flag pour le faire juste après
+                $needsTicketAdjust = true;
             }
         }
-
         // Gestion des tickets lors du changement de contrat pour une intervention fermée
         $ticketManagementResult = $this->handleTicketManagementOnContractChange($id, $intervention, $data);
 
@@ -782,35 +822,13 @@ class InterventionController
 
         // Mettre à jour l'intervention
         $result = $this->interventionModel->update($id, $data);
+        if (!empty($needsTicketAdjust) && $result) {
+            $this->adjustTicketsOnClosedIntervention($id, $intervention, $data);
+        }
 
         if ($result) {
             // Vérifier si le technicien a changé et si on doit envoyer un email
             $technicianChanged = false;
-            // $oldTechnicianId = $intervention['technician_id'] ?? null;
-            // $newTechnicianId = $data['technician_id'] ?? null;
-
-            // if ($oldTechnicianId != $newTechnicianId && !empty($newTechnicianId)) {
-            //     $technicianChanged = true;
-
-            //     // Vérifier si l'utilisateur a demandé l'envoi d'un email
-            //     if (isset($_POST['notify_technician']) && $_POST['notify_technician'] == '1') {
-            //         try {
-            //             // Récupérer l'intervention mise à jour pour avoir toutes les données
-            //             $updatedIntervention = $this->interventionModel->getById($id);
-            //             if ($updatedIntervention) {
-            //                 $emailSent = $this->mailService->sendTechnicianAssigned($id, $newTechnicianId);
-            //                 if ($emailSent) {
-            //                     custom_log_mail("Email de notification envoyé au technicien $newTechnicianId pour l'intervention $id", 'INFO');
-            //                 } else {
-            //                     custom_log_mail("Échec de l'envoi de l'email de notification au technicien $newTechnicianId pour l'intervention $id", 'WARNING');
-            //                 }
-            //             }
-            //         } catch (Exception $e) {
-            //             custom_log_mail("Erreur lors de l'envoi de l'email de notification au technicien : " . $e->getMessage(), 'ERROR');
-            //         }
-            //     }
-            // }
-
             // Vérifier si des modifications ont été apportées
             $hasChanges = false;
             foreach ($data as $key => $value) {
@@ -2970,78 +2988,153 @@ class InterventionController
             exit;
         }
 
-        if ($intervention['status_id'] == 6) {
+        $isClosed = $intervention['status_id'] == 6;
+        $needsRecalculation = $intervention['needs_recalculation'] ?? 0;
+
+        if ($isClosed && !$needsRecalculation) {
             $_SESSION['info'] = "Cette intervention est déjà fermée.";
             header('Location: ' . BASE_URL . 'interventions/view/' . $id);
             exit;
         }
 
-        // Vérifier les prérequis
+        // Vérification technicien
+        if ($intervention['technician_id'] != $_SESSION['user']['id'] && !isAdmin()) {
+            $_SESSION['error'] = "Vous ne pouvez fermer que les interventions qui vous sont affectées.";
+            header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+            exit;
+        }
+
+        // Prérequis
         if (empty($intervention['type_id'])) {
-            $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir défini un type d'intervention.";
+            $_SESSION['error'] = "Type d'intervention manquant.";
             header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
             exit;
         }
 
         if (empty($intervention['duration'])) {
-            $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir défini une durée.";
+            $_SESSION['error'] = "Durée manquante.";
             header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
             exit;
         }
 
-        // Calculer le nombre total de tickets
-        $totalTickets = $this->calculateTotalTicketsUsed($id, $intervention['duration'], $intervention['type_id']);
-
-        // Vérifier si un nombre de tickets personnalisé a été fourni
-        if (isset($_POST['tickets_used']) && is_numeric($_POST['tickets_used'])) {
-            $totalTickets = (int) $_POST['tickets_used'];
+        if (empty($intervention['technician_id'])) {
+            $_SESSION['error'] = "Technicien manquant.";
+            header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
+            exit;
         }
 
-        // Mettre à jour l'intervention
-        $sql = "UPDATE interventions SET 
-            status_id = 6, 
-            closed_at = NOW(),
-            tickets_used = :tickets_used 
-            WHERE id = :id";
+        try {
+            $this->db->beginTransaction();
 
-        $stmt = $this->db->prepare($sql);
-        $result = $stmt->execute([
-            ':tickets_used' => $totalTickets,
-            ':id' => $id
-        ]);
+            // 🎯 Calcul tickets
+            $ticketsUsed = 0;
 
-        if ($result) {
-            // Déduire les tickets du contrat si un contrat est associé
             if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
-                $this->deductTicketsFromContract($intervention['contract_id'], $totalTickets, $id);
+
+                if (isset($_POST['tickets_used']) && is_numeric($_POST['tickets_used'])) {
+                    $ticketsUsed = (int) $_POST['tickets_used'];
+                } else {
+                    $ticketsUsed = $this->calculateTicketsUsed(
+                        $intervention['duration'],
+                        $intervention['technician_id'],
+                        $intervention['type_id'],
+                        $intervention['type_requires_travel'] ?? null
+                    );
+                }
             }
 
-            // Enregistrer l'action dans l'historique
-            $sql = "INSERT INTO intervention_history (
-                    intervention_id, field_name, old_value, new_value, changed_by, description
-                ) VALUES (
-                    :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
-                )";
+            $oldTickets = (int) ($intervention['tickets_used'] ?? 0);
+            $difference = $ticketsUsed - $oldTickets;
+
+            $sql = "UPDATE interventions SET 
+                status_id = 6, 
+                closed_at = IF(status_id = 6, closed_at, NOW()),
+                tickets_used = :tickets_used,
+                needs_recalculation = 0
+                WHERE id = :id";
 
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([
-                ':intervention_id' => $id,
-                ':field_name' => 'Statut',
-                ':old_value' => $intervention['status_name'] ?? 'Inconnu',
-                ':new_value' => 'Fermé',
-                ':changed_by' => $_SESSION['user']['id'],
-                ':description' => "Intervention fermée avec {$totalTickets} tickets utilisés"
+            $result = $stmt->execute([
+                ':tickets_used' => $ticketsUsed,
+                ':id' => $id
             ]);
 
-            $_SESSION['success'] = "L'intervention a été fermée avec succès.";
-        } else {
-            $_SESSION['error'] = "Une erreur est survenue lors de la fermeture de l'intervention.";
+            if ($result) {
+                if (
+                    !empty($intervention['contract_id']) &&
+                    isContractTicketById($intervention['contract_id']) &&
+                    $difference != 0
+                ) {
+                    $this->deductTicketsFromContract(
+                        $intervention['contract_id'],
+                        $difference,
+                        $id
+                    );
+                }
+
+                // Historique (amélioré)
+                $description = $isClosed
+                    ? "Recalcul tickets : ancien={$oldTickets}, nouveau={$ticketsUsed}, diff={$difference}"
+                    : "Intervention fermée avec {$ticketsUsed} tickets utilisés";
+
+                $statusIds = array_filter([$intervention['status_id'], 6]);
+                $lookupData = ['statuses' => []];
+
+                if (!empty($statusIds)) {
+                    $placeholders = implode(',', array_fill(0, count($statusIds), '?'));
+                    $stmt = $this->db->prepare("SELECT id, name FROM intervention_statuses WHERE id IN ($placeholders)");
+                    $stmt->execute(array_values($statusIds));
+
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        $lookupData['statuses'][$row['id']] = $row['name'];
+                    }
+                }
+
+                $sql = "INSERT INTO intervention_history (
+                        intervention_id, field_name, old_value, new_value, changed_by, description
+                    ) VALUES (
+                        :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
+                    )";
+
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([
+                    ':intervention_id' => $id,
+                    ':field_name' => 'Statut',
+                    ':old_value' => $this->getDisplayValue('status_id', $intervention['status_id'], $lookupData),
+                    ':new_value' => $this->getDisplayValue('status_id', 6, $lookupData),
+                    ':changed_by' => $_SESSION['user']['id'],
+                    ':description' => $description
+                ]);
+
+                // 📧 Email (inchangé)
+                if (isset($_POST['send_email']) && $_POST['send_email'] == '1') {
+                    try {
+                        $this->mailService->sendInterventionClosed($id, true);
+                    } catch (Exception $e) {
+                        custom_log_mail("Erreur email fermeture $id : " . $e->getMessage(), 'ERROR');
+                    }
+                }
+
+                $this->db->commit();
+
+                $_SESSION['success'] = $isClosed
+                    ? "Recalcul effectué (différence : {$difference} tickets)."
+                    : "Intervention fermée avec succès.";
+
+            } else {
+                $this->db->rollBack();
+                $_SESSION['error'] = "Erreur lors de la fermeture.";
+            }
+
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            error_log("Erreur close(): " . $e->getMessage());
+            $_SESSION['error'] = "Erreur critique.";
         }
 
         header('Location: ' . BASE_URL . 'interventions/view/' . $id);
         exit;
     }
-
     public function generateReport($id)
     {
         // Vérifier les permissions
@@ -5021,5 +5114,79 @@ class InterventionController
         }
 
         return $results;
+    }
+
+    /**
+     * Retourne true si un champ qui impacte le calcul des tickets a changé.
+     * Champs ticketables : duration, type_id (déplacement), technicians (via table séparée).
+     */
+    private function ticketableFieldChanged(array $oldData, array $newData): bool
+    {
+        foreach (['duration', 'type_id'] as $field) {
+            if (array_key_exists($field, $newData) && (string) ($oldData[$field] ?? '') !== (string) ($newData[$field] ?? '')) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * Sur une intervention déjà fermée, recalcule le nouveau total de tickets,
+     * calcule la différence avec l'ancien total et ajuste le contrat en conséquence.
+     * Ne fait rien si le contrat n'est pas de type ticket.
+     */
+    private function adjustTicketsOnClosedIntervention(int $interventionId, array $oldIntervention, array $newData): void
+    {
+        $contractId = $newData['contract_id'] ?? $oldIntervention['contract_id'] ?? null;
+        if (!$contractId || !isContractTicketById($contractId)) {
+            return;
+        }
+
+        $oldTickets = (int) ($oldIntervention['tickets_used'] ?? 0);
+
+        // Recalcule avec les nouvelles données (techniciens déjà enregistrés en base à ce stade)
+        $newTickets = $this->calculateTotalTicketsUsed(
+            $interventionId,
+            $newData['duration'] ?? $oldIntervention['duration'],
+            $newData['type_id'] ?? $oldIntervention['type_id']
+        );
+
+        if ($newTickets === $oldTickets) {
+            return; // Rien à faire
+        }
+
+        $delta = $newTickets - $oldTickets;
+
+        // Met à jour tickets_used sur l'intervention
+        $stmt = $this->db->prepare("UPDATE interventions SET tickets_used = :t WHERE id = :id");
+        $stmt->execute([':t' => $newTickets, ':id' => $interventionId]);
+
+        // Ajuste le contrat (delta peut être positif ou négatif)
+        $stmt = $this->db->prepare(
+            "UPDATE contracts SET tickets_remaining = tickets_remaining - :delta WHERE id = :cid"
+        );
+        $stmt->execute([':delta' => $delta, ':cid' => $contractId]);
+
+        // Historique contrat
+        $contractModel = new ContractModel($this->db);
+        $ref = $this->getInterventionReference($interventionId);
+        $contractModel->recordTicketModification(
+            $contractId,
+            $delta,
+            $ref . ' - Ajustement automatique (modification intervention fermée)'
+        );
+
+        // Historique intervention
+        $stmt = $this->db->prepare(
+            "INSERT INTO intervention_history
+            (intervention_id, field_name, old_value, new_value, changed_by, description)
+         VALUES (:iid, 'tickets_used', :old, :new, :by, :desc)"
+        );
+        $stmt->execute([
+            ':iid' => $interventionId,
+            ':old' => $oldTickets,
+            ':new' => $newTickets,
+            ':by' => $_SESSION['user']['id'],
+            ':desc' => "Tickets recalculés suite à modification : $oldTickets → $newTickets (delta $delta)"
+        ]);
     }
 }

@@ -1383,6 +1383,9 @@ try {
                         header('Location: ' . BASE_URL . 'materiel');
                     }
                     break;
+                case 'bulkUpdate':
+                    $materielController->bulkUpdate();
+                    break;
                 case 'addAttachment':
                     if ($id) {
                         $materielController->addAttachment($id);

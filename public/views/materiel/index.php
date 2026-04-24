@@ -1112,10 +1112,27 @@ $allData = [];
                       return $m[$col['field']] ?? '';
                     }, $allColumns);
                   }, $materiels)); ?>;
-
+                  const colWidthsConfig = <?= json_encode(array_map(function ($col) {
+                    switch ($col['field']) {
+                      case 'equipement':
+                        return 220;
+                      case 'pieces_jointes':
+                        return 120;
+                      case 'commentaire':
+                        return 250;
+                      case 'adresse_ip':
+                        return 140;
+                      case 'adresse_mac':
+                        return 140;
+                      default:
+                        return 120;
+                    }
+                  }, $allColumns)); ?>;
                   const hot = new Handsontable(container, {
                     data: data,
                     colHeaders: <?= json_encode($colHeaders) ?>,
+                    colWidths: colWidthsConfig,
+                    minColumnWidth: 80,
                     hiddenColumns: { columns: <?= json_encode($hiddenColumns) ?>, indicators: true },
                     rowHeaders: false,
                     licenseKey: 'non-commercial-and-evaluation',
@@ -1190,53 +1207,51 @@ $allData = [];
         const hot = hotInstances[tableId];
         if (!hot) return;
 
-        const allData = hot.getData();
-        const validData = allData.filter(row => {
-          return row[17] !== null && row[17] !== undefined && row[17] !== '';
-        });
+        const allData = hot.getSourceData();
 
-        if (validData.length === 0) return;
-
-        const formattedData = validData.map(row => {
-          console.log("DEBUG ROW", row);
-
-          return {
-            id: row[17] ?? null,
-            marque: row[10] ?? null,
-            type_nom: row[1] ?? null,
-            numero_serie: row[2] ?? null,
-            version_firmware: row[3] ?? null,
-            adresse_ip: row[4] ?? null,
-            adresse_mac: row[5] ?? null,
+        const formattedData = allData
+          .filter(row => row[17] && row[17] !== '')
+          .map(row => ({
+            id: parseInt(row[17]),
+            type_materiel: row[1] || null,
+            numero_serie: row[2] || null,
+            version_firmware: row[3] || null,
+            adresse_ip: row[4] || null,
+            adresse_mac: row[5] || null,
             date_fin_maintenance: row[6] || null,
-            reference: row[8] ?? null,
-            usage_materiel: row[9] ?? null,
-            modele: row[11] ?? null,
-            ancien_firmware: row[12] ?? null,
-            masque: row[13] ?? null,
-            passerelle: row[14] ?? null,
-            login: row[15] ?? null,
-            password: row[16] ?? null,
-            ip_primaire: row[18] ?? null,
-            mac_primaire: row[19] ?? null,
-            ip_secondaire: row[20] ?? null,
-            mac_secondaire: row[21] ?? null,
-            stream_aes67_recu: row[22] ?? null,
-            stream_aes67_transmis: row[23] ?? null,
-            ssid: row[24] ?? null,
-            type_cryptage: row[25] ?? null,
-            password_wifi: row[26] ?? null,
-            libelle_pa_salle: row[27] ?? null,
-            numero_port_switch: row[28] ?? null,
-            vlan: row[29] ?? null,
+            reference: row[8] || null,
+            usage_materiel: row[9] || null,
+            marque: row[10] || null,
+            modele: row[11] || null,
+            ancien_firmware: row[12] || null,
+            masque: row[13] || null,
+            passerelle: row[14] || null,
+            login: row[15] || null,
+            password: row[16] || null,
+            ip_primaire: row[18] || null,
+            mac_primaire: row[19] || null,
+            ip_secondaire: row[20] || null,
+            mac_secondaire: row[21] || null,
+            stream_aes67_recu: row[22] || null,
+            stream_aes67_transmis: row[23] || null,
+            ssid: row[24] || null,
+            type_cryptage: row[25] || null,
+            password_wifi: row[26] || null,
+            libelle_pa_salle: row[27] || null,
+            numero_port_switch: row[28] || null,
+            vlan: row[29] || null,
             date_fin_garantie: row[30] || null,
             date_derniere_inter: row[31] || null,
-            commentaire: row[32] ?? null,
-            url_github: row[33] ?? null
-          };
-        });
+            commentaire: row[32] || null,
+            url_github: row[33] || null
+          }));
 
-        console.log("DATA ENVOYÉE", formattedData);
+        if (formattedData.length === 0) {
+          console.log(`${tableId}: aucune donnée valide à sauvegarder`);
+          return;
+        }
+
+        const filters = <?= json_encode($filters ?? []) ?>;
 
         const promise = fetch('<?= BASE_URL ?>views/excel/excel_save.php', {
           method: 'POST',
@@ -1246,7 +1261,7 @@ $allData = [];
           },
           body: JSON.stringify({
             table_id: tableId,
-            salle_id: formattedData.id,
+            salle_id: filters.salle_id,
             data: formattedData
           })
         })
@@ -1255,6 +1270,9 @@ $allData = [];
             if (result.status === 'success' || result.status === 'partial') {
               totalSaved++;
               console.log(`${tableId}: ${result.message}`);
+              if (result.errors && result.errors.length > 0) {
+                console.warn(`${tableId} Erreurs:`, result.errors);
+              }
             } else {
               totalErrors++;
               console.error(`${tableId}:`, result.message);
@@ -1274,7 +1292,12 @@ $allData = [];
       }
 
       Promise.all(savePromises).then(() => {
-        alert(`Sauvegarde terminée : ${totalSaved} tableau(x), ${totalErrors} erreur(s)`);
+        const message = `Sauvegarde terminée : ${totalSaved} tableau(x), ${totalErrors} erreur(s)`;
+        if (totalErrors === 0) {
+          alert(message + '\n\nToutes les modifications ont été sauvegardées avec succès!');
+        } else {
+          alert(message + '\n\n Certaines lignes n\'ont pas pu être sauvegardées. Vérifiez la console.');
+        }
       });
     };
   </script>

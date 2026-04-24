@@ -49,6 +49,9 @@ function csrfMiddleware(bool $regenerateAfterValidation = true): bool
         '/interventions/quickCreateSite',
         '/interventions/quickCreateRoom',
         '/interventions/quickCreateContact',
+        '/materiel/bulkUpdate',
+        '/interventions/add',
+        '/interventions/store',
 
         // Routes clients
         '/clients/store',      // ← AJOUTER CETTE LIGNE

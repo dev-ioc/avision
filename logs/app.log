@@ -29751,3 +29751,50 @@ Quant à l’écran n°1, il est HS
 [2026-04-20 12:19:06][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractModel.php","line":1258,"errno":2}
 [2026-04-20 12:19:06][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractModel.php","line":1258,"errno":2}
 [2026-04-20 12:19:06][INFO] Contrats par défaut créés pour le client ID: 64 
+[2026-04-24 08:27:49][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: bllpuscn54fuvme941qcjtt0mh) 
+[2026-04-24 08:28:03][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-04-24 08:28:19][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_delete_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-24 08:28:19][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-04-24 08:28:19][DEBUG] Login réussi - Session ID: bllpuscn54fuvme941qcjtt0mh 
+[2026-04-24 08:28:19][DEBUG] Login réussi - redirect_after_login: dashboard 
+[2026-04-24 08:28:19][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-24 08:28:19][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-04-24 08:28:19][DEBUG] Redirection après login vers: http://localhost/avision/public/dashboard 
+[2026-04-24 08:28:22][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'field list' 
+[2026-04-24 08:29:45][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /contracts/load_client_rooms 
+[2026-04-24 08:30:09][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'field list' 
+[2026-04-24 08:30:30][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /contracts/load_client_rooms 
+[2026-04-24 08:30:43][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /contracts/load_client_rooms 
+[2026-04-24 08:30:45][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /contracts/load_client_rooms 
+[2026-04-24 08:30:48][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /contracts/load_client_rooms 
+[2026-04-24 08:31:10][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /contracts/load_client_rooms 
+[2026-04-24 08:32:17][DEBUG] Redirection vers login - URL sauvegardée: contracts/add (Session ID: l976p0q3fnh41bb82rh9fgqgj9) 
+[2026-04-24 08:32:43][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /contracts/create 
+[2026-04-24 08:57:59][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: 7cu4c6vmulce53u08un5peqhqv) 
+[2026-04-24 09:01:00][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":2741,"errno":2}
+[2026-04-24 09:01:00][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'technician_id' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":2749}
+[2026-04-24 10:42:26][ERROR] syntax error, unexpected token "{" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel\\index.php","line":737,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(1343): MaterielController->index()\n#1 {main}","type":"ParseError"}
+[2026-04-24 11:58:31][DEBUG] Redirection vers login - URL sauvegardée: materiel?client_id=46&site_id=&salle_id= (Session ID: 32qbgeujcg98gmgji0oq07mu07) 
+[2026-04-24 14:03:37][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /materiel/bulkUpdate 
+[2026-04-24 14:04:39][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /materiel/bulkUpdate 
+[2026-04-24 14:05:54][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /views/materiel/bulkUpdate 
+[2026-04-24 14:08:25][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /views/materiel/bulkUpdate 
+[2026-04-24 14:13:33][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /materiel/bulkUpdate 
+[2026-04-24 14:15:39][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /materiel/bulkUpdate 
+[2026-04-24 14:32:52][ERROR] Erreur de connexion à la base de données : SQLSTATE[HY000] [1049] Unknown database 'avision' 
+[2026-04-24 14:48:37][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-04-24 14:48:46][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-04-24 14:48:55][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-04-24 14:49:05][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-04-24 14:50:08][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-24 14:50:08][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-04-24 14:50:08][DEBUG] Login réussi - Session ID: q6s2b65pon24r65ora1cbhgn4e 
+[2026-04-24 14:50:08][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-04-24 14:50:08][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-24 14:50:08][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-04-24 14:50:08][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-04-24 14:50:08][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'field list' 
+[2026-04-24 15:09:04][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /interventions/store 
+[2026-04-24 15:30:06][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /interventions/store 
+[2026-04-24 15:31:25][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /interventions/store 
+[2026-04-24 15:39:49][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: f6d4a9drupu89u3qmftpi7uslf) 

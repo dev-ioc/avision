@@ -1601,4 +1601,203 @@ class MaterielController
         $pageTitle = "Matériel - " . $site['name'] . " - " . $salle['name'];
         require_once VIEWS_PATH . '/materiel/salle.php';
     }
+    /**
+     * Sauvegarde en masse du matériel (AJAX)
+     * Route: POST /materiel/bulkUpdate
+     */
+    public function bulkUpdate()
+    {
+        // Nettoyer les buffers avant d'envoyer la réponse
+        if (ob_get_level()) {
+            ob_clean();
+        }
+
+        // Définir le header JSON
+        header('Content-Type: application/json; charset=utf-8');
+        header('Cache-Control: no-cache, must-revalidate');
+
+        // Vérifier si l'utilisateur est connecté
+        if (!isset($_SESSION['user'])) {
+            echo json_encode(['status' => 'error', 'message' => 'Non autorisé']);
+            return;
+        }
+
+        // Vérifier que c'est une requête POST
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo json_encode(['status' => 'error', 'message' => 'Méthode non autorisée']);
+            return;
+        }
+
+        // Récupérer le contenu brut
+        $rawInput = file_get_contents('php://input');
+
+        if (empty($rawInput)) {
+            echo json_encode(['status' => 'error', 'message' => 'Aucune donnée reçue']);
+            return;
+        }
+
+        // Décoder le JSON
+        $input = json_decode($rawInput, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'JSON invalide: ' . json_last_error_msg(),
+                'raw' => substr($rawInput, 0, 200)
+            ]);
+            return;
+        }
+
+        if (!isset($input['data']) || !is_array($input['data'])) {
+            echo json_encode(['status' => 'error', 'message' => 'Données invalides - champ "data" manquant']);
+            return;
+        }
+
+        $data = $input['data'];
+        $updated = 0;
+        $errors = [];
+
+        // Liste des champs autorisés
+        $allowedFields = [
+            'marque',
+            'modele',
+            'type_materiel',
+            'numero_serie',
+            'version_firmware',
+            'adresse_ip',
+            'adresse_mac',
+            'date_fin_maintenance',
+            'reference',
+            'usage_materiel',
+            'ancien_firmware',
+            'masque',
+            'passerelle',
+            'login',
+            'password',
+            'ip_primaire',
+            'mac_primaire',
+            'ip_secondaire',
+            'mac_secondaire',
+            'stream_aes67_recu',
+            'stream_aes67_transmis',
+            'ssid',
+            'type_cryptage',
+            'password_wifi',
+            'libelle_pa_salle',
+            'numero_port_switch',
+            'vlan',
+            'date_fin_garantie',
+            'date_derniere_inter',
+            'commentaire',
+            'url_github'
+        ];
+
+        foreach ($data as $index => $row) {
+            // Vérifier l'ID
+            if (empty($row['id'])) {
+                $errors[] = "Ligne " . ($index + 1) . ": ID manquant";
+                continue;
+            }
+
+            $id = (int) $row['id'];
+            if ($id <= 0) {
+                $errors[] = "Ligne " . ($index + 1) . ": ID invalide";
+                continue;
+            }
+
+            try {
+                // Préparer les données pour la mise à jour
+                $updateData = [];
+
+                foreach ($allowedFields as $field) {
+                    if (array_key_exists($field, $row)) {
+                        $value = $row[$field];
+
+                        if ($value !== null && $value !== '') {
+                            if (in_array($field, ['date_fin_maintenance', 'date_fin_garantie', 'date_derniere_inter'])) {
+                                $value = $this->formatDateForDb($value);
+                            } else {
+                                $value = trim($value);
+                                if ($value === '')
+                                    $value = null;
+                            }
+                        } else {
+                            $value = null;
+                        }
+
+                        $updateData[$field] = $value;
+                    }
+                }
+
+                if (empty($updateData)) {
+                    $errors[] = "ID {$id}: Aucune donnée à mettre à jour";
+                    continue;
+                }
+
+                // Mise à jour
+                $result = $this->materielModel->updateMateriel($id, $updateData);
+
+                if ($result) {
+                    $updated++;
+                } else {
+                    $errors[] = "ID {$id}: Échec de la mise à jour";
+                }
+
+            } catch (Exception $e) {
+                $errors[] = "ID {$id}: " . $e->getMessage();
+                custom_log("Erreur mise à jour matériel ID {$id}: " . $e->getMessage(), 'ERROR');
+            }
+        }
+
+        // S'assurer qu'il n'y a rien avant la réponse JSON
+        if (ob_get_level()) {
+            ob_clean();
+        }
+
+        echo json_encode([
+            'status' => empty($errors) ? 'success' : 'partial',
+            'message' => $updated . " ligne(s) mise(s) à jour",
+            'updated' => $updated,
+            'total_rows' => count($data),
+            'errors' => $errors
+        ]);
+    }
+
+    /**
+     * Formate une date pour la base de données
+     * 
+     * @param string|null $date La date à formater
+     * @return string|null La date au format YYYY-MM-DD ou null
+     */
+    private function formatDateForDb($date)
+    {
+        if (empty($date)) {
+            return null;
+        }
+
+        $date = trim($date);
+
+        // Déjà au bon format YYYY-MM-DD
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            return $date;
+        }
+
+        // Format DD/MM/YYYY
+        if (preg_match('/^(\d{2})\/(\d{2})\/(\d{4})$/', $date, $matches)) {
+            $day = $matches[1];
+            $month = $matches[2];
+            $year = $matches[3];
+            return checkdate($month, $day, $year) ? "{$year}-{$month}-{$day}" : null;
+        }
+
+        // Format DD-MM-YYYY
+        if (preg_match('/^(\d{2})-(\d{2})-(\d{4})$/', $date, $matches)) {
+            $day = $matches[1];
+            $month = $matches[2];
+            $year = $matches[3];
+            return checkdate($month, $day, $year) ? "{$year}-{$month}-{$day}" : null;
+        }
+
+        return null;
+    }
 }
