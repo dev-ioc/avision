@@ -5,6 +5,7 @@ require_once __DIR__ . '/../models/ContractModel.php';
 require_once __DIR__ . '/../models/RoomModel.php';
 require_once __DIR__ . '/../models/ContactModel.php';
 require_once __DIR__ . '/../models/InterventionModel.php';
+require_once __DIR__ . '/../models/BuildingModel.php';
 
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 
@@ -94,7 +95,7 @@ class ClientController
 
         // Pour chaque site, récupérer ses salles
         foreach ($sites as $key => $site) {
-            $sites[$key]['rooms'] = $this->roomModel->getRoomsBySiteId($site['id'], true); // true = salles actives uniquement
+            $sites[$key]['rooms'] = $this->roomModel->getRoomsByBuildingId($site['id'], true);
         }
 
         // Récupérer les contrats du client (actifs et inactifs)
@@ -145,7 +146,7 @@ class ClientController
 
         // Pour chaque site, récupérer ses salles
         foreach ($sites as $key => $site) {
-            $sites[$key]['rooms'] = $this->roomModel->getRoomsBySiteId($site['id'], true);
+            $sites[$key]['rooms'] = $this->roomModel->getRoomsByBuildingId($site['id'], true);
         }
 
         // Récupérer les contrats du client (actifs et inactifs)

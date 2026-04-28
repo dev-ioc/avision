@@ -34,56 +34,57 @@ class MaterielController
     }
 
     /**
-     * Vérifie si l'utilisateur a le droit d'accéder au matériel
-     */
-
-    /**
      * Affiche la liste du matériel
      */
     public function index()
     {
         $this->checkAccess();
 
-        // Récupération des filtres (comme dans la documentation)
+        // Récupération des filtres
         $filters = [
             'client_id' => isset($_GET['client_id']) ? (int) $_GET['client_id'] : null,
             'site_id' => isset($_GET['site_id']) ? (int) $_GET['site_id'] : null,
+            'building_id' => isset($_GET['building_id']) ? (int) $_GET['building_id'] : null, // Ajout du filtre building
             'salle_id' => isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null
         ];
 
         try {
-            // Récupération des données pour les filtres (comme dans la documentation)
             $clients = $this->clientModel->getAllClients();
 
-            // Initialiser les variables
             $sites = [];
+            $buildings = []; // Nouvelle variable
             $salles = [];
             $materiel_list = [];
             $visibilites_champs = [];
             $pieces_jointes_count = [];
 
-            // Ne charger les données que si un client est sélectionné
             if ($filters['client_id']) {
-                // Récupération des sites selon le filtre client
+                // Récupération des sites
                 $sites = $this->siteModel->getSitesByClientId($filters['client_id']);
 
-                // Récupération des salles selon le filtre site
+                // Récupération des bâtiments si un site est sélectionné
                 if ($filters['site_id']) {
-                    $salles = $this->roomModel->getRoomsBySiteId($filters['site_id']);
+                    $query = "SELECT id, name FROM buildings WHERE site_id = :site_id ORDER BY name";
+                    $stmt = $this->db->prepare($query);
+                    $stmt->execute([':site_id' => $filters['site_id']]);
+                    $buildings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                }
+
+                // Récupération des salles
+                if ($filters['building_id']) {
+                    $salles = $this->roomModel->getRoomsByBuildingId($filters['building_id']);
+                } elseif ($filters['site_id']) {
+                    $salles = $this->roomModel->getRoomsByBuildingId($filters['site_id']);
                 } elseif ($filters['client_id']) {
-                    // Si on a un client mais pas de site, récupérer toutes les salles du client
                     $salles = $this->roomModel->getRoomsByClientId($filters['client_id']);
                 }
 
                 // Récupération du matériel avec filtres
                 $materiel_list = $this->materielModel->getAllMateriel($filters);
 
-                // Récupération des informations de visibilité des champs
                 if (!empty($materiel_list)) {
                     $materiel_ids = array_column($materiel_list, 'id');
                     $visibilites_champs = $this->materielModel->getVisibiliteChampsForMateriels($materiel_ids);
-
-                    // Récupération du nombre de pièces jointes pour chaque matériel
                     foreach ($materiel_ids as $materiel_id) {
                         $pieces_jointes_count[$materiel_id] = $this->materielModel->getPiecesJointesCount($materiel_id);
                     }
@@ -91,26 +92,22 @@ class MaterielController
             }
 
         } catch (Exception $e) {
-            // En cas d'erreur, initialiser les variables avec des tableaux vides
             $clients = [];
             $sites = [];
+            $buildings = [];
             $salles = [];
             $materiel_list = [];
             $visibilites_champs = [];
             $pieces_jointes_count = [];
-
-            // Log de l'erreur
             custom_log("Erreur lors du chargement du matériel : " . $e->getMessage(), 'ERROR');
         }
 
-        // Définir la page courante pour le menu
         $currentPage = 'materiel';
         $pageTitle = 'Gestion du Matériel';
 
-        // Inclure la vue
+        // Passer $buildings à la vue
         require_once VIEWS_PATH . '/materiel/index.php';
     }
-
 
     /**
      * Affiche les détails d'un matériel
@@ -179,7 +176,7 @@ class MaterielController
 
                 // Récupérer les salles selon le site sélectionné
                 if (isset($_GET['site_id']) && !empty($_GET['site_id'])) {
-                    $salles = $this->roomModel->getRoomsBySiteId($_GET['site_id']);
+                    $salles = $this->roomModel->getRoomsByBuildingId($_GET['site_id']);
                 } elseif (isset($_GET['client_id']) && !empty($_GET['client_id'])) {
                     // Si on a un client mais pas de site, récupérer toutes les salles du client
                     $salles = $this->roomModel->getRoomsByClientId($_GET['client_id']);
@@ -401,7 +398,7 @@ class MaterielController
             $sites = $this->siteModel->getSitesByClientId($client['id']);
 
             // Récupérer les salles du site du matériel
-            $salles = $this->roomModel->getRoomsBySiteId($site['id']);
+            $salles = $this->roomModel->getRoomsByBuildingId($site['id']);
 
             $champs_visibilite = $this->materielModel->getChampsVisibilite($id);
 
@@ -1178,7 +1175,7 @@ class MaterielController
         }
 
         try {
-            $rooms = $this->roomModel->getRoomsBySiteId($siteId);
+            $rooms = $this->roomModel->getRoomsByBuildingId($siteId);
             echo json_encode($rooms);
         } catch (Exception $e) {
             custom_log("Erreur lors de la récupération des salles : " . $e->getMessage(), 'ERROR');
@@ -1267,7 +1264,7 @@ class MaterielController
             if (isset($_GET['client_id']) && !empty($_GET['client_id'])) {
                 $sites = $this->siteModel->getSitesByClientId($_GET['client_id']);
                 if (isset($_GET['site_id']) && !empty($_GET['site_id'])) {
-                    $salles = $this->roomModel->getRoomsBySiteId($_GET['site_id']);
+                    $salles = $this->roomModel->getRoomsByBuildingId($_GET['site_id']);
                 } elseif (isset($_GET['client_id']) && !empty($_GET['client_id'])) {
                     $salles = $this->roomModel->getRoomsByClientId($_GET['client_id']);
                 }
@@ -1799,5 +1796,101 @@ class MaterielController
         }
 
         return null;
+    }
+    /**
+     * Récupère les bâtiments d'un site (AJAX)
+     */
+    public function get_buildings()
+    {
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            return;
+        }
+
+        $siteId = $_GET['site_id'] ?? null;
+        if (!$siteId) {
+            http_response_code(400);
+            echo json_encode(['error' => 'ID du site manquant']);
+            return;
+        }
+
+        try {
+            $query = "SELECT id, name FROM buildings WHERE site_id = :site_id  ORDER BY name";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':site_id' => $siteId]);
+            $buildings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($buildings);
+        } catch (Exception $e) {
+            custom_log("Erreur lors de la récupération des bâtiments : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur lors de la récupération des bâtiments']);
+        }
+    }
+
+    /**
+     * Récupère les salles par bâtiment (AJAX)
+     */
+    public function get_rooms_by_building()
+    {
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            return;
+        }
+
+        $buildingId = $_GET['building_id'] ?? null;
+        if (!$buildingId) {
+            http_response_code(400);
+            echo json_encode(['error' => 'ID du bâtiment manquant']);
+            return;
+        }
+
+        try {
+            $query = "SELECT id, name FROM rooms WHERE building_id = :building_id  ORDER BY name";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':building_id' => $buildingId]);
+            $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($rooms);
+        } catch (Exception $e) {
+            custom_log("Erreur lors de la récupération des salles : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur lors de la récupération des salles']);
+        }
+    }
+
+    /**
+     * Récupère les salles par site (AJAX)
+     */
+    public function get_rooms_by_site()
+    {
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            return;
+        }
+
+        $siteId = $_GET['site_id'] ?? null;
+        if (!$siteId) {
+            http_response_code(400);
+            echo json_encode(['error' => 'ID du site manquant']);
+            return;
+        }
+
+        try {
+            $query = "SELECT r.id, r.name 
+                  FROM rooms r
+                  LEFT JOIN buildings b ON r.building_id = b.id
+                  WHERE b.site_id = :site_id 
+                  ORDER BY r.name";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':site_id' => $siteId]);
+            $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($rooms);
+        } catch (Exception $e) {
+            custom_log("Erreur lors de la récupération des salles : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur lors de la récupération des salles']);
+        }
     }
 }

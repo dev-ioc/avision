@@ -6,25 +6,27 @@ require_once __DIR__ . '/../includes/functions.php';
  * Contrôleur pour l'import/export en masse de matériel
  * Module complètement indépendant du système d'import existant
  */
-class MaterielBulkController {
+class MaterielBulkController
+{
     private $db;
     private $clientModel;
     private $siteModel;
     private $roomModel;
     private $materielModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         // Récupérer l'instance de la base de données
         $config = Config::getInstance();
         $this->db = $config->getDb();
-        
+
         // Initialiser les modèles
         require_once MODELS_PATH . '/MaterielModel.php';
         require_once MODELS_PATH . '/ClientModel.php';
         require_once MODELS_PATH . '/SiteModel.php';
         require_once MODELS_PATH . '/RoomModel.php';
         require_once MODELS_PATH . '/AccessLevelModel.php';
-        
+
         $this->materielModel = new MaterielModel($this->db);
         $this->clientModel = new ClientModel($this->db);
         $this->siteModel = new SiteModel($this->db);
@@ -34,7 +36,8 @@ class MaterielBulkController {
     /**
      * Affiche la page d'import/export en masse
      */
-    public function index() {
+    public function index()
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -58,7 +61,7 @@ class MaterielBulkController {
             if ($selectedClientId) {
                 $sites = $this->siteModel->getSitesByClientId($selectedClientId);
                 if ($selectedSiteId) {
-                    $salles = $this->roomModel->getRoomsBySiteId($selectedSiteId);
+                    $salles = $this->roomModel->getRoomsByBuildingId($selectedSiteId);
                 } else {
                     $salles = $this->roomModel->getRoomsByClientId($selectedClientId);
                 }
@@ -76,7 +79,8 @@ class MaterielBulkController {
      * Affiche la page de suppression en masse de matériel
      * Droits : canDeleteDocumentation() (aligné avec le bouton supprimer de la fiche matériel)
      */
-    public function bulk_delete() {
+    public function bulk_delete()
+    {
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
             exit;
@@ -89,9 +93,9 @@ class MaterielBulkController {
         }
 
         $filters = [
-            'client_id' => isset($_GET['client_id']) ? (int)$_GET['client_id'] : null,
-            'site_id'   => isset($_GET['site_id']) ? (int)$_GET['site_id'] : null,
-            'salle_id'  => isset($_GET['salle_id']) ? (int)$_GET['salle_id'] : null
+            'client_id' => isset($_GET['client_id']) ? (int) $_GET['client_id'] : null,
+            'site_id' => isset($_GET['site_id']) ? (int) $_GET['site_id'] : null,
+            'salle_id' => isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null
         ];
 
         try {
@@ -103,7 +107,7 @@ class MaterielBulkController {
             if ($filters['client_id']) {
                 $sites = $this->siteModel->getSitesByClientId($filters['client_id']);
                 if ($filters['site_id']) {
-                    $salles = $this->roomModel->getRoomsBySiteId($filters['site_id']);
+                    $salles = $this->roomModel->getRoomsByBuildingId($filters['site_id']);
                 } else {
                     $salles = $this->roomModel->getRoomsByClientId($filters['client_id']);
                 }
@@ -122,7 +126,8 @@ class MaterielBulkController {
      * Traite la suppression en masse des matériels sélectionnés
      * POST ids[] ; droits : canDeleteDocumentation()
      */
-    public function bulk_delete_execute() {
+    public function bulk_delete_execute()
+    {
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
             exit;
@@ -143,14 +148,19 @@ class MaterielBulkController {
         if (!is_array($ids)) {
             $ids = [];
         }
-        $ids = array_filter(array_map('intval', $ids), function ($id) { return $id > 0; });
+        $ids = array_filter(array_map('intval', $ids), function ($id) {
+            return $id > 0;
+        });
 
         if (empty($ids)) {
             $_SESSION['error'] = "Aucun matériel sélectionné.";
             $redirect = BASE_URL . 'materiel_bulk/bulk_delete';
-            if (!empty($_POST['client_id'])) $redirect .= '?client_id=' . (int)$_POST['client_id'];
-            if (!empty($_POST['site_id'])) $redirect .= (strpos($redirect, '?') !== false ? '&' : '?') . 'site_id=' . (int)$_POST['site_id'];
-            if (!empty($_POST['salle_id'])) $redirect .= (strpos($redirect, '?') !== false ? '&' : '?') . 'salle_id=' . (int)$_POST['salle_id'];
+            if (!empty($_POST['client_id']))
+                $redirect .= '?client_id=' . (int) $_POST['client_id'];
+            if (!empty($_POST['site_id']))
+                $redirect .= (strpos($redirect, '?') !== false ? '&' : '?') . 'site_id=' . (int) $_POST['site_id'];
+            if (!empty($_POST['salle_id']))
+                $redirect .= (strpos($redirect, '?') !== false ? '&' : '?') . 'salle_id=' . (int) $_POST['salle_id'];
             header('Location: ' . $redirect);
             exit;
         }
@@ -173,9 +183,12 @@ class MaterielBulkController {
         }
 
         $redirect = BASE_URL . 'materiel_bulk/bulk_delete';
-        if (!empty($_POST['client_id'])) $redirect .= '?client_id=' . (int)$_POST['client_id'];
-        if (!empty($_POST['site_id'])) $redirect .= (strpos($redirect, '?') !== false ? '&' : '?') . 'site_id=' . (int)$_POST['site_id'];
-        if (!empty($_POST['salle_id'])) $redirect .= (strpos($redirect, '?') !== false ? '&' : '?') . 'salle_id=' . (int)$_POST['salle_id'];
+        if (!empty($_POST['client_id']))
+            $redirect .= '?client_id=' . (int) $_POST['client_id'];
+        if (!empty($_POST['site_id']))
+            $redirect .= (strpos($redirect, '?') !== false ? '&' : '?') . 'site_id=' . (int) $_POST['site_id'];
+        if (!empty($_POST['salle_id']))
+            $redirect .= (strpos($redirect, '?') !== false ? '&' : '?') . 'salle_id=' . (int) $_POST['salle_id'];
         header('Location: ' . $redirect);
         exit;
     }
@@ -187,11 +200,12 @@ class MaterielBulkController {
      * @param string $fieldType Type de champ (date, number, string)
      * @return mixed Valeur convertie
      */
-    private function convertExcelValue($value, $fieldType = 'string') {
+    private function convertExcelValue($value, $fieldType = 'string')
+    {
         if ($value === null || $value === '') {
             return null;
         }
-        
+
         switch ($fieldType) {
             case 'date':
                 // Si c'est déjà une date au format Y-m-d, la retourner
@@ -200,15 +214,15 @@ class MaterielBulkController {
                 }
                 // Sinon, essayer de convertir avec convertExcelDate
                 return $this->convertExcelDate($value);
-                
+
             case 'number':
                 // Convertir en nombre
-                return is_numeric($value) ? (float)$value : $value;
-                
+                return is_numeric($value) ? (float) $value : $value;
+
             case 'string':
             default:
                 // Retourner en string
-                return trim((string)$value);
+                return trim((string) $value);
         }
     }
 
@@ -219,42 +233,67 @@ class MaterielBulkController {
      * @param array $dbRow Ligne depuis la base de données
      * @return array ['has_changes' => bool, 'changes' => array, 'is_new' => bool]
      */
-    private function compareExcelRow($excelRow, $dbRow = null) {
+    private function compareExcelRow($excelRow, $dbRow = null)
+    {
         $changes = [];
         $hasChanges = false;
         $isNew = empty($excelRow['id_materiel']);
-        
+
         // Si c'est une nouvelle ligne, pas de comparaison
         if ($isNew) {
             return ['has_changes' => true, 'changes' => [], 'is_new' => true];
         }
-        
+
         // Si pas de ligne en base, c'est une erreur
         if (!$dbRow) {
             return ['has_changes' => false, 'changes' => [], 'is_new' => false, 'error' => 'Matériel non trouvé'];
         }
-        
+
         // Champs à comparer (exclure id_materiel et salle_id)
         $fieldsToCompare = [
-            'type_materiel', 'marque', 'modele', 'reference', 'usage_materiel',
-            'numero_serie', 'version_firmware', 'ancien_firmware', 'url_github',
-            'adresse_mac', 'adresse_ip', 'masque', 'passerelle', 'id_materiel_tech',
-            'login', 'password', 'ip_primaire', 'mac_primaire', 'ip_secondaire',
-            'mac_secondaire', 'stream_aes67_recu', 'stream_aes67_transmis',
-            'ssid', 'type_cryptage', 'password_wifi', 'libelle_pa_salle',
-            'numero_port_switch', 'vlan', 'date_fin_maintenance',
-            'date_fin_garantie', 'date_derniere_inter', 'commentaire'
+            'type_materiel',
+            'marque',
+            'modele',
+            'reference',
+            'usage_materiel',
+            'numero_serie',
+            'version_firmware',
+            'ancien_firmware',
+            'url_github',
+            'adresse_mac',
+            'adresse_ip',
+            'masque',
+            'passerelle',
+            'id_materiel_tech',
+            'login',
+            'password',
+            'ip_primaire',
+            'mac_primaire',
+            'ip_secondaire',
+            'mac_secondaire',
+            'stream_aes67_recu',
+            'stream_aes67_transmis',
+            'ssid',
+            'type_cryptage',
+            'password_wifi',
+            'libelle_pa_salle',
+            'numero_port_switch',
+            'vlan',
+            'date_fin_maintenance',
+            'date_fin_garantie',
+            'date_derniere_inter',
+            'commentaire'
         ];
-        
+
         foreach ($fieldsToCompare as $field) {
-            $excelValue = trim((string)($excelRow[$field] ?? ''));
-            $dbValue = trim((string)($dbRow[$field] ?? ''));
-            
+            $excelValue = trim((string) ($excelRow[$field] ?? ''));
+            $dbValue = trim((string) ($dbRow[$field] ?? ''));
+
             // Règle 1: Si vide dans Excel -> ne pas traiter
             if ($excelValue === '') {
                 continue;
             }
-            
+
             // Règle 2: Si "Null" dans Excel -> vider le champ
             if (strtolower($excelValue) === 'null') {
                 if ($dbValue !== '') {
@@ -267,7 +306,7 @@ class MaterielBulkController {
                 }
                 continue;
             }
-            
+
             // Règle 3: Si différent -> demander confirmation
             if ($excelValue !== $dbValue) {
                 $changes[$field] = [
@@ -278,14 +317,15 @@ class MaterielBulkController {
                 $hasChanges = true;
             }
         }
-        
+
         return ['has_changes' => $hasChanges, 'changes' => $changes, 'is_new' => false];
     }
 
     /**
      * Valide le fichier Excel avant import
      */
-    public function validate_import() {
+    public function validate_import()
+    {
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
             exit;
@@ -299,7 +339,7 @@ class MaterielBulkController {
         // Vérification des champs de localisation
         $client_id = $_POST['client_id'] ?? null;
         $site_id = $_POST['site_id'] ?? null;
-        
+
         if (!$client_id) {
             $_SESSION['error'] = "Veuillez sélectionner un client.";
             header('Location: ' . BASE_URL . 'materiel_bulk');
@@ -315,7 +355,7 @@ class MaterielBulkController {
 
         $file = $_FILES['excel_file'];
         $allowedTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'];
-        
+
         if (!in_array($file['type'], $allowedTypes)) {
             $_SESSION['error'] = "Format de fichier non supporté. Utilisez un fichier Excel (.xlsx ou .xls).";
             header('Location: ' . BASE_URL . 'materiel_bulk');
@@ -324,25 +364,25 @@ class MaterielBulkController {
 
         try {
             require_once __DIR__ . '/../vendor/autoload.php';
-            
+
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file['tmp_name']);
             // S'assurer qu'on lit toujours le premier onglet (index 0) qui contient les données de matériel
             $worksheet = $spreadsheet->getSheet(0);
             $rows = $worksheet->toArray();
-            
+
             // Supprimer les 2 lignes d'en-têtes
             array_shift($rows); // Première ligne d'en-tête
             array_shift($rows); // Deuxième ligne d'en-tête
-            
+
             $errors = [];
             $warnings = [];
             $validRows = [];
             $totalRows = 0;
-            
+
             foreach ($rows as $i => $row) {
                 $rowNum = $i + 3; // +3 car on a 2 lignes d'en-têtes et les index commencent à 0
                 $totalRows++;
-                
+
                 // Vérifier que la ligne n'est pas vide
                 if (empty(array_filter($row))) {
                     continue;
@@ -422,10 +462,10 @@ class MaterielBulkController {
                         $rowErrors[] = "Matériel ID {$data['id_materiel']} n'existe pas";
                     }
                 }
-                
+
                 // Comparer la ligne
                 $comparison = $this->compareExcelRow($data, $existingMateriel);
-                
+
                 if (isset($comparison['error'])) {
                     $rowErrors[] = $comparison['error'];
                 }
@@ -466,14 +506,14 @@ class MaterielBulkController {
                     break;
                 }
             }
-            
+
             // Rediriger vers la page appropriée
             if ($hasConfirmationNeeded) {
                 $redirectUrl = BASE_URL . 'materiel_bulk/confirm_import';
             } else {
                 $redirectUrl = BASE_URL . 'materiel_bulk/process_bulk_import';
             }
-            
+
             $filters = [];
             if ($client_id) {
                 $filters['client_id'] = $client_id;
@@ -481,11 +521,11 @@ class MaterielBulkController {
             if ($site_id) {
                 $filters['site_id'] = $site_id;
             }
-            
+
             if (!empty($filters)) {
                 $redirectUrl .= '?' . http_build_query($filters);
             }
-            
+
             header('Location: ' . $redirectUrl);
             exit;
 
@@ -500,7 +540,8 @@ class MaterielBulkController {
     /**
      * Affiche la page de confirmation pour les modifications
      */
-    public function confirm_import() {
+    public function confirm_import()
+    {
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
             exit;
@@ -512,16 +553,16 @@ class MaterielBulkController {
         }
 
         $validation = $_SESSION['import_validation'];
-        
+
         // Récupérer les paramètres de filtres
         $selectedClientId = $_GET['client_id'] ?? '';
         $selectedSiteId = $_GET['site_id'] ?? '';
-        
+
         // Récupérer les données pour l'affichage
         $clients = $this->clientModel->getAllClients();
         $sites = [];
         $salles = [];
-        
+
         if ($selectedClientId) {
             $sites = $this->siteModel->getSitesByClientId($selectedClientId);
             $salles = $this->roomModel->getRoomsByClientId($selectedClientId);
@@ -545,7 +586,7 @@ class MaterielBulkController {
         include_once __DIR__ . '/../includes/header.php';
         include_once __DIR__ . '/../includes/sidebar.php';
         include_once __DIR__ . '/../includes/navbar.php';
-        
+
         // Inclure la vue de confirmation
         require_once VIEWS_PATH . '/materiel/confirm_import.php';
     }
@@ -553,7 +594,8 @@ class MaterielBulkController {
     /**
      * Traite l'import en masse de matériel après validation
      */
-    public function process_bulk_import() {
+    public function process_bulk_import()
+    {
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
             exit;
@@ -568,7 +610,7 @@ class MaterielBulkController {
         $client_id = $validation['client_id'];
         $site_id = $validation['site_id'];
         $validRows = $validation['valid_rows'];
-        
+
         // Récupérer les champs confirmés
         $confirmedFields = $_POST['confirm_fields'] ?? [];
         $rowData = $_POST['row_data'] ?? [];
@@ -585,38 +627,39 @@ class MaterielBulkController {
                         // Création d'un nouveau matériel
                         $cleanData = $row;
                         unset($cleanData['comparison']);
-                        
+
                         // Traiter les valeurs "Null" pour la création
                         foreach ($cleanData as $key => $value) {
                             if (is_string($value) && strtolower(trim($value)) === 'null') {
                                 $cleanData[$key] = null;
                             }
                         }
-                        
+
                         $materielId = $this->materielModel->createMateriel($cleanData);
-                        
+
                         // Appliquer les règles de visibilité par défaut
                         if ($materielId) {
                             $this->applyDefaultVisibilityRules($materielId, $client_id);
                         }
-                        
+
                         $imported++;
                     } catch (Exception $e) {
                         $errors[] = "Erreur lors de la création du matériel : " . $e->getMessage();
                     }
                 }
             }
-            
+
             // 2. Traiter les modifications champ par champ
             foreach ($rowData as $index => $rowJson) {
                 $row = json_decode($rowJson, true);
-                if (!$row || $row['comparison']['is_new']) continue; // Ignorer les nouvelles lignes
-                
+                if (!$row || $row['comparison']['is_new'])
+                    continue; // Ignorer les nouvelles lignes
+
                 try {
                     // Mise à jour d'un matériel existant
                     $updateData = [];
                     $materielId = $row['id_materiel'];
-                    
+
                     // Vérifier si ce matériel a des champs confirmés
                     if (isset($confirmedFields[$materielId])) {
                         foreach ($row['comparison']['changes'] as $field => $change) {
@@ -630,12 +673,12 @@ class MaterielBulkController {
                             }
                         }
                     }
-                    
+
                     // Toujours mettre à jour la salle si fournie
                     if (!empty($row['salle_id'])) {
                         $updateData['salle_id'] = $row['salle_id'];
                     }
-                    
+
                     // Effectuer la mise à jour seulement s'il y a des changements
                     if (!empty($updateData)) {
                         $this->materielModel->updateMaterielPartial($materielId, $updateData);
@@ -654,11 +697,11 @@ class MaterielBulkController {
             if ($updated > 0) {
                 $messages[] = "$updated matériels mis à jour.";
             }
-            
+
             if (!empty($messages)) {
                 $_SESSION['success'] = implode(' ', $messages);
             }
-            
+
             if ($errors) {
                 $_SESSION['error'] = implode('<br>', $errors);
             }
@@ -679,11 +722,11 @@ class MaterielBulkController {
         if ($site_id) {
             $filters['site_id'] = $site_id;
         }
-        
+
         if (!empty($filters)) {
             $redirectUrl .= '?' . http_build_query($filters);
         }
-        
+
         header('Location: ' . $redirectUrl);
         exit;
     }
@@ -691,7 +734,8 @@ class MaterielBulkController {
     /**
      * Génère et télécharge le fichier Excel d'export
      */
-    public function export() {
+    public function export()
+    {
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
             exit;
@@ -714,29 +758,29 @@ class MaterielBulkController {
 
         try {
             require_once __DIR__ . '/../vendor/autoload.php';
-            
+
             // Récupérer les matériels selon les filtres
             $materiels = $this->materielModel->getMaterielsForBulkExport($client_id, $site_id);
-            
+
             // Utiliser le template existant comme base
             $templatePath = ASSETS_PATH . '/templates/materiel_import_template.xlsx';
-            
+
             if (!file_exists($templatePath)) {
                 $_SESSION['error'] = "Template non trouvé.";
                 header('Location: ' . BASE_URL . 'materiel_bulk');
                 exit;
             }
-            
+
             // Charger le template existant
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($templatePath);
             $sheet = $spreadsheet->getActiveSheet();
-            
+
             // Renommer l'onglet principal en "Matériel"
             $sheet->setTitle('Matériel');
-            
+
             // Le template n'a que les 2 lignes d'en-têtes, pas de données d'exemple
             // On garde les 2 lignes d'en-têtes et on commence à ajouter les données à la ligne 3
-            
+
             // Ajouter les données des matériels
             $row = 3;
             foreach ($materiels as $materiel) {
@@ -777,36 +821,39 @@ class MaterielBulkController {
                     $materiel['date_derniere_inter'], // DATE_DERNIERE_INTER (colonne AH) - DÉCALÉ
                     $materiel['commentaire'] // COMMENTAIRE (colonne AI) - DÉCALÉ
                 ];
-                
+
                 $sheet->fromArray([$data], null, "A$row");
                 $row++;
             }
-            
+
             // Récupérer les salles pour le client/site sélectionné
             $salles = $this->roomModel->getRoomsByClientId($client_id);
             if ($site_id) {
                 // Filtrer les salles par site si spécifié
-                $salles = array_filter($salles, function($salle) use ($site_id) {
+                $salles = array_filter($salles, function ($salle) use ($site_id) {
                     return $salle['site_id'] == $site_id;
                 });
             }
-            
+
             // Créer un deuxième onglet pour les salles
             $sallesSheet = $spreadsheet->createSheet();
             $sallesSheet->setTitle('Salles');
-            
+
             // En-têtes pour l'onglet Salles
             $sallesHeaders = [
-                'ID', 'Nom de la salle', 'Site', 'Commentaire'
+                'ID',
+                'Nom de la salle',
+                'Site',
+                'Commentaire'
             ];
             $sallesSheet->fromArray([$sallesHeaders], null, 'A1');
-            
+
             // Style des en-têtes
             $sallesSheet->getStyle('A1:D1')->getFont()->setBold(true);
             $sallesSheet->getStyle('A1:D1')->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('FFE0E0E0');
-            
+
             // Ajouter les données des salles
             $salleRow = 2;
             foreach ($salles as $salle) {
@@ -819,15 +866,15 @@ class MaterielBulkController {
                 $sallesSheet->fromArray([$salleData], null, "A$salleRow");
                 $salleRow++;
             }
-            
+
             // Ajouter un encadré informatif à partir de la colonne F
             $infoStartRow = 1;
             $infoEndRow = 9;
-            
+
             // Titre de l'encadré
             $sallesSheet->setCellValue('F' . $infoStartRow, 'RÈGLES D\'IMPORT');
             $sallesSheet->getStyle('F' . $infoStartRow)->getFont()->setBold(true)->setSize(12);
-            
+
             // Contenu de l'encadré
             $infoTexts = [
                 '• Champs vides = Ignorés',
@@ -839,7 +886,7 @@ class MaterielBulkController {
                 '"Null" → Champ vidé',
                 'Nouvelle valeur → Demande confirmation'
             ];
-            
+
             $currentRow = $infoStartRow + 1;
             foreach ($infoTexts as $text) {
                 $sallesSheet->setCellValue('F' . $currentRow, $text);
@@ -848,14 +895,14 @@ class MaterielBulkController {
                 }
                 $currentRow++;
             }
-            
+
             // Appliquer un style d'encadré
             $sallesSheet->getStyle('F' . $infoStartRow . ':H' . $infoEndRow)
                 ->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
             $sallesSheet->getStyle('F' . $infoStartRow . ':H' . $infoEndRow)
                 ->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setRGB('F8F9FA');
-            
+
             // Ajuster la largeur des colonnes pour l'onglet Salles
             $sallesSheet->getColumnDimension('A')->setWidth(10);
             $sallesSheet->getColumnDimension('B')->setWidth(25);
@@ -864,28 +911,28 @@ class MaterielBulkController {
             $sallesSheet->getColumnDimension('F')->setWidth(20);
             $sallesSheet->getColumnDimension('G')->setWidth(25);
             $sallesSheet->getColumnDimension('H')->setWidth(25);
-            
+
             // S'assurer que l'onglet "Matériel" soit présélectionné à l'ouverture
             $spreadsheet->setActiveSheetIndex(0);
-            
+
             // Créer le fichier
             $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-            
+
             // Nettoyer le buffer de sortie
             if (ob_get_level()) {
                 ob_end_clean();
             }
-            
+
             // Récupérer les informations du client et du site pour le nom de fichier
             $clientName = '';
             $siteName = '';
-            
+
             // Récupérer le nom du client
             $client = $this->clientModel->getClientById($client_id);
             if ($client) {
                 $clientName = $client['name'];
             }
-            
+
             // Récupérer le nom du site si spécifié
             if ($site_id) {
                 $site = $this->siteModel->getSiteById($site_id);
@@ -893,19 +940,19 @@ class MaterielBulkController {
                     $siteName = $site['name'];
                 }
             }
-            
+
             // Construire le nom de fichier selon le format demandé
             $dateFormatted = date('Ymd'); // Format 20250829
             $filename = '';
-            
+
             if ($clientName) {
                 $filename .= preg_replace('/[^a-zA-Z0-9_-]/', '_', $clientName);
             }
-            
+
             if ($siteName) {
                 $filename .= '_' . preg_replace('/[^a-zA-Z0-9_-]/', '_', $siteName);
             }
-            
+
             $filename .= '_materiel_' . $dateFormatted . '.xlsx';
             header('Content-Description: File Transfer');
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -914,11 +961,11 @@ class MaterielBulkController {
             header('Expires: 0');
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             header('Pragma: public');
-            
+
             // Envoyer le fichier
             $writer->save('php://output');
             exit;
-            
+
         } catch (Exception $e) {
             $_SESSION['error'] = "Erreur lors de l'export : " . $e->getMessage();
             header('Location: ' . BASE_URL . 'materiel_bulk');
@@ -929,7 +976,8 @@ class MaterielBulkController {
     /**
      * Télécharge le template Excel pour l'import
      */
-    public function download_template() {
+    public function download_template()
+    {
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
             exit;
@@ -944,24 +992,24 @@ class MaterielBulkController {
         try {
             // Utiliser le template existant comme base
             $templatePath = ASSETS_PATH . '/templates/materiel_import_template.xlsx';
-            
+
             if (!file_exists($templatePath)) {
                 $_SESSION['error'] = "Template non trouvé.";
                 header('Location: ' . BASE_URL . 'materiel_bulk');
                 exit;
             }
-            
+
             require_once __DIR__ . '/../vendor/autoload.php';
-            
+
             // Charger le template existant
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($templatePath);
             $sheet = $spreadsheet->getActiveSheet();
-            
+
             // Nettoyer le buffer de sortie
             if (ob_get_level()) {
                 ob_end_clean();
             }
-            
+
             // En-têtes pour le téléchargement
             header('Content-Description: File Transfer');
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -971,11 +1019,11 @@ class MaterielBulkController {
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             header('Pragma: public');
             header('Content-Length: ' . filesize($templatePath));
-            
+
             // Envoyer le fichier
             readfile($templatePath);
             exit;
-            
+
         } catch (Exception $e) {
             $_SESSION['error'] = "Erreur lors de la génération du template : " . $e->getMessage();
             header('Location: ' . BASE_URL . 'materiel_bulk');
@@ -986,35 +1034,37 @@ class MaterielBulkController {
     /**
      * Convertit une date Excel en format MySQL
      */
-    private function convertExcelDate($excelDate) {
+    private function convertExcelDate($excelDate)
+    {
         if (empty($excelDate)) {
             return null;
         }
-        
+
         // Si c'est déjà une date au format Y-m-d
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $excelDate)) {
             return $excelDate;
         }
-        
+
         // Si c'est un timestamp Excel
         if (is_numeric($excelDate)) {
             $unixDate = ($excelDate - 25569) * 86400;
             return date('Y-m-d', $unixDate);
         }
-        
+
         // Si c'est une date au format dd/mm/yyyy
         if (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $excelDate)) {
             $date = DateTime::createFromFormat('d/m/Y', $excelDate);
             return $date ? $date->format('Y-m-d') : null;
         }
-        
+
         return null;
     }
 
     /**
      * Applique les règles de visibilité par défaut selon le contrat
      */
-    private function applyDefaultVisibilityRules($materielId, $clientId) {
+    private function applyDefaultVisibilityRules($materielId, $clientId)
+    {
         try {
             // Récupérer le contrat du client
             $sql = "SELECT c.id as contract_id, c.access_level_id 
@@ -1022,32 +1072,32 @@ class MaterielBulkController {
                     WHERE c.client_id = :client_id 
                     ORDER BY c.created_at DESC 
                     LIMIT 1";
-            
+
             $stmt = $this->db->prepare($sql);
             $stmt->execute([':client_id' => $clientId]);
             $contract = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if ($contract && $contract['access_level_id']) {
                 // Utiliser MaterielModel pour appliquer les règles
                 $materielModel = new MaterielModel($this->db);
                 $champs = $materielModel->getChampsVisibilite(null, $contract['contract_id']);
-                
+
                 $visibilites = [];
                 foreach ($champs as $nom_champ => $info) {
                     $visibilites[$nom_champ] = $info['visible_client'];
                 }
-                
+
                 $materielModel->saveVisibiliteChamps($materielId, $visibilites);
             } else {
                 // Si pas de contrat ou pas de niveau d'accès, appliquer les valeurs par défaut
                 $materielModel = new MaterielModel($this->db);
                 $champs = $materielModel->getChampsVisibilite();
-                
+
                 $visibilites = [];
                 foreach ($champs as $nom_champ => $info) {
                     $visibilites[$nom_champ] = $info['visible_client'];
                 }
-                
+
                 $materielModel->saveVisibiliteChamps($materielId, $visibilites);
             }
         } catch (Exception $e) {

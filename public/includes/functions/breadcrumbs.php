@@ -9,28 +9,29 @@
  * @param array $customBreadcrumbs Tableau optionnel de breadcrumbs personnalisés [['label' => '...', 'url' => '...'], ...]
  * @return array Tableau de breadcrumbs
  */
-function generateBreadcrumbs($customBreadcrumbs = []) {
+function generateBreadcrumbs($customBreadcrumbs = [])
+{
     global $pageTitle, $currentPageName;
-    
+
     $breadcrumbs = [];
-    
+
     // Toujours commencer par le dashboard
     $breadcrumbs[] = [
         'label' => '<i class="bi bi-house me-1"></i>Tableau de bord',
         'url' => BASE_URL . 'dashboard'
     ];
-    
+
     // Vérifier si des breadcrumbs personnalisés sont définis via variable globale
     if (empty($customBreadcrumbs) && isset($GLOBALS['customBreadcrumbs']) && !empty($GLOBALS['customBreadcrumbs'])) {
         $customBreadcrumbs = $GLOBALS['customBreadcrumbs'];
     }
-    
+
     // Si des breadcrumbs personnalisés sont fournis, les utiliser
     if (!empty($customBreadcrumbs)) {
         $breadcrumbs = array_merge($breadcrumbs, $customBreadcrumbs);
         return $breadcrumbs;
     }
-    
+
     // Sinon, générer automatiquement basé sur l'URL
     $currentUrl = $_SERVER['REQUEST_URI'] ?? '';
     $currentPath = parse_url($currentUrl, PHP_URL_PATH);
@@ -38,7 +39,7 @@ function generateBreadcrumbs($customBreadcrumbs = []) {
     $relativePath = $basePath ? str_replace($basePath, '', $currentPath) : $currentPath;
     $relativePath = trim($relativePath, '/');
     $pathParts = explode('/', $relativePath);
-    
+
     // Mapping des routes vers les labels
     $routeLabels = [
         'dashboard' => 'Tableau de bord',
@@ -61,25 +62,26 @@ function generateBreadcrumbs($customBreadcrumbs = []) {
         'edit' => 'Modifier',
         'view' => 'Détails'
     ];
-    
+
     $currentPath = '';
     foreach ($pathParts as $index => $part) {
-        if (empty($part) || $part === 'index.php') continue;
-        
+        if (empty($part) || $part === 'index.php')
+            continue;
+
         $currentPath .= ($currentPath ? '/' : '') . $part;
         $label = $routeLabels[$part] ?? ucfirst(str_replace('_', ' ', $part));
-        
+
         // Ne pas ajouter le dernier élément s'il correspond au titre de la page
         if ($index === count($pathParts) - 1 && $label === $pageTitle) {
             continue;
         }
-        
+
         $breadcrumbs[] = [
             'label' => $label,
             'url' => BASE_URL . $currentPath
         ];
     }
-    
+
     // Ajouter le titre de la page comme dernier élément (actif)
     if (!empty($pageTitle) && $pageTitle !== 'Videosonic') {
         $breadcrumbs[] = [
@@ -88,7 +90,7 @@ function generateBreadcrumbs($customBreadcrumbs = []) {
             'active' => true
         ];
     }
-    
+
     return $breadcrumbs;
 }
 
@@ -98,15 +100,16 @@ function generateBreadcrumbs($customBreadcrumbs = []) {
  * @param array $client Tableau contenant les informations du client (name, id)
  * @return array Tableau de breadcrumbs personnalisés
  */
-function generateClientViewBreadcrumbs($client) {
+function generateClientViewBreadcrumbs($client)
+{
     $breadcrumbs = [];
-    
+
     // Clients (liste)
     $breadcrumbs[] = [
         'label' => 'Clients',
         'url' => BASE_URL . 'clients'
     ];
-    
+
     // Nom du client (actif) - utiliser le nom ou un fallback
     $clientName = !empty($client['name']) ? h($client['name']) : 'Client #' . ($client['id'] ?? '');
     $breadcrumbs[] = [
@@ -114,7 +117,7 @@ function generateClientViewBreadcrumbs($client) {
         'url' => null,
         'active' => true
     ];
-    
+
     return $breadcrumbs;
 }
 
@@ -124,15 +127,16 @@ function generateClientViewBreadcrumbs($client) {
  * @param array $contract Tableau contenant les informations du contrat (client_name, name, id, client_id)
  * @return array Tableau de breadcrumbs personnalisés
  */
-function generateContractViewBreadcrumbs($contract) {
+function generateContractViewBreadcrumbs($contract)
+{
     $breadcrumbs = [];
-    
+
     // Liste des contrats
     $breadcrumbs[] = [
         'label' => 'Liste des contrats',
         'url' => BASE_URL . 'contracts'
     ];
-    
+
     // Nom du client (si disponible)
     if (!empty($contract['client_name'])) {
         $clientId = $contract['client_id'] ?? null;
@@ -148,7 +152,7 @@ function generateContractViewBreadcrumbs($contract) {
             ];
         }
     }
-    
+
     // Nom du contrat (actif) - utiliser le nom ou un fallback
     $contractName = !empty($contract['name']) ? h($contract['name']) : 'Contrat #' . ($contract['id'] ?? '');
     $breadcrumbs[] = [
@@ -156,7 +160,7 @@ function generateContractViewBreadcrumbs($contract) {
         'url' => null,
         'active' => true
     ];
-    
+
     return $breadcrumbs;
 }
 
@@ -166,15 +170,16 @@ function generateContractViewBreadcrumbs($contract) {
  * @param array $client Tableau contenant les informations du client (name, id)
  * @return array Tableau de breadcrumbs personnalisés
  */
-function generateSiteAddBreadcrumbs($client) {
+function generateSiteAddBreadcrumbs($client)
+{
     $breadcrumbs = [];
-    
+
     // Clients (liste)
     $breadcrumbs[] = [
         'label' => 'Clients',
         'url' => BASE_URL . 'clients'
     ];
-    
+
     // Nom du client
     if (!empty($client['name'])) {
         $breadcrumbs[] = [
@@ -182,14 +187,14 @@ function generateSiteAddBreadcrumbs($client) {
             'url' => BASE_URL . 'clients/view/' . ($client['id'] ?? '')
         ];
     }
-    
+
     // Ajouter un site (actif)
     $breadcrumbs[] = [
         'label' => 'Ajouter un site',
         'url' => null,
         'active' => true
     ];
-    
+
     return $breadcrumbs;
 }
 
@@ -200,15 +205,16 @@ function generateSiteAddBreadcrumbs($client) {
  * @param array|null $site Tableau contenant les informations du site (name, id) ou null
  * @return array Tableau de breadcrumbs personnalisés
  */
-function generateRoomAddBreadcrumbs($client, $site = null) {
+function generateRoomAddBreadcrumbs($client, $site = null)
+{
     $breadcrumbs = [];
-    
+
     // Clients (liste)
     $breadcrumbs[] = [
         'label' => 'Clients',
         'url' => BASE_URL . 'clients'
     ];
-    
+
     // Nom du client
     if (!empty($client['name'])) {
         $breadcrumbs[] = [
@@ -216,7 +222,7 @@ function generateRoomAddBreadcrumbs($client, $site = null) {
             'url' => BASE_URL . 'clients/view/' . ($client['id'] ?? '')
         ];
     }
-    
+
     // Nom du site (si disponible)
     if (!empty($site) && !empty($site['name'])) {
         $breadcrumbs[] = [
@@ -224,14 +230,49 @@ function generateRoomAddBreadcrumbs($client, $site = null) {
             'url' => BASE_URL . 'clients/view/' . ($client['id'] ?? '') . '?active_tab=sites-tab#sites'
         ];
     }
-    
+
     // Ajouter une salle (actif)
     $breadcrumbs[] = [
         'label' => 'Ajouter une salle',
         'url' => null,
         'active' => true
     ];
-    
+
+    return $breadcrumbs;
+}
+function generateBuildingAddBreadcrumbs($client, $site = null)
+{
+    $breadcrumbs = [];
+
+    // Clients (liste)
+    $breadcrumbs[] = [
+        'label' => 'Clients',
+        'url' => BASE_URL . 'clients'
+    ];
+
+    // Nom du client
+    if (!empty($client['name'])) {
+        $breadcrumbs[] = [
+            'label' => h($client['name']),
+            'url' => BASE_URL . 'clients/view/' . ($client['id'] ?? '')
+        ];
+    }
+
+    // Nom du site (si disponible)
+    if (!empty($site) && !empty($site['name'])) {
+        $breadcrumbs[] = [
+            'label' => h($site['name']),
+            'url' => BASE_URL . 'clients/view/' . ($client['id'] ?? '') . '?active_tab=sites-tab#sites'
+        ];
+    }
+
+    // Ajouter une salle (actif)
+    $breadcrumbs[] = [
+        'label' => 'Ajouter un bâtiment',
+        'url' => null,
+        'active' => true
+    ];
+
     return $breadcrumbs;
 }
 
@@ -241,15 +282,16 @@ function generateRoomAddBreadcrumbs($client, $site = null) {
  * @param array $client Tableau contenant les informations du client (name, id)
  * @return array Tableau de breadcrumbs personnalisés
  */
-function generateContactAddBreadcrumbs($client) {
+function generateContactAddBreadcrumbs($client)
+{
     $breadcrumbs = [];
-    
+
     // Clients (liste)
     $breadcrumbs[] = [
         'label' => 'Clients',
         'url' => BASE_URL . 'clients'
     ];
-    
+
     // Nom du client
     if (!empty($client['name'])) {
         $breadcrumbs[] = [
@@ -257,14 +299,14 @@ function generateContactAddBreadcrumbs($client) {
             'url' => BASE_URL . 'clients/view/' . ($client['id'] ?? '')
         ];
     }
-    
+
     // Ajouter un contact (actif)
     $breadcrumbs[] = [
         'label' => 'Ajouter un contact',
         'url' => null,
         'active' => true
     ];
-    
+
     return $breadcrumbs;
 }
 
@@ -274,15 +316,16 @@ function generateContactAddBreadcrumbs($client) {
  * @param array|null $client Tableau contenant les informations du client (name, id) ou null
  * @return array Tableau de breadcrumbs personnalisés
  */
-function generateContractAddBreadcrumbs($client) {
+function generateContractAddBreadcrumbs($client)
+{
     $breadcrumbs = [];
-    
+
     // Clients (liste)
     $breadcrumbs[] = [
         'label' => 'Clients',
         'url' => BASE_URL . 'clients'
     ];
-    
+
     // Nom du client (si disponible)
     if (!empty($client) && !empty($client['name'])) {
         $breadcrumbs[] = [
@@ -290,14 +333,14 @@ function generateContractAddBreadcrumbs($client) {
             'url' => BASE_URL . 'clients/view/' . ($client['id'] ?? '')
         ];
     }
-    
+
     // Ajouter un contrat (actif)
     $breadcrumbs[] = [
         'label' => 'Ajouter un contrat',
         'url' => null,
         'active' => true
     ];
-    
+
     return $breadcrumbs;
 }
 
@@ -307,15 +350,16 @@ function generateContractAddBreadcrumbs($client) {
  * @param array $intervention Tableau contenant les informations de l'intervention (client_name, client_id, reference, id)
  * @return array Tableau de breadcrumbs personnalisés
  */
-function generateInterventionViewBreadcrumbs($intervention) {
+function generateInterventionViewBreadcrumbs($intervention)
+{
     $breadcrumbs = [];
-    
+
     // Interventions (liste)
     $breadcrumbs[] = [
         'label' => 'Interventions',
         'url' => BASE_URL . 'interventions'
     ];
-    
+
     // Nom du client (si disponible)
     if (!empty($intervention['client_name']) && !empty($intervention['client_id'])) {
         $breadcrumbs[] = [
@@ -323,7 +367,7 @@ function generateInterventionViewBreadcrumbs($intervention) {
             'url' => BASE_URL . 'clients/view/' . $intervention['client_id']
         ];
     }
-    
+
     // Référence de l'intervention (actif) - utiliser la référence ou un fallback
     $interventionLabel = !empty($intervention['reference']) ? h($intervention['reference']) : 'Intervention #' . ($intervention['id'] ?? '');
     $breadcrumbs[] = [
@@ -331,7 +375,7 @@ function generateInterventionViewBreadcrumbs($intervention) {
         'url' => null,
         'active' => true
     ];
-    
+
     return $breadcrumbs;
 }
 
@@ -341,15 +385,16 @@ function generateInterventionViewBreadcrumbs($intervention) {
  * @param array $intervention Tableau contenant les informations de l'intervention (client_name, client_id, reference, id)
  * @return array Tableau de breadcrumbs personnalisés
  */
-function generateInterventionEditBreadcrumbs($intervention) {
+function generateInterventionEditBreadcrumbs($intervention)
+{
     $breadcrumbs = [];
-    
+
     // Interventions (liste)
     $breadcrumbs[] = [
         'label' => 'Interventions',
         'url' => BASE_URL . 'interventions'
     ];
-    
+
     // Nom du client (si disponible)
     if (!empty($intervention['client_name']) && !empty($intervention['client_id'])) {
         $breadcrumbs[] = [
@@ -357,21 +402,21 @@ function generateInterventionEditBreadcrumbs($intervention) {
             'url' => BASE_URL . 'clients/view/' . $intervention['client_id']
         ];
     }
-    
+
     // Référence de l'intervention (lien vers la vue)
     $interventionLabel = !empty($intervention['reference']) ? h($intervention['reference']) : 'Intervention #' . ($intervention['id'] ?? '');
     $breadcrumbs[] = [
         'label' => $interventionLabel,
         'url' => BASE_URL . 'interventions/view/' . ($intervention['id'] ?? '')
     ];
-    
+
     // Modifier (actif)
     $breadcrumbs[] = [
         'label' => 'Modifier',
         'url' => null,
         'active' => true
     ];
-    
+
     return $breadcrumbs;
 }
 
@@ -381,15 +426,16 @@ function generateInterventionEditBreadcrumbs($intervention) {
  * @param bool $isPreventive true si page préventives, false si page curatives
  * @return array Tableau de breadcrumbs personnalisés
  */
-function generateInterventionsListBreadcrumbs($isPreventive = false) {
+function generateInterventionsListBreadcrumbs($isPreventive = false)
+{
     $breadcrumbs = [];
-    
+
     // Interventions (liste générale)
     $breadcrumbs[] = [
         'label' => 'Interventions',
         'url' => BASE_URL . 'interventions/curatives'
     ];
-    
+
     // Type d'intervention (actif)
     $typeLabel = $isPreventive ? 'Préventives' : 'Curatives';
     $breadcrumbs[] = [
@@ -397,7 +443,7 @@ function generateInterventionsListBreadcrumbs($isPreventive = false) {
         'url' => null,
         'active' => true
     ];
-    
+
     return $breadcrumbs;
 }
 
@@ -407,15 +453,16 @@ function generateInterventionsListBreadcrumbs($isPreventive = false) {
  * @param array|null $client Tableau contenant les informations du client (name, id) ou null
  * @return array Tableau de breadcrumbs personnalisés
  */
-function generateInterventionAddBreadcrumbs($client = null) {
+function generateInterventionAddBreadcrumbs($client = null)
+{
     $breadcrumbs = [];
-    
+
     // Interventions (liste)
     $breadcrumbs[] = [
         'label' => 'Interventions',
         'url' => BASE_URL . 'interventions'
     ];
-    
+
     // Nom du client (si disponible)
     if (!empty($client) && !empty($client['name'])) {
         $breadcrumbs[] = [
@@ -423,14 +470,14 @@ function generateInterventionAddBreadcrumbs($client = null) {
             'url' => BASE_URL . 'clients/view/' . ($client['id'] ?? '')
         ];
     }
-    
+
     // Ajouter une intervention (actif)
     $breadcrumbs[] = [
         'label' => 'Ajouter une intervention',
         'url' => null,
         'active' => true
     ];
-    
+
     return $breadcrumbs;
 }
 
@@ -440,15 +487,16 @@ function generateInterventionAddBreadcrumbs($client = null) {
  * @param array $materiel Tableau contenant les informations du matériel (client_nom, client_id, marque, modele)
  * @return array Tableau de breadcrumbs personnalisés
  */
-function generateMaterielViewBreadcrumbs($materiel) {
+function generateMaterielViewBreadcrumbs($materiel)
+{
     $breadcrumbs = [];
-    
+
     // Matériel (liste)
     $breadcrumbs[] = [
         'label' => 'Matériel',
         'url' => BASE_URL . 'materiel'
     ];
-    
+
     // Nom du client (si disponible)
     if (!empty($materiel['client_nom']) && !empty($materiel['client_id'])) {
         $breadcrumbs[] = [
@@ -456,7 +504,7 @@ function generateMaterielViewBreadcrumbs($materiel) {
             'url' => BASE_URL . 'clients/view/' . $materiel['client_id']
         ];
     }
-    
+
     // Nom du matériel (actif) - utiliser marque + modèle ou un fallback
     $materielName = '';
     if (!empty($materiel['modele']) && !empty($materiel['marque'])) {
@@ -470,13 +518,13 @@ function generateMaterielViewBreadcrumbs($materiel) {
     } else {
         $materielName = 'Matériel #' . ($materiel['id'] ?? '');
     }
-    
+
     $breadcrumbs[] = [
         'label' => $materielName,
         'url' => null,
         'active' => true
     ];
-    
+
     return $breadcrumbs;
 }
 
@@ -489,14 +537,15 @@ function generateMaterielViewBreadcrumbs($materiel) {
  * @param array $salles Liste des salles
  * @return array Tableau de breadcrumbs personnalisés
  */
-function generateMaterielIndexBreadcrumbs($filters, $clients = [], $sites = [], $salles = []) {
+function generateMaterielIndexBreadcrumbs($filters, $clients = [], $sites = [], $salles = [])
+{
     $breadcrumbs = [];
-    
+
     // Si aucun filtre n'est sélectionné, retourner un tableau vide
     if (empty($filters['client_id']) && empty($filters['site_id']) && empty($filters['salle_id'])) {
         return $breadcrumbs;
     }
-    
+
     // Client (si sélectionné)
     if (!empty($filters['client_id'])) {
         $clientName = null;
@@ -516,7 +565,7 @@ function generateMaterielIndexBreadcrumbs($filters, $clients = [], $sites = [], 
             ];
         }
     }
-    
+
     // Site (si sélectionné)
     if (!empty($filters['site_id'])) {
         $siteName = null;
@@ -544,7 +593,7 @@ function generateMaterielIndexBreadcrumbs($filters, $clients = [], $sites = [], 
             ];
         }
     }
-    
+
     // Salle (si sélectionnée) - toujours actif
     if (!empty($filters['salle_id'])) {
         $salleName = null;
@@ -562,6 +611,6 @@ function generateMaterielIndexBreadcrumbs($filters, $clients = [], $sites = [], 
             ];
         }
     }
-    
+
     return $breadcrumbs;
 }

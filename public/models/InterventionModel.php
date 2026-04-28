@@ -936,30 +936,34 @@ class InterventionModel extends BaseModel
 
     /**
      * Récupère les interventions planifiées pour l'agenda
+     * Maintenant basé sur les dates des techniciens dans la table intervention_techniciens
      */
     public function getScheduledInterventions($filters = [])
     {
-        $sql = "SELECT i.*, 
-                c.name as client_name,
-                s.name as site_name,
-                r.name as room_name,
-                -- u.first_name as technician_first_name,
-                -- u.last_name as technician_last_name,
-                its.name as status_name,
-                its.color as status_color,
-                it.name as type_name,
-                -- it.requires_travel as type_requires_travel_default,
-                -- COALESCE(i.type_requires_travel, it.requires_travel) as type_requires_travel,
-                ip.name as priority_name,
-                ip.color as priority_color
-                FROM " . $this->table . " i
-                LEFT JOIN clients c ON i.client_id = c.id
-                LEFT JOIN sites s ON i.site_id = s.id
-                LEFT JOIN rooms r ON i.room_id = r.id
-                LEFT JOIN intervention_statuses its ON i.status_id = its.id
-                LEFT JOIN intervention_types it ON i.type_id = it.id
-                LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
-                WHERE i.date_planif IS NOT NULL AND i.date_planif > '1900-01-01'";
+        $sql = "SELECT DISTINCT i.*, 
+            c.name as client_name,
+            s.name as site_name,
+            r.name as room_name,
+            its.name as status_name,
+            its.color as status_color,
+            it.name as type_name,
+            ip.name as priority_name,
+            ip.color as priority_color,
+            ite.start_time as date_planif,
+            ite.end_time as end_time,
+            ite.temps_passe as duration,
+            u.id as technician_id,
+            CONCAT(u.first_name, ' ', u.last_name) as technician_name
+            FROM " . $this->table . " i
+            LEFT JOIN clients c ON i.client_id = c.id
+            LEFT JOIN sites s ON i.site_id = s.id
+            LEFT JOIN rooms r ON i.room_id = r.id
+            LEFT JOIN intervention_statuses its ON i.status_id = its.id
+            LEFT JOIN intervention_types it ON i.type_id = it.id
+            LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+            INNER JOIN intervention_techniciens ite ON i.id = ite.intervention_id
+            LEFT JOIN users u ON ite.technicien_id = u.id
+            WHERE ite.start_time IS NOT NULL AND ite.start_time > '1900-01-01'";
 
         $params = [];
 
@@ -984,55 +988,35 @@ class InterventionModel extends BaseModel
             $sql .= " AND i.priority_id = ?";
             $params[] = $filters['priority_id'];
         }
-        // if (!empty($filters['technician_id'])) {
-        //     $sql .= " AND i.technician_id = ?";
-        //     $params[] = $filters['technician_id'];
-        // }
 
-        // Filtre par technicien (nouveau système)
+        // Filtrer par technicien
         if (!empty($filters['technician_filter'])) {
-            // $technicianFilter = $filters['technician_filter'];
-            $conditions = [];
+            if (!empty($filters['technician_filter']['technician_ids'])) {
+                $placeholders = str_repeat('?,', count($filters['technician_filter']['technician_ids']) - 1) . '?';
+                $sql .= " AND u.id IN ($placeholders)";
+                $params = array_merge($params, $filters['technician_filter']['technician_ids']);
+            }
 
-            // if (!empty($technicianFilter['technician_ids'])) {
-            //     $placeholders = str_repeat('?,', count($technicianFilter['technician_ids']) - 1) . '?';
-            //     $conditions[] = "i.technician_id IN ($placeholders)";
-            //     $params = array_merge($params, $technicianFilter['technician_ids']);
-            // }
-
-            // if ($technicianFilter['show_unassigned']) {
-            //     $conditions[] = "i.technician_id IS NULL";
-            // }
-
-            if (!empty($conditions)) {
-                $sql .= " AND (" . implode(" OR ", $conditions) . ")";
+            if (!empty($filters['technician_filter']['show_unassigned'])) {
+                $sql .= " OR (i.id IN (SELECT intervention_id FROM intervention_techniciens WHERE start_time IS NOT NULL AND technicien_id IS NULL))";
             }
         }
 
         if (!empty($filters['date_from'])) {
-            $sql .= " AND i.date_planif >= ?";
+            $sql .= " AND ite.start_time >= ?";
             $params[] = $filters['date_from'];
         }
         if (!empty($filters['date_to'])) {
-            $sql .= " AND i.date_planif <= ?";
+            $sql .= " AND ite.start_time <= ?";
             $params[] = $filters['date_to'];
         }
 
-        // Tri par date planifiée puis par heure
-        $sql .= " ORDER BY i.date_planif ASC, i.heure_planif ASC";
+        // Tri par date de début
+        $sql .= " ORDER BY ite.start_time ASC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Ajouter le nom complet du technicien pour chaque intervention
-        foreach ($results as &$result) {
-            if (!empty($result['technician_first_name']) && !empty($result['technician_last_name'])) {
-                $result['technician_name'] = $result['technician_first_name'] . ' ' . $result['technician_last_name'];
-            } else {
-                $result['technician_name'] = null;
-            }
-        }
 
         return $results;
     }

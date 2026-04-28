@@ -15,6 +15,7 @@ class InterventionController
     private $clientModel;
     private $siteModel;
     private $roomModel;
+    private $buildingModel;
     private $userModel;
     private $contractModel;
     private $contactModel;
@@ -55,6 +56,7 @@ class InterventionController
         require_once __DIR__ . '/../models/ContactModel.php';
         require_once __DIR__ . '/../models/DurationModel.php';
         require_once __DIR__ . '/../classes/MailService.php';
+        require_once __DIR__ . '/../models/BuildingModel.php';
 
         $this->interventionModel = new InterventionModel($db);
         $this->clientModel = new ClientModel($db);
@@ -65,6 +67,7 @@ class InterventionController
         $this->contactModel = new ContactModel($db);
         $this->durationModel = new DurationModel($db);
         $this->mailService = new MailService($db);
+        $this->buildingModel = new BuildingModel($db);
 
         // Charger le fichier d'autoload de TCPDF
         require_once __DIR__ . '/../vendor/TCPDF-6.6.2/tcpdf.php';
@@ -153,7 +156,8 @@ class InterventionController
         // Récupérer les données pour les filtres
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
-        $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsBySiteId($filters['site_id']) : [];
+        $buildings = !empty($filters['site_id']) ? $this->buildingModel->getBuildingsBySiteId($filters['site_id']) : [];
+        $rooms = !empty($filters['building_id']) ? $this->roomModel->getRoomsByBuildingId($filters['building_id']) : [];
         $technicians = $this->userModel->getTechnicians();
 
         // Récupérer les statuts
@@ -255,7 +259,13 @@ class InterventionController
         // Récupérer les données pour les filtres
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
-        $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsBySiteId($filters['site_id']) : [];
+        $buildings = !empty($filters['site_id'])
+            ? $this->buildingModel->getBuildingsBySiteId($filters['site_id'])
+            : [];
+
+        $rooms = !empty($filters['building_id'])
+            ? $this->roomModel->getRoomsByBuildingId($filters['building_id'])
+            : [];
         // $technicians = $this->userModel->getTechnicians();
 
         // Récupérer les statuts
@@ -344,7 +354,8 @@ class InterventionController
         // Récupérer les données pour les filtres
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
-        $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsBySiteId($filters['site_id']) : [];
+        $buildings = !empty($filters['site_id']) ? $this->buildingModel->getBuildingsBySiteId($filters['site_id']) : [];
+        $rooms = !empty($filters['building_id']) ? $this->roomModel->getRoomsByBuildingId($filters['building_id']) : [];
         // $technicians = $this->userModel->getTechnicians();
         // Récupérer les statuts
         $statuses = $this->getAllStatuses();
@@ -508,7 +519,7 @@ class InterventionController
         // Récupérer les données pour les formulaires
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = $this->siteModel->getSitesByClientId($client_id);
-        $rooms = $this->roomModel->getRoomsBySiteId($site_id);
+        $rooms = $this->roomModel->getRoomsByBuildingId($site_id);
         $technicians = $this->userModel->getTechnicians();
 
         // Récupérer les contrats du client pour le formulaire
@@ -1832,7 +1843,7 @@ class InterventionController
         $this->checkAccess();
 
         // Récupérer les salles
-        $rooms = $this->roomModel->getRoomsBySiteId($siteId);
+        $rooms = $this->roomModel->getRoomsByBuildingId($siteId);
 
         // Retourner les salles au format JSON
         header('Content-Type: application/json');
@@ -2143,6 +2154,99 @@ class InterventionController
     }
 
     /**
+     * Crée rapidement une nouveau bâtiment via AJAX
+     */
+    public function quickCreateBuilding()
+    {
+        // Vérifier les permissions
+        $this->checkAccess();
+
+        // Vérifier si l'utilisateur a les droits d'ajout
+        if (!canModifyClients()) {
+            http_response_code(403);
+            echo json_encode(['error' => "Vous n'avez pas les droits nécessaires pour ajouter un bâtiment."]);
+            return;
+        }
+
+        header('Content-Type: application/json');
+
+        try {
+            // Récupérer les données du formulaire
+            $buildingData = [
+                'client_id' => $_POST['client_id'] ?? '',
+                'site_id' => $_POST['site_id'] ?? '',
+                'name' => $_POST['name'] ?? '',
+                'comment' => $_POST['comment'] ?? '',
+                'status' => 1 // Par défaut actif
+            ];
+
+            // Valider les données essentielles
+            if (empty($buildingData['client_id'])) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Aucun client sélectionné']);
+                return;
+            }
+
+            if (empty($buildingData['site_id'])) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Aucun site sélectionné']);
+                return;
+            }
+
+            if (empty($buildingData['name'])) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Le nom du bâtiment est obligatoire']);
+                return;
+            }
+
+            // Vérifier si le site existe et appartient au client
+            $sql = "SELECT id FROM sites WHERE id = ? AND client_id = ? AND status = 1";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$buildingData['site_id'], $buildingData['client_id']]);
+            if (!$stmt->fetch()) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Site introuvable ou ne correspond pas au client']);
+                return;
+            }
+
+            // Vérifier si un bâtiment avec ce nom existe déjà pour ce site
+            $sql = "SELECT id FROM buildings WHERE name = ? AND site_id = ? AND status = 1";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$buildingData['name'], $buildingData['site_id']]);
+            if ($stmt->fetch()) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Un bâtiment avec ce nom existe déjà pour ce site']);
+                return;
+            }
+
+            // Créer le bâtiment
+            $success = $this->buildingModel->createBuilding($buildingData);
+            if (!$success) {
+                throw new Exception('Erreur lors de la création du bâtiment');
+            }
+
+            // Récupérer l'ID du bâtiment créé
+            $buildingId = $this->db->lastInsertId();
+
+            // Récupérer les données du bâtiment créé
+            $building = $this->buildingModel->getBuildingById($buildingId);
+
+            echo json_encode([
+                'success' => true,
+                'building' => [
+                    'id' => $building['id'],
+                    'name' => $building['name']
+                ],
+                'message' => 'Bâtiment créé avec succès'
+            ]);
+
+        } catch (Exception $e) {
+            custom_log("Erreur lors de la création rapide du bâtiment : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Une erreur est survenue lors de la création du bâtiment.']);
+        }
+    }
+    /**
      * Crée rapidement une nouvelle salle via AJAX
      */
     public function quickCreateRoom()
@@ -2163,10 +2267,10 @@ class InterventionController
             // Récupérer les données du formulaire
             $roomData = [
                 'client_id' => $_POST['client_id'] ?? '',
-                'site_id' => $_POST['site_id'] ?? '',
-                'name' => $_POST['name'] ?? '',
+                'building_id' => $_POST['building_id'] ?? '',
+                'name' => trim($_POST['name'] ?? ''),
                 'comment' => $_POST['comment'] ?? '',
-                'status' => 1 // Par défaut actif
+                'status' => 1
             ];
 
             // Valider les données essentielles
@@ -2176,9 +2280,9 @@ class InterventionController
                 return;
             }
 
-            if (empty($roomData['site_id'])) {
+            if (empty($roomData['building_id'])) {
                 http_response_code(400);
-                echo json_encode(['error' => 'Aucun site sélectionné']);
+                echo json_encode(['error' => 'Aucun bâtiment sélectionné']);
                 return;
             }
 
@@ -2188,28 +2292,42 @@ class InterventionController
                 return;
             }
 
-            // Vérifier si le site existe et appartient au client
-            $sql = "SELECT id FROM sites WHERE id = ? AND client_id = ? AND status = 1";
+            // Vérifier si le bâtiment existe et appartient au client via le site
+            $sql = "SELECT b.id, b.site_id, s.client_id 
+                FROM buildings b 
+                JOIN sites s ON b.site_id = s.id 
+                WHERE b.id = ? AND s.client_id = ?";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$roomData['site_id'], $roomData['client_id']]);
-            if (!$stmt->fetch()) {
+            $stmt->execute([$roomData['building_id'], $roomData['client_id']]);
+            $building = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$building) {
                 http_response_code(400);
-                echo json_encode(['error' => 'Site introuvable ou ne correspond pas au client']);
+                echo json_encode(['error' => 'Bâtiment introuvable ou ne correspond pas au client']);
                 return;
             }
 
-            // Vérifier si une salle avec ce nom existe déjà pour ce site
-            $sql = "SELECT id FROM rooms WHERE name = ? AND site_id = ? AND status = 1";
+            // Vérifier si la salle avec ce nom existe déjà pour ce bâtiment
+            $sql = "SELECT id FROM rooms WHERE name = ? AND building_id = ? ";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$roomData['name'], $roomData['site_id']]);
+            $stmt->execute([$roomData['name'], $roomData['building_id']]);
             if ($stmt->fetch()) {
                 http_response_code(400);
-                echo json_encode(['error' => 'Une salle avec ce nom existe déjà pour ce site']);
+                echo json_encode(['error' => 'Une salle avec ce nom existe déjà pour ce bâtiment']);
                 return;
             }
 
             // Créer la salle
-            $success = $this->roomModel->createRoom($roomData);
+            $sql = "INSERT INTO rooms (name, building_id, comment, status, created_at, updated_at) 
+                VALUES (:name, :building_id, :comment, :status, NOW(), NOW())";
+            $stmt = $this->db->prepare($sql);
+            $success = $stmt->execute([
+                ':name' => $roomData['name'],
+                ':building_id' => $roomData['building_id'],
+                ':comment' => $roomData['comment'],
+                ':status' => $roomData['status']
+            ]);
+
             if (!$success) {
                 throw new Exception('Erreur lors de la création de la salle');
             }
@@ -2217,14 +2335,11 @@ class InterventionController
             // Récupérer l'ID de la salle créée
             $roomId = $this->db->lastInsertId();
 
-            // Récupérer les données de la salle créée
-            $room = $this->roomModel->getRoomById($roomId);
-
             echo json_encode([
                 'success' => true,
                 'room' => [
-                    'id' => $room['id'],
-                    'name' => $room['name']
+                    'id' => $roomId,
+                    'name' => $roomData['name']
                 ],
                 'message' => 'Salle créée avec succès'
             ]);
@@ -2232,10 +2347,9 @@ class InterventionController
         } catch (Exception $e) {
             custom_log("Erreur lors de la création rapide de la salle : " . $e->getMessage(), 'ERROR');
             http_response_code(500);
-            echo json_encode(['error' => 'Une erreur est survenue lors de la création de la salle.']);
+            echo json_encode(['error' => 'Une erreur est survenue lors de la création de la salle: ' . $e->getMessage()]);
         }
     }
-
     /**
      * Crée rapidement un nouveau contact via AJAX
      */
@@ -5188,5 +5302,43 @@ class InterventionController
             ':by' => $_SESSION['user']['id'],
             ':desc' => "Tickets recalculés suite à modification : $oldTickets → $newTickets (delta $delta)"
         ]);
+    }
+
+    /**
+     * Récupère les bâtiments d'un site (API)
+     */
+    public function getBuildings($siteId)
+    {
+        header('Content-Type: application/json');
+
+        try {
+            $query = "SELECT id, name FROM buildings WHERE site_id = :site_id";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':site_id' => $siteId]);
+            $buildings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            echo json_encode($buildings);
+        } catch (Exception $e) {
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Récupère les salles d'un bâtiment (API)
+     */
+    public function getRoomsByBuilding($buildingId)
+    {
+        header('Content-Type: application/json');
+
+        try {
+            $query = "SELECT id, name FROM rooms WHERE building_id = :building_id  ORDER BY name";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':building_id' => $buildingId]);
+            $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            echo json_encode($rooms);
+        } catch (Exception $e) {
+            echo json_encode(['error' => $e->getMessage()]);
+        }
     }
 }

@@ -274,50 +274,69 @@ $allData = [];
         <h6 class="card-title mb-0">Filtres</h6>
       </div>
       <div class="card-body py-2">
-        <form method="get" action="" class="row g-3 align-items-end" id="filterForm">
-          <div class="col-md-3">
-            <label for="client_id" class="form-label fw-bold mb-0">Client</label>
-            <select class="form-select bg-body text-body" id="client_id" name="client_id"
-              onchange="updateSitesAndSubmit()">
-              <option value="">Tous les clients</option>
-              <?php if (isset($clients) && is_array($clients)): ?>
-                <?php foreach ($clients as $client): ?>
-                  <option value="<?= $client['id'] ?>" <?= ($filters['client_id'] ?? '') == $client['id'] ? 'selected' : '' ?>>
-                    <?= h($client['name']) ?>
-                  </option>
-                <?php endforeach; ?>
-              <?php endif; ?>
-            </select>
-          </div>
-          <div class="col-md-3">
-            <label for="site_id" class="form-label fw-bold mb-0">Site</label>
-            <select class="form-select bg-body text-body" id="site_id" name="site_id" onchange="updateRoomsAndSubmit()">
-              <option value="">Tous les sites</option>
-              <?php if (isset($sites) && is_array($sites)): ?>
-                <?php foreach ($sites as $site): ?>
-                  <option value="<?= $site['id'] ?>" <?= ($filters['site_id'] ?? '') == $site['id'] ? 'selected' : '' ?>>
-                    <?= h($site['name']) ?>
-                  </option>
-                <?php endforeach; ?>
-              <?php endif; ?>
-            </select>
-          </div>
-          <div class="col-md-3">
-            <label for="salle_id" class="form-label fw-bold mb-0">Salle</label>
-            <select class="form-select bg-body text-body" id="salle_id" name="salle_id"
-              onchange="document.getElementById('filterForm').submit();">
-              <option value="">Toutes les salles</option>
-              <?php foreach ($salles as $salle): ?>
-                <option value="<?= $salle['id'] ?>" <?= ($filters['salle_id'] ?? '') == $salle['id'] ? 'selected' : '' ?>>
-                  <?= h($salle['name']) ?>
-                </option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-          <div class="col-md-3 d-flex align-items-end">
-            <a href="<?= BASE_URL ?>materiel" class="btn btn-outline-secondary">
-              <i class="bi bi-x-lg me-2 me-1"></i>Réinitialiser
-            </a>
+        <form method="get" action="" id="filterForm">
+          <div class="row g-3 align-items-end">
+            <div class="col-md-2">
+              <label for="client_id" class="form-label fw-bold mb-0">Client</label>
+              <select class="form-select bg-body text-body" id="client_id" name="client_id"
+                onchange="updateSitesAndSubmit()">
+                <option value="">Tous les clients</option>
+                    <?php if (isset($clients) && is_array($clients)): ?>
+                      <?php foreach ($clients as $client): ?>
+                    <option value="<?= $client['id'] ?>" <?= ($filters['client_id'] ?? '') == $client['id'] ? 'selected' : '' ?>>
+                          <?= h($client['name']) ?>
+                    </option>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label for="site_id" class="form-label fw-bold mb-0">Site</label>
+              <select class="form-select bg-body text-body" id="site_id" name="site_id"
+                onchange="updateBuildingsAndSubmit()">
+                <option value="">Tous les sites</option>
+                    <?php if (isset($sites) && is_array($sites)): ?>
+                      <?php foreach ($sites as $site): ?>
+                    <option value="<?= $site['id'] ?>" <?= ($filters['site_id'] ?? '') == $site['id'] ? 'selected' : '' ?>>
+                          <?= h($site['name']) ?>
+                    </option>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label for="building_id" class="form-label fw-bold mb-0">Bâtiment</label>
+              <select class="form-select bg-body text-body" id="building_id" name="building_id"
+                onchange="updateRoomsAndSubmit()">
+                <option value="">Tous les bâtiments</option>
+                    <?php if (isset($buildings) && is_array($buildings)): ?>
+                      <?php foreach ($buildings as $building): ?>
+                    <option value="<?= $building['id'] ?>" <?= ($filters['building_id'] ?? '') == $building['id'] ? 'selected' : '' ?>>
+                          <?= h($building['name']) ?>
+                    </option>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label for="salle_id" class="form-label fw-bold mb-0">Salle</label>
+              <select class="form-select bg-body text-body" id="salle_id" name="salle_id"
+                onchange="document.getElementById('filterForm').submit();">
+                <option value="">Toutes les salles</option>
+                    <?php if (isset($salles) && is_array($salles)): ?>
+                      <?php foreach ($salles as $salle): ?>
+                    <option value="<?= $salle['id'] ?>" <?= ($filters['salle_id'] ?? '') == $salle['id'] ? 'selected' : '' ?>>
+                          <?= h($salle['name']) ?>
+                    </option>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
+              </select>
+            </div>
+            <div class="col-md-4 d-flex justify-content-end">
+              <a href="<?= BASE_URL ?>materiel" class="btn btn-outline-secondary">
+                <i class="bi bi-x-lg me-1"></i>Réinitialiser
+              </a>
+            </div>
           </div>
         </form>
       </div>
@@ -675,21 +694,66 @@ $allData = [];
               option.textContent = site.name;
               siteSelect.appendChild(option);
             });
+            // Réinitialiser les filtres dépendants
+            document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
             document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
             document.getElementById('filterForm').submit();
           })
           .catch(err => console.error('Erreur:', err));
       } else {
         document.getElementById('site_id').innerHTML = '<option value="">Tous les sites</option>';
+        document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
+        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
+        document.getElementById('filterForm').submit();
+      }
+    }
+
+    function updateBuildingsAndSubmit() {
+      const siteId = document.getElementById('site_id').value;
+      if (siteId) {
+        fetch('<?= BASE_URL ?>materiel/get_buildings?site_id=' + siteId)
+          .then(res => res.json())
+          .then(data => {
+            const buildingSelect = document.getElementById('building_id');
+            buildingSelect.innerHTML = '<option value="">Tous les bâtiments</option>';
+            data.forEach(building => {
+              const option = document.createElement('option');
+              option.value = building.id;
+              option.textContent = building.name;
+              buildingSelect.appendChild(option);
+            });
+            document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
+            document.getElementById('filterForm').submit();
+          })
+          .catch(err => console.error('Erreur:', err));
+      } else {
+        document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
         document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
         document.getElementById('filterForm').submit();
       }
     }
 
     function updateRoomsAndSubmit() {
-      const siteId = document.getElementById('site_id').value;
-      if (siteId) {
-        fetch('<?= BASE_URL ?>materiel/get_rooms?site_id=' + siteId)
+      const buildingId = document.getElementById('building_id').value;
+      if (buildingId) {
+        fetch('<?= BASE_URL ?>materiel/get_rooms_by_building?building_id=' + buildingId)
+          .then(res => res.json())
+          .then(data => {
+            const roomSelect = document.getElementById('salle_id');
+            roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
+            data.forEach(room => {
+              const option = document.createElement('option');
+              option.value = room.id;
+              option.textContent = room.name;
+              roomSelect.appendChild(option);
+            });
+            document.getElementById('filterForm').submit();
+          })
+          .catch(err => console.error('Erreur:', err));
+      } else if (document.getElementById('site_id').value) {
+        // Si pas de bâtiment mais un site, charger les salles directement du site
+        const siteId = document.getElementById('site_id').value;
+        fetch('<?= BASE_URL ?>materiel/get_rooms_by_site?site_id=' + siteId)
           .then(res => res.json())
           .then(data => {
             const roomSelect = document.getElementById('salle_id');
@@ -708,7 +772,6 @@ $allData = [];
         document.getElementById('filterForm').submit();
       }
     }
-
     function applyGlobalSearch() {
       const searchTerm = document.getElementById('globalSearch').value.toLowerCase();
       currentSearchTerm = searchTerm;

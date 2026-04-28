@@ -4,14 +4,16 @@ require_once __DIR__ . '/../models/RoomModel.php';
 require_once __DIR__ . '/../models/ClientModel.php';
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 
-class SiteClientController {
+class SiteClientController
+{
     use AccessControlTrait;
     private $db;
     private $siteModel;
     private $roomModel;
     private $clientModel;
 
-    public function __construct($db = null) {
+    public function __construct($db = null)
+    {
         global $db;
         $this->db = $db ?? $db;
         $this->siteModel = new SiteModel($this->db);
@@ -23,7 +25,8 @@ class SiteClientController {
     /**
      * Affiche la liste des sites et salles du client
      */
-    public function index() {
+    public function index()
+    {
         $this->checkClientAccess();
 
         // Récupérer les localisations autorisées de l'utilisateur
@@ -41,11 +44,11 @@ class SiteClientController {
         custom_log('SiteClientController::index - DB set: ' . (!empty($this->db) ? 'yes' : 'no'), 'DEBUG');
         custom_log('SiteClientController::index - clientId from session: ' . ($clientId ?? 'null'), 'DEBUG');
         custom_log('SiteClientController::index - userLocations: ' . json_encode($userLocations), 'DEBUG');
-        
+
         try {
             // Récupération des sites selon les localisations autorisées
             $sites = $this->getSitesByLocations($userLocations);
-            
+
             // Pour chaque site, récupérer les salles
             foreach ($sites as &$site) {
                 $site['rooms'] = $this->getRoomsBySiteAndLocations($site['id'], $userLocations);
@@ -71,7 +74,8 @@ class SiteClientController {
     /**
      * Affiche les détails d'un site spécifique
      */
-    public function view($siteId) {
+    public function view($siteId)
+    {
         $this->checkClientAccess();
 
         // Récupérer les localisations autorisées de l'utilisateur
@@ -121,7 +125,8 @@ class SiteClientController {
     /**
      * Récupère les salles d'un site selon les localisations autorisées
      */
-    public function getRoomsBySiteAndLocations($siteId, $userLocations) {
+    public function getRoomsBySiteAndLocations($siteId, $userLocations)
+    {
         try {
             // Vérifier que l'utilisateur a accès à ce site
             if (!$this->hasAccessToSite($siteId, $userLocations)) {
@@ -129,8 +134,8 @@ class SiteClientController {
             }
 
             // Récupérer les salles du site
-            $rooms = $this->roomModel->getRoomsBySiteId($siteId);
-            
+            $rooms = $this->roomModel->getRoomsByBuildingId($siteId);
+
             // Filtrer selon les localisations autorisées
             $filteredRooms = [];
             foreach ($rooms as $room) {
@@ -150,10 +155,11 @@ class SiteClientController {
     /**
      * Récupère les sites selon les localisations autorisées
      */
-    private function getSitesByLocations($userLocations) {
+    private function getSitesByLocations($userLocations)
+    {
         try {
             $sites = [];
-            
+
             foreach ($userLocations as $clientId => $locations) {
                 // Récupérer tous les sites du client
                 $clientSites = $this->siteModel->getSitesByClientId($clientId);
@@ -177,12 +183,12 @@ class SiteClientController {
                 if (!$fullClientAccess) {
                     foreach ($locations as $location) {
                         if (!empty($location['site_id'])) {
-                            $allowedSiteIds[(int)$location['site_id']] = true;
+                            $allowedSiteIds[(int) $location['site_id']] = true;
                         } elseif (!empty($location['room_id'])) {
                             // Récupérer le site de la salle
-                            $room = $this->roomModel->getRoomById((int)$location['room_id']);
+                            $room = $this->roomModel->getRoomById((int) $location['room_id']);
                             if ($room && !empty($room['site_id'])) {
-                                $allowedSiteIds[(int)$room['site_id']] = true;
+                                $allowedSiteIds[(int) $room['site_id']] = true;
                             }
                         }
                     }
@@ -195,7 +201,7 @@ class SiteClientController {
                         continue;
                     }
 
-                    if (isset($allowedSiteIds[(int)$site['id']])) {
+                    if (isset($allowedSiteIds[(int) $site['id']])) {
                         $sites[] = $site;
                     }
                 }
@@ -212,7 +218,8 @@ class SiteClientController {
     /**
      * Vérifie si l'utilisateur a accès à un site spécifique
      */
-    private function hasAccessToSite($siteId, $userLocations) {
+    private function hasAccessToSite($siteId, $userLocations)
+    {
         try {
             $site = $this->siteModel->getSiteById($siteId);
             if (!$site) {
@@ -233,14 +240,14 @@ class SiteClientController {
                             }
 
                             // Accès direct au site
-                            if ($locSiteId !== null && (int)$locSiteId === (int)$siteId) {
+                            if ($locSiteId !== null && (int) $locSiteId === (int) $siteId) {
                                 return true;
                             }
 
                             // Accès via une salle appartenant à ce site
                             if ($locRoomId !== null) {
-                                $room = $this->roomModel->getRoomById((int)$locRoomId);
-                                if ($room && (int)$room['site_id'] === (int)$siteId) {
+                                $room = $this->roomModel->getRoomById((int) $locRoomId);
+                                if ($room && (int) $room['site_id'] === (int) $siteId) {
                                     return true;
                                 }
                             }
@@ -263,7 +270,8 @@ class SiteClientController {
     /**
      * Vérifie si l'utilisateur a accès à une salle spécifique
      */
-    private function hasAccessToRoom($roomId, $userLocations) {
+    private function hasAccessToRoom($roomId, $userLocations)
+    {
         try {
             $room = $this->roomModel->getRoomById($roomId);
             if (!$room) {

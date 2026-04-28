@@ -52,6 +52,12 @@ function csrfMiddleware(bool $regenerateAfterValidation = true): bool
         '/materiel/bulkUpdate',
         '/interventions/add',
         '/interventions/store',
+        '/interventions/quickCreateBuilding',
+        '/materiel/store',
+        '/materiel/uploadAttachment',
+        '/documentation/store',
+        '/documentation/get_buildings',
+        '/documentation/get_rooms_by_building',
 
         // Routes clients
         '/clients/store',      // ← AJOUTER CETTE LIGNE

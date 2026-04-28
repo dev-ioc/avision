@@ -1,24 +1,23 @@
 <?php
-require_once __DIR__ . '/../models/RoomModel.php';
+require_once __DIR__ . '/../models/BuildingModel.php';
 require_once __DIR__ . '/../models/ContactModel.php';
 require_once __DIR__ . '/../models/SiteModel.php';
 require_once __DIR__ . '/../models/ClientModel.php';
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 
-class RoomController
+class BuildingController
 {
     use AccessControlTrait;
     private $db;
-    private $roomModel;
+    private $buildingModel;
     private $contactModel;
     private $siteModel;
     private $clientModel;
 
-    public function __construct()
+    public function __construct($db)
     {
-        global $db;
         $this->db = $db;
-        $this->roomModel = new RoomModel($this->db);
+        $this->buildingModel = new BuildingModel($this->db);
         $this->contactModel = new ContactModel($this->db);
         $this->siteModel = new SiteModel($this->db);
         $this->clientModel = new ClientModel($this->db);
@@ -72,7 +71,7 @@ class RoomController
                 exit;
             }
             $siteId = $id;
-            $site = $this->roomModel->getSiteById($siteId);
+            $site = $this->buildingModel->getSiteById($siteId);
             if (!$site) {
                 $_SESSION['error'] = "Site non trouvé.";
                 header('Location: ' . BASE_URL . 'dashboard');
@@ -86,7 +85,7 @@ class RoomController
 
         // Vérifier si l'utilisateur a les droits de création
         if (!canModifyClients()) {
-            $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour créer une salle.";
+            $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour créer un bâtiment.";
             $returnTo = $_GET['return_to'] ?? 'edit';
             if ($returnTo === 'view') {
                 header('Location: ' . BASE_URL . 'clients/view/' . $clientId . '?active_tab=sites-tab');
@@ -116,8 +115,8 @@ class RoomController
                         'status' => 1
                     ];
 
-                    if ($this->roomModel->createRoom($data)) {
-                        $_SESSION['success'] = "Salle ajoutée avec succès.";
+                    if ($this->buildingModel->createBuilding($data)) {
+                        $_SESSION['success'] = "Bâtiment ajouté avec succès.";
 
                         // Gérer le retour intelligent
                         $returnTo = $_GET['return_to'] ?? 'edit';
@@ -128,7 +127,7 @@ class RoomController
                         }
                         exit;
                     } else {
-                        $_SESSION['error'] = "Erreur lors de l'ajout de la salle.";
+                        $_SESSION['error'] = "Erreur lors de l'ajout du bâtiment.";
                     }
                 }
             }
@@ -154,41 +153,41 @@ class RoomController
 
         // Générer les breadcrumbs personnalisés
         if (isset($client) && !empty($client)) {
-            $GLOBALS['customBreadcrumbs'] = generateBuildingAddBreadcrumbs($client, $site);
+            $GLOBALS['customBreadcrumbs'] = generateRoomAddBreadcrumbs($client, $site);
         }
 
         // Passer les variables à la vue
-        $pageTitle = "Ajouter une salle";
-        require_once VIEWS_PATH . '/room/add.php';
+        $pageTitle = "Ajouter un bâtiment";
+        require_once VIEWS_PATH . '/building/add.php';
     }
 
     /**
-     * Affiche le formulaire d'édition d'une salle
+     * Affiche le formulaire d'édition d'un bâtiment
      */
     public function edit($id)
     {
         $this->checkAccess();
 
-        // Récupérer la salle d'abord
-        $room = $this->roomModel->getRoomById($id);
-        if (!$room) {
+        // Récupérer le bâtiment d'abord
+        $building = $this->buildingModel->getBuildingById($id);
+        if (!$building) {
             $_SESSION['error'] = "Salle non trouvée.";
             header('Location: ' . BASE_URL . 'clients');
             exit;
         }
 
-        // Récupérer le site associé à la salle
-        $site = $this->roomModel->getSiteById($room['site_id']);
+        // Récupérer le site associé au bâtiment
+        $site = $this->buildingModel->getSiteById($building['site_id']);
         if (!$site) {
-            $_SESSION['error'] = "Site associé à cette salle non trouvé.";
+            $_SESSION['error'] = "Site associé à ce bâtiment non trouvé.";
             header('Location: ' . BASE_URL . 'clients');
             exit;
         }
 
         // Vérifier si l'utilisateur a les droits de modification
         if (!canModifyClients()) {
-            $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour modifier cette salle.";
-            header('Location: ' . BASE_URL . 'clients/edit/' . $site['client_id'] . '?open_site_id=' . $room['site_id'] . '#sites');
+            $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour modifier ce bâtiment.";
+            header('Location: ' . BASE_URL . 'clients/edit/' . $site['client_id'] . '?open_site_id=' . $building['site_id'] . '#sites');
             exit;
         }
 
@@ -200,20 +199,20 @@ class RoomController
                 'status' => isset($_POST['status']) ? 1 : 0
             ];
 
-            if ($this->roomModel->updateRoom($id, $data)) {
-                $_SESSION['success'] = "Salle modifiée avec succès.";
-                header('Location: ' . BASE_URL . 'clients/edit/' . $site['client_id'] . '?open_site_id=' . $room['site_id'] . '#sites');
+            if ($this->buildingModel->updateBuilding($id, $data)) {
+                $_SESSION['success'] = "Bâtiment modifié avec succès.";
+                header('Location: ' . BASE_URL . 'clients/edit/' . $site['client_id'] . '?open_site_id=' . $building['site_id'] . '#sites');
                 exit;
             } else {
-                $_SESSION['error'] = "Erreur lors de la modification de la salle.";
+                $_SESSION['error'] = "Erreur lors de la modification du bâtiment.";
             }
         }
 
         // Récupérer les contacts du client pour le select
         $contacts = $this->contactModel->getContactsByClientId($site['client_id']);
 
-        $pageTitle = "Modifier la salle - " . $room['name'];
-        require_once VIEWS_PATH . '/room/edit.php';
+        $pageTitle = "Modifier le bâtiment - " . $building['name'];
+        require_once VIEWS_PATH . '/building/edit.php';
     }
 
     /**
@@ -227,31 +226,31 @@ class RoomController
         if (!isAdmin()) {
             $_SESSION['error'] = "Seuls les administrateurs peuvent supprimer des salles.";
             // Redirect to client edit page if room context is available
-            $room = $this->roomModel->getRoomById($id);
-            if ($room && isset($room['client_id'])) {
-                header('Location: ' . BASE_URL . 'clients/edit/' . $room['client_id'] . '#sites');
+            $building = $this->buildingModel->getBuildingById($id);
+            if ($building && isset($building['client_id'])) {
+                header('Location: ' . BASE_URL . 'clients/edit/' . $building['client_id'] . '#sites');
             } else {
                 header('Location: ' . BASE_URL . 'dashboard');
             }
             exit;
         }
 
-        // $room is already fetched before the isAdmin check
-        $room = $this->roomModel->getRoomById($id);
-        if (!$room) {
-            $_SESSION['error'] = "Salle non trouvée.";
+        // $building is already fetched before the isAdmin check
+        $building = $this->buildingModel->getBuildingById($id);
+        if (!$building) {
+            $_SESSION['error'] = "Bâtiment non trouvé.";
             header('Location: ' . BASE_URL . 'dashboard'); // Or a more relevant general page
             exit;
         }
 
         // Store client_id and site_id before deletion for the redirect
-        $clientId = $room['client_id'];
-        $siteId = $room['site_id'];
+        $clientId = $building['client_id'];
+        $siteId = $building['site_id'];
 
-        if ($this->roomModel->deleteRoom($id)) {
-            $_SESSION['success'] = "Salle supprimée avec succès.";
+        if ($this->buildingModel->deleteBuilding($id)) {
+            $_SESSION['success'] = "Bâtiment supprimé avec succès.";
         } else {
-            $_SESSION['error'] = "Erreur lors de la suppression de la salle.";
+            $_SESSION['error'] = "Erreur lors de la suppression du bâtiment.";
         }
 
         header('Location: ' . BASE_URL . 'clients/edit/' . $clientId . '?open_site_id=' . $siteId . '#sites');
@@ -261,7 +260,7 @@ class RoomController
     /**
      * Récupère les salles d'un site via API
      */
-    public function getRoomsBySite()
+    public function getBuildingBySite()
     {
         if (!isset($_GET['site_id'])) {
             header('Content-Type: application/json');
@@ -270,10 +269,10 @@ class RoomController
         }
 
         $siteId = (int) $_GET['site_id'];
-        $rooms = $this->roomModel->getRoomsByBuildingId($siteId);
+        $buildings = $this->buildingModel->getBuildingsBySiteId($siteId);
 
         header('Content-Type: application/json');
-        echo json_encode($rooms);
+        echo json_encode($buildings);
         exit;
     }
 }

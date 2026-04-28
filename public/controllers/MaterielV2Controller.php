@@ -2,7 +2,8 @@
 
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 
-class MaterielV2Controller {
+class MaterielV2Controller
+{
     use AccessControlTrait;
     private $db;
     private $materielModel;
@@ -11,18 +12,19 @@ class MaterielV2Controller {
     private $roomModel;
     private $accessLevelModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         // Récupérer l'instance de la base de données
         $config = Config::getInstance();
         $this->db = $config->getDb();
-        
+
         // Initialiser les modèles
         require_once MODELS_PATH . '/MaterielModel.php';
         require_once MODELS_PATH . '/ClientModel.php';
         require_once MODELS_PATH . '/SiteModel.php';
         require_once MODELS_PATH . '/RoomModel.php';
         require_once MODELS_PATH . '/AccessLevelModel.php';
-        
+
         $this->materielModel = new MaterielModel($this->db);
         $this->clientModel = new ClientModel($this->db);
         $this->siteModel = new SiteModel($this->db);
@@ -37,20 +39,21 @@ class MaterielV2Controller {
     /**
      * Affiche la liste du matériel (Version 2)
      */
-    public function index() {
+    public function index()
+    {
         $this->checkAccess();
 
         // Récupération des filtres (comme dans la documentation)
         $filters = [
-            'client_id' => isset($_GET['client_id']) ? (int)$_GET['client_id'] : null,
-            'site_id' => isset($_GET['site_id']) ? (int)$_GET['site_id'] : null,
-            'salle_id' => isset($_GET['salle_id']) ? (int)$_GET['salle_id'] : null
+            'client_id' => isset($_GET['client_id']) ? (int) $_GET['client_id'] : null,
+            'site_id' => isset($_GET['site_id']) ? (int) $_GET['site_id'] : null,
+            'salle_id' => isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null
         ];
 
         try {
             // Récupération des données pour les filtres (comme dans la documentation)
             $clients = $this->clientModel->getAllClients();
-            
+
             // Initialiser les variables
             $sites = [];
             $salles = [];
@@ -65,7 +68,7 @@ class MaterielV2Controller {
 
                 // Récupération des salles selon le filtre site
                 if ($filters['site_id']) {
-                    $salles = $this->roomModel->getRoomsBySiteId($filters['site_id']);
+                    $salles = $this->roomModel->getRoomsByBuildingId($filters['site_id']);
                 } elseif ($filters['client_id']) {
                     // Si on a un client mais pas de site, récupérer toutes les salles du client
                     $salles = $this->roomModel->getRoomsByClientId($filters['client_id']);
@@ -78,7 +81,7 @@ class MaterielV2Controller {
                 if (!empty($materiel_list)) {
                     $materiel_ids = array_column($materiel_list, 'id');
                     $visibilites_champs = $this->materielModel->getVisibiliteChampsForMateriels($materiel_ids);
-                    
+
                     // Récupération du nombre de pièces jointes pour chaque matériel
                     foreach ($materiel_ids as $materiel_id) {
                         $pieces_jointes_count[$materiel_id] = $this->materielModel->getPiecesJointesCount($materiel_id);
@@ -94,7 +97,7 @@ class MaterielV2Controller {
             $materiel_list = [];
             $visibilites_champs = [];
             $pieces_jointes_count = [];
-            
+
             // Log de l'erreur
             custom_log("Erreur lors du chargement du matériel V2 : " . $e->getMessage(), 'ERROR');
         }
@@ -110,7 +113,8 @@ class MaterielV2Controller {
     /**
      * Met à jour un champ d'un matériel (AJAX)
      */
-    public function updateField() {
+    public function updateField()
+    {
         $this->checkAccess();
 
         header('Content-Type: application/json');
@@ -127,19 +131,44 @@ class MaterielV2Controller {
             exit;
         }
 
-        $id = (int)$input['id'];
+        $id = (int) $input['id'];
         $field = $input['field'];
         $value = $input['value'];
 
         // Liste des champs autorisés pour l'édition
         $allowedFields = [
-            'type_materiel', 'modele', 'marque', 'reference', 'usage_materiel',
-            'numero_serie', 'version_firmware', 'ancien_firmware', 'adresse_mac', 'adresse_ip',
-            'masque', 'passerelle', 'id_materiel', 'login', 'password', 'ip_primaire',
-            'mac_primaire', 'ip_secondaire', 'mac_secondaire', 'stream_aes67_recu',
-            'stream_aes67_transmis', 'ssid', 'type_cryptage', 'password_wifi',
-            'libelle_pa_salle', 'numero_port_switch', 'vlan', 'date_fin_maintenance',
-            'date_fin_garantie', 'date_derniere_inter', 'commentaire', 'url_github'
+            'type_materiel',
+            'modele',
+            'marque',
+            'reference',
+            'usage_materiel',
+            'numero_serie',
+            'version_firmware',
+            'ancien_firmware',
+            'adresse_mac',
+            'adresse_ip',
+            'masque',
+            'passerelle',
+            'id_materiel',
+            'login',
+            'password',
+            'ip_primaire',
+            'mac_primaire',
+            'ip_secondaire',
+            'mac_secondaire',
+            'stream_aes67_recu',
+            'stream_aes67_transmis',
+            'ssid',
+            'type_cryptage',
+            'password_wifi',
+            'libelle_pa_salle',
+            'numero_port_switch',
+            'vlan',
+            'date_fin_maintenance',
+            'date_fin_garantie',
+            'date_derniere_inter',
+            'commentaire',
+            'url_github'
         ];
 
         // Vérifier que le champ est autorisé
@@ -166,7 +195,8 @@ class MaterielV2Controller {
     /**
      * Récupère les pièces jointes d'un matériel (AJAX)
      */
-    public function getAttachments() {
+    public function getAttachments()
+    {
         $this->checkAccess();
 
         header('Content-Type: application/json');
@@ -176,7 +206,7 @@ class MaterielV2Controller {
             exit;
         }
 
-        $materielId = isset($_GET['id']) ? (int)$_GET['id'] : null;
+        $materielId = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
         if (!$materielId) {
             echo json_encode(['success' => false, 'message' => 'ID matériel manquant']);
@@ -193,7 +223,7 @@ class MaterielV2Controller {
 
             // Récupérer les pièces jointes
             $attachments = $this->materielModel->getPiecesJointes($materielId);
-            
+
             echo json_encode([
                 'success' => true,
                 'attachments' => $attachments
