@@ -94,17 +94,17 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <?php if (empty($intervention['site_id'])): ?>
                                 <li><i class="bi bi-geo-alt text-warning"></i> <strong>Site</strong> - Sélectionnez un site</li>
                             <?php endif; ?>
+                            <?php if (empty($intervention['building_id'])): ?>
+                                <li><i class="bi bi-building text-warning"></i> <strong>Bâtiment</strong> - Sélectionnez un bâtiment</li>
+                            <?php endif; ?>
                             <?php if (empty($intervention['room_id'])): ?>
-                                <li><i class="bi bi-door-closed text-warning"></i> <strong>Salle</strong> - Sélectionnez une salle
-                                </li>
+                                <li><i class="bi bi-door-closed text-warning"></i> <strong>Salle</strong> - Sélectionnez une salle</li>
                             <?php endif; ?>
                             <?php if (empty($intervention['description'])): ?>
-                                <li><i class="bi bi-file-text text-warning"></i> <strong>Description</strong> - Décrivez le problème
-                                </li>
+                                <li><i class="bi bi-file-text text-warning"></i> <strong>Description</strong> - Décrivez le problème</li>
                             <?php endif; ?>
                             <?php if (empty($intervention['demande_par'])): ?>
-                                <li><i class="bi bi-person text-warning"></i> <strong>Demandeur</strong> - Qui a demandé
-                                    l'intervention ?</li>
+                                <li><i class="bi bi-person text-warning"></i> <strong>Demandeur</strong> - Qui a demandé l'intervention ?</li>
                             <?php endif; ?>
                             <?php if (empty($intervention['title']) || $intervention['title'] == 'Flash Intervention - Assistance téléphonique' || strpos($intervention['title'], 'Flash Intervention') !== false): ?>
                                 <li><i class="bi bi-pencil text-warning"></i> <strong>Titre</strong> - Personnalisez le titre</li>
@@ -150,15 +150,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     id="interventionForm">
                     <?= csrf_field() ?>
                     <div class="row g-3">
-                        <!-- Colonne 1 : Client, Site, Salle -->
-                        <div class="col-md-4">
+                        <!-- Colonne 1 : Client, Site, Bâtiment, Salle -->
+                        <div class="col-md-3">
                             <div class="d-flex flex-column gap-2">
                                 <!-- Client -->
                                 <div>
                                     <label class="form-label fw-bold mb-0">Client *</label>
                                     <div class="input-group">
-                                        <select class="form-select bg-body text-body" id="client_id" name="client_id"
-                                            required>
+                                        <select class="form-select bg-body text-body" id="client_id" name="client_id" required>
                                             <option value="">Sélectionner un client</option>
                                             <?php foreach ($clients as $client): ?>
                                                 <option value="<?= $client['id'] ?>"
@@ -182,7 +181,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <option value="">Sélectionner un site</option>
                                             <?php foreach ($sites as $site): ?>
                                                 <option value="<?= $site['id'] ?>" <?= $site['id'] == $intervention['site_id'] ? 'selected' : '' ?>>
-                                                    <?= h($site['name'] ?? '') ?>        <?= $site['status'] == 0 ? ' (Site désactivé)' : '' ?>
+                                                    <?= h($site['name'] ?? '') ?>
                                                 </option>
                                             <?php endforeach; ?>
                                             <?php if ($intervention['site_id'] && $intervention['site_id'] !== '0' && !in_array($intervention['site_id'], array_column($sites, 'id'))): ?>
@@ -193,6 +192,27 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         </select>
                                         <button type="button" class="btn btn-outline-secondary btn-sm"
                                             id="quickCreateSiteBtn" title="Créer un nouveau site">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Bâtiment -->
+                                <div>
+                                    <label class="form-label fw-bold mb-0">Bâtiment</label>
+                                    <div class="input-group">
+                                        <select class="form-select bg-body text-body" id="building_id" name="building_id">
+                                            <option value="">Sélectionner un bâtiment</option>
+                                            <?php if (isset($buildings) && is_array($buildings)): ?>
+                                                <?php foreach ($buildings as $building): ?>
+                                                    <option value="<?= $building['id'] ?>" <?= (isset($intervention['building_id']) && $building['id'] == $intervention['building_id']) ? 'selected' : '' ?>>
+                                                        <?= h($building['name'] ?? '') ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </select>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm"
+                                            id="quickCreateBuildingBtn" title="Créer un nouveau bâtiment">
                                             <i class="bi bi-plus"></i>
                                         </button>
                                     </div>
@@ -220,7 +240,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </div>
 
                         <!-- Colonne 2 : Type, Contrat -->
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="d-flex flex-column gap-2">
                                 <!-- Type d'intervention -->
                                 <div>
@@ -238,8 +258,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <!-- Contrat -->
                                 <div>
                                     <label class="form-label fw-bold mb-0">Contrat associé *</label>
-                                    <select class="form-select bg-body text-body" id="contract_id" name="contract_id"
-                                        required>
+                                    <select class="form-select bg-body text-body" id="contract_id" name="contract_id" required>
                                         <option value="">Sélectionner un contrat</option>
                                         <?php foreach ($contracts as $contract): ?>
                                             <option value="<?= $contract['id'] ?>"
@@ -253,8 +272,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </div>
                         </div>
 
-                        <!-- Colonne 3 : Statut, Priorité -->
-                        <div class="col-md-4">
+                        <!-- Colonne 3 : Statut, Priorité, Case à cocher Préventive -->
+                        <div class="col-md-3">
                             <div class="d-flex flex-column gap-2">
                                 <!-- Statut -->
                                 <div>
@@ -272,15 +291,31 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <!-- Priorité -->
                                 <div>
                                     <label class="form-label fw-bold mb-0">Priorité *</label>
-                                    <select class="form-select bg-body text-body" id="priority_id" name="priority_id"
-                                        required>
+                                    <select class="form-select bg-body text-body" id="priority_id" name="priority_id" required>
+                                        <?php 
+                                        // Si l'intervention est préventive, forcer l'affichage de la priorité préventive
+                                        $selectedPriority = isset($intervention['is_preventive']) && $intervention['is_preventive'] == 1 ? 5 : $intervention['priority_id'];
+                                        ?>
                                         <?php foreach ($priorities as $priority): ?>
-                                            <option value="<?= $priority['id'] ?>"
-                                                <?= $priority['id'] == $intervention['priority_id'] ? 'selected' : '' ?>>
+                                            <option value="<?= $priority['id'] ?>" <?= $priority['id'] == $selectedPriority ? 'selected' : '' ?>>
                                                 <?= h($priority['name'] ?? '') ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
+                                </div>
+
+                                <!-- Case à cocher Intervention préventive -->
+                                <div class="mt-2 pt-1">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="is_preventive" name="is_preventive" value="1"
+                                            <?= isset($intervention['is_preventive']) && $intervention['is_preventive'] == 1 ? 'checked' : '' ?>>
+                                        <label class="form-check-label fw-bold" for="is_preventive">
+                                            <i class="bi bi-calendar-check me-1"></i> Intervention préventive
+                                        </label>
+                                        <small class="text-muted d-block mt-1">
+                                            Cocher pour une intervention planifiée / maintenance préventive
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -352,6 +387,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
         </div>
 
+        <!-- Le reste du code (commentaires, pièces jointes, historique) reste inchangé -->
+        
         <!-- Espace entre le formulaire et les sections -->
         <div class="mb-4"></div>
 
@@ -427,14 +464,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <p class="text-muted mb-0">Aucune pièce jointe pour le moment.</p>
                         <?php else: ?>
                             <?php
-                            // Trier les pièces jointes pour mettre les bons d'intervention en premier
                             usort($attachments, function ($a, $b) {
                                 $aIsBI = $a['type_liaison'] === 'bi';
                                 $bIsBI = $b['type_liaison'] === 'bi';
-                                if ($aIsBI && !$bIsBI)
-                                    return -1;
-                                if (!$aIsBI && $bIsBI)
-                                    return 1;
+                                if ($aIsBI && !$bIsBI) return -1;
+                                if (!$aIsBI && $bIsBI) return 1;
                                 return strtotime($b['date_creation']) - strtotime($a['date_creation']);
                             });
 
@@ -610,7 +644,40 @@ include_once __DIR__ . '/../../includes/navbar.php';
     <?php endif; ?>
 </div>
 
-<!-- Scripts pour le chargement dynamique des sites et salles -->
+<script>
+    // Script pour gérer la case à cocher préventive et la priorité
+    document.addEventListener('DOMContentLoaded', function() {
+        const isPreventiveCheckbox = document.getElementById('is_preventive');
+        const prioritySelect = document.getElementById('priority_id');
+        
+        if (isPreventiveCheckbox && prioritySelect) {
+            // Fonction pour mettre à jour la priorité
+            function updatePriority() {
+                if (isPreventiveCheckbox.checked) {
+                    // Si préventive, sélectionner la priorité préventive (ID 5)
+                    for (let i = 0; i < prioritySelect.options.length; i++) {
+                        if (prioritySelect.options[i].text.toLowerCase().includes('préventif') || 
+                            prioritySelect.options[i].text.toLowerCase().includes('preventive')) {
+                            prioritySelect.options[i].selected = true;
+                            break;
+                        }
+                    }
+                    prioritySelect.disabled = true;
+                } else {
+                    prioritySelect.disabled = false;
+                }
+            }
+            
+            // Écouter le changement de la case à cocher
+            isPreventiveCheckbox.addEventListener('change', updatePriority);
+            
+            // Appliquer au chargement
+            updatePriority();
+        }
+    });
+</script>
+
+<!-- Scripts pour le chargement dynamique des sites, bâtiments et salles -->
 <script>
     // Initialiser BASE_URL pour JavaScript
     window.BASE_URL = '<?php echo BASE_URL; ?>';
@@ -630,7 +697,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         const siteSelect = document.getElementById(siteSelectId);
         if (!siteSelect) return;
 
-        // Afficher le chargement
         siteSelect.innerHTML = '<option value="">Chargement des sites...</option>';
 
         fetch(`${window.BASE_URL}interventions/getSites/${clientId}`, {
@@ -656,7 +722,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     });
                 }
 
-                // Si un nom de site est fourni mais pas dans la liste, l'ajouter
                 if (selectedSiteId && selectedSiteName && !data.sites.find(s => s.id == selectedSiteId)) {
                     const option = document.createElement('option');
                     option.value = selectedSiteId;
@@ -674,9 +739,57 @@ include_once __DIR__ . '/../../includes/navbar.php';
             });
     }
 
-    // Fonction pour charger les salles d'un site
-    function loadRooms(siteId, roomSelectId, selectedRoomId = null, callback = null) {
+    // Fonction pour charger les bâtiments d'un site
+    function loadBuildings(siteId, buildingSelectId, selectedBuildingId = null, callback = null) {
         if (!siteId) {
+            const buildingSelect = document.getElementById(buildingSelectId);
+            if (buildingSelect) {
+                buildingSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
+            }
+            if (callback) callback();
+            return;
+        }
+
+        const buildingSelect = document.getElementById(buildingSelectId);
+        if (!buildingSelect) return;
+
+        buildingSelect.innerHTML = '<option value="">Chargement des bâtiments...</option>';
+
+        fetch(`${window.BASE_URL}interventions/getBuildings/${siteId}`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => response.json())
+            .then(data => {
+                buildingSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
+
+                if (data && data.length > 0) {
+                    data.forEach(building => {
+                        const option = document.createElement('option');
+                        option.value = building.id;
+                        option.textContent = building.name;
+                        if (selectedBuildingId && building.id == selectedBuildingId) {
+                            option.selected = true;
+                        }
+                        buildingSelect.appendChild(option);
+                    });
+                }
+
+                if (callback) callback();
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des bâtiments:', error);
+                buildingSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+                if (callback) callback();
+            });
+    }
+
+    // Fonction pour charger les salles d'un bâtiment
+    function loadRoomsByBuilding(buildingId, roomSelectId, selectedRoomId = null, callback = null) {
+        if (!buildingId) {
             const roomSelect = document.getElementById(roomSelectId);
             if (roomSelect) {
                 roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
@@ -688,10 +801,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
         const roomSelect = document.getElementById(roomSelectId);
         if (!roomSelect) return;
 
-        // Afficher le chargement
         roomSelect.innerHTML = '<option value="">Chargement des salles...</option>';
 
-        fetch(`${window.BASE_URL}interventions/getRooms/${siteId}`, {
+        fetch(`${window.BASE_URL}interventions/getRoomsByBuilding/${buildingId}`, {
             method: 'GET',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
@@ -702,8 +814,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
             .then(data => {
                 roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
 
-                if (data.rooms && data.rooms.length > 0) {
-                    data.rooms.forEach(room => {
+                if (data && data.length > 0) {
+                    data.forEach(room => {
                         const option = document.createElement('option');
                         option.value = room.id;
                         option.textContent = room.name;
@@ -724,9 +836,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
     }
 
     // Fonction pour mettre à jour le contrat sélectionné
-    function updateSelectedContract(clientIdField, siteIdField, roomIdField, contractIdField, selectedContractId = null) {
+    function updateSelectedContract(clientIdField, siteIdField, buildingIdField, roomIdField, contractIdField, selectedContractId = null) {
         const clientSelect = document.getElementById(clientIdField);
         const siteSelect = document.getElementById(siteIdField);
+        const buildingSelect = document.getElementById(buildingIdField);
         const roomSelect = document.getElementById(roomIdField);
         const contractSelect = document.getElementById(contractIdField);
 
@@ -734,6 +847,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
         const clientId = clientSelect.value;
         const siteId = siteSelect ? siteSelect.value : null;
+        const buildingId = buildingSelect ? buildingSelect.value : null;
         const roomId = roomSelect ? roomSelect.value : null;
 
         if (!clientId) {
@@ -741,14 +855,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
             return;
         }
 
-        // Construire l'URL avec les paramètres
         let url = `${window.BASE_URL}interventions/getContracts/${clientId}`;
         const params = [];
         if (siteId) params.push(`site_id=${siteId}`);
+        if (buildingId) params.push(`building_id=${buildingId}`);
         if (roomId) params.push(`room_id=${roomId}`);
         if (params.length) url += '?' + params.join('&');
 
-        // Afficher le chargement
         contractSelect.innerHTML = '<option value="">Chargement des contrats...</option>';
 
         fetch(url, {
@@ -824,7 +937,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         const saveButton = document.getElementById('saveButton');
         const form = document.getElementById('interventionForm');
 
-        // Intercepter le clic sur le bouton Enregistrer
         if (saveButton) {
             saveButton.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -832,72 +944,62 @@ include_once __DIR__ . '/../../includes/navbar.php';
             });
         }
 
-        // Charger les sites et salles en fonction du client
         const clientSelect = document.getElementById('client_id');
         const siteSelect = document.getElementById('site_id');
+        const buildingSelect = document.getElementById('building_id');
         const roomSelect = document.getElementById('room_id');
         const contractSelect = document.getElementById('contract_id');
 
-        // Récupérer les IDs sélectionnés actuels
         const currentSiteId = '<?php echo $intervention['site_id'] ?? ''; ?>';
         const currentSiteName = '<?php echo addslashes($intervention['site_name'] ?? ''); ?>';
+        const currentBuildingId = '<?php echo $intervention['building_id'] ?? ''; ?>';
         const currentRoomId = '<?php echo $intervention['room_id'] ?? ''; ?>';
         const currentContractId = '<?php echo $intervention['contract_id'] ?? ''; ?>';
 
         if (clientSelect) {
-            // Charger les sites au chargement initial
             if (clientSelect.value) {
                 loadSites(clientSelect.value, 'site_id', currentSiteId, currentSiteName, function () {
-                    // Une fois les sites chargés, charger les salles
                     if (siteSelect && siteSelect.value) {
-                        loadRooms(siteSelect.value, 'room_id', currentRoomId, function () {
-                            // Une fois les salles chargées, mettre à jour les contrats
-                            if (typeof updateSelectedContract === 'function') {
-                                updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id', currentContractId);
+                        loadBuildings(siteSelect.value, 'building_id', currentBuildingId, function () {
+                            if (buildingSelect && buildingSelect.value) {
+                                loadRoomsByBuilding(buildingSelect.value, 'room_id', currentRoomId, function () {
+                                    updateSelectedContract('client_id', 'site_id', 'building_id', 'room_id', 'contract_id', currentContractId);
+                                });
                             }
                         });
-                    } else if (siteSelect && currentSiteId) {
-                        // Si un site est sélectionné mais pas dans la liste, le charger quand même
-                        setTimeout(() => {
-                            if (siteSelect.value) {
-                                loadRooms(siteSelect.value, 'room_id', currentRoomId);
-                            }
-                        }, 500);
                     }
                 });
             }
 
-            // Écouter le changement de client
             clientSelect.addEventListener('change', function () {
                 loadSites(this.value, 'site_id', null, null, function () {
-                    // Réinitialiser la salle
-                    if (roomSelect) {
-                        roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
-                    }
-                    if (typeof updateSelectedContract === 'function') {
-                        updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-                    }
+                    buildingSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
+                    roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+                    updateSelectedContract('client_id', 'site_id', 'building_id', 'room_id', 'contract_id');
                 });
             });
         }
 
         if (siteSelect) {
-            // Écouter le changement de site
             siteSelect.addEventListener('change', function () {
-                loadRooms(this.value, 'room_id', null, function () {
-                    if (typeof updateSelectedContract === 'function') {
-                        updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-                    }
+                loadBuildings(this.value, 'building_id', null, function () {
+                    roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+                    updateSelectedContract('client_id', 'site_id', 'building_id', 'room_id', 'contract_id');
+                });
+            });
+        }
+
+        if (buildingSelect) {
+            buildingSelect.addEventListener('change', function () {
+                loadRoomsByBuilding(this.value, 'room_id', null, function () {
+                    updateSelectedContract('client_id', 'site_id', 'building_id', 'room_id', 'contract_id');
                 });
             });
         }
 
         if (roomSelect) {
-            // Écouter le changement de salle
             roomSelect.addEventListener('change', function () {
-                if (typeof updateSelectedContract === 'function') {
-                    updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-                }
+                updateSelectedContract('client_id', 'site_id', 'building_id', 'room_id', 'contract_id');
             });
         }
 
@@ -910,89 +1012,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 loadContacts(this.value);
             });
 
-            // Charger les contacts au chargement initial
-            if (clientSelect.value && typeof loadContacts === 'function') {
-                loadContacts(clientSelect.value);
-            }
-        }
-
-        if (contactClientSelect && contactClientInput) {
-            contactClientSelect.addEventListener('change', function () {
-                if (this.value) {
-                    contactClientInput.value = this.value;
-                }
-            });
-        }
-    });
-</script>
-<!-- Scripts -->
-<script>
-    // Initialiser BASE_URL pour JavaScript
-    window.BASE_URL = '<?php echo BASE_URL; ?>';
-    window.csrfToken = '<?php echo csrf_token(); ?>';
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const saveButton = document.getElementById('saveButton');
-        const form = document.getElementById('interventionForm');
-
-        // Intercepter le clic sur le bouton Enregistrer
-        if (saveButton) {
-            saveButton.addEventListener('click', function (e) {
-                e.preventDefault();
-                form.submit();
-            });
-        }
-
-        // Charger les sites et salles en fonction du client
-        const clientSelect = document.getElementById('client_id');
-        const siteSelect = document.getElementById('site_id');
-        const roomSelect = document.getElementById('room_id');
-        const contractSelect = document.getElementById('contract_id');
-
-        if (clientSelect) {
-            clientSelect.addEventListener('change', function () {
-                if (typeof loadSites === 'function') {
-                    loadSites(this.value, 'site_id', null, null, function () {
-                        if (typeof updateSelectedContract === 'function') {
-                            updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-                        }
-                    });
-                }
-            });
-        }
-
-        if (siteSelect) {
-            siteSelect.addEventListener('change', function () {
-                if (typeof loadRooms === 'function') {
-                    loadRooms(this.value, 'room_id', null, function () {
-                        if (typeof updateSelectedContract === 'function') {
-                            updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-                        }
-                    });
-                }
-            });
-        }
-
-        if (roomSelect) {
-            roomSelect.addEventListener('change', function () {
-                if (typeof updateSelectedContract === 'function') {
-                    updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-                }
-            });
-        }
-
-        // Charger les contacts
-        const contactClientSelect = document.getElementById('contact_client_select');
-        const contactClientInput = document.getElementById('contact_client');
-
-        if (clientSelect && contactClientSelect) {
-            clientSelect.addEventListener('change', function () {
-                if (typeof loadContacts === 'function') {
-                    loadContacts(this.value);
-                }
-            });
-
-            // Charger les contacts au chargement initial
             if (clientSelect.value && typeof loadContacts === 'function') {
                 loadContacts(clientSelect.value);
             }

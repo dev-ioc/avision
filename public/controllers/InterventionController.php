@@ -225,10 +225,12 @@ class InterventionController
         $filters = [
             'client_id' => $_GET['client_id'] ?? null,
             'site_id' => $_GET['site_id'] ?? null,
+            'building_id' => $_GET['building_id'] ?? null,
             'room_id' => $_GET['room_id'] ?? null,
             'status_id' => $_GET['status_id'] ?? null,
             'priority_id' => $_GET['priority_id'] ?? null,
-            'search' => $_GET['search'] ?? null
+            'search' => $_GET['search'] ?? null,
+            'is_preventive' => 0
         ];
 
         // Récupérer les priorités pour identifier les préventives
@@ -319,7 +321,8 @@ class InterventionController
             'room_id' => $_GET['room_id'] ?? null,
             'status_id' => $_GET['status_id'] ?? null,
             'priority_id' => $_GET['priority_id'] ?? null,
-            'search' => $_GET['search'] ?? null
+            'search' => $_GET['search'] ?? null,
+            'is_preventive' => 1
         ];
 
         // Récupérer les priorités pour identifier les préventives
@@ -461,7 +464,6 @@ class InterventionController
         // Charger la vue
         require_once __DIR__ . '/../views/interventions/view.php';
     }
-
     /**
      * Affiche le formulaire d'édition d'une intervention
      */
@@ -482,20 +484,21 @@ class InterventionController
 
         // Vérifier si c'est une intervention flash et ajouter un message
         if (isset($intervention['is_flash']) && $intervention['is_flash'] == 1 && $intervention['needs_completion'] == 1) {
-            $_SESSION['info'] = "⚠️ Cette intervention a été créée rapidement. Veuillez compléter les informations manquantes : Site, Salle, Description.";
+            $_SESSION['info'] = "⚠️ Cette intervention a été créée rapidement. Veuillez compléter les informations manquantes : Site, Bâtiment, Salle, Description.";
         }
+
         // S'assurer que toutes les clés nécessaires existent
         $intervention = array_merge([
             'site_id' => null,
+            'building_id' => null,
             'room_id' => null,
             'client_id' => null,
-            // 'technician_id' => null,
             'status_id' => null,
             'priority_id' => null,
             'type_id' => null,
-            // 'duration' => null,
             'description' => null,
-            'title' => null
+            'title' => null,
+            'is_preventive' => 0
         ], $intervention);
 
         // Vérifier si l'intervention est fermée
@@ -514,12 +517,53 @@ class InterventionController
         // Définir les variables pour les formulaires
         $client_id = isset($intervention['client_id']) ? $intervention['client_id'] : null;
         $site_id = isset($intervention['site_id']) ? $intervention['site_id'] : null;
+        $building_id = isset($intervention['building_id']) ? $intervention['building_id'] : null;
         $room_id = isset($intervention['room_id']) ? $intervention['room_id'] : null;
 
         // Récupérer les données pour les formulaires
         $clients = $this->clientModel->getAllClientsWithStats();
-        $sites = $this->siteModel->getSitesByClientId($client_id);
-        $rooms = $this->roomModel->getRoomsByBuildingId($site_id);
+
+        // Récupérer les sites du client
+        $sites = [];
+        if ($client_id) {
+            $sites = $this->siteModel->getSitesByClientId($client_id);
+        }
+
+        // Récupérer les bâtiments du site (tous les bâtiments du site, pas seulement celui sélectionné)
+        $buildings = [];
+        if ($site_id) {
+            $buildings = $this->buildingModel->getBuildingsBySiteId($site_id);
+        }
+
+        // Récupérer les salles - priorité au bâtiment sélectionné, sinon au site
+        $rooms = [];
+        if ($building_id) {
+            // Si un bâtiment est sélectionné, récupérer uniquement les salles de ce bâtiment
+            $rooms = $this->roomModel->getRoomsByBuildingId($building_id);
+        }
+
+        // Récupérer les informations du bâtiment sélectionné pour l'affichage (même s'il n'est pas dans la liste)
+        $selectedBuilding = null;
+        if ($building_id && !empty($buildings)) {
+            foreach ($buildings as $building) {
+                if ($building['id'] == $building_id) {
+                    $selectedBuilding = $building;
+                    break;
+                }
+            }
+        }
+
+        // Récupérer les informations de la salle sélectionnée pour l'affichage
+        $selectedRoom = null;
+        if ($room_id && !empty($rooms)) {
+            foreach ($rooms as $room) {
+                if ($room['id'] == $room_id) {
+                    $selectedRoom = $room;
+                    break;
+                }
+            }
+        }
+
         $technicians = $this->userModel->getTechnicians();
 
         // Récupérer les contrats du client pour le formulaire
@@ -553,7 +597,7 @@ class InterventionController
         // Récupérer l'historique
         $history = $this->getHistory($id);
 
-        // Charger la vue
+        // Charger la vue avec toutes les variables nécessaires
         require_once __DIR__ . '/../views/interventions/edit.php';
     }
 
@@ -662,13 +706,12 @@ class InterventionController
         // S'assurer que toutes les clés nécessaires existent
         $intervention = array_merge([
             'site_id' => null,
+            'building_id' => null,
             'room_id' => null,
             'client_id' => null,
-            // 'technician_id' => null,
             'status_id' => null,
             'priority_id' => null,
             'type_id' => null,
-            // 'duration' => null,
             'description' => null,
             'title' => null
         ], $intervention);
@@ -685,37 +728,22 @@ class InterventionController
             'title' => $_POST['title'] ?? $intervention['title'],
             'client_id' => $_POST['client_id'] ?? $intervention['client_id'],
             'site_id' => $_POST['site_id'] ?? $intervention['site_id'],
+            'building_id' => $_POST['building_id'] ?? $intervention['building_id'],
             'room_id' => $_POST['room_id'] ?? $intervention['room_id'],
             'status_id' => $_POST['status_id'] ?? $intervention['status_id'],
             'priority_id' => $_POST['priority_id'] ?? $intervention['priority_id'],
             'type_id' => $_POST['type_id'] ?? $intervention['type_id'],
-            // 'duration' => !empty($_POST['duration']) ? $_POST['duration'] : ($intervention['duration'] ?? null),
             'description' => $_POST['description'] ?? $intervention['description'],
             'demande_par' => $_POST['demande_par'] ?? $intervention['demande_par'],
             'ref_client' => $_POST['ref_client'] ?? $intervention['ref_client'],
             'contact_client' => $_POST['contact_client'] ?? $intervention['contact_client'],
-            // 'date_planif' => !empty($_POST['date_planif']) ? $_POST['date_planif'] : $intervention['date_planif'] ?? null,
-            // 'heure_planif' => !empty($_POST['heure_planif']) ? $_POST['heure_planif'] : $intervention['heure_planif'] ?? null,
-            // 'type_requires_travel' => isset($_POST['type_requires_travel']) ? (int) $_POST['type_requires_travel'] : ($intervention['type_requires_travel'] ?? 0)
+            'is_preventive' => isset($_POST['is_preventive']) ? 1 : 0,
         ];
 
         // Traiter la date et l'heure de création
         $createdDate = $_POST['created_date'] ?? date('Y-m-d', strtotime($intervention['created_at']));
         $createdTime = $_POST['created_time'] ?? date('H:i', strtotime($intervention['created_at']));
         $data['created_at'] = $createdDate . ' ' . $createdTime . ':00';
-
-        // Gérer le technician_id séparément pour s'assurer qu'il est correctement traité
-        // if (isset($_POST['technician_id']) && $_POST['technician_id'] !== '') {
-        //     $data['technician_id'] = $_POST['technician_id'];
-        // } else {
-        //     $data['technician_id'] = $intervention['technician_id'];
-        // }
-
-        // Débogage pour les champs date_planif et heure_planif
-        // error_log("DEBUG - InterventionController::update - POST date_planif: " . ($_POST['date_planif'] ?? 'NON DÉFINI'));
-        // error_log("DEBUG - InterventionController::update - POST heure_planif: " . ($_POST['heure_planif'] ?? 'NON DÉFINI'));
-        // error_log("DEBUG - InterventionController::update - data date_planif: " . ($data['date_planif'] ?? 'NULL'));
-        // error_log("DEBUG - InterventionController::update - data heure_planif: " . ($data['heure_planif'] ?? 'NULL'));
 
         // Gérer le contract_id séparément pour s'assurer qu'il est correctement traité
         if (isset($_POST['contract_id']) && $_POST['contract_id'] !== '') {
@@ -733,51 +761,6 @@ class InterventionController
         custom_log("DEBUG - update() - intervention['status_id']: " . ($intervention['status_id'] ?? 'NON DÉFINI'), "DEBUG");
         custom_log("DEBUG - update() - isSaveBeforeClose: " . ($isSaveBeforeClose ? 'VRAI' : 'FAUX'), "DEBUG");
 
-        // $isBeingClosed = isset($data['status_id']) && $data['status_id'] == 6 && $intervention['status_id'] != 6;
-        // custom_log("DEBUG - update() - isBeingClosed: " . ($isBeingClosed ? 'VRAI' : 'FAUX'), "DEBUG");
-
-        // // Si l'intervention est en train d'être fermée (et ce n'est pas une sauvegarde avant fermeture), vérifier que la durée est définie
-        // if ($isBeingClosed && !$isSaveBeforeClose) {
-        //     if (empty($data['duration'])) {
-        //         $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir défini une durée.";
-        //         header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
-        //         exit;
-        //     }
-
-        //     // Vérifier qu'un technicien est assigné
-        //     if (empty($data['technician_id'])) {
-        //         $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir assigné un technicien.";
-        //         header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
-        //         exit;
-        //     }
-
-        //     // Calculer le nombre de tickets utilisés seulement si c'est un contrat à tickets
-        //     $ticketsUsed = 0;
-        //     if (!empty($data['contract_id']) && isContractTicketById($data['contract_id'])) {
-        //         custom_log("DEBUG - update() - Calcul des tickets pour l'intervention $id (contrat à tickets)", "DEBUG");
-        //         custom_log("DEBUG - update() - Durée: " . $data['duration'], "DEBUG");
-        //         // custom_log("DEBUG - update() - Technicien ID: " . $data['technician_id'], "DEBUG");
-        //         custom_log("DEBUG - update() - Type ID: " . $data['type_id'], "DEBUG");
-
-        //         // $ticketsUsed = $this->calculateTicketsUsed($data['duration'], $data['technician_id'], $data['type_id'], $data['type_requires_travel'] ?? null);
-        //         custom_log("DEBUG - update() - Tickets calculés: " . $ticketsUsed, "DEBUG");
-        //     } else {
-        //         custom_log("DEBUG - update() - Pas de calcul de tickets (contrat sans tickets ou pas de contrat)", "DEBUG");
-        //     }
-        //     $data['tickets_used'] = $ticketsUsed;
-
-        //     custom_log("DEBUG - update() - Data après calcul: " . print_r($data, true), "DEBUG");
-
-        //     // Ajouter la date de fermeture seulement si ce n'est pas une sauvegarde avant fermeture
-        //     if (!$isSaveBeforeClose) {
-        //         $data['closed_at'] = date('Y-m-d H:i:s');
-
-        //         // Déduire les tickets du contrat si un contrat est associé
-        //         if (!empty($data['contract_id'])) {
-        //             $this->deductTicketsFromContract($data['contract_id'], $ticketsUsed, $id);
-        //         }
-        //     }
-        // }
         $alreadyClosed = ($intervention['status_id'] == 6);
         $isBeingClosed = !$alreadyClosed
             && isset($data['status_id'])
@@ -2516,8 +2499,9 @@ class InterventionController
     {
         // Vérifier les permissions
         checkInterventionManagementAccess();
-        $clients = $this->clientModel->getAllClientsWithStats(['status' => 1]); // Seulement les clients actifs
+        $clients = $this->clientModel->getAllClientsWithStats(['status' => 1]);
         $sites = [];
+        $buildings = [];
         $rooms = [];
         $technicians = $this->userModel->getTechnicians();
 
@@ -2534,8 +2518,13 @@ class InterventionController
         $stmt->execute();
         $types = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Récupérer les durées
-        // $durations = $this->durationModel->getAll();
+        // Récupérer les bâtiments et salles si des IDs sont passés en GET
+        if (isset($_GET['site_id']) && !empty($_GET['site_id'])) {
+            $buildings = $this->buildingModel->getBuildingsBySiteId($_GET['site_id']);
+        }
+        if (isset($_GET['building_id']) && !empty($_GET['building_id'])) {
+            $rooms = $this->roomModel->getRoomsByBuildingId($_GET['building_id']);
+        }
 
         // Charger la vue
         require_once __DIR__ . '/../views/interventions/add.php';
@@ -2550,19 +2539,29 @@ class InterventionController
         checkInterventionManagementAccess();
 
         // Récupérer les données du formulaire
+        $isPreventive = isset($_POST['is_preventive']) ? 1 : 0;
+
+        // Déterminer la priorité : si préventive, forcer à 5, sinon utiliser la valeur du formulaire
+        $priorityId = !empty($_POST['priority_id']) ? $_POST['priority_id'] : 2;
+        if ($isPreventive == 1) {
+            $priorityId = 5; // ID de la priorité "Préventive"
+        }
+
         $data = [
             'title' => $_POST['title'] ?? '',
             'client_id' => !empty($_POST['client_id']) ? $_POST['client_id'] : null,
             'site_id' => !empty($_POST['site_id']) ? $_POST['site_id'] : null,
+            'building_id' => !empty($_POST['building_id']) ? $_POST['building_id'] : null,
             'room_id' => !empty($_POST['room_id']) ? $_POST['room_id'] : null,
-            'status_id' => !empty($_POST['status_id']) ? $_POST['status_id'] : 1, // 1 = Nouveau par défaut
-            'priority_id' => !empty($_POST['priority_id']) ? $_POST['priority_id'] : 2, // 2 = Normal par défaut
+            'status_id' => !empty($_POST['status_id']) ? $_POST['status_id'] : 1,
+            'priority_id' => $priorityId, // Priorité forcée si préventive
             'type_id' => !empty($_POST['type_id']) ? $_POST['type_id'] : null,
             'description' => $_POST['description'] ?? '',
             'demande_par' => !empty($_POST['demande_par']) ? $_POST['demande_par'] : null,
             'ref_client' => !empty($_POST['ref_client']) ? $_POST['ref_client'] : null,
             'contact_client' => !empty($_POST['contact_client']) ? $_POST['contact_client'] : null,
             'contract_id' => !empty($_POST['contract_id']) ? $_POST['contract_id'] : null,
+            'is_preventive' => $isPreventive,
         ];
 
         // Traiter la date et l'heure de création
@@ -2573,16 +2572,8 @@ class InterventionController
         // Valider les données requises
         if (empty($data['title'])) {
             $_SESSION['error'] = "Le titre est obligatoire.";
-
-            // Gérer le retour en cas d'erreur de validation
-            $returnTo = $_GET['return_to'] ?? 'view_intervention';
-            if ($returnTo === 'view') {
-                $clientId = $data['client_id'] ?? null;
-                if ($clientId) {
-                    header('Location: ' . BASE_URL . 'interventions/add?client_id=' . $clientId . '&return_to=view');
-                } else {
-                    header('Location: ' . BASE_URL . 'interventions/add');
-                }
+            if (isset($data['client_id'])) {
+                header('Location: ' . BASE_URL . 'interventions/add?client_id=' . $data['client_id']);
             } else {
                 header('Location: ' . BASE_URL . 'interventions/add');
             }
@@ -2591,29 +2582,14 @@ class InterventionController
 
         if (empty($data['client_id'])) {
             $_SESSION['error'] = "Le client est obligatoire.";
-
-            // Gérer le retour en cas d'erreur de validation
-            $returnTo = $_GET['return_to'] ?? 'view_intervention';
-            if ($returnTo === 'view') {
-                header('Location: ' . BASE_URL . 'interventions/add?return_to=view');
-            } else {
-                header('Location: ' . BASE_URL . 'interventions/add');
-            }
+            header('Location: ' . BASE_URL . 'interventions/add');
             exit;
         }
 
         if (empty($data['type_id'])) {
             $_SESSION['error'] = "Le type d'intervention est obligatoire.";
-
-            // Gérer le retour en cas d'erreur de validation
-            $returnTo = $_GET['return_to'] ?? 'view_intervention';
-            if ($returnTo === 'view') {
-                $clientId = $data['client_id'] ?? null;
-                if ($clientId) {
-                    header('Location: ' . BASE_URL . 'interventions/add?client_id=' . $clientId . '&return_to=view');
-                } else {
-                    header('Location: ' . BASE_URL . 'interventions/add?return_to=view');
-                }
+            if (isset($data['client_id'])) {
+                header('Location: ' . BASE_URL . 'interventions/add?client_id=' . $data['client_id']);
             } else {
                 header('Location: ' . BASE_URL . 'interventions/add');
             }
@@ -2629,10 +2605,14 @@ class InterventionController
             }
         }
 
-        // Valider le contrat (peut être un ID numérique)
+        // Valider le contrat
         if (empty($data['contract_id'])) {
             $_SESSION['error'] = "Le contrat est obligatoire.";
-            header('Location: ' . BASE_URL . 'interventions/add');
+            if (isset($data['client_id'])) {
+                header('Location: ' . BASE_URL . 'interventions/add?client_id=' . $data['client_id']);
+            } else {
+                header('Location: ' . BASE_URL . 'interventions/add');
+            }
             exit;
         }
 
@@ -2644,20 +2624,21 @@ class InterventionController
 
         // Créer l'intervention
         $sql = "INSERT INTO interventions (
-                    title, client_id, site_id, room_id, status_id, 
-                    priority_id, type_id, description, demande_par, ref_client, contact_client, 
-                    contract_id, reference,tickets_used, closed_at, created_at
-                ) VALUES (
-                    :title, :client_id, :site_id, :room_id,:status_id, 
-                    :priority_id, :type_id,:description, :demande_par, :ref_client, :contact_client, 
-                    :contract_id, :reference, :tickets_used, :closed_at, :created_at
-                )";
+            title, client_id, site_id,building_id, room_id, status_id, 
+            priority_id, type_id, description, demande_par, ref_client, contact_client, 
+            contract_id, reference, tickets_used, closed_at, created_at, is_preventive
+        ) VALUES (
+            :title, :client_id, :site_id, :building_id, :room_id, :status_id, 
+            :priority_id, :type_id, :description, :demande_par, :ref_client, :contact_client, 
+            :contract_id, :reference, :tickets_used, :closed_at, :created_at, :is_preventive
+        )";
 
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([
             ':title' => $data['title'],
             ':client_id' => $data['client_id'],
             ':site_id' => $data['site_id'],
+            ':building_id' => $data['building_id'],
             ':room_id' => $data['room_id'],
             ':status_id' => $data['status_id'],
             ':priority_id' => $data['priority_id'],
@@ -2670,7 +2651,8 @@ class InterventionController
             ':reference' => $this->interventionModel->generateReference($data['client_id']),
             ':tickets_used' => $data['tickets_used'] ?? null,
             ':closed_at' => $data['closed_at'] ?? null,
-            ':created_at' => $data['created_at']
+            ':created_at' => $data['created_at'],
+            ':is_preventive' => $data['is_preventive']
         ]);
 
         if ($result) {
@@ -2683,10 +2665,10 @@ class InterventionController
 
             // Enregistrer l'action dans l'historique
             $sql = "INSERT INTO intervention_history (
-                        intervention_id, field_name, old_value, new_value, changed_by, description
-                    ) VALUES (
-                        :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
-                    )";
+                    intervention_id, field_name, old_value, new_value, changed_by, description
+                ) VALUES (
+                    :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
+                )";
 
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
@@ -2695,38 +2677,34 @@ class InterventionController
                 ':old_value' => '',
                 ':new_value' => '',
                 ':changed_by' => $_SESSION['user']['id'],
-                ':description' => "Intervention créée"
+                ':description' => "Intervention créée" . ($data['is_preventive'] == 1 ? " (Préventive)" : "")
             ]);
 
             // Envoyer l'email de création d'intervention
             try {
                 $this->mailService->sendInterventionCreated($interventionId);
             } catch (Exception $e) {
-                // Log l'erreur mais ne pas faire échouer la création
                 custom_log_mail("Erreur envoi email création intervention $interventionId : " . $e->getMessage(), 'ERROR');
             }
-            $successMessage = "Intervention créée avec succès.";
-            $_SESSION['success'] = $successMessage;
+
+            $_SESSION['success'] = "Intervention créée avec succès.";
 
             // Gérer le retour intelligent
             $returnTo = $_GET['return_to'] ?? 'view_intervention';
             if ($returnTo === 'view') {
-                // Récupérer l'ID du client depuis les données POST
                 $clientId = $data['client_id'] ?? null;
                 if ($clientId) {
                     header('Location: ' . BASE_URL . 'clients/view/' . $clientId . '?active_tab=interventions-tab');
                 } else {
-                    echo json_decode("test");
                     header('Location: ' . BASE_URL . 'interventions/view/' . $interventionId);
                 }
             } else {
-                echo json_decode("test");
                 header('Location: ' . BASE_URL . 'interventions/view/' . $interventionId);
             }
+            exit;
         } else {
             $_SESSION['error'] = "Erreur lors de la création de l'intervention.";
 
-            // Gérer le retour en cas d'erreur
             $returnTo = $_GET['return_to'] ?? 'view_intervention';
             if ($returnTo === 'view') {
                 $clientId = $data['client_id'] ?? null;
@@ -2738,10 +2716,9 @@ class InterventionController
             } else {
                 header('Location: ' . BASE_URL . 'interventions/add');
             }
+            exit;
         }
-        exit;
     }
-
     /**
      * Modifie un commentaire
      */
