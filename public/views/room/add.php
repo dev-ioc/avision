@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../includes/functions.php';
 /**
  * Vue d'ajout d'une salle
- * Permet d'ajouter une nouvelle salle à un site
+ * Permet d'ajouter une nouvelle salle à un bâtiment
  */
 
 // Vérifier si l'utilisateur est connecté
@@ -22,6 +22,15 @@ setPageVariables(
 // Définir la page courante pour le menu
 $currentPage = 'clients';
 
+// Initialiser les variables pour éviter les erreurs
+$clientId = $clientId ?? $_GET['client_id'] ?? null;
+$building_id = $building_id ?? $_GET['building_id'] ?? null;
+$siteId = $siteId ?? $_GET['site_id'] ?? null;
+$sites = $sites ?? [];
+$buildings = $buildings ?? [];
+$contacts = $contacts ?? [];
+$client = $client ?? null;
+
 // Inclure le header qui contient le menu latéral
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
@@ -31,7 +40,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 <div class="container-fluid flex-grow-1 container-p-y">
     <!-- En-tête avec actions -->
     <div class="d-flex bd-highlight mb-3">
-        <div class="p-2 bd-highlight"><h4 class="py-4 mb-6">Ajouter une Salle</h4></div>
+        <div class="p-2 bd-highlight">
+            <h4 class="py-4 mb-6">Ajouter une Salle</h4>
+        </div>
 
         <div class="ms-auto p-2 bd-highlight">
             <?php
@@ -51,15 +62,17 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 
-    <?php if (isset($_SESSION['error'])) : ?>
+    <?php if (isset($_SESSION['error'])): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+            <?php echo $_SESSION['error'];
+            unset($_SESSION['error']); ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
-    <?php if (isset($_SESSION['success'])) : ?>
+    <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+            <?php echo $_SESSION['success'];
+            unset($_SESSION['success']); ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
@@ -72,13 +85,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <?php
             // Construire l'URL du formulaire
             $formAction = BASE_URL . 'room/add/';
-            if ($siteId) {
-                $formAction .= $siteId;
+            if ($building_id) {
+                $formAction .= $building_id;
             } else {
                 $formAction .= '0';
             }
             $queryParams = [];
-            if (isset($clientId) && !$siteId) {
+            if (isset($clientId) && !$building_id) {
                 $queryParams[] = 'client_id=' . $clientId;
             }
             if (isset($_GET['return_to'])) {
@@ -90,8 +103,33 @@ include_once __DIR__ . '/../../includes/navbar.php';
             ?>
             <form id="roomForm" action="<?= $formAction ?>" method="POST">
                 <?= csrf_field() ?>
-                <?php if (!empty($sites)): ?>
-                    <!-- Liste déroulante des sites quand on vient de la vue client -->
+
+                <!-- Sélection du bâtiment (nouvelle hiérarchie) -->
+                <?php if (!empty($buildings)): ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="building_id" class="form-label">Bâtiment <span
+                                        class="text-danger">*</span></label>
+                                <select class="form-select" id="building_id" name="building_id" required>
+                                    <option value="">Sélectionner un bâtiment</option>
+                                    <?php foreach ($buildings as $building): ?>
+                                        <option value="<?= $building['id'] ?>" <?= ($building_id && $building['id'] == $building_id) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($building['name']) ?> (Site:
+                                            <?= htmlspecialchars($building['site_name'] ?? '') ?>)
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                <?php elseif ($building_id): ?>
+                    <!-- Bâtiment pré-défini : champ caché -->
+                    <input type="hidden" name="building_id" value="<?= $building_id ?>">
+                <?php endif; ?>
+
+                <!-- Sélection du site (fallback pour compatibilité) -->
+                <?php if (!empty($sites) && empty($buildings)): ?>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb-3">
@@ -108,14 +146,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </div>
                     </div>
                 <?php elseif ($siteId): ?>
-                    <!-- Site pré-défini : champ caché (mode classique depuis la vue edit) -->
+                    <!-- Site pré-défini : champ caché -->
                     <input type="hidden" name="site_id" value="<?= $siteId ?>">
                 <?php endif; ?>
-                
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Nom de la salle <span class="text-danger">*</span></label>
+                            <label for="name" class="form-label">Nom de la salle <span
+                                    class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                     </div>
@@ -144,10 +183,22 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </div>
                     </div>
                 </div>
-                <!-- Boutons retirés d'ici -->
             </form>
         </div>
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../../includes/footer.php'; ?> 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialiser Select2 pour le select des contacts
+        if (typeof $.fn.select2 !== 'undefined' && $('#main_contact_id').length) {
+            $('#main_contact_id').select2({
+                theme: 'bootstrap-5',
+                width: '100%',
+                placeholder: 'Sélectionner un contact'
+            });
+        }
+    });
+</script>
+
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>

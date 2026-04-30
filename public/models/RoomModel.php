@@ -50,6 +50,25 @@ class RoomModel extends BaseModel
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    /**
+     * Compte le nombre de salles pour un client
+     * @param int $clientId ID du client
+     * @return int Nombre de salles
+     */
+    public function getRoomCountByClientId($clientId)
+    {
+        $query = "SELECT COUNT(r.id) as count
+              FROM rooms r
+              JOIN buildings b ON r.building_id = b.id
+              JOIN sites s ON b.site_id = s.id
+              WHERE s.client_id = :client_id";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([':client_id' => $clientId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return (int) ($result['count'] ?? 0);
+    }
 
     /**
      * Récupère toutes les salles d'un client

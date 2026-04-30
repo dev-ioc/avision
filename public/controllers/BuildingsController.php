@@ -14,8 +14,10 @@ class BuildingController
     private $siteModel;
     private $clientModel;
 
-    public function __construct($db)
+    public function __construct()
     {
+
+        global $db;
         $this->db = $db;
         $this->buildingModel = new BuildingModel($this->db);
         $this->contactModel = new ContactModel($this->db);

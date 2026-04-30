@@ -626,7 +626,38 @@ try {
                     break;
             }
             break;
-
+        case 'building':
+            $buildingController = new BuildingController();
+            switch ($action) {
+                case 'add':
+                    if ($id || isset($_GET['client_id'])) {
+                        $buildingController->add($id ?? 0);
+                    } else {
+                        header('Location: ' . BASE_URL . 'dashboard');
+                    }
+                    break;
+                case 'edit':
+                    if ($id) {
+                        $buildingController->edit($id);
+                    } else {
+                        header('Location: ' . BASE_URL . 'dashboard');
+                    }
+                    break;
+                // case 'delete':
+                //     if ($id) {
+                //         $roomController->delete($id);
+                //     } else {
+                //         header('Location: ' . BASE_URL . 'dashboard');
+                //     }
+                //     break;
+                // case 'getRoomsBySite':
+                //     $roomController->getRoomsBySite();
+                //     break;
+                default:
+                    header('Location: ' . BASE_URL . 'dashboard');
+                    break;
+            }
+            break;
         case 'room':
             $roomController = new RoomController();
             switch ($action) {

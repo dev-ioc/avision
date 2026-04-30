@@ -15,6 +15,7 @@ class ClientController
     private $db;
     private $clientModel;
     private $siteModel;
+    private $buildingModel;
     private $contractModel;
     private $roomModel;
     private $contactModel;
@@ -26,6 +27,7 @@ class ClientController
         $this->db = $db;
         $this->clientModel = new ClientModel($this->db);
         $this->siteModel = new SiteModel($this->db);
+        $this->buildingModel = new BuildingModel($this->db);
         $this->contractModel = new ContractModel($this->db);
         $this->roomModel = new RoomModel($this->db);
         $this->contactModel = new ContactModel($this->db);
@@ -86,16 +88,42 @@ class ClientController
         // Récupérer les statistiques du client
         $stats = [
             'site_count' => $this->siteModel->getSiteCountByClientId($id),
-            'room_count' => $this->siteModel->getRoomCountByClientId($id),
+            'building_count' => count($this->buildingModel->getBuildingsByClientId($id)),
+            'room_count' => $this->roomModel->getRoomCountByClientId($id),
             'contract_count' => $this->contractModel->getContractCountByClientId($id)
         ];
 
-        // Récupérer les sites du client
+        // Récupérer les sites du client avec leurs bâtiments et salles
         $sites = $this->siteModel->getSitesByClientId($id);
+        $totalRoomsCount = 0;
 
-        // Pour chaque site, récupérer ses salles
         foreach ($sites as $key => $site) {
-            $sites[$key]['rooms'] = $this->roomModel->getRoomsByBuildingId($site['id'], true);
+            // Récupérer les bâtiments du site
+            $buildings = $this->buildingModel->getBuildingsBySiteId($site['id']);
+
+            $siteRoomsCount = 0;
+
+            foreach ($buildings as $buildingKey => $building) {
+                // Récupérer les salles de chaque bâtiment
+                $rooms = $this->roomModel->getRoomsByBuildingId($building['id']);
+                $buildings[$buildingKey]['rooms'] = $rooms;
+                $siteRoomsCount += count($rooms);
+            }
+
+            $sites[$key]['buildings'] = $buildings;
+            $sites[$key]['rooms_count'] = $siteRoomsCount;
+            $totalRoomsCount += $siteRoomsCount;
+
+            // Pour les salles directement liées au site (ancienne méthode, pour compatibilité)
+            // Note: Les salles ne devraient pas être directement liées aux sites dans la nouvelle hiérarchie
+            $sites[$key]['rooms'] = []; // Laisser vide car les salles sont maintenant sous les bâtiments
+        }
+
+        // Récupérer tous les bâtiments du client (pour l'affichage global si besoin)
+        $allBuildings = $this->buildingModel->getBuildingsByClientId($id);
+
+        foreach ($allBuildings as $key => $building) {
+            $allBuildings[$key]['rooms'] = $this->roomModel->getRoomsByBuildingId($building['id']);
         }
 
         // Récupérer les contrats du client (actifs et inactifs)
@@ -107,10 +135,12 @@ class ClientController
         // Récupérer les interventions groupées par contrat et par type
         $interventionsGrouped = $this->interventionModel->getInterventionsByClientGrouped($id);
 
+        // Mettre à jour les statistiques avec le vrai compteur de salles
+        $stats['room_count'] = $totalRoomsCount;
+
         // Charger la vue avec les données structurées
         require_once VIEWS_PATH . '/client/view.php';
     }
-
     /**
      * Affiche le formulaire d'édition d'un client
      */

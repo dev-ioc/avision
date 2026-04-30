@@ -44,7 +44,8 @@ class ClientModel extends BaseModel
                     c.email,
                     c.phone,
                     c.status,
-                    COUNT(DISTINCT b.id) as site_count,
+                    COUNT(DISTINCT s.id) as site_count,
+                    COUNT(DISTINCT b.id) as building_count,
                     COUNT(DISTINCT r.id) as room_count,
                     COUNT(DISTINCT co.id) as contract_count,
                     COALESCE((
@@ -55,6 +56,7 @@ class ClientModel extends BaseModel
                         AND contract_type_id IS NOT NULL
                     ), 0) as total_tickets_remaining
                 FROM clients c
+                LEFT JOIN sites s ON s.id = s.client_id AND s.status = 1
                 LEFT JOIN buildings b ON c.id = b.client_id AND b.status = 1
                 LEFT JOIN rooms r ON r.building_id = b.id AND r.status = 1
                 LEFT JOIN contracts co ON c.id = co.client_id AND co.status = 'actif' AND co.contract_type_id IS NOT NULL";

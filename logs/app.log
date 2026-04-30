@@ -30092,3 +30092,215 @@ Quant à l’écran n°1, il est HS
 [2026-04-30 08:25:54][INFO] 55 
 [2026-04-30 08:26:02][INFO] 81 
 [2026-04-30 08:26:50][INFO] 81 
+[2026-04-30 10:08:08][WARNING] Undefined variable $canModifyClient {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":19,"errno":2}
+[2026-04-30 10:08:08][WARNING] Undefined variable $canModifyClient {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":236,"errno":2}
+[2026-04-30 10:08:21][WARNING] Undefined variable $canModifyClient {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":19,"errno":2}
+[2026-04-30 10:08:21][WARNING] Undefined variable $canModifyClient {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":236,"errno":2}
+[2026-04-30 10:18:58][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-04-30 10:19:27][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-04-30 10:19:35][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-04-30 10:19:37][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-04-30 10:20:29][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-04-30 10:41:01][ERROR] Erreur lors de la récupération des clients : SQLSTATE[42S22]: Column not found: 1054 Unknown column 's.id' in 'field list' 
+[2026-04-30 10:41:06][ERROR] Erreur lors de la récupération des clients : SQLSTATE[42S22]: Column not found: 1054 Unknown column 's.id' in 'field list' 
+[2026-04-30 10:47:44][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /room/add/65 
+[2026-04-30 10:48:33][ERROR] Call to undefined method RoomModel::getSiteById() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\RoomController.php","line":75,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(667): RoomController->add('65')\n#1 {main}","type":"Error"}
+[2026-04-30 10:52:23][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-04-30 10:56:25][WARNING] Undefined variable $siteId {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\add.php","line":75,"errno":2}
+[2026-04-30 10:56:25][WARNING] Undefined variable $siteId {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\add.php","line":81,"errno":2}
+[2026-04-30 10:56:25][WARNING] Undefined variable $siteId {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\add.php","line":102,"errno":2}
+[2026-04-30 10:56:29][WARNING] Undefined variable $siteId {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\add.php","line":75,"errno":2}
+[2026-04-30 10:56:29][WARNING] Undefined variable $siteId {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\add.php","line":81,"errno":2}
+[2026-04-30 10:56:29][WARNING] Undefined variable $siteId {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\add.php","line":102,"errno":2}
+[2026-04-30 11:27:56][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /site/add/33 
+[2026-04-30 11:38:41][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":170,"errno":2}
+[2026-04-30 11:39:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":168,"errno":2}
+[2026-04-30 11:39:17][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":168,"errno":2}
+[2026-04-30 11:41:27][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":168,"errno":2}
+[2026-04-30 11:41:27][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":170,"errno":2}
+[2026-04-30 11:44:16][INFO] 53 
+[2026-04-30 11:44:16][INFO] 111 
+[2026-04-30 11:45:16][INFO] 53 
+[2026-04-30 11:45:16][INFO] 111 
+[2026-04-30 11:45:18][INFO] 53 
+[2026-04-30 11:45:18][INFO] 111 
+[2026-04-30 11:46:43][INFO] 53 
+[2026-04-30 11:46:43][INFO] 111 
+[2026-04-30 11:46:47][INFO] 53 
+[2026-04-30 11:46:47][INFO] 111 
+[2026-04-30 11:46:49][INFO] 53 
+[2026-04-30 11:46:49][INFO] 111 
+[2026-04-30 11:46:58][INFO] 53 
+[2026-04-30 11:46:58][INFO] 111 
+[2026-04-30 11:47:26][INFO] 53 
+[2026-04-30 11:47:26][INFO] 111 
+[2026-04-30 11:47:29][INFO] 53 
+[2026-04-30 11:47:29][INFO] 111 
+[2026-04-30 11:48:45][INFO] 53 
+[2026-04-30 11:48:45][INFO] 111 
+[2026-04-30 11:48:45][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:48:45][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:48:45][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:48:45][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:48:45][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:48:45][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:48:45][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:49:02][INFO] 53 
+[2026-04-30 11:49:02][INFO] 111 
+[2026-04-30 11:49:02][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:49:02][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:49:02][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:49:02][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:49:02][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:49:02][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:49:02][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:49:05][INFO] 53 
+[2026-04-30 11:49:05][INFO] 111 
+[2026-04-30 11:49:05][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:49:05][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:49:05][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:49:05][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:49:05][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:49:05][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:49:05][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:49:16][INFO] 53 
+[2026-04-30 11:49:16][WARNING] Undefined variable $buildings {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\ClientController.php","line":103,"errno":2}
+[2026-04-30 11:49:16][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\ClientController.php","line":103,"errno":2}
+[2026-04-30 11:49:16][WARNING] Undefined variable $buildings {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\ClientController.php","line":108,"errno":2}
+[2026-04-30 11:49:16][INFO] 111 
+[2026-04-30 11:49:16][WARNING] Undefined variable $buildings {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\ClientController.php","line":103,"errno":2}
+[2026-04-30 11:49:16][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\ClientController.php","line":103,"errno":2}
+[2026-04-30 11:49:16][WARNING] Undefined variable $buildings {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\ClientController.php","line":108,"errno":2}
+[2026-04-30 11:49:16][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:49:16][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:49:16][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:49:16][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:49:16][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:49:16][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:49:16][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:49:22][INFO] 53 
+[2026-04-30 11:49:22][INFO] 111 
+[2026-04-30 11:57:21][INFO] 53 
+[2026-04-30 11:57:21][INFO] 111 
+[2026-04-30 11:57:24][INFO] 53 
+[2026-04-30 11:57:24][INFO] 111 
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:57:24][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:57:43][INFO] 53 
+[2026-04-30 11:57:43][INFO] 111 
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:57:44][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:57:58][INFO] 53 
+[2026-04-30 11:57:58][INFO] 111 
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:57:58][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":460,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:57:58][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":460,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:57:58][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":460,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":454,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":457,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":458,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":459,"errno":2}
+[2026-04-30 11:57:58][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":460,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":464,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":472,"errno":2}
+[2026-04-30 11:57:58][WARNING] Trying to access array offset on value of type int {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":473,"errno":2}
+[2026-04-30 11:58:00][INFO] 53 
+[2026-04-30 11:58:00][INFO] 111 
+[2026-04-30 11:59:33][INFO] 53 
+[2026-04-30 11:59:33][INFO] 111 
+[2026-04-30 11:59:36][INFO] 53 
+[2026-04-30 11:59:36][INFO] 111 
+[2026-04-30 11:59:40][INFO] 53 
+[2026-04-30 11:59:40][INFO] 111 
+[2026-04-30 12:00:35][INFO] 53 
+[2026-04-30 12:00:35][INFO] 111 
+[2026-04-30 12:03:55][INFO] 53 
+[2026-04-30 12:03:55][INFO] 111 
+[2026-04-30 12:03:58][INFO] 53 
+[2026-04-30 12:03:58][INFO] 111 
+[2026-04-30 12:04:43][INFO] 53 
+[2026-04-30 12:04:43][INFO] 111 
+[2026-04-30 15:08:22][DEBUG] Redirection vers login - URL sauvegardée: clients/view/33?active_tab=sites-tab (Session ID: 401nhnmfdg6kssu6ckt48tcgsq) 
+[2026-04-30 15:08:24][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-04-30 15:08:24][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-04-30 15:08:24][DEBUG] Login réussi - Session ID: 401nhnmfdg6kssu6ckt48tcgsq 
+[2026-04-30 15:08:24][DEBUG] Login réussi - redirect_after_login: clients/view/33?active_tab=sites-tab 
+[2026-04-30 15:08:24][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-04-30 15:08:24][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-04-30 15:08:24][DEBUG] Redirection après login vers: http://localhost/avision/public/clients/view/33?active_tab=sites-tab 
+[2026-04-30 15:08:24][INFO] 53 
+[2026-04-30 15:08:24][INFO] 111 
+[2026-04-30 15:08:41][INFO] 53 
+[2026-04-30 15:08:41][INFO] 111 

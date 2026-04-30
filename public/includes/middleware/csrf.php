@@ -59,6 +59,9 @@ function csrfMiddleware(bool $regenerateAfterValidation = true): bool
         '/documentation/get_buildings',
         '/documentation/get_rooms_by_building',
         '/interventions/update',
+        '/building/add',
+        '/room/add',
+        '/site/add',
 
         // Routes clients
         '/clients/store',      // ← AJOUTER CETTE LIGNE
