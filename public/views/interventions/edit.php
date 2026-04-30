@@ -310,10 +310,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         <input type="checkbox" class="form-check-input" id="is_preventive" name="is_preventive" value="1"
                                             <?= isset($intervention['is_preventive']) && $intervention['is_preventive'] == 1 ? 'checked' : '' ?>>
                                         <label class="form-check-label fw-bold" for="is_preventive">
-                                            <i class="bi bi-calendar-check me-1"></i> Intervention préventive
+                                            Intervention préventive
                                         </label>
                                         <small class="text-muted d-block mt-1">
-                                            Cocher pour une intervention planifiée / maintenance préventive
+                                            Cocher pour une intervention préventive
                                         </small>
                                     </div>
                                 </div>
