@@ -680,97 +680,145 @@ $allData = [];
     let currentSearchTerm = '';
     let hotInstances = {};
 
+   function submitFilters() {
+        const clientId = document.getElementById('client_id').value;
+        const siteId = document.getElementById('site_id').value;
+        const buildingId = document.getElementById('building_id').value;
+        const salleId = document.getElementById('salle_id').value;
+        
+        let url = '<?= BASE_URL ?>materiel?';
+        const params = [];
+        
+        if (clientId) params.push('client_id=' + clientId);
+        if (siteId) params.push('site_id=' + siteId);
+        if (buildingId) params.push('building_id=' + buildingId);
+        if (salleId) params.push('salle_id=' + salleId);
+        
+        url += params.join('&');
+        window.location.href = url;
+    }
+
     function updateSitesAndSubmit() {
-      const clientId = document.getElementById('client_id').value;
-      if (clientId) {
-        fetch('<?= BASE_URL ?>materiel/get_sites?client_id=' + clientId)
-          .then(res => res.json())
-          .then(data => {
-            const siteSelect = document.getElementById('site_id');
-            siteSelect.innerHTML = '<option value="">Tous les sites</option>';
-            data.forEach(site => {
-              const option = document.createElement('option');
-              option.value = site.id;
-              option.textContent = site.name;
-              siteSelect.appendChild(option);
-            });
-            // Réinitialiser les filtres dépendants
+        const clientId = document.getElementById('client_id').value;
+        if (clientId) {
+            fetch('<?= BASE_URL ?>materiel/get_sites?client_id=' + clientId)
+                .then(res => res.json())
+                .then(data => {
+                    const siteSelect = document.getElementById('site_id');
+                    siteSelect.innerHTML = '<option value="">Tous les sites</option>';
+                    if (data && Array.isArray(data)) {
+                        data.forEach(site => {
+                            const option = document.createElement('option');
+                            option.value = site.id;
+                            option.textContent = site.name;
+                            siteSelect.appendChild(option);
+                        });
+                    }
+                    // Réinitialiser les filtres dépendants
+                    document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
+                    document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
+                    // Soumettre avec le nouveau client
+                    submitFilters();
+                })
+                .catch(err => console.error('Erreur chargement sites:', err));
+        } else {
+            // Réinitialiser tous les filtres
+            document.getElementById('site_id').innerHTML = '<option value="">Tous les sites</option>';
             document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
             document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-            document.getElementById('filterForm').submit();
-          })
-          .catch(err => console.error('Erreur:', err));
-      } else {
-        document.getElementById('site_id').innerHTML = '<option value="">Tous les sites</option>';
-        document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
-        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-        document.getElementById('filterForm').submit();
-      }
+            submitFilters();
+        }
     }
 
     function updateBuildingsAndSubmit() {
-      const siteId = document.getElementById('site_id').value;
-      if (siteId) {
-        fetch('<?= BASE_URL ?>materiel/get_buildings?site_id=' + siteId)
-          .then(res => res.json())
-          .then(data => {
-            const buildingSelect = document.getElementById('building_id');
-            buildingSelect.innerHTML = '<option value="">Tous les bâtiments</option>';
-            data.forEach(building => {
-              const option = document.createElement('option');
-              option.value = building.id;
-              option.textContent = building.name;
-              buildingSelect.appendChild(option);
-            });
+        const clientId = document.getElementById('client_id').value;
+        const siteId = document.getElementById('site_id').value;
+        
+        if (siteId && clientId) {
+            const url = '<?= BASE_URL ?>materiel/get_buildings?site_id=' + siteId;
+            
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    const buildingSelect = document.getElementById('building_id');
+                    buildingSelect.innerHTML = '<option value="">Tous les bâtiments</option>';
+                    
+                    if (data && Array.isArray(data)) {
+                        data.forEach(building => {
+                            const option = document.createElement('option');
+                            option.value = building.id;
+                            option.textContent = building.name;
+                            buildingSelect.appendChild(option);
+                        });
+                    }
+                    
+                    // Réinitialiser le select des salles
+                    document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
+                    
+                    // Soumettre avec tous les filtres actuels
+                    submitFilters();
+                })
+                .catch(err => console.error('Erreur chargement bâtiments:', err));
+        } else {
+            document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
             document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-            document.getElementById('filterForm').submit();
-          })
-          .catch(err => console.error('Erreur:', err));
-      } else {
-        document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
-        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-        document.getElementById('filterForm').submit();
-      }
+            submitFilters();
+        }
     }
 
     function updateRoomsAndSubmit() {
-      const buildingId = document.getElementById('building_id').value;
-      if (buildingId) {
-        fetch('<?= BASE_URL ?>materiel/get_rooms_by_building?building_id=' + buildingId)
-          .then(res => res.json())
-          .then(data => {
-            const roomSelect = document.getElementById('salle_id');
-            roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
-            data.forEach(room => {
-              const option = document.createElement('option');
-              option.value = room.id;
-              option.textContent = room.name;
-              roomSelect.appendChild(option);
-            });
-            document.getElementById('filterForm').submit();
-          })
-          .catch(err => console.error('Erreur:', err));
-      } else if (document.getElementById('site_id').value) {
-        // Si pas de bâtiment mais un site, charger les salles directement du site
+        const clientId = document.getElementById('client_id').value;
         const siteId = document.getElementById('site_id').value;
-        fetch('<?= BASE_URL ?>materiel/get_rooms_by_site?site_id=' + siteId)
-          .then(res => res.json())
-          .then(data => {
-            const roomSelect = document.getElementById('salle_id');
-            roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
-            data.forEach(room => {
-              const option = document.createElement('option');
-              option.value = room.id;
-              option.textContent = room.name;
-              roomSelect.appendChild(option);
-            });
-            document.getElementById('filterForm').submit();
-          })
-          .catch(err => console.error('Erreur:', err));
-      } else {
-        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-        document.getElementById('filterForm').submit();
-      }
+        const buildingId = document.getElementById('building_id').value;
+        
+        if (buildingId && siteId && clientId) {
+            // Charger les salles du bâtiment
+            const url = '<?= BASE_URL ?>materiel/get_rooms_by_building?building_id=' + buildingId;
+            
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    const roomSelect = document.getElementById('salle_id');
+                    roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
+                    
+                    if (data && Array.isArray(data)) {
+                        data.forEach(room => {
+                            const option = document.createElement('option');
+                            option.value = room.id;
+                            option.textContent = room.name;
+                            roomSelect.appendChild(option);
+                        });
+                    }
+                    
+                    submitFilters();
+                })
+                .catch(err => console.error('Erreur chargement salles (par bâtiment):', err));
+        } else if (siteId && clientId && !buildingId) {
+            // Si pas de bâtiment mais un site, charger les salles du site
+            const url = '<?= BASE_URL ?>materiel/get_rooms_by_site?site_id=' + siteId;
+            
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    const roomSelect = document.getElementById('salle_id');
+                    roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
+                    
+                    if (data && Array.isArray(data)) {
+                        data.forEach(room => {
+                            const option = document.createElement('option');
+                            option.value = room.id;
+                            option.textContent = room.name;
+                            roomSelect.appendChild(option);
+                        });
+                    }
+                    
+                    submitFilters();
+                })
+                .catch(err => console.error('Erreur chargement salles (par site):', err));
+        } else {
+            document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
+            submitFilters();
+        }
     }
     function applyGlobalSearch() {
       const searchTerm = document.getElementById('globalSearch').value.toLowerCase();

@@ -71,28 +71,21 @@ class RoomModel extends BaseModel
     }
 
     /**
-     * Récupère toutes les salles d'un client
+     * Récupère toutes les salles d'un client (via les sites et bâtiments)
+     * @param int $clientId ID du client
+     * @return array Liste des salles
      */
-    public function getRoomsByClientId($clientId, $activeOnly = false)
+    public function getRoomsByClientId($clientId)
     {
-        $query = "SELECT DISTINCT r.id, r.building_id, r.name, r.comment, r.status, r.created_at, r.updated_at,
-                c.first_name, c.last_name, s.client_id, b.name as building_name
-         FROM rooms r
-         LEFT JOIN contacts c ON r.main_contact_id = c.id
-         JOIN buildings b ON r.building_id = b.id
-         JOIN sites s ON b.site_id = s.id
-         WHERE s.client_id = :client_id";
-
-        if ($activeOnly) {
-            $query .= " AND r.status = 1";
-        }
-
-        $query .= " ORDER BY s.name, r.name";
+        $query = "SELECT r.id, r.name, r.building_id, b.site_id, s.name as site_name, b.name as building_name
+              FROM rooms r
+              JOIN buildings b ON r.building_id = b.id
+              JOIN sites s ON b.site_id = s.id
+              WHERE s.client_id = :client_id
+              ORDER BY s.name, b.name, r.name";
 
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':client_id', $clientId, PDO::PARAM_INT);
-        $stmt->execute();
-
+        $stmt->execute([':client_id' => $clientId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

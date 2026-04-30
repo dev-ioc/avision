@@ -22,11 +22,11 @@ class MaterielModel extends BaseModel
 
         // Filtre par client
         if (!empty($filters['client_id'])) {
-            $where[] = "s.client_id = :client_id";
+            $where[] = "c.id = :client_id";
             $params[':client_id'] = $filters['client_id'];
         }
 
-        // Filtre par site
+        // Filtre par site - CORRIGÉ : utiliser $filters au lieu de $params
         if (!empty($filters['site_id'])) {
             $where[] = "s.id = :site_id";
             $params[':site_id'] = $filters['site_id'];
@@ -44,32 +44,36 @@ class MaterielModel extends BaseModel
             $params[':salle_id'] = $filters['salle_id'];
         }
 
-        // Requête corrigée : rooms -> buildings -> sites
+        // Requête avec la hiérarchie complète
         $query = "
-            SELECT 
-                m.*,
-                r.name as salle_nom,
-                r.id as salle_id,
-                b.name as building_nom,
-                b.id as building_id,
-                s.name as site_nom,
-                s.id as site_id,
-                c.name as client_nom,
-                c.id as client_id,
-                m.type_materiel as type_nom
-            FROM materiel m
-            LEFT JOIN rooms r ON m.salle_id = r.id 
-            LEFT JOIN buildings b ON r.building_id = b.id 
-            LEFT JOIN sites s ON b.site_id = s.id
-            LEFT JOIN clients c ON s.client_id = c.id AND c.status = 1
-        ";
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+    ";
 
-        // Ajouter la clause WHERE seulement s'il y a des conditions
+        // Ajouter la clause WHERE s'il y a des conditions
         if (!empty($where)) {
-            $query .= " WHERE " . implode(" AND ", $where);
+            $query .= " AND " . implode(" AND ", $where);
         }
 
         $query .= " ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele";
+
+        custom_log("SQL Materiel: " . $query, 'DEBUG');
+        custom_log("Params: " . json_encode($params), 'DEBUG');
 
         $stmt = $this->db->prepare($query);
         foreach ($params as $key => $value) {
@@ -79,7 +83,6 @@ class MaterielModel extends BaseModel
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
     /**
      * Récupère un matériel par son ID
      * 
