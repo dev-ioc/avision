@@ -94,7 +94,98 @@ try {
                 $updateFields[] = "adresse_mac = :adresse_mac";
                 $params[':adresse_mac'] = trim($row['adresse_mac']);
             }
-
+            if (!empty($row['reference'])) {
+                $updateFields[] = "reference = :reference";
+                $params[':reference'] = trim($row['reference']);
+            }
+            if (!empty($row['usage_materiel'])) {
+                $updateFields[] = "usage_materiel = :usage_materiel";
+                $params[':usage_materiel'] = trim($row['usage_materiel']);
+            }
+            if (!empty($row['ancien_firmware'])) {
+                $updateFields[] = "ancien_firmware = :ancien_firmware";
+                $params[':ancien_firmware'] = trim($row['ancien_firmware']);
+            }
+            if (!empty($row['masque'])) {
+                $updateFields[] = "masque = :masque";
+                $params[':masque'] = trim($row['masque']);
+            }
+            if (!empty($row['passerelle'])) {
+                $updateFields[] = "passerelle = :passerelle";
+                $params[':passerelle'] = trim($row['passerelle']);
+            }
+            if (!empty($row['login'])) {
+                $updateFields[] = "login = :login";
+                $params[':login'] = trim($row['login']);
+            }
+            if (!empty($row['password'])) {
+                $updateFields[] = "password = :password";
+                $params[':password'] = trim($row['password']);
+            }
+            if (!empty($row['ip_primaire'])) {
+                $updateFields[] = "ip_primaire = :ip_primaire";
+                $params[':ip_primaire'] = trim($row['ip_primaire']);
+            }
+            if (!empty($row['mac_primaire'])) {
+                $updateFields[] = "mac_primaire = :mac_primaire";
+                $params[':mac_primaire'] = trim($row['mac_primaire']);
+            }
+            if (!empty($row['ip_secondaire'])) {
+                $updateFields[] = "ip_secondaire = :ip_secondaire";
+                $params[':ip_secondaire'] = trim($row['ip_secondaire']);
+            }
+            if (!empty($row['mac_secondaire'])) {
+                $updateFields[] = "mac_secondaire = :mac_secondaire";
+                $params[':mac_secondaire'] = trim($row['mac_secondaire']);
+            }
+            if (!empty($row['stream_aes67_recu'])) {
+                $updateFields[] = "stream_aes67_recu = :stream_aes67_recu";
+                $params[':stream_aes67_recu'] = trim($row['stream_aes67_recu']);
+            }
+            if (!empty($row['stream_aes67_transmis'])) {
+                $updateFields[] = "stream_aes67_transmis = :stream_aes67_transmis";
+                $params[':stream_aes67_transmis'] = trim($row['stream_aes67_transmis']);
+            }
+            if (!empty($row['ssid'])) {
+                $updateFields[] = "ssid = :ssid";
+                $params[':ssid'] = trim($row['ssid']);
+            }
+            if (!empty($row['type_cryptage'])) {
+                $updateFields[] = "type_cryptage = :type_cryptage";
+                $params[':type_cryptage'] = trim($row['type_cryptage']);
+            }
+            if (!empty($row['password_wifi'])) {
+                $updateFields[] = "password_wifi = :password_wifi";
+                $params[':password_wifi'] = trim($row['password_wifi']);
+            }
+            if (!empty($row['libelle_pa_salle'])) {
+                $updateFields[] = "libelle_pa_salle = :libelle_pa_salle";
+                $params[':libelle_pa_salle'] = trim($row['libelle_pa_salle']);
+            }
+            if (!empty($row['numero_port_switch'])) {
+                $updateFields[] = "numero_port_switch = :numero_port_switch";
+                $params[':numero_port_switch'] = trim($row['numero_port_switch']);
+            }
+            if (!empty($row['vlan'])) {
+                $updateFields[] = "vlan = :vlan";
+                $params[':vlan'] = trim($row['vlan']);
+            }
+            if (!empty($row['date_fin_garantie'])) {
+                $updateFields[] = "date_fin_garantie = :date_fin_garantie";
+                $params[':date_fin_garantie'] = formatDateForDb($row['date_fin_garantie']);
+            }
+            if (!empty($row['date_derniere_inter'])) {
+                $updateFields[] = "date_derniere_inter = :date_derniere_inter";
+                $params[':date_derniere_inter'] = formatDateForDb($row['date_derniere_inter']);
+            }
+            if (!empty($row['commentaire'])) {
+                $updateFields[] = "commentaire = :commentaire";
+                $params[':commentaire'] = trim($row['commentaire']);
+            }
+            if (!empty($row['url_github'])) {
+                $updateFields[] = "url_github = :url_github";
+                $params[':url_github'] = trim($row['url_github']);
+            }
             if (empty($updateFields)) {
                 $errors[] = "Ligne " . ($index + 1) . " (ID {$id}): Aucune donnée";
                 continue;
@@ -136,6 +227,21 @@ try {
         'status' => 'error',
         'message' => 'Erreur: ' . $e->getMessage()
     ]);
+}
+function formatDateForDb($date)
+{
+    if (empty($date))
+        return null;
+    $date = trim($date);
+    if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date))
+        return $date;
+    if (preg_match('/^(\d{2})\/(\d{2})\/(\d{4})$/', $date, $m)) {
+        return checkdate($m[2], $m[1], $m[3]) ? "{$m[3]}-{$m[2]}-{$m[1]}" : null;
+    }
+    if (preg_match('/^(\d{2})-(\d{2})-(\d{4})$/', $date, $m)) {
+        return checkdate($m[2], $m[1], $m[3]) ? "{$m[3]}-{$m[2]}-{$m[1]}" : null;
+    }
+    return null;
 }
 
 simple_log("=== FIN ===");
