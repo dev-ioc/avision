@@ -2,160 +2,135 @@
 header('Content-Type: application/json');
 session_start();
 
-require_once __DIR__ . '/../../includes/functions.php';
-
-$host = 'localhost';
-$db = 'avisiondb';
-$user = 'root';
-$pass = '';
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-    ]);
-} catch (PDOException $e) {
-    echo json_encode(['status' => 'error', 'message' => 'Erreur de connexion BDD: ' . $e->getMessage()]);
-    exit;
+if (!function_exists('log_debug')) {
+    function log_debug($message, $data = null)
+    {
+        $logDir = __DIR__ . '/../../logs/';
+        if (!file_exists($logDir)) {
+            mkdir($logDir, 0777, true);
+        }
+        $logFile = $logDir . 'excel_save_' . date('Y-m-d') . '.log';
+        $timestamp = date('Y-m-d H:i:s');
+        $logEntry = "[{$timestamp}] [DEBUG] " . $message;
+        if ($data !== null) {
+            $logEntry .= "\n" . print_r($data, true);
+        }
+        $logEntry .= "\n" . str_repeat('-', 80) . "\n";
+        file_put_contents($logFile, $logEntry, FILE_APPEND | LOCK_EX);
+    }
 }
 
-// Vérifier si l'utilisateur est connecté
+if (!function_exists('log_error')) {
+    function log_error($message, $error = null)
+    {
+        $logDir = __DIR__ . '/../../logs/';
+        if (!file_exists($logDir)) {
+            mkdir($logDir, 0777, true);
+        }
+        $logFile = $logDir . 'excel_save_' . date('Y-m-d') . '.log';
+        $timestamp = date('Y-m-d H:i:s');
+        $logEntry = "[{$timestamp}] [ERROR] " . $message;
+        if ($error !== null) {
+            $logEntry .= "\n" . print_r($error, true);
+        }
+        $logEntry .= "\n" . str_repeat('-', 80) . "\n";
+        file_put_contents($logFile, $logEntry, FILE_APPEND | LOCK_EX);
+    }
+}
+
+// Définir BASE_URL si non défini
+if (!defined('BASE_URL')) {
+    define('BASE_URL', '/');
+}
+
+// Fonction CSRF token (si non existante)
+if (!function_exists('csrf_token')) {
+    function csrf_token()
+    {
+        if (!isset($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+        return $_SESSION['csrf_token'];
+    }
+}
+
+require_once __DIR__ . '/../../controllers/ExcelController.php';
+
+log_debug("=== DÉBUT DE L'EXÉCUTION ===");
+
 if (!isset($_SESSION['user'])) {
+    log_error("Utilisateur non connecté");
     echo json_encode(['status' => 'error', 'message' => 'Non autorisé - Utilisateur non connecté']);
     exit;
 }
 
-// Récupérer et décoder les données JSON
-$input = json_decode(file_get_contents('php://input'), true);
+log_debug("Utilisateur connecté", ['user_id' => $_SESSION['user']['id'] ?? 'unknown']);
+
+$rawInput = file_get_contents('php://input');
+$input = json_decode($rawInput, true);
+
+log_debug("Données reçues", $input);
 
 if (!$input) {
-    echo json_encode(['status' => 'error', 'message' => 'Données JSON invalides']);
+    $jsonError = json_last_error_msg();
+    log_error("JSON invalide", $jsonError);
+    echo json_encode(['status' => 'error', 'message' => 'Données JSON invalides: ' . $jsonError]);
     exit;
 }
 
-if (!isset($input['data']) || !is_array($input['data'])) {
-    echo json_encode(['status' => 'error', 'message' => 'Données invalides - champ "data" manquant ou non valide']);
+if (isset($input['data']) && is_array($input['data'])) {
+    $data = $input['data'];
+} elseif (is_array($input)) {
+    $data = $input;
+} else {
+    log_error("Format de données invalide", $input);
+    echo json_encode(['status' => 'error', 'message' => 'Données invalides - format non reconnu']);
     exit;
 }
 
-$data = $input['data'];
-$updated = 0;
-$errors = [];
-
-// Requête UPDATE sans le champ equipement (qui n'existe pas dans la table)
-$stmt = $pdo->prepare("
-    UPDATE materiel SET
-        marque = :marque,
-        modele = :modele,
-        type_materiel = :type_materiel,
-        numero_serie = :numero_serie,
-        version_firmware = :version_firmware,
-        adresse_ip = :adresse_ip,
-        adresse_mac = :adresse_mac,
-        date_fin_maintenance = :date_fin_maintenance,
-        reference = :reference,
-        usage_materiel = :usage_materiel,
-        ancien_firmware = :ancien_firmware,
-        masque = :masque,
-        passerelle = :passerelle,
-        login = :login,
-        password = :password,
-        ip_primaire = :ip_primaire,
-        mac_primaire = :mac_primaire,
-        ip_secondaire = :ip_secondaire,
-        mac_secondaire = :mac_secondaire,
-        stream_aes67_recu = :stream_aes67_recu,
-        stream_aes67_transmis = :stream_aes67_transmis,
-        ssid = :ssid,
-        type_cryptage = :type_cryptage,
-        password_wifi = :password_wifi,
-        libelle_pa_salle = :libelle_pa_salle,
-        numero_port_switch = :numero_port_switch,
-        vlan = :vlan,
-        date_fin_garantie = :date_fin_garantie,
-        date_derniere_inter = :date_derniere_inter,
-        commentaire = :commentaire,
-        url_github = :url_github
-    WHERE id = :id
-");
-
-foreach ($data as $index => $row) {
-    // Vérifier l'ID
-    if (empty($row['id'])) {
-        $errors[] = "Ligne " . ($index + 1) . ": ID manquant";
-        continue;
-    }
-
-    $id = (int) $row['id'];
-    if ($id <= 0) {
-        $errors[] = "Ligne " . ($index + 1) . ": ID invalide";
-        continue;
-    }
-
-    try {
-        $stmt->execute([
-            ':id' => $id,
-            ':marque' => !empty($row['marque']) ? trim($row['marque']) : null,
-            ':modele' => !empty($row['modele']) ? trim($row['modele']) : null,
-            ':type_materiel' => !empty($row['type_materiel']) ? trim($row['type_materiel']) : null,
-            ':numero_serie' => !empty($row['numero_serie']) ? trim($row['numero_serie']) : null,
-            ':version_firmware' => !empty($row['version_firmware']) ? trim($row['version_firmware']) : null,
-            ':adresse_ip' => !empty($row['adresse_ip']) ? trim($row['adresse_ip']) : null,
-            ':adresse_mac' => !empty($row['adresse_mac']) ? trim($row['adresse_mac']) : null,
-            ':date_fin_maintenance' => !empty($row['date_fin_maintenance']) ? formatDateForDb($row['date_fin_maintenance']) : null,
-            ':reference' => !empty($row['reference']) ? trim($row['reference']) : null,
-            ':usage_materiel' => !empty($row['usage_materiel']) ? trim($row['usage_materiel']) : null,
-            ':ancien_firmware' => !empty($row['ancien_firmware']) ? trim($row['ancien_firmware']) : null,
-            ':masque' => !empty($row['masque']) ? trim($row['masque']) : null,
-            ':passerelle' => !empty($row['passerelle']) ? trim($row['passerelle']) : null,
-            ':login' => !empty($row['login']) ? trim($row['login']) : null,
-            ':password' => !empty($row['password']) ? trim($row['password']) : null,
-            ':ip_primaire' => !empty($row['ip_primaire']) ? trim($row['ip_primaire']) : null,
-            ':mac_primaire' => !empty($row['mac_primaire']) ? trim($row['mac_primaire']) : null,
-            ':ip_secondaire' => !empty($row['ip_secondaire']) ? trim($row['ip_secondaire']) : null,
-            ':mac_secondaire' => !empty($row['mac_secondaire']) ? trim($row['mac_secondaire']) : null,
-            ':stream_aes67_recu' => !empty($row['stream_aes67_recu']) ? trim($row['stream_aes67_recu']) : null,
-            ':stream_aes67_transmis' => !empty($row['stream_aes67_transmis']) ? trim($row['stream_aes67_transmis']) : null,
-            ':ssid' => !empty($row['ssid']) ? trim($row['ssid']) : null,
-            ':type_cryptage' => !empty($row['type_cryptage']) ? trim($row['type_cryptage']) : null,
-            ':password_wifi' => !empty($row['password_wifi']) ? trim($row['password_wifi']) : null,
-            ':libelle_pa_salle' => !empty($row['libelle_pa_salle']) ? trim($row['libelle_pa_salle']) : null,
-            ':numero_port_switch' => !empty($row['numero_port_switch']) ? trim($row['numero_port_switch']) : null,
-            ':vlan' => !empty($row['vlan']) ? trim($row['vlan']) : null,
-            ':date_fin_garantie' => !empty($row['date_fin_garantie']) ? formatDateForDb($row['date_fin_garantie']) : null,
-            ':date_derniere_inter' => !empty($row['date_derniere_inter']) ? formatDateForDb($row['date_derniere_inter']) : null,
-            ':commentaire' => !empty($row['commentaire']) ? trim($row['commentaire']) : null,
-            ':url_github' => !empty($row['url_github']) ? trim($row['url_github']) : null
-        ]);
-
-        $updated++;
-
-    } catch (PDOException $e) {
-        $errors[] = "ID {$id}: " . $e->getMessage();
-    }
+if (empty($data)) {
+    echo json_encode(['status' => 'error', 'message' => 'Aucune donnée à sauvegarder']);
+    exit;
 }
 
-echo json_encode([
-    'status' => empty($errors) ? 'success' : 'partial',
-    'message' => $updated . " ligne(s) mise(s) à jour",
-    'updated' => $updated,
-    'total_rows' => count($data),
-    'errors' => $errors
-]);
+try {
+    log_debug("Instanciation du contrôleur ExcelController");
+    $excelController = new ExcelController();
 
-function formatDateForDb($date)
-{
-    if (empty($date))
-        return null;
-    $date = trim($date);
-    if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date))
-        return $date;
-    if (preg_match('/^(\d{2})\/(\d{2})\/(\d{4})$/', $date, $m)) {
-        return checkdate($m[2], $m[1], $m[3]) ? "{$m[3]}-{$m[2]}-{$m[1]}" : null;
+    log_debug("Traitement des données - " . count($data) . " élément(s)");
+    $result = $excelController->processExcelUpdate($data);
+
+    log_debug("Résultat du traitement", $result);
+    $status = empty($result['errors']) ? 'success' : 'partial';
+    $message = $result['updated'] . " ligne(s) mise(s) à jour";
+
+    if (!empty($result['errors'])) {
+        $message .= " avec " . count($result['errors']) . " erreur(s)";
     }
-    if (preg_match('/^(\d{2})-(\d{2})-(\d{4})$/', $date, $m)) {
-        return checkdate($m[2], $m[1], $m[3]) ? "{$m[3]}-{$m[2]}-{$m[1]}" : null;
-    }
-    return null;
+    $response = [
+        'status' => $status,
+        'message' => $message,
+        'updated' => $result['updated'],
+        'total_rows' => $result['total'],
+        'errors' => $result['errors']
+    ];
+
+    log_debug("Réponse envoyée", $response);
+    echo json_encode($response);
+
+} catch (Exception $e) {
+    log_error("Exception capturée", [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString()
+    ]);
+
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Erreur serveur: ' . $e->getMessage()
+    ]);
 }
+
+log_debug("=== FIN DE L'EXÉCUTION ===");
 ?>
