@@ -9,41 +9,50 @@ class ExcelController
     public function __construct()
     {
         try {
-            $host = 'localhost';
-            $dbname = 'avisiondb';
-            $user = 'root';
-            $pass = '';
+            // Essayer d'utiliser la configuration existante
+            if (class_exists('Config')) {
+                $config = Config::getInstance();
+                $this->db = $config->getDb();
 
-            log_debug("Tentative de connexion BDD");
+                if (function_exists('log_debug')) {
+                    log_debug("Connexion BDD récupérée via Config");
+                }
+            }
+            // Fallback: utiliser les constantes définies
+            elseif (defined('DB_HOST') && defined('DB_NAME') && defined('DB_USER')) {
+                if (function_exists('log_debug')) {
+                    log_debug("Utilisation des constantes DB_* pour la connexion");
+                }
 
-            $this->db = new PDO(
-                "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
-                $user,
-                $pass,
-                [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-                ]
-            );
-
-            log_debug("Connexion BDD réussie");
-
+                $this->db = new PDO(
+                    "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
+                    DB_USER,
+                    DB_PASS,
+                    DB_OPTIONS ?? [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+                );
+            }
             $this->excelModel = new ExcelModel($this->db);
 
-        } catch (PDOException $e) {
-            log_error("Erreur de connexion BDD", $e->getMessage());
-            throw new Exception("Erreur de connexion à la base de données: " . $e->getMessage());
         } catch (Exception $e) {
-            log_error("Erreur générale", $e->getMessage());
-            throw $e;
+            if (function_exists('log_error')) {
+                log_error("Erreur de connexion BDD", $e->getMessage());
+            }
+            throw new Exception("Erreur de connexion à la base de données: " . $e->getMessage());
         }
     }
 
     public function processExcelUpdate($data)
     {
-        log_debug("processExcelUpdate - " . count($data) . " lignes à traiter");
+        if (function_exists('log_debug')) {
+            log_debug("processExcelUpdate - " . count($data) . " lignes à traiter");
+        }
+
         $result = $this->excelModel->updateMultipleMateriel($data);
-        log_debug("processExcelUpdate terminé", $result);
+
+        if (function_exists('log_debug')) {
+            log_debug("processExcelUpdate terminé", $result);
+        }
+
         return $result;
     }
 }

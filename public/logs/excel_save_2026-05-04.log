@@ -820,3 +820,853 @@ Array
 --------------------------------------------------------------------------------
 [2026-05-04 10:16:39] [DEBUG] === FIN DE L'EXÉCUTION ===
 --------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] === DÉBUT DE L'EXÉCUTION ===
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] Utilisateur connecté
+Array
+(
+    [user_id] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] Données reçues
+Array
+(
+    [table_id] => excelTable-salle_83a46bfe648f73d92a85c9a549b0bb67
+    [salle_id] => 
+    [data] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 2713
+                    [type_materiel] => Type Test
+                    [numero_serie] => sdndsfdfgd
+                    [version_firmware] => dfgdgf
+                    [adresse_ip] => dfgdgf
+                    [adresse_mac] => dfgd
+                    [date_fin_maintenance] => 
+                    [reference] => 
+                    [usage_materiel] => 
+                    [marque] => Marque Test
+                    [modele] => Modèle Test
+                    [ancien_firmware] => 
+                    [masque] => 
+                    [passerelle] => 
+                    [login] => 
+                    [password] => 
+                    [ip_primaire] => 
+                    [mac_primaire] => 
+                    [ip_secondaire] => 
+                    [mac_secondaire] => 
+                    [stream_aes67_recu] => 
+                    [stream_aes67_transmis] => 
+                    [ssid] => 
+                    [type_cryptage] => 
+                    [password_wifi] => 
+                    [libelle_pa_salle] => 
+                    [numero_port_switch] => 
+                    [vlan] => 
+                    [date_fin_garantie] => 
+                    [date_derniere_inter] => 
+                    [commentaire] => 
+                    [url_github] => 
+                )
+
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] Instanciation du contrôleur ExcelController
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] Tentative de connexion BDD
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] Connexion BDD réussie
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] Initialisation d'ExcelModel
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] Table configurée: materiel
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] Traitement des données - 1 élément(s)
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] processExcelUpdate - 1 lignes à traiter
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] updateMultipleMateriel - Début du traitement
+Array
+(
+    [total_items] => 1
+    [is_associative] => 
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] Traitement de la ligne 1
+Array
+(
+    [0] => id
+    [1] => type_materiel
+    [2] => numero_serie
+    [3] => version_firmware
+    [4] => adresse_ip
+    [5] => adresse_mac
+    [6] => date_fin_maintenance
+    [7] => reference
+    [8] => usage_materiel
+    [9] => marque
+    [10] => modele
+    [11] => ancien_firmware
+    [12] => masque
+    [13] => passerelle
+    [14] => login
+    [15] => password
+    [16] => ip_primaire
+    [17] => mac_primaire
+    [18] => ip_secondaire
+    [19] => mac_secondaire
+    [20] => stream_aes67_recu
+    [21] => stream_aes67_transmis
+    [22] => ssid
+    [23] => type_cryptage
+    [24] => password_wifi
+    [25] => libelle_pa_salle
+    [26] => numero_port_switch
+    [27] => vlan
+    [28] => date_fin_garantie
+    [29] => date_derniere_inter
+    [30] => commentaire
+    [31] => url_github
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] Ligne 2713 - Données préparées
+Array
+(
+    [fields_count] => 7
+    [fields] => Array
+        (
+            [0] => marque
+            [1] => modele
+            [2] => type_materiel
+            [3] => numero_serie
+            [4] => version_firmware
+            [5] => adresse_ip
+            [6] => adresse_mac
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] Ligne 2713 - Mise à jour réussie
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] updateMultipleMateriel - Résultat final
+Array
+(
+    [updated] => 1
+    [errors] => Array
+        (
+        )
+
+    [total] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] processExcelUpdate terminé
+Array
+(
+    [updated] => 1
+    [errors] => Array
+        (
+        )
+
+    [total] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] Résultat du traitement
+Array
+(
+    [updated] => 1
+    [errors] => Array
+        (
+        )
+
+    [total] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] Réponse envoyée
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:52:00] [DEBUG] === FIN DE L'EXÉCUTION ===
+--------------------------------------------------------------------------------
+[2026-05-04 10:53:58] [DEBUG] === DÉBUT DE L'EXÉCUTION ===
+--------------------------------------------------------------------------------
+[2026-05-04 10:53:58] [DEBUG] Utilisateur connecté
+Array
+(
+    [user_id] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:53:58] [DEBUG] Données reçues
+Array
+(
+    [table_id] => excelTable-salle_83a46bfe648f73d92a85c9a549b0bb67
+    [salle_id] => 
+    [data] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 2713
+                    [type_materiel] => Type Test
+                    [numero_serie] => sdndsfdfgd
+                    [version_firmware] => dfgdgf
+                    [adresse_ip] => dfgdgf
+                    [adresse_mac] => dfgd
+                    [date_fin_maintenance] => 
+                    [reference] => 
+                    [usage_materiel] => 
+                    [marque] => Marque Test
+                    [modele] => Modèle Test
+                    [ancien_firmware] => 
+                    [masque] => 
+                    [passerelle] => 
+                    [login] => 
+                    [password] => 
+                    [ip_primaire] => 
+                    [mac_primaire] => 
+                    [ip_secondaire] => 
+                    [mac_secondaire] => 
+                    [stream_aes67_recu] => 
+                    [stream_aes67_transmis] => 
+                    [ssid] => 
+                    [type_cryptage] => 
+                    [password_wifi] => 
+                    [libelle_pa_salle] => 
+                    [numero_port_switch] => 
+                    [vlan] => 
+                    [date_fin_garantie] => 
+                    [date_derniere_inter] => 
+                    [commentaire] => 
+                    [url_github] => 
+                )
+
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:53:58] [DEBUG] Instanciation du contrôleur ExcelController
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] === DÉBUT DE L'EXÉCUTION ===
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] Utilisateur connecté
+Array
+(
+    [user_id] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] Données reçues
+Array
+(
+    [table_id] => excelTable-salle_83a46bfe648f73d92a85c9a549b0bb67
+    [salle_id] => 
+    [data] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 2713
+                    [type_materiel] => Type Test
+                    [numero_serie] => sdndsfdfgd
+                    [version_firmware] => dfgdgf
+                    [adresse_ip] => dfgdgf
+                    [adresse_mac] => dfgd
+                    [date_fin_maintenance] => 
+                    [reference] => 
+                    [usage_materiel] => 
+                    [marque] => Marque Test
+                    [modele] => Modèle Test
+                    [ancien_firmware] => 
+                    [masque] => 
+                    [passerelle] => 
+                    [login] => 
+                    [password] => 
+                    [ip_primaire] => 
+                    [mac_primaire] => 
+                    [ip_secondaire] => 
+                    [mac_secondaire] => 
+                    [stream_aes67_recu] => 
+                    [stream_aes67_transmis] => 
+                    [ssid] => 
+                    [type_cryptage] => 
+                    [password_wifi] => 
+                    [libelle_pa_salle] => 
+                    [numero_port_switch] => 
+                    [vlan] => 
+                    [date_fin_garantie] => 
+                    [date_derniere_inter] => 
+                    [commentaire] => 
+                    [url_github] => 
+                )
+
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] Instanciation du contrôleur ExcelController
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] Connexion BDD directe
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] Initialisation d'ExcelModel
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] Table configurée: materiel
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] Traitement des données - 1 élément(s)
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] processExcelUpdate - 1 lignes à traiter
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] updateMultipleMateriel - Début du traitement
+Array
+(
+    [total_items] => 1
+    [is_associative] => 
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] Traitement de la ligne 1
+Array
+(
+    [0] => id
+    [1] => type_materiel
+    [2] => numero_serie
+    [3] => version_firmware
+    [4] => adresse_ip
+    [5] => adresse_mac
+    [6] => date_fin_maintenance
+    [7] => reference
+    [8] => usage_materiel
+    [9] => marque
+    [10] => modele
+    [11] => ancien_firmware
+    [12] => masque
+    [13] => passerelle
+    [14] => login
+    [15] => password
+    [16] => ip_primaire
+    [17] => mac_primaire
+    [18] => ip_secondaire
+    [19] => mac_secondaire
+    [20] => stream_aes67_recu
+    [21] => stream_aes67_transmis
+    [22] => ssid
+    [23] => type_cryptage
+    [24] => password_wifi
+    [25] => libelle_pa_salle
+    [26] => numero_port_switch
+    [27] => vlan
+    [28] => date_fin_garantie
+    [29] => date_derniere_inter
+    [30] => commentaire
+    [31] => url_github
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] Ligne 2713 - Données préparées
+Array
+(
+    [fields_count] => 7
+    [fields] => Array
+        (
+            [0] => marque
+            [1] => modele
+            [2] => type_materiel
+            [3] => numero_serie
+            [4] => version_firmware
+            [5] => adresse_ip
+            [6] => adresse_mac
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] Ligne 2713 - Mise à jour réussie
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] updateMultipleMateriel - Résultat final
+Array
+(
+    [updated] => 1
+    [errors] => Array
+        (
+        )
+
+    [total] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] processExcelUpdate terminé
+Array
+(
+    [updated] => 1
+    [errors] => Array
+        (
+        )
+
+    [total] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] Résultat du traitement
+Array
+(
+    [updated] => 1
+    [errors] => Array
+        (
+        )
+
+    [total] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] Réponse envoyée
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:54:23] [DEBUG] === FIN DE L'EXÉCUTION ===
+--------------------------------------------------------------------------------
+[2026-05-04 10:55:27] [DEBUG] === DÉBUT DE L'EXÉCUTION ===
+--------------------------------------------------------------------------------
+[2026-05-04 10:55:27] [DEBUG] Utilisateur connecté
+Array
+(
+    [user_id] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:55:27] [DEBUG] Données reçues
+Array
+(
+    [table_id] => excelTable-salle_83a46bfe648f73d92a85c9a549b0bb67
+    [salle_id] => 
+    [data] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 2713
+                    [type_materiel] => Type Test
+                    [numero_serie] => sdndsfdfgd
+                    [version_firmware] => dfgdgf
+                    [adresse_ip] => dfgdgf
+                    [adresse_mac] => dfgd
+                    [date_fin_maintenance] => 
+                    [reference] => 
+                    [usage_materiel] => 
+                    [marque] => Marque Test
+                    [modele] => Modèle Test
+                    [ancien_firmware] => 
+                    [masque] => 
+                    [passerelle] => 
+                    [login] => 
+                    [password] => 
+                    [ip_primaire] => 
+                    [mac_primaire] => 
+                    [ip_secondaire] => 
+                    [mac_secondaire] => 
+                    [stream_aes67_recu] => 
+                    [stream_aes67_transmis] => 
+                    [ssid] => 
+                    [type_cryptage] => 
+                    [password_wifi] => 
+                    [libelle_pa_salle] => 
+                    [numero_port_switch] => 
+                    [vlan] => 
+                    [date_fin_garantie] => 
+                    [date_derniere_inter] => 
+                    [commentaire] => 
+                    [url_github] => 
+                )
+
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:55:27] [DEBUG] Instanciation du contrôleur ExcelController
+--------------------------------------------------------------------------------
+[2026-05-04 10:55:27] [DEBUG] Initialisation d'ExcelModel
+--------------------------------------------------------------------------------
+[2026-05-04 10:55:27] [DEBUG] Table configurée: materiel
+--------------------------------------------------------------------------------
+[2026-05-04 10:55:27] [DEBUG] Traitement des données - 1 élément(s)
+--------------------------------------------------------------------------------
+[2026-05-04 10:55:27] [DEBUG] processExcelUpdate - 1 lignes à traiter
+--------------------------------------------------------------------------------
+[2026-05-04 10:55:27] [DEBUG] updateMultipleMateriel - Début du traitement
+Array
+(
+    [total_items] => 1
+    [is_associative] => 
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:55:27] [DEBUG] Traitement de la ligne 1
+Array
+(
+    [0] => id
+    [1] => type_materiel
+    [2] => numero_serie
+    [3] => version_firmware
+    [4] => adresse_ip
+    [5] => adresse_mac
+    [6] => date_fin_maintenance
+    [7] => reference
+    [8] => usage_materiel
+    [9] => marque
+    [10] => modele
+    [11] => ancien_firmware
+    [12] => masque
+    [13] => passerelle
+    [14] => login
+    [15] => password
+    [16] => ip_primaire
+    [17] => mac_primaire
+    [18] => ip_secondaire
+    [19] => mac_secondaire
+    [20] => stream_aes67_recu
+    [21] => stream_aes67_transmis
+    [22] => ssid
+    [23] => type_cryptage
+    [24] => password_wifi
+    [25] => libelle_pa_salle
+    [26] => numero_port_switch
+    [27] => vlan
+    [28] => date_fin_garantie
+    [29] => date_derniere_inter
+    [30] => commentaire
+    [31] => url_github
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:55:27] [DEBUG] Ligne 2713 - Données préparées
+Array
+(
+    [fields_count] => 7
+    [fields] => Array
+        (
+            [0] => marque
+            [1] => modele
+            [2] => type_materiel
+            [3] => numero_serie
+            [4] => version_firmware
+            [5] => adresse_ip
+            [6] => adresse_mac
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:57:36] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-04 10:57:36] Input reçu
+Array
+(
+    [raw_length] => 767
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:57:36] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-04 10:57:36] Traitement ID: 2713
+--------------------------------------------------------------------------------
+[2026-05-04 10:57:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:57:36] Mise à jour réussie ID: 2713
+--------------------------------------------------------------------------------
+[2026-05-04 10:57:36] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:57:36] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:16] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:16] Input reçu
+Array
+(
+    [raw_length] => 767
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:16] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:16] Traitement ID: 2713
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:16] Mise à jour réussie ID: 2713
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:16] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:16] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:26] [DEBUG] === DÉBUT DE L'EXÉCUTION ===
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:26] [DEBUG] Utilisateur connecté
+Array
+(
+    [user_id] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:26] [DEBUG] Données reçues
+Array
+(
+    [table_id] => excelTable-salle_83a46bfe648f73d92a85c9a549b0bb67
+    [salle_id] => 
+    [data] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 2713
+                    [type_materiel] => Type Test
+                    [numero_serie] => sdndsfdfgd
+                    [version_firmware] => dfgdgf
+                    [adresse_ip] => dfgdgf
+                    [adresse_mac] => dfgd
+                    [date_fin_maintenance] => 
+                    [reference] => 
+                    [usage_materiel] => 
+                    [marque] => Marque Test
+                    [modele] => Modèle Test
+                    [ancien_firmware] => 
+                    [masque] => 
+                    [passerelle] => 
+                    [login] => 
+                    [password] => 
+                    [ip_primaire] => 
+                    [mac_primaire] => 
+                    [ip_secondaire] => 
+                    [mac_secondaire] => 
+                    [stream_aes67_recu] => 
+                    [stream_aes67_transmis] => 
+                    [ssid] => 
+                    [type_cryptage] => 
+                    [password_wifi] => 
+                    [libelle_pa_salle] => 
+                    [numero_port_switch] => 
+                    [vlan] => 
+                    [date_fin_garantie] => 
+                    [date_derniere_inter] => 
+                    [commentaire] => 
+                    [url_github] => 
+                )
+
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:26] [DEBUG] Instanciation du contrôleur ExcelController
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:26] [DEBUG] Initialisation d'ExcelModel
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:26] [DEBUG] Table configurée: materiel
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:26] [DEBUG] Traitement des données - 1 élément(s)
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:26] [DEBUG] processExcelUpdate - 1 lignes à traiter
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:26] [DEBUG] updateMultipleMateriel - Début du traitement
+Array
+(
+    [total_items] => 1
+    [is_associative] => 
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:26] [DEBUG] Traitement de la ligne 1
+Array
+(
+    [0] => id
+    [1] => type_materiel
+    [2] => numero_serie
+    [3] => version_firmware
+    [4] => adresse_ip
+    [5] => adresse_mac
+    [6] => date_fin_maintenance
+    [7] => reference
+    [8] => usage_materiel
+    [9] => marque
+    [10] => modele
+    [11] => ancien_firmware
+    [12] => masque
+    [13] => passerelle
+    [14] => login
+    [15] => password
+    [16] => ip_primaire
+    [17] => mac_primaire
+    [18] => ip_secondaire
+    [19] => mac_secondaire
+    [20] => stream_aes67_recu
+    [21] => stream_aes67_transmis
+    [22] => ssid
+    [23] => type_cryptage
+    [24] => password_wifi
+    [25] => libelle_pa_salle
+    [26] => numero_port_switch
+    [27] => vlan
+    [28] => date_fin_garantie
+    [29] => date_derniere_inter
+    [30] => commentaire
+    [31] => url_github
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:58:26] [DEBUG] Ligne 2713 - Données préparées
+Array
+(
+    [fields_count] => 7
+    [fields] => Array
+        (
+            [0] => marque
+            [1] => modele
+            [2] => type_materiel
+            [3] => numero_serie
+            [4] => version_firmware
+            [5] => adresse_ip
+            [6] => adresse_mac
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:59:06] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-04 10:59:06] Input reçu
+Array
+(
+    [raw_length] => 762
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:59:06] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-04 10:59:06] Traitement ID: 2713
+--------------------------------------------------------------------------------
+[2026-05-04 10:59:06] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:59:06] Mise à jour réussie ID: 2713
+--------------------------------------------------------------------------------
+[2026-05-04 10:59:06] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-04 10:59:06] === FIN ===
+--------------------------------------------------------------------------------
