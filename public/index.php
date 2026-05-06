@@ -1713,6 +1713,12 @@ try {
                 case 'get_rooms':
                     $documentationClientController->get_rooms();
                     break;
+                case 'get_buildings':
+                    $documentationClientController->get_buildings();
+                    break;
+                case 'get_rooms_by_building':
+                    $documentationClientController->get_rooms_by_building();
+                    break;
                 case 'download':
                     if (isset($_GET['attachment_id'])) {
                         $documentationClientController->download($_GET['attachment_id']);

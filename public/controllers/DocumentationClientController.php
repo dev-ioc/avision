@@ -5,13 +5,15 @@ require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../classes/Services/AttachmentService.php';
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 
-class DocumentationClientController {
+class DocumentationClientController
+{
     use AccessControlTrait;
     private $db;
     private $documentationModel;
     private $categoryModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         global $db;
         $this->db = $db;
         $this->documentationModel = new DocumentationModel($this->db);
@@ -22,14 +24,16 @@ class DocumentationClientController {
      * Vérifie si l'utilisateur est connecté et a les permissions client
      * Utilise AccessControlTrait::checkClientPermission()
      */
-    private function checkAccess() {
+    private function checkAccess()
+    {
         $this->checkClientPermission('client_view_documentation');
     }
 
     /**
      * Affiche la liste des documents du client selon ses localisations autorisées
      */
-    public function index() {
+    public function index()
+    {
         $this->checkAccess();
 
         // Récupérer les localisations autorisées de l'utilisateur
@@ -37,16 +41,23 @@ class DocumentationClientController {
         custom_log("DocumentationClientController::index - userLocations: " . json_encode($userLocations), 'DEBUG');
 
         // Récupération des filtres
-        $site_id = isset($_GET['site_id']) ? (int)$_GET['site_id'] : null;
-        $salle_id = isset($_GET['salle_id']) ? (int)$_GET['salle_id'] : null;
+        $site_id = isset($_GET['site_id']) ? (int) $_GET['site_id'] : null;
+        $building_id = isset($_GET['building_id']) ? (int) $_GET['building_id'] : null;
+        $salle_id = isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null;
 
         // Récupération des sites selon les localisations autorisées
         $sites = $this->getSitesByLocations($userLocations);
-        
-        // Récupération des salles selon le filtre site
-        $salles = [];
+
+        // Récupération des bâtiments selon le filtre site
+        $buildings = [];
         if ($site_id) {
-            $salles = $this->getRoomsBySiteAndLocations($site_id, $userLocations);
+            $buildings = $this->getBuildingsBySiteAndLocations($site_id, $userLocations);
+        }
+
+        // Récupération des salles selon le filtre bâtiment
+        $salles = [];
+        if ($building_id) {
+            $salles = $this->getRoomsByBuildingAndLocations($building_id, $userLocations);
         }
 
         // Initialiser la liste de documentation vide
@@ -58,8 +69,9 @@ class DocumentationClientController {
             foreach ($userLocations as $location) {
                 $clientId = $location['client_id'];
                 $locationSiteId = $location['site_id'];
-                $locationRoomId = $location['room_id'];
-                
+                $locationBuildingId = $location['building_id'] ?? null;
+                $locationRoomId = $location['room_id'] ?? null;
+
                 // Condition pour ce client
                 $condition = "(
                     c.id = {$clientId} 
@@ -67,36 +79,41 @@ class DocumentationClientController {
                     OR c3.id = {$clientId} 
                     OR s.client_id = {$clientId} 
                     OR s2.client_id = {$clientId} 
-                    OR r.site_id IN (SELECT id FROM sites WHERE client_id = {$clientId})
+                    OR b.client_id = {$clientId}
                 )";
-                
+
                 // Si accès spécifique à un site
                 if ($locationSiteId !== null) {
-                    $condition .= " AND (s.id = {$locationSiteId} OR s2.id = {$locationSiteId} OR r.site_id = {$locationSiteId})";
-                    
+                    $condition .= " AND (s.id = {$locationSiteId} OR s2.id = {$locationSiteId} OR b.site_id = {$locationSiteId})";
+
+                    // Si accès spécifique à un bâtiment
+                    if ($locationBuildingId !== null) {
+                        $condition .= " AND (b.id = {$locationBuildingId})";
+                    }
+
                     // Si accès spécifique à une salle
                     if ($locationRoomId !== null) {
                         $condition .= " AND r.id = {$locationRoomId}";
                     }
                 }
-                
+
                 $locationConditions[] = $condition;
             }
-            
+
             $locationWhere = "(" . implode(" OR ", $locationConditions) . ")";
-            
-            // Requête pour récupérer les pièces jointes de documentation
-            // On récupère toujours les informations complètes (client, site, salle) même si le document
-            // est lié directement à une salle ou un site
+
+            // Requête pour récupérer les pièces jointes de documentation avec la nouvelle structure
             $query = "
                 SELECT 
                     pj.*,
                     COALESCE(pj.content, pj.commentaire) as description,
                     COALESCE(c.name, c2.name, c3.name) as client_nom,
                     COALESCE(s.name, s2.name) as site_nom,
+                    b.name as building_nom,
                     r.name as salle_nom,
                     COALESCE(c.id, c2.id, c3.id) as client_id,
                     COALESCE(s.id, s2.id) as site_id,
+                    b.id as building_id,
                     r.id as salle_id,
                     u.username as uploader_name,
                     pj.created_by
@@ -108,14 +125,18 @@ class DocumentationClientController {
                 LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
                 -- JOIN pour récupérer le client depuis le site (quand document lié au site)
                 LEFT JOIN clients c2 ON s.client_id = c2.id
+                -- JOIN pour les documents liés directement au bâtiment
+                LEFT JOIN buildings b ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = b.id)
+                -- JOIN pour récupérer le site depuis le bâtiment
+                LEFT JOIN sites s2 ON b.site_id = s2.id
+                -- JOIN pour récupérer le client depuis le site du bâtiment
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
                 -- JOIN pour les documents liés directement à la salle
                 LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
-                -- JOIN pour récupérer le site depuis la salle (quand document lié à la salle)
-                LEFT JOIN sites s2 ON r.site_id = s2.id
-                -- JOIN pour récupérer le client depuis le site de la salle (quand document lié à la salle)
-                LEFT JOIN clients c3 ON s2.client_id = c3.id
+                -- JOIN pour récupérer le bâtiment depuis la salle
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
                 LEFT JOIN users u ON pj.created_by = u.id
-                WHERE lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
+                WHERE lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_building', 'documentation_room')
                 AND pj.masque_client = 0
                 AND {$locationWhere}
             ";
@@ -124,10 +145,15 @@ class DocumentationClientController {
 
             // Filtres optionnels
             if ($site_id) {
-                $query .= " AND (s.id = ? OR s2.id = ? OR r.site_id = ?)";
+                $query .= " AND (s.id = ? OR s2.id = ? OR b.site_id = ?)";
                 $params[] = $site_id;
                 $params[] = $site_id;
                 $params[] = $site_id;
+            }
+
+            if ($building_id) {
+                $query .= " AND b.id = ?";
+                $params[] = $building_id;
             }
 
             if ($salle_id) {
@@ -135,7 +161,7 @@ class DocumentationClientController {
                 $params[] = $salle_id;
             }
 
-            $query .= " ORDER BY client_nom, site_nom, salle_nom, pj.date_creation DESC";
+            $query .= " ORDER BY client_nom, site_nom, building_nom, salle_nom, pj.date_creation DESC";
 
             $stmt = $this->db->prepare($query);
             $stmt->execute($params);
@@ -145,6 +171,7 @@ class DocumentationClientController {
         // Préparer les données pour la vue
         $filters = [
             'site_id' => $site_id,
+            'building_id' => $building_id,
             'salle_id' => $salle_id
         ];
 
@@ -157,28 +184,26 @@ class DocumentationClientController {
      * @param array $userLocations Les localisations autorisées de l'utilisateur
      * @return array Liste des sites
      */
-    private function getSitesByLocations($userLocations) {
+    private function getSitesByLocations($userLocations)
+    {
         if (empty($userLocations)) {
             return [];
         }
-        
-        // Extraire les client_id et site_id uniques des localisations
+
         $siteConditions = [];
         foreach ($userLocations as $location) {
             $clientId = $location['client_id'];
             $siteId = $location['site_id'];
-            
+
             if ($siteId !== null) {
-                // Accès spécifique à un site
                 $siteConditions[] = "(s.client_id = {$clientId} AND s.id = {$siteId})";
             } else {
-                // Accès au client entier
                 $siteConditions[] = "(s.client_id = {$clientId})";
             }
         }
-        
+
         $locationWhere = empty($siteConditions) ? "1=0" : "(" . implode(" OR ", $siteConditions) . ")";
-        
+
         $sql = "SELECT DISTINCT s.* 
                 FROM sites s
                 WHERE {$locationWhere} AND s.status = 1
@@ -190,116 +215,101 @@ class DocumentationClientController {
     }
 
     /**
-     * Récupère les salles d'un site selon les localisations autorisées
-     * @param int $siteId ID du site
+     * Récupère les salles d'un bâtiment selon les localisations autorisées
+     * @param int $buildingId ID du bâtiment
      * @param array $userLocations Les localisations autorisées de l'utilisateur
      * @return array Liste des salles
      */
-    private function getRoomsBySiteAndLocations($siteId, $userLocations) {
+    private function getRoomsByBuildingAndLocations($buildingId, $userLocations)
+    {
         if (empty($userLocations)) {
             return [];
         }
-        
-        // Extraire les conditions pour les salles
+
         $roomConditions = [];
         foreach ($userLocations as $location) {
             $clientId = $location['client_id'];
             $locationSiteId = $location['site_id'];
-            $roomId = $location['room_id'];
-            
-            if ($locationSiteId == $siteId) {
-                if ($roomId !== null) {
-                    // Accès spécifique à une salle
-                    $roomConditions[] = "(s.client_id = {$clientId} AND s.id = {$siteId} AND r.id = {$roomId})";
-                } else {
-                    // Accès à un site entier
-                    $roomConditions[] = "(s.client_id = {$clientId} AND s.id = {$siteId})";
+            $locationBuildingId = $location['building_id'] ?? null;
+
+            if ($locationSiteId !== null) {
+                $condition = "(s.client_id = {$clientId} AND b.site_id = {$locationSiteId})";
+
+                if ($locationBuildingId !== null && $locationBuildingId == $buildingId) {
+                    $condition .= " AND b.id = {$buildingId}";
                 }
+                $roomConditions[] = $condition;
             }
         }
-        
+
         $locationWhere = empty($roomConditions) ? "1=0" : "(" . implode(" OR ", $roomConditions) . ")";
-        
-        $sql = "SELECT r.* 
+
+        $sql = "SELECT r.*, b.name as building_name
                 FROM rooms r
-                JOIN sites s ON r.site_id = s.id
-                WHERE r.site_id = ? AND {$locationWhere} AND r.status = 1
+                JOIN buildings b ON r.building_id = b.id
+                JOIN sites s ON b.site_id = s.id
+                WHERE r.building_id = ? AND {$locationWhere} AND r.status = 1
                 ORDER BY r.name";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$siteId]);
+        $stmt->execute([$buildingId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
-     * Récupère les documents d'une catégorie selon les localisations autorisées
-     * @param int $categoryId ID de la catégorie
-     * @param array $userLocations Les localisations autorisées de l'utilisateur
-     * @param int|null $siteId Filtre site optionnel
-     * @param int|null $roomId Filtre salle optionnel
-     * @return array Liste des documents
+     * Récupère les salles d'un site (ancienne méthode - dépréciée)
+     * @deprecated Utiliser getRoomsByBuildingAndLocations à la place
      */
-    private function getDocumentsByCategoryAndLocations($categoryId, $userLocations, $siteId = null, $roomId = null) {
-        if (empty($userLocations)) {
-            return [];
+    private function getRoomsBySiteAndLocations($siteId, $userLocations)
+    {
+        // Méthode conservée pour compatibilité
+        $buildings = $this->getBuildingsBySiteAndLocations($siteId, $userLocations);
+        $rooms = [];
+        foreach ($buildings as $building) {
+            $buildingRooms = $this->getRoomsByBuildingAndLocations($building['id'], $userLocations);
+            $rooms = array_merge($rooms, $buildingRooms);
         }
-        
-        // Construire les conditions de localisation
-        $locationConditions = [];
-        foreach ($userLocations as $location) {
-            $clientId = $location['client_id'];
-            $locationSiteId = $location['site_id'];
-            $locationRoomId = $location['room_id'];
-            
-            $condition = "d.client_id = {$clientId}";
-            
-            if ($locationSiteId !== null) {
-                $condition .= " AND (d.site_id IS NULL OR d.site_id = {$locationSiteId})";
-                if ($locationRoomId !== null) {
-                    $condition .= " AND (d.room_id IS NULL OR d.room_id = {$locationRoomId})";
-                }
-            }
-            
-            $locationConditions[] = "({$condition})";
-        }
-        
-        $locationWhere = "(" . implode(" OR ", $locationConditions) . ")";
-        
-        // Construire la requête
-        $sql = "SELECT d.*, s.name as site_name, r.name as room_name, 
-                       u.first_name, u.last_name
-                FROM documentation d
-                LEFT JOIN sites s ON d.site_id = s.id
-                LEFT JOIN rooms r ON d.room_id = r.id
-                LEFT JOIN users u ON d.created_by = u.id
-                WHERE d.category_id = ? 
-                AND d.visible_by_client = 1
-                AND {$locationWhere}";
-        
-        $params = [$categoryId];
-        
-        // Ajouter les filtres optionnels
-        if ($siteId) {
-            $sql .= " AND (d.site_id = ? OR d.site_id IS NULL)";
-            $params[] = $siteId;
-        }
-        
-        if ($roomId) {
-            $sql .= " AND (d.room_id = ? OR d.room_id IS NULL)";
-            $params[] = $roomId;
-        }
-        
-        $sql .= " ORDER BY d.created_at DESC";
-        
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $rooms;
     }
 
     /**
      * Récupère les salles d'un site selon les localisations autorisées (AJAX)
      */
-    public function get_rooms() {
+    public function get_rooms()
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Content-Type: application/json');
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            exit;
+        }
+
+        if (!isset($_GET['site_id'])) {
+            header('Content-Type: application/json');
+            http_response_code(400);
+            echo json_encode(['error' => 'Site ID is required']);
+            exit;
+        }
+
+        $siteId = (int) $_GET['site_id'];
+
+        try {
+            $userLocations = getUserLocations();
+            $rooms = $this->getRoomsBySiteAndLocations($siteId, $userLocations);
+            header('Content-Type: application/json');
+            echo json_encode($rooms);
+        } catch (PDOException $e) {
+            header('Content-Type: application/json');
+            http_response_code(500);
+            echo json_encode(['error' => 'Database error']);
+        }
+    }
+
+    /**
+     * Récupère les bâtiments d'un site selon les localisations autorisées (AJAX)
+     */
+    public function get_buildings()
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Content-Type: application/json');
@@ -315,142 +325,232 @@ class DocumentationClientController {
             exit;
         }
 
-        $siteId = (int)$_GET['site_id'];
+        $siteId = (int) $_GET['site_id'];
 
         try {
             $userLocations = getUserLocations();
-            $rooms = $this->getRoomsBySiteAndLocations($siteId, $userLocations);
+            $buildings = $this->getBuildingsBySiteAndLocations($siteId, $userLocations);
+
             header('Content-Type: application/json');
-            echo json_encode($rooms);
-        } catch (PDOException $e) {
+            echo json_encode($buildings);
+            exit;
+        } catch (Exception $e) {
+            custom_log("Erreur dans get_buildings: " . $e->getMessage(), 'ERROR');
             header('Content-Type: application/json');
             http_response_code(500);
-            echo json_encode(['error' => 'Database error']);
+            echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+            exit;
         }
+    }
+
+    /**
+     * Récupère les salles d'un bâtiment selon les localisations autorisées (AJAX)
+     */
+    public function get_rooms_by_building()
+    {
+        // Vérifier si l'utilisateur est connecté
+        if (!isset($_SESSION['user'])) {
+            header('Content-Type: application/json');
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            exit;
+        }
+
+        if (!isset($_GET['building_id'])) {
+            header('Content-Type: application/json');
+            http_response_code(400);
+            echo json_encode(['error' => 'Building ID is required']);
+            exit;
+        }
+
+        $buildingId = (int) $_GET['building_id'];
+
+        try {
+            $userLocations = getUserLocations();
+            $rooms = $this->getRoomsByBuildingAndLocations($buildingId, $userLocations);
+
+            header('Content-Type: application/json');
+            echo json_encode($rooms);
+            exit;
+        } catch (Exception $e) {
+            custom_log("Erreur dans get_rooms_by_building: " . $e->getMessage(), 'ERROR');
+            header('Content-Type: application/json');
+            http_response_code(500);
+            echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+            exit;
+        }
+    }
+
+    /**
+     * Récupère les bâtiments d'un site selon les localisations autorisées
+     * @param int $siteId ID du site
+     * @param array $userLocations Les localisations autorisées de l'utilisateur
+     * @return array Liste des bâtiments
+     */
+    private function getBuildingsBySiteAndLocations($siteId, $userLocations)
+    {
+        if (empty($userLocations)) {
+            return [];
+        }
+
+        // Construire les conditions d'accès
+        $conditions = [];
+        foreach ($userLocations as $location) {
+            $clientId = $location['client_id'];
+            $locationSiteId = $location['site_id'];
+            $locationBuildingId = $location['building_id'] ?? null;
+
+            // Vérifier si l'utilisateur a accès au client
+            if ($locationSiteId === null && $locationBuildingId === null) {
+                // Accès au client entier, prendre tous les bâtiments du site
+                $conditions[] = "s.client_id = {$clientId}";
+            }
+            // Vérifier si l'utilisateur a accès au site spécifique
+            elseif ($locationSiteId == $siteId && $locationBuildingId === null) {
+                $conditions[] = "s.client_id = {$clientId} AND s.id = {$siteId}";
+            }
+            // Vérifier si l'utilisateur a accès à un bâtiment spécifique de ce site
+            elseif ($locationSiteId == $siteId && $locationBuildingId !== null) {
+                $conditions[] = "s.client_id = {$clientId} AND s.id = {$siteId} AND b.id = {$locationBuildingId}";
+            }
+        }
+
+        if (empty($conditions)) {
+            return [];
+        }
+
+        $locationWhere = "(" . implode(" OR ", $conditions) . ")";
+
+        $sql = "SELECT DISTINCT b.id, b.name, b.site_id, b.status, b.comment, b.created_at, b.updated_at
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE b.site_id = ? AND b.status = 1 AND {$locationWhere}
+            ORDER BY b.name";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$siteId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
      * Affiche le formulaire d'ajout de document
      */
-    public function add() {
+    public function add()
+    {
         $this->checkAccess();
-        
-        // Vérifier que l'utilisateur a la permission d'ajouter de la documentation
+
         if (!hasPermission('client_add_documentation')) {
             $_SESSION['error'] = "Vous n'avez pas les permissions pour ajouter de la documentation.";
             header('Location: ' . BASE_URL . 'documentation_client');
             exit;
         }
 
-        // Récupérer les localisations autorisées de l'utilisateur
         $userLocations = getUserLocations();
-        
-        // Récupération des données pour les filtres
+
         $sites = $this->getSitesByLocations($userLocations);
+        $buildings = [];
         $rooms = [];
         $categories = $this->categoryModel->getAllCategories();
-        
-        // Définir la page courante pour le menu
+
         $currentPage = 'documentation_client';
         $pageTitle = 'Ajouter un document';
 
-        // Inclure la vue
         require_once __DIR__ . '/../views/documentation_client/add.php';
     }
-
     /**
      * Traite l'ajout de documentation (upload multiple)
      */
-    public function store() {
+    public function store()
+    {
         $this->checkAccess();
-        
+
         // Vérifier que l'utilisateur a la permission d'ajouter de la documentation
         if (!hasPermission('client_add_documentation')) {
             header('Content-Type: application/json');
             echo json_encode(['error' => 'Vous n\'avez pas les permissions pour ajouter de la documentation.']);
             exit;
         }
-        
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Content-Type: application/json');
             echo json_encode(['error' => 'Méthode non autorisée']);
             exit;
         }
-        
+
         // Récupérer les localisations autorisées de l'utilisateur
         $userLocations = getUserLocations();
-        
+
         if (empty($userLocations)) {
             header('Content-Type: application/json');
             echo json_encode(['error' => 'Aucune localisation autorisée']);
             exit;
         }
-        
+
         // Récupérer le client_id depuis les localisations (premier client trouvé)
         $clientId = $userLocations[0]['client_id'];
-        
-        $siteId = isset($_POST['site_id']) && !empty($_POST['site_id']) ? (int)$_POST['site_id'] : null;
-        $roomId = isset($_POST['room_id']) && !empty($_POST['room_id']) ? (int)$_POST['room_id'] : null;
-        
+
+        $siteId = isset($_POST['site_id']) && !empty($_POST['site_id']) ? (int) $_POST['site_id'] : null;
+        $roomId = isset($_POST['room_id']) && !empty($_POST['room_id']) ? (int) $_POST['room_id'] : null;
+
         // Vérifier que la localisation est autorisée
         if (!$this->isLocationAuthorized($clientId, $siteId, $roomId, $userLocations)) {
             header('Content-Type: application/json');
             echo json_encode(['error' => 'Vous n\'avez pas les permissions pour ajouter un document à cette localisation.']);
             exit;
         }
-        
+
         if (!isset($_FILES['files']) || empty($_FILES['files']['name'][0])) {
             header('Content-Type: application/json');
             echo json_encode(['error' => 'Aucun fichier sélectionné']);
             exit;
         }
-        
+
         $uploadedFiles = [];
         $errors = [];
-        
+
         try {
             // Créer le répertoire de destination
             $uploadDir = __DIR__ . '/../../uploads/documentation/' . $clientId . '/';
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }
-            
+
             // Traiter chaque fichier
             foreach ($_FILES['files']['tmp_name'] as $index => $tmpName) {
                 if ($_FILES['files']['error'][$index] !== UPLOAD_ERR_OK) {
                     $errors[] = "Erreur lors de l'upload du fichier " . ($index + 1);
                     continue;
                 }
-                
+
                 $originalFileName = $_FILES['files']['name'][$index];
                 $customName = isset($_POST['custom_names'][$index]) ? $_POST['custom_names'][$index] : $originalFileName;
                 $fileSize = $_FILES['files']['size'][$index];
                 $fileTmpPath = $tmpName;
-                
+
                 // Vérifier la taille du fichier (limite du serveur)
                 $maxFileSize = getServerMaxUploadSize();
                 if ($fileSize > $maxFileSize) {
                     $errors[] = "Le fichier '$originalFileName' est trop volumineux (max " . formatFileSize($maxFileSize) . ")";
                     continue;
                 }
-                
+
                 // Vérifier l'extension
                 require_once INCLUDES_PATH . '/FileUploadValidator.php';
                 $fileExtension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
-                
+
                 if (!FileUploadValidator::isExtensionAllowed($fileExtension, $this->db)) {
                     $errors[] = "Le format du fichier '$originalFileName' n'est pas accepté";
                     continue;
                 }
-                
+
                 // Générer un nom de fichier unique
                 $fileName = $this->generateUniqueFileName($uploadDir, $originalFileName);
                 $filePath = $uploadDir . $fileName;
-                
+
                 if (move_uploaded_file($fileTmpPath, $filePath)) {
                     try {
                         $this->db->beginTransaction();
-                        
+
                         // Insérer la pièce jointe (toujours visible pour les clients)
                         $query = "INSERT INTO pieces_jointes (
                                     nom_fichier, nom_personnalise, chemin_fichier, type_fichier, taille_fichier, 
@@ -459,7 +559,7 @@ class DocumentationClientController {
                                     :nom_fichier, :nom_personnalise, :chemin_fichier, :type_fichier, :taille_fichier,
                                     :commentaire, 0, :created_by, NOW()
                                   )";
-                        
+
                         $stmt = $this->db->prepare($query);
                         $result = $stmt->execute([
                             ':nom_fichier' => $originalFileName,
@@ -470,10 +570,10 @@ class DocumentationClientController {
                             ':commentaire' => null,
                             ':created_by' => $_SESSION['user']['id']
                         ]);
-                        
+
                         if ($result) {
                             $pieceJointeId = $this->db->lastInsertId();
-                            
+
                             // Créer la liaison selon le niveau
                             if ($roomId) {
                                 // Liaison avec une salle
@@ -503,7 +603,7 @@ class DocumentationClientController {
                                     ':client_id' => $clientId
                                 ]);
                             }
-                            
+
                             $this->db->commit();
                             $uploadedFiles[] = $customName;
                         } else {
@@ -526,7 +626,7 @@ class DocumentationClientController {
                     $errors[] = "Erreur lors de l'upload du fichier '$originalFileName'";
                 }
             }
-            
+
             // Retourner la réponse
             header('Content-Type: application/json');
             if (count($uploadedFiles) > 0) {
@@ -547,10 +647,10 @@ class DocumentationClientController {
                 ]);
             }
             exit;
-            
+
         } catch (Exception $e) {
             custom_log("Erreur lors de l'upload de documentation client : " . $e->getMessage(), 'ERROR');
-            
+
             header('Content-Type: application/json');
             echo json_encode([
                 'success' => false,
@@ -563,23 +663,24 @@ class DocumentationClientController {
     /**
      * Génère un nom de fichier unique en conservant le nom original
      */
-    private function generateUniqueFileName($uploadDir, $originalFileName) {
+    private function generateUniqueFileName($uploadDir, $originalFileName)
+    {
         // Nettoyer le nom de fichier (supprimer les caractères spéciaux dangereux)
         $cleanFileName = preg_replace('/[^a-zA-Z0-9._-]/', '_', $originalFileName);
-        
+
         // Séparer le nom et l'extension
         $pathInfo = pathinfo($cleanFileName);
         $name = $pathInfo['filename'];
         $extension = isset($pathInfo['extension']) ? '.' . $pathInfo['extension'] : '';
-        
+
         $fileName = $name . $extension;
         $filePath = $uploadDir . $fileName;
-        
+
         // Si le fichier n'existe pas, on peut l'utiliser
         if (!file_exists($filePath)) {
             return $fileName;
         }
-        
+
         // Sinon, chercher un nom disponible avec un incrément
         $counter = 1;
         do {
@@ -587,16 +688,17 @@ class DocumentationClientController {
             $filePath = $uploadDir . $fileName;
             $counter++;
         } while (file_exists($filePath));
-        
+
         return $fileName;
     }
 
     /**
      * Traite l'ajout d'un nouveau document (ancienne méthode - conservée pour compatibilité)
      */
-    public function create() {
+    public function create()
+    {
         $this->checkAccess();
-        
+
         // Vérifier que l'utilisateur a la permission d'ajouter de la documentation
         if (!hasPermission('client_add_documentation')) {
             $_SESSION['error'] = "Vous n'avez pas les permissions pour ajouter de la documentation.";
@@ -607,12 +709,12 @@ class DocumentationClientController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Récupérer les localisations autorisées de l'utilisateur
             $userLocations = getUserLocations();
-            
+
             // Vérifier que le client_id est autorisé
-            $clientId = (int)$_POST['client_id'];
-            $siteId = !empty($_POST['site_id']) ? (int)$_POST['site_id'] : null;
-            $roomId = !empty($_POST['room_id']) ? (int)$_POST['room_id'] : null;
-            
+            $clientId = (int) $_POST['client_id'];
+            $siteId = !empty($_POST['site_id']) ? (int) $_POST['site_id'] : null;
+            $roomId = !empty($_POST['room_id']) ? (int) $_POST['room_id'] : null;
+
             if (!$this->isLocationAuthorized($clientId, $siteId, $roomId, $userLocations)) {
                 $_SESSION['error'] = "Vous n'avez pas les permissions pour ajouter un document à cette localisation.";
                 header('Location: ' . BASE_URL . 'documentation_client/add');
@@ -649,7 +751,7 @@ class DocumentationClientController {
                 $safeName = str_replace(' ', '_', $originalName);
                 $extension = pathinfo($safeName, PATHINFO_EXTENSION);
                 $baseName = pathinfo($safeName, PATHINFO_FILENAME);
-                
+
                 // Vérifier si le fichier existe déjà et ajouter un numéro incrémental si nécessaire
                 $counter = 1;
                 $finalName = $safeName;
@@ -679,7 +781,7 @@ class DocumentationClientController {
                 exit;
             }
         }
-        
+
         header('Location: ' . BASE_URL . 'documentation_client/add');
         exit;
     }
@@ -687,9 +789,10 @@ class DocumentationClientController {
     /**
      * Affiche le formulaire de modification d'un document
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $this->checkAccess();
-        
+
         // Vérifier que l'utilisateur a la permission d'ajouter de la documentation
         if (!hasPermission('client_add_documentation')) {
             $_SESSION['error'] = "Vous n'avez pas les permissions pour modifier la documentation.";
@@ -714,7 +817,7 @@ class DocumentationClientController {
 
         // Récupérer les localisations autorisées de l'utilisateur
         $userLocations = getUserLocations();
-        
+
         // Récupération des données pour les filtres
         $sites = $this->getSitesByLocations($userLocations);
         $rooms = [];
@@ -722,7 +825,7 @@ class DocumentationClientController {
             $rooms = $this->getRoomsBySiteAndLocations($document['site_id'], $userLocations);
         }
         $categories = $this->categoryModel->getAllCategories();
-        
+
         // Définir la page courante pour le menu
         $currentPage = 'documentation_client';
         $pageTitle = 'Modifier un document';
@@ -734,9 +837,10 @@ class DocumentationClientController {
     /**
      * Traite la modification d'un document
      */
-    public function update($id) {
+    public function update($id)
+    {
         $this->checkAccess();
-        
+
         // Vérifier que l'utilisateur a la permission d'ajouter de la documentation
         if (!hasPermission('client_add_documentation')) {
             $_SESSION['error'] = "Vous n'avez pas les permissions pour modifier la documentation.";
@@ -762,12 +866,12 @@ class DocumentationClientController {
 
             // Récupérer les localisations autorisées de l'utilisateur
             $userLocations = getUserLocations();
-            
+
             // Vérifier que le client_id est autorisé
-            $clientId = (int)$_POST['client_id'];
-            $siteId = !empty($_POST['site_id']) ? (int)$_POST['site_id'] : null;
-            $roomId = !empty($_POST['room_id']) ? (int)$_POST['room_id'] : null;
-            
+            $clientId = (int) $_POST['client_id'];
+            $siteId = !empty($_POST['site_id']) ? (int) $_POST['site_id'] : null;
+            $roomId = !empty($_POST['room_id']) ? (int) $_POST['room_id'] : null;
+
             if (!$this->isLocationAuthorized($clientId, $siteId, $roomId, $userLocations)) {
                 $_SESSION['error'] = "Vous n'avez pas les permissions pour modifier un document à cette localisation.";
                 header('Location: ' . BASE_URL . 'documentation_client/edit/' . $id);
@@ -807,7 +911,7 @@ class DocumentationClientController {
                 $safeName = str_replace(' ', '_', $originalName);
                 $extension = pathinfo($safeName, PATHINFO_EXTENSION);
                 $baseName = pathinfo($safeName, PATHINFO_FILENAME);
-                
+
                 // Vérifier si le fichier existe déjà et ajouter un numéro incrémental si nécessaire
                 $counter = 1;
                 $finalName = $safeName;
@@ -851,7 +955,7 @@ class DocumentationClientController {
                 exit;
             }
         }
-        
+
         header('Location: ' . BASE_URL . 'documentation_client/edit/' . $id);
         exit;
     }
@@ -859,9 +963,10 @@ class DocumentationClientController {
     /**
      * Supprime un document
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         $this->checkAccess();
-        
+
         // Vérifier que l'utilisateur a la permission d'ajouter de la documentation
         if (!hasPermission('client_add_documentation')) {
             $_SESSION['error'] = "Vous n'avez pas les permissions pour supprimer la documentation.";
@@ -886,7 +991,7 @@ class DocumentationClientController {
                      WHERE pj.id = ? 
                      AND lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
                      AND pj.masque_client = 0";
-            
+
             $stmt = $this->db->prepare($query);
             $stmt->execute([$id]);
             $document = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -933,18 +1038,18 @@ class DocumentationClientController {
             // Supprimer l'entrée dans pieces_jointes
             $deleteQuery = "DELETE FROM pieces_jointes WHERE id = ?";
             $deleteStmt = $this->db->prepare($deleteQuery);
-            
+
             if ($deleteStmt->execute([$id])) {
                 $_SESSION['success'] = "Document supprimé avec succès.";
             } else {
                 $_SESSION['error'] = "Erreur lors de la suppression du document dans la base de données.";
             }
-            
+
         } catch (Exception $e) {
             custom_log("Erreur lors de la suppression du document : " . $e->getMessage(), 'ERROR');
             $_SESSION['error'] = "Erreur lors de la suppression du document.";
         }
-        
+
         // Rediriger avec les filtres de session si disponibles
         $redirectUrl = BASE_URL . 'documentation_client';
         if (isset($_SESSION['documentation_filters'])) {
@@ -960,7 +1065,7 @@ class DocumentationClientController {
                 $redirectUrl .= '?' . http_build_query($params);
             }
         }
-        
+
         header('Location: ' . $redirectUrl);
         exit;
     }
@@ -968,37 +1073,40 @@ class DocumentationClientController {
     /**
      * Met à jour le nom personnalisé d'un document
      */
-    public function updateName() {
+    public function updateName()
+    {
         $this->checkAccess();
-        
+
         // Vérifier que c'est une requête AJAX
-        if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || 
-            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+        if (
+            empty($_SERVER['HTTP_X_REQUESTED_WITH']) ||
+            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest'
+        ) {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'error' => 'Requête non autorisée']);
             exit;
         }
-        
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'error' => 'Méthode non autorisée']);
             exit;
         }
-        
-        $attachmentId = isset($_POST['attachment_id']) ? (int)$_POST['attachment_id'] : null;
+
+        $attachmentId = isset($_POST['attachment_id']) ? (int) $_POST['attachment_id'] : null;
         $nomPersonnalise = isset($_POST['nom_personnalise']) ? trim($_POST['nom_personnalise']) : null;
-        
+
         if (!$attachmentId) {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'error' => 'ID du document manquant']);
             exit;
         }
-        
+
         // Le nom personnalisé peut être vide (NULL), on utilisera nom_fichier dans ce cas
         if ($nomPersonnalise === '') {
             $nomPersonnalise = null;
         }
-        
+
         try {
             // Récupérer le document avec les informations de localisation
             $query = "SELECT pj.*, 
@@ -1016,24 +1124,24 @@ class DocumentationClientController {
                      WHERE pj.id = ? 
                      AND lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
                      AND pj.masque_client = 0";
-            
+
             $stmt = $this->db->prepare($query);
             $stmt->execute([$attachmentId]);
             $pieceJointe = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if (!$pieceJointe) {
                 header('Content-Type: application/json');
                 echo json_encode(['success' => false, 'error' => 'Document non trouvé ou non accessible']);
                 exit;
             }
-            
+
             // Vérifier que l'utilisateur peut modifier ce document (créé par lui)
             if ($pieceJointe['created_by'] != $_SESSION['user']['id']) {
                 header('Content-Type: application/json');
                 echo json_encode(['success' => false, 'error' => 'Vous ne pouvez modifier que vos propres documents']);
                 exit;
             }
-            
+
             // Vérifier que l'utilisateur a accès à cette localisation
             $userLocations = getUserLocations();
             if (!$this->isLocationAuthorized($pieceJointe['client_id'], $pieceJointe['site_id'], $pieceJointe['salle_id'], $userLocations)) {
@@ -1041,7 +1149,7 @@ class DocumentationClientController {
                 echo json_encode(['success' => false, 'error' => 'Vous n\'avez pas accès à ce document']);
                 exit;
             }
-            
+
             // Mettre à jour le nom personnalisé
             $updateQuery = "UPDATE pieces_jointes SET nom_personnalise = :nom_personnalise WHERE id = :id";
             $updateStmt = $this->db->prepare($updateQuery);
@@ -1049,18 +1157,18 @@ class DocumentationClientController {
                 ':nom_personnalise' => $nomPersonnalise,
                 ':id' => $attachmentId
             ]);
-            
+
             // Récupérer le nom d'affichage (nom_personnalise ou nom_fichier)
             $displayName = $nomPersonnalise ?: $pieceJointe['nom_fichier'];
-            
+
             header('Content-Type: application/json');
             echo json_encode([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Nom mis à jour avec succès',
                 'display_name' => $displayName
             ]);
             exit;
-            
+
         } catch (Exception $e) {
             custom_log("Erreur lors de la mise à jour du nom : " . $e->getMessage(), 'ERROR');
             header('Content-Type: application/json');
@@ -1077,33 +1185,34 @@ class DocumentationClientController {
      * @param array $userLocations Les localisations autorisées de l'utilisateur
      * @return bool True si autorisé, false sinon
      */
-    private function isLocationAuthorized($clientId, $siteId, $roomId, $userLocations) {
+    private function isLocationAuthorized($clientId, $siteId, $roomId, $userLocations)
+    {
         foreach ($userLocations as $location) {
             if ($location['client_id'] == $clientId) {
                 // Si l'utilisateur a accès au client entier
                 if ($location['site_id'] === null) {
                     return true;
                 }
-                
+
                 // Si le document est lié directement au client (pas de site/salle)
                 if ($siteId === null && $roomId === null) {
                     // L'utilisateur a accès à un site du client, donc il peut voir les docs du client
                     return true;
                 }
-                
+
                 // Si l'utilisateur a accès à un site spécifique
                 if ($location['site_id'] == $siteId) {
                     // Si le document est lié au site (pas de salle spécifique)
                     if ($roomId === null) {
                         return true;
                     }
-                    
+
                     // Si l'utilisateur a accès à une salle spécifique
                     if ($location['room_id'] === null) {
                         // L'utilisateur a accès au site entier, donc il peut voir les docs de toutes les salles
                         return true;
                     }
-                    
+
                     // Si l'utilisateur a accès à une salle spécifique et le document est lié à cette salle
                     if ($location['room_id'] == $roomId) {
                         return true;
@@ -1121,7 +1230,8 @@ class DocumentationClientController {
      * Télécharge une pièce jointe de documentation (client)
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function download($attachmentId) {
+    public function download($attachmentId)
+    {
         $this->checkAccess();
 
         if (!$attachmentId) {
@@ -1129,8 +1239,8 @@ class DocumentationClientController {
             header('Location: ' . BASE_URL . 'documentation_client');
             exit;
         }
-        
-        $attachmentId = (int)$attachmentId;
+
+        $attachmentId = (int) $attachmentId;
 
         try {
             // Récupérer les informations de la pièce jointe avec les informations de localisation
@@ -1155,7 +1265,7 @@ class DocumentationClientController {
             $stmt = $this->db->prepare($query);
             $stmt->execute([$attachmentId]);
             $pieceJointe = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if (!$pieceJointe) {
                 throw new Exception("Pièce jointe non trouvée ou non accessible");
             }
@@ -1181,7 +1291,8 @@ class DocumentationClientController {
     /**
      * Aperçu d'une pièce jointe de documentation
      */
-    public function preview($attachmentId) {
+    public function preview($attachmentId)
+    {
         $this->checkAccess();
 
         if (!$attachmentId) {
@@ -1189,8 +1300,8 @@ class DocumentationClientController {
             echo "Pièce jointe non trouvée";
             exit;
         }
-        
-        $attachmentId = (int)$attachmentId;
+
+        $attachmentId = (int) $attachmentId;
 
         try {
             // Récupérer les informations de la pièce jointe avec les informations de localisation
@@ -1215,7 +1326,7 @@ class DocumentationClientController {
             $stmt = $this->db->prepare($query);
             $stmt->execute([$attachmentId]);
             $pieceJointe = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if (!$pieceJointe) {
                 throw new Exception("Pièce jointe non trouvée ou non accessible");
             }
@@ -1237,4 +1348,4 @@ class DocumentationClientController {
             exit;
         }
     }
-} 
+}

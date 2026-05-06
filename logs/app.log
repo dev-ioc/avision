@@ -34775,3 +34775,70 @@ Quant à l’écran n°1, il est HS
 [2026-05-06 15:16:45][DEBUG] Commentaires récupérés pour l'intervention 296: 0 
 [2026-05-06 15:16:45][DEBUG] Pièces jointes récupérées pour l'intervention 296: 0 
 [2026-05-06 15:16:50][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'where clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractsClientModel.php","line":73}
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 55: 4 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 11: 0 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 12: 0 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 2: 1 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 9: 0 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 109: 0 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Utilisateur connecté : {"id":16,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":{"client_modify_info":true,"client_view_materiel":true,"client_view_interventions":true,"client_view_documentation":true,"client_view_contracts":true,"client_manage_contacts":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:20:26][DEBUG] DEBUG - hasPermission('client_view_interventions') = true 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Utilisateur a la permission client_view_interventions 
+[2026-05-06 15:20:26][DEBUG] DEBUG - getOpenInterventions appelée pour client_id: 35 
+[2026-05-06 15:20:26][ERROR] Erreur lors de la récupération des interventions ouvertes : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-06 15:20:26][DEBUG] DEBUG - Nombre d'interventions ouvertes trouvées : 0 
+[2026-05-06 15:20:30][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:20:30][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:20:30][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:20:30][DEBUG] Commentaires récupérés pour l'intervention 296: 0 
+[2026-05-06 15:20:30][DEBUG] Pièces jointes récupérées pour l'intervention 296: 0 
+[2026-05-06 15:20:34][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'where clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractsClientModel.php","line":73}
+[2026-05-06 15:20:36][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:20:36][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 15:20:36][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 15:20:36][INFO] 55 
+[2026-05-06 15:20:37][INFO] 109 
+[2026-05-06 15:20:37][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:20:44][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:20:44][ERROR] Erreur lors du chargement du matériel client : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-05-06 15:20:49][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:20:49][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'IN/ALL/ANY subquery' {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\DocumentationClientController.php","line":140}
+[2026-05-06 15:23:53][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:23:53][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 15:23:53][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 15:23:53][INFO] 55 
+[2026-05-06 15:23:53][INFO] 109 
+[2026-05-06 15:23:53][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:23:55][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:23:55][ERROR] Erreur lors du chargement du matériel client : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-05-06 15:23:56][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:23:56][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'IN/ALL/ANY subquery' {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\DocumentationClientController.php","line":140}
+[2026-05-06 15:27:16][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:27:19][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:27:21][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:27:23][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:27:24][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:30:56][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:31:01][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:34:11][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:34:15][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:34:24][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:37:56][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:37:58][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:38:01][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:38:06][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:38:10][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:38:13][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:38:27][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:38:37][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:38:54][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:38:54][ERROR] Erreur lors du chargement du matériel client : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
