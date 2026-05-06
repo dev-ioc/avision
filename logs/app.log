@@ -34842,3 +34842,1182 @@ Quant à l’écran n°1, il est HS
 [2026-05-06 15:38:37][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
 [2026-05-06 15:38:54][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
 [2026-05-06 15:38:54][ERROR] Erreur lors du chargement du matériel client : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-05-06 15:43:32][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:43:32][ERROR] Erreur lors du chargement du matériel client : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-05-06 15:46:32][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:46:32][ERROR] Erreur lors du chargement du matériel client : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-05-06 15:46:44][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:46:47][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:46:50][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:46:53][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:46:53][ERROR] Erreur lors du chargement du matériel client : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-05-06 15:46:58][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:46:58][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 15:46:58][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 15:46:58][INFO] 55 
+[2026-05-06 15:46:58][INFO] 109 
+[2026-05-06 15:46:58][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:49:52][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /user/load_permissions 
+[2026-05-06 15:49:55][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /user/load_client_locations 
+[2026-05-06 15:51:07][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /user/load_permissions 
+[2026-05-06 15:51:45][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /user/add 
+[2026-05-06 15:52:41][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /user/load_permissions 
+[2026-05-06 15:52:45][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /user/load_client_locations 
+[2026-05-06 15:52:49][INFO] Données POST reçues pour création d'utilisateur: {"csrf_token":"9bba0424b371b0f129e28e44c7de4e0399361ab3320ddc88e1cbb90c5ee2b80c","username":"KARIJA","email":"dev_mdg@caspeo.fr","first_name":"Tsilefilaza","last_name":"TEST","password":"Testtsilefy12*","type":"client","status":"1","coef_utilisateur":"1.00","client_id":"46"} 
+[2026-05-06 15:52:49][INFO] Données traitées pour création d'utilisateur: {"username":"KARIJA","email":"dev_mdg@caspeo.fr","password":"Testtsilefy12*","first_name":"Tsilefilaza","last_name":"TEST","type":"client","is_admin":0,"status":1,"coef_utilisateur":"1.00","client_id":"46"} 
+[2026-05-06 15:52:49][ERROR] Erreurs de validation: ["Cet email existe d\u00e9j\u00e0"] 
+[2026-05-06 15:52:49][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /user/load_permissions 
+[2026-05-06 15:52:49][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /user/load_permissions 
+[2026-05-06 15:53:13][INFO] Données POST reçues pour création d'utilisateur: {"csrf_token":"9bba0424b371b0f129e28e44c7de4e0399361ab3320ddc88e1cbb90c5ee2b80c","username":"KARIJA","email":"dev_mdgrt@caspeo.fr","first_name":"Tsilefilaza","last_name":"TEST","password":"Testtsilefy12*","type":"client","status":"1","coef_utilisateur":"1.00","client_id":"46"} 
+[2026-05-06 15:53:13][INFO] Données traitées pour création d'utilisateur: {"username":"KARIJA","email":"dev_mdgrt@caspeo.fr","password":"Testtsilefy12*","first_name":"Tsilefilaza","last_name":"TEST","type":"client","is_admin":0,"status":1,"coef_utilisateur":"1.00","client_id":"46"} 
+[2026-05-06 15:53:13][INFO] Résultat de la création d'utilisateur: Succès, ID: 40 
+[2026-05-06 15:53:13][INFO] Permissions à ajouter: [] 
+[2026-05-06 15:53:32][DEBUG] Permissions chargées pour KARIJA : {"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}} 
+[2026-05-06 15:53:32][INFO] Utilisateur connecté : KARIJA {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":46}
+[2026-05-06 15:53:32][DEBUG] Login réussi - Session ID: acb91kol25j9c8h92ajmv7itsh 
+[2026-05-06 15:53:32][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-06 15:53:32][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-06 15:53:32][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-06 15:53:32][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:53:32][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:53:32][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:53:53][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:53:53][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:53:55][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:53:55][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:53:56][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:53:56][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:53:57][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:53:57][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:53:59][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:53:59][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:54:00][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:54:00][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:54:04][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:54:04][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 15:54:04][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 15:54:04][INFO] 81 
+[2026-05-06 15:54:04][INFO] 110 
+[2026-05-06 15:54:04][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:54:13][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:54:13][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:54:17][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:54:17][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:54:19][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:54:19][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:54:20][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:54:20][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:54:26][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:54:26][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:54:27][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:54:27][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:54:28][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:54:28][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:54:29][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:54:29][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 15:54:29][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 15:54:29][INFO] 81 
+[2026-05-06 15:54:29][INFO] 110 
+[2026-05-06 15:54:29][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:54:33][INFO] 81 
+[2026-05-06 15:54:50][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:54:50][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 15:54:50][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 15:54:50][INFO] 81 
+[2026-05-06 15:54:50][INFO] 110 
+[2026-05-06 15:54:50][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:54:54][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:54:54][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:55:14][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-06 15:55:14][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-06 15:55:14][DEBUG] Login réussi - Session ID: oigvq4kfu55c7059br478fqkvp 
+[2026-05-06 15:55:14][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-06 15:55:14][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-06 15:55:14][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-06 15:55:14][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-06 15:55:14][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-06 15:55:30][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /user/load_permissions 
+[2026-05-06 15:55:30][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /user/load_client_locations 
+[2026-05-06 15:55:54][WARNING] Tentative de connexion échouée pour l'utilisateur : dev_mdgrt@caspeo.fr 
+[2026-05-06 15:56:03][DEBUG] Permissions chargées pour KARIJA : {"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}} 
+[2026-05-06 15:56:03][INFO] Utilisateur connecté : KARIJA {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":46}
+[2026-05-06 15:56:03][DEBUG] Login réussi - Session ID: j4hg7s18ip6hh9s4ec2n5ukfjg 
+[2026-05-06 15:56:03][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-06 15:56:03][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-06 15:56:03][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-06 15:56:03][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:56:03][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:56:03][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:56:09][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:56:09][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Début, client_id: 46 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 81: 8 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 3: 1 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 6: 0 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 10: 0 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 13: 1 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 8: 0 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 4: 0 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 5: 0 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 14: 1 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 110: 1 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 7: 0 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Historique tickets pour contrat 221 : [] 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Historique complet pour contrat 221 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 10:59 par Eric CARTIER","created_at":"2026-05-06 11:59:07","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Historique tickets pour contrat 222 : [] 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Historique complet pour contrat 222 : [{"field_name":"Cr\u00e9ation du contrat","description":"Contrat cr\u00e9\u00e9 le 06\/05\/2026 \u00e0 11:00 par Eric CARTIER","created_at":"2026-05-06 12:00:45","old_value":"Non existant","new_value":"Contrat cr\u00e9\u00e9"}] 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Utilisateur connecté : {"id":40,"user_type":"client","client_id":46,"permissions":{"role":"client","rights":[],"locations":[],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:56:11][DEBUG] DEBUG - hasPermission('client_view_interventions') = false 
+[2026-05-06 15:56:11][DEBUG] DEBUG - Utilisateur n'a PAS la permission client_view_interventions 
+[2026-05-06 15:56:11][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:56:11][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 15:56:11][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 15:56:11][INFO] 81 
+[2026-05-06 15:56:11][INFO] 110 
+[2026-05-06 15:56:11][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:57:13][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:57:13][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 15:57:13][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 15:57:13][INFO] 81 
+[2026-05-06 15:57:13][INFO] 110 
+[2026-05-06 15:57:13][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:57:14][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:57:14][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 15:57:14][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 15:57:14][INFO] 81 
+[2026-05-06 15:57:14][INFO] 110 
+[2026-05-06 15:57:14][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:57:19][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:57:19][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 15:57:19][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 15:57:19][INFO] 81 
+[2026-05-06 15:57:19][INFO] 110 
+[2026-05-06 15:57:19][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:58:24][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:58:24][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 15:58:24][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 15:58:24][INFO] 81 
+[2026-05-06 15:58:24][INFO] 110 
+[2026-05-06 15:58:24][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:58:27][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:58:27][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 15:58:27][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 15:58:27][INFO] 81 
+[2026-05-06 15:58:27][INFO] 110 
+[2026-05-06 15:58:27][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:59:29][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:59:29][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 15:59:29][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 15:59:29][INFO] 81 
+[2026-05-06 15:59:29][INFO] 110 
+[2026-05-06 15:59:29][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:59:30][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:59:30][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 15:59:30][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 15:59:30][INFO] 81 
+[2026-05-06 15:59:30][INFO] 110 
+[2026-05-06 15:59:30][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 15:59:35][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 15:59:35][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 15:59:35][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 15:59:35][INFO] 81 
+[2026-05-06 15:59:35][INFO] 110 
+[2026-05-06 15:59:35][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:02:03][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:02:03][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:02:03][DEBUG] SiteClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 16:02:03][DEBUG] SiteClientController::index - sites count: 0 
+[2026-05-06 16:02:40][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:02:40][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:02:40][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:02:40][INFO] 81 
+[2026-05-06 16:02:40][INFO] 110 
+[2026-05-06 16:02:40][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:05:01][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:05:01][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:05:01][DEBUG] SiteClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 16:05:01][DEBUG] SiteClientController::index - sites count: 1 
+[2026-05-06 16:06:59][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:06:59][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:06:59][DEBUG] SiteClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 16:06:59][INFO] 81 
+[2026-05-06 16:06:59][INFO] 110 
+[2026-05-06 16:06:59][DEBUG] SiteClientController::index - sites count: 1 
+[2026-05-06 16:07:01][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:07:01][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:07:01][DEBUG] SiteClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 16:07:01][INFO] 81 
+[2026-05-06 16:07:01][INFO] 110 
+[2026-05-06 16:07:01][DEBUG] SiteClientController::index - sites count: 1 
+[2026-05-06 16:07:53][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:07:53][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:07:53][DEBUG] SiteClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 16:07:53][WARNING] Undefined array key "client_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\SiteClientController.php","line":426,"errno":2}
+[2026-05-06 16:07:53][WARNING] Undefined array key "client_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\SiteClientController.php","line":426,"errno":2}
+[2026-05-06 16:07:53][DEBUG] SiteClientController::index - sites count: 1 
+[2026-05-06 16:07:55][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:07:55][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:07:55][DEBUG] SiteClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 16:07:55][WARNING] Undefined array key "client_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\SiteClientController.php","line":426,"errno":2}
+[2026-05-06 16:07:55][WARNING] Undefined array key "client_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\SiteClientController.php","line":426,"errno":2}
+[2026-05-06 16:07:55][DEBUG] SiteClientController::index - sites count: 1 
+[2026-05-06 16:07:55][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:07:55][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:07:55][DEBUG] SiteClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 16:07:55][WARNING] Undefined array key "client_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\SiteClientController.php","line":426,"errno":2}
+[2026-05-06 16:07:55][WARNING] Undefined array key "client_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\SiteClientController.php","line":426,"errno":2}
+[2026-05-06 16:07:55][DEBUG] SiteClientController::index - sites count: 1 
+[2026-05-06 16:08:15][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:08:15][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:08:15][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:08:15][INFO] 81 
+[2026-05-06 16:08:15][INFO] 110 
+[2026-05-06 16:08:15][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:09:04][WARNING] Undefined array key "client_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\SiteClientController.php","line":46,"errno":2}
+[2026-05-06 16:09:04][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:09:04][DEBUG] SiteClientController::index - clientId from session: null 
+[2026-05-06 16:09:04][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:09:04][INFO] 81 
+[2026-05-06 16:09:04][INFO] 110 
+[2026-05-06 16:09:04][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:09:05][WARNING] Undefined array key "client_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\SiteClientController.php","line":46,"errno":2}
+[2026-05-06 16:09:05][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:09:05][DEBUG] SiteClientController::index - clientId from session: null 
+[2026-05-06 16:09:05][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:09:05][INFO] 81 
+[2026-05-06 16:09:05][INFO] 110 
+[2026-05-06 16:09:05][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:09:06][WARNING] Undefined array key "client_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\SiteClientController.php","line":46,"errno":2}
+[2026-05-06 16:09:06][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:09:06][DEBUG] SiteClientController::index - clientId from session: null 
+[2026-05-06 16:09:06][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:09:06][INFO] 81 
+[2026-05-06 16:09:06][INFO] 110 
+[2026-05-06 16:09:06][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:09:06][WARNING] Undefined array key "client_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\SiteClientController.php","line":46,"errno":2}
+[2026-05-06 16:09:06][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:09:06][DEBUG] SiteClientController::index - clientId from session: null 
+[2026-05-06 16:09:06][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:09:06][INFO] 81 
+[2026-05-06 16:09:07][INFO] 110 
+[2026-05-06 16:09:07][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:11:01][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:11:01][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:11:01][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:11:01][INFO] 81 
+[2026-05-06 16:11:01][INFO] 110 
+[2026-05-06 16:11:01][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:11:02][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:11:02][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:11:02][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:11:02][INFO] 81 
+[2026-05-06 16:11:02][INFO] 110 
+[2026-05-06 16:11:02][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:11:10][INFO] 81 
+[2026-05-06 16:11:17][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:11:17][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:11:17][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:11:17][INFO] 81 
+[2026-05-06 16:11:17][INFO] 110 
+[2026-05-06 16:11:17][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:11:19][INFO] 81 
+[2026-05-06 16:11:24][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:11:24][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:11:24][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:11:24][INFO] 81 
+[2026-05-06 16:11:24][INFO] 110 
+[2026-05-06 16:11:25][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:11:26][INFO] 81 
+[2026-05-06 16:11:29][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:11:29][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:11:29][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:11:29][INFO] 81 
+[2026-05-06 16:11:29][INFO] 110 
+[2026-05-06 16:11:29][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:12:01][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:12:01][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:12:01][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:12:01][INFO] 81 
+[2026-05-06 16:12:01][INFO] 110 
+[2026-05-06 16:12:01][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:12:02][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:12:02][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:12:02][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:12:02][INFO] 81 
+[2026-05-06 16:12:02][INFO] 110 
+[2026-05-06 16:12:02][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:13:40][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:13:40][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:13:40][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:13:40][INFO] 81 
+[2026-05-06 16:13:41][INFO] 110 
+[2026-05-06 16:13:41][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:13:42][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:13:42][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:13:42][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:13:42][INFO] 81 
+[2026-05-06 16:13:42][INFO] 110 
+[2026-05-06 16:13:42][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:13:43][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:13:43][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:13:43][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:13:43][INFO] 81 
+[2026-05-06 16:13:43][INFO] 110 
+[2026-05-06 16:13:43][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:14:28][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:14:28][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:14:28][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:14:28][INFO] 81 
+[2026-05-06 16:14:28][INFO] 110 
+[2026-05-06 16:14:28][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:14:39][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:14:39][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:14:39][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:14:39][INFO] 81 
+[2026-05-06 16:14:39][INFO] 110 
+[2026-05-06 16:14:39][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:20:21][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:20:21][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:20:21][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:20:21][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:20:21][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:20:21][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:20:21][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:20:21][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:20:21][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:20:21][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:20:21][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:20:21][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:20:21][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:20:21][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:20:21][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:20:21][INFO] 81 
+[2026-05-06 16:20:21][INFO] 110 
+[2026-05-06 16:20:21][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:20:21][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:20:21][DEBUG] SiteClientController::index - IDs des sites: [81,110] 
+[2026-05-06 16:20:21][DEBUG] SiteClientController::index - Noms des sites: ["Alphabet","test"] 
+[2026-05-06 16:20:28][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:20:28][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:20:28][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:20:28][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:20:28][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:20:28][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:20:28][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:20:28][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:20:28][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:20:28][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:20:28][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:20:28][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:20:28][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:20:28][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:20:28][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:20:28][INFO] 81 
+[2026-05-06 16:20:28][INFO] 110 
+[2026-05-06 16:20:28][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:20:28][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:20:28][DEBUG] SiteClientController::index - IDs des sites: [81,110] 
+[2026-05-06 16:20:28][DEBUG] SiteClientController::index - Noms des sites: ["Alphabet","test"] 
+[2026-05-06 16:22:17][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:22:17][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:22:17][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:22:17][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:22:17][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:22:17][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:22:17][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:22:17][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:22:17][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:22:17][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:22:17][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:22:17][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:22:17][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:22:17][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:22:17][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:22:17][INFO] 81 
+[2026-05-06 16:22:17][INFO] 110 
+[2026-05-06 16:22:17][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:22:17][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:22:17][DEBUG] SiteClientController::index - IDs des sites: [81,110] 
+[2026-05-06 16:22:17][DEBUG] SiteClientController::index - Noms des sites: ["Alphabet","test"] 
+[2026-05-06 16:23:39][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:23:39][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:23:39][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:23:39][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:23:39][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:23:39][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:23:39][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:23:39][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:23:39][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:23:39][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:23:39][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:23:39][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:23:39][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:23:39][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:23:39][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:23:39][INFO] 81 
+[2026-05-06 16:23:39][INFO] 110 
+[2026-05-06 16:23:39][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:23:39][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:23:39][DEBUG] SiteClientController::index - IDs des sites: [81,110] 
+[2026-05-06 16:23:39][DEBUG] SiteClientController::index - Noms des sites: ["Alphabet","test"] 
+[2026-05-06 16:23:41][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:23:41][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:23:41][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:23:41][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:23:41][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:23:41][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:23:41][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:23:41][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:23:41][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:23:41][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:23:41][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:23:41][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:23:41][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:23:41][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:23:41][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:23:41][INFO] 81 
+[2026-05-06 16:23:41][INFO] 110 
+[2026-05-06 16:23:41][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:23:47][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:23:47][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:23:47][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:23:47][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:23:47][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:23:47][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:23:47][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:23:47][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:23:47][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:23:47][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:23:47][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:23:47][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:23:47][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:23:47][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:23:47][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:23:47][INFO] 81 
+[2026-05-06 16:23:47][INFO] 110 
+[2026-05-06 16:23:47][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:23:47][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:23:47][DEBUG] SiteClientController::index - IDs des sites: [81,110] 
+[2026-05-06 16:23:47][DEBUG] SiteClientController::index - Noms des sites: ["Alphabet","test"] 
+[2026-05-06 16:25:13][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:25:13][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:25:13][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:25:13][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:25:13][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:25:13][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:25:13][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:25:13][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:25:13][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:25:13][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:25:13][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:25:13][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:25:13][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:25:13][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:25:13][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:25:13][INFO] 81 
+[2026-05-06 16:25:13][INFO] 110 
+[2026-05-06 16:25:13][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:25:13][WARNING] include_once(C:\xampp\htdocs\avision\public\views\client_client/index_content.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client_client\\index.php","line":23,"errno":2}
+[2026-05-06 16:25:13][WARNING] include_once(): Failed opening 'C:\xampp\htdocs\avision\public\views\client_client/index_content.php' for inclusion (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client_client\\index.php","line":23,"errno":2}
+[2026-05-06 16:25:40][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:25:40][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:25:40][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:25:40][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:25:40][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:25:40][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:25:40][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:25:40][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:25:40][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:25:40][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:25:40][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:25:40][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:25:40][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:25:40][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:25:40][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:25:40][INFO] 81 
+[2026-05-06 16:25:40][INFO] 110 
+[2026-05-06 16:25:40][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:26:20][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:26:20][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:26:20][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:26:20][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:26:20][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:26:20][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:26:20][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:26:20][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:26:20][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:26:20][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:26:20][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:26:20][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:26:20][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:26:20][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:26:20][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:26:20][INFO] 81 
+[2026-05-06 16:26:20][INFO] 110 
+[2026-05-06 16:26:20][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:26:22][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:26:22][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:26:22][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:26:22][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:26:22][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:26:22][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:26:22][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:26:22][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:26:22][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:26:22][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:26:22][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:26:22][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:26:22][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:26:22][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:26:22][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:26:22][INFO] 81 
+[2026-05-06 16:26:22][INFO] 110 
+[2026-05-06 16:26:22][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:26:22][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:26:22][DEBUG] SiteClientController::index - IDs des sites: [81,110] 
+[2026-05-06 16:26:22][DEBUG] SiteClientController::index - Noms des sites: ["Alphabet","test"] 
+[2026-05-06 16:27:01][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:27:01][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:27:01][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:27:01][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:27:01][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:27:01][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:27:01][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:27:01][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:27:01][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:27:01][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:27:01][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:27:01][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:27:01][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:27:01][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:27:01][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:27:01][INFO] 81 
+[2026-05-06 16:27:01][INFO] 110 
+[2026-05-06 16:27:01][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:27:05][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:27:05][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:27:05][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:27:05][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:27:05][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:27:05][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:27:05][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:27:05][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:27:05][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:27:05][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:27:05][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:27:05][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:27:05][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:27:05][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:27:05][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:27:05][INFO] 81 
+[2026-05-06 16:27:05][INFO] 110 
+[2026-05-06 16:27:05][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:27:05][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:27:05][DEBUG] SiteClientController::index - IDs des sites: [81,110] 
+[2026-05-06 16:27:05][DEBUG] SiteClientController::index - Noms des sites: ["Alphabet","test"] 
+[2026-05-06 16:30:01][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:30:01][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:30:01][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:30:01][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:30:01][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:30:01][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:30:01][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:30:01][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:30:01][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:30:01][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:30:01][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:30:01][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:30:01][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:30:01][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:30:01][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:30:01][INFO] 81 
+[2026-05-06 16:30:01][INFO] 110 
+[2026-05-06 16:30:01][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:30:04][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:30:04][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:30:04][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:30:04][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:30:04][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:30:04][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:30:04][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:30:04][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:30:04][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:30:04][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:30:04][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:30:04][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:30:04][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:30:04][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:30:04][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:30:04][INFO] 81 
+[2026-05-06 16:30:05][INFO] 110 
+[2026-05-06 16:30:05][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:30:05][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:30:05][DEBUG] SiteClientController::index - IDs des sites: [81,110] 
+[2026-05-06 16:30:05][DEBUG] SiteClientController::index - Noms des sites: ["Alphabet","test"] 
+[2026-05-06 16:30:32][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:30:32][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:30:32][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:30:32][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:30:32][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:30:32][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:30:32][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:30:32][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:30:32][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:30:32][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:30:32][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:30:32][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:30:32][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:30:32][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:30:32][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:30:32][INFO] 81 
+[2026-05-06 16:30:32][INFO] 110 
+[2026-05-06 16:30:32][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:32:27][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:32:27][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:32:27][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:32:27][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:32:27][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:32:27][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:32:27][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:32:27][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:32:27][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:32:27][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:32:27][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:32:27][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:32:27][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:32:27][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:32:27][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:32:27][DEBUG] SiteClientController::index - sites après dédoublonnage: [81,110] 
+[2026-05-06 16:32:27][INFO] 81 
+[2026-05-06 16:32:27][INFO] 110 
+[2026-05-06 16:32:27][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:32:28][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:32:28][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:32:28][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:32:28][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:32:28][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:32:28][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:32:28][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:32:28][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:32:28][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:32:28][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:32:28][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:32:28][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:32:28][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:32:28][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:32:28][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:32:28][DEBUG] SiteClientController::index - sites après dédoublonnage: [81,110] 
+[2026-05-06 16:32:28][INFO] 81 
+[2026-05-06 16:32:28][INFO] 110 
+[2026-05-06 16:32:28][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:32:30][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:32:30][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:32:30][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:32:30][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:32:30][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:32:30][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:32:30][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:32:30][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:32:30][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:32:30][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:32:30][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:32:30][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:32:30][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:32:30][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:32:30][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:32:30][DEBUG] SiteClientController::index - sites après dédoublonnage: [81,110] 
+[2026-05-06 16:32:30][INFO] 81 
+[2026-05-06 16:32:30][INFO] 110 
+[2026-05-06 16:32:30][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:32:51][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:32:51][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:32:51][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:32:51][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:32:51][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:32:51][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:32:51][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:32:51][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:32:51][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:32:51][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:32:51][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:32:51][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:32:51][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:32:51][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:32:51][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:32:51][DEBUG] SiteClientController::index - sites après dédoublonnage: [81,110] 
+[2026-05-06 16:32:51][INFO] 81 
+[2026-05-06 16:32:51][INFO] 110 
+[2026-05-06 16:32:51][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:32:56][INFO] 110 
+[2026-05-06 16:33:02][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:33:02][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:33:02][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:33:02][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:33:02][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:33:02][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:33:02][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:33:02][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:33:02][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:33:02][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:33:02][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:33:02][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:33:02][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:33:02][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:33:02][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:33:02][DEBUG] SiteClientController::index - sites après dédoublonnage: [81,110] 
+[2026-05-06 16:33:02][INFO] 81 
+[2026-05-06 16:33:02][INFO] 110 
+[2026-05-06 16:33:02][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 16:33:06][INFO] 81 
+[2026-05-06 16:33:09][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 16:33:09][DEBUG] SiteClientController::index - clientId from session: 46 
+[2026-05-06 16:33:09][DEBUG] SiteClientController::index - userLocations: {"46":[]} 
+[2026-05-06 16:33:09][DEBUG] getSitesByLocations - START 
+[2026-05-06 16:33:09][DEBUG] getSitesByLocations - userLocations: {"46":[]} 
+[2026-05-06 16:33:09][DEBUG] getSitesByLocations - Traitement du clientId: 46 
+[2026-05-06 16:33:09][DEBUG] getSitesByLocations - locations: [] 
+[2026-05-06 16:33:09][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-05-06 16:33:09][DEBUG] getSitesByLocations - Site: ID=81, name=Alphabet 
+[2026-05-06 16:33:09][DEBUG] getSitesByLocations - Site: ID=110, name=test 
+[2026-05-06 16:33:09][DEBUG] getSitesByLocations - fullClientAccess: true 
+[2026-05-06 16:33:09][DEBUG] getSitesByLocations - Accès complet au client 46 
+[2026-05-06 16:33:09][DEBUG] getSitesByLocations - Ajout du site 81 dans la map (accès complet) 
+[2026-05-06 16:33:09][DEBUG] getSitesByLocations - Ajout du site 110 dans la map (accès complet) 
+[2026-05-06 16:33:09][DEBUG] getSitesByLocations - résultat FINAL: [81,110] 
+[2026-05-06 16:33:09][DEBUG] SiteClientController::index - sites après dédoublonnage: [81,110] 
+[2026-05-06 16:33:09][INFO] 81 
+[2026-05-06 16:33:09][INFO] 110 
+[2026-05-06 16:33:09][DEBUG] SiteClientController::index - sites count: 2 

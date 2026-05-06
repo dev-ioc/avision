@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../includes/functions.php';
+
 /**
  * Vue des sites, bâtiments et salles du client
  * Affiche les sites, bâtiments et salles associés au client connecté
@@ -29,6 +30,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 // Récupérer les données depuis le contrôleur
 $sites = $sites ?? [];
+
+// Dédoublonner les sites par ID dans la vue (au cas où)
+$uniqueSites = [];
+foreach ($sites as $site) {
+    if (!isset($uniqueSites[$site['id']])) {
+        $uniqueSites[$site['id']] = $site;
+    }
+}
+$sites = array_values($uniqueSites);
 ?>
 
 <div class="container-fluid flex-grow-1 container-p-y">

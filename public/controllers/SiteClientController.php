@@ -50,14 +50,23 @@ class SiteClientController
         try {
             // Récupération des sites selon les localisations autorisées
             $sites = $this->getSitesByLocations($userLocations);
+            if (!empty($sites)) {
+                $uniqueSites = [];
+                foreach ($sites as $site) {
+                    if (!isset($uniqueSites[$site['id']])) {
+                        $uniqueSites[$site['id']] = $site;
+                    }
+                }
+                $sites = array_values($uniqueSites);
+                custom_log('SiteClientController::index - sites après dédoublonnage: ' . json_encode(array_column($sites, 'id')), 'DEBUG');
+            }
 
-            // Pour chaque site, récupérer les bâtiments et salles
-            foreach ($sites as &$site) {
-                $site['buildings'] = $this->getBuildingsBySiteAndLocations($site['id'], $userLocations);
-
-                // Pour chaque bâtiment, récupérer les salles
-                foreach ($site['buildings'] as &$building) {
-                    $building['rooms'] = $this->getRoomsByBuildingAndLocations($building['id'], $userLocations);
+            foreach ($sites as $index => $site) {
+                $sites[$index]['buildings'] = $this->getBuildingsBySiteAndLocations($site['id'], $userLocations);
+                if (!empty($sites[$index]['buildings'])) {
+                    foreach ($sites[$index]['buildings'] as $buildingIndex => $building) {
+                        $sites[$index]['buildings'][$buildingIndex]['rooms'] = $this->getRoomsByBuildingAndLocations($building['id'], $userLocations);
+                    }
                 }
             }
 
@@ -253,76 +262,97 @@ class SiteClientController
             return [];
         }
     }
-
-    /**
-     * Récupère les sites selon les localisations autorisées
-     * @param array $userLocations Localisations autorisées
-     * @return array Liste des sites autorisés
-     */
     private function getSitesByLocations($userLocations)
     {
         try {
-            $sites = [];
+            custom_log('getSitesByLocations - START', 'DEBUG');
+            custom_log('getSitesByLocations - userLocations: ' . json_encode($userLocations), 'DEBUG');
+
+            $sitesMap = [];
+
+            // Normaliser le format des userLocations
+            if (isset($userLocations[0]) && isset($userLocations[0]['client_id'])) {
+                $grouped = [];
+                foreach ($userLocations as $loc) {
+                    $cid = $loc['client_id'];
+                    if (!isset($grouped[$cid])) {
+                        $grouped[$cid] = [];
+                    }
+                    $grouped[$cid][] = $loc;
+                }
+                $userLocations = $grouped;
+                custom_log('getSitesByLocations - après normalisation: ' . json_encode($userLocations), 'DEBUG');
+            }
 
             foreach ($userLocations as $clientId => $locations) {
-                // Récupérer tous les sites du client
+                custom_log("getSitesByLocations - Traitement du clientId: $clientId", 'DEBUG');
+                custom_log("getSitesByLocations - locations: " . json_encode($locations), 'DEBUG');
+
                 $clientSites = $this->siteModel->getSitesByClientId($clientId);
+                custom_log("getSitesByLocations - clientSites trouvés: " . count($clientSites), 'DEBUG');
+                foreach ($clientSites as $s) {
+                    custom_log("getSitesByLocations - Site: ID={$s['id']}, name={$s['name']}", 'DEBUG');
+                }
 
-                // Déterminer si l'utilisateur a un accès complet au client
                 $fullClientAccess = empty($locations);
+                custom_log("getSitesByLocations - fullClientAccess: " . ($fullClientAccess ? 'true' : 'false'), 'DEBUG');
 
-                if (!$fullClientAccess) {
-                    foreach ($locations as $location) {
-                        $siteIdVal = $location['site_id'] ?? null;
-                        $buildingIdVal = $location['building_id'] ?? null;
-                        $roomIdVal = $location['room_id'] ?? null;
-
-                        if ($siteIdVal === null && $buildingIdVal === null && $roomIdVal === null) {
+                if (!$fullClientAccess && is_array($locations)) {
+                    foreach ($locations as $loc) {
+                        if (is_array($loc) && ($loc['site_id'] ?? null) === null && ($loc['building_id'] ?? null) === null && ($loc['room_id'] ?? null) === null) {
                             $fullClientAccess = true;
+                            custom_log("getSitesByLocations - fullClientAccess devient true (accès client complet)", 'DEBUG');
                             break;
                         }
                     }
                 }
 
-                // Construire un ensemble d'ID de sites autorisés à partir des localisations
-                $allowedSiteIds = [];
-                if (!$fullClientAccess) {
-                    foreach ($locations as $location) {
-                        if (!empty($location['site_id'])) {
-                            $allowedSiteIds[(int) $location['site_id']] = true;
-                        } elseif (!empty($location['building_id'])) {
-                            // Récupérer le site du bâtiment
-                            $building = $this->buildingModel->getBuildingById((int) $location['building_id']);
-                            if ($building && !empty($building['site_id'])) {
-                                $allowedSiteIds[(int) $building['site_id']] = true;
-                            }
-                        } elseif (!empty($location['room_id'])) {
-                            // Récupérer le site de la salle via le bâtiment
-                            $room = $this->roomModel->getRoomById((int) $location['room_id']);
-                            if ($room && !empty($room['building_id'])) {
-                                $building = $this->buildingModel->getBuildingById((int) $room['building_id']);
+                if ($fullClientAccess) {
+                    custom_log("getSitesByLocations - Accès complet au client $clientId", 'DEBUG');
+                    foreach ($clientSites as $site) {
+                        $sitesMap[$site['id']] = $site;
+                        custom_log("getSitesByLocations - Ajout du site {$site['id']} dans la map (accès complet)", 'DEBUG');
+                    }
+                } else {
+                    $allowedSiteIds = [];
+                    foreach ($locations as $loc) {
+                        if (is_array($loc)) {
+                            if (!empty($loc['site_id'])) {
+                                $allowedSiteIds[(int) $loc['site_id']] = true;
+                                custom_log("getSitesByLocations - Site autorisé directement: {$loc['site_id']}", 'DEBUG');
+                            } elseif (!empty($loc['building_id'])) {
+                                $building = $this->buildingModel->getBuildingById((int) $loc['building_id']);
                                 if ($building && !empty($building['site_id'])) {
                                     $allowedSiteIds[(int) $building['site_id']] = true;
+                                    custom_log("getSitesByLocations - Site autorisé via bâtiment {$loc['building_id']}: site_id={$building['site_id']}", 'DEBUG');
+                                }
+                            } elseif (!empty($loc['room_id'])) {
+                                $room = $this->roomModel->getRoomById((int) $loc['room_id']);
+                                if ($room && !empty($room['building_id'])) {
+                                    $building = $this->buildingModel->getBuildingById((int) $room['building_id']);
+                                    if ($building && !empty($building['site_id'])) {
+                                        $allowedSiteIds[(int) $building['site_id']] = true;
+                                        custom_log("getSitesByLocations - Site autorisé via salle {$loc['room_id']}: site_id={$building['site_id']}", 'DEBUG');
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                // Filtrer la liste des sites selon l'accès
-                foreach ($clientSites as $site) {
-                    if ($fullClientAccess) {
-                        $sites[] = $site;
-                        continue;
-                    }
+                    custom_log("getSitesByLocations - allowedSiteIds: " . json_encode($allowedSiteIds), 'DEBUG');
 
-                    if (isset($allowedSiteIds[(int) $site['id']])) {
-                        $sites[] = $site;
+                    foreach ($clientSites as $site) {
+                        if (isset($allowedSiteIds[(int) $site['id']])) {
+                            $sitesMap[$site['id']] = $site;
+                            custom_log("getSitesByLocations - Ajout du site {$site['id']} dans la map (accès restreint)", 'DEBUG');
+                        }
                     }
                 }
             }
 
-            return $sites;
+            $result = array_values($sitesMap);
+            custom_log('getSitesByLocations - résultat FINAL: ' . json_encode(array_column($result, 'id')), 'DEBUG');
+            return $result;
 
         } catch (Exception $e) {
             custom_log("Erreur lors de la récupération des sites : " . $e->getMessage(), 'ERROR');

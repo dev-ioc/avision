@@ -75,9 +75,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <?php echo htmlspecialchars($client['name'] ?? ''); ?>
                                 </a>
                             </td>
-                            <td data-label="Ville"><?php echo htmlspecialchars($client['city'] ?? ''); ?></td>
-                            <td data-label="Email"><?php echo htmlspecialchars($client['email'] ?? ''); ?></td>
-                            <td data-label="Téléphone"><?php echo htmlspecialchars($client['phone'] ?? ''); ?></td>
+                            <td data-label="Ville">
+                                <?php echo htmlspecialchars($client['city'] ?? ''); ?>
+                            </td>
+                            <td data-label="Email">
+                                <?php echo htmlspecialchars($client['email'] ?? ''); ?>
+                            </td>
+                            <td data-label="Téléphone">
+                                <?php echo htmlspecialchars($client['phone'] ?? ''); ?>
+                            </td>
                             <td data-label="Statut" data-order="<?php echo $client['status'] ?? 0; ?>">
                                 <?php if (isset($client['status']) && $client['status'] == 1): ?>
                                     <span class="badge bg-success">Actif</span>
