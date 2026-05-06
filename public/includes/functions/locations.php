@@ -125,36 +125,52 @@ function canViewClientData($clientId)
 
     return false;
 }
-
 /**
- * Construit une clause WHERE pour filtrer selon les localisations autorisées
- * VERSION SÉCURISÉE - Empêche tout contournement par les JOINs
- * @param array $userLocations Les localisations de l'utilisateur
- * @param string $clientColumn Nom de la colonne client
- * @param string $siteColumn Nom de la colonne site
- * @param string $roomColumn Nom de la colonne room
- * @return string Clause WHERE
+ * Construit une clause WHERE pour filtrer par localisations autorisées
+ * 
+ * @param array $userLocations Les localisations autorisées de l'utilisateur
+ * @param string $clientColumn Nom de la colonne client_id
+ * @param string $siteColumn Nom de la colonne site_id
+ * @param string $buildingColumn Nom de la colonne building_id
+ * @param string $roomColumn Nom de la colonne room_id
+ * @return string Clause WHERE SQL
  */
-function buildLocationWhereClause($userLocations, $clientColumn, $siteColumn, $roomColumn)
+function buildLocationWhereClause($userLocations, $clientColumn = 'client_id', $siteColumn = 'site_id', $buildingColumn = 'building_id', $roomColumn = 'room_id')
 {
+    if (empty($userLocations)) {
+        return '1=0'; // Aucun accès
+    }
+
     $conditions = [];
 
     foreach ($userLocations as $location) {
-        $clientId = $location['client_id'];
-        $siteId = $location['site_id'];
-        $roomId = $location['room_id'];
+        $clientId = $location['client_id'] ?? null;
+        $siteId = $location['site_id'] ?? null;
+        $buildingId = $location['building_id'] ?? null;
+        $roomId = $location['room_id'] ?? null;
+
+        if ($clientId === null) {
+            // Accès global (administrateur)
+            $conditions[] = '1=1';
+            break;
+        }
+
+        $subConditions = ["$clientColumn = " . intval($clientId)];
+
+        if ($siteId !== null) {
+            $subConditions[] = "$siteColumn = " . intval($siteId);
+        }
+
+        if ($buildingId !== null) {
+            $subConditions[] = "$buildingColumn = " . intval($buildingId);
+        }
 
         if ($roomId !== null) {
-            // Accès spécifique à une salle - VÉRIFICATION STRICTE
-            $conditions[] = "({$clientColumn} = {$clientId})";
-        } elseif ($siteId !== null) {
-            // Accès à un site entier - VÉRIFICATION STRICTE
-            $conditions[] = "({$clientColumn} = {$clientId})";
-        } else {
-            // Accès au client entier - VÉRIFICATION STRICTE
-            $conditions[] = "({$clientColumn} = {$clientId})";
+            $subConditions[] = "$roomColumn = " . intval($roomId);
         }
+
+        $conditions[] = '(' . implode(' AND ', $subConditions) . ')';
     }
 
-    return empty($conditions) ? "1=0" : "(" . implode(" OR ", $conditions) . ")";
+    return '(' . implode(' OR ', $conditions) . ')';
 }

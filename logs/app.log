@@ -34329,3 +34329,449 @@ Quant à l’écran n°1, il est HS
 [2026-05-06 14:04:59][DEBUG] DEBUG - getOpenInterventions appelée pour client_id: 35 
 [2026-05-06 14:04:59][ERROR] Erreur lors de la récupération des interventions ouvertes : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
 [2026-05-06 14:04:59][DEBUG] DEBUG - Nombre d'interventions ouvertes trouvées : 0 
+[2026-05-06 14:08:38][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:08:38][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:08:38][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:08:38][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:15:29][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:15:29][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:15:29][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:15:29][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:15:35][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 55: 4 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 11: 0 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 12: 0 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 2: 1 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 9: 0 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 109: 0 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Utilisateur connecté : {"id":16,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":{"client_modify_info":true,"client_view_materiel":true,"client_view_interventions":true,"client_view_documentation":true,"client_view_contracts":true,"client_manage_contacts":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}}} 
+[2026-05-06 14:15:35][DEBUG] DEBUG - hasPermission('client_view_interventions') = true 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Utilisateur a la permission client_view_interventions 
+[2026-05-06 14:15:35][DEBUG] DEBUG - getOpenInterventions appelée pour client_id: 35 
+[2026-05-06 14:15:35][ERROR] Erreur lors de la récupération des interventions ouvertes : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-06 14:15:35][DEBUG] DEBUG - Nombre d'interventions ouvertes trouvées : 0 
+[2026-05-06 14:16:32][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 55: 4 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 11: 0 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 12: 0 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 2: 1 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 9: 0 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 109: 0 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Utilisateur connecté : {"id":16,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":{"client_modify_info":true,"client_view_materiel":true,"client_view_interventions":true,"client_view_documentation":true,"client_view_contracts":true,"client_manage_contacts":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}}} 
+[2026-05-06 14:16:32][DEBUG] DEBUG - hasPermission('client_view_interventions') = true 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Utilisateur a la permission client_view_interventions 
+[2026-05-06 14:16:32][DEBUG] DEBUG - getOpenInterventions appelée pour client_id: 35 
+[2026-05-06 14:16:32][ERROR] Erreur lors de la récupération des interventions ouvertes : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-06 14:16:32][DEBUG] DEBUG - Nombre d'interventions ouvertes trouvées : 0 
+[2026-05-06 14:16:34][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:16:34][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:16:34][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:16:34][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:17:05][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:17:05][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:17:05][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:17:05][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:17:33][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:17:33][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:17:33][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:17:33][INFO] 55 
+[2026-05-06 14:17:33][INFO] 109 
+[2026-05-06 14:17:33][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:17:34][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:17:34][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:17:34][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:17:34][INFO] 55 
+[2026-05-06 14:17:34][INFO] 109 
+[2026-05-06 14:17:34][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:17:36][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:17:36][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:17:36][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:17:36][INFO] 55 
+[2026-05-06 14:17:36][INFO] 109 
+[2026-05-06 14:17:36][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:19:07][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:19:07][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:19:07][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:19:07][INFO] 55 
+[2026-05-06 14:19:07][INFO] 109 
+[2026-05-06 14:19:07][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:19:08][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:19:08][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:19:08][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:19:08][INFO] 55 
+[2026-05-06 14:19:08][INFO] 109 
+[2026-05-06 14:19:08][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:19:36][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:19:36][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:19:36][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:19:36][INFO] 55 
+[2026-05-06 14:19:36][INFO] 109 
+[2026-05-06 14:19:36][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:19:37][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:19:37][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:19:37][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:19:37][INFO] 55 
+[2026-05-06 14:19:37][INFO] 109 
+[2026-05-06 14:19:37][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:19:39][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:19:39][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:19:39][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:19:39][INFO] 55 
+[2026-05-06 14:19:39][INFO] 109 
+[2026-05-06 14:19:39][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:20:02][ERROR] Call to undefined method SiteClientController::index() {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":1793,"trace":"#0 {main}","type":"Error"}
+[2026-05-06 14:20:29][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:20:29][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:20:29][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:20:29][INFO] 55 
+[2026-05-06 14:20:29][INFO] 109 
+[2026-05-06 14:20:29][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:20:55][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:20:55][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:20:55][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:20:55][INFO] 55 
+[2026-05-06 14:20:55][INFO] 109 
+[2026-05-06 14:20:55][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:21:12][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 55: 4 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 11: 0 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 12: 0 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 2: 1 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 9: 0 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 109: 0 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Utilisateur connecté : {"id":16,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":{"client_modify_info":true,"client_view_materiel":true,"client_view_interventions":true,"client_view_documentation":true,"client_view_contracts":true,"client_manage_contacts":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}}} 
+[2026-05-06 14:21:12][DEBUG] DEBUG - hasPermission('client_view_interventions') = true 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Utilisateur a la permission client_view_interventions 
+[2026-05-06 14:21:12][DEBUG] DEBUG - getOpenInterventions appelée pour client_id: 35 
+[2026-05-06 14:21:12][ERROR] Erreur lors de la récupération des interventions ouvertes : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-06 14:21:12][DEBUG] DEBUG - Nombre d'interventions ouvertes trouvées : 0 
+[2026-05-06 14:21:16][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:21:16][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:21:16][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:21:16][INFO] 55 
+[2026-05-06 14:21:16][INFO] 109 
+[2026-05-06 14:21:16][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:22:12][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:22:12][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:22:12][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:22:12][INFO] 55 
+[2026-05-06 14:22:12][INFO] 109 
+[2026-05-06 14:22:12][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:22:17][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:22:17][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:22:17][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:22:17][INFO] 55 
+[2026-05-06 14:22:17][INFO] 109 
+[2026-05-06 14:22:17][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:22:39][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:22:39][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":89}
+[2026-05-06 14:23:05][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:23:05][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:23:05][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:23:05][INFO] 55 
+[2026-05-06 14:23:05][INFO] 109 
+[2026-05-06 14:23:05][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:23:15][INFO] 55 
+[2026-05-06 14:23:20][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:23:20][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:23:20][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:23:20][INFO] 55 
+[2026-05-06 14:23:20][INFO] 109 
+[2026-05-06 14:23:20][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:25:09][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:25:09][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":89}
+[2026-05-06 14:25:13][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:25:13][DEBUG] MaterielClientController::index - userLocations: [] 
+[2026-05-06 14:25:13][ERROR] Erreur lors du chargement du matériel client : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-05-06 14:25:20][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:25:20][DEBUG] DocumentationClientController::index - userLocations: [] 
+[2026-05-06 14:25:25][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:25:25][DEBUG] MaterielClientController::index - userLocations: [] 
+[2026-05-06 14:25:25][ERROR] Erreur lors du chargement du matériel client : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'on clause' 
+[2026-05-06 14:26:00][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:26:00][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:26:00][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:26:00][INFO] 55 
+[2026-05-06 14:26:00][INFO] 109 
+[2026-05-06 14:26:00][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:26:01][INFO] 55 
+[2026-05-06 14:26:04][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:26:04][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:26:04][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:26:04][INFO] 55 
+[2026-05-06 14:26:04][INFO] 109 
+[2026-05-06 14:26:04][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:26:06][INFO] 55 
+[2026-05-06 14:26:10][DEBUG] SiteClientController::index - DB set: yes 
+[2026-05-06 14:26:10][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-05-06 14:26:10][DEBUG] SiteClientController::index - userLocations: {"35":[{"client_id":35,"site_id":null,"room_id":null}]} 
+[2026-05-06 14:26:10][INFO] 55 
+[2026-05-06 14:26:10][INFO] 109 
+[2026-05-06 14:26:10][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-06 14:26:12][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:26:12][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":89}
+[2026-05-06 14:33:08][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:33:08][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":89}
+[2026-05-06 14:33:10][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:33:10][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":89}
+[2026-05-06 14:33:10][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:33:10][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":89}
+[2026-05-06 14:33:11][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:33:11][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":89}
+[2026-05-06 14:33:11][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:33:11][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":89}
+[2026-05-06 14:33:12][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:33:12][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":89}
+[2026-05-06 14:43:52][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:43:52][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":100}
+[2026-05-06 14:43:53][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:43:53][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":100}
+[2026-05-06 14:43:55][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:43:55][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":100}
+[2026-05-06 14:46:19][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:46:19][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":98}
+[2026-05-06 14:46:20][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:46:20][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":98}
+[2026-05-06 14:46:22][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:46:22][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":98}
+[2026-05-06 14:47:09][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:47:09][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":98}
+[2026-05-06 14:47:10][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:47:10][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":98}
+[2026-05-06 14:47:30][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:47:36][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:47:36][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 14:47:36][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:47:36][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":157}
+[2026-05-06 14:48:57][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:48:57][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 14:48:57][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:48:57][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technicien_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":157}
+[2026-05-06 14:50:34][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:50:34][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 14:50:34][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:50:34][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:50:34][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.phone' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":444}
+[2026-05-06 14:50:36][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:50:36][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 14:50:36][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:50:36][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:50:36][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.phone' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":444}
+[2026-05-06 14:51:36][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:51:36][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 14:51:36][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:51:36][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:51:36][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'it.technician_id' in 'on clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":444}
+[2026-05-06 14:52:15][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:52:15][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 14:52:15][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:52:15][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:52:22][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:52:24][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:52:24][DEBUG] Tentative d'accès à l'intervention ID: 299 
+[2026-05-06 14:52:24][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:52:24][DEBUG] Intervention trouvée: {"id":299,"reference":"#VS3526-3372","title":"test","description":"Le probl\u00e8me rencontr\u00e9 concerne l\u2019affichage incorrect des caract\u00e8res accentu\u00e9s (comme le \u201c\u00e9\u201d) dans les emails envoy\u00e9s depuis l\u2019application AVision. Cela est d\u00fb \u00e0 un encodage incomplet des en-t\u00eates du message, notamment les champs From et To, qui ne respectaient pas le format UTF-8 requis.\r\nLa correction consiste \u00e0 encoder correctement tous les en-t\u00eates en UTF-8 (format MIME), afin d\u2019assurer une compatibilit\u00e9 avec les diff\u00e9rents clients mail et garantir un affichage correct des caract\u00e8res sp\u00e9ciaux.","demande_par":"Rabe","client_id":35,"site_id":55,"building_id":0,"room_id":147,"contract_id":119,"project_id":null,"type_id":5,"status_id":1,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-30 14:53:00","updated_at":"2026-03-30 15:54:50","closed_at":null,"ref_client":"r\u00e9f\u00e9rence","contact_client":"karijatsilefilaza@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"Nouveau","status_color":"#53b198","type_name":"Configuration","type_requires_travel":0,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:52:24][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 's.client_id' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\RoomModel.php","line":22}
+[2026-05-06 14:55:10][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:10][DEBUG] Tentative d'accès à l'intervention ID: 299 
+[2026-05-06 14:55:10][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:55:10][DEBUG] Intervention trouvée: {"id":299,"reference":"#VS3526-3372","title":"test","description":"Le probl\u00e8me rencontr\u00e9 concerne l\u2019affichage incorrect des caract\u00e8res accentu\u00e9s (comme le \u201c\u00e9\u201d) dans les emails envoy\u00e9s depuis l\u2019application AVision. Cela est d\u00fb \u00e0 un encodage incomplet des en-t\u00eates du message, notamment les champs From et To, qui ne respectaient pas le format UTF-8 requis.\r\nLa correction consiste \u00e0 encoder correctement tous les en-t\u00eates en UTF-8 (format MIME), afin d\u2019assurer une compatibilit\u00e9 avec les diff\u00e9rents clients mail et garantir un affichage correct des caract\u00e8res sp\u00e9ciaux.","demande_par":"Rabe","client_id":35,"site_id":55,"building_id":0,"room_id":147,"contract_id":119,"project_id":null,"type_id":5,"status_id":1,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-30 14:53:00","updated_at":"2026-03-30 15:54:50","closed_at":null,"ref_client":"r\u00e9f\u00e9rence","contact_client":"karijatsilefilaza@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"Nouveau","status_color":"#53b198","type_name":"Configuration","type_requires_travel":0,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:55:13][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:15][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:15][DEBUG] Tentative d'accès à l'intervention ID: 299 
+[2026-05-06 14:55:15][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:55:15][DEBUG] Intervention trouvée: {"id":299,"reference":"#VS3526-3372","title":"test","description":"Le probl\u00e8me rencontr\u00e9 concerne l\u2019affichage incorrect des caract\u00e8res accentu\u00e9s (comme le \u201c\u00e9\u201d) dans les emails envoy\u00e9s depuis l\u2019application AVision. Cela est d\u00fb \u00e0 un encodage incomplet des en-t\u00eates du message, notamment les champs From et To, qui ne respectaient pas le format UTF-8 requis.\r\nLa correction consiste \u00e0 encoder correctement tous les en-t\u00eates en UTF-8 (format MIME), afin d\u2019assurer une compatibilit\u00e9 avec les diff\u00e9rents clients mail et garantir un affichage correct des caract\u00e8res sp\u00e9ciaux.","demande_par":"Rabe","client_id":35,"site_id":55,"building_id":0,"room_id":147,"contract_id":119,"project_id":null,"type_id":5,"status_id":1,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-30 14:53:00","updated_at":"2026-03-30 15:54:50","closed_at":null,"ref_client":"r\u00e9f\u00e9rence","contact_client":"karijatsilefilaza@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"Nouveau","status_color":"#53b198","type_name":"Configuration","type_requires_travel":0,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:55:16][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:18][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:18][DEBUG] Tentative d'accès à l'intervention ID: 302 
+[2026-05-06 14:55:18][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:55:18][DEBUG] Intervention trouvée: {"id":302,"reference":"#VS3526-9067","title":"sggddsds","description":"dgdgfdgf","demande_par":"dgdsgdg","client_id":35,"site_id":55,"building_id":0,"room_id":147,"contract_id":119,"project_id":null,"type_id":3,"status_id":1,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-04-14 15:24:00","updated_at":"2026-04-14 16:24:57","closed_at":null,"ref_client":"dsgsdgdsg","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"Nouveau","status_color":"#53b198","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:55:19][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:21][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:21][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 14:55:21][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:55:21][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:55:22][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:41][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:43][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:44][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:45][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:46][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:47][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:48][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:51][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:55:51][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 14:55:51][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:55:51][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:56:03][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions_client/addComment/296 
+[2026-05-06 14:56:03][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:56:03][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 14:56:03][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:56:03][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:58:26][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:58:26][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 14:58:26][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:58:26][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:58:31][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:58:31][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:58:35][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:58:35][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 14:58:35][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:58:35][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:58:41][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:58:42][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:58:42][DEBUG] Tentative d'accès à l'intervention ID: 298 
+[2026-05-06 14:58:42][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:58:42][DEBUG] Intervention trouvée: {"id":298,"reference":"#VS3526-7870","title":"test","description":"Le probl\u00e8me rencontr\u00e9 concerne l\u2019affichage incorrect des caract\u00e8res accentu\u00e9s (comme le \u201c\u00e9\u201d) dans les emails envoy\u00e9s depuis l\u2019application AVision. Cela est d\u00fb \u00e0 un encodage incomplet des en-t\u00eates du message, notamment les champs From et To, qui ne respectaient pas le format UTF-8 requis.\r\nLa correction consiste \u00e0 encoder correctement tous les en-t\u00eates en UTF-8 (format MIME), afin d\u2019assurer une compatibilit\u00e9 avec les diff\u00e9rents clients mail et garantir un affichage correct des caract\u00e8res sp\u00e9ciaux.","demande_par":"Rabe","client_id":35,"site_id":55,"building_id":0,"room_id":147,"contract_id":119,"project_id":null,"type_id":3,"status_id":1,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-30 14:45:00","updated_at":"2026-03-30 15:46:41","closed_at":null,"ref_client":"R\u00e9f\u00e9rence","contact_client":"dev_mdg@caspeo.fr","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"Nouveau","status_color":"#53b198","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:58:47][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:58:49][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:58:49][DEBUG] Tentative d'accès à l'intervention ID: 299 
+[2026-05-06 14:58:49][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:58:49][DEBUG] Intervention trouvée: {"id":299,"reference":"#VS3526-3372","title":"test","description":"Le probl\u00e8me rencontr\u00e9 concerne l\u2019affichage incorrect des caract\u00e8res accentu\u00e9s (comme le \u201c\u00e9\u201d) dans les emails envoy\u00e9s depuis l\u2019application AVision. Cela est d\u00fb \u00e0 un encodage incomplet des en-t\u00eates du message, notamment les champs From et To, qui ne respectaient pas le format UTF-8 requis.\r\nLa correction consiste \u00e0 encoder correctement tous les en-t\u00eates en UTF-8 (format MIME), afin d\u2019assurer une compatibilit\u00e9 avec les diff\u00e9rents clients mail et garantir un affichage correct des caract\u00e8res sp\u00e9ciaux.","demande_par":"Rabe","client_id":35,"site_id":55,"building_id":0,"room_id":147,"contract_id":119,"project_id":null,"type_id":5,"status_id":1,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-30 14:53:00","updated_at":"2026-03-30 15:54:50","closed_at":null,"ref_client":"r\u00e9f\u00e9rence","contact_client":"karijatsilefilaza@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"Nouveau","status_color":"#53b198","type_name":"Configuration","type_requires_travel":0,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:58:51][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:58:54][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:58:54][DEBUG] Tentative d'accès à l'intervention ID: 302 
+[2026-05-06 14:58:54][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:58:54][DEBUG] Intervention trouvée: {"id":302,"reference":"#VS3526-9067","title":"sggddsds","description":"dgdgfdgf","demande_par":"dgdsgdg","client_id":35,"site_id":55,"building_id":0,"room_id":147,"contract_id":119,"project_id":null,"type_id":3,"status_id":1,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-04-14 15:24:00","updated_at":"2026-04-14 16:24:57","closed_at":null,"ref_client":"dsgsdgdsg","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"Nouveau","status_color":"#53b198","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:58:56][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:58:58][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:58:58][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 14:58:58][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:58:58][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 14:59:10][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:59:10][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:59:49][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 14:59:49][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 14:59:49][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-06 14:59:49][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:00:35][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 15:00:35][ERROR] Erreur lors du chargement des localisations : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'building_id' in 'field list' 
+[2026-05-06 15:02:24][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:02:24][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:02:24][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:02:27][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:02:27][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:02:27][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:02:33][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:02:33][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:02:33][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:02:40][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:02:40][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:02:40][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:02:45][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:02:45][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:02:45][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:11:21][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:11:21][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:11:21][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:11:21][DEBUG] Commentaires récupérés pour l'intervention 296: 1 
+[2026-05-06 15:11:27][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /interventions_client/editComment/196 
+[2026-05-06 15:11:27][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:11:27][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:11:27][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:11:27][DEBUG] Commentaires récupérés pour l'intervention 296: 1 
+[2026-05-06 15:13:08][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:13:08][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:13:08][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:13:08][DEBUG] Commentaires récupérés pour l'intervention 296: 1 
+[2026-05-06 15:13:13][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:13:13][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:13:13][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:13:13][DEBUG] Commentaires récupérés pour l'intervention 296: 1 
+[2026-05-06 15:13:17][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:13:17][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:13:17][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:13:17][DEBUG] Commentaires récupérés pour l'intervention 296: 0 
+[2026-05-06 15:14:16][DEBUG] AttachmentService::normalizeFilesArray - Tableau de fichiers détecté, count: 1 
+[2026-05-06 15:14:16][DEBUG] AttachmentService::upload - Type: intervention, EntityId: 296, Files count: 1, UploadDir: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/296 
+[2026-05-06 15:14:16][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\phpF4A4.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/296/1778073256_coursUML.pdf 
+[2026-05-06 15:14:16][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/296/1778073256_coursUML.pdf 
+[2026-05-06 15:14:16][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML.pdf (ID: 342) 
+[2026-05-06 15:14:17][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:14:17][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:14:17][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:14:17][DEBUG] Commentaires récupérés pour l'intervention 296: 0 
+[2026-05-06 15:15:40][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:15:40][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:15:40][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:15:40][DEBUG] Commentaires récupérés pour l'intervention 296: 0 
+[2026-05-06 15:15:40][DEBUG] Pièces jointes récupérées pour l'intervention 296: 1 
+[2026-05-06 15:15:58][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:15:58][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:15:58][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:15:58][DEBUG] Commentaires récupérés pour l'intervention 296: 0 
+[2026-05-06 15:15:58][DEBUG] Pièces jointes récupérées pour l'intervention 296: 0 
+[2026-05-06 15:16:03][DEBUG] Tentative d'accès à l'intervention ID: 298 
+[2026-05-06 15:16:03][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:16:03][DEBUG] Intervention trouvée: {"id":298,"reference":"#VS3526-7870","title":"test","description":"Le probl\u00e8me rencontr\u00e9 concerne l\u2019affichage incorrect des caract\u00e8res accentu\u00e9s (comme le \u201c\u00e9\u201d) dans les emails envoy\u00e9s depuis l\u2019application AVision. Cela est d\u00fb \u00e0 un encodage incomplet des en-t\u00eates du message, notamment les champs From et To, qui ne respectaient pas le format UTF-8 requis.\r\nLa correction consiste \u00e0 encoder correctement tous les en-t\u00eates en UTF-8 (format MIME), afin d\u2019assurer une compatibilit\u00e9 avec les diff\u00e9rents clients mail et garantir un affichage correct des caract\u00e8res sp\u00e9ciaux.","demande_par":"Rabe","client_id":35,"site_id":55,"building_id":0,"room_id":147,"contract_id":119,"project_id":null,"type_id":3,"status_id":1,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-30 14:45:00","updated_at":"2026-03-30 15:46:41","closed_at":null,"ref_client":"R\u00e9f\u00e9rence","contact_client":"dev_mdg@caspeo.fr","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"Nouveau","status_color":"#53b198","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:16:03][DEBUG] Commentaires récupérés pour l'intervention 298: 0 
+[2026-05-06 15:16:03][DEBUG] Pièces jointes récupérées pour l'intervention 298: 0 
+[2026-05-06 15:16:12][DEBUG] AttachmentService::normalizeFilesArray - Tableau de fichiers détecté, count: 1 
+[2026-05-06 15:16:12][DEBUG] AttachmentService::upload - Type: intervention, EntityId: 298, Files count: 1, UploadDir: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/298 
+[2026-05-06 15:16:12][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\phpBB4C.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/298/1778073372_coursUML.pdf 
+[2026-05-06 15:16:12][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/298/1778073372_coursUML.pdf 
+[2026-05-06 15:16:12][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML.pdf (ID: 343) 
+[2026-05-06 15:16:13][DEBUG] Tentative d'accès à l'intervention ID: 298 
+[2026-05-06 15:16:13][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:16:13][DEBUG] Intervention trouvée: {"id":298,"reference":"#VS3526-7870","title":"test","description":"Le probl\u00e8me rencontr\u00e9 concerne l\u2019affichage incorrect des caract\u00e8res accentu\u00e9s (comme le \u201c\u00e9\u201d) dans les emails envoy\u00e9s depuis l\u2019application AVision. Cela est d\u00fb \u00e0 un encodage incomplet des en-t\u00eates du message, notamment les champs From et To, qui ne respectaient pas le format UTF-8 requis.\r\nLa correction consiste \u00e0 encoder correctement tous les en-t\u00eates en UTF-8 (format MIME), afin d\u2019assurer une compatibilit\u00e9 avec les diff\u00e9rents clients mail et garantir un affichage correct des caract\u00e8res sp\u00e9ciaux.","demande_par":"Rabe","client_id":35,"site_id":55,"building_id":0,"room_id":147,"contract_id":119,"project_id":null,"type_id":3,"status_id":1,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-30 14:45:00","updated_at":"2026-03-30 15:46:41","closed_at":null,"ref_client":"R\u00e9f\u00e9rence","contact_client":"dev_mdg@caspeo.fr","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"Nouveau","status_color":"#53b198","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:16:13][DEBUG] Commentaires récupérés pour l'intervention 298: 0 
+[2026-05-06 15:16:13][DEBUG] Pièces jointes récupérées pour l'intervention 298: 1 
+[2026-05-06 15:16:18][DEBUG] Tentative d'accès à l'intervention ID: 298 
+[2026-05-06 15:16:18][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:16:18][DEBUG] Intervention trouvée: {"id":298,"reference":"#VS3526-7870","title":"test","description":"Le probl\u00e8me rencontr\u00e9 concerne l\u2019affichage incorrect des caract\u00e8res accentu\u00e9s (comme le \u201c\u00e9\u201d) dans les emails envoy\u00e9s depuis l\u2019application AVision. Cela est d\u00fb \u00e0 un encodage incomplet des en-t\u00eates du message, notamment les champs From et To, qui ne respectaient pas le format UTF-8 requis.\r\nLa correction consiste \u00e0 encoder correctement tous les en-t\u00eates en UTF-8 (format MIME), afin d\u2019assurer une compatibilit\u00e9 avec les diff\u00e9rents clients mail et garantir un affichage correct des caract\u00e8res sp\u00e9ciaux.","demande_par":"Rabe","client_id":35,"site_id":55,"building_id":0,"room_id":147,"contract_id":119,"project_id":null,"type_id":3,"status_id":1,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-30 14:45:00","updated_at":"2026-03-30 15:46:41","closed_at":null,"ref_client":"R\u00e9f\u00e9rence","contact_client":"dev_mdg@caspeo.fr","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"Nouveau","status_color":"#53b198","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:16:18][DEBUG] Commentaires récupérés pour l'intervention 298: 0 
+[2026-05-06 15:16:18][DEBUG] Pièces jointes récupérées pour l'intervention 298: 0 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Début, client_id: 35 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Client récupéré: OUI 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Récupération des sites... 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Sites récupérés: 2 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Récupération des bâtiments... 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 55: 4 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 11: 0 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 12: 0 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 2: 1 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Salles récupérées pour bâtiment 9: 0 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Bâtiments récupérés pour site 109: 0 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Nombre de sites après array_values: 2 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - userLocations: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: 2 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Utilisateur connecté : {"id":16,"user_type":"client","client_id":35,"permissions":{"role":"client","rights":{"client_modify_info":true,"client_view_materiel":true,"client_view_interventions":true,"client_view_documentation":true,"client_view_contracts":true,"client_manage_contacts":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}}} 
+[2026-05-06 15:16:32][DEBUG] DEBUG - hasPermission('client_view_interventions') = true 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Utilisateur a la permission client_view_interventions 
+[2026-05-06 15:16:32][DEBUG] DEBUG - getOpenInterventions appelée pour client_id: 35 
+[2026-05-06 15:16:32][ERROR] Erreur lors de la récupération des interventions ouvertes : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-06 15:16:32][DEBUG] DEBUG - Nombre d'interventions ouvertes trouvées : 0 
+[2026-05-06 15:16:45][DEBUG] Tentative d'accès à l'intervention ID: 296 
+[2026-05-06 15:16:45][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":0,"room_id":null}] 
+[2026-05-06 15:16:45][DEBUG] Intervention trouvée: {"id":296,"reference":"#VS3526-9668","title":"errr","description":"","demande_par":"ghnggn","client_id":35,"site_id":55,"building_id":0,"room_id":null,"contract_id":119,"project_id":null,"type_id":3,"status_id":2,"priority_id":2,"parent_id":null,"tickets_used":null,"intervention_form_path":null,"created_at":"2026-03-27 13:40:00","updated_at":"2026-03-27 15:44:02","closed_at":null,"ref_client":"tyutu","contact_client":"test@gmail.com","duration":0,"is_flash":0,"is_preventive":0,"needs_completion":0,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"D\u00e9pannage","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":null} 
+[2026-05-06 15:16:45][DEBUG] Commentaires récupérés pour l'intervention 296: 0 
+[2026-05-06 15:16:45][DEBUG] Pièces jointes récupérées pour l'intervention 296: 0 
+[2026-05-06 15:16:50][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.site_id' in 'where clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractsClientModel.php","line":73}

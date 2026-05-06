@@ -15,9 +15,10 @@ class RoomModel extends BaseModel
     public function getRoomById($id)
     {
         $query = "SELECT r.*, s.client_id 
-                 FROM rooms r 
-                 JOIN buildings b ON r.building_id = b.id 
-                 WHERE r.id = :id";
+             FROM rooms r 
+             JOIN buildings b ON r.building_id = b.id 
+             JOIN sites s ON b.site_id = s.id
+             WHERE r.id = :id";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);

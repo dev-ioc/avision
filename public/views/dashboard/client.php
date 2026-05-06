@@ -164,11 +164,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                                 $location = [];
                                                                 if (!empty($intervention['site_name']))
                                                                     $location[] = safeHtml($intervention['site_name']);
-                                                                // if (!empty($intervention['building_name']))
-                                                                //     $location[] = safeHtml($intervention['building_name']);
-                                                                // if (!empty($intervention['room_name']))
-                                                                //     $location[] = safeHtml($intervention['room_name']);
-                                                    
+                                                                if (!empty($intervention['building_name']))
+                                                                    $location[] = safeHtml($intervention['building_name']);
+                                                                if (!empty($intervention['room_name']))
+                                                                    $location[] = safeHtml($intervention['room_name']);
+
                                                                 if (!empty($location)) {
                                                                     echo implode(' → ', $location);
                                                                 } else {

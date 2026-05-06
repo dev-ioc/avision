@@ -5,32 +5,38 @@
  */
 require_once __DIR__ . '/../classes/Services/AttachmentService.php';
 
-class InterventionsClientController {
+class InterventionsClientController
+{
     private $db;
     private $model;
     private $clientModel;
     private $siteModel;
+    private $buildingModel;
     private $roomModel;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
-        
+
         // Charger les modèles nécessaires
         require_once __DIR__ . '/../models/InterventionsClientModel.php';
         require_once __DIR__ . '/../models/ClientModel.php';
         require_once __DIR__ . '/../models/SiteModel.php';
+        require_once __DIR__ . '/../models/BuildingModel.php';
         require_once __DIR__ . '/../models/RoomModel.php';
-        
+
         $this->model = new InterventionsClientModel($db);
         $this->clientModel = new ClientModel($db);
         $this->siteModel = new SiteModel($db);
+        $this->buildingModel = new BuildingModel($db);
         $this->roomModel = new RoomModel($db);
     }
 
     /**
      * Affiche la liste des interventions du client
      */
-    public function index() {
+    public function index()
+    {
         // Vérifier si l'utilisateur est connecté et est un client
         if (!isset($_SESSION['user']) || !isClient()) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -46,7 +52,7 @@ class InterventionsClientController {
 
         // Récupérer l'ID du client depuis la session
         $clientId = $_SESSION['user']['client_id'] ?? null;
-        
+
         if (!$clientId) {
             $_SESSION['error'] = "Aucun client associé à votre compte";
             header('Location: ' . BASE_URL . 'auth/logout');
@@ -55,44 +61,46 @@ class InterventionsClientController {
 
         // Récupérer les localisations autorisées
         $userLocations = getUserLocations();
-        
+
         // Si l'utilisateur n'a pas de localisations définies, utiliser le client_id par défaut
         if (empty($userLocations)) {
-            $userLocations = [['client_id' => $clientId, 'site_id' => null, 'room_id' => null]];
+            $userLocations = [['client_id' => $clientId, 'site_id' => null, 'building_id' => null, 'room_id' => null]];
         }
 
         // Récupérer les filtres depuis l'URL
         $filters = [
             'site_id' => $_GET['site_id'] ?? null,
+            'building_id' => $_GET['building_id'] ?? null,
             'room_id' => $_GET['room_id'] ?? null,
             'status_id' => $_GET['status_id'] ?? null,
             'search' => $_GET['search'] ?? null
         ];
-        
+
         // Si aucun filtre de statut n'est spécifié, filtrer par défaut sur les interventions non fermées ou annulées
         if (empty($filters['status_id'])) {
             $filters['exclude_status_ids'] = [6, 7]; // 6 = Fermé, 7 = Annulé
         }
 
         // Construire la clause WHERE pour les localisations
-        $locationWhere = buildLocationWhereClause($userLocations, 'i.client_id', 'i.site_id', 'i.room_id');
-        
+        $locationWhere = buildLocationWhereClause($userLocations, 'i.client_id', 'i.site_id', 'i.building_id', 'i.room_id');
+
         // Récupérer les interventions filtrées selon les localisations
         $interventions = $this->model->getAllByLocations($userLocations, $filters);
-        
+
         // Récupérer les données pour les filtres
         $sites = $this->model->getSitesByLocations($userLocations);
-        $rooms = !empty($filters['site_id']) ? $this->model->getRoomsBySiteAndLocations($filters['site_id'], $userLocations) : [];
-        
+        $buildings = !empty($filters['site_id']) ? $this->model->getBuildingsBySiteAndLocations($filters['site_id'], $userLocations) : [];
+        $rooms = !empty($filters['building_id']) ? $this->model->getRoomsByBuildingAndLocations($filters['building_id'], $userLocations) : [];
+
         // Récupérer les statuts
         $statuses = $this->model->getAllStatuses();
-        
+
         // Récupérer les statistiques
         $stats = $this->model->getStatsByLocations($userLocations);
-        
+
         // Récupérer les statistiques par statut pour les filtres rapides
         $statsByStatus = $this->model->getStatsByStatusAndLocations($userLocations);
-        
+
         // Charger la vue
         require_once __DIR__ . '/../views/interventions_client/index.php';
     }
@@ -100,7 +108,8 @@ class InterventionsClientController {
     /**
      * Affiche les détails d'une intervention
      */
-    public function view($id) {
+    public function view($id)
+    {
         // Vérifier si l'utilisateur est connecté et est un client
         if (!isset($_SESSION['user']) || !isClient()) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -116,7 +125,7 @@ class InterventionsClientController {
 
         // Récupérer l'ID du client depuis la session
         $clientId = $_SESSION['user']['client_id'] ?? null;
-        
+
         if (!$clientId) {
             $_SESSION['error'] = "Aucun client associé à votre compte";
             header('Location: ' . BASE_URL . 'auth/logout');
@@ -125,10 +134,10 @@ class InterventionsClientController {
 
         // Récupérer les localisations autorisées
         $userLocations = getUserLocations();
-        
+
         // Si l'utilisateur n'a pas de localisations définies, utiliser le client_id par défaut
         if (empty($userLocations)) {
-            $userLocations = [['client_id' => $clientId, 'site_id' => null, 'room_id' => null]];
+            $userLocations = [['client_id' => $clientId, 'site_id' => null, 'building_id' => null, 'room_id' => null]];
         }
 
         // Log pour débogage
@@ -137,7 +146,7 @@ class InterventionsClientController {
 
         // Récupérer l'intervention
         $intervention = $this->model->getByIdWithAccess($id, $userLocations);
-        
+
         if (!$intervention) {
             custom_log("Intervention non trouvée ou non autorisée pour l'ID: $id", 'ERROR');
             $_SESSION['error'] = "Intervention non trouvée ou non autorisée";
@@ -150,13 +159,33 @@ class InterventionsClientController {
         // Si getByIdWithAccess() retourne l'intervention, c'est que l'utilisateur y a déjà accès
         // Pas besoin de double vérification
 
+        // Récupérer les noms du site, bâtiment et salle
+        if (!empty($intervention['site_id'])) {
+            $site = $this->siteModel->getSiteById($intervention['site_id']);
+            $intervention['site_name'] = $site['name'] ?? 'N/A';
+        }
+
+        if (!empty($intervention['building_id'])) {
+            $building = $this->buildingModel->getBuildingById($intervention['building_id']);
+            $intervention['building_name'] = $building['name'] ?? 'N/A';
+        }
+
+        if (!empty($intervention['room_id'])) {
+            $room = $this->roomModel->getRoomById($intervention['room_id']);
+            $intervention['room_name'] = $room['name'] ?? 'N/A';
+        }
+
+        // Récupérer les techniciens assignés
+        $intervention['technicians'] = $this->model->getTechniciansByIntervention($id);
+
         // Récupérer le contrat associé directement via contract_id pour les informations de tickets
         $contract = null;
         if (!empty($intervention['contract_id'])) {
+            require_once __DIR__ . '/../models/ContractModel.php';
             $contractModel = new ContractModel($this->db);
             $contract = $contractModel->getContractById($intervention['contract_id']);
         }
-        
+
         // Ajouter les informations du contrat pour l'affichage des tickets
         if ($contract && isContractTicketById($contract['id'])) {
             $intervention['contract_tickets_number'] = $contract['tickets_number'];
@@ -177,16 +206,43 @@ class InterventionsClientController {
     }
 
     /**
-     * Récupère les salles d'un site selon les localisations autorisées
+     * Récupère les bâtiments d'un site selon les localisations autorisées
      */
-    public function getRoomsBySiteAndLocations($siteId, $userLocations) {
-        return $this->model->getRoomsBySiteAndLocations($siteId, $userLocations);
+    public function getBuildingsBySiteAndLocations($siteId, $userLocations)
+    {
+        return $this->model->getBuildingsBySiteAndLocations($siteId, $userLocations);
+    }
+
+    /**
+     * Récupère les salles d'un bâtiment selon les localisations autorisées
+     */
+    public function getRoomsByBuildingAndLocations($buildingId, $userLocations)
+    {
+        return $this->model->getRoomsByBuildingAndLocations($buildingId, $userLocations);
+    }
+
+    /**
+     * Récupère les salles d'un site selon les localisations autorisées (pour compatibilité)
+     * @deprecated Utiliser getRoomsByBuildingAndLocations à la place
+     */
+    public function getRoomsBySiteAndLocations($siteId, $userLocations)
+    {
+        // Cette méthode est maintenue pour compatibilité mais est dépréciée
+        // Elle retourne les salles de tous les bâtiments du site
+        $buildings = $this->model->getBuildingsBySiteAndLocations($siteId, $userLocations);
+        $rooms = [];
+        foreach ($buildings as $building) {
+            $buildingRooms = $this->model->getRoomsByBuildingAndLocations($building['id'], $userLocations);
+            $rooms = array_merge($rooms, $buildingRooms);
+        }
+        return $rooms;
     }
 
     /**
      * Ajouter un commentaire
      */
-    public function addComment($interventionId) {
+    public function addComment($interventionId)
+    {
         if (!hasPermission('client_view_interventions')) {
             header('Location: ' . BASE_URL . 'dashboard');
             exit;
@@ -194,19 +250,19 @@ class InterventionsClientController {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $comment = trim($_POST['comment'] ?? '');
-            
+
             if (empty($comment)) {
-                $_SESSION['error'] = 'Le commentaire ne peut pas etre vide.';
+                $_SESSION['error'] = 'Le commentaire ne peut pas être vide.';
                 header('Location: ' . BASE_URL . 'interventions_client/view/' . $interventionId);
                 exit;
             }
 
-            // Verifier que l'intervention appartient aux locations autorisees du client
+            // Vérifier que l'intervention appartient aux locations autorisées du client
             $userLocations = getUserLocations();
             $intervention = $this->model->getByIdWithAccess($interventionId, $userLocations);
-            
+
             if (!$intervention) {
-                $_SESSION['error'] = 'Intervention non trouvee ou non autorisee.';
+                $_SESSION['error'] = 'Intervention non trouvée ou non autorisée.';
                 header('Location: ' . BASE_URL . 'interventions_client');
                 exit;
             }
@@ -215,7 +271,7 @@ class InterventionsClientController {
             $success = $this->model->addComment($interventionId, $userId, $comment, true);
 
             if ($success) {
-                $_SESSION['success'] = 'Commentaire ajoute avec succes.';
+                $_SESSION['success'] = 'Commentaire ajouté avec succès.';
             } else {
                 $_SESSION['error'] = 'Erreur lors de l\'ajout du commentaire.';
             }
@@ -228,7 +284,8 @@ class InterventionsClientController {
     /**
      * Modifier un commentaire
      */
-    public function editComment($commentId) {
+    public function editComment($commentId)
+    {
         if (!hasPermission('client_view_interventions')) {
             header('Location: ' . BASE_URL . 'dashboard');
             exit;
@@ -236,19 +293,19 @@ class InterventionsClientController {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $comment = trim($_POST['comment'] ?? '');
-            
+
             if (empty($comment)) {
-                $_SESSION['error'] = 'Le commentaire ne peut pas etre vide.';
+                $_SESSION['error'] = 'Le commentaire ne peut pas être vide.';
                 header('Location: ' . BASE_URL . 'interventions_client/view/' . $this->getInterventionIdFromComment($commentId));
                 exit;
             }
 
             $userId = $_SESSION['user']['id'];
-            
-            // Verifier que le commentaire appartient a l'utilisateur connecte
+
+            // Vérifier que le commentaire appartient à l'utilisateur connecté
             $commentData = $this->model->getCommentById($commentId);
             if (!$commentData || $commentData['created_by'] != $userId) {
-                $_SESSION['error'] = 'Vous n\'etes pas autorise a modifier ce commentaire.';
+                $_SESSION['error'] = 'Vous n\'êtes pas autorisé à modifier ce commentaire.';
                 header('Location: ' . BASE_URL . 'interventions_client/view/' . $this->getInterventionIdFromComment($commentId));
                 exit;
             }
@@ -256,7 +313,7 @@ class InterventionsClientController {
             $success = $this->model->updateComment($commentId, $comment);
 
             if ($success) {
-                $_SESSION['success'] = 'Commentaire modifie avec succes.';
+                $_SESSION['success'] = 'Commentaire modifié avec succès.';
             } else {
                 custom_log("Échec de la modification du commentaire ID {$commentId} par l'utilisateur " . ($_SESSION['user']['id'] ?? 'unknown'), 'ERROR');
                 $_SESSION['error'] = 'Erreur lors de la modification du commentaire. Veuillez vérifier les logs pour plus de détails.';
@@ -270,19 +327,19 @@ class InterventionsClientController {
     /**
      * Supprimer un commentaire
      */
-    public function deleteComment($commentId) {
+    public function deleteComment($commentId)
+    {
         if (!hasPermission('client_view_interventions')) {
             header('Location: ' . BASE_URL . 'dashboard');
             exit;
         }
 
         $userId = $_SESSION['user']['id'];
-        
-        // Verifier que le commentaire appartient a l'utilisateur connecte
-        // IMPORTANT: Récupérer l'ID de l'intervention AVANT de supprimer le commentaire
+
+        // Vérifier que le commentaire appartient à l'utilisateur connecté
         $commentData = $this->model->getCommentById($commentId);
         if (!$commentData || $commentData['created_by'] != $userId) {
-            $_SESSION['error'] = 'Vous n\'etes pas autorise a supprimer ce commentaire.';
+            $_SESSION['error'] = 'Vous n\'êtes pas autorisé à supprimer ce commentaire.';
             $interventionId = $commentData ? $commentData['intervention_id'] : 0;
             header('Location: ' . BASE_URL . 'interventions_client/view/' . $interventionId);
             exit;
@@ -294,7 +351,7 @@ class InterventionsClientController {
         $success = $this->model->deleteComment($commentId);
 
         if ($success) {
-            $_SESSION['success'] = 'Commentaire supprime avec succes.';
+            $_SESSION['success'] = 'Commentaire supprimé avec succès.';
         } else {
             $_SESSION['error'] = 'Erreur lors de la suppression du commentaire.';
         }
@@ -304,21 +361,19 @@ class InterventionsClientController {
     }
 
     /**
-     * Obtenir l'ID de l'intervention a partir de l'ID du commentaire
+     * Obtenir l'ID de l'intervention à partir de l'ID du commentaire
      */
-    private function getInterventionIdFromComment($commentId) {
+    private function getInterventionIdFromComment($commentId)
+    {
         $comment = $this->model->getCommentById($commentId);
         return $comment ? $comment['intervention_id'] : 0;
     }
 
     /**
-     * Ajouter une piece jointe
+     * Ajouter une pièce jointe
      */
-    /**
-     * Ajoute une pièce jointe à une intervention (client)
-     * Utilise AttachmentService pour centraliser la logique
-     */
-    public function addAttachment($interventionId) {
+    public function addAttachment($interventionId)
+    {
         if (!hasPermission('client_view_interventions')) {
             header('Location: ' . BASE_URL . 'dashboard');
             exit;
@@ -329,7 +384,7 @@ class InterventionsClientController {
                 // Vérifier que l'intervention appartient aux locations autorisées du client
                 $userLocations = getUserLocations();
                 $intervention = $this->model->getByIdWithAccess($interventionId, $userLocations);
-                
+
                 if (!$intervention) {
                     throw new Exception('Intervention non trouvée ou non autorisée.');
                 }
@@ -340,12 +395,12 @@ class InterventionsClientController {
 
                 // Utiliser AttachmentService pour gérer l'upload
                 $attachmentService = new AttachmentService($this->db);
-                
+
                 // Préparer les options
-                $customName = isset($_POST['custom_name']) && !empty(trim($_POST['custom_name'])) 
-                    ? trim($_POST['custom_name']) 
+                $customName = isset($_POST['custom_name']) && !empty(trim($_POST['custom_name']))
+                    ? trim($_POST['custom_name'])
                     : null;
-                
+
                 $options = [
                     'custom_names' => [$customName]
                 ];
@@ -377,9 +432,10 @@ class InterventionsClientController {
     }
 
     /**
-     * Ajouter plusieurs pieces jointes (Drag & Drop)
+     * Ajouter plusieurs pièces jointes (Drag & Drop)
      */
-    public function addMultipleAttachments($interventionId) {
+    public function addMultipleAttachments($interventionId)
+    {
         if (!hasPermission('client_view_interventions')) {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'error' => 'Non autorisé']);
@@ -396,7 +452,7 @@ class InterventionsClientController {
             // Vérifier que l'intervention appartient aux locations autorisées du client
             $userLocations = getUserLocations();
             $intervention = $this->model->getByIdWithAccess($interventionId, $userLocations);
-            
+
             if (!$intervention) {
                 throw new Exception("Intervention non trouvée ou non autorisée");
             }
@@ -408,7 +464,7 @@ class InterventionsClientController {
 
             // Utiliser AttachmentService pour gérer l'upload
             $attachmentService = new AttachmentService($this->db);
-            
+
             // Préparer les options
             $options = [
                 'custom_names' => $_POST['custom_names'] ?? []
@@ -430,7 +486,7 @@ class InterventionsClientController {
                 if (!empty($result['errors'])) {
                     $message .= ". " . count($result['errors']) . " erreur(s) : " . implode(', ', $result['errors']);
                 }
-                
+
                 echo json_encode([
                     'success' => true,
                     'message' => $message,
@@ -450,13 +506,10 @@ class InterventionsClientController {
     }
 
     /**
-     * Supprimer une piece jointe
+     * Supprimer une pièce jointe
      */
-    /**
-     * Supprime une pièce jointe (client)
-     * Utilise AttachmentService pour centraliser la logique
-     */
-    public function deleteAttachment($attachmentId) {
+    public function deleteAttachment($attachmentId)
+    {
         if (!hasPermission('client_view_interventions')) {
             header('Location: ' . BASE_URL . 'dashboard');
             exit;
@@ -464,11 +517,11 @@ class InterventionsClientController {
 
         try {
             $userId = $_SESSION['user']['id'];
-            
+
             // Vérifier que la pièce jointe appartient à l'utilisateur connecté
             $attachmentService = new AttachmentService($this->db);
             $attachmentData = $attachmentService->getAttachmentById($attachmentId);
-            
+
             if (!$attachmentData || $attachmentData['created_by'] != $userId) {
                 throw new Exception('Vous n\'êtes pas autorisé à supprimer cette pièce jointe.');
             }
@@ -492,9 +545,9 @@ class InterventionsClientController {
 
     /**
      * Télécharge une pièce jointe (client)
-     * Utilise AttachmentService pour centraliser la logique
      */
-    public function download($attachmentId) {
+    public function download($attachmentId)
+    {
         if (!hasPermission('client_view_interventions')) {
             header('Location: ' . BASE_URL . 'dashboard');
             exit;
@@ -503,11 +556,11 @@ class InterventionsClientController {
         try {
             $userId = $_SESSION['user']['id'];
             $userLocations = getUserLocations();
-            
+
             // Récupérer la pièce jointe
             $attachmentService = new AttachmentService($this->db);
             $attachmentData = $attachmentService->getAttachmentById($attachmentId);
-            
+
             if (!$attachmentData) {
                 throw new Exception('Pièce jointe non trouvée.');
             }
@@ -522,9 +575,9 @@ class InterventionsClientController {
             if (!$interventionId) {
                 throw new Exception('Impossible de déterminer l\'intervention associée.');
             }
-            
+
             $intervention = $this->model->getByIdWithAccess($interventionId, $userLocations);
-            
+
             if (!$intervention) {
                 throw new Exception('Intervention non trouvée ou non autorisée.');
             }
@@ -543,9 +596,9 @@ class InterventionsClientController {
 
     /**
      * Affiche l'aperçu d'une pièce jointe (client)
-     * Utilise AttachmentService pour centraliser la logique
      */
-    public function preview($attachmentId) {
+    public function preview($attachmentId)
+    {
         if (!hasPermission('client_view_interventions')) {
             header('Location: ' . BASE_URL . 'dashboard');
             exit;
@@ -554,11 +607,11 @@ class InterventionsClientController {
         try {
             $userId = $_SESSION['user']['id'];
             $userLocations = getUserLocations();
-            
+
             // Récupérer la pièce jointe
             $attachmentService = new AttachmentService($this->db);
             $attachmentData = $attachmentService->getAttachmentById($attachmentId);
-            
+
             if (!$attachmentData) {
                 throw new Exception('Pièce jointe non trouvée.');
             }
@@ -573,9 +626,9 @@ class InterventionsClientController {
             if (!$interventionId) {
                 throw new Exception('Impossible de déterminer l\'intervention associée.');
             }
-            
+
             $intervention = $this->model->getByIdWithAccess($interventionId, $userLocations);
-            
+
             if (!$intervention) {
                 throw new Exception('Intervention non trouvée ou non autorisée.');
             }
@@ -593,9 +646,10 @@ class InterventionsClientController {
     }
 
     /**
-     * Obtenir l'ID de l'intervention a partir de l'ID de la piece jointe
+     * Obtenir l'ID de l'intervention à partir de l'ID de la pièce jointe
      */
-    private function getInterventionIdFromAttachment($attachmentId) {
+    private function getInterventionIdFromAttachment($attachmentId)
+    {
         $attachment = $this->model->getAttachmentById($attachmentId);
         return $attachment ? $attachment['intervention_id'] : 0;
     }
@@ -603,7 +657,8 @@ class InterventionsClientController {
     /**
      * Affiche le formulaire de création d'intervention pour les clients
      */
-    public function add() {
+    public function add()
+    {
         // Vérifier si l'utilisateur est connecté et est un client
         if (!isset($_SESSION['user']) || !isClient()) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -619,7 +674,7 @@ class InterventionsClientController {
 
         // Récupérer l'ID du client depuis la session
         $clientId = $_SESSION['user']['client_id'] ?? null;
-        
+
         if (!$clientId) {
             $_SESSION['error'] = "Aucun client associé à votre compte";
             header('Location: ' . BASE_URL . 'auth/logout');
@@ -628,32 +683,34 @@ class InterventionsClientController {
 
         // Récupérer les localisations autorisées
         $userLocations = getUserLocations();
-        
+
         // Si l'utilisateur n'a pas de localisations définies, utiliser le client_id par défaut
         if (empty($userLocations)) {
-            $userLocations = [['client_id' => $clientId, 'site_id' => null, 'room_id' => null]];
+            $userLocations = [['client_id' => $clientId, 'site_id' => null, 'building_id' => null, 'room_id' => null]];
         }
 
         // Récupérer les données nécessaires pour le formulaire
         $sites = $this->model->getSitesByLocations($userLocations);
+        $buildings = []; // Sera chargé dynamiquement via AJAX
+        $rooms = []; // Sera chargé dynamiquement via AJAX
         $contracts = $this->model->getContractsByClient($clientId);
         $contacts = $this->model->getContactsByClient($clientId);
-        
+
         // Récupérer les statuts et priorités par défaut
         $statuses = $this->model->getAllStatuses();
         $priorities = $this->model->getAllPriorities();
-        
+
         // Trouver les IDs par défaut
         $defaultStatusId = null;
         $defaultPriorityId = null;
-        
+
         foreach ($statuses as $status) {
             if (strtolower($status['name']) === 'nouveau') {
                 $defaultStatusId = $status['id'];
                 break;
             }
         }
-        
+
         foreach ($priorities as $priority) {
             if (strtolower($priority['name']) === 'normale') {
                 $defaultPriorityId = $priority['id'];
@@ -668,7 +725,8 @@ class InterventionsClientController {
     /**
      * Traite la soumission du formulaire de création d'intervention
      */
-    public function store() {
+    public function store()
+    {
         // Vérifier si l'utilisateur est connecté et est un client
         if (!isset($_SESSION['user']) || !isClient()) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -689,7 +747,7 @@ class InterventionsClientController {
 
         // Récupérer l'ID du client depuis la session
         $clientId = $_SESSION['user']['client_id'] ?? null;
-        
+
         if (!$clientId) {
             $_SESSION['error'] = "Aucun client associé à votre compte";
             header('Location: ' . BASE_URL . 'auth/logout');
@@ -699,18 +757,18 @@ class InterventionsClientController {
         // Récupérer les statuts et priorités pour définir les valeurs par défaut
         $statuses = $this->model->getAllStatuses();
         $priorities = $this->model->getAllPriorities();
-        
+
         // Trouver les IDs par défaut
         $defaultStatusId = null;
         $defaultPriorityId = null;
-        
+
         foreach ($statuses as $status) {
             if (strtolower($status['name']) === 'nouveau') {
                 $defaultStatusId = $status['id'];
                 break;
             }
         }
-        
+
         foreach ($priorities as $priority) {
             if (strtolower($priority['name']) === 'normale') {
                 $defaultPriorityId = $priority['id'];
@@ -722,37 +780,38 @@ class InterventionsClientController {
         $data = [
             'title' => trim($_POST['title'] ?? ''),
             'description' => trim($_POST['description'] ?? ''),
-            'demande_par' => null, // Champ supprimé du formulaire client
+            'demande_par' => null,
             'client_id' => $clientId,
-            'site_id' => !empty($_POST['site_id']) ? (int)$_POST['site_id'] : null,
-            'room_id' => !empty($_POST['room_id']) ? (int)$_POST['room_id'] : null,
-            'contract_id' => !empty($_POST['contract_id']) ? (int)$_POST['contract_id'] : null,
-            'status_id' => !empty($_POST['status_id']) ? (int)$_POST['status_id'] : $defaultStatusId,
-            'priority_id' => !empty($_POST['priority_id']) ? (int)$_POST['priority_id'] : $defaultPriorityId,
+            'site_id' => !empty($_POST['site_id']) ? (int) $_POST['site_id'] : null,
+            'building_id' => !empty($_POST['building_id']) ? (int) $_POST['building_id'] : null,
+            'room_id' => !empty($_POST['room_id']) ? (int) $_POST['room_id'] : null,
+            'contract_id' => !empty($_POST['contract_id']) ? (int) $_POST['contract_id'] : null,
+            'status_id' => !empty($_POST['status_id']) ? (int) $_POST['status_id'] : $defaultStatusId,
+            'priority_id' => !empty($_POST['priority_id']) ? (int) $_POST['priority_id'] : $defaultPriorityId,
             'ref_client' => trim($_POST['ref_client'] ?? ''),
             'contact_client' => trim($_POST['contact_client'] ?? ''),
-            'duration' => 0, // Durée par défaut pour les clients
-            'type_id' => 1, // Type par défaut (à adapter selon votre logique)
-            'technician_id' => null, // Pas de technicien assigné par défaut
-            'date_planif' => null, // Pas de date planifiée par défaut
-            'heure_planif' => null // Pas d'heure planifiée par défaut
+            'duration' => 0,
+            'type_id' => 1,
+            'technician_id' => null,
+            'date_planif' => null,
+            'heure_planif' => null
         ];
 
         // Validation des champs obligatoires
         $errors = [];
-        
+
         if (empty($data['title'])) {
             $errors[] = 'Le titre est obligatoire';
         }
-        
+
         if (empty($data['description'])) {
             $errors[] = 'La description est obligatoire';
         }
-        
+
         if (empty($data['status_id'])) {
             $errors[] = 'Le statut est obligatoire';
         }
-        
+
         if (empty($data['priority_id'])) {
             $errors[] = 'La priorité est obligatoire';
         }
@@ -765,7 +824,7 @@ class InterventionsClientController {
         // Si il y a des erreurs, rediriger vers le formulaire
         if (!empty($errors)) {
             $_SESSION['error'] = implode('<br>', $errors);
-            $_SESSION['form_data'] = $data; // Sauvegarder les données pour les réafficher
+            $_SESSION['form_data'] = $data;
             header('Location: ' . BASE_URL . 'interventions_client/add');
             exit;
         }
@@ -773,13 +832,15 @@ class InterventionsClientController {
         // Vérifier que l'utilisateur a accès aux localisations sélectionnées
         $userLocations = getUserLocations();
         $hasAccess = false;
-        
+
         foreach ($userLocations as $location) {
             if ($location['client_id'] == $clientId) {
                 if ($location['site_id'] === null || $location['site_id'] == $data['site_id']) {
-                    if ($location['room_id'] === null || $location['room_id'] == $data['room_id']) {
-                        $hasAccess = true;
-                        break;
+                    if ($location['building_id'] === null || $location['building_id'] == $data['building_id']) {
+                        if ($location['room_id'] === null || $location['room_id'] == $data['room_id']) {
+                            $hasAccess = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -808,4 +869,56 @@ class InterventionsClientController {
         }
         exit;
     }
-} 
+
+    /**
+     * Récupère les bâtiments d'un site via AJAX
+     */
+    public function ajaxGetBuildings()
+    {
+        if (!isset($_SESSION['user']) || !isClient()) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'error' => 'Non autorisé']);
+            exit;
+        }
+
+        $siteId = $_GET['site_id'] ?? null;
+        if (!$siteId) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'error' => 'Site ID manquant']);
+            exit;
+        }
+
+        $userLocations = getUserLocations();
+        $buildings = $this->model->getBuildingsBySiteAndLocations($siteId, $userLocations);
+
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true, 'buildings' => $buildings]);
+        exit;
+    }
+
+    /**
+     * Récupère les salles d'un bâtiment via AJAX
+     */
+    public function ajaxGetRooms()
+    {
+        if (!isset($_SESSION['user']) || !isClient()) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'error' => 'Non autorisé']);
+            exit;
+        }
+
+        $buildingId = $_GET['building_id'] ?? null;
+        if (!$buildingId) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'error' => 'Bâtiment ID manquant']);
+            exit;
+        }
+
+        $userLocations = getUserLocations();
+        $rooms = $this->model->getRoomsByBuildingAndLocations($buildingId, $userLocations);
+
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true, 'rooms' => $rooms]);
+        exit;
+    }
+}
