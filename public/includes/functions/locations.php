@@ -11,18 +11,21 @@
  * @param int|null $roomId ID de la salle (optionnel)
  * @return bool true si l'utilisateur a accès
  */
-function hasLocationAccess($clientId, $siteId = null, $roomId = null) {
+function hasLocationAccess($clientId, $siteId = null, $roomId = null)
+{
     $user = $_SESSION['user'] ?? null;
-    
-    if (!$user) return false;
-    
+
+    if (!$user)
+        return false;
+
     // Les administrateurs ont accès à tout
-    if (isAdmin()) return true;
-    
+    if (isAdmin())
+        return true;
+
     // Vérifier les localisations de l'utilisateur
     if (isset($user['permissions']) && is_array($user['permissions'])) {
         $locations = $user['permissions']['locations'] ?? [];
-        
+
         foreach ($locations as $location) {
             if ($location['client_id'] == $clientId) {
                 if ($siteId === null) {
@@ -39,7 +42,7 @@ function hasLocationAccess($clientId, $siteId = null, $roomId = null) {
             }
         }
     }
-    
+
     return false;
 }
 
@@ -47,15 +50,17 @@ function hasLocationAccess($clientId, $siteId = null, $roomId = null) {
  * Récupère les localisations autorisées de l'utilisateur
  * @return array Liste des localisations (format original pour buildLocationWhereClause)
  */
-function getUserLocations() {
+function getUserLocations()
+{
     $user = $_SESSION['user'] ?? null;
-    if (!$user) return [];
+    if (!$user)
+        return [];
 
     // Toujours charger depuis la base pour éviter les permissions de session obsolètes
     global $db;
     try {
         $stmt = $db->prepare(
-            "SELECT client_id, site_id, room_id FROM user_locations WHERE user_id = :user_id"
+            "SELECT client_id, site_id,building_id, room_id FROM user_locations WHERE user_id = :user_id"
         );
         $stmt->execute(['user_id' => $user['id']]);
         $locations = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -70,9 +75,11 @@ function getUserLocations() {
  * Récupère les localisations autorisées de l'utilisateur formatées pour les contrôleurs
  * @return array Liste des localisations indexée par client_id
  */
-function getUserLocationsFormatted() {
+function getUserLocationsFormatted()
+{
     $user = $_SESSION['user'] ?? null;
-    if (!$user) return [];
+    if (!$user)
+        return [];
 
     // Toujours charger depuis la base pour éviter les permissions de session obsolètes
     global $db;
@@ -104,16 +111,18 @@ function getUserLocationsFormatted() {
  * @param int $clientId ID du client
  * @return bool true si l'utilisateur peut voir les données
  */
-function canViewClientData($clientId) {
+function canViewClientData($clientId)
+{
     // Les staff peuvent voir toutes les données
-    if (isStaff()) return true;
-    
+    if (isStaff())
+        return true;
+
     // Les clients ne peuvent voir que leurs propres données
     if (isClient()) {
         $userClientId = $_SESSION['user']['client_id'] ?? null;
         return $userClientId == $clientId;
     }
-    
+
     return false;
 }
 
@@ -126,14 +135,15 @@ function canViewClientData($clientId) {
  * @param string $roomColumn Nom de la colonne room
  * @return string Clause WHERE
  */
-function buildLocationWhereClause($userLocations, $clientColumn, $siteColumn, $roomColumn) {
+function buildLocationWhereClause($userLocations, $clientColumn, $siteColumn, $roomColumn)
+{
     $conditions = [];
-    
+
     foreach ($userLocations as $location) {
         $clientId = $location['client_id'];
         $siteId = $location['site_id'];
         $roomId = $location['room_id'];
-        
+
         if ($roomId !== null) {
             // Accès spécifique à une salle - VÉRIFICATION STRICTE
             $conditions[] = "({$clientColumn} = {$clientId})";
@@ -145,6 +155,6 @@ function buildLocationWhereClause($userLocations, $clientColumn, $siteColumn, $r
             $conditions[] = "({$clientColumn} = {$clientId})";
         }
     }
-    
+
     return empty($conditions) ? "1=0" : "(" . implode(" OR ", $conditions) . ")";
 }
