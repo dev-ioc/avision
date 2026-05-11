@@ -153,11 +153,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
+                                
                                     <button type="button" class="btn btn-outline-secondary btn-sm"
                                         id="quickCreateClientBtn" title="Créer un nouveau client">
                                         <i class="bi bi-plus"></i>
                                     </button>
                                 </div>
+                                    <small id="clientError" class="text-danger d-none">Le client est obligatoire.</small>
                             </div>
 
                             <!-- Site -->
@@ -1378,8 +1380,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 <!-- Validation JavaScript pour le formulaire d'intervention -->
 <script>
+       // Validation JavaScript pour le formulaire d'intervention
     document.addEventListener('DOMContentLoaded', function () {
-        // Validation des champs
+        // Sélection des champs
+        const titleInput = document.getElementById('title');
+        const titleError = document.getElementById('titleError');
+        const clientInput = document.getElementById('client_id');
+        const clientError = document.getElementById('clientError');
         const typeInput = document.getElementById('type_id');
         const typeError = document.getElementById('typeError');
         const contractInput = document.getElementById('contract_id');
@@ -1390,75 +1397,112 @@ include_once __DIR__ . '/../../includes/navbar.php';
         const prioriError = document.getElementById('prioriError');
         const form = document.getElementById('interventionForm');
 
+        // Fonctions de validation
         function validateType() {
-            if (typeInput.value === '') {
+            const isValid = typeInput.value !== '';
+            if (!isValid) {
                 typeError.classList.remove('d-none');
                 typeInput.classList.add('is-invalid');
-                return false;
             } else {
                 typeError.classList.add('d-none');
                 typeInput.classList.remove('is-invalid');
-                return true;
             }
+            return isValid;
         }
 
         function validateContract() {
-            if (contractInput.value === '') {
+            const isValid = contractInput.value !== '';
+            if (!isValid) {
                 contractError.classList.remove('d-none');
                 contractInput.classList.add('is-invalid');
-                return false;
             } else {
                 contractError.classList.add('d-none');
                 contractInput.classList.remove('is-invalid');
-                return true;
             }
+            return isValid;
         }
 
         function validateStatus() {
-            if (statutInput.value === '') {
+            const isValid = statutInput.value !== '';
+            if (!isValid) {
                 statutError.classList.remove('d-none');
                 statutInput.classList.add('is-invalid');
-                return false;
             } else {
                 statutError.classList.add('d-none');
                 statutInput.classList.remove('is-invalid');
-                return true;
             }
+            return isValid;
         }
 
         function validatePriority() {
-            if (prioriInput.value === '') {
+            const isValid = prioriInput.value !== '';
+            if (!isValid) {
                 prioriError.classList.remove('d-none');
                 prioriInput.classList.add('is-invalid');
-                return false;
             } else {
                 prioriError.classList.add('d-none');
                 prioriInput.classList.remove('is-invalid');
-                return true;
             }
+            return isValid;
         }
 
-        // Initial validation
+        function validateTitle() {
+            const isValid = titleInput.value.trim() !== '';
+            if (!isValid) {
+                titleError.classList.remove('d-none');
+                titleInput.classList.add('is-invalid');
+            } else {
+                titleError.classList.add('d-none');
+                titleInput.classList.remove('is-invalid');
+            }
+            return isValid;
+        }
+
+        function validateClient() {
+            const isValid = clientInput.value !== '';
+            if (!isValid) {
+                clientError.classList.remove('d-none');
+                clientInput.classList.add('is-invalid');
+            } else {
+                clientError.classList.add('d-none');
+                clientInput.classList.remove('is-invalid');
+            }
+            return isValid;
+        }
+
+        // Validation initiale (cache les erreurs par défaut)
         validateType();
         validateContract();
         validateStatus();
         validatePriority();
+        validateTitle();
+        validateClient();
 
-        // Event listeners
+        // Écouteurs d'événements
         typeInput.addEventListener('change', validateType);
         contractInput.addEventListener('change', validateContract);
         statutInput.addEventListener('change', validateStatus);
         prioriInput.addEventListener('change', validatePriority);
+        titleInput.addEventListener('input', validateTitle); // 'input' réagit plus rapidement
+        clientInput.addEventListener('change', validateClient);
 
-        // Form submission
+        // Validation lors de la soumission du formulaire
         form.addEventListener('submit', function (e) {
-            let isValid = true;
-            if (!validateType()) isValid = false;
-            if (!validateContract()) isValid = false;
-            if (!validateStatus()) isValid = false;
-            if (!validatePriority()) isValid = false;
+            const isValid = validateType() && 
+                           validateContract() && 
+                           validateStatus() && 
+                           validatePriority() && 
+                           validateTitle() && 
+                           validateClient();
+            
             if (!isValid) {
                 e.preventDefault();
+                // Optionnel : faire défiler jusqu'au premier champ invalide
+                const firstInvalid = document.querySelector('.is-invalid');
+                if (firstInvalid) {
+                    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstInvalid.focus();
+                }
             }
         });
     });
