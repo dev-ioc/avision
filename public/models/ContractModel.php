@@ -1,22 +1,25 @@
 <?php
 require_once __DIR__ . '/../classes/Models/BaseModel.php';
 
-class ContractModel extends BaseModel {
-    public function __construct($db) {
+class ContractModel extends BaseModel
+{
+    public function __construct($db)
+    {
         parent::__construct($db);
         $this->table = 'contracts';
     }
 
-    public function getContractsByClientId($clientId, $siteId = null, $roomId = null, $includeInactive = false) {
+    public function getContractsByClientId($clientId, $siteId = null, $roomId = null, $includeInactive = false)
+    {
         $sql = "SELECT c.*, ct.name as contract_type_name
                 FROM contracts c 
                 LEFT JOIN contract_types ct ON c.contract_type_id = ct.id 
                 WHERE c.client_id = :client_id";
-        
+
         if (!$includeInactive) {
             $sql .= " AND c.status = 'actif'";
         }
-        
+
         $params = [':client_id' => $clientId];
 
         // Si on a des filtres de site/salle, on doit inclure :
@@ -25,10 +28,10 @@ class ContractModel extends BaseModel {
         // 3. Les contrats généraux du client (sans restriction de salle)
         if ($roomId || $siteId) {
             $sql .= " AND (";
-            
+
             // Contrats "hors contrat"
             $sql .= "c.contract_type_id IS NULL OR c.name LIKE '%hors contrat%' OR ct.name LIKE '%hors contrat%'";
-            
+
             // Contrats associés à la salle spécifique
             if ($roomId) {
                 $sql .= " OR EXISTS (
@@ -37,23 +40,23 @@ class ContractModel extends BaseModel {
                 )";
                 $params[':room_id'] = $roomId;
             }
-            
+
             // Contrats associés au site spécifique
             if ($siteId) {
                 $sql .= " OR EXISTS (
                     SELECT 1 FROM contract_rooms cr2 
                     JOIN rooms r ON cr2.room_id = r.id 
-                    WHERE cr2.contract_id = c.id AND r.site_id = :site_id
+                    WHERE cr2.contract_id = c.id AND r.building_id = :building_id
                 )";
-                $params[':site_id'] = $siteId;
+                $params[':building_id'] = $siteId;
             }
-            
+
             // Contrats généraux du client (sans restriction de salle)
             $sql .= " OR NOT EXISTS (
                 SELECT 1 FROM contract_rooms cr3 
                 WHERE cr3.contract_id = c.id
             )";
-            
+
             $sql .= ")";
         }
 
@@ -64,7 +67,7 @@ class ContractModel extends BaseModel {
         $contracts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Ne garder que les contrats dont l'ID est numérique (vrais contrats)
-        $contracts = array_filter($contracts, function($contract) {
+        $contracts = array_filter($contracts, function ($contract) {
             return is_numeric($contract['id']);
         });
 
@@ -76,7 +79,8 @@ class ContractModel extends BaseModel {
         return array_values($contracts);
     }
 
-    public function getContractCountByClientId($clientId) {
+    public function getContractCountByClientId($clientId)
+    {
         $query = "SELECT COUNT(*) as count 
                 FROM contracts 
                 WHERE client_id = :client_id 
@@ -90,7 +94,8 @@ class ContractModel extends BaseModel {
         return $result['count'];
     }
 
-    public function getContractById($id) {
+    public function getContractById($id)
+    {
         $query = "SELECT 
                     c.*,
                     ct.name as contract_type_name,
@@ -116,7 +121,8 @@ class ContractModel extends BaseModel {
         return $contract;
     }
 
-    public function getContractTypes() {
+    public function getContractTypes()
+    {
         $query = "SELECT id, name, description, default_tickets, nb_inter_prev, ordre_affichage, created_at, updated_at FROM contract_types ORDER BY ordre_affichage, name";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
@@ -128,7 +134,8 @@ class ContractModel extends BaseModel {
      * @param int $id ID du type de contrat
      * @return array|null Les données du type de contrat ou null si non trouvé
      */
-    public function getContractTypeById($id) {
+    public function getContractTypeById($id)
+    {
         $query = "SELECT id, name, description, default_tickets, nb_inter_prev, ordre_affichage, created_at, updated_at FROM contract_types WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -136,9 +143,10 @@ class ContractModel extends BaseModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function createContract($data) {
+    public function createContract($data)
+    {
         $this->db->beginTransaction();
-        
+
         try {
             $query = "INSERT INTO contracts (
                         client_id,
@@ -223,14 +231,14 @@ class ContractModel extends BaseModel {
             // Ajouter les salles associées si fournies
             if (!empty($data['rooms']) && is_array($data['rooms'])) {
                 $this->addContractRooms($contractId, $data['rooms']);
-                
+
                 // Enregistrer les salles dans l'historique lors de la création
                 $newRooms = $this->getContractRooms($contractId);
-                $newRoomNames = array_map(function($room) {
+                $newRoomNames = array_map(function ($room) {
                     return $room['site_name'] . ' - ' . $room['room_name'];
                 }, $newRooms);
                 $newRoomsText = !empty($newRoomNames) ? implode(', ', $newRoomNames) : 'Aucune salle';
-                
+
                 if ($newRoomsText !== 'Aucune salle') {
                     $this->recordRoomChanges($contractId, 'Aucune salle', $newRoomsText);
                 }
@@ -251,9 +259,10 @@ class ContractModel extends BaseModel {
      * @param array $data Données du contrat à mettre à jour
      * @return bool True si la mise à jour a réussi, false sinon
      */
-    public function updateContract($id, $data) {
+    public function updateContract($id, $data)
+    {
         $this->db->beginTransaction();
-        
+
         try {
             $query = "UPDATE contracts SET
                         client_id = :client_id,
@@ -326,10 +335,11 @@ class ContractModel extends BaseModel {
     /**
      * Ajoute des salles à un contrat
      */
-    private function addContractRooms($contractId, $roomIds) {
+    private function addContractRooms($contractId, $roomIds)
+    {
         $query = "INSERT INTO contract_rooms (contract_id, room_id, created_at) VALUES (:contract_id, :room_id, NOW())";
         $stmt = $this->db->prepare($query);
-        
+
         foreach ($roomIds as $roomId) {
             $stmt->execute([':contract_id' => $contractId, ':room_id' => $roomId]);
         }
@@ -338,10 +348,11 @@ class ContractModel extends BaseModel {
     /**
      * Met à jour les salles associées à un contrat
      */
-    private function updateContractRooms($contractId, $roomIds) {
+    private function updateContractRooms($contractId, $roomIds)
+    {
         // Récupérer les salles actuelles pour l'historique
         $oldRooms = $this->getContractRooms($contractId);
-        $oldRoomNames = array_map(function($room) {
+        $oldRoomNames = array_map(function ($room) {
             return $room['site_name'] . ' - ' . $room['room_name'];
         }, $oldRooms);
         $oldRoomsText = !empty($oldRoomNames) ? implode(', ', $oldRoomNames) : 'Aucune salle';
@@ -358,7 +369,7 @@ class ContractModel extends BaseModel {
 
         // Récupérer les nouvelles salles pour l'historique
         $newRooms = $this->getContractRooms($contractId);
-        $newRoomNames = array_map(function($room) {
+        $newRoomNames = array_map(function ($room) {
             return $room['site_name'] . ' - ' . $room['room_name'];
         }, $newRooms);
         $newRoomsText = !empty($newRoomNames) ? implode(', ', $newRoomNames) : 'Aucune salle';
@@ -369,7 +380,8 @@ class ContractModel extends BaseModel {
         }
     }
 
-    public function getAllContracts($filters = []) {
+    public function getAllContracts($filters = [])
+    {
         $sql = "SELECT DISTINCT
                     c.*,
                     ct.name as contract_type_name,
@@ -379,7 +391,7 @@ class ContractModel extends BaseModel {
                 LEFT JOIN clients cl ON c.client_id = cl.id
                 WHERE 1=1
                 AND c.contract_type_id IS NOT NULL";
-        
+
         $params = [];
 
         // Appliquer les filtres
@@ -424,14 +436,15 @@ class ContractModel extends BaseModel {
     /**
      * Récupère les salles associées à un contrat
      */
-    public function getContractRooms($contractId) {
+    public function getContractRooms($contractId)
+    {
         $sql = "SELECT r.id as room_id, r.name as room_name, s.name as site_name
                 FROM contract_rooms cr
                 JOIN rooms r ON cr.room_id = r.id
-                JOIN sites s ON r.site_id = s.id
+                JOIN sites s ON r.building_id = s.id
                 WHERE cr.contract_id = :contract_id
                 ORDER BY s.name, r.name";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':contract_id' => $contractId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -443,9 +456,10 @@ class ContractModel extends BaseModel {
      * @param int $id ID du contrat à supprimer
      * @return bool True si la suppression a réussi, false sinon
      */
-    public function deleteContract($id) {
+    public function deleteContract($id)
+    {
         $this->db->beginTransaction();
-        
+
         try {
             // Supprimer d'abord l'historique du contrat
             $deleteHistoryQuery = "DELETE FROM contract_history WHERE contract_id = :contract_id";
@@ -473,13 +487,14 @@ class ContractModel extends BaseModel {
     /**
      * Récupère toutes les salles d'un client avec leurs sites associés
      */
-    public function getRoomsForClient($clientId) {
+    public function getRoomsForClient($clientId)
+    {
         $sql = "SELECT r.id, r.name, s.name as site_name
                 FROM rooms r
-                JOIN sites s ON r.site_id = s.id
+                JOIN sites s ON r.building_id = s.id
                 WHERE s.client_id = :client_id
                 ORDER BY s.name, r.name";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -488,7 +503,8 @@ class ContractModel extends BaseModel {
     /**
      * Récupère le contrat associé à une salle spécifique
      */
-    public function getContractByRoomId($roomId) {
+    public function getContractByRoomId($roomId)
+    {
         $sql = "SELECT c.*, ct.name as contract_type_name
                 FROM contracts c 
                 LEFT JOIN contract_types ct ON c.contract_type_id = ct.id 
@@ -496,7 +512,7 @@ class ContractModel extends BaseModel {
                 WHERE cr.room_id = :room_id AND c.status = 'actif'
                 ORDER BY c.name
                 LIMIT 1";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':room_id' => $roomId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -505,7 +521,8 @@ class ContractModel extends BaseModel {
     /**
      * Récupère les pièces jointes d'un contrat
      */
-    public function getPiecesJointes($contractId) {
+    public function getPiecesJointes($contractId)
+    {
         $query = "
             SELECT 
                 pj.*,
@@ -519,7 +536,7 @@ class ContractModel extends BaseModel {
             AND lpj.entite_id = :contract_id
             ORDER BY pj.date_creation DESC
         ";
-        
+
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':contract_id', $contractId, PDO::PARAM_INT);
         $stmt->execute();
@@ -533,7 +550,8 @@ class ContractModel extends BaseModel {
      * @param array $data Données de la pièce jointe
      * @return int ID de la pièce jointe créée
      */
-    public function addPieceJointe($contractId, $data) {
+    public function addPieceJointe($contractId, $data)
+    {
         try {
             $this->db->beginTransaction();
 
@@ -589,7 +607,8 @@ class ContractModel extends BaseModel {
      * @param int $contractId ID du contrat (pour vérification)
      * @return bool Succès de la suppression
      */
-    public function deletePieceJointe($pieceJointeId, $contractId) {
+    public function deletePieceJointe($pieceJointeId, $contractId)
+    {
         try {
             $this->db->beginTransaction();
 
@@ -640,7 +659,8 @@ class ContractModel extends BaseModel {
     /**
      * Récupère une pièce jointe par son ID
      */
-    public function getPieceJointeById($pieceJointeId) {
+    public function getPieceJointeById($pieceJointeId)
+    {
         $query = "SELECT pj.* FROM pieces_jointes pj
                  INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
                  WHERE lpj.type_liaison = 'contract' 
@@ -654,7 +674,8 @@ class ContractModel extends BaseModel {
     /**
      * Met à jour la visibilité d'une pièce jointe
      */
-    public function updatePieceJointeVisibility($pieceJointeId, $masqueClient) {
+    public function updatePieceJointeVisibility($pieceJointeId, $masqueClient)
+    {
         $query = "UPDATE pieces_jointes 
                  SET masque_client = :masque_client 
                  WHERE id = :piece_jointe_id";
@@ -671,38 +692,39 @@ class ContractModel extends BaseModel {
     /**
      * Enregistre les modifications des salles d'un contrat dans l'historique
      */
-    private function recordRoomChanges($contractId, $oldRooms, $newRooms) {
+    private function recordRoomChanges($contractId, $oldRooms, $newRooms)
+    {
         // Convertir les listes de salles en tableaux pour comparaison
         $oldRoomsArray = $oldRooms === 'Aucune salle' ? [] : explode(', ', $oldRooms);
         $newRoomsArray = $newRooms === 'Aucune salle' ? [] : explode(', ', $newRooms);
-        
+
         // Trouver les salles ajoutées et retirées
         $addedRooms = array_diff($newRoomsArray, $oldRoomsArray);
         $removedRooms = array_diff($oldRoomsArray, $newRoomsArray);
-        
+
         // Créer la description des changements
         $changes = [];
-        
+
         if (!empty($addedRooms)) {
             $changes[] = "Ajout : " . implode(', ', $addedRooms);
         }
-        
+
         if (!empty($removedRooms)) {
             $changes[] = "Retrait : " . implode(', ', $removedRooms);
         }
-        
+
         if (empty($changes)) {
             return; // Aucun changement réel
         }
-        
+
         $description = implode(' | ', $changes);
-        
+
         $sql = "INSERT INTO contract_history (
                     contract_id, field_name, old_value, new_value, changed_by, description
                 ) VALUES (
                     :contract_id, :field_name, :old_value, :new_value, :changed_by, :description
                 )";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
             ':contract_id' => $contractId,
@@ -717,7 +739,8 @@ class ContractModel extends BaseModel {
     /**
      * Enregistre les modifications d'un contrat dans l'historique
      */
-    public function recordChanges($contractId, $oldData, $newData) {
+    public function recordChanges($contractId, $oldData, $newData)
+    {
         $fieldsToTrack = [
             'name' => 'Nom',
             'client_id' => 'Client',
@@ -738,32 +761,32 @@ class ContractModel extends BaseModel {
         ];
 
         $changesCount = 0;
-        
+
         foreach ($fieldsToTrack as $field => $label) {
             if (isset($newData[$field])) {
                 $oldFieldValue = array_key_exists($field, $oldData) ? $oldData[$field] : null;
                 $newFieldValue = $newData[$field];
-                
+
                 // Comparaison directe des valeurs brutes d'abord
                 if ($oldFieldValue != $newFieldValue) {
                     $oldValue = $this->getDisplayValue($field, $oldFieldValue);
                     $newValue = $this->getDisplayValue($field, $newFieldValue);
-                    
+
                     // Log pour débogage
                     error_log("DEBUG - Contract History - Field: $field, Old: $oldFieldValue, New: $newFieldValue, OldDisplay: $oldValue, NewDisplay: $newValue");
-                    
+
                     // Construire la description avec mention spéciale pour les modifications manuelles de tickets
                     $description = "$label : $oldValue → $newValue";
                     if ($field === 'tickets_remaining' || $field === 'tickets_number') {
                         $description = "Modif manuelle - $label : $oldValue → $newValue";
                     }
-                    
+
                     $sql = "INSERT INTO contract_history (
                                 contract_id, field_name, old_value, new_value, changed_by, description
                             ) VALUES (
                                 :contract_id, :field_name, :old_value, :new_value, :changed_by, :description
                             )";
-                    
+
                     $stmt = $this->db->prepare($sql);
                     $stmt->execute([
                         ':contract_id' => $contractId,
@@ -773,12 +796,12 @@ class ContractModel extends BaseModel {
                         ':changed_by' => $_SESSION['user']['id'],
                         ':description' => $description
                     ]);
-                    
+
                     $changesCount++;
                 }
             }
         }
-        
+
         // Log du nombre total de changements
         error_log("DEBUG - Contract History - Total changes recorded: $changesCount for contract ID: $contractId");
     }
@@ -786,7 +809,8 @@ class ContractModel extends BaseModel {
     /**
      * Récupère la valeur d'affichage d'un champ
      */
-    private function getDisplayValue($field, $value) {
+    private function getDisplayValue($field, $value)
+    {
         if ($value === null || $value === '') {
             return 'Non défini';
         }
@@ -801,7 +825,7 @@ class ContractModel extends BaseModel {
                     return $result ? $result['name'] : 'Client inconnu';
                 }
                 return $value;
-                
+
             case 'contract_type_id':
                 if (is_numeric($value)) {
                     $sql = "SELECT name FROM contract_types WHERE id = ?";
@@ -811,7 +835,7 @@ class ContractModel extends BaseModel {
                     return $result ? $result['name'] : 'Type inconnu';
                 }
                 return $value;
-                
+
             case 'access_level_id':
                 if (is_numeric($value)) {
                     $sql = "SELECT name FROM contract_access_levels WHERE id = ?";
@@ -821,54 +845,55 @@ class ContractModel extends BaseModel {
                     return $result ? $result['name'] : 'Niveau inconnu';
                 }
                 return $value;
-                
+
             case 'start_date':
             case 'end_date':
                 if (!empty($value) && $value !== '0000-00-00') {
                     return date('d/m/Y', strtotime($value));
                 }
                 return 'Non défini';
-                
+
             case 'reminder_enabled':
             case 'renouvellement_tacite':
                 return $value ? 'Oui' : 'Non';
-                
+
             case 'status':
                 return $value === 'actif' ? 'Actif' : 'Inactif';
-                
+
             case 'tickets_number':
             case 'tickets_remaining':
             case 'reminder_days':
-                return (string)$value;
-                
+                return (string) $value;
+
             case 'num_facture':
                 return !empty($value) ? $value : 'Non défini';
-                
+
             case 'tarif':
                 if (!empty($value) && is_numeric($value)) {
                     return number_format($value, 2, ',', ' ') . ' €';
                 }
                 return !empty($value) ? $value : 'Non défini';
-                
+
             case 'indice':
                 return !empty($value) ? $value : 'Non défini';
-                
+
             default:
-                return (string)$value;
+                return (string) $value;
         }
     }
 
     /**
      * Récupère l'historique d'un contrat
      */
-    public function getContractHistory($contractId) {
+    public function getContractHistory($contractId)
+    {
         $sql = "SELECT h.*, 
                 CONCAT(u.first_name, ' ', u.last_name) as changed_by_name
                 FROM contract_history h
                 LEFT JOIN users u ON h.changed_by = u.id
                 WHERE h.contract_id = ?
                 ORDER BY h.created_at DESC";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$contractId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -877,39 +902,40 @@ class ContractModel extends BaseModel {
     /**
      * Enregistre une déduction de tickets dans l'historique
      */
-    public function recordTicketDeduction($contractId, $ticketsDeduced, $reason = 'Déduction automatique') {
+    public function recordTicketDeduction($contractId, $ticketsDeduced, $reason = 'Déduction automatique')
+    {
         // Log de débogage
         error_log("DEBUG - recordTicketDeduction appelée avec: contractId=$contractId, ticketsDeduced=$ticketsDeduced, reason=$reason");
-        
+
         // Vérifier que l'utilisateur est connecté
         if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
             error_log("ERROR - recordTicketDeduction: Utilisateur non connecté ou ID manquant");
             return false;
         }
-        
+
         try {
             // Récupérer le nombre de tickets restants avant la déduction
             $sql = "SELECT tickets_remaining FROM contracts WHERE id = :contract_id";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([':contract_id' => $contractId]);
             $contract = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if (!$contract) {
                 error_log("ERROR - recordTicketDeduction: Contrat non trouvé ID: $contractId");
                 return false;
             }
-            
+
             $ticketsBefore = $contract['tickets_remaining'];
             $ticketsAfter = $ticketsBefore - $ticketsDeduced; // On soustrait car $ticketsDeduced est le nombre de tickets à déduire
-            
+
             error_log("DEBUG - recordTicketDeduction: Tickets avant: $ticketsBefore, après: $ticketsAfter, déduits: $ticketsDeduced");
-            
+
             $sql = "INSERT INTO contract_history (
                         contract_id, field_name, old_value, new_value, changed_by, description
                     ) VALUES (
                         :contract_id, :field_name, :old_value, :new_value, :changed_by, :description
                     )";
-            
+
             $stmt = $this->db->prepare($sql);
             $result = $stmt->execute([
                 ':contract_id' => $contractId,
@@ -919,7 +945,7 @@ class ContractModel extends BaseModel {
                 ':changed_by' => $_SESSION['user']['id'],
                 ':description' => $reason . ' : -' . $ticketsDeduced . ' tickets'
             ]);
-            
+
             if ($result) {
                 error_log("DEBUG - recordTicketDeduction: Enregistrement réussi dans contract_history");
                 return true;
@@ -927,7 +953,7 @@ class ContractModel extends BaseModel {
                 error_log("ERROR - recordTicketDeduction: Échec de l'exécution de la requête");
                 return false;
             }
-            
+
         } catch (Exception $e) {
             error_log("ERROR - recordTicketDeduction: Exception: " . $e->getMessage());
             error_log("ERROR - recordTicketDeduction: Stack trace: " . $e->getTraceAsString());
@@ -938,33 +964,34 @@ class ContractModel extends BaseModel {
     /**
      * Enregistre une modification de tickets dans l'historique (addition ou soustraction)
      */
-    public function recordTicketModification($contractId, $ticketsDifference, $reason = 'Modification des tickets') {
+    public function recordTicketModification($contractId, $ticketsDifference, $reason = 'Modification des tickets')
+    {
         // Log de débogage
         error_log("DEBUG - recordTicketModification appelée avec: contractId=$contractId, ticketsDifference=$ticketsDifference, reason=$reason");
-        
+
         // Vérifier que l'utilisateur est connecté
         if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
             error_log("ERROR - recordTicketModification: Utilisateur non connecté ou ID manquant");
             return false;
         }
-        
+
         try {
             // Récupérer le nombre de tickets restants avant la modification
             $sql = "SELECT tickets_remaining FROM contracts WHERE id = :contract_id";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([':contract_id' => $contractId]);
             $contract = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if (!$contract) {
                 error_log("ERROR - recordTicketModification: Contrat non trouvé ID: $contractId");
                 return false;
             }
-            
+
             $ticketsBefore = $contract['tickets_remaining'];
             $ticketsAfter = $ticketsBefore - $ticketsDifference; // On soustrait car $ticketsDifference est positif pour une déduction, négatif pour une addition
-            
+
             error_log("DEBUG - recordTicketModification: Tickets avant: $ticketsBefore, après: $ticketsAfter, différence: $ticketsDifference");
-            
+
             // Déterminer le type de modification et le message
             if ($ticketsDifference > 0) {
                 $operation = "déduction";
@@ -973,13 +1000,13 @@ class ContractModel extends BaseModel {
                 $operation = "ajout";
                 $operationText = "+" . abs($ticketsDifference) . " tickets";
             }
-            
+
             $sql = "INSERT INTO contract_history (
                         contract_id, field_name, old_value, new_value, changed_by, description
                     ) VALUES (
                         :contract_id, :field_name, :old_value, :new_value, :changed_by, :description
                     )";
-            
+
             $stmt = $this->db->prepare($sql);
             $result = $stmt->execute([
                 ':contract_id' => $contractId,
@@ -989,7 +1016,7 @@ class ContractModel extends BaseModel {
                 ':changed_by' => $_SESSION['user']['id'],
                 ':description' => $reason . ' : ' . $operationText
             ]);
-            
+
             if ($result) {
                 // Maintenant mettre à jour les tickets restants dans la table contracts
                 $updateSql = "UPDATE contracts SET tickets_remaining = :tickets_remaining WHERE id = :contract_id";
@@ -998,7 +1025,7 @@ class ContractModel extends BaseModel {
                     ':tickets_remaining' => $ticketsAfter,
                     ':contract_id' => $contractId
                 ]);
-                
+
                 if ($updateResult) {
                     error_log("DEBUG - recordTicketModification: Mise à jour des tickets restants réussie: $ticketsBefore → $ticketsAfter");
                     return true;
@@ -1010,7 +1037,7 @@ class ContractModel extends BaseModel {
                 error_log("ERROR - recordTicketModification: Échec de l'exécution de la requête d'historique");
                 return false;
             }
-            
+
         } catch (Exception $e) {
             error_log("ERROR - recordTicketModification: Exception: " . $e->getMessage());
             error_log("ERROR - recordTicketModification: Stack trace: " . $e->getTraceAsString());
@@ -1021,23 +1048,24 @@ class ContractModel extends BaseModel {
     /**
      * Enregistre un ajout de tickets dans l'historique
      */
-    public function recordTicketAddition($contractId, $ticketsAdded, $date, $comment = '', $oldNumFacture = null, $newNumFacture = null, $oldEndDate = null, $newEndDate = null) {
+    public function recordTicketAddition($contractId, $ticketsAdded, $date, $comment = '', $oldNumFacture = null, $newNumFacture = null, $oldEndDate = null, $newEndDate = null)
+    {
         // Récupérer les valeurs actuelles du contrat
         $sql = "SELECT tickets_number, tickets_remaining FROM contracts WHERE id = :contract_id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':contract_id' => $contractId]);
         $contract = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if (!$contract) {
             error_log("ERROR - recordTicketAddition: Contrat non trouvé ID: $contractId");
             return false;
         }
-        
+
         $oldTicketsNumber = $contract['tickets_number'];
         $oldTicketsRemaining = $contract['tickets_remaining'];
         $newTicketsNumber = $oldTicketsNumber + $ticketsAdded;
         $newTicketsRemaining = $oldTicketsRemaining + $ticketsAdded;
-        
+
         // Construire les descriptions spécifiques
         $baseDescription = "Ajout de $ticketsAdded tickets";
         if (!empty($comment)) {
@@ -1063,7 +1091,7 @@ class ContractModel extends BaseModel {
                 ) VALUES (
                     :contract_id, :field_name, :old_value, :new_value, :changed_by, :description
                 )";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
             ':contract_id' => $contractId,
@@ -1073,7 +1101,7 @@ class ContractModel extends BaseModel {
             ':changed_by' => $_SESSION['user']['id'],
             ':description' => $descriptionInitiaux
         ]);
-        
+
         // Enregistrer la modification des tickets restants
         $stmt->execute([
             ':contract_id' => $contractId,
@@ -1088,12 +1116,12 @@ class ContractModel extends BaseModel {
         if (!empty($newNumFacture) && $oldNumFacture !== $newNumFacture) {
             $oldValue = $this->getDisplayValue('num_facture', $oldNumFacture);
             $newValue = $this->getDisplayValue('num_facture', $newNumFacture);
-            
+
             $factureDescription = "Numéro de facture : $oldValue → $newValue (ajout de $ticketsAdded tickets)";
             if (!empty($comment)) {
                 $factureDescription .= " - $comment";
             }
-            
+
             $stmt->execute([
                 ':contract_id' => $contractId,
                 ':field_name' => 'Numéro de facture',
@@ -1102,7 +1130,7 @@ class ContractModel extends BaseModel {
                 ':changed_by' => $_SESSION['user']['id'],
                 ':description' => $factureDescription
             ]);
-            
+
             error_log("DEBUG - recordTicketAddition: Modification numéro de facture enregistrée: '$oldValue' → '$newValue'");
         }
 
@@ -1110,12 +1138,12 @@ class ContractModel extends BaseModel {
         if (!empty($oldEndDate) && !empty($newEndDate)) {
             $oldValue = $this->getDisplayValue('end_date', $oldEndDate);
             $newValue = $this->getDisplayValue('end_date', $newEndDate);
-            
+
             $extensionDescription = "Date de fin : $oldValue → $newValue (prolongation lors de l'ajout de $ticketsAdded tickets)";
             if (!empty($comment)) {
                 $extensionDescription .= " - $comment";
             }
-            
+
             $stmt->execute([
                 ':contract_id' => $contractId,
                 ':field_name' => 'Date de fin',
@@ -1124,7 +1152,7 @@ class ContractModel extends BaseModel {
                 ':changed_by' => $_SESSION['user']['id'],
                 ':description' => $extensionDescription
             ]);
-            
+
             error_log("DEBUG - recordTicketAddition: Prolongation contrat enregistrée: '$oldValue' → '$newValue'");
         }
     }
@@ -1132,7 +1160,8 @@ class ContractModel extends BaseModel {
     /**
      * Enregistre un renouvellement de contrat dans l'historique
      */
-    public function recordRenewal($contractId, $newContractId, $newContractName, $comment = '', $resetTickets = false) {
+    public function recordRenewal($contractId, $newContractId, $newContractName, $comment = '', $resetTickets = false)
+    {
         $description = "Renouvellement du contrat - Nouveau contrat créé : #$newContractId ($newContractName)";
         if ($resetTickets) {
             $description .= " - Tickets réinitialisés";
@@ -1146,7 +1175,7 @@ class ContractModel extends BaseModel {
                 ) VALUES (
                     :contract_id, :field_name, :old_value, :new_value, :changed_by, :description
                 )";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
             ':contract_id' => $contractId,
@@ -1161,7 +1190,8 @@ class ContractModel extends BaseModel {
     /**
      * Récupère les statistiques des contrats par statut
      */
-    public function getContractStatsByStatus() {
+    public function getContractStatsByStatus()
+    {
         $sql = "SELECT 
                     status,
                     COUNT(*) as count
@@ -1175,17 +1205,17 @@ class ContractModel extends BaseModel {
                         WHEN 'inactif' THEN 3
                         ELSE 4
                     END";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
         // Formater les résultats avec les noms d'affichage et les couleurs
         $formattedResults = [];
         foreach ($results as $result) {
             $status = $result['status'];
             $count = $result['count'];
-            
+
             // Définir les couleurs et noms d'affichage
             switch ($status) {
                 case 'actif':
@@ -1205,7 +1235,7 @@ class ContractModel extends BaseModel {
                     $displayName = ucfirst(str_replace('_', ' ', $status));
                     break;
             }
-            
+
             $formattedResults[] = [
                 'status' => $status,
                 'display_name' => $displayName,
@@ -1213,7 +1243,7 @@ class ContractModel extends BaseModel {
                 'color' => $color
             ];
         }
-        
+
         return $formattedResults;
     }
 
@@ -1223,7 +1253,8 @@ class ContractModel extends BaseModel {
      * @param int $contractId ID du contrat créé
      * @param array $data Données du contrat
      */
-    private function recordContractCreation($contractId, $data) {
+    private function recordContractCreation($contractId, $data)
+    {
         try {
             // Vérifier que l'utilisateur est connecté
             if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
@@ -1232,7 +1263,7 @@ class ContractModel extends BaseModel {
 
             $userId = $_SESSION['user']['id'];
             $currentDate = date('d/m/Y à H:i');
-            
+
             // Récupérer le nom de l'utilisateur
             $userName = $this->getUserNameById($userId);
 
@@ -1242,7 +1273,7 @@ class ContractModel extends BaseModel {
                     ) VALUES (
                         :contract_id, :field_name, :old_value, :new_value, :changed_by, :description
                     )";
-            
+
             $stmt = $this->db->prepare($sql);
             $result = $stmt->execute([
                 ':contract_id' => $contractId,
@@ -1252,19 +1283,19 @@ class ContractModel extends BaseModel {
                 ':changed_by' => $userId,
                 ':description' => "Contrat créé le $currentDate par $userName"
             ]);
-            
+
 
             // 2. Si c'est un contrat à ticket, enregistrer les tickets initiaux
             if (isset($data['tickets_number']) && isContractTicketById($data['id'])) {
                 $ticketsNumber = $data['tickets_number'];
                 $ticketsRemaining = $data['tickets_remaining'] ?? $data['tickets_number'];
-                
+
                 $sql = "INSERT INTO contract_history (
                             contract_id, field_name, old_value, new_value, changed_by, description
                         ) VALUES (
                             :contract_id, :field_name, :old_value, :new_value, :changed_by, :description
                         )";
-                
+
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([
                     ':contract_id' => $contractId,
@@ -1281,7 +1312,7 @@ class ContractModel extends BaseModel {
                         ) VALUES (
                             :contract_id, :field_name, :old_value, :new_value, :changed_by, :description
                         )";
-                
+
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([
                     ':contract_id' => $contractId,
@@ -1294,7 +1325,7 @@ class ContractModel extends BaseModel {
             }
 
             return true;
-            
+
         } catch (Exception $e) {
             return false;
         }
@@ -1306,29 +1337,30 @@ class ContractModel extends BaseModel {
      * @param int $userId ID de l'utilisateur
      * @return string Nom complet de l'utilisateur ou "Utilisateur inconnu"
      */
-    private function getUserNameById($userId) {
+    private function getUserNameById($userId)
+    {
         try {
             $sql = "SELECT CONCAT(first_name, ' ', last_name) as full_name FROM users WHERE id = ?";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$userId]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if ($result && !empty($result['full_name'])) {
                 return trim($result['full_name']);
             }
-            
+
             // Si pas de nom complet, essayer avec le username
             $sql = "SELECT username FROM users WHERE id = ?";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$userId]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if ($result && !empty($result['username'])) {
                 return $result['username'];
             }
-            
+
             return "Utilisateur inconnu";
-            
+
         } catch (Exception $e) {
             return "Utilisateur inconnu";
         }
@@ -1340,7 +1372,8 @@ class ContractModel extends BaseModel {
      * @param array $filters Filtres à appliquer
      * @return array Liste des contrats hors contrat facturable
      */
-    public function getHorsContratFacturableContracts($filters = []) {
+    public function getHorsContratFacturableContracts($filters = [])
+    {
         $sql = "SELECT DISTINCT
                     c.*,
                     cl.name as client_name,
@@ -1351,14 +1384,14 @@ class ContractModel extends BaseModel {
                 LEFT JOIN clients cl ON c.client_id = cl.id
                 LEFT JOIN contract_rooms cr ON c.id = cr.contract_id
                 LEFT JOIN rooms r ON cr.room_id = r.id
-                LEFT JOIN sites s ON r.site_id = s.id
+                LEFT JOIN sites s ON r.building_id = s.id
                 LEFT JOIN interventions i ON c.id = i.contract_id
                 LEFT JOIN liaisons_pieces_jointes lpj ON c.id = lpj.entite_id AND lpj.type_liaison = 'contract'
                 LEFT JOIN pieces_jointes pj ON lpj.piece_jointe_id = pj.id
                 WHERE c.contract_type_id IS NULL 
                 AND c.name LIKE '%hors contrat facturable%'
                 AND c.id IS NOT NULL";
-        
+
         $params = [];
 
         // Appliquer les filtres
@@ -1367,9 +1400,9 @@ class ContractModel extends BaseModel {
             $params[':client_id'] = $filters['client_id'];
         }
 
-        if (!empty($filters['site_id'])) {
-            $sql .= " AND s.id = :site_id";
-            $params[':site_id'] = $filters['site_id'];
+        if (!empty($filters['building_id'])) {
+            $sql .= " AND s.id = :building_id";
+            $params[':building_id'] = $filters['building_id'];
         }
 
         if (!empty($filters['room_id'])) {
@@ -1411,7 +1444,8 @@ class ContractModel extends BaseModel {
      * @param array $filters Filtres à appliquer
      * @return array Liste des contrats hors contrat non facturable
      */
-    public function getHorsContratNonFacturableContracts($filters = []) {
+    public function getHorsContratNonFacturableContracts($filters = [])
+    {
         $sql = "SELECT DISTINCT
                     c.*,
                     cl.name as client_name,
@@ -1422,14 +1456,14 @@ class ContractModel extends BaseModel {
                 LEFT JOIN clients cl ON c.client_id = cl.id
                 LEFT JOIN contract_rooms cr ON c.id = cr.contract_id
                 LEFT JOIN rooms r ON cr.room_id = r.id
-                LEFT JOIN sites s ON r.site_id = s.id
+                LEFT JOIN sites s ON r.building_id = s.id
                 LEFT JOIN interventions i ON c.id = i.contract_id
                 LEFT JOIN liaisons_pieces_jointes lpj ON c.id = lpj.entite_id AND lpj.type_liaison = 'contract'
                 LEFT JOIN pieces_jointes pj ON lpj.piece_jointe_id = pj.id
                 WHERE c.contract_type_id IS NULL 
                 AND c.name LIKE '%hors contrat non facturable%'
                 AND c.id IS NOT NULL";
-        
+
         $params = [];
 
         // Appliquer les filtres
@@ -1438,9 +1472,9 @@ class ContractModel extends BaseModel {
             $params[':client_id'] = $filters['client_id'];
         }
 
-        if (!empty($filters['site_id'])) {
-            $sql .= " AND s.id = :site_id";
-            $params[':site_id'] = $filters['site_id'];
+        if (!empty($filters['building_id'])) {
+            $sql .= " AND s.id = :building_id";
+            $params[':building_id'] = $filters['building_id'];
         }
 
         if (!empty($filters['room_id'])) {
@@ -1481,7 +1515,8 @@ class ContractModel extends BaseModel {
      * 
      * @return array Statistiques
      */
-    public function getHorsContratFacturableStats() {
+    public function getHorsContratFacturableStats()
+    {
         $sql = "SELECT 
                     COUNT(*) as total,
                     SUM(CASE WHEN status = 'actif' THEN 1 ELSE 0 END) as actifs,
@@ -1493,7 +1528,7 @@ class ContractModel extends BaseModel {
                 WHERE contract_type_id IS NULL 
                 AND name LIKE '%hors contrat facturable%'
                 AND id IS NOT NULL";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -1504,7 +1539,8 @@ class ContractModel extends BaseModel {
      * 
      * @return array Statistiques
      */
-    public function getHorsContratNonFacturableStats() {
+    public function getHorsContratNonFacturableStats()
+    {
         $sql = "SELECT 
                     COUNT(*) as total,
                     SUM(CASE WHEN status = 'actif' THEN 1 ELSE 0 END) as actifs,
@@ -1516,9 +1552,9 @@ class ContractModel extends BaseModel {
                 WHERE contract_type_id IS NULL 
                 AND name LIKE '%hors contrat non facturable%'
                 AND id IS NOT NULL";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-} 
+}

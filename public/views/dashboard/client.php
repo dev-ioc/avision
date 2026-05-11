@@ -73,7 +73,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                     <p class="card-text small text-muted mb-2">
                                                         <?php echo htmlspecialchars($contract['contract_type_name'] ?? 'Type non défini'); ?>
                                                     </p>
-                                                    
+
                                                     <div class="row text-center">
                                                         <div class="col-6">
                                                             <div class="border-end">
@@ -90,12 +90,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                             <small class="text-muted">Fin de contrat</small>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <?php if (!empty($contract['last_purchase_date'])): ?>
                                                         <div class="mt-2 pt-2 border-top">
                                                             <small class="text-muted">
                                                                 <i class="bi bi-calendar-event me-1"></i>
-                                                                Dernier achat : <?php echo date('d/m/Y', strtotime($contract['last_purchase_date'])); ?>
+                                                                Dernier achat :
+                                                                <?php echo date('d/m/Y', strtotime($contract['last_purchase_date'])); ?>
                                                             </small>
                                                         </div>
                                                     <?php else: ?>
@@ -135,10 +136,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 <tr>
                                                     <th>Référence</th>
                                                     <th>Titre</th>
-                                                    <th>Site/Salle</th>
+                                                    <th>Site/Bâtiment/Salle</th>
                                                     <th>Statut</th>
                                                     <th>Priorité</th>
-                                                    <th>Technicien</th>
+                                                    <th>Techniciens</th>
                                                     <th>Date création</th>
                                                 </tr>
                                             </thead>
@@ -146,33 +147,46 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 <?php foreach ($openInterventions as $intervention): ?>
                                                     <tr>
                                                         <td>
-                                                            <a href="<?php echo BASE_URL; ?>interventions_client/view/<?php echo $intervention['id']; ?>" 
-                                                               class="badge bg-light text-dark text-decoration-none intervention-link">
+                                                            <a href="<?php echo BASE_URL; ?>interventions_client/view/<?php echo $intervention['id']; ?>"
+                                                                class="badge bg-light text-dark text-decoration-none intervention-link">
                                                                 <?php echo safeHtml($intervention['reference'], 'N/A'); ?>
                                                             </a>
                                                         </td>
                                                         <td>
-                                                            <a href="<?php echo BASE_URL; ?>interventions_client/view/<?php echo $intervention['id']; ?>" 
-                                                               class="text-decoration-none intervention-title-link">
+                                                            <a href="<?php echo BASE_URL; ?>interventions_client/view/<?php echo $intervention['id']; ?>"
+                                                                class="text-decoration-none intervention-title-link">
                                                                 <strong><?php echo safeHtml($intervention['title'], 'Titre non défini'); ?></strong>
                                                             </a>
                                                         </td>
                                                         <td>
                                                             <small>
-                                                                <?php echo safeHtml($intervention['site_name'], 'Site non défini'); ?>
-                                                                <?php if (!empty($intervention['room_name'])): ?>
-                                                                    <br><span class="text-muted"><?php echo safeHtml($intervention['room_name']); ?></span>
-                                                                <?php endif; ?>
+                                                                <?php
+                                                                $location = [];
+                                                                if (!empty($intervention['site_name']))
+                                                                    $location[] = safeHtml($intervention['site_name']);
+                                                                if (!empty($intervention['building_name']))
+                                                                    $location[] = safeHtml($intervention['building_name']);
+                                                                if (!empty($intervention['room_name']))
+                                                                    $location[] = safeHtml($intervention['room_name']);
+
+                                                                if (!empty($location)) {
+                                                                    echo implode(' → ', $location);
+                                                                } else {
+                                                                    echo 'Client';
+                                                                }
+                                                                ?>
                                                             </small>
                                                         </td>
                                                         <td>
-                                                            <span class="badge" style="background-color: <?php echo $intervention['status_color'] ?? '#6c757d'; ?>">
+                                                            <span class="badge"
+                                                                style="background-color: <?php echo $intervention['status_color'] ?? '#6c757d'; ?>">
                                                                 <?php echo safeHtml($intervention['status_name'], 'Statut inconnu'); ?>
                                                             </span>
                                                         </td>
                                                         <td>
                                                             <?php if (!empty($intervention['priority_name'])): ?>
-                                                                <span class="badge" style="background-color: <?php echo $intervention['priority_color'] ?? '#6c757d'; ?>">
+                                                                <span class="badge"
+                                                                    style="background-color: <?php echo $intervention['priority_color'] ?? '#6c757d'; ?>">
                                                                     <?php echo safeHtml($intervention['priority_name']); ?>
                                                                 </span>
                                                             <?php else: ?>
@@ -180,8 +194,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                             <?php endif; ?>
                                                         </td>
                                                         <td>
-                                                            <?php if (!empty($intervention['technician_name'])): ?>
-                                                                <small><?php echo safeHtml($intervention['technician_name']); ?></small>
+                                                            <?php
+                                                            $techs = $intervention['technicians_names'] ?? '';
+                                                            if (!empty($techs)): ?>
+                                                                <small><?php echo safeHtml($techs); ?></small>
                                                             <?php else: ?>
                                                                 <span class="text-muted">Non assigné</span>
                                                             <?php endif; ?>
@@ -231,11 +247,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <div class="list-group">
                                     <?php foreach ($sitesWithAccess as $site): ?>
                                         <div class="list-group-item p-0 border-0 mb-1">
-                                            <div class="d-flex align-items-center p-2 <?php echo isset($site['authorized']) && $site['authorized'] ? 'bg-success bg-opacity-10 border-start border-success border-4' : 'bg-light border-start border-secondary border-4'; ?>">
+                                            <div
+                                                class="d-flex align-items-center p-2 <?php echo isset($site['authorized']) && $site['authorized'] ? 'bg-success bg-opacity-10 border-start border-success border-4' : 'bg-light border-start border-secondary border-4'; ?>">
                                                 <div class="flex-grow-1">
                                                     <div class="d-flex align-items-center">
-                                                        <i class="bi bi-building me-2 <?php echo isset($site['authorized']) && $site['authorized'] ? 'text-success' : 'text-secondary'; ?>"></i>
-                                                        <span class="<?php echo isset($site['authorized']) && $site['authorized'] ? 'text-success' : 'text-secondary'; ?>">
+                                                        <i
+                                                            class="bi bi-building me-2 <?php echo isset($site['authorized']) && $site['authorized'] ? 'text-success' : 'text-secondary'; ?>"></i>
+                                                        <span
+                                                            class="<?php echo isset($site['authorized']) && $site['authorized'] ? 'text-success' : 'text-secondary'; ?>">
                                                             <?php echo h($site['name']); ?>
                                                         </span>
                                                         <?php if (isset($site['authorized']) && $site['authorized']): ?>
@@ -246,20 +265,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                     </div>
                                                 </div>
                                             </div>
-                                            
-                                            <?php if (!empty($site['rooms'])): ?>
-                                                <div class="ms-4">
-                                                    <?php foreach ($site['rooms'] as $room): ?>
-                                                        <div class="d-flex align-items-center py-1 <?php echo isset($room['authorized']) && $room['authorized'] ? 'text-success' : 'text-muted'; ?>">
-                                                            <i class="bi bi-door-open me-2"></i>
-                                                            <span class="small"><?php echo h($room['name']); ?></span>
-                                                            <?php if (isset($room['authorized']) && $room['authorized']): ?>
-                                                                <span class="badge bg-success ms-auto">Accès</span>
-                                                            <?php endif; ?>
-                                                        </div>
-                                                    <?php endforeach; ?>
-                                                </div>
-                                            <?php endif; ?>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
@@ -273,32 +278,32 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </div>
 
 <style>
-/* Styles pour les liens cliquables dans le tableau des interventions */
-.intervention-link {
-    transition: all 0.2s ease-in-out;
-}
+    /* Styles pour les liens cliquables dans le tableau des interventions */
+    .intervention-link {
+        transition: all 0.2s ease-in-out;
+    }
 
-.intervention-link:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+    .intervention-link:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-.intervention-link:hover .badge {
-    background-color: #e9ecef !important;
-    color: #495057 !important;
-}
+    .intervention-link:hover .badge {
+        background-color: #e9ecef !important;
+        color: #495057 !important;
+    }
 
-.intervention-title-link {
-    color: inherit;
-    transition: color 0.2s ease-in-out;
-}
+    .intervention-title-link {
+        color: inherit;
+        transition: color 0.2s ease-in-out;
+    }
 
-.intervention-title-link:hover {
-    color: #0d6efd;
-}
+    .intervention-title-link:hover {
+        color: #0d6efd;
+    }
 </style>
 
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';
-?> 
+?>

@@ -5,8 +5,10 @@ require_once __DIR__ . '/../classes/Models/BaseModel.php';
  * Modèle pour la gestion des contrats clients
  * Filtre automatiquement selon les localisations autorisées
  */
-class ContractsClientModel extends BaseModel {
-    public function __construct($db) {
+class ContractsClientModel extends BaseModel
+{
+    public function __construct($db)
+    {
         parent::__construct($db);
         $this->table = 'contracts';
     }
@@ -17,9 +19,10 @@ class ContractsClientModel extends BaseModel {
      * @param array $filters Filtres supplémentaires
      * @return array Liste des contrats
      */
-    public function getAllByLocations($userLocations, $filters = []) {
-        $locationWhere = buildLocationWhereClause($userLocations, 'c.client_id', 's.id', 'r.id');
-        
+    public function getAllByLocations($userLocations, $filters = [])
+    {
+        $locationWhere = buildLocationWhereClause($userLocations, 'c.client_id', 's.id', 'b.id', 'r.id');
+
         $sql = "SELECT DISTINCT c.*, 
                 cl.name as client_name,
                 ct.name as contract_type_name,
@@ -31,13 +34,12 @@ class ContractsClientModel extends BaseModel {
                 LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
                 LEFT JOIN contract_rooms cr ON c.id = cr.contract_id
                 LEFT JOIN rooms r ON cr.room_id = r.id
-                LEFT JOIN sites s ON r.site_id = s.id
+                LEFT JOIN buildings b ON r.building_id = b.id
+                LEFT JOIN sites s ON b.site_id = s.id
                 LEFT JOIN interventions i ON c.id = i.contract_id
                 LEFT JOIN liaisons_pieces_jointes lpj ON c.id = lpj.entite_id AND lpj.type_liaison = 'contract'
                 LEFT JOIN pieces_jointes pj ON lpj.piece_jointe_id = pj.id
-                WHERE {$locationWhere}
-                AND (s.id IS NULL OR s.client_id = c.client_id)
-                AND (r.id IS NULL OR r.site_id = s.id)";
+                WHERE {$locationWhere}";
 
         $params = [];
 
@@ -50,8 +52,12 @@ class ContractsClientModel extends BaseModel {
             $sql .= " AND s.id = ? AND s.client_id = c.client_id";
             $params[] = $filters['site_id'];
         }
+        if (!empty($filters['building_id'])) {
+            $sql .= " AND b.id = ? AND b.site_id = s.id AND s.client_id = c.client_id";
+            $params[] = $filters['building_id'];
+        }
         if (!empty($filters['room_id'])) {
-            $sql .= " AND r.id = ? AND r.site_id = s.id AND s.client_id = c.client_id";
+            $sql .= " AND r.id = ? AND r.building_id = b.id AND b.site_id = s.id AND s.client_id = c.client_id";
             $params[] = $filters['room_id'];
         }
         if (!empty($filters['contract_type_id'])) {
@@ -81,9 +87,10 @@ class ContractsClientModel extends BaseModel {
      * @param array $userLocations Les localisations autorisées de l'utilisateur
      * @return array|null Le contrat ou null si pas d'accès
      */
-    public function getByIdWithAccess($id, $userLocations) {
-        $locationWhere = buildLocationWhereClause($userLocations, 'c.client_id', 's.id', 'r.id');
-        
+    public function getByIdWithAccess($id, $userLocations)
+    {
+        $locationWhere = buildLocationWhereClause($userLocations, 'c.client_id', 's.id', 'b.id', 'r.id');
+
         $sql = "SELECT DISTINCT c.*, 
                 cl.name as client_name,
                 ct.name as contract_type_name
@@ -92,10 +99,9 @@ class ContractsClientModel extends BaseModel {
                 LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
                 LEFT JOIN contract_rooms cr ON c.id = cr.contract_id
                 LEFT JOIN rooms r ON cr.room_id = r.id
-                LEFT JOIN sites s ON r.site_id = s.id
-                WHERE c.id = ? AND {$locationWhere}
-                AND (s.id IS NULL OR s.client_id = c.client_id)
-                AND (r.id IS NULL OR r.site_id = s.id)";
+                LEFT JOIN buildings b ON r.building_id = b.id
+                LEFT JOIN sites s ON b.site_id = s.id
+                WHERE c.id = ? AND {$locationWhere}";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
@@ -115,15 +121,17 @@ class ContractsClientModel extends BaseModel {
      * @param array $userLocations Les localisations autorisées de l'utilisateur
      * @return array Liste des salles
      */
-    public function getContractRoomsWithAccess($contractId, $userLocations) {
-        $locationWhere = buildLocationWhereClause($userLocations, 's.client_id', 's.id', 'r.id');
-        
-        $sql = "SELECT r.*, s.name as site_name, s.client_id
+    public function getContractRoomsWithAccess($contractId, $userLocations)
+    {
+        $locationWhere = buildLocationWhereClause($userLocations, 's.client_id', 's.id', 'b.id', 'r.id');
+
+        $sql = "SELECT r.*, b.name as building_name, s.name as site_name, s.client_id
                 FROM contract_rooms cr
                 JOIN rooms r ON cr.room_id = r.id
-                JOIN sites s ON r.site_id = s.id
+                JOIN buildings b ON r.building_id = b.id
+                JOIN sites s ON b.site_id = s.id
                 WHERE cr.contract_id = ? AND {$locationWhere}
-                ORDER BY s.name, r.name";
+                ORDER BY s.name, b.name, r.name";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$contractId]);
@@ -136,12 +144,14 @@ class ContractsClientModel extends BaseModel {
      * @param array $userLocations Les localisations autorisées de l'utilisateur
      * @return array Liste des interventions
      */
-    public function getInterventionsByContractAndLocations($contractId, $userLocations) {
-        $locationWhere = buildLocationWhereClause($userLocations, 'i.client_id', 'i.site_id', 'i.room_id');
-        
+    public function getInterventionsByContractAndLocations($contractId, $userLocations)
+    {
+        $locationWhere = buildLocationWhereClause($userLocations, 'i.client_id', 'i.site_id', 'i.building_id', 'i.room_id');
+
         $sql = "SELECT i.*, 
                 c.name as client_name,
                 s.name as site_name,
+                b.name as building_name,
                 r.name as room_name,
                 its.name as status_name,
                 its.color as status_color,
@@ -151,6 +161,7 @@ class ContractsClientModel extends BaseModel {
                 FROM interventions i
                 LEFT JOIN clients c ON i.client_id = c.id
                 LEFT JOIN sites s ON i.site_id = s.id
+                LEFT JOIN buildings b ON i.building_id = b.id
                 LEFT JOIN rooms r ON i.room_id = r.id
                 LEFT JOIN intervention_statuses its ON i.status_id = its.id
                 LEFT JOIN intervention_types it ON i.type_id = it.id
@@ -168,14 +179,16 @@ class ContractsClientModel extends BaseModel {
      * @param array $userLocations Les localisations autorisées de l'utilisateur
      * @return array Liste des clients
      */
-    public function getClientsByLocations($userLocations) {
-        $locationWhere = buildLocationWhereClause($userLocations, 'cl.id', 's.id', 'r.id');
-        
+    public function getClientsByLocations($userLocations)
+    {
+        $locationWhere = buildLocationWhereClause($userLocations, 'cl.id', 's.id', 'b.id', 'r.id');
+
         $sql = "SELECT DISTINCT cl.* 
                 FROM clients cl
-                LEFT JOIN sites s ON cl.id = s.client_id
-                LEFT JOIN rooms r ON s.id = r.site_id
-                WHERE {$locationWhere} AND cl.status = 1
+                LEFT JOIN sites s ON cl.id = s.client_id AND s.status = 1
+                LEFT JOIN buildings b ON s.id = b.site_id AND b.status = 1
+                LEFT JOIN rooms r ON b.id = r.building_id AND r.status = 1
+                WHERE ({$locationWhere}) AND cl.status = 1
                 ORDER BY cl.name";
 
         $stmt = $this->db->prepare($sql);
@@ -189,12 +202,14 @@ class ContractsClientModel extends BaseModel {
      * @param array $userLocations Les localisations autorisées de l'utilisateur
      * @return array Liste des sites
      */
-    public function getSitesByClientAndLocations($clientId, $userLocations) {
-        $locationWhere = buildLocationWhereClause($userLocations, 's.client_id', 's.id', 'r.id');
-        
+    public function getSitesByClientAndLocations($clientId, $userLocations)
+    {
+        $locationWhere = buildLocationWhereClause($userLocations, 's.client_id', 's.id', 'b.id', 'r.id');
+
         $sql = "SELECT DISTINCT s.* 
                 FROM sites s
-                LEFT JOIN rooms r ON s.id = r.site_id
+                LEFT JOIN buildings b ON s.id = b.site_id AND b.status = 1
+                LEFT JOIN rooms r ON b.id = r.building_id AND r.status = 1
                 WHERE s.client_id = ? AND {$locationWhere} AND s.status = 1
                 ORDER BY s.name";
 
@@ -204,19 +219,65 @@ class ContractsClientModel extends BaseModel {
     }
 
     /**
-     * Récupère les salles d'un site selon les localisations autorisées
+     * Récupère les bâtiments d'un site selon les localisations autorisées
+     * @param int $siteId ID du site
+     * @param array $userLocations Les localisations autorisées de l'utilisateur
+     * @return array Liste des bâtiments
+     */
+    public function getBuildingsBySiteAndLocations($siteId, $userLocations)
+    {
+        $locationWhere = buildLocationWhereClause($userLocations, 's.client_id', 's.id', 'b.id', 'r.id');
+
+        $sql = "SELECT DISTINCT b.* 
+                FROM buildings b
+                JOIN sites s ON b.site_id = s.id
+                LEFT JOIN rooms r ON b.id = r.building_id AND r.status = 1
+                WHERE b.site_id = ? AND {$locationWhere} AND b.status = 1
+                ORDER BY b.name";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$siteId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Récupère les salles d'un bâtiment selon les localisations autorisées
+     * @param int $buildingId ID du bâtiment
+     * @param array $userLocations Les localisations autorisées de l'utilisateur
+     * @return array Liste des salles
+     */
+    public function getRoomsByBuildingAndLocations($buildingId, $userLocations)
+    {
+        $locationWhere = buildLocationWhereClause($userLocations, 's.client_id', 's.id', 'b.id', 'r.id');
+
+        $sql = "SELECT r.*, b.name as building_name, s.name as site_name
+                FROM rooms r
+                JOIN buildings b ON r.building_id = b.id
+                JOIN sites s ON b.site_id = s.id
+                WHERE r.building_id = ? AND {$locationWhere} AND r.status = 1
+                ORDER BY r.name";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$buildingId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Récupère les salles d'un site (via les bâtiments) selon les localisations autorisées
      * @param int $siteId ID du site
      * @param array $userLocations Les localisations autorisées de l'utilisateur
      * @return array Liste des salles
      */
-    public function getRoomsBySiteAndLocations($siteId, $userLocations) {
-        $locationWhere = buildLocationWhereClause($userLocations, 's.client_id', 's.id', 'r.id');
-        
-        $sql = "SELECT r.* 
+    public function getRoomsBySiteAndLocations($siteId, $userLocations)
+    {
+        $locationWhere = buildLocationWhereClause($userLocations, 's.client_id', 's.id', 'b.id', 'r.id');
+
+        $sql = "SELECT r.*, b.name as building_name, s.name as site_name
                 FROM rooms r
-                JOIN sites s ON r.site_id = s.id
-                WHERE r.site_id = ? AND {$locationWhere} AND r.status = 1
-                ORDER BY r.name";
+                JOIN buildings b ON r.building_id = b.id
+                JOIN sites s ON b.site_id = s.id
+                WHERE s.id = ? AND {$locationWhere} AND r.status = 1
+                ORDER BY b.name, r.name";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$siteId]);
@@ -227,7 +288,8 @@ class ContractsClientModel extends BaseModel {
      * Récupère les types de contrats
      * @return array Liste des types de contrats
      */
-    public function getContractTypes() {
+    public function getContractTypes()
+    {
         $sql = "SELECT id, name, description, default_tickets, nb_inter_prev, ordre_affichage, created_at, updated_at FROM contract_types ORDER BY ordre_affichage, name";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
@@ -239,9 +301,10 @@ class ContractsClientModel extends BaseModel {
      * @param array $userLocations Les localisations autorisées de l'utilisateur
      * @return array Statistiques des contrats
      */
-    public function getStatsByLocations($userLocations) {
-        $locationWhere = buildLocationWhereClause($userLocations, 'c.client_id', 's.id', 'r.id');
-        
+    public function getStatsByLocations($userLocations)
+    {
+        $locationWhere = buildLocationWhereClause($userLocations, 'c.client_id', 's.id', 'b.id', 'r.id');
+
         $sql = "SELECT 
                 COUNT(DISTINCT c.id) as total,
                 SUM(CASE WHEN c.status = 'actif' THEN 1 ELSE 0 END) as active_count,
@@ -251,7 +314,8 @@ class ContractsClientModel extends BaseModel {
                 FROM " . $this->table . " c
                 LEFT JOIN contract_rooms cr ON c.id = cr.contract_id
                 LEFT JOIN rooms r ON cr.room_id = r.id
-                LEFT JOIN sites s ON r.site_id = s.id
+                LEFT JOIN buildings b ON r.building_id = b.id
+                LEFT JOIN sites s ON b.site_id = s.id
                 WHERE {$locationWhere} AND c.contract_type_id IS NOT NULL";
 
         $stmt = $this->db->prepare($sql);
@@ -265,25 +329,27 @@ class ContractsClientModel extends BaseModel {
      * @param array $userLocations Les localisations autorisées de l'utilisateur
      * @return array Liste des pièces jointes
      */
-    public function getPiecesJointesWithAccess($contractId, $userLocations) {
+    public function getPiecesJointesWithAccess($contractId, $userLocations)
+    {
         try {
             // Vérifier d'abord que l'utilisateur a accès à ce contrat
-            $locationWhere = buildLocationWhereClause($userLocations, 'c.client_id', 's.id', 'r.id');
-            
+            $locationWhere = buildLocationWhereClause($userLocations, 'c.client_id', 's.id', 'b.id', 'r.id');
+
             $sql = "SELECT c.id FROM " . $this->table . " c
                     LEFT JOIN contract_rooms cr ON c.id = cr.contract_id
                     LEFT JOIN rooms r ON cr.room_id = r.id
-                    LEFT JOIN sites s ON r.site_id = s.id
+                    LEFT JOIN buildings b ON r.building_id = b.id
+                    LEFT JOIN sites s ON b.site_id = s.id
                     WHERE c.id = ? AND ({$locationWhere} OR c.client_id IN (SELECT client_id FROM user_locations WHERE user_id = ?))";
-            
+
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$contractId, $_SESSION['user']['id'] ?? 0]);
             $hasAccess = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if (!$hasAccess) {
                 return [];
             }
-            
+
             // Si l'utilisateur a accès, récupérer les pièces jointes
             $sql = "SELECT pj.*, st.setting_value as type_nom, CONCAT(u.first_name, ' ', u.last_name) as created_by_name
                     FROM pieces_jointes pj
@@ -299,9 +365,8 @@ class ContractsClientModel extends BaseModel {
             $stmt->execute([$contractId]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            // Si la table n'existe pas, retourner un tableau vide
             custom_log("Table pieces_jointes non trouvée, retour d'un tableau vide: " . $e->getMessage(), 'DEBUG');
             return [];
         }
     }
-} 
+}

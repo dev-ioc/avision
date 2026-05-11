@@ -15,6 +15,7 @@ class InterventionController
     private $clientModel;
     private $siteModel;
     private $roomModel;
+    private $buildingModel;
     private $userModel;
     private $contractModel;
     private $contactModel;
@@ -55,6 +56,7 @@ class InterventionController
         require_once __DIR__ . '/../models/ContactModel.php';
         require_once __DIR__ . '/../models/DurationModel.php';
         require_once __DIR__ . '/../classes/MailService.php';
+        require_once __DIR__ . '/../models/BuildingModel.php';
 
         $this->interventionModel = new InterventionModel($db);
         $this->clientModel = new ClientModel($db);
@@ -65,6 +67,7 @@ class InterventionController
         $this->contactModel = new ContactModel($db);
         $this->durationModel = new DurationModel($db);
         $this->mailService = new MailService($db);
+        $this->buildingModel = new BuildingModel($db);
 
         // Charger le fichier d'autoload de TCPDF
         require_once __DIR__ . '/../vendor/TCPDF-6.6.2/tcpdf.php';
@@ -153,7 +156,8 @@ class InterventionController
         // Récupérer les données pour les filtres
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
-        $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsBySiteId($filters['site_id']) : [];
+        $buildings = !empty($filters['site_id']) ? $this->buildingModel->getBuildingsBySiteId($filters['site_id']) : [];
+        $rooms = !empty($filters['building_id']) ? $this->roomModel->getRoomsByBuildingId($filters['building_id']) : [];
         $technicians = $this->userModel->getTechnicians();
 
         // Récupérer les statuts
@@ -221,10 +225,12 @@ class InterventionController
         $filters = [
             'client_id' => $_GET['client_id'] ?? null,
             'site_id' => $_GET['site_id'] ?? null,
+            'building_id' => $_GET['building_id'] ?? null,
             'room_id' => $_GET['room_id'] ?? null,
             'status_id' => $_GET['status_id'] ?? null,
             'priority_id' => $_GET['priority_id'] ?? null,
-            'search' => $_GET['search'] ?? null
+            'search' => $_GET['search'] ?? null,
+            'is_preventive' => 0
         ];
 
         // Récupérer les priorités pour identifier les préventives
@@ -255,7 +261,13 @@ class InterventionController
         // Récupérer les données pour les filtres
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
-        $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsBySiteId($filters['site_id']) : [];
+        $buildings = !empty($filters['site_id'])
+            ? $this->buildingModel->getBuildingsBySiteId($filters['site_id'])
+            : [];
+
+        $rooms = !empty($filters['building_id'])
+            ? $this->roomModel->getRoomsByBuildingId($filters['building_id'])
+            : [];
         // $technicians = $this->userModel->getTechnicians();
 
         // Récupérer les statuts
@@ -309,7 +321,8 @@ class InterventionController
             'room_id' => $_GET['room_id'] ?? null,
             'status_id' => $_GET['status_id'] ?? null,
             'priority_id' => $_GET['priority_id'] ?? null,
-            'search' => $_GET['search'] ?? null
+            'search' => $_GET['search'] ?? null,
+            'is_preventive' => 1
         ];
 
         // Récupérer les priorités pour identifier les préventives
@@ -344,7 +357,8 @@ class InterventionController
         // Récupérer les données pour les filtres
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
-        $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsBySiteId($filters['site_id']) : [];
+        $buildings = !empty($filters['site_id']) ? $this->buildingModel->getBuildingsBySiteId($filters['site_id']) : [];
+        $rooms = !empty($filters['building_id']) ? $this->roomModel->getRoomsByBuildingId($filters['building_id']) : [];
         // $technicians = $this->userModel->getTechnicians();
         // Récupérer les statuts
         $statuses = $this->getAllStatuses();
@@ -450,36 +464,41 @@ class InterventionController
         // Charger la vue
         require_once __DIR__ . '/../views/interventions/view.php';
     }
-
     /**
      * Affiche le formulaire d'édition d'une intervention
      */
     public function edit($id)
     {
-        // Vérifier les permissions
+        if (empty($_SESSION['csrf_token']) || !isset($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
         checkInterventionManagementAccess();
 
         // Récupérer l'intervention
         $intervention = $this->interventionModel->getById($id);
 
         if (!$intervention) {
-            // Rediriger vers la liste si l'intervention n'existe pas
             header('Location: ' . $this->getInterventionsListUrl());
             exit;
+        }
+
+        // Vérifier si c'est une intervention flash et ajouter un message
+        if (isset($intervention['is_flash']) && $intervention['is_flash'] == 1 && $intervention['needs_completion'] == 1) {
+            $_SESSION['info'] = "⚠️ Cette intervention a été créée rapidement. Veuillez compléter les informations manquantes : Site, Bâtiment, Salle, Description.";
         }
 
         // S'assurer que toutes les clés nécessaires existent
         $intervention = array_merge([
             'site_id' => null,
+            'building_id' => null,
             'room_id' => null,
             'client_id' => null,
-            // 'technician_id' => null,
             'status_id' => null,
             'priority_id' => null,
             'type_id' => null,
-            // 'duration' => null,
             'description' => null,
-            'title' => null
+            'title' => null,
+            'is_preventive' => 0
         ], $intervention);
 
         // Vérifier si l'intervention est fermée
@@ -498,12 +517,53 @@ class InterventionController
         // Définir les variables pour les formulaires
         $client_id = isset($intervention['client_id']) ? $intervention['client_id'] : null;
         $site_id = isset($intervention['site_id']) ? $intervention['site_id'] : null;
+        $building_id = isset($intervention['building_id']) ? $intervention['building_id'] : null;
         $room_id = isset($intervention['room_id']) ? $intervention['room_id'] : null;
 
         // Récupérer les données pour les formulaires
         $clients = $this->clientModel->getAllClientsWithStats();
-        $sites = $this->siteModel->getSitesByClientId($client_id);
-        $rooms = $this->roomModel->getRoomsBySiteId($site_id);
+
+        // Récupérer les sites du client
+        $sites = [];
+        if ($client_id) {
+            $sites = $this->siteModel->getSitesByClientId($client_id);
+        }
+
+        // Récupérer les bâtiments du site (tous les bâtiments du site, pas seulement celui sélectionné)
+        $buildings = [];
+        if ($site_id) {
+            $buildings = $this->buildingModel->getBuildingsBySiteId($site_id);
+        }
+
+        // Récupérer les salles - priorité au bâtiment sélectionné, sinon au site
+        $rooms = [];
+        if ($building_id) {
+            // Si un bâtiment est sélectionné, récupérer uniquement les salles de ce bâtiment
+            $rooms = $this->roomModel->getRoomsByBuildingId($building_id);
+        }
+
+        // Récupérer les informations du bâtiment sélectionné pour l'affichage (même s'il n'est pas dans la liste)
+        $selectedBuilding = null;
+        if ($building_id && !empty($buildings)) {
+            foreach ($buildings as $building) {
+                if ($building['id'] == $building_id) {
+                    $selectedBuilding = $building;
+                    break;
+                }
+            }
+        }
+
+        // Récupérer les informations de la salle sélectionnée pour l'affichage
+        $selectedRoom = null;
+        if ($room_id && !empty($rooms)) {
+            foreach ($rooms as $room) {
+                if ($room['id'] == $room_id) {
+                    $selectedRoom = $room;
+                    break;
+                }
+            }
+        }
+
         $technicians = $this->userModel->getTechnicians();
 
         // Récupérer les contrats du client pour le formulaire
@@ -537,7 +597,7 @@ class InterventionController
         // Récupérer l'historique
         $history = $this->getHistory($id);
 
-        // Charger la vue
+        // Charger la vue avec toutes les variables nécessaires
         require_once __DIR__ . '/../views/interventions/edit.php';
     }
 
@@ -616,6 +676,19 @@ class InterventionController
         // Code de débogage temporaire
         error_log("DEBUG - Début de update() pour l'intervention $id");
         error_log("DEBUG - POST data: " . print_r($_POST, true));
+        error_log("=== DEBUG CSRF ===");
+        error_log("POST csrf_token: " . ($_POST['csrf_token'] ?? 'NON PRESENT'));
+        error_log("SESSION csrf_token: " . ($_SESSION['csrf_token'] ?? 'NON PRESENT'));
+        error_log("Session ID: " . session_id());
+        error_log("REQUEST_URI: " . ($_SERVER['REQUEST_URI'] ?? ''));
+
+        // Vérifier manuellement le token avant toute chose
+        if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            error_log("CSRF MISMATCH !!!");
+            $_SESSION['error'] = "Token CSRF invalide. Veuillez réessayer.";
+            header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
+            exit;
+        }
 
         // Vérifier les permissions
         checkInterventionManagementAccess();
@@ -633,13 +706,12 @@ class InterventionController
         // S'assurer que toutes les clés nécessaires existent
         $intervention = array_merge([
             'site_id' => null,
+            'building_id' => null,
             'room_id' => null,
             'client_id' => null,
-            // 'technician_id' => null,
             'status_id' => null,
             'priority_id' => null,
             'type_id' => null,
-            // 'duration' => null,
             'description' => null,
             'title' => null
         ], $intervention);
@@ -656,37 +728,22 @@ class InterventionController
             'title' => $_POST['title'] ?? $intervention['title'],
             'client_id' => $_POST['client_id'] ?? $intervention['client_id'],
             'site_id' => $_POST['site_id'] ?? $intervention['site_id'],
+            'building_id' => $_POST['building_id'] ?? $intervention['building_id'],
             'room_id' => $_POST['room_id'] ?? $intervention['room_id'],
             'status_id' => $_POST['status_id'] ?? $intervention['status_id'],
             'priority_id' => $_POST['priority_id'] ?? $intervention['priority_id'],
             'type_id' => $_POST['type_id'] ?? $intervention['type_id'],
-            // 'duration' => !empty($_POST['duration']) ? $_POST['duration'] : ($intervention['duration'] ?? null),
             'description' => $_POST['description'] ?? $intervention['description'],
             'demande_par' => $_POST['demande_par'] ?? $intervention['demande_par'],
             'ref_client' => $_POST['ref_client'] ?? $intervention['ref_client'],
             'contact_client' => $_POST['contact_client'] ?? $intervention['contact_client'],
-            // 'date_planif' => !empty($_POST['date_planif']) ? $_POST['date_planif'] : $intervention['date_planif'] ?? null,
-            // 'heure_planif' => !empty($_POST['heure_planif']) ? $_POST['heure_planif'] : $intervention['heure_planif'] ?? null,
-            // 'type_requires_travel' => isset($_POST['type_requires_travel']) ? (int) $_POST['type_requires_travel'] : ($intervention['type_requires_travel'] ?? 0)
+            'is_preventive' => isset($_POST['is_preventive']) ? 1 : 0,
         ];
 
         // Traiter la date et l'heure de création
         $createdDate = $_POST['created_date'] ?? date('Y-m-d', strtotime($intervention['created_at']));
         $createdTime = $_POST['created_time'] ?? date('H:i', strtotime($intervention['created_at']));
         $data['created_at'] = $createdDate . ' ' . $createdTime . ':00';
-
-        // Gérer le technician_id séparément pour s'assurer qu'il est correctement traité
-        // if (isset($_POST['technician_id']) && $_POST['technician_id'] !== '') {
-        //     $data['technician_id'] = $_POST['technician_id'];
-        // } else {
-        //     $data['technician_id'] = $intervention['technician_id'];
-        // }
-
-        // Débogage pour les champs date_planif et heure_planif
-        // error_log("DEBUG - InterventionController::update - POST date_planif: " . ($_POST['date_planif'] ?? 'NON DÉFINI'));
-        // error_log("DEBUG - InterventionController::update - POST heure_planif: " . ($_POST['heure_planif'] ?? 'NON DÉFINI'));
-        // error_log("DEBUG - InterventionController::update - data date_planif: " . ($data['date_planif'] ?? 'NULL'));
-        // error_log("DEBUG - InterventionController::update - data heure_planif: " . ($data['heure_planif'] ?? 'NULL'));
 
         // Gérer le contract_id séparément pour s'assurer qu'il est correctement traité
         if (isset($_POST['contract_id']) && $_POST['contract_id'] !== '') {
@@ -704,52 +761,47 @@ class InterventionController
         custom_log("DEBUG - update() - intervention['status_id']: " . ($intervention['status_id'] ?? 'NON DÉFINI'), "DEBUG");
         custom_log("DEBUG - update() - isSaveBeforeClose: " . ($isSaveBeforeClose ? 'VRAI' : 'FAUX'), "DEBUG");
 
-        $isBeingClosed = isset($data['status_id']) && $data['status_id'] == 6 && $intervention['status_id'] != 6;
-        custom_log("DEBUG - update() - isBeingClosed: " . ($isBeingClosed ? 'VRAI' : 'FAUX'), "DEBUG");
+        $alreadyClosed = ($intervention['status_id'] == 6);
+        $isBeingClosed = !$alreadyClosed
+            && isset($data['status_id'])
+            && $data['status_id'] == 6;
 
-        // Si l'intervention est en train d'être fermée (et ce n'est pas une sauvegarde avant fermeture), vérifier que la durée est définie
         if ($isBeingClosed && !$isSaveBeforeClose) {
+            // ── Fermeture fraîche ──────────────────────────────────────────────
             if (empty($data['duration'])) {
                 $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir défini une durée.";
                 header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
                 exit;
             }
 
-            // Vérifier qu'un technicien est assigné
-            if (empty($data['technician_id'])) {
-                $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir assigné un technicien.";
-                header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
-                exit;
-            }
-
-            // Calculer le nombre de tickets utilisés seulement si c'est un contrat à tickets
+            $data['closed_at'] = date('Y-m-d H:i:s');
             $ticketsUsed = 0;
-            if (!empty($data['contract_id']) && isContractTicketById($data['contract_id'])) {
-                custom_log("DEBUG - update() - Calcul des tickets pour l'intervention $id (contrat à tickets)", "DEBUG");
-                custom_log("DEBUG - update() - Durée: " . $data['duration'], "DEBUG");
-                // custom_log("DEBUG - update() - Technicien ID: " . $data['technician_id'], "DEBUG");
-                custom_log("DEBUG - update() - Type ID: " . $data['type_id'], "DEBUG");
 
-                // $ticketsUsed = $this->calculateTicketsUsed($data['duration'], $data['technician_id'], $data['type_id'], $data['type_requires_travel'] ?? null);
-                custom_log("DEBUG - update() - Tickets calculés: " . $ticketsUsed, "DEBUG");
-            } else {
-                custom_log("DEBUG - update() - Pas de calcul de tickets (contrat sans tickets ou pas de contrat)", "DEBUG");
+            if (!empty($data['contract_id']) && isContractTicketById($data['contract_id'])) {
+                $ticketsUsed = $this->calculateTotalTicketsUsed(
+                    $id,
+                    $data['duration'],
+                    $data['type_id'] ?? $intervention['type_id']
+                );
+                $this->deductTicketsFromContract($data['contract_id'], $ticketsUsed, $id);
             }
             $data['tickets_used'] = $ticketsUsed;
 
-            custom_log("DEBUG - update() - Data après calcul: " . print_r($data, true), "DEBUG");
+        } elseif ($alreadyClosed && !$isSaveBeforeClose) {
+            // ── Modification d'une intervention déjà fermée ────────────────────
+            // 1. Gestion du changement de contrat (recrédit + nouvelle déduction)
+            $this->handleTicketManagementOnContractChange($id, $intervention, $data);
 
-            // Ajouter la date de fermeture seulement si ce n'est pas une sauvegarde avant fermeture
-            if (!$isSaveBeforeClose) {
-                $data['closed_at'] = date('Y-m-d H:i:s');
-
-                // Déduire les tickets du contrat si un contrat est associé
-                if (!empty($data['contract_id'])) {
-                    $this->deductTicketsFromContract($data['contract_id'], $ticketsUsed, $id);
-                }
+            // 2. Si un champ ticketable a changé ET que le contrat n'a pas changé
+            //    (si le contrat a changé, handleTicketManagementOnContractChange
+            //    a déjà tout recalculé via le montant d'origine)
+            $contractChanged = ($intervention['contract_id'] ?? null) != ($data['contract_id'] ?? null);
+            if (!$contractChanged && $this->ticketableFieldChanged($intervention, $data)) {
+                // On ajuste après le update() pour avoir les techniciens à jour
+                // On stocke un flag pour le faire juste après
+                $needsTicketAdjust = true;
             }
         }
-
         // Gestion des tickets lors du changement de contrat pour une intervention fermée
         $ticketManagementResult = $this->handleTicketManagementOnContractChange($id, $intervention, $data);
 
@@ -764,35 +816,13 @@ class InterventionController
 
         // Mettre à jour l'intervention
         $result = $this->interventionModel->update($id, $data);
+        if (!empty($needsTicketAdjust) && $result) {
+            $this->adjustTicketsOnClosedIntervention($id, $intervention, $data);
+        }
 
         if ($result) {
             // Vérifier si le technicien a changé et si on doit envoyer un email
             $technicianChanged = false;
-            // $oldTechnicianId = $intervention['technician_id'] ?? null;
-            // $newTechnicianId = $data['technician_id'] ?? null;
-
-            // if ($oldTechnicianId != $newTechnicianId && !empty($newTechnicianId)) {
-            //     $technicianChanged = true;
-
-            //     // Vérifier si l'utilisateur a demandé l'envoi d'un email
-            //     if (isset($_POST['notify_technician']) && $_POST['notify_technician'] == '1') {
-            //         try {
-            //             // Récupérer l'intervention mise à jour pour avoir toutes les données
-            //             $updatedIntervention = $this->interventionModel->getById($id);
-            //             if ($updatedIntervention) {
-            //                 $emailSent = $this->mailService->sendTechnicianAssigned($id, $newTechnicianId);
-            //                 if ($emailSent) {
-            //                     custom_log_mail("Email de notification envoyé au technicien $newTechnicianId pour l'intervention $id", 'INFO');
-            //                 } else {
-            //                     custom_log_mail("Échec de l'envoi de l'email de notification au technicien $newTechnicianId pour l'intervention $id", 'WARNING');
-            //                 }
-            //             }
-            //         } catch (Exception $e) {
-            //             custom_log_mail("Erreur lors de l'envoi de l'email de notification au technicien : " . $e->getMessage(), 'ERROR');
-            //         }
-            //     }
-            // }
-
             // Vérifier si des modifications ont été apportées
             $hasChanges = false;
             foreach ($data as $key => $value) {
@@ -1796,7 +1826,7 @@ class InterventionController
         $this->checkAccess();
 
         // Récupérer les salles
-        $rooms = $this->roomModel->getRoomsBySiteId($siteId);
+        $rooms = $this->roomModel->getRoomsByBuildingId($siteId);
 
         // Retourner les salles au format JSON
         header('Content-Type: application/json');
@@ -2107,6 +2137,99 @@ class InterventionController
     }
 
     /**
+     * Crée rapidement une nouveau bâtiment via AJAX
+     */
+    public function quickCreateBuilding()
+    {
+        // Vérifier les permissions
+        $this->checkAccess();
+
+        // Vérifier si l'utilisateur a les droits d'ajout
+        if (!canModifyClients()) {
+            http_response_code(403);
+            echo json_encode(['error' => "Vous n'avez pas les droits nécessaires pour ajouter un bâtiment."]);
+            return;
+        }
+
+        header('Content-Type: application/json');
+
+        try {
+            // Récupérer les données du formulaire
+            $buildingData = [
+                'client_id' => $_POST['client_id'] ?? '',
+                'site_id' => $_POST['site_id'] ?? '',
+                'name' => $_POST['name'] ?? '',
+                'comment' => $_POST['comment'] ?? '',
+                'status' => 1 // Par défaut actif
+            ];
+
+            // Valider les données essentielles
+            if (empty($buildingData['client_id'])) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Aucun client sélectionné']);
+                return;
+            }
+
+            if (empty($buildingData['site_id'])) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Aucun site sélectionné']);
+                return;
+            }
+
+            if (empty($buildingData['name'])) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Le nom du bâtiment est obligatoire']);
+                return;
+            }
+
+            // Vérifier si le site existe et appartient au client
+            $sql = "SELECT id FROM sites WHERE id = ? AND client_id = ? AND status = 1";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$buildingData['site_id'], $buildingData['client_id']]);
+            if (!$stmt->fetch()) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Site introuvable ou ne correspond pas au client']);
+                return;
+            }
+
+            // Vérifier si un bâtiment avec ce nom existe déjà pour ce site
+            $sql = "SELECT id FROM buildings WHERE name = ? AND site_id = ? AND status = 1";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$buildingData['name'], $buildingData['site_id']]);
+            if ($stmt->fetch()) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Un bâtiment avec ce nom existe déjà pour ce site']);
+                return;
+            }
+
+            // Créer le bâtiment
+            $success = $this->buildingModel->createBuilding($buildingData);
+            if (!$success) {
+                throw new Exception('Erreur lors de la création du bâtiment');
+            }
+
+            // Récupérer l'ID du bâtiment créé
+            $buildingId = $this->db->lastInsertId();
+
+            // Récupérer les données du bâtiment créé
+            $building = $this->buildingModel->getBuildingById($buildingId);
+
+            echo json_encode([
+                'success' => true,
+                'building' => [
+                    'id' => $building['id'],
+                    'name' => $building['name']
+                ],
+                'message' => 'Bâtiment créé avec succès'
+            ]);
+
+        } catch (Exception $e) {
+            custom_log("Erreur lors de la création rapide du bâtiment : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Une erreur est survenue lors de la création du bâtiment.']);
+        }
+    }
+    /**
      * Crée rapidement une nouvelle salle via AJAX
      */
     public function quickCreateRoom()
@@ -2127,10 +2250,10 @@ class InterventionController
             // Récupérer les données du formulaire
             $roomData = [
                 'client_id' => $_POST['client_id'] ?? '',
-                'site_id' => $_POST['site_id'] ?? '',
-                'name' => $_POST['name'] ?? '',
+                'building_id' => $_POST['building_id'] ?? '',
+                'name' => trim($_POST['name'] ?? ''),
                 'comment' => $_POST['comment'] ?? '',
-                'status' => 1 // Par défaut actif
+                'status' => 1
             ];
 
             // Valider les données essentielles
@@ -2140,9 +2263,9 @@ class InterventionController
                 return;
             }
 
-            if (empty($roomData['site_id'])) {
+            if (empty($roomData['building_id'])) {
                 http_response_code(400);
-                echo json_encode(['error' => 'Aucun site sélectionné']);
+                echo json_encode(['error' => 'Aucun bâtiment sélectionné']);
                 return;
             }
 
@@ -2152,28 +2275,42 @@ class InterventionController
                 return;
             }
 
-            // Vérifier si le site existe et appartient au client
-            $sql = "SELECT id FROM sites WHERE id = ? AND client_id = ? AND status = 1";
+            // Vérifier si le bâtiment existe et appartient au client via le site
+            $sql = "SELECT b.id, b.site_id, s.client_id 
+                FROM buildings b 
+                JOIN sites s ON b.site_id = s.id 
+                WHERE b.id = ? AND s.client_id = ?";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$roomData['site_id'], $roomData['client_id']]);
-            if (!$stmt->fetch()) {
+            $stmt->execute([$roomData['building_id'], $roomData['client_id']]);
+            $building = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$building) {
                 http_response_code(400);
-                echo json_encode(['error' => 'Site introuvable ou ne correspond pas au client']);
+                echo json_encode(['error' => 'Bâtiment introuvable ou ne correspond pas au client']);
                 return;
             }
 
-            // Vérifier si une salle avec ce nom existe déjà pour ce site
-            $sql = "SELECT id FROM rooms WHERE name = ? AND site_id = ? AND status = 1";
+            // Vérifier si la salle avec ce nom existe déjà pour ce bâtiment
+            $sql = "SELECT id FROM rooms WHERE name = ? AND building_id = ? ";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$roomData['name'], $roomData['site_id']]);
+            $stmt->execute([$roomData['name'], $roomData['building_id']]);
             if ($stmt->fetch()) {
                 http_response_code(400);
-                echo json_encode(['error' => 'Une salle avec ce nom existe déjà pour ce site']);
+                echo json_encode(['error' => 'Une salle avec ce nom existe déjà pour ce bâtiment']);
                 return;
             }
 
             // Créer la salle
-            $success = $this->roomModel->createRoom($roomData);
+            $sql = "INSERT INTO rooms (name, building_id, comment, status, created_at, updated_at) 
+                VALUES (:name, :building_id, :comment, :status, NOW(), NOW())";
+            $stmt = $this->db->prepare($sql);
+            $success = $stmt->execute([
+                ':name' => $roomData['name'],
+                ':building_id' => $roomData['building_id'],
+                ':comment' => $roomData['comment'],
+                ':status' => $roomData['status']
+            ]);
+
             if (!$success) {
                 throw new Exception('Erreur lors de la création de la salle');
             }
@@ -2181,14 +2318,11 @@ class InterventionController
             // Récupérer l'ID de la salle créée
             $roomId = $this->db->lastInsertId();
 
-            // Récupérer les données de la salle créée
-            $room = $this->roomModel->getRoomById($roomId);
-
             echo json_encode([
                 'success' => true,
                 'room' => [
-                    'id' => $room['id'],
-                    'name' => $room['name']
+                    'id' => $roomId,
+                    'name' => $roomData['name']
                 ],
                 'message' => 'Salle créée avec succès'
             ]);
@@ -2196,15 +2330,27 @@ class InterventionController
         } catch (Exception $e) {
             custom_log("Erreur lors de la création rapide de la salle : " . $e->getMessage(), 'ERROR');
             http_response_code(500);
-            echo json_encode(['error' => 'Une erreur est survenue lors de la création de la salle.']);
+            echo json_encode(['error' => 'Une erreur est survenue lors de la création de la salle: ' . $e->getMessage()]);
         }
     }
-
     /**
      * Crée rapidement un nouveau contact via AJAX
      */
     public function quickCreateContact()
     {
+        // Désactiver l'affichage des erreurs pour l'API
+        error_reporting(0);
+        ini_set('display_errors', 0);
+
+        // Nettoyer les buffers
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        // Définir les headers pour l'API
+        header('Content-Type: application/json; charset=UTF-8');
+        header('Cache-Control: no-cache, must-revalidate');
+
         // Vérifier les permissions
         $this->checkAccess();
 
@@ -2215,46 +2361,40 @@ class InterventionController
             return;
         }
 
-        header('Content-Type: application/json');
+        // Récupérer les données du formulaire (POST, pas JSON)
+        $clientId = $_POST['client_id'] ?? '';
+        $firstName = trim($_POST['first_name'] ?? '');
+        $lastName = trim($_POST['last_name'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $phone1 = trim($_POST['phone1'] ?? '');
+        $phone2 = trim($_POST['phone2'] ?? '');
+        $fonction = trim($_POST['fonction'] ?? '');
+        $comment = trim($_POST['comment'] ?? '');
 
         try {
-            // Récupérer les données du formulaire
-            $contactData = [
-                'client_id' => $_POST['client_id'] ?? '',
-                'first_name' => $_POST['first_name'] ?? '',
-                'last_name' => $_POST['last_name'] ?? '',
-                'email' => $_POST['email'] ?? '',
-                'phone1' => $_POST['phone1'] ?? '',
-                'phone2' => $_POST['phone2'] ?? '',
-                'fonction' => $_POST['fonction'] ?? '',
-                'comment' => $_POST['comment'] ?? '',
-                'has_user_account' => 0, // Par défaut pas de compte utilisateur
-                'status' => 1 // Par défaut actif
-            ];
-
             // Valider les données essentielles
-            if (empty($contactData['client_id']) || !is_numeric($contactData['client_id'])) {
+            if (empty($clientId) || !is_numeric($clientId)) {
                 http_response_code(400);
-                echo json_encode(['error' => 'Aucun client sélectionné ou ID invalide - reçu: ' . $contactData['client_id']]);
+                echo json_encode(['error' => 'Aucun client sélectionné ou ID invalide']);
                 return;
             }
 
-            if (empty($contactData['first_name'])) {
+            if (empty($firstName)) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Le prénom est obligatoire']);
                 return;
             }
 
-            if (empty($contactData['last_name'])) {
+            if (empty($lastName)) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Le nom est obligatoire']);
                 return;
             }
 
-            // Vérifier si le client existe (peut être inactif lors de l'édition)
+            // Vérifier si le client existe
             $sql = "SELECT id FROM clients WHERE id = ?";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$contactData['client_id']]);
+            $stmt->execute([$clientId]);
             if (!$stmt->fetch()) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Client introuvable']);
@@ -2264,7 +2404,7 @@ class InterventionController
             // Vérifier si un contact avec ce nom existe déjà pour ce client
             $sql = "SELECT id FROM contacts WHERE first_name = ? AND last_name = ? AND client_id = ? AND status = 1";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$contactData['first_name'], $contactData['last_name'], $contactData['client_id']]);
+            $stmt->execute([$firstName, $lastName, $clientId]);
             if ($stmt->fetch()) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Un contact avec ce nom existe déjà pour ce client']);
@@ -2272,15 +2412,25 @@ class InterventionController
             }
 
             // Créer le contact
+            $contactData = [
+                'client_id' => $clientId,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => $email,
+                'phone1' => $phone1,
+                'phone2' => $phone2,
+                'fonction' => $fonction,
+                'comment' => $comment,
+                'has_user_account' => 0,
+                'status' => 1
+            ];
+
             $success = $this->contactModel->createContact($contactData);
             if (!$success) {
                 throw new Exception('Erreur lors de la création du contact');
             }
 
-            // Récupérer l'ID du contact créé
             $contactId = $this->db->lastInsertId();
-
-            // Récupérer les données du contact créé
             $contact = $this->contactModel->getContactById($contactId);
 
             echo json_encode([
@@ -2297,8 +2447,9 @@ class InterventionController
         } catch (Exception $e) {
             custom_log("Erreur lors de la création rapide du contact : " . $e->getMessage(), 'ERROR');
             http_response_code(500);
-            echo json_encode(['error' => 'Une erreur est survenue lors de la création du contact.']);
+            echo json_encode(['error' => 'Une erreur est survenue lors de la création du contact: ' . $e->getMessage()]);
         }
+        exit;
     }
 
     /**
@@ -2348,8 +2499,9 @@ class InterventionController
     {
         // Vérifier les permissions
         checkInterventionManagementAccess();
-        $clients = $this->clientModel->getAllClientsWithStats(['status' => 1]); // Seulement les clients actifs
+        $clients = $this->clientModel->getAllClientsWithStats(['status' => 1]);
         $sites = [];
+        $buildings = [];
         $rooms = [];
         $technicians = $this->userModel->getTechnicians();
 
@@ -2366,8 +2518,13 @@ class InterventionController
         $stmt->execute();
         $types = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Récupérer les durées
-        // $durations = $this->durationModel->getAll();
+        // Récupérer les bâtiments et salles si des IDs sont passés en GET
+        if (isset($_GET['site_id']) && !empty($_GET['site_id'])) {
+            $buildings = $this->buildingModel->getBuildingsBySiteId($_GET['site_id']);
+        }
+        if (isset($_GET['building_id']) && !empty($_GET['building_id'])) {
+            $rooms = $this->roomModel->getRoomsByBuildingId($_GET['building_id']);
+        }
 
         // Charger la vue
         require_once __DIR__ . '/../views/interventions/add.php';
@@ -2382,19 +2539,29 @@ class InterventionController
         checkInterventionManagementAccess();
 
         // Récupérer les données du formulaire
+        $isPreventive = isset($_POST['is_preventive']) ? 1 : 0;
+
+        // Déterminer la priorité : si préventive, forcer à 5, sinon utiliser la valeur du formulaire
+        $priorityId = !empty($_POST['priority_id']) ? $_POST['priority_id'] : 2;
+        if ($isPreventive == 1) {
+            $priorityId = 5; // ID de la priorité "Préventive"
+        }
+
         $data = [
             'title' => $_POST['title'] ?? '',
             'client_id' => !empty($_POST['client_id']) ? $_POST['client_id'] : null,
             'site_id' => !empty($_POST['site_id']) ? $_POST['site_id'] : null,
+            'building_id' => !empty($_POST['building_id']) ? $_POST['building_id'] : null,
             'room_id' => !empty($_POST['room_id']) ? $_POST['room_id'] : null,
-            'status_id' => !empty($_POST['status_id']) ? $_POST['status_id'] : 1, // 1 = Nouveau par défaut
-            'priority_id' => !empty($_POST['priority_id']) ? $_POST['priority_id'] : 2, // 2 = Normal par défaut
+            'status_id' => !empty($_POST['status_id']) ? $_POST['status_id'] : 1,
+            'priority_id' => $priorityId, // Priorité forcée si préventive
             'type_id' => !empty($_POST['type_id']) ? $_POST['type_id'] : null,
             'description' => $_POST['description'] ?? '',
             'demande_par' => !empty($_POST['demande_par']) ? $_POST['demande_par'] : null,
             'ref_client' => !empty($_POST['ref_client']) ? $_POST['ref_client'] : null,
             'contact_client' => !empty($_POST['contact_client']) ? $_POST['contact_client'] : null,
             'contract_id' => !empty($_POST['contract_id']) ? $_POST['contract_id'] : null,
+            'is_preventive' => $isPreventive,
         ];
 
         // Traiter la date et l'heure de création
@@ -2405,16 +2572,8 @@ class InterventionController
         // Valider les données requises
         if (empty($data['title'])) {
             $_SESSION['error'] = "Le titre est obligatoire.";
-
-            // Gérer le retour en cas d'erreur de validation
-            $returnTo = $_GET['return_to'] ?? 'view_intervention';
-            if ($returnTo === 'view') {
-                $clientId = $data['client_id'] ?? null;
-                if ($clientId) {
-                    header('Location: ' . BASE_URL . 'interventions/add?client_id=' . $clientId . '&return_to=view');
-                } else {
-                    header('Location: ' . BASE_URL . 'interventions/add');
-                }
+            if (isset($data['client_id'])) {
+                header('Location: ' . BASE_URL . 'interventions/add?client_id=' . $data['client_id']);
             } else {
                 header('Location: ' . BASE_URL . 'interventions/add');
             }
@@ -2423,29 +2582,14 @@ class InterventionController
 
         if (empty($data['client_id'])) {
             $_SESSION['error'] = "Le client est obligatoire.";
-
-            // Gérer le retour en cas d'erreur de validation
-            $returnTo = $_GET['return_to'] ?? 'view_intervention';
-            if ($returnTo === 'view') {
-                header('Location: ' . BASE_URL . 'interventions/add?return_to=view');
-            } else {
-                header('Location: ' . BASE_URL . 'interventions/add');
-            }
+            header('Location: ' . BASE_URL . 'interventions/add');
             exit;
         }
 
         if (empty($data['type_id'])) {
             $_SESSION['error'] = "Le type d'intervention est obligatoire.";
-
-            // Gérer le retour en cas d'erreur de validation
-            $returnTo = $_GET['return_to'] ?? 'view_intervention';
-            if ($returnTo === 'view') {
-                $clientId = $data['client_id'] ?? null;
-                if ($clientId) {
-                    header('Location: ' . BASE_URL . 'interventions/add?client_id=' . $clientId . '&return_to=view');
-                } else {
-                    header('Location: ' . BASE_URL . 'interventions/add?return_to=view');
-                }
+            if (isset($data['client_id'])) {
+                header('Location: ' . BASE_URL . 'interventions/add?client_id=' . $data['client_id']);
             } else {
                 header('Location: ' . BASE_URL . 'interventions/add');
             }
@@ -2461,10 +2605,14 @@ class InterventionController
             }
         }
 
-        // Valider le contrat (peut être un ID numérique)
+        // Valider le contrat
         if (empty($data['contract_id'])) {
             $_SESSION['error'] = "Le contrat est obligatoire.";
-            header('Location: ' . BASE_URL . 'interventions/add');
+            if (isset($data['client_id'])) {
+                header('Location: ' . BASE_URL . 'interventions/add?client_id=' . $data['client_id']);
+            } else {
+                header('Location: ' . BASE_URL . 'interventions/add');
+            }
             exit;
         }
 
@@ -2476,20 +2624,21 @@ class InterventionController
 
         // Créer l'intervention
         $sql = "INSERT INTO interventions (
-                    title, client_id, site_id, room_id, status_id, 
-                    priority_id, type_id, description, demande_par, ref_client, contact_client, 
-                    contract_id, reference,tickets_used, closed_at, created_at
-                ) VALUES (
-                    :title, :client_id, :site_id, :room_id,:status_id, 
-                    :priority_id, :type_id,:description, :demande_par, :ref_client, :contact_client, 
-                    :contract_id, :reference, :tickets_used, :closed_at, :created_at
-                )";
+            title, client_id, site_id,building_id, room_id, status_id, 
+            priority_id, type_id, description, demande_par, ref_client, contact_client, 
+            contract_id, reference, tickets_used, closed_at, created_at, is_preventive
+        ) VALUES (
+            :title, :client_id, :site_id, :building_id, :room_id, :status_id, 
+            :priority_id, :type_id, :description, :demande_par, :ref_client, :contact_client, 
+            :contract_id, :reference, :tickets_used, :closed_at, :created_at, :is_preventive
+        )";
 
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([
             ':title' => $data['title'],
             ':client_id' => $data['client_id'],
             ':site_id' => $data['site_id'],
+            ':building_id' => $data['building_id'],
             ':room_id' => $data['room_id'],
             ':status_id' => $data['status_id'],
             ':priority_id' => $data['priority_id'],
@@ -2502,7 +2651,8 @@ class InterventionController
             ':reference' => $this->interventionModel->generateReference($data['client_id']),
             ':tickets_used' => $data['tickets_used'] ?? null,
             ':closed_at' => $data['closed_at'] ?? null,
-            ':created_at' => $data['created_at']
+            ':created_at' => $data['created_at'],
+            ':is_preventive' => $data['is_preventive']
         ]);
 
         if ($result) {
@@ -2515,10 +2665,10 @@ class InterventionController
 
             // Enregistrer l'action dans l'historique
             $sql = "INSERT INTO intervention_history (
-                        intervention_id, field_name, old_value, new_value, changed_by, description
-                    ) VALUES (
-                        :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
-                    )";
+                    intervention_id, field_name, old_value, new_value, changed_by, description
+                ) VALUES (
+                    :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
+                )";
 
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
@@ -2527,38 +2677,34 @@ class InterventionController
                 ':old_value' => '',
                 ':new_value' => '',
                 ':changed_by' => $_SESSION['user']['id'],
-                ':description' => "Intervention créée"
+                ':description' => "Intervention créée" . ($data['is_preventive'] == 1 ? " (Préventive)" : "")
             ]);
 
             // Envoyer l'email de création d'intervention
             try {
                 $this->mailService->sendInterventionCreated($interventionId);
             } catch (Exception $e) {
-                // Log l'erreur mais ne pas faire échouer la création
                 custom_log_mail("Erreur envoi email création intervention $interventionId : " . $e->getMessage(), 'ERROR');
             }
-            $successMessage = "Intervention créée avec succès.";
-            $_SESSION['success'] = $successMessage;
+
+            $_SESSION['success'] = "Intervention créée avec succès.";
 
             // Gérer le retour intelligent
             $returnTo = $_GET['return_to'] ?? 'view_intervention';
             if ($returnTo === 'view') {
-                // Récupérer l'ID du client depuis les données POST
                 $clientId = $data['client_id'] ?? null;
                 if ($clientId) {
                     header('Location: ' . BASE_URL . 'clients/view/' . $clientId . '?active_tab=interventions-tab');
                 } else {
-                    echo json_decode("test");
                     header('Location: ' . BASE_URL . 'interventions/view/' . $interventionId);
                 }
             } else {
-                echo json_decode("test");
                 header('Location: ' . BASE_URL . 'interventions/view/' . $interventionId);
             }
+            exit;
         } else {
             $_SESSION['error'] = "Erreur lors de la création de l'intervention.";
 
-            // Gérer le retour en cas d'erreur
             $returnTo = $_GET['return_to'] ?? 'view_intervention';
             if ($returnTo === 'view') {
                 $clientId = $data['client_id'] ?? null;
@@ -2570,10 +2716,9 @@ class InterventionController
             } else {
                 header('Location: ' . BASE_URL . 'interventions/add');
             }
+            exit;
         }
-        exit;
     }
-
     /**
      * Modifie un commentaire
      */
@@ -2722,7 +2867,64 @@ class InterventionController
         header('Location: ' . BASE_URL . 'interventions/view/' . $id);
         exit;
     }
+    /**
+     * Calcule le nombre total de tickets utilisés pour une intervention
+     * en tenant compte de tous les techniciens assignés
+     * 
+     * @param int $interventionId ID de l'intervention
+     * @param float $duration Durée en heures
+     * @param int $typeId ID du type d'intervention
+     * @return int Nombre total de tickets utilisés
+     */
+    private function calculateTotalTicketsUsed($interventionId, $duration, $typeId)
+    {
+        // Récupérer tous les techniciens assignés à cette intervention
+        $sql = "SELECT it.technicien_id, it.temps_passe, u.coef_utilisateur, i.type_requires_travel
+            FROM intervention_techniciens it
+            JOIN users u ON it.technicien_id = u.id
+            JOIN interventions i ON it.intervention_id = i.id
+            WHERE it.intervention_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$interventionId]);
+        $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        if (empty($technicians)) {
+            return 0;
+        }
+
+        // Récupérer le coefficient d'intervention
+        $stmt = $this->db->prepare("SELECT setting_value FROM settings WHERE setting_key = 'coef_intervention'");
+        $stmt->execute();
+        $coefIntervention = floatval($stmt->fetchColumn()) ?? 0;
+
+        // Récupérer le type d'intervention pour savoir s'il y a déplacement
+        $type = $this->interventionModel->getTypeInfo($typeId);
+        $requiresTravel = $type['requires_travel'] ?? false;
+
+        $totalTickets = 0;
+
+        foreach ($technicians as $tech) {
+            $tempsPasse = $tech['temps_passe'] ?? $duration; // Utiliser temps_passe individuel ou durée par défaut
+            $coefUtilisateur = $tech['coef_utilisateur'] ?? 0;
+
+            // Convertir temps_passe en heures (si en minutes)
+            if ($tempsPasse && $tempsPasse > 10) {
+                $durationHours = $tempsPasse / 60;
+            } else {
+                $durationHours = $duration;
+            }
+
+            if ($requiresTravel) {
+                $tickets = $durationHours + $coefUtilisateur + 1 + $coefIntervention;
+            } else {
+                $tickets = $durationHours + $coefUtilisateur + $coefIntervention;
+            }
+
+            $totalTickets += ceil($tickets);
+        }
+
+        return $totalTickets;
+    }
     /**
      * Récupère les détails de calcul de tickets pour la fermeture d'intervention
      */
@@ -2730,36 +2932,23 @@ class InterventionController
     {
         custom_log("DEBUG - getCloseDetails() - Début de la méthode avec ID: $id", "DEBUG");
 
-        // Vérifier les permissions
         checkInterventionManagementAccess();
-        custom_log("DEBUG - getCloseDetails() - Permissions vérifiées", "DEBUG");
 
-        // Récupérer l'intervention
         $intervention = $this->interventionModel->getById($id);
-        custom_log("DEBUG - getCloseDetails() - Intervention récupérée: " . ($intervention ? 'OUI' : 'NON'), "DEBUG");
 
         if (!$intervention) {
-            custom_log("DEBUG - getCloseDetails() - Intervention introuvable", "ERROR");
             http_response_code(404);
             echo json_encode(['error' => 'Intervention introuvable.']);
             exit;
         }
 
-        // Vérifier si l'intervention est déjà fermée
         if ($intervention['status_id'] == 6) {
             http_response_code(400);
             echo json_encode(['error' => 'Cette intervention est déjà fermée.']);
             exit;
         }
 
-        // Vérifier si l'intervention est affectée au technicien connecté
-        if ($intervention['technician_id'] != $_SESSION['user']['id'] && !isAdmin()) {
-            http_response_code(403);
-            echo json_encode(['error' => 'Vous ne pouvez fermer que les interventions qui vous sont affectées.']);
-            exit;
-        }
-
-        // Vérifier tous les prérequis
+        // Vérifier les prérequis
         if (empty($intervention['type_id'])) {
             http_response_code(400);
             echo json_encode(['error' => 'Impossible de fermer l\'intervention sans avoir défini un type d\'intervention.']);
@@ -2772,56 +2961,87 @@ class InterventionController
             exit;
         }
 
-        if (empty($intervention['technician_id'])) {
+        // Vérifier qu'au moins un technicien est assigné
+        $sql = "SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        $technicianCount = $stmt->fetchColumn();
+
+        if ($technicianCount == 0) {
             http_response_code(400);
-            echo json_encode(['error' => 'Impossible de fermer l\'intervention sans avoir assigné un technicien.']);
+            echo json_encode(['error' => 'Impossible de fermer l\'intervention sans avoir assigné au moins un technicien.']);
             exit;
         }
 
-        // Récupérer les informations nécessaires pour le calcul
-        $technician = $this->userModel->getUserById($intervention['technician_id']);
-        $type = $this->interventionModel->getTypeInfo($intervention['type_id']);
+        // Récupérer les techniciens assignés
+        $sql = "SELECT it.*, 
+                   CONCAT(u.first_name, ' ', u.last_name) as technician_name,
+                   u.coef_utilisateur
+            FROM intervention_techniciens it
+            JOIN users u ON it.technicien_id = u.id
+            WHERE it.intervention_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Utiliser la valeur stockée dans l'intervention (le modèle utilise COALESCE pour retourner 
-        // la valeur de l'intervention si elle existe, sinon celle du type)
+        $type = $this->interventionModel->getTypeInfo($intervention['type_id']);
         $requiresTravel = (bool) ($intervention['type_requires_travel'] ?? false);
 
-        // Récupérer le coefficient d'intervention depuis les paramètres
         $stmt = $this->db->prepare("SELECT setting_value FROM settings WHERE setting_key = 'coef_intervention'");
         $stmt->execute();
         $coefIntervention = floatval($stmt->fetchColumn()) ?? 0;
 
-        // Calculer les tickets selon la formule
-        $coefUtilisateur = $technician['coef_utilisateur'] ?? 0;
+        // Calculer les tickets pour chaque technicien
+        $ticketsPerTechnician = [];
+        $totalTickets = 0;
+        $calculations = [];
 
-        if ($requiresTravel) {
-            // Avec déplacement : durée + coef_utilisateur + 1 + coef_intervention
-            $tickets = $intervention['duration'] + $coefUtilisateur + 1 + $coefIntervention;
-        } else {
-            // Sans déplacement : durée + coef_utilisateur + coef_intervention
-            $tickets = $intervention['duration'] + $coefUtilisateur + $coefIntervention;
+        foreach ($technicians as $tech) {
+            $tempsPasse = $tech['temps_passe'] ?? $intervention['duration'];
+            $durationHours = $tempsPasse / 60; // Convertir minutes en heures
+            $coefUtilisateur = $tech['coef_utilisateur'] ?? 0;
+
+            if ($requiresTravel) {
+                $tickets = $durationHours + $coefUtilisateur + 1 + $coefIntervention;
+            } else {
+                $tickets = $durationHours + $coefUtilisateur + $coefIntervention;
+            }
+
+            $roundedTickets = ceil($tickets);
+            $totalTickets += $roundedTickets;
+
+            $ticketsPerTechnician[] = [
+                'name' => $tech['technician_name'],
+                'duration_minutes' => $tempsPasse,
+                'duration_hours' => $durationHours,
+                'coef_utilisateur' => $coefUtilisateur,
+                'tickets_raw' => $tickets,
+                'tickets_rounded' => $roundedTickets
+            ];
+
+            $calculations[] = [
+                'technician' => $tech['technician_name'],
+                'formula' => $requiresTravel ?
+                    "{$durationHours}h + {$coefUtilisateur} + 1 + {$coefIntervention} = {$tickets} → {$roundedTickets}" :
+                    "{$durationHours}h + {$coefUtilisateur} + {$coefIntervention} = {$tickets} → {$roundedTickets}"
+            ];
         }
 
-        // Arrondir à l'entier supérieur
-        $ticketsUsed = ceil($tickets);
-
-        // Récupérer les informations du contrat si applicable
+        // Récupérer les informations du contrat
         $contractInfo = null;
         if (!empty($intervention['contract_id'])) {
-            $stmt = $this->db->prepare("
-                SELECT c.*, ct.name as type_name, 
-                       (c.tickets_number - COALESCE(SUM(i.tickets_used), 0)) as tickets_remaining
-                FROM contracts c
-                LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
-                LEFT JOIN interventions i ON c.id = i.contract_id AND i.status_id = 6
-                WHERE c.id = ?
-                GROUP BY c.id
-            ");
-            $stmt->execute([$intervention['contract_id']]);
-            $contractInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+            $contract = $this->contractModel->getContractById($intervention['contract_id']);
+            if ($contract && isContractTicketById($contract['id'])) {
+                $contractInfo = [
+                    'id' => $contract['id'],
+                    'name' => $contract['name'],
+                    'tickets_remaining' => $contract['tickets_remaining'],
+                    'tickets_number' => $contract['tickets_number'],
+                    'tickets_after_close' => $contract['tickets_remaining'] - $totalTickets
+                ];
+            }
         }
 
-        // Préparer la réponse
         $response = [
             'success' => true,
             'intervention' => [
@@ -2829,30 +3049,18 @@ class InterventionController
                 'reference' => $intervention['reference'],
                 'title' => $intervention['title'],
                 'duration' => $intervention['duration'],
-                'technician_name' => $technician['first_name'] . ' ' . $technician['last_name'],
                 'type_name' => $type['name'],
-                'requires_travel' => $requiresTravel
-            ],
-            'calculation' => [
-                'duration' => $intervention['duration'],
-                'coef_utilisateur' => $coefUtilisateur,
-                'coef_intervention' => $coefIntervention,
                 'requires_travel' => $requiresTravel,
-                'travel_bonus' => $requiresTravel ? 1 : 0,
-                'formula' => $requiresTravel ?
-                    "{$intervention['duration']} + {$coefUtilisateur} + 1 + {$coefIntervention} = {$tickets}" :
-                    "{$intervention['duration']} + {$coefUtilisateur} + {$coefIntervention} = {$tickets}",
-                'tickets_calculated' => $tickets,
-                'tickets_used' => $ticketsUsed
+                'technician_count' => $technicianCount
             ],
+            'technicians' => $ticketsPerTechnician,
+            'calculations' => $calculations,
+            'total_tickets' => $totalTickets,
             'contract' => $contractInfo
         ];
 
-        custom_log("DEBUG - getCloseDetails() - Réponse préparée: " . json_encode($response), "DEBUG");
-
         header('Content-Type: application/json');
         echo json_encode($response);
-        custom_log("DEBUG - getCloseDetails() - Réponse envoyée", "DEBUG");
         exit;
     }
 
@@ -2861,10 +3069,8 @@ class InterventionController
      */
     public function close($id)
     {
-        // Vérifier les permissions
         checkInterventionManagementAccess();
 
-        // Récupérer l'intervention
         $intervention = $this->interventionModel->getById($id);
 
         if (!$intervention) {
@@ -2873,137 +3079,153 @@ class InterventionController
             exit;
         }
 
-        // Vérifier si l'intervention est déjà fermée
-        if ($intervention['status_id'] == 6) {
+        $isClosed = $intervention['status_id'] == 6;
+        $needsRecalculation = $intervention['needs_recalculation'] ?? 0;
+
+        if ($isClosed && !$needsRecalculation) {
             $_SESSION['info'] = "Cette intervention est déjà fermée.";
             header('Location: ' . BASE_URL . 'interventions/view/' . $id);
             exit;
         }
 
-        // Vérifier si l'intervention est affectée au technicien connecté
+        // Vérification technicien
         if ($intervention['technician_id'] != $_SESSION['user']['id'] && !isAdmin()) {
             $_SESSION['error'] = "Vous ne pouvez fermer que les interventions qui vous sont affectées.";
             header('Location: ' . BASE_URL . 'interventions/view/' . $id);
             exit;
         }
 
-        // Vérifier tous les prérequis
+        // Prérequis
         if (empty($intervention['type_id'])) {
-            $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir défini un type d'intervention.";
+            $_SESSION['error'] = "Type d'intervention manquant.";
             header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
             exit;
         }
 
         if (empty($intervention['duration'])) {
-            $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir défini une durée.";
+            $_SESSION['error'] = "Durée manquante.";
             header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
             exit;
         }
 
         if (empty($intervention['technician_id'])) {
-            $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir assigné un technicien.";
+            $_SESSION['error'] = "Technicien manquant.";
             header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
             exit;
         }
 
-        // Récupérer le nombre de tickets à utiliser (peut être personnalisé)
-        $ticketsUsed = 0;
-        if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
-            // Vérifier si un nombre de tickets personnalisé a été fourni
-            if (isset($_POST['tickets_used']) && is_numeric($_POST['tickets_used'])) {
-                $ticketsUsed = (int) $_POST['tickets_used'];
-                error_log("DEBUG - close() - Tickets personnalisés: " . $ticketsUsed);
-            } else {
-                // Calculer automatiquement le nombre de tickets
-                error_log("DEBUG - close() - Calcul des tickets pour l'intervention $id (contrat à tickets)");
-                error_log("DEBUG - close() - Durée: " . $intervention['duration']);
-                error_log("DEBUG - close() - Technicien ID: " . $intervention['technician_id']);
-                error_log("DEBUG - close() - Type ID: " . $intervention['type_id']);
+        try {
+            $this->db->beginTransaction();
 
-                $ticketsUsed = $this->calculateTicketsUsed(
-                    $intervention['duration'],
-                    $intervention['technician_id'],
-                    $intervention['type_id'],
-                    $intervention['type_requires_travel'] ?? null
-                );
+            // 🎯 Calcul tickets
+            $ticketsUsed = 0;
 
-                error_log("DEBUG - close() - Tickets calculés: " . $ticketsUsed);
-            }
-        } else {
-            error_log("DEBUG - close() - Pas de calcul de tickets (contrat sans tickets ou pas de contrat)");
-        }
+            if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
 
-        // Mettre à jour l'intervention
-        $sql = "UPDATE interventions SET 
-                status_id = 6, 
-                closed_at = NOW(),
-                tickets_used = :tickets_used 
-                WHERE id = :id";
-
-        $stmt = $this->db->prepare($sql);
-        $result = $stmt->execute([
-            ':tickets_used' => $ticketsUsed,
-            ':id' => $id
-        ]);
-
-        error_log("DEBUG - close() - Résultat de la mise à jour: " . ($result ? 'SUCCÈS' : 'ÉCHEC'));
-
-        if ($result) {
-            // Déduire les tickets du contrat si un contrat est associé
-            if (!empty($intervention['contract_id'])) {
-                $this->deductTicketsFromContract($intervention['contract_id'], $ticketsUsed, $id);
-            }
-
-            // Enregistrer l'action dans l'historique
-            // OPTIMISATION N+1 : Précharger les status_id nécessaires (ancien et nouveau)
-            $statusIds = array_filter([$intervention['status_id'], 6]);
-            $lookupData = ['statuses' => []];
-            if (!empty($statusIds)) {
-                $placeholders = implode(',', array_fill(0, count($statusIds), '?'));
-                $stmt = $this->db->prepare("SELECT id, name FROM intervention_statuses WHERE id IN ($placeholders)");
-                $stmt->execute(array_values($statusIds));
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    $lookupData['statuses'][$row['id']] = $row['name'];
+                if (isset($_POST['tickets_used']) && is_numeric($_POST['tickets_used'])) {
+                    $ticketsUsed = (int) $_POST['tickets_used'];
+                } else {
+                    $ticketsUsed = $this->calculateTicketsUsed(
+                        $intervention['duration'],
+                        $intervention['technician_id'],
+                        $intervention['type_id'],
+                        $intervention['type_requires_travel'] ?? null
+                    );
                 }
             }
 
-            $sql = "INSERT INTO intervention_history (
+            $oldTickets = (int) ($intervention['tickets_used'] ?? 0);
+            $difference = $ticketsUsed - $oldTickets;
+
+            $sql = "UPDATE interventions SET 
+                status_id = 6, 
+                closed_at = IF(status_id = 6, closed_at, NOW()),
+                tickets_used = :tickets_used,
+                needs_recalculation = 0
+                WHERE id = :id";
+
+            $stmt = $this->db->prepare($sql);
+            $result = $stmt->execute([
+                ':tickets_used' => $ticketsUsed,
+                ':id' => $id
+            ]);
+
+            if ($result) {
+                if (
+                    !empty($intervention['contract_id']) &&
+                    isContractTicketById($intervention['contract_id']) &&
+                    $difference != 0
+                ) {
+                    $this->deductTicketsFromContract(
+                        $intervention['contract_id'],
+                        $difference,
+                        $id
+                    );
+                }
+
+                // Historique (amélioré)
+                $description = $isClosed
+                    ? "Recalcul tickets : ancien={$oldTickets}, nouveau={$ticketsUsed}, diff={$difference}"
+                    : "Intervention fermée avec {$ticketsUsed} tickets utilisés";
+
+                $statusIds = array_filter([$intervention['status_id'], 6]);
+                $lookupData = ['statuses' => []];
+
+                if (!empty($statusIds)) {
+                    $placeholders = implode(',', array_fill(0, count($statusIds), '?'));
+                    $stmt = $this->db->prepare("SELECT id, name FROM intervention_statuses WHERE id IN ($placeholders)");
+                    $stmt->execute(array_values($statusIds));
+
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        $lookupData['statuses'][$row['id']] = $row['name'];
+                    }
+                }
+
+                $sql = "INSERT INTO intervention_history (
                         intervention_id, field_name, old_value, new_value, changed_by, description
                     ) VALUES (
                         :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
                     )";
 
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([
-                ':intervention_id' => $id,
-                ':field_name' => 'Statut',
-                ':old_value' => $this->getDisplayValue('status_id', $intervention['status_id'], $lookupData),
-                ':new_value' => $this->getDisplayValue('status_id', 6, $lookupData),
-                ':changed_by' => $_SESSION['user']['id'],
-                ':description' => "Intervention fermée avec {$ticketsUsed} tickets utilisés"
-            ]);
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([
+                    ':intervention_id' => $id,
+                    ':field_name' => 'Statut',
+                    ':old_value' => $this->getDisplayValue('status_id', $intervention['status_id'], $lookupData),
+                    ':new_value' => $this->getDisplayValue('status_id', 6, $lookupData),
+                    ':changed_by' => $_SESSION['user']['id'],
+                    ':description' => $description
+                ]);
 
-            // Envoyer l'email de fermeture d'intervention si demandé
-            $sendEmail = isset($_POST['send_email']) && $_POST['send_email'] == '1';
-            if ($sendEmail) {
-                try {
-                    // Forcer l'envoi même si l'auto-envoi est désactivé (envoi manuel)
-                    $this->mailService->sendInterventionClosed($id, true);
-                } catch (Exception $e) {
-                    // Log l'erreur mais ne pas faire échouer la fermeture
-                    custom_log_mail("Erreur envoi email fermeture intervention $id : " . $e->getMessage(), 'ERROR');
+                // 📧 Email (inchangé)
+                if (isset($_POST['send_email']) && $_POST['send_email'] == '1') {
+                    try {
+                        $this->mailService->sendInterventionClosed($id, true);
+                    } catch (Exception $e) {
+                        custom_log_mail("Erreur email fermeture $id : " . $e->getMessage(), 'ERROR');
+                    }
                 }
+
+                $this->db->commit();
+
+                $_SESSION['success'] = $isClosed
+                    ? "Recalcul effectué (différence : {$difference} tickets)."
+                    : "Intervention fermée avec succès.";
+
+            } else {
+                $this->db->rollBack();
+                $_SESSION['error'] = "Erreur lors de la fermeture.";
             }
 
-            $_SESSION['success'] = "L'intervention a été fermée avec succès.";
-        } else {
-            $_SESSION['error'] = "Une erreur est survenue lors de la fermeture de l'intervention.";
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            error_log("Erreur close(): " . $e->getMessage());
+            $_SESSION['error'] = "Erreur critique.";
         }
 
         header('Location: ' . BASE_URL . 'interventions/view/' . $id);
         exit;
     }
-
     public function generateReport($id)
     {
         // Vérifier les permissions
@@ -4405,7 +4627,6 @@ class InterventionController
      */
     public function apiAssignTechnicians()
     {
-
         while (ob_get_level()) {
             ob_end_clean();
         }
@@ -4419,6 +4640,7 @@ class InterventionController
                 echo json_encode(['success' => false, 'error' => 'Données JSON invalides']);
                 return;
             }
+
             $interventionId = $input['intervention_id'] ?? null;
             $technicians = $input['technicians'] ?? [];
 
@@ -4430,26 +4652,40 @@ class InterventionController
 
             $this->db->beginTransaction();
 
-            // Pour chaque technicien, on vérifie s'il existe déjà
-            $checkStmt = $this->db->prepare("SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?");
+            // 1. Récupérer les IDs des techniciens actuellement assignés
+            $stmt = $this->db->prepare("SELECT technicien_id FROM intervention_techniciens WHERE intervention_id = ?");
+            $stmt->execute([$interventionId]);
+            $currentTechIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
+            // 2. Récupérer les IDs des techniciens à conserver (ceux envoyés dans la requête)
+            $newTechIds = array_column($technicians, 'technicien_id');
+
+            // 3. Supprimer les techniciens qui ne sont plus dans la liste
+            $techsToDelete = array_diff($currentTechIds, $newTechIds);
+            if (!empty($techsToDelete)) {
+                $deleteStmt = $this->db->prepare("DELETE FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?");
+                foreach ($techsToDelete as $techId) {
+                    $deleteStmt->execute([$interventionId, $techId]);
+                    custom_log("Technicien $techId retiré de l'intervention $interventionId", 'INFO');
+                }
+            }
+
+            // 4. Mettre à jour ou insérer les techniciens de la nouvelle liste
+            $checkStmt = $this->db->prepare("SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?");
             $insertStmt = $this->db->prepare("
             INSERT INTO intervention_techniciens 
             (intervention_id, technicien_id, start_time, end_time, deplacement, temps_passe, commentaire)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         ");
-
             $updateStmt = $this->db->prepare("
             UPDATE intervention_techniciens 
             SET start_time = ?, end_time = ?, deplacement = ?, temps_passe = ?, commentaire = ?
             WHERE intervention_id = ? AND technicien_id = ?
         ");
 
-
             $notify = $input['notify_technician'] ?? 0;
 
             foreach ($technicians as $tech) {
-
                 $checkStmt->execute([$interventionId, $tech['technicien_id']]);
                 $exists = $checkStmt->fetchColumn() > 0;
 
@@ -4475,21 +4711,18 @@ class InterventionController
                     ]);
                 }
 
-                // MAIL
+                // Envoi d'email si demandé
                 if (!empty($tech['technicien_id']) && $notify == 1) {
-                    custom_log("test");
                     try {
                         $emailSent = $this->mailService->sendTechnicianAssigned(
                             $interventionId,
                             $tech['technicien_id']
                         );
-
                         if ($emailSent) {
                             custom_log("Email envoyé au technicien {$tech['technicien_id']}", 'INFO');
                         } else {
                             custom_log("Échec email technicien {$tech['technicien_id']}", 'WARNING');
                         }
-
                     } catch (Exception $e) {
                         custom_log_mail("Erreur mail: " . $e->getMessage(), 'ERROR');
                     }
@@ -4507,7 +4740,6 @@ class InterventionController
             if ($this->db->inTransaction()) {
                 $this->db->rollBack();
             }
-
             http_response_code(500);
             echo json_encode([
                 'success' => false,
@@ -4517,11 +4749,573 @@ class InterventionController
     }
     public function interventionsTechnician($id)
     {
+
         $this->apiGetTechnicians($id);
     }
 
     public function assignTechnicians()
     {
         $this->apiAssignTechnicians();
+    }
+
+    /**
+     * Flash Intervention - Création rapide en 1 clic
+     */
+    /**
+     * Flash Intervention - Création rapide en 1 clic
+     */
+    public function flash()
+    {
+        // Désactiver l'affichage des erreurs pour l'API
+        error_reporting(0);
+        ini_set('display_errors', 0);
+
+        // Nettoyer les buffers
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        // Définir les headers pour l'API
+        header('Content-Type: application/json; charset=UTF-8');
+        header('Cache-Control: no-cache, must-revalidate');
+
+        // Vérifier l'authentification et les permissions
+        if (!isset($_SESSION['user']) || !canModifyInterventions()) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'error' => 'Permissions insuffisantes']);
+            exit;
+        }
+
+        // Récupérer les données
+        $clientId = $_POST['client_id'] ?? null;
+        $title = trim($_POST['title'] ?? '');
+
+        if (!$clientId) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Client requis']);
+            exit;
+        }
+
+        try {
+            // Vérifier que le client existe
+            $stmt = $this->db->prepare("SELECT id, name FROM clients WHERE id = ? AND status = 1");
+            $stmt->execute([$clientId]);
+            $client = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$client) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'error' => 'Client introuvable']);
+                exit;
+            }
+
+            // Générer une référence unique
+            $reference = $this->generateReference();
+
+            // Définir les valeurs par défaut
+            $now = date('Y-m-d H:i:s');
+            $defaultTitle = $title ?: 'Flash Intervention - ' . $client['name'];
+
+            // Récupérer les IDs par défaut
+            $typeId = $this->getDefaultTypeId('Assistance téléphonique');
+            $statusId = $this->getDefaultStatusId('En cours'); // Statut "En cours" ou "Nouveau"
+            $priorityId = $this->getDefaultPriorityId('Moyenne');
+
+            // Durée par défaut : 30 minutes
+            $duration = 30;
+
+            // Insérer l'intervention avec les flags flash
+            $sql = "INSERT INTO interventions (
+                    reference, title, client_id, type_id, status_id, priority_id,
+                    duration, created_at, updated_at, is_flash, needs_completion
+                ) VALUES (
+                    :reference, :title, :client_id, :type_id, :status_id, :priority_id,
+                    :duration, :created_at, :updated_at, 1, 1
+                )";
+
+            $stmt = $this->db->prepare($sql);
+            $result = $stmt->execute([
+                ':reference' => $reference,
+                ':title' => $defaultTitle,
+                ':client_id' => $clientId,
+                ':type_id' => $typeId,
+                ':status_id' => $statusId,
+                ':priority_id' => $priorityId,
+                ':duration' => $duration,
+                ':created_at' => $now,
+                ':updated_at' => $now
+            ]);
+
+            if (!$result) {
+                throw new Exception('Erreur lors de l\'insertion en base de données');
+            }
+
+            $interventionId = $this->db->lastInsertId();
+
+            // Enregistrer l'action dans l'historique
+            $sql = "INSERT INTO intervention_history (
+                    intervention_id, field_name, old_value, new_value, changed_by, description
+                ) VALUES (
+                    :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
+                )";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':intervention_id' => $interventionId,
+                ':field_name' => 'Création flash',
+                ':old_value' => '',
+                ':new_value' => '',
+                ':changed_by' => $_SESSION['user']['id'],
+                ':description' => "Intervention flash créée rapidement - À compléter"
+            ]);
+
+            echo json_encode([
+                'success' => true,
+                'intervention_id' => $interventionId,
+                'reference' => $reference,
+                'message' => 'Intervention flash créée avec succès'
+            ]);
+
+        } catch (Exception $e) {
+            error_log('Flash Intervention Error: ' . $e->getMessage());
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur lors de la création: ' . $e->getMessage()]);
+        }
+        exit;
+    }
+    /* @return array Liste des interventions flash incomplètes
+     */
+    public function getFlashInterventions()
+    {
+        // Vérifier l'authentification
+        if (!isset($_SESSION['user'])) {
+            return [];
+        }
+
+        $user = $_SESSION['user'];
+        $userId = $user['id'];
+        $userType = $user['user_type'] ?? null;
+
+        // Récupérer les interventions flash incomplètes
+        $flashInterventions = [];
+
+        try {
+            if ($userType === 'technicien') {
+                // Pour un technicien, récupérer ses interventions assignées
+                $sql = "SELECT i.*, 
+                           c.name as client_name,
+                           s.name as site_name,
+                           r.name as room_name,
+                           st.name as status_name,
+                           st.color as status_color,
+                           p.name as priority_name,
+                           p.color as priority_color,
+                           t.name as type_name
+                    FROM interventions i
+                    LEFT JOIN clients c ON i.client_id = c.id
+                    LEFT JOIN sites s ON i.site_id = s.id
+                    LEFT JOIN rooms r ON i.room_id = r.id
+                    LEFT JOIN intervention_statuses st ON i.status_id = st.id
+                    LEFT JOIN intervention_priorities p ON i.priority_id = p.id
+                    LEFT JOIN intervention_types t ON i.type_id = t.id
+                    WHERE i.is_flash = 1 
+                      AND i.needs_completion = 1
+                      AND i.status_id != 6
+                      AND EXISTS (
+                          SELECT 1 FROM intervention_techniciens it 
+                          WHERE it.intervention_id = i.id AND it.technicien_id = :technician_id
+                      )
+                    ORDER BY i.created_at DESC";
+
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([':technician_id' => $userId]);
+                $flashInterventions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            } elseif ($userType === 'admin') {
+                // Pour l'admin, récupérer toutes les interventions flash incomplètes
+                $sql = "SELECT i.*, 
+                           c.name as client_name,
+                           s.name as site_name,
+                           r.name as room_name,
+                           st.name as status_name,
+                           st.color as status_color,
+                           p.name as priority_name,
+                           p.color as priority_color,
+                           t.name as type_name
+                    FROM interventions i
+                    LEFT JOIN clients c ON i.client_id = c.id
+                    LEFT JOIN sites s ON i.site_id = s.id
+                    LEFT JOIN rooms r ON i.room_id = r.id
+                    LEFT JOIN intervention_statuses st ON i.status_id = st.id
+                    LEFT JOIN intervention_priorities p ON i.priority_id = p.id
+                    LEFT JOIN intervention_types t ON i.type_id = t.id
+                    WHERE i.is_flash = 1 
+                      AND i.needs_completion = 1
+                      AND i.status_id != 6
+                    ORDER BY i.created_at DESC";
+
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute();
+                $flashInterventions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+
+        } catch (Exception $e) {
+            error_log('Erreur getFlashInterventions: ' . $e->getMessage());
+            return [];
+        }
+
+        return $flashInterventions;
+    }
+    /**
+     * Génère une référence unique pour l'intervention
+     */
+    private function generateReference()
+    {
+        $year = date('Y');
+        $month = date('m');
+        $prefix = "INT-{$year}{$month}-";
+
+        $sql = "SELECT COUNT(*) as count FROM interventions WHERE reference LIKE :prefix";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':prefix' => $prefix . '%']);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $number = str_pad(($result['count'] ?? 0) + 1, 4, '0', STR_PAD_LEFT);
+        return $prefix . $number;
+    }
+
+    /**
+     * Récupère l'ID d'un type par son nom
+     */
+    private function getDefaultTypeId($typeName)
+    {
+        $sql = "SELECT id FROM intervention_types WHERE name = :name";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':name' => $typeName]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            return $result['id'];
+        }
+
+        // Créer le type s'il n'existe pas
+        $sql = "INSERT INTO intervention_types (name, created_at) VALUES (:name, NOW())";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':name' => $typeName]);
+        return $this->db->lastInsertId();
+    }
+
+    /**
+     * Récupère l'ID d'un statut par son nom
+     */
+    private function getDefaultStatusId($statusName)
+    {
+        $sql = "SELECT id FROM intervention_statuses WHERE name = :name";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':name' => $statusName]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['id'] : 1;
+    }
+
+    /**
+     * Récupère l'ID d'une priorité par son nom
+     */
+    private function getDefaultPriorityId($priorityName)
+    {
+        $sql = "SELECT id FROM intervention_priorities WHERE name = :name";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':name' => $priorityName]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['id'] : 2;
+    }
+    /**
+     * Envoie un email au technicien assigné
+     */
+    /**
+     * Envoie un email à un technicien spécifique
+     */
+    public function sendTechnicianEmail()
+    {
+        // Désactiver l'affichage des erreurs pour l'API
+        error_reporting(0);
+        ini_set('display_errors', 0);
+
+        // Nettoyer les buffers
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        // Définir les headers pour l'API
+        header('Content-Type: application/json; charset=UTF-8');
+        header('Cache-Control: no-cache, must-revalidate');
+
+        // Vérifier l'authentification et les permissions
+        if (!isset($_SESSION['user']) || !canModifyInterventions()) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'error' => 'Permissions insuffisantes']);
+            exit;
+        }
+
+        // Récupérer les données
+        $interventionId = $_POST['intervention_id'] ?? null;
+        $technicianId = $_POST['technician_id'] ?? null;
+
+        if (!$interventionId) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'ID intervention manquant']);
+            exit;
+        }
+
+        if (!$technicianId) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'ID technicien manquant']);
+            exit;
+        }
+
+        try {
+            // Récupérer l'intervention
+            $intervention = $this->interventionModel->getById($interventionId);
+
+            if (!$intervention) {
+                throw new Exception('Intervention non trouvée');
+            }
+
+            // Envoyer l'email
+            $emailSent = $this->mailService->sendTechnicianAssigned($interventionId, $technicianId);
+
+            if ($emailSent) {
+                custom_log_mail("Email de notification renvoyé au technicien $technicianId pour l'intervention $interventionId", 'INFO');
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Email envoyé avec succès au technicien'
+                ]);
+            } else {
+                custom_log_mail("Échec de l'envoi de l'email de notification au technicien $technicianId pour l'intervention $interventionId", 'WARNING');
+                echo json_encode([
+                    'success' => false,
+                    'error' => 'Échec de l\'envoi de l\'email. Vérifiez la configuration du serveur mail.'
+                ]);
+            }
+
+        } catch (Exception $e) {
+            custom_log_mail("Erreur lors de l'envoi de l'email de notification au technicien : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => 'Erreur lors de l\'envoi: ' . $e->getMessage()
+            ]);
+        }
+        exit;
+    }
+
+    public function getFileData($attachmentId)
+    {
+        // Vérifier les permissions
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            exit;
+        }
+
+        try {
+            $attachment = $this->interventionModel->getPieceJointeById($attachmentId);
+
+            if (!$attachment) {
+                http_response_code(404);
+                exit;
+            }
+
+            $filePath = __DIR__ . '/../../' . $attachment['chemin_fichier'];
+
+            if (!file_exists($filePath)) {
+                http_response_code(404);
+                exit;
+            }
+
+            $extension = strtolower(pathinfo($attachment['nom_fichier'], PATHINFO_EXTENSION));
+            $mimeTypes = [
+                'pdf' => 'application/pdf',
+                'jpg' => 'image/jpeg',
+                'jpeg' => 'image/jpeg',
+                'png' => 'image/png',
+                'gif' => 'image/gif',
+                'webp' => 'image/webp',
+                'svg' => 'image/svg+xml'
+            ];
+
+            $mimeType = $mimeTypes[$extension] ?? 'application/octet-stream';
+
+            header('Content-Type: ' . $mimeType);
+            header('Cache-Control: public, max-age=3600');
+            readfile($filePath);
+
+        } catch (Exception $e) {
+            http_response_code(500);
+            exit;
+        }
+    }
+    /**
+     * Calcule les tickets pour chaque technicien d'une intervention
+     * 
+     * @param int $interventionId ID de l'intervention
+     * @return array Liste des tickets par technicien
+     */
+    public function calculateTicketsPerTechnician($interventionId)
+    {
+        $intervention = $this->interventionModel->getById($interventionId);
+        if (!$intervention) {
+            return [];
+        }
+
+        $sql = "SELECT it.technicien_id, it.temps_passe,
+                   CONCAT(u.first_name, ' ', u.last_name) as technician_name,
+                   u.coef_utilisateur
+            FROM intervention_techniciens it
+            JOIN users u ON it.technicien_id = u.id
+            WHERE it.intervention_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$interventionId]);
+        $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $type = $this->interventionModel->getTypeInfo($intervention['type_id']);
+        $requiresTravel = $type['requires_travel'] ?? false;
+
+        $stmt = $this->db->prepare("SELECT setting_value FROM settings WHERE setting_key = 'coef_intervention'");
+        $stmt->execute();
+        $coefIntervention = floatval($stmt->fetchColumn()) ?? 0;
+
+        $results = [];
+
+        foreach ($technicians as $tech) {
+            $tempsPasse = $tech['temps_passe'] ?? $intervention['duration'];
+            $durationHours = $tempsPasse / 60;
+            $coefUtilisateur = $tech['coef_utilisateur'] ?? 0;
+
+            if ($requiresTravel) {
+                $tickets = $durationHours + $coefUtilisateur + 1 + $coefIntervention;
+            } else {
+                $tickets = $durationHours + $coefUtilisateur + $coefIntervention;
+            }
+
+            $results[] = [
+                'technician_id' => $tech['technicien_id'],
+                'technician_name' => $tech['technician_name'],
+                'duration_minutes' => $tempsPasse,
+                'coef_utilisateur' => $coefUtilisateur,
+                'tickets' => ceil($tickets)
+            ];
+        }
+
+        return $results;
+    }
+
+    /**
+     * Retourne true si un champ qui impacte le calcul des tickets a changé.
+     * Champs ticketables : duration, type_id (déplacement), technicians (via table séparée).
+     */
+    private function ticketableFieldChanged(array $oldData, array $newData): bool
+    {
+        foreach (['duration', 'type_id'] as $field) {
+            if (array_key_exists($field, $newData) && (string) ($oldData[$field] ?? '') !== (string) ($newData[$field] ?? '')) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * Sur une intervention déjà fermée, recalcule le nouveau total de tickets,
+     * calcule la différence avec l'ancien total et ajuste le contrat en conséquence.
+     * Ne fait rien si le contrat n'est pas de type ticket.
+     */
+    private function adjustTicketsOnClosedIntervention(int $interventionId, array $oldIntervention, array $newData): void
+    {
+        $contractId = $newData['contract_id'] ?? $oldIntervention['contract_id'] ?? null;
+        if (!$contractId || !isContractTicketById($contractId)) {
+            return;
+        }
+
+        $oldTickets = (int) ($oldIntervention['tickets_used'] ?? 0);
+
+        // Recalcule avec les nouvelles données (techniciens déjà enregistrés en base à ce stade)
+        $newTickets = $this->calculateTotalTicketsUsed(
+            $interventionId,
+            $newData['duration'] ?? $oldIntervention['duration'],
+            $newData['type_id'] ?? $oldIntervention['type_id']
+        );
+
+        if ($newTickets === $oldTickets) {
+            return; // Rien à faire
+        }
+
+        $delta = $newTickets - $oldTickets;
+
+        // Met à jour tickets_used sur l'intervention
+        $stmt = $this->db->prepare("UPDATE interventions SET tickets_used = :t WHERE id = :id");
+        $stmt->execute([':t' => $newTickets, ':id' => $interventionId]);
+
+        // Ajuste le contrat (delta peut être positif ou négatif)
+        $stmt = $this->db->prepare(
+            "UPDATE contracts SET tickets_remaining = tickets_remaining - :delta WHERE id = :cid"
+        );
+        $stmt->execute([':delta' => $delta, ':cid' => $contractId]);
+
+        // Historique contrat
+        $contractModel = new ContractModel($this->db);
+        $ref = $this->getInterventionReference($interventionId);
+        $contractModel->recordTicketModification(
+            $contractId,
+            $delta,
+            $ref . ' - Ajustement automatique (modification intervention fermée)'
+        );
+
+        // Historique intervention
+        $stmt = $this->db->prepare(
+            "INSERT INTO intervention_history
+            (intervention_id, field_name, old_value, new_value, changed_by, description)
+         VALUES (:iid, 'tickets_used', :old, :new, :by, :desc)"
+        );
+        $stmt->execute([
+            ':iid' => $interventionId,
+            ':old' => $oldTickets,
+            ':new' => $newTickets,
+            ':by' => $_SESSION['user']['id'],
+            ':desc' => "Tickets recalculés suite à modification : $oldTickets → $newTickets (delta $delta)"
+        ]);
+    }
+
+    /**
+     * Récupère les bâtiments d'un site (API)
+     */
+    public function getBuildings($siteId)
+    {
+        header('Content-Type: application/json');
+
+        try {
+            $query = "SELECT id, name FROM buildings WHERE site_id = :site_id";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':site_id' => $siteId]);
+            $buildings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            echo json_encode($buildings);
+        } catch (Exception $e) {
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Récupère les salles d'un bâtiment (API)
+     */
+    public function getRoomsByBuilding($buildingId)
+    {
+        header('Content-Type: application/json');
+
+        try {
+            $query = "SELECT id, name FROM rooms WHERE building_id = :building_id  ORDER BY name";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':building_id' => $buildingId]);
+            $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            echo json_encode($rooms);
+        } catch (Exception $e) {
+            echo json_encode(['error' => $e->getMessage()]);
+        }
     }
 }

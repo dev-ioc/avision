@@ -1,10 +1,9 @@
 <?php
 require_once __DIR__ . '/../../includes/functions.php';
 
-
 /**
  * Vue de la liste du matériel client
- * Affiche la liste du matériel regroupé par site/salle avec filtres
+ * Affiche la liste du matériel regroupé par site/bâtiment/salle avec filtres
  */
 
 // Vérifier si l'utilisateur est connecté
@@ -33,6 +32,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 $materiel_list = $materiel_list ?? [];
 $clients = $clients ?? [];
 $sites = $sites ?? [];
+$buildings = $buildings ?? [];
 $salles = $salles ?? [];
 $visibilites_champs = $visibilites_champs ?? [];
 $pieces_jointes_count = $pieces_jointes_count ?? [];
@@ -44,11 +44,12 @@ if (isset($materielModel)) {
     $stats = $materielModel->getStats();
 }
 
-// Organiser le matériel par client/site/salle
+// Organiser le matériel par client/site/bâtiment/salle
 $materiel_organise = [];
 foreach ($materiel_list as $materiel) {
     $client_id = $materiel['client_nom'] ?? 'Sans client';
     $site_id = $materiel['site_nom'] ?? 'Sans site';
+    $building_id = $materiel['building_nom'] ?? 'Sans bâtiment';
     $salle_id = $materiel['salle_nom'] ?? 'Sans salle';
     
     if (!isset($materiel_organise[$client_id])) {
@@ -57,11 +58,14 @@ foreach ($materiel_list as $materiel) {
     if (!isset($materiel_organise[$client_id][$site_id])) {
         $materiel_organise[$client_id][$site_id] = [];
     }
-    if (!isset($materiel_organise[$client_id][$site_id][$salle_id])) {
-        $materiel_organise[$client_id][$site_id][$salle_id] = [];
+    if (!isset($materiel_organise[$client_id][$site_id][$building_id])) {
+        $materiel_organise[$client_id][$site_id][$building_id] = [];
+    }
+    if (!isset($materiel_organise[$client_id][$site_id][$building_id][$salle_id])) {
+        $materiel_organise[$client_id][$site_id][$building_id][$salle_id] = [];
     }
     
-    $materiel_organise[$client_id][$site_id][$salle_id][] = $materiel;
+    $materiel_organise[$client_id][$site_id][$building_id][$salle_id][] = $materiel;
 }
 ?>
 
@@ -159,7 +163,7 @@ foreach ($materiel_list as $materiel) {
                     <h4 class="fw-bold mb-1">
                         <i class="bi bi-hdd-network me-2 me-1"></i>Mon Matériel
                     </h4>
-                    <p class="text-muted mb-0">Consultation du matériel de vos sites autorisés</p>
+                    <p class="text-muted mb-0">Consultation du matériel de vos sites, bâtiments et salles autorisés</p>
                 </div>
             </div>
         </div>
@@ -242,9 +246,9 @@ foreach ($materiel_list as $materiel) {
         </div>
         <div class="card-body py-2">
             <form method="get" action="" class="row g-3 align-items-end" id="filterForm">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="site_id" class="form-label fw-bold mb-0">Site</label>
-                    <select class="form-select bg-body text-body" id="site_id" name="site_id" onchange="updateRoomsAndSubmit()">
+                    <select class="form-select bg-body text-body" id="site_id" name="site_id" onchange="updateBuildingsAndSubmit()">
                         <option value="">Tous les sites</option>
                         <?php if (isset($sites) && is_array($sites)): ?>
                             <?php foreach ($sites as $site): ?>
@@ -256,19 +260,35 @@ foreach ($materiel_list as $materiel) {
                     </select>
                 </div>
                 
-                <div class="col-md-4">
-                    <label for="salle_id" class="form-label fw-bold mb-0">Salle</label>
-                    <select class="form-select bg-body text-body" id="salle_id" name="salle_id" onchange="document.getElementById('filterForm').submit();">
-                        <option value="">Toutes les salles</option>
-                        <?php foreach ($salles as $salle): ?>
-                            <option value="<?= $salle['id'] ?>" <?= ($filters['salle_id'] ?? '') == $salle['id'] ? 'selected' : '' ?>>
-                                <?= h($salle['name']) ?>
-                            </option>
-                        <?php endforeach; ?>
+                <div class="col-md-3">
+                    <label for="building_id" class="form-label fw-bold mb-0">Bâtiment</label>
+                    <select class="form-select bg-body text-body" id="building_id" name="building_id" onchange="updateRoomsAndSubmit()">
+                        <option value="">Tous les bâtiments</option>
+                        <?php if (isset($buildings) && is_array($buildings)): ?>
+                            <?php foreach ($buildings as $building): ?>
+                                <option value="<?= $building['id'] ?>" <?= ($filters['building_id'] ?? '') == $building['id'] ? 'selected' : '' ?>>
+                                    <?= h($building['name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </select>
                 </div>
                 
-                <div class="col-md-4 d-flex align-items-end">
+                <div class="col-md-3">
+                    <label for="salle_id" class="form-label fw-bold mb-0">Salle</label>
+                    <select class="form-select bg-body text-body" id="salle_id" name="salle_id" onchange="document.getElementById('filterForm').submit();">
+                        <option value="">Toutes les salles</option>
+                        <?php if (isset($salles) && is_array($salles)): ?>
+                            <?php foreach ($salles as $salle): ?>
+                                <option value="<?= $salle['id'] ?>" <?= ($filters['salle_id'] ?? '') == $salle['id'] ? 'selected' : '' ?>>
+                                    <?= h($salle['name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                </div>
+                
+                <div class="col-md-3 d-flex align-items-end">
                     <a href="<?= BASE_URL ?>materiel_client" class="btn btn-outline-secondary">
                         <i class="bi bi-x-lg me-2 me-1"></i>Réinitialiser
                     </a>
@@ -287,7 +307,7 @@ foreach ($materiel_list as $materiel) {
             </div>
         </div>
     <?php else: ?>
-        <?php foreach ($materiel_organise as $client_nom => $sites): ?>
+        <?php foreach ($materiel_organise as $client_nom => $sites_data): ?>
             <div class="card mb-4">
                 <div class="card-header bg-body-secondary">
                     <h5 class="card-title mb-0">
@@ -296,7 +316,7 @@ foreach ($materiel_list as $materiel) {
                     </h5>
                 </div>
                 <div class="card-body p-0">
-                    <?php foreach ($sites as $site_nom => $salles): ?>
+                    <?php foreach ($sites_data as $site_nom => $buildings_data): ?>
                         <div class="border-bottom">
                             <div class="p-3 bg-body-secondary bg-opacity-10">
                                 <h6 class="mb-0">
@@ -304,127 +324,149 @@ foreach ($materiel_list as $materiel) {
                                     <?= h($site_nom) ?>
                                 </h6>
                             </div>
-                            <?php foreach ($salles as $salle_nom => $materiels): ?>
+                            <?php foreach ($buildings_data as $building_nom => $salles_data): ?>
                                 <div class="border-bottom">
-                                    <div class="p-3">
-                                        <h6 class="mb-3">
-                                            <i class="bi bi-door-open me-2 text-info me-1"></i>
-                                            <?= h($salle_nom) ?>
-                                            <span class="badge bg-secondary ms-2"><?= count($materiels) ?> équipement(s)</span>
+                                    <div class="p-3 ps-4">
+                                        <h6 class="mb-2">
+                                            <i class="bi bi-building-fill me-2 text-warning me-1"></i>
+                                            <?= h($building_nom) ?>
+                                            <span class="badge bg-secondary ms-2">
+                                                <?php 
+                                                $totalEquipments = 0;
+                                                foreach ($salles_data as $salle_equipments) {
+                                                    $totalEquipments += count($salle_equipments);
+                                                }
+                                                echo $totalEquipments;
+                                                ?> équipement(s)
+                                            </span>
                                         </h6>
                                         
-                                        <div class="table-responsive">
-                                            <table class="table table-hover table-sm mb-0">
-                                                <thead class="bg-body-secondary">
-                                                    <tr>
-                                                        <th>Équipement</th>
-                                                        <th>Type</th>
-                                                        <th>S/N</th>
-                                                        <th>Firmware</th>
-                                                        <th>IP</th>
-                                                        <th>MAC</th>
-                                                        <th>Expiration</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php foreach ($materiels as $materiel): ?>
-                                                        <tr>
-                                                            <td class="<?= (isset($visibilites_champs[$materiel['id']]['marque']) && !$visibilites_champs[$materiel['id']]['marque']) || (isset($visibilites_champs[$materiel['id']]['modele']) && !$visibilites_champs[$materiel['id']]['modele']) ? 'bg-warning bg-opacity-25' : '' ?>">
-                                                                <?php
-                                                                // Construire les paramètres de filtres pour les liens
-                                                                $filterParams = [];
-                                                                if (!empty($filters['site_id'])) {
-                                                                    $filterParams['site_id'] = $filters['site_id'];
-                                                                }
-                                                                if (!empty($filters['salle_id'])) {
-                                                                    $filterParams['salle_id'] = $filters['salle_id'];
-                                                                }
-                                                                
-                                                                $viewUrl = BASE_URL . 'materiel_client/view/' . $materiel['id'];
-                                                                if (!empty($filterParams)) {
-                                                                    $viewUrl .= '?' . http_build_query($filterParams);
-                                                                }
-                                                                ?>
-                                                                <a href="<?= $viewUrl ?>" class="text-decoration-none">
-                                                                    <?php if ((isset($visibilites_champs[$materiel['id']]['marque']) && $visibilites_champs[$materiel['id']]['marque']) && (isset($visibilites_champs[$materiel['id']]['modele']) && $visibilites_champs[$materiel['id']]['modele'])): ?>
-                                                                        <div class="fw-bold"><?= htmlspecialchars($materiel['marque'] ?? 'Marque non définie') ?></div>
-                                                                        <small class="text-muted"><?= htmlspecialchars($materiel['modele'] ?? 'Modèle non défini') ?></small>
-                                                                    <?php else: ?>
-                                                                        <div class="fw-bold text-muted">---</div>
-                                                                        <small class="text-muted">---</small>
-                                                                    <?php endif; ?>
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <?php if (!empty($materiel['type_nom'])): ?>
-                                                                    <?= htmlspecialchars($materiel['type_nom']) ?>
-                                                                <?php else: ?>
-                                                                    <span class="text-muted">---</span>
-                                                                <?php endif; ?>
-                                                            </td>
-                                                            <td class="<?= (isset($visibilites_champs[$materiel['id']]['numero_serie']) && !$visibilites_champs[$materiel['id']]['numero_serie']) ? 'bg-warning bg-opacity-25' : '' ?>">
-                                                                <?php if (isset($visibilites_champs[$materiel['id']]['numero_serie']) && $visibilites_champs[$materiel['id']]['numero_serie'] && !empty($materiel['numero_serie'])): ?>
-                                                                    <?= h($materiel['numero_serie']) ?>
-                                                                <?php else: ?>
-                                                                    <span class="text-muted">---</span>
-                                                                <?php endif; ?>
-                                                            </td>
-                                                            <td class="<?= (isset($visibilites_champs[$materiel['id']]['version_firmware']) && !$visibilites_champs[$materiel['id']]['version_firmware']) ? 'bg-warning bg-opacity-25' : '' ?>">
-                                                                <?php if (isset($visibilites_champs[$materiel['id']]['version_firmware']) && $visibilites_champs[$materiel['id']]['version_firmware'] && !empty($materiel['version_firmware'])): ?>
-                                                                    <?= h($materiel['version_firmware']) ?>
-                                                                <?php else: ?>
-                                                                    <span class="text-muted">---</span>
-                                                                <?php endif; ?>
-                                                            </td>
-                                                            <td class="<?= (isset($visibilites_champs[$materiel['id']]['adresse_ip']) && !$visibilites_champs[$materiel['id']]['adresse_ip']) ? 'bg-warning bg-opacity-25' : '' ?>">
-                                                                <?php if (isset($visibilites_champs[$materiel['id']]['adresse_ip']) && $visibilites_champs[$materiel['id']]['adresse_ip'] && !empty($materiel['adresse_ip'])): ?>
-                                                                    <?= h($materiel['adresse_ip']) ?>
-                                                                <?php else: ?>
-                                                                    <span class="text-muted">---</span>
-                                                                <?php endif; ?>
-                                                            </td>
-                                                            <td class="<?= (isset($visibilites_champs[$materiel['id']]['adresse_mac']) && !$visibilites_champs[$materiel['id']]['adresse_mac']) ? 'bg-warning bg-opacity-25' : '' ?>">
-                                                                <?php if (isset($visibilites_champs[$materiel['id']]['adresse_mac']) && $visibilites_champs[$materiel['id']]['adresse_mac'] && !empty($materiel['adresse_mac'])): ?>
-                                                                    <?= h($materiel['adresse_mac']) ?>
-                                                                <?php else: ?>
-                                                                    <span class="text-muted">---</span>
-                                                                <?php endif; ?>
-                                                            </td>
-                                                            <td class="<?= (isset($visibilites_champs[$materiel['id']]['date_fin_maintenance']) && !$visibilites_champs[$materiel['id']]['date_fin_maintenance']) || (isset($visibilites_champs[$materiel['id']]['date_fin_garantie']) && !$visibilites_champs[$materiel['id']]['date_fin_garantie']) ? 'bg-warning bg-opacity-25' : '' ?>">
-                                                                <?php 
-                                                                $today = new DateTime();
-                                                                $maintenance_info = [];
-                                                                $has_visible_dates = false;
-                                                                
-                                                                // Vérifier si la maintenance est visible
-                                                                if (isset($visibilites_champs[$materiel['id']]['date_fin_maintenance']) && $visibilites_champs[$materiel['id']]['date_fin_maintenance'] && !empty($materiel['date_fin_maintenance'])) {
-                                                                    $maintenance_date = new DateTime($materiel['date_fin_maintenance']);
-                                                                    $maintenance_class = $maintenance_date < $today ? 'danger' : ($maintenance_date->diff($today)->days < 30 ? 'warning' : 'success');
-                                                                    $maintenance_info[] = '<div class="d-flex justify-content-between align-items-center"><small class="text-muted">Maintenance</small> <span class="text-' . $maintenance_class . '">' . formatDateFrench($materiel['date_fin_maintenance']) . '</span></div>';
-                                                                    $has_visible_dates = true;
-                                                                }
-                                                                
-                                                                // Vérifier si la garantie est visible
-                                                                if (isset($visibilites_champs[$materiel['id']]['date_fin_garantie']) && $visibilites_champs[$materiel['id']]['date_fin_garantie'] && !empty($materiel['date_fin_garantie'])) {
-                                                                    $garantie_date = new DateTime($materiel['date_fin_garantie']);
-                                                                    $garantie_class = $garantie_date < $today ? 'danger' : ($garantie_date->diff($today)->days < 30 ? 'warning' : 'success');
-                                                                    $maintenance_info[] = '<div class="d-flex justify-content-between align-items-center"><small class="text-muted">Garantie</small> <span class="text-' . $garantie_class . '">' . formatDateFrench($materiel['date_fin_garantie']) . '</span></div>';
-                                                                    $has_visible_dates = true;
-                                                                }
-                                                                
-                                                                if ($has_visible_dates) {
-                                                                    echo implode('', $maintenance_info);
-                                                                } else {
-                                                                    echo '<span class="text-muted">---</span>';
-                                                                }
-                                                                ?>
-                                                            </td>
-
-                                                        </tr>
-                                                    <?php endforeach; ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        <?php foreach ($salles_data as $salle_nom => $materiels): ?>
+                                            <div class="ms-4">
+                                                <div class="p-2">
+                                                    <h6 class="mb-3">
+                                                        <i class="bi bi-door-open me-2 text-info me-1"></i>
+                                                        <?= h($salle_nom) ?>
+                                                        <span class="badge bg-secondary ms-2"><?= count($materiels) ?> équipement(s)</span>
+                                                    </h6>
+                                                    
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover table-sm mb-0">
+                                                            <thead class="bg-body-secondary">
+                                                                <tr>
+                                                                    <th>Équipement</th>
+                                                                    <th>Type</th>
+                                                                    <th>S/N</th>
+                                                                    <th>Firmware</th>
+                                                                    <th>IP</th>
+                                                                    <th>MAC</th>
+                                                                    <th>Expiration</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php foreach ($materiels as $materiel): ?>
+                                                                    <tr>
+                                                                        <td class="<?= (isset($visibilites_champs[$materiel['id']]['marque']) && !$visibilites_champs[$materiel['id']]['marque']) || (isset($visibilites_champs[$materiel['id']]['modele']) && !$visibilites_champs[$materiel['id']]['modele']) ? 'bg-warning bg-opacity-25' : '' ?>">
+                                                                            <?php
+                                                                            // Construire les paramètres de filtres pour les liens
+                                                                            $filterParams = [];
+                                                                            if (!empty($filters['site_id'])) {
+                                                                                $filterParams['site_id'] = $filters['site_id'];
+                                                                            }
+                                                                            if (!empty($filters['building_id'])) {
+                                                                                $filterParams['building_id'] = $filters['building_id'];
+                                                                            }
+                                                                            if (!empty($filters['salle_id'])) {
+                                                                                $filterParams['salle_id'] = $filters['salle_id'];
+                                                                            }
+                                                                            
+                                                                            $viewUrl = BASE_URL . 'materiel_client/view/' . $materiel['id'];
+                                                                            if (!empty($filterParams)) {
+                                                                                $viewUrl .= '?' . http_build_query($filterParams);
+                                                                            }
+                                                                            ?>
+                                                                            <a href="<?= $viewUrl ?>" class="text-decoration-none">
+                                                                                <?php if ((isset($visibilites_champs[$materiel['id']]['marque']) && $visibilites_champs[$materiel['id']]['marque']) && (isset($visibilites_champs[$materiel['id']]['modele']) && $visibilites_champs[$materiel['id']]['modele'])): ?>
+                                                                                    <div class="fw-bold"><?= htmlspecialchars($materiel['marque'] ?? 'Marque non définie') ?></div>
+                                                                                    <small class="text-muted"><?= htmlspecialchars($materiel['modele'] ?? 'Modèle non défini') ?></small>
+                                                                                <?php else: ?>
+                                                                                    <div class="fw-bold text-muted">---</div>
+                                                                                    <small class="text-muted">---</small>
+                                                                                <?php endif; ?>
+                                                                            </a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php if (!empty($materiel['type_nom'])): ?>
+                                                                                <?= htmlspecialchars($materiel['type_nom']) ?>
+                                                                            <?php else: ?>
+                                                                                <span class="text-muted">---</span>
+                                                                            <?php endif; ?>
+                                                                        </td>
+                                                                        <td class="<?= (isset($visibilites_champs[$materiel['id']]['numero_serie']) && !$visibilites_champs[$materiel['id']]['numero_serie']) ? 'bg-warning bg-opacity-25' : '' ?>">
+                                                                            <?php if (isset($visibilites_champs[$materiel['id']]['numero_serie']) && $visibilites_champs[$materiel['id']]['numero_serie'] && !empty($materiel['numero_serie'])): ?>
+                                                                                <?= h($materiel['numero_serie']) ?>
+                                                                            <?php else: ?>
+                                                                                <span class="text-muted">---</span>
+                                                                            <?php endif; ?>
+                                                                        </td>
+                                                                        <td class="<?= (isset($visibilites_champs[$materiel['id']]['version_firmware']) && !$visibilites_champs[$materiel['id']]['version_firmware']) ? 'bg-warning bg-opacity-25' : '' ?>">
+                                                                            <?php if (isset($visibilites_champs[$materiel['id']]['version_firmware']) && $visibilites_champs[$materiel['id']]['version_firmware'] && !empty($materiel['version_firmware'])): ?>
+                                                                                <?= h($materiel['version_firmware']) ?>
+                                                                            <?php else: ?>
+                                                                                <span class="text-muted">---</span>
+                                                                            <?php endif; ?>
+                                                                        </td>
+                                                                        <td class="<?= (isset($visibilites_champs[$materiel['id']]['adresse_ip']) && !$visibilites_champs[$materiel['id']]['adresse_ip']) ? 'bg-warning bg-opacity-25' : '' ?>">
+                                                                            <?php if (isset($visibilites_champs[$materiel['id']]['adresse_ip']) && $visibilites_champs[$materiel['id']]['adresse_ip'] && !empty($materiel['adresse_ip'])): ?>
+                                                                                <?= h($materiel['adresse_ip']) ?>
+                                                                            <?php else: ?>
+                                                                                <span class="text-muted">---</span>
+                                                                            <?php endif; ?>
+                                                                        </tr>
+                                                                        <td class="<?= (isset($visibilites_champs[$materiel['id']]['adresse_mac']) && !$visibilites_champs[$materiel['id']]['adresse_mac']) ? 'bg-warning bg-opacity-25' : '' ?>">
+                                                                            <?php if (isset($visibilites_champs[$materiel['id']]['adresse_mac']) && $visibilites_champs[$materiel['id']]['adresse_mac'] && !empty($materiel['adresse_mac'])): ?>
+                                                                                <?= h($materiel['adresse_mac']) ?>
+                                                                            <?php else: ?>
+                                                                                <span class="text-muted">---</span>
+                                                                            <?php endif; ?>
+                                                                        </td>
+                                                                        <td class="<?= (isset($visibilites_champs[$materiel['id']]['date_fin_maintenance']) && !$visibilites_champs[$materiel['id']]['date_fin_maintenance']) || (isset($visibilites_champs[$materiel['id']]['date_fin_garantie']) && !$visibilites_champs[$materiel['id']]['date_fin_garantie']) ? 'bg-warning bg-opacity-25' : '' ?>">
+                                                                            <?php 
+                                                                            $today = new DateTime();
+                                                                            $maintenance_info = [];
+                                                                            $has_visible_dates = false;
+                                                                            
+                                                                            // Vérifier si la maintenance est visible
+                                                                            if (isset($visibilites_champs[$materiel['id']]['date_fin_maintenance']) && $visibilites_champs[$materiel['id']]['date_fin_maintenance'] && !empty($materiel['date_fin_maintenance'])) {
+                                                                                $maintenance_date = new DateTime($materiel['date_fin_maintenance']);
+                                                                                $maintenance_class = $maintenance_date < $today ? 'danger' : ($maintenance_date->diff($today)->days < 30 ? 'warning' : 'success');
+                                                                                $maintenance_info[] = '<div class="d-flex justify-content-between align-items-center"><small class="text-muted">Maintenance</small> <span class="text-' . $maintenance_class . '">' . formatDateFrench($materiel['date_fin_maintenance']) . '</span></div>';
+                                                                                $has_visible_dates = true;
+                                                                            }
+                                                                            
+                                                                            // Vérifier si la garantie est visible
+                                                                            if (isset($visibilites_champs[$materiel['id']]['date_fin_garantie']) && $visibilites_champs[$materiel['id']]['date_fin_garantie'] && !empty($materiel['date_fin_garantie'])) {
+                                                                                $garantie_date = new DateTime($materiel['date_fin_garantie']);
+                                                                                $garantie_class = $garantie_date < $today ? 'danger' : ($garantie_date->diff($today)->days < 30 ? 'warning' : 'success');
+                                                                                $maintenance_info[] = '<div class="d-flex justify-content-between align-items-center"><small class="text-muted">Garantie</small> <span class="text-' . $garantie_class . '">' . formatDateFrench($materiel['date_fin_garantie']) . '</span></div>';
+                                                                                $has_visible_dates = true;
+                                                                            }
+                                                                            
+                                                                            if ($has_visible_dates) {
+                                                                                echo implode('', $maintenance_info);
+                                                                            } else {
+                                                                                echo '<span class="text-muted">---</span>';
+                                                                            }
+                                                                            ?>
+                                                                        </td>
+                                                                    </tr>
+                                                                <?php endforeach; ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -440,13 +482,63 @@ foreach ($materiel_list as $materiel) {
 // Variable globale pour l'URL de base
 const baseUrl = '<?= BASE_URL ?>';
 
-// Fonction pour mettre à jour les salles selon le site sélectionné ET soumettre le formulaire
-function updateRoomsAndSubmit() {
+// Fonction pour mettre à jour les bâtiments selon le site sélectionné
+function updateBuildingsAndSubmit() {
     const siteId = document.getElementById('site_id').value;
-    console.log('updateRoomsAndSubmit appelé avec siteId:', siteId);
+    console.log('updateBuildingsAndSubmit appelé avec siteId:', siteId);
     
     if (siteId) {
-        const url = '<?= BASE_URL ?>materiel_client/get_rooms?site_id=' + siteId;
+        const url = '<?= BASE_URL ?>materiel_client/get_buildings?site_id=' + siteId;
+        console.log('URL de la requête:', url);
+        
+        fetch(url)
+            .then(response => {
+                console.log('Réponse reçue:', response);
+                if (!response.ok) {
+                    throw new Error('Erreur HTTP: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Données reçues:', data);
+                const buildingSelect = document.getElementById('building_id');
+                const roomSelect = document.getElementById('salle_id');
+                
+                buildingSelect.innerHTML = '<option value="">Tous les bâtiments</option>';
+                roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
+                
+                if (Array.isArray(data)) {
+                    data.forEach(building => {
+                        const option = document.createElement('option');
+                        option.value = building.id;
+                        option.textContent = building.name;
+                        buildingSelect.appendChild(option);
+                    });
+                }
+                
+                // Soumettre le formulaire après la mise à jour
+                document.getElementById('filterForm').submit();
+            })
+            .catch(error => {
+                console.error('Erreur lors de la mise à jour des bâtiments:', error);
+                alert('Erreur lors de la mise à jour des bâtiments: ' + error.message);
+            });
+    } else {
+        document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
+        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
+        
+        // Soumettre le formulaire même si aucun site n'est sélectionné
+        document.getElementById('filterForm').submit();
+    }
+}
+
+// Fonction pour mettre à jour les salles selon le bâtiment sélectionné
+function updateRoomsAndSubmit() {
+    const buildingId = document.getElementById('building_id').value;
+    console.log('updateRoomsAndSubmit appelé avec buildingId:', buildingId);
+    
+    if (buildingId) {
+        const url = '<?= BASE_URL ?>materiel_client/get_rooms_by_building?building_id=' + buildingId;
         console.log('URL de la requête:', url);
         
         fetch(url)
@@ -481,15 +573,16 @@ function updateRoomsAndSubmit() {
     } else {
         document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
         
-        // Soumettre le formulaire même si aucun site n'est sélectionné
-        document.getElementById('filterForm').submit();
+        // Vérifier si un site est sélectionné pour soumettre
+        const siteId = document.getElementById('site_id').value;
+        if (siteId) {
+            document.getElementById('filterForm').submit();
+        }
     }
 }
-
-
 </script>
 
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';
-?> 
+?>

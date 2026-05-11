@@ -50,6 +50,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     if (isset($_GET['site_id']) && !empty($_GET['site_id'])) {
                         $returnParams['site_id'] = $_GET['site_id'];
                     }
+                    if (isset($_GET['building_id']) && !empty($_GET['building_id'])) {
+                        $returnParams['building_id'] = $_GET['building_id'];
+                    }
                     if (isset($_GET['salle_id']) && !empty($_GET['salle_id'])) {
                         $returnParams['salle_id'] = $_GET['salle_id'];
                     }
@@ -67,6 +70,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     }
                     if (isset($_GET['site_id']) && !empty($_GET['site_id'])) {
                         $formParams['site_id'] = $_GET['site_id'];
+                    }
+                    if (isset($_GET['building_id']) && !empty($_GET['building_id'])) {
+                        $formParams['building_id'] = $_GET['building_id'];
                     }
                     if (isset($_GET['salle_id']) && !empty($_GET['salle_id'])) {
                         $formParams['salle_id'] = $_GET['salle_id'];
@@ -104,9 +110,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <?php if (isset($_GET['site_id']) && !empty($_GET['site_id'])): ?>
                     <input type="hidden" name="return_site_id" value="<?= h($_GET['site_id']) ?>">
                 <?php endif; ?>
+                <?php if (isset($_GET['building_id']) && !empty($_GET['building_id'])): ?>
+                    <input type="hidden" name="return_building_id" value="<?= h($_GET['building_id']) ?>">
+                <?php endif; ?>
                 <?php if (isset($_GET['salle_id']) && !empty($_GET['salle_id'])): ?>
                     <input type="hidden" name="return_salle_id" value="<?= h($_GET['salle_id']) ?>">
                 <?php endif; ?>
+                
                 <div class="row">
                     <!-- Colonne gauche : Formulaire principal -->
                     <div class="col-md-8">
@@ -149,6 +159,23 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         </select>
                                     </div>
                                     <div class="col-md-4">
+                                        <label for="building_id" class="form-label fw-bold">
+                                            <i class="bi bi-building me-2"></i>Bâtiment *
+                                        </label>
+                                        <select class="form-select bg-body text-body" id="building_id" name="building_id">
+                                            <option value="">Sélectionner un bâtiment</option>
+                                            <?php if (!empty($buildings)): ?>
+                                                <?php foreach ($buildings as $building): ?>
+                                                    <option value="<?= $building['id'] ?>" <?= (isset($_GET['building_id']) && $_GET['building_id'] == $building['id']) ? 'selected' : '' ?>>
+                                                        <?= h($building['name']) ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
                                         <label for="salle_id" class="form-label fw-bold">
                                             <i class="bi bi-door-open me-2"></i>Salle *
                                         </label>
@@ -214,19 +241,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </div>
                         </div>
 
-                        <!-- Bloc 2: Firmware -->
+                        <!-- Bloc 2: Configuration Réseau -->
                         <div class="card mb-4">
                             <div class="card-header bg-body-secondary border-bottom">
                                 <h6 class="mb-0 text-body">
-                                    <i class="fas fa-microchip me-2"></i>Firmware
+                                    <i class="fas fa-network-wired me-2"></i>Configuration Réseau
                                 </h6>
                             </div>
                             <div class="card-body">
-                                <!-- Configuration réseau -->
-                                <h6 class="mb-3 mt-4">
-                                    <i class="fas fa-network-wired me-2"></i>Configuration Réseau
-                                </h6>
-                                
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="adresse_mac" class="form-label fw-bold">
@@ -259,36 +281,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         <input type="text" class="form-control bg-body text-body" id="passerelle" name="passerelle" 
                                                placeholder="192.168.1.1">
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="type_id" class="form-label fw-bold">
-                                            <i class="fas fa-tag me-2"></i>Type d'équipement
-                                        </label>
-                                        <select class="form-select bg-body text-body" id="type_id" name="type_id">
-                                            <option value="">Sélectionner un type</option>
-                                            <?php foreach ($types_materiel as $type): ?>
-                                                <option value="<?= $type['id'] ?>">
-                                                    <?= h($type['nom']) ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <!-- Bloc 3: Audio IP -->
-                        <div class="card mb-4">
-                            <div class="card-header bg-body-secondary border-bottom">
-                                <h6 class="mb-0 text-body">
-                                    <i class="fas fa-broadcast-tower me-2"></i>Audio IP
-                                </h6>
-                            </div>
-                            <div class="card-body">
-                                <!-- Accès -->
-                                <h6 class="mb-3 mt-4">
-                                    <i class="fas fa-key me-2"></i>Accès
-                                </h6>
-                                
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="login" class="form-label fw-bold">
@@ -303,7 +297,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         <div class="input-group">
                                             <input type="password" class="form-control bg-body text-body" id="password" name="password">
                                             <button class="btn btn-outline-secondary" type="button" id="togglePassword" title="Afficher/Masquer le mot de passe">
-                                                <i class="<?php echo getIcon('visibility', 'bi bi-eye'); ?>" id="passwordIcon"></i>
+                                                <i class="bi bi-eye" id="passwordIcon"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -311,7 +305,98 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </div>
                         </div>
 
-                        <!-- Bloc 4: Dates et commentaire -->
+                        <!-- Bloc 3: Audio IP -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-body-secondary border-bottom">
+                                <h6 class="mb-0 text-body">
+                                    <i class="fas fa-broadcast-tower me-2"></i>Audio IP
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="ip_primaire" class="form-label fw-bold">
+                                            <i class="fas fa-network-wired me-2"></i>IP Primaire
+                                        </label>
+                                        <input type="text" class="form-control bg-body text-body" id="ip_primaire" name="ip_primaire">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="mac_primaire" class="form-label fw-bold">
+                                            <i class="fas fa-wifi me-2"></i>MAC Primaire
+                                        </label>
+                                        <input type="text" class="form-control bg-body text-body" id="mac_primaire" name="mac_primaire">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="ip_secondaire" class="form-label fw-bold">
+                                            <i class="fas fa-network-wired me-2"></i>IP Secondaire
+                                        </label>
+                                        <input type="text" class="form-control bg-body text-body" id="ip_secondaire" name="ip_secondaire">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="mac_secondaire" class="form-label fw-bold">
+                                            <i class="fas fa-wifi me-2"></i>MAC Secondaire
+                                        </label>
+                                        <input type="text" class="form-control bg-body text-body" id="mac_secondaire" name="mac_secondaire">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="stream_aes67_recu" class="form-label fw-bold">
+                                            <i class="fas fa-broadcast-tower me-2"></i>Stream AES67 Reçu
+                                        </label>
+                                        <input type="text" class="form-control bg-body text-body" id="stream_aes67_recu" name="stream_aes67_recu">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="stream_aes67_transmis" class="form-label fw-bold">
+                                            <i class="fas fa-broadcast-tower me-2"></i>Stream AES67 Transmis
+                                        </label>
+                                        <input type="text" class="form-control bg-body text-body" id="stream_aes67_transmis" name="stream_aes67_transmis">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bloc 4: Wi-Fi -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-body-secondary border-bottom">
+                                <h6 class="mb-0 text-body">
+                                    <i class="fas fa-wifi me-2"></i>Wi-Fi
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="ssid" class="form-label fw-bold">
+                                            <i class="fas fa-wifi me-2"></i>SSID
+                                        </label>
+                                        <input type="text" class="form-control bg-body text-body" id="ssid" name="ssid">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="type_cryptage" class="form-label fw-bold">
+                                            <i class="fas fa-shield-alt me-2"></i>Type de cryptage
+                                        </label>
+                                        <input type="text" class="form-control bg-body text-body" id="type_cryptage" name="type_cryptage">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <label for="password_wifi" class="form-label fw-bold">
+                                            <i class="fas fa-key me-2"></i>Password WiFi
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control bg-body text-body" id="password_wifi" name="password_wifi">
+                                            <button class="btn btn-outline-secondary" type="button" id="toggleWifiPassword" title="Afficher/Masquer le mot de passe WiFi">
+                                                <i class="bi bi-eye" id="wifiPasswordIcon"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bloc 5: Dates et commentaire -->
                         <div class="card mb-4">
                             <div class="card-header bg-body-secondary border-bottom">
                                 <h6 class="mb-0 text-body">
@@ -319,11 +404,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 </h6>
                             </div>
                             <div class="card-body">
-                                <!-- Dates importantes -->
-                                <h6 class="mb-3 mt-4">
-                                    <i class="fas fa-calendar me-2"></i>Dates Importantes
-                                </h6>
-                                
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="date_fin_maintenance" class="form-label fw-bold">
@@ -346,9 +426,29 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         </label>
                                         <input type="date" class="form-control bg-body text-body" id="date_derniere_inter" name="date_derniere_inter">
                                     </div>
+                                    <div class="col-md-6">
+                                        <label for="libelle_pa_salle" class="form-label fw-bold">
+                                            <i class="fas fa-tag me-2"></i>Libellé PA Salle
+                                        </label>
+                                        <input type="text" class="form-control bg-body text-body" id="libelle_pa_salle" name="libelle_pa_salle">
+                                    </div>
                                 </div>
 
-                                <!-- Commentaire -->
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="numero_port_switch" class="form-label fw-bold">
+                                            <i class="fas fa-plug me-2"></i>Numéro Port Switch
+                                        </label>
+                                        <input type="text" class="form-control bg-body text-body" id="numero_port_switch" name="numero_port_switch">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="vlan" class="form-label fw-bold">
+                                            <i class="fas fa-network-wired me-2"></i>VLAN
+                                        </label>
+                                        <input type="text" class="form-control bg-body text-body" id="vlan" name="vlan">
+                                    </div>
+                                </div>
+
                                 <div class="row mb-3">
                                     <div class="col-12">
                                         <label for="commentaire" class="form-label fw-bold">
@@ -441,24 +541,33 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const clientSelect = document.getElementById('client_id');
     const siteSelect = document.getElementById('site_id');
+    const buildingSelect = document.getElementById('building_id');
     const roomSelect = document.getElementById('salle_id');
     
-    // Utiliser les fonctions centralisées pour charger les sites et salles dynamiquement
-    // Mais en surchargeant les URLs pour utiliser les endpoints materiel
-    clientSelect.addEventListener('change', function() {
-        loadSitesForMateriel(this.value, 'site_id');
-    });
+    // Chargement en cascade
+    if (clientSelect) {
+        clientSelect.addEventListener('change', function() {
+            loadSitesForMateriel(this.value, 'site_id');
+            // Réinitialiser les selects dépendants
+            if (buildingSelect) buildingSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
+            if (roomSelect) roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+        });
+    }
     
-    siteSelect.addEventListener('change', function() {
-        loadRoomsForMateriel(this.value, 'salle_id');
-    });
+    if (siteSelect) {
+        siteSelect.addEventListener('change', function() {
+            loadBuildingsForMateriel(this.value, 'building_id');
+            if (roomSelect) roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+        });
+    }
+    
+    if (buildingSelect) {
+        buildingSelect.addEventListener('change', function() {
+            loadRoomsForMaterielByBuilding(this.value, 'salle_id');
+        });
+    }
 
-    // Ajouter un listener pour la sélection de salle
-    roomSelect.addEventListener('change', function() {
-        loadAccessLevelForRoom(this.value);
-    });
-
-    // Gestion de l'affichage du mot de passe
+    // Gestion de l'affichage des mots de passe
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
     const passwordIcon = document.getElementById('passwordIcon');
@@ -467,38 +576,43 @@ document.addEventListener('DOMContentLoaded', function() {
         togglePassword.addEventListener('click', function() {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
-            
-            // Changer l'icône
-            if (type === 'text') {
-                passwordIcon.classList.remove('fa-eye');
-                passwordIcon.classList.add('fa-eye-slash');
-                togglePassword.title = 'Masquer le mot de passe';
-            } else {
-                passwordIcon.classList.remove('fa-eye-slash');
-                passwordIcon.classList.add('fa-eye');
-                togglePassword.title = 'Afficher le mot de passe';
-            }
+            passwordIcon.classList.toggle('bi-eye');
+            passwordIcon.classList.toggle('bi-eye-slash');
+        });
+    }
+
+    const toggleWifiPassword = document.getElementById('toggleWifiPassword');
+    const wifiPasswordInput = document.getElementById('password_wifi');
+    const wifiPasswordIcon = document.getElementById('wifiPasswordIcon');
+
+    if (toggleWifiPassword && wifiPasswordInput && wifiPasswordIcon) {
+        toggleWifiPassword.addEventListener('click', function() {
+            const type = wifiPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            wifiPasswordInput.setAttribute('type', type);
+            wifiPasswordIcon.classList.toggle('bi-eye');
+            wifiPasswordIcon.classList.toggle('bi-eye-slash');
         });
     }
 });
 
-// Fonctions spécifiques pour materiel qui utilisent les bons endpoints
+// Fonctions spécifiques pour materiel
 function loadSitesForMateriel(clientId, siteSelectId) {
     const siteSelect = document.getElementById(siteSelectId);
     if (!siteSelect) return;
     
-    // Vider le select sauf l'option par défaut
-    while (siteSelect.options.length > 1) {
-        siteSelect.remove(1);
-    }
+    siteSelect.innerHTML = '<option value="">Chargement...</option>';
     
-    if (!clientId) return;
+    if (!clientId) {
+        siteSelect.innerHTML = '<option value="">Sélectionner un site</option>';
+        return;
+    }
     
     fetch(`${BASE_URL}materiel/get_sites?client_id=${clientId}`, {
         credentials: 'include'
     })
         .then(response => response.json())
         .then(data => {
+            siteSelect.innerHTML = '<option value="">Sélectionner un site</option>';
             if (data && Array.isArray(data)) {
                 data.forEach(site => {
                     const option = document.createElement('option');
@@ -508,22 +622,61 @@ function loadSitesForMateriel(clientId, siteSelectId) {
                 });
             }
         })
-        .catch(error => console.error('Erreur lors du chargement des sites:', error));
+        .catch(error => {
+            console.error('Erreur lors du chargement des sites:', error);
+            siteSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+        });
 }
 
-function loadRoomsForMateriel(siteId, roomSelectId) {
-    const roomSelect = document.getElementById(roomSelectId);
-    if (!roomSelect) return;
+function loadBuildingsForMateriel(siteId, buildingSelectId) {
+    const buildingSelect = document.getElementById(buildingSelectId);
+    if (!buildingSelect) return;
     
-    roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+    buildingSelect.innerHTML = '<option value="">Chargement...</option>';
     
-    if (!siteId) return;
+    if (!siteId) {
+        buildingSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
+        return;
+    }
     
-    fetch(`${BASE_URL}materiel/get_rooms?site_id=${siteId}`, {
+    fetch(`${BASE_URL}materiel/get_buildings?site_id=${siteId}`, {
         credentials: 'include'
     })
         .then(response => response.json())
         .then(data => {
+            buildingSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
+            if (data && Array.isArray(data)) {
+                data.forEach(building => {
+                    const option = document.createElement('option');
+                    option.value = building.id;
+                    option.textContent = building.name;
+                    buildingSelect.appendChild(option);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des bâtiments:', error);
+            buildingSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+        });
+}
+
+function loadRoomsForMaterielByBuilding(buildingId, roomSelectId) {
+    const roomSelect = document.getElementById(roomSelectId);
+    if (!roomSelect) return;
+    
+    roomSelect.innerHTML = '<option value="">Chargement...</option>';
+    
+    if (!buildingId) {
+        roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+        return;
+    }
+    
+    fetch(`${BASE_URL}materiel/get_rooms_by_building?building_id=${buildingId}`, {
+        credentials: 'include'
+    })
+        .then(response => response.json())
+        .then(data => {
+            roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
             if (data && Array.isArray(data)) {
                 data.forEach(room => {
                     const option = document.createElement('option');
@@ -533,7 +686,10 @@ function loadRoomsForMateriel(siteId, roomSelectId) {
                 });
             }
         })
-        .catch(error => console.error('Erreur lors du chargement des salles:', error));
+        .catch(error => {
+            console.error('Erreur lors du chargement des salles:', error);
+            roomSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+        });
 }
 
 // Fonction pour cocher/décocher toutes les cases
@@ -548,94 +704,21 @@ function toggleAll(checked) {
 function addAnotherMateriel() {
     const clientId = document.getElementById('client_id').value;
     const siteId = document.getElementById('site_id').value;
+    const buildingId = document.getElementById('building_id').value;
     const salleId = document.getElementById('salle_id').value;
     
-    // Construire l'URL avec les valeurs actuelles
     const params = new URLSearchParams();
-    if (clientId) {
-        params.set('client_id', clientId);
-    }
-    if (siteId) {
-        params.set('site_id', siteId);
-    }
-    if (salleId) {
-        params.set('salle_id', salleId);
-    }
+    if (clientId) params.set('client_id', clientId);
+    if (siteId) params.set('site_id', siteId);
+    if (buildingId) params.set('building_id', buildingId);
+    if (salleId) params.set('salle_id', salleId);
     
     const url = `${BASE_URL}materiel/add${params.toString() ? '?' + params.toString() : ''}`;
     window.location.href = url;
-}
-
-// Fonction pour charger le niveau d'accès d'une salle
-function loadAccessLevelForRoom(roomId) {
-    
-    if (!roomId) {
-        // Réinitialiser les checkboxes si aucune salle n'est sélectionnée
-        const checkboxes = document.querySelectorAll('input[name^="visibilite_"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-        
-        // Masquer le badge du niveau d'accès
-        const badge = document.querySelector('.badge');
-        if (badge) {
-            badge.style.display = 'none';
-        }
-        
-        // Masquer l'alerte d'info
-        const alert = document.querySelector('.alert-info');
-        if (alert) {
-            alert.style.display = 'none';
-        }
-        
-        return;
-    }
-    
-    fetch(`${BASE_URL}materiel/get_room_access_level?room_id=${roomId}`, {
-        credentials: 'include'
-    })
-        .then(response => {
-            return response.text().then(text => {
-                try {
-                    return JSON.parse(text);
-                } catch (e) {
-                    throw new Error('Réponse non-JSON reçue du serveur');
-                }
-            });
-        })
-        .then(data => {
-            if (data.error) {
-                return;
-            }
-            
-            // Mettre à jour le badge du niveau d'accès
-            const badge = document.querySelector('.badge');
-            if (badge) {
-                badge.textContent = `Niveau: ${data.access_level_name}`;
-                badge.style.display = 'inline';
-            }
-            
-            // Afficher l'alerte d'info
-            const alert = document.querySelector('.alert-info');
-            if (alert) {
-                alert.style.display = 'block';
-            }
-            
-            // Pré-sélectionner les checkboxes selon les règles de visibilité
-            const checkboxes = document.querySelectorAll('input[name^="visibilite_"]');
-            checkboxes.forEach(checkbox => {
-                const fieldName = checkbox.name.replace('visibilite_', '');
-                const isChecked = data.visibility_rules[fieldName] || false;
-                checkbox.checked = isChecked;
-            });
-        })
-        .catch(error => {
-            // Gestion silencieuse des erreurs pour la version en ligne
-        });
 }
 </script>
 
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';
-?> 
+?>

@@ -150,7 +150,7 @@ class InterventionController {
         // Récupérer les données pour les filtres
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
-        $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsBySiteId($filters['site_id']) : [];
+        $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsByBuildingId($filters['site_id']) : [];
         $technicians = $this->userModel->getTechnicians();
         
         // Récupérer les statuts
@@ -248,7 +248,7 @@ class InterventionController {
         // Récupérer les données pour les filtres
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
-        $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsBySiteId($filters['site_id']) : [];
+        $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsByBuildingId($filters['site_id']) : [];
         $technicians = $this->userModel->getTechnicians();
         
         // Récupérer les statuts
@@ -336,7 +336,7 @@ class InterventionController {
         // Récupérer les données pour les filtres
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
-        $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsBySiteId($filters['site_id']) : [];
+        $rooms = !empty($filters['site_id']) ? $this->roomModel->getRoomsByBuildingId($filters['site_id']) : [];
         $technicians = $this->userModel->getTechnicians();
         
         // Récupérer les statuts
@@ -494,7 +494,7 @@ class InterventionController {
         // Récupérer les données pour les formulaires
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = $this->siteModel->getSitesByClientId($client_id);
-        $rooms = $this->roomModel->getRoomsBySiteId($site_id);
+        $rooms = $this->roomModel->getRoomsByBuildingId($site_id);
         $technicians = $this->userModel->getTechnicians();
         
         // Récupérer les contrats du client pour le formulaire
@@ -1582,7 +1582,7 @@ class InterventionController {
         $this->checkAccess();
 
         // Récupérer les salles
-        $rooms = $this->roomModel->getRoomsBySiteId($siteId);
+        $rooms = $this->roomModel->getRoomsByBuildingId($siteId);
         
         // Retourner les salles au format JSON
         header('Content-Type: application/json');

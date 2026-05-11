@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../includes/functions.php';
 /**
  * Vue détaillée d'un site client
- * Affiche les détails complets d'un site avec ses salles
+ * Affiche les détails complets d'un site avec ses bâtiments et salles
  */
 
 // Vérification de l'accès
@@ -13,7 +13,7 @@ if (!isset($_SESSION['user'])) {
 
 // Récupération des données
 $site = $site ?? null;
-$rooms = $rooms ?? [];
+$buildings = $buildings ?? [];
 
 // Définir le type d'utilisateur pour le menu
 $userType = $_SESSION['user']['user_type'] ?? null;
@@ -30,6 +30,12 @@ $currentPage = 'sites_client';
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
+
+// Calculer le nombre total de salles
+$totalRooms = 0;
+foreach ($buildings as $building) {
+    $totalRooms += count($building['rooms'] ?? []);
+}
 ?>
 
 <div class="container-fluid flex-grow-1 container-p-y">
@@ -46,7 +52,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     <?php if (isset($_SESSION['error'])): ?>
         <div class="alert alert-danger">
-            <?php 
+            <?php
             echo $_SESSION['error'];
             unset($_SESSION['error']);
             ?>
@@ -55,7 +61,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success">
-            <?php 
+            <?php
             echo $_SESSION['success'];
             unset($_SESSION['success']);
             ?>
@@ -69,7 +75,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0"><?php echo h($site['name']); ?></h5>
                     <span class="badge bg-primary">
-                        <?php echo count($rooms); ?> salles
+                        <?php echo count($buildings); ?> bâtiment(s), <?php echo $totalRooms; ?> salle(s)
                     </span>
                 </div>
             </div>
@@ -79,7 +85,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <table class="table table-bordered">
                             <tr>
                                 <th>Client</th>
-                                <td><?php echo htmlspecialchars($site['client_name'] ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars($site['client_name'] ?? $site['client'] ?? ''); ?></td>
                             </tr>
                             <tr>
                                 <th>Adresse</th>
@@ -105,7 +111,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     </div>
                     <div class="col-md-6">
                         <?php if (!empty($site['comment'])): ?>
-                            <div class="card">
+                            <div class="card mb-3">
                                 <div class="card-header py-2">
                                     <h6 class="card-title mb-0">Commentaire</h6>
                                 </div>
@@ -114,16 +120,16 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 </div>
                             </div>
                         <?php endif; ?>
-                        
+
                         <!-- Contact principal du site -->
-                        <div class="card mt-3">
+                        <div class="card">
                             <div class="card-header py-2">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h6 class="card-title mb-0">Contact principal</h6>
                                     <?php if (canManageOwnContacts()): ?>
-                                        <button type="button" class="btn btn-outline-primary btn-sm" 
-                                                onclick="toggleContactEdit('site', <?php echo $site['id']; ?>)" 
-                                                title="Modifier le contact principal">
+                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                            onclick="toggleContactEdit('site', <?php echo $site['id']; ?>)"
+                                            title="Modifier le contact principal">
                                             <i class="bi bi-pencil"></i> Modifier
                                         </button>
                                     <?php endif; ?>
@@ -135,22 +141,26 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         <div class="d-flex">
                                             <div class="avatar avatar-sm me-2">
                                                 <div class="avatar-initial rounded-circle bg-label-primary">
-                                                    <?php 
+                                                    <?php
                                                     $initials = substr($site['primary_contact']['first_name'], 0, 1) . substr($site['primary_contact']['last_name'], 0, 1);
                                                     echo strtoupper($initials);
                                                     ?>
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1 ms-3">
-                                                <h6 class="mb-1"><?php echo htmlspecialchars($site['primary_contact']['first_name'] . ' ' . $site['primary_contact']['last_name']); ?></h6>
-                                                <?php if (!empty($site['primary_contact']['phone1'])) : ?>
+                                                <h6 class="mb-1">
+                                                    <?php echo htmlspecialchars($site['primary_contact']['first_name'] . ' ' . $site['primary_contact']['last_name']); ?>
+                                                </h6>
+                                                <?php if (!empty($site['primary_contact']['phone1'])): ?>
                                                     <p class="mb-1 small">
-                                                        <i class="bi bi-telephone me-1"></i> <?php echo htmlspecialchars($site['primary_contact']['phone1']); ?>
+                                                        <i class="bi bi-telephone me-1"></i>
+                                                        <?php echo htmlspecialchars($site['primary_contact']['phone1']); ?>
                                                     </p>
                                                 <?php endif; ?>
-                                                <?php if (!empty($site['primary_contact']['email'])) : ?>
+                                                <?php if (!empty($site['primary_contact']['email'])): ?>
                                                     <p class="mb-0 small">
-                                                        <i class="bi bi-envelope me-1"></i> <?php echo htmlspecialchars($site['primary_contact']['email']); ?>
+                                                        <i class="bi bi-envelope me-1"></i>
+                                                        <?php echo htmlspecialchars($site['primary_contact']['email']); ?>
                                                     </p>
                                                 <?php endif; ?>
                                             </div>
@@ -162,7 +172,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         </div>
                                     <?php endif; ?>
                                 </div>
-                                
+
                                 <div id="site-contact-edit-<?php echo $site['id']; ?>" style="display: none;">
                                     <div class="mb-3">
                                         <label class="form-label">Sélectionner le contact principal</label>
@@ -171,12 +181,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         </select>
                                     </div>
                                     <div class="d-flex gap-2">
-                                        <button type="button" class="btn btn-primary btn-sm" 
-                                                onclick="saveContactSelection('site', <?php echo $site['id']; ?>)">
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                            onclick="saveContactSelection('site', <?php echo $site['id']; ?>)">
                                             <i class="bi bi-check"></i> Enregistrer
                                         </button>
-                                        <button type="button" class="btn btn-secondary btn-sm" 
-                                                onclick="cancelContactEdit('site', <?php echo $site['id']; ?>)">
+                                        <button type="button" class="btn btn-secondary btn-sm"
+                                            onclick="cancelContactEdit('site', <?php echo $site['id']; ?>)">
                                             <i class="bi bi-x"></i> Annuler
                                         </button>
                                     </div>
@@ -188,96 +198,150 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
         </div>
 
-        <!-- Liste des salles -->
+        <!-- Liste des bâtiments et salles -->
         <div class="card">
             <div class="card-header py-2">
-                <h5 class="card-title mb-0">Salles du site</h5>
+                <h5 class="card-title mb-0">Bâtiments et salles</h5>
             </div>
             <div class="card-body">
-                <?php if (!empty($rooms)): ?>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Contact principal</th>
-                                    <th>Statut</th>
-                                    <th>Commentaire</th>
-                                    <?php if (canManageOwnContacts()): ?>
-                                        <th>Actions</th>
-                                    <?php endif; ?>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($rooms as $room): ?>
-                                    <tr>
-                                        <td>
-                                            <strong><?php echo h($room['name']); ?></strong>
-                                        </td>
-                                        <td>
-                                            <div id="room-contact-display-<?php echo $room['id']; ?>">
-                                                <?php 
-                                                if (!empty($room['first_name']) && !empty($room['last_name'])) {
-                                                    echo htmlspecialchars($room['first_name'] . ' ' . $room['last_name']);
-                                                    if (!empty($room['phone1'])) {
-                                                        echo '<br><small><i class="bi bi-telephone me-1"></i>' . h($room['phone1']) . '</small>';
-                                                    }
-                                                    if (!empty($room['email'])) {
-                                                        echo '<br><small><i class="bi bi-envelope me-1"></i>' . h($room['email']) . '</small>';
-                                                    }
-                                                } else {
-                                                    echo '<span class="text-muted">Aucun contact</span>';
-                                                }
-                                                ?>
-                                            </div>
-                                            <div id="room-contact-edit-<?php echo $room['id']; ?>" style="display: none;">
-                                                <select class="form-select form-select-sm" id="room-contact-select-<?php echo $room['id']; ?>">
-                                                    <option value="">-- Aucun contact --</option>
-                                                </select>
-                                                <div class="mt-2">
-                                                    <button type="button" class="btn btn-primary btn-sm" 
-                                                            onclick="saveContactSelection('room', <?php echo $room['id']; ?>)">
-                                                        <i class="bi bi-check"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-secondary btn-sm" 
-                                                            onclick="cancelContactEdit('room', <?php echo $room['id']; ?>)">
-                                                        <i class="bi bi-x"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-<?php echo ($room['status'] ?? 0) == 1 ? 'success' : 'danger'; ?>">
-                                                <?php echo ($room['status'] ?? 0) == 1 ? 'Actif' : 'Inactif'; ?>
+                <?php if (!empty($buildings)): ?>
+                    <div class="accordion" id="buildingsAccordion">
+                        <?php foreach ($buildings as $index => $building): ?>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading<?php echo $building['id']; ?>">
+                                    <button class="accordion-button <?php echo $index > 0 ? 'collapsed' : ''; ?>" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $building['id']; ?>"
+                                        aria-expanded="<?php echo $index === 0 ? 'true' : 'false'; ?>"
+                                        aria-controls="collapse<?php echo $building['id']; ?>">
+                                        <div class="d-flex justify-content-between align-items-center w-100 me-3">
+                                            <span>
+                                                <i class="bi bi-building-fill me-2 text-primary"></i>
+                                                <strong><?php echo h($building['name']); ?></strong>
                                             </span>
-                                        </td>
-                                        <td>
-                                            <?php 
-                                            if (!empty($room['comment'])) {
-                                                echo h($room['comment']);
-                                            } else {
-                                                echo '<span class="text-muted">Aucun commentaire</span>';
-                                            }
-                                            ?>
-                                        </td>
-                                        <?php if (canManageOwnContacts()): ?>
-                                            <td>
-                                                <button type="button" class="btn btn-outline-primary btn-sm" 
-                                                        onclick="toggleContactEdit('room', <?php echo $room['id']; ?>)" 
-                                                        title="Modifier le contact principal">
-                                                    <i class="bi bi-person"></i>
-                                                </button>
-                                            </td>
+                                            <span class="badge bg-info ms-2">
+                                                <?php echo count($building['rooms'] ?? []); ?> salle(s)
+                                            </span>
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapse<?php echo $building['id']; ?>"
+                                    class="accordion-collapse collapse <?php echo $index === 0 ? 'show' : ''; ?>"
+                                    aria-labelledby="heading<?php echo $building['id']; ?>" data-bs-parent="#buildingsAccordion">
+                                    <div class="accordion-body">
+                                        <?php if (!empty($building['comment'])): ?>
+                                            <div class="alert alert-info mb-3 py-2">
+                                                <i class="bi bi-chat me-1"></i>
+                                                <strong>Commentaire :</strong> <?php echo nl2br(h($building['comment'])); ?>
+                                            </div>
                                         <?php endif; ?>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+
+                                        <?php if (!empty($building['rooms'])): ?>
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nom de la salle</th>
+                                                            <th>Contact principal</th>
+                                                            <th>Statut</th>
+                                                            <th>Commentaire</th>
+                                                            <?php if (canManageOwnContacts()): ?>
+                                                                <th>Actions</th>
+                                                            <?php endif; ?>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php foreach ($building['rooms'] as $room): ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <i class="bi bi-door-open me-2 text-secondary"></i>
+                                                                    <strong><?php echo h($room['name']); ?></strong>
+                                                                </td>
+                                                                <td>
+                                                                    <div id="room-contact-display-<?php echo $room['id']; ?>">
+                                                                        <?php
+                                                                        if (!empty($room['first_name']) && !empty($room['last_name'])) {
+                                                                            echo '<div class="d-flex align-items-center">';
+                                                                            echo '<div class="avatar avatar-xs me-2">';
+                                                                            echo '<div class="avatar-initial rounded-circle bg-label-secondary">';
+                                                                            $initials = substr($room['first_name'], 0, 1) . substr($room['last_name'], 0, 1);
+                                                                            echo strtoupper($initials);
+                                                                            echo '</div></div>';
+                                                                            echo '<div>';
+                                                                            echo htmlspecialchars($room['first_name'] . ' ' . $room['last_name']);
+                                                                            if (!empty($room['phone1'])) {
+                                                                                echo '<br><small><i class="bi bi-telephone me-1"></i>' . h($room['phone1']) . '</small>';
+                                                                            }
+                                                                            if (!empty($room['email'])) {
+                                                                                echo '<br><small><i class="bi bi-envelope me-1"></i>' . h($room['email']) . '</small>';
+                                                                            }
+                                                                            echo '</div></div>';
+                                                                        } else {
+                                                                            echo '<span class="text-muted">Aucun contact</span>';
+                                                                        }
+                                                                        ?>
+                                                                    </div>
+                                                                    <div id="room-contact-edit-<?php echo $room['id']; ?>"
+                                                                        style="display: none;">
+                                                                        <select class="form-select form-select-sm"
+                                                                            id="room-contact-select-<?php echo $room['id']; ?>">
+                                                                            <option value="">-- Aucun contact --</option>
+                                                                        </select>
+                                                                        <div class="mt-2">
+                                                                            <button type="button" class="btn btn-primary btn-sm"
+                                                                                onclick="saveContactSelection('room', <?php echo $room['id']; ?>)">
+                                                                                <i class="bi bi-check"></i>
+                                                                            </button>
+                                                                            <button type="button" class="btn btn-secondary btn-sm"
+                                                                                onclick="cancelContactEdit('room', <?php echo $room['id']; ?>)">
+                                                                                <i class="bi bi-x"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <span
+                                                                        class="badge bg-<?php echo ($room['status'] ?? 0) == 1 ? 'success' : 'danger'; ?>">
+                                                                        <?php echo ($room['status'] ?? 0) == 1 ? 'Actif' : 'Inactif'; ?>
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <?php
+                                                                    if (!empty($room['comment'])) {
+                                                                        echo '<small class="text-muted">' . nl2br(h($room['comment'])) . '</small>';
+                                                                    } else {
+                                                                        echo '<span class="text-muted">Aucun commentaire</span>';
+                                                                    }
+                                                                    ?>
+                                                                </td>
+                                                                <?php if (canManageOwnContacts()): ?>
+                                                                    <td>
+                                                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                                                            onclick="toggleContactEdit('room', <?php echo $room['id']; ?>)"
+                                                                            title="Modifier le contact principal">
+                                                                            <i class="bi bi-person"></i>
+                                                                        </button>
+                                                                    </td>
+                                                                <?php endif; ?>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="alert alert-info mb-0">
+                                                <i class="bi bi-info-circle me-2"></i>
+                                                Aucune salle dans ce bâtiment.
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 <?php else: ?>
                     <div class="alert alert-info">
                         <i class="bi bi-info-circle me-2"></i>
-                        Aucune salle enregistrée pour ce site.
+                        Aucun bâtiment enregistré pour ce site.
                     </div>
                 <?php endif; ?>
             </div>
@@ -291,122 +355,154 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </div>
 
 <script>
-// Cache pour les contacts chargés
-let contactsCache = null;
+    // Cache pour les contacts chargés
+    let contactsCache = null;
 
-// Fonction pour basculer entre l'affichage et l'édition
-function toggleContactEdit(type, id) {
-    const displayElement = document.getElementById(`${type}-contact-display-${id}`);
-    const editElement = document.getElementById(`${type}-contact-edit-${id}`);
-    
-    if (displayElement && editElement) {
-        displayElement.style.display = 'none';
-        editElement.style.display = 'block';
-        
-        // Charger les contacts si pas encore fait
-        if (!contactsCache) {
-            loadContactsForSelect(type, id);
-        } else {
-            populateSelect(type, id);
+    // Fonction pour basculer entre l'affichage et l'édition
+    function toggleContactEdit(type, id) {
+        const displayElement = document.getElementById(`${type}-contact-display-${id}`);
+        const editElement = document.getElementById(`${type}-contact-edit-${id}`);
+
+        if (displayElement && editElement) {
+            displayElement.style.display = 'none';
+            editElement.style.display = 'block';
+
+            // Charger les contacts si pas encore fait
+            if (!contactsCache) {
+                loadContactsForSelect(type, id);
+            } else {
+                populateSelect(type, id);
+            }
         }
     }
-}
 
-// Fonction pour annuler l'édition
-function cancelContactEdit(type, id) {
-    const displayElement = document.getElementById(`${type}-contact-display-${id}`);
-    const editElement = document.getElementById(`${type}-contact-edit-${id}`);
-    
-    if (displayElement && editElement) {
-        displayElement.style.display = 'block';
-        editElement.style.display = 'none';
-    }
-}
+    // Fonction pour annuler l'édition
+    function cancelContactEdit(type, id) {
+        const displayElement = document.getElementById(`${type}-contact-display-${id}`);
+        const editElement = document.getElementById(`${type}-contact-edit-${id}`);
 
-// Fonction pour charger les contacts
-function loadContactsForSelect(type, id) {
-    const selectElement = document.getElementById(`${type}-contact-select-${id}`);
-    if (selectElement) {
-        selectElement.innerHTML = '<option value="">Chargement...</option>';
+        if (displayElement && editElement) {
+            displayElement.style.display = 'block';
+            editElement.style.display = 'none';
+        }
     }
-    
-    fetch('<?php echo BASE_URL; ?>contactClient/getContacts')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                contactsCache = data.contacts;
-                populateSelect(type, id);
-            } else {
+
+    // Fonction pour charger les contacts
+    function loadContactsForSelect(type, id) {
+        const selectElement = document.getElementById(`${type}-contact-select-${id}`);
+        if (selectElement) {
+            selectElement.innerHTML = '<option value="">Chargement...</option>';
+        }
+
+        fetch('<?php echo BASE_URL; ?>contactClient/getContacts')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    contactsCache = data.contacts;
+                    populateSelect(type, id);
+                } else {
+                    if (selectElement) {
+                        selectElement.innerHTML = '<option value="">Erreur de chargement</option>';
+                    }
+                }
+            })
+            .catch(error => {
                 if (selectElement) {
                     selectElement.innerHTML = '<option value="">Erreur de chargement</option>';
                 }
-            }
-        })
-        .catch(error => {
-            if (selectElement) {
-                selectElement.innerHTML = '<option value="">Erreur de chargement</option>';
-            }
+            });
+    }
+
+    // Fonction pour remplir le select
+    function populateSelect(type, id) {
+        const selectElement = document.getElementById(`${type}-contact-select-${id}`);
+        if (!selectElement || !contactsCache) return;
+
+        let html = '<option value="">-- Aucun contact --</option>';
+
+        contactsCache.forEach(contact => {
+            const contactText = `${contact.first_name} ${contact.last_name}`;
+            const contactDetails = [];
+
+            if (contact.fonction) contactDetails.push(contact.fonction);
+            if (contact.email) contactDetails.push(contact.email);
+            if (contact.phone1) contactDetails.push(contact.phone1);
+
+            const fullText = contactDetails.length > 0
+                ? `${contactText} (${contactDetails.join(', ')})`
+                : contactText;
+
+            html += `<option value="${contact.id}">${fullText}</option>`;
         });
-}
 
-// Fonction pour remplir le select
-function populateSelect(type, id) {
-    const selectElement = document.getElementById(`${type}-contact-select-${id}`);
-    if (!selectElement || !contactsCache) return;
-    
-    let html = '<option value="">-- Aucun contact --</option>';
-    
-    contactsCache.forEach(contact => {
-        const contactText = `${contact.first_name} ${contact.last_name}`;
-        const contactDetails = [];
-        
-        if (contact.fonction) contactDetails.push(contact.fonction);
-        if (contact.email) contactDetails.push(contact.email);
-        if (contact.phone1) contactDetails.push(contact.phone1);
-        
-        const fullText = contactDetails.length > 0 
-            ? `${contactText} (${contactDetails.join(', ')})`
-            : contactText;
-            
-        html += `<option value="${contact.id}">${fullText}</option>`;
-    });
-    
-    selectElement.innerHTML = html;
-}
+        selectElement.innerHTML = html;
+    }
 
-// Fonction pour sauvegarder la sélection
-function saveContactSelection(type, id) {
-    const selectElement = document.getElementById(`${type}-contact-select-${id}`);
-    if (!selectElement) return;
-    
-    const contactId = selectElement.value;
-    
-    fetch('<?php echo BASE_URL; ?>contactClient/setPrimaryContact', {
-        method: 'POST',
+    // Fonction pour sauvegarder la sélection
+    function saveContactSelection(type, id) {
+        const selectElement = document.getElementById(`${type}-contact-select-${id}`);
+        if (!selectElement) return;
+
+        const contactId = selectElement.value;
+
+        fetch('<?php echo BASE_URL; ?>contactClient/setPrimaryContact', {
+            method: 'POST',
             headers: {
                 'X-CSRF-Token': '<?= csrf_token() ?>',
                 'Content-Type': 'application/json',
             },
-        body: JSON.stringify({
-            type: type,
-            id: id,
-            contact_id: contactId
+            body: JSON.stringify({
+                type: type,
+                id: id,
+                contact_id: contactId
+            })
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Recharger la page pour afficher les changements
-            location.reload();
-        } else {
-            alert('Erreur : ' + data.message);
-        }
-    })
-    .catch(error => {
-        alert('Erreur lors de la sauvegarde');
-    });
-}
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Recharger la page pour afficher les changements
+                    location.reload();
+                } else {
+                    alert('Erreur : ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Erreur lors de la sauvegarde');
+            });
+    }
 </script>
+
+<style>
+    .accordion-button:not(.collapsed) {
+        background-color: #e7f1ff;
+        color: #0c63e4;
+    }
+
+    .accordion-button .badge {
+        font-size: 0.75rem;
+    }
+
+    .accordion-button:focus {
+        box-shadow: none;
+    }
+
+    .table-sm th,
+    .table-sm td {
+        padding: 0.5rem;
+        vertical-align: middle;
+    }
+
+    .avatar-xs {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+    }
+
+    .avatar-xs .avatar-initial {
+        font-size: 0.75rem;
+        line-height: 24px;
+    }
+</style>
 
 <?php
 // Inclure le footer

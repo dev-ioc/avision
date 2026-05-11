@@ -1,43 +1,29 @@
 <?php
 require_once __DIR__ . '/../../includes/functions.php';
 
-// Vérification de l'accès - Utiliser le nouveau système de permissions
+// Vérification de l'accès
 if (!isset($_SESSION['user']) || !canModifyInterventions()) {
     $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour créer une intervention.";
     header('Location: ' . BASE_URL . 'dashboard');
     exit;
 }
 
-// Définir le titre de la page pour le header
 $pageTitle = "Nouvelle intervention";
-
-// Inclure le header
 include_once __DIR__ . '/../../includes/header.php';
-
 require_once __DIR__ . '/../../includes/functions.php';
 
-// Vérification des permissions pour modifier les interventions
 if (!canModifyInterventions()) {
     $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour créer une intervention.";
     header('Location: ' . BASE_URL . 'interventions');
     exit;
 }
 
-setPageVariables(
-    'Nouvelle Intervention',
-    'interventions'
-);
-
-// Définir la page courante pour le menu
+setPageVariables('Nouvelle Intervention', 'interventions');
 $currentPage = 'interventions';
 
-// Récupérer le client_id depuis l'URL si présent
 $selectedClientId = $_GET['client_id'] ?? null;
-
-// Récupérer les informations du client si un client_id est fourni
 $selectedClient = null;
 if ($selectedClientId) {
-    // Chercher d'abord dans le tableau $clients si disponible
     if (isset($clients) && is_array($clients)) {
         foreach ($clients as $c) {
             if (isset($c['id']) && $c['id'] == $selectedClientId) {
@@ -46,8 +32,6 @@ if ($selectedClientId) {
             }
         }
     }
-
-    // Si le client n'a pas été trouvé dans $clients, le charger depuis le modèle
     if (!$selectedClient) {
         require_once __DIR__ . '/../../models/ClientModel.php';
         global $db;
@@ -56,10 +40,8 @@ if ($selectedClientId) {
     }
 }
 
-// Définir les breadcrumbs personnalisés pour l'ajout d'intervention
 $GLOBALS['customBreadcrumbs'] = generateInterventionAddBreadcrumbs($selectedClient);
 
-// Inclure le header qui contient le menu latéral
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
@@ -67,130 +49,106 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 <div class="container-fluid flex-grow-1 container-p-y">
 
-    <div class="d-flex bd-highlight mb-3">
-        <div class="p-2 bd-highlight">
+    <div class="d-flex flex-row align-items-center justify-content-between">
+        <div class="p-2">
             <h4 class="py-4 mb-6">Nouvelle Intervention</h4>
         </div>
-
-        <div class="ms-auto p-2 bd-highlight">
+        <div class="">
             <?php
             $returnTo = $_GET['return_to'] ?? 'index';
             $clientId = $_GET['client_id'] ?? null;
             $returnUrl = ($returnTo === 'view' && $clientId) ?
                 BASE_URL . 'clients/view/' . $clientId . '?active_tab=interventions-tab' :
-                BASE_URL . 'interventions/curatives'; // Par défaut, retourner vers les curatives
+                BASE_URL . 'interventions/curatives';
             ?>
-            <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary me-2">
+            <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary">
                 <i class="bi bi-arrow-left me-1"></i> Retour
             </a>
-
-            <button type="button" id="createButton" class="btn btn-primary">Créer l'intervention</button>
+            <?php if (canModifyInterventions()): ?>
+                <button type="button" id="flashInterventionBtn" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#flashInterventionModal">
+                    <i class="bi bi-lightning-charge me-1"></i> Flash Intervention
+                </button>
+            <?php endif; ?>
+            <button type="button" id="createButton" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-1"></i> Créer l'intervention
+            </button>
         </div>
     </div>
 
+    <style>
+        @media (max-width: 768px) {
+            .d-flex.gap-2 {
+                flex-wrap: wrap;
+                gap: 0.5rem !important;
+            }
+
+            .d-flex.gap-2 .btn {
+                font-size: 0.875rem;
+                padding: 0.375rem 0.75rem;
+            }
+        }
+    </style>
+
     <?php if (isset($_SESSION['error'])): ?>
         <div class="alert alert-danger">
-            <?php
-            echo $_SESSION['error'];
-            unset($_SESSION['error']);
-            ?>
+            <?php echo $_SESSION['error'];
+            unset($_SESSION['error']); ?>
         </div>
     <?php endif; ?>
-
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success">
-            <?php
-            echo $_SESSION['success'];
-            unset($_SESSION['success']);
-            ?>
+            <?php echo $_SESSION['success'];
+            unset($_SESSION['success']); ?>
         </div>
     <?php endif; ?>
 
-    <!-- Formulaire de création -->
     <div class="card">
-        <div class="card-header py-2">
-            <div class="row align-items-center">
+       <div class="card-header py-2">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h5 class="card-title mb-0">
+                <span class="fw-bold me-3">Nouvelle référence</span>
+                <input type="text" class="form-control d-inline-block bg-body text-body" id="title" name="title"
+                    form="interventionForm" placeholder="Titre de l'intervention" required>
+                <small id="titleError" class="text-danger d-none">Le titre est obligatoire.</small>
+            </h5>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
                 <div class="col-md-6">
-                    <h5 class="card-title mb-0">
-                        <span class="fw-bold me-3">Nouvelle référence</span>
-                        <input type="text" class="form-control d-inline-block bg-body text-body" id="title" name="title"
-                            form="interventionForm" placeholder="Titre de l'intervention" required>
-                        <small id="titleError" class="text-danger d-none">Le titre est obligatoire.</small>
-                    </h5>
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-
-                            const titleInput = document.getElementById('title');
-                            const titleError = document.getElementById('titleError');
-                            const form = document.getElementById('interventionForm');
-
-                            function validation() {
-                                if (titleInput.value.trim() === '') {
-                                    titleError.classList.remove('d-none');
-                                    titleInput.classList.add('is-invalid');
-                                    return false;
-                                } else {
-                                    titleError.classList.add('d-none');
-                                    titleInput.classList.remove('is-invalid');
-                                    return true;
-                                }
-                            }
-                            validation();
-
-                            titleInput.addEventListener('input', function () {
-                                if (titleInput.value.trim() === '') {
-                                    titleError.classList.remove('d-none');
-                                    titleInput.classList.add('is-invalid');
-                                } else {
-                                    titleError.classList.add('d-none');
-                                    titleInput.classList.remove('is-invalid');
-                                }
-                            });
-
-                            form.addEventListener('submit', function (e) {
-                                if (titleInput.value.trim() === '') {
-                                    e.preventDefault();
-                                    titleError.classList.remove('d-none');
-                                    titleInput.classList.add('is-invalid');
-                                }
-                            });
-                        });
-                    </script>
+                    <label class="form-label fw-bold mb-0 text-white">Date de création</label>
+                    <input type="date" class="form-control bg-body text-body" id="created_date"
+                        name="created_date" value="<?= date('Y-m-d') ?>" form="interventionForm">
                 </div>
                 <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold mb-0 text-white">Date de création</label>
-                            <input type="date" class="form-control bg-body text-body" id="created_date"
-                                name="created_date" value="<?= date('Y-m-d') ?>" form="interventionForm">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold mb-0 text-white">Heure de création</label>
-                            <input type="time" class="form-control bg-body text-body" id="created_time"
-                                name="created_time" value="<?= date('H:i') ?>" form="interventionForm">
-                        </div>
-                    </div>
+                    <label class="form-label fw-bold mb-0 text-white">Heure de création</label>
+                    <input type="time" class="form-control bg-body text-body" id="created_time"
+                        name="created_time" value="<?= date('H:i') ?>" form="interventionForm">
                 </div>
             </div>
         </div>
+    </div>
+</div>
         <div class="card-body py-2">
-            <form
-                action="<?php echo BASE_URL; ?>interventions/store<?php echo isset($_GET['return_to']) ? '?return_to=' . $_GET['return_to'] : ''; ?>"
+            <form action="<?php echo BASE_URL; ?>interventions/store<?php echo isset($_GET['return_to']) ? '?return_to=' . $_GET['return_to'] : ''; ?>"
                 method="post" id="interventionForm">
                 <?= csrf_field() ?>
                 <div class="row g-3">
-                    <!-- Colonne 1 : Client, Site, Salle -->
+
+                    <!-- Colonne 1 : Client, Site, Bâtiment, Salle -->
                     <div class="col-md-3">
                         <div class="d-flex flex-column gap-2">
+
                             <!-- Client -->
                             <div>
                                 <label class="form-label fw-bold mb-0">Client *</label>
                                 <div class="input-group">
-                                    <select class="form-select bg-body text-body" id="client_id" name="client_id"
-                                        required>
+                                    <select class="form-select bg-body text-body" id="client_id" name="client_id" required>
                                         <option value="">Sélectionner un client</option>
                                         <?php foreach ($clients as $client): ?>
-                                            <option value="<?= $client['id'] ?>" <?= ($selectedClientId && $client['id'] == $selectedClientId) ? 'selected' : '' ?>>
+                                            <option value="<?= $client['id'] ?>"
+                                                <?= ($selectedClientId && $client['id'] == $selectedClientId) ? 'selected' : '' ?>>
                                                 <?= h($client['name'] ?? '') ?>
                                             </option>
                                         <?php endforeach; ?>
@@ -216,6 +174,20 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 </div>
                             </div>
 
+                            <!-- Bâtiment -->
+                            <div>
+                                <label class="form-label fw-bold mb-0">Bâtiment</label>
+                                <div class="input-group">
+                                    <select class="form-select bg-body text-body" id="building_id" name="building_id">
+                                        <option value="">Sélectionner un bâtiment</option>
+                                    </select>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                        id="quickCreateBuildingBtn" title="Créer un nouveau bâtiment">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+
                             <!-- Salle -->
                             <div>
                                 <label class="form-label fw-bold mb-0">Salle</label>
@@ -229,231 +201,97 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     </button>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
-                    <!-- Colonne 2 : Type, Déplacement, Contrat -->
+                    <!-- Colonne 2 : Type, Contrat -->
                     <div class="col-md-3">
                         <div class="d-flex flex-column gap-2">
+
                             <!-- Type d'intervention -->
                             <div>
                                 <label class="form-label fw-bold mb-0">Type d'intervention *</label>
-                                <select class="form-select bg-body text-body" id="type_id" name="type_id" required
-                                    form="interventionForm">
+                                <select class="form-select bg-body text-body" id="type_id" name="type_id" required>
                                     <option value="">Sélectionner un type</option>
                                     <?php foreach ($types as $type): ?>
-                                        <option value="<?= $type['id'] ?>">
-                                            <?= h($type['name'] ?? '') ?>
-                                        </option>
+                                        <option value="<?= $type['id'] ?>"><?= h($type['name'] ?? '') ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                <small id="typeError" class="text-danger d-none">Le type d'intervention est
-                                    obligatoire.</small>
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function () {
-
-                                        const typeInput = document.getElementById('type_id');
-                                        const typeError = document.getElementById('typeError');
-                                        const form = document.getElementById('interventionForm');
-
-                                        function validateType() {
-                                            if (typeInput.value === '') {
-                                                typeError.classList.remove('d-none');
-                                                typeInput.classList.add('is-invalid');
-                                                return false;
-                                            } else {
-                                                typeError.classList.add('d-none');
-                                                typeInput.classList.remove('is-invalid');
-                                                return true;
-                                            }
-                                        }
-
-                                        validateType();
-                                        typeInput.addEventListener('change', validateType);
-                                        form.addEventListener('submit', function (e) {
-                                            if (!validateType()) {
-                                                e.preventDefault();
-                                            }
-                                        });
-
-                                    });
-                                </script>
+                                <small id="typeError" class="text-danger d-none">Le type d'intervention est obligatoire.</small>
                             </div>
 
                             <!-- Contrat -->
                             <div>
                                 <label class="form-label fw-bold mb-0">Contrat associé *</label>
-                                <select class="form-select bg-body text-body" id="contract_id" name="contract_id"
-                                    required form="interventionForm">
+                                <select class="form-select bg-body text-body" id="contract_id" name="contract_id" required>
                                     <option value="">Sélectionner un contrat</option>
                                 </select>
                                 <small id="contractError" class="text-danger d-none">Le contrat est obligatoire.</small>
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function () {
-
-                                        const contractInput = document.getElementById('contract_id');
-                                        const contractError = document.getElementById('contractError');
-                                        const form = document.getElementById('interventionForm');
-
-                                        function validateContract() {
-                                            if (contractInput.value === '') {
-                                                contractError.classList.remove('d-none');
-                                                contractInput.classList.add('is-invalid');
-                                                return false;
-                                            } else {
-                                                contractError.classList.add('d-none');
-                                                contractInput.classList.remove('is-invalid');
-                                                return true;
-                                            }
-                                        }
-
-                                        validateContract();
-                                        contractInput.addEventListener('change', validateContract);
-                                        form.addEventListener('submit', function (e) {
-                                            if (!validateContract()) {
-                                                e.preventDefault();
-                                            }
-                                        });
-
-                                    });
-                                </script>
                             </div>
+
                         </div>
                     </div>
 
-                    <!-- Colonne 3 : Statut, Priorité, Technicien -->
+                    <!-- Colonne 3 : Statut, Priorité, Case à cocher Préventive -->
                     <div class="col-md-3">
                         <div class="d-flex flex-column gap-2">
+
                             <!-- Statut -->
                             <div>
                                 <label class="form-label fw-bold mb-0">Statut *</label>
-                                <select class="form-select bg-body text-body" id="status_id" name="status_id" required
-                                    form="interventionForm">
+                                <select class="form-select bg-body text-body" id="status_id" name="status_id" required>
                                     <option value="">Sélectionner un statut</option>
                                     <?php foreach ($statuses as $status): ?>
-                                        <?php
-                                        // Présélectionner le statut "Nouveau" (généralement ID 1)
-                                        $isSelected = ($status['name'] == 'Nouveau' || $status['id'] == 1) ? 'selected' : '';
-                                        ?>
-                                        <option value="<?= $status['id'] ?>" <?= $isSelected ?>>
-                                            <?= h($status['name'] ?? '') ?>
-                                        </option>
+                                        <?php $isSelected = ($status['name'] == 'Nouveau' || $status['id'] == 1) ? 'selected' : ''; ?>
+                                        <option value="<?= $status['id'] ?>" <?= $isSelected ?>><?= h($status['name'] ?? '') ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <small id="statutError" class="text-danger d-none">Le statut est obligatoire.</small>
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function () {
-
-                                        const statutInput = document.getElementById('status_id');
-                                        const statutError = document.getElementById('statutError');
-                                        const form = document.getElementById('interventionForm');
-
-                                        function validation() {
-                                            if (statutInput.value.trim() === '') {
-                                                statutError.classList.remove('d-none');
-                                                statutInput.classList.add('is-invalid');
-                                                return false;
-                                            } else {
-                                                statutError.classList.add('d-none');
-                                                statutInput.classList.remove('is-invalid');
-                                                return true;
-                                            }
-                                        }
-                                        validation();
-
-                                        statutInput.addEventListener('input', function () {
-                                            if (statutInput.value.trim() === '') {
-                                                statutError.classList.remove('d-none');
-                                                statutInput.classList.add('is-invalid');
-                                            } else {
-                                                statutError.classList.add('d-none');
-                                                statutInput.classList.remove('is-invalid');
-                                            }
-                                        });
-
-                                        form.addEventListener('submit', function (e) {
-                                            if (!validation()) {
-                                                e.preventDefault();
-                                            }
-                                        });
-
-                                    }); 
-                                </script>
                             </div>
 
                             <!-- Priorité -->
                             <div>
                                 <label class="form-label fw-bold mb-0">Priorité *</label>
-                                <select class="form-select bg-body text-body" id="priority_id" name="priority_id"
-                                    required form="interventionForm">
+                                <select class="form-select bg-body text-body" id="priority_id" name="priority_id" required>
                                     <option value="">Sélectionner une priorité</option>
                                     <?php foreach ($priorities as $priority): ?>
-                                        <?php
-                                        // Présélectionner la priorité "Moyenne" (généralement ID 2)
-                                        $isSelected = ($priority['name'] == 'Moyenne' || $priority['id'] == 2) ? 'selected' : '';
-                                        ?>
-                                        <option value="<?= $priority['id'] ?>" <?= $isSelected ?>>
-                                            <?= h($priority['name'] ?? '') ?>
-                                        </option>
+                                        <?php $isSelected = ($priority['name'] == 'Moyenne' || $priority['id'] == 2) ? 'selected' : ''; ?>
+                                        <option value="<?= $priority['id'] ?>" <?= $isSelected ?>><?= h($priority['name'] ?? '') ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <small id="prioriError" class="text-danger d-none">La priorité est obligatoire.</small>
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function () {
-
-                                        const prioriInput = document.getElementById('priority_id');
-                                        const prioriError = document.getElementById('prioriError');
-                                        const form = document.getElementById('interventionForm');
-
-                                        function validation() {
-                                            if (prioriInput.value.trim() === '') {
-                                                prioriError.classList.remove('d-none');
-                                                prioriInput.classList.add('is-invalid');
-                                                return false;
-                                            } else {
-                                                prioriError.classList.add('d-none');
-                                                prioriInput.classList.remove('is-invalid');
-                                                return true;
-                                            }
-                                        }
-                                        validation();
-
-                                        prioriInput.addEventListener('input', function () {
-                                            if (prioriInput.value.trim() === '') {
-                                                prioriError.classList.remove('d-none');
-                                                prioriInput.classList.add('is-invalid');
-                                            } else {
-                                                prioriError.classList.add('d-none');
-                                                prioriInput.classList.remove('is-invalid');
-                                            }
-                                        });
-
-                                        form.addEventListener('submit', function (e) {
-                                            if (!validation()) {
-                                                e.preventDefault();
-                                            }
-                                        });
-
-                                    }); 
-                                </script>
                             </div>
+
+                            <!-- Case à cocher Intervention préventive -->
+                            <div class="mt-2 pt-1">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="is_preventive" name="is_preventive" value="1">
+                                    <label class="form-check-label fw-bold" for="is_preventive">
+                                        Intervention préventive
+                                    </label>
+                                    <small class="text-muted d-block mt-1">
+                                        Cocher pour une intervention préventive
+                                    </small>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
-                    <!-- Description sur une ligne complète -->
+                    <!-- Description -->
                     <div class="col-12 mt-3">
                         <div class="card">
                             <div class="card-header py-2">
                                 <h6 class="card-title mb-0">Demande/description du problème</h6>
                             </div>
                             <div class="card-body py-2">
-                                <textarea class="form-control bg-body text-body" id="description" name="description"
-                                    rows="5"></textarea>
+                                <textarea class="form-control bg-body text-body" id="description" name="description" rows="5"></textarea>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Informations de contact et demande -->
+                    <!-- Informations de contact -->
                     <div class="col-12 mt-3">
                         <div class="card contact-info-card">
                             <div class="card-header py-2 contact-info-header">
@@ -466,11 +304,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold">Demande par</label>
                                         <input type="text" class="form-control bg-body text-body" id="demande_par"
-                                            name="demande_par"
-                                            placeholder="Nom de la personne qui a demandé l'intervention">
-                                        <small id="titleError" class="text-danger d-none">Le nom de demandeur est
-                                            obligatoire.</small>
-
+                                            name="demande_par" placeholder="Nom de la personne qui a demandé l'intervention">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold">Référence client</label>
@@ -483,7 +317,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <select class="form-select bg-body text-body" id="contact_client_select"
                                                 name="contact_client_select">
                                                 <option value="">Sélectionner un contact existant</option>
-                                                <!-- Les contacts seront chargés dynamiquement selon le client -->
                                             </select>
                                             <button type="button" class="btn btn-outline-secondary btn-sm"
                                                 id="quickCreateContactBtn" title="Créer un nouveau contact">
@@ -507,58 +340,50 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- Modale de création rapide de client -->
-<div class="modal fade" id="quickCreateClientModal" tabindex="-1" aria-labelledby="quickCreateClientModalLabel"
-    aria-hidden="true">
+<!-- ===== MODALES ===== -->
+
+<!-- Modale client -->
+<div class="modal fade" id="quickCreateClientModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="quickCreateClientModalLabel">
-                    <i class="bi bi-person-plus me-2"></i>Créer un nouveau client
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title"><i class="bi bi-person-plus me-2"></i>Créer un nouveau client</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form id="quickCreateClientForm">
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label fw-bold">Nom du client *</label>
-                            <input type="text" class="form-control" id="client_name" name="name" required
-                                placeholder="Nom de l'entreprise">
+                            <input type="text" class="form-control" name="name" required placeholder="Nom de l'entreprise">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Email</label>
-                            <input type="email" class="form-control" id="client_email" name="email"
-                                placeholder="contact@entreprise.com">
+                            <input type="email" class="form-control" id="client_email" name="email" placeholder="contact@entreprise.com">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Téléphone</label>
-                            <input type="tel" class="form-control" id="client_phone" name="phone"
-                                placeholder="01 23 45 67 89">
+                            <input type="tel" class="form-control" name="phone" placeholder="01 23 45 67 89">
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Site web</label>
-                            <input type="url" class="form-control" id="client_website" name="website"
-                                placeholder="https://www.entreprise.com">
+                            <input type="url" class="form-control" id="client_website" name="website" placeholder="https://www.entreprise.com">
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Adresse</label>
-                            <input type="text" class="form-control" id="client_address" name="address"
-                                placeholder="123 Rue de la Paix">
+                            <input type="text" class="form-control" name="address" placeholder="123 Rue de la Paix">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-bold">Code postal</label>
-                            <input type="text" class="form-control" id="client_postal_code" name="postal_code"
-                                placeholder="75001">
+                            <input type="text" class="form-control" name="postal_code" placeholder="75001">
                         </div>
                         <div class="col-md-8">
                             <label class="form-label fw-bold">Ville</label>
-                            <input type="text" class="form-control" id="client_city" name="city" placeholder="Paris">
+                            <input type="text" class="form-control" name="city" placeholder="Paris">
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Commentaire</label>
-                            <textarea class="form-control" id="client_comment" name="comment" rows="3"
-                                placeholder="Commentaires ou notes sur ce client..."></textarea>
+                            <textarea class="form-control" name="comment" rows="3" placeholder="Commentaires ou notes sur ce client..."></textarea>
                         </div>
                     </div>
                 </form>
@@ -567,61 +392,51 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 <button type="button" class="btn btn-primary" id="saveQuickClientBtn">
                     <span class="spinner-border spinner-border-sm d-none" id="clientSpinner"></span>
-                    <i class="bi bi-check-lg me-1" id="clientIcon"></i>
-                    Créer le client
+                    <i class="bi bi-check-lg me-1" id="clientIcon"></i>Créer le client
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modale de création rapide de site -->
-<div class="modal fade" id="quickCreateSiteModal" tabindex="-1" aria-labelledby="quickCreateSiteModalLabel"
-    aria-hidden="true">
+<!-- Modale site -->
+<div class="modal fade" id="quickCreateSiteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="quickCreateSiteModalLabel">
-                    <i class="bi bi-building me-2"></i>Créer un nouveau site
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title"><i class="bi bi-building me-2"></i>Créer un nouveau site</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form id="quickCreateSiteForm">
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label fw-bold">Nom du site *</label>
-                            <input type="text" class="form-control" id="site_name" name="name" required
-                                placeholder="Nom du site">
+                            <input type="text" class="form-control" name="name" required placeholder="Nom du site">
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Adresse</label>
-                            <input type="text" class="form-control" id="site_address" name="address"
-                                placeholder="123 Rue de la Paix">
+                            <input type="text" class="form-control" name="address" placeholder="123 Rue de la Paix">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-bold">Code postal</label>
-                            <input type="text" class="form-control" id="site_postal_code" name="postal_code"
-                                placeholder="75001">
+                            <input type="text" class="form-control" name="postal_code" placeholder="75001">
                         </div>
                         <div class="col-md-8">
                             <label class="form-label fw-bold">Ville</label>
-                            <input type="text" class="form-control" id="site_city" name="city" placeholder="Paris">
+                            <input type="text" class="form-control" name="city" placeholder="Paris">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Téléphone</label>
-                            <input type="tel" class="form-control" id="site_phone" name="phone"
-                                placeholder="01 23 45 67 89">
+                            <input type="tel" class="form-control" name="phone" placeholder="01 23 45 67 89">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Email</label>
-                            <input type="email" class="form-control" id="site_email" name="email"
-                                placeholder="contact@site.com">
+                            <input type="email" class="form-control" id="site_email" name="email" placeholder="contact@site.com">
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Commentaire</label>
-                            <textarea class="form-control" id="site_comment" name="comment" rows="2"
-                                placeholder="Commentaires sur ce site..."></textarea>
+                            <textarea class="form-control" name="comment" rows="2" placeholder="Commentaires sur ce site..."></textarea>
                         </div>
                     </div>
                 </form>
@@ -630,37 +445,64 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 <button type="button" class="btn btn-primary" id="saveQuickSiteBtn">
                     <span class="spinner-border spinner-border-sm d-none" id="siteSpinner"></span>
-                    <i class="bi bi-check-lg me-1" id="siteIcon"></i>
-                    Créer le site
+                    <i class="bi bi-check-lg me-1" id="siteIcon"></i>Créer le site
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modale de création rapide de salle -->
-<div class="modal fade" id="quickCreateRoomModal" tabindex="-1" aria-labelledby="quickCreateRoomModalLabel"
-    aria-hidden="true">
+<!-- Modale bâtiment -->
+<div class="modal fade" id="quickCreateBuildingModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="quickCreateRoomModalLabel">
-                    <i class="bi bi-door-open me-2"></i>Créer une nouvelle salle
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title"><i class="bi bi-building me-2"></i>Créer un nouveau bâtiment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="quickCreateBuildingForm">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Nom du bâtiment *</label>
+                            <input type="text" class="form-control" name="name" required placeholder="Nom du bâtiment">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Commentaire</label>
+                            <textarea class="form-control" name="comment" rows="3" placeholder="Commentaires sur ce bâtiment..."></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="saveQuickBuildingBtn">
+                    <span class="spinner-border spinner-border-sm d-none" id="buildingSpinner"></span>
+                    <i class="bi bi-check-lg me-1" id="buildingIcon"></i>Créer le bâtiment
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modale salle -->
+<div class="modal fade" id="quickCreateRoomModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-door-open me-2"></i>Créer une nouvelle salle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form id="quickCreateRoomForm">
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label fw-bold">Nom de la salle *</label>
-                            <input type="text" class="form-control" id="room_name" name="name" required
-                                placeholder="Nom de la salle">
+                            <input type="text" class="form-control" name="name" required placeholder="Nom de la salle">
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Commentaire</label>
-                            <textarea class="form-control" id="room_comment" name="comment" rows="3"
-                                placeholder="Commentaires sur cette salle..."></textarea>
+                            <textarea class="form-control" name="comment" rows="3" placeholder="Commentaires sur cette salle..."></textarea>
                         </div>
                     </div>
                 </form>
@@ -669,62 +511,51 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 <button type="button" class="btn btn-primary" id="saveQuickRoomBtn">
                     <span class="spinner-border spinner-border-sm d-none" id="roomSpinner"></span>
-                    <i class="bi bi-check-lg me-1" id="roomIcon"></i>
-                    Créer la salle
+                    <i class="bi bi-check-lg me-1" id="roomIcon"></i>Créer la salle
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modale de création rapide de contact -->
-<div class="modal fade" id="quickCreateContactModal" tabindex="-1" aria-labelledby="quickCreateContactModalLabel"
-    aria-hidden="true">
+<!-- Modale contact -->
+<div class="modal fade" id="quickCreateContactModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="quickCreateContactModalLabel">
-                    <i class="bi bi-person-plus me-2"></i>Créer un nouveau contact
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title"><i class="bi bi-person-plus me-2"></i>Créer un nouveau contact</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form id="quickCreateContactForm">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Prénom *</label>
-                            <input type="text" class="form-control" id="contact_first_name" name="first_name" required
-                                placeholder="Prénom">
+                            <input type="text" class="form-control" id="contact_first_name" name="first_name" required placeholder="Prénom">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Nom *</label>
-                            <input type="text" class="form-control" id="contact_last_name" name="last_name" required
-                                placeholder="Nom">
+                            <input type="text" class="form-control" id="contact_last_name" name="last_name" required placeholder="Nom">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Email</label>
-                            <input type="email" class="form-control" id="contact_email" name="email"
-                                placeholder="contact@exemple.com">
+                            <input type="email" class="form-control" id="contact_email" name="email" placeholder="contact@exemple.com">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Téléphone 1</label>
-                            <input type="tel" class="form-control" id="contact_phone1" name="phone1"
-                                placeholder="01 23 45 67 89">
+                            <input type="tel" class="form-control" id="contact_phone1" name="phone1" placeholder="01 23 45 67 89">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Téléphone 2</label>
-                            <input type="tel" class="form-control" id="contact_phone2" name="phone2"
-                                placeholder="01 23 45 67 89">
+                            <input type="tel" class="form-control" id="contact_phone2" name="phone2" placeholder="01 23 45 67 89">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Fonction</label>
-                            <input type="text" class="form-control" id="contact_fonction" name="fonction"
-                                placeholder="Directeur, Responsable IT, etc.">
+                            <input type="text" class="form-control" id="contact_fonction" name="fonction" placeholder="Directeur, Responsable IT, etc.">
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Commentaire</label>
-                            <textarea class="form-control" id="contact_comment" name="comment" rows="2"
-                                placeholder="Commentaires sur ce contact..."></textarea>
+                            <textarea class="form-control" id="contact_comment" name="comment" rows="2" placeholder="Commentaires sur ce contact..."></textarea>
                         </div>
                     </div>
                 </form>
@@ -733,662 +564,26 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 <button type="button" class="btn btn-primary" id="saveQuickContactBtn">
                     <span class="spinner-border spinner-border-sm d-none" id="contactSpinner"></span>
-                    <i class="bi bi-check-lg me-1" id="contactIcon"></i>
-                    Créer le contact
+                    <i class="bi bi-check-lg me-1" id="contactIcon"></i>Créer le contact
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Initialiser BASE_URL pour JavaScript
-        initBaseUrl('<?php echo BASE_URL; ?>');
-
-        // Vérifier les permissions pour la création rapide
-        const canModifyClients = <?php echo canModifyClients() ? 'true' : 'false'; ?>;
-
-        const clientSelect = document.getElementById('client_id');
-        const siteSelect = document.getElementById('site_id');
-        const roomSelect = document.getElementById('room_id');
-        const typeSelect = document.getElementById('type_id');
-        const typeRequiresTravelSelect = document.getElementById('type_requires_travel');
-        const contractSelect = document.getElementById('contract_id');
-
-        // Charger automatiquement les sites et salles si un client est présélectionné
-        <?php if ($selectedClientId): ?>
-            if (clientSelect.value) {
-                loadSites(clientSelect.value, 'site_id', null, null, function () {
-                    updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-                });
-            }
-        <?php endif; ?>
-
-        // Utiliser les fonctions centralisées pour charger les sites et salles dynamiquement
-        clientSelect.addEventListener('change', function () {
-            loadSites(this.value, 'site_id', null, null, function () {
-                updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-            });
-        });
-
-        siteSelect.addEventListener('change', function () {
-            loadRooms(this.value, 'room_id', null, function () {
-                updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-            });
-        });
-
-        roomSelect.addEventListener('change', function () {
-            updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-            // Pré-sélectionner le contrat associé à la salle sélectionnée
-            const roomId = this.value;
-            if (roomId) {
-                fetch(`${BASE_URL}interventions/getContractByRoom/${roomId}`)
-                    .then(response => response.json())
-                    .then(contract => {
-                        if (contract && contract.id) {
-                            setTimeout(() => {
-                                const option = contractSelect.querySelector(`option[value="${contract.id}"]`);
-                                if (option) {
-                                    option.selected = true;
-                                }
-                            }, 100);
-                        }
-                    })
-                    .catch(error => console.error('Erreur lors de la récupération du contrat de la salle:', error));
-            }
-        });
-
-        // Gestion des contacts clients
-        const contactClientSelect = document.getElementById('contact_client_select');
-        const contactClientInput = document.getElementById('contact_client');
-
-        // Charger les contacts quand le client change
-        clientSelect.addEventListener('change', function () {
-            loadContacts(this.value);
-        });
-
-        // Quand on sélectionne un contact existant, remplir le champ email
-        contactClientSelect.addEventListener('change', function () {
-            if (this.value) {
-                contactClientInput.value = this.value;
-            }
-        });
-
-        // Fonction pour charger les contacts d'un client
-        let contactsLoading = false;
-        let currentContactsRequest = null;
-
-        function loadContacts(clientId) {
-            if (!clientId) {
-                contactClientSelect.innerHTML = '<option value="">Sélectionner un contact existant</option>';
-                return;
-            }
-
-            // Annuler la requête précédente si elle est en cours
-            if (currentContactsRequest) {
-                contactsLoading = false;
-            }
-
-            // Éviter les requêtes multiples simultanées
-            if (contactsLoading) {
-                return;
-            }
-
-            contactsLoading = true;
-            contactClientSelect.disabled = true;
-            contactClientSelect.innerHTML = '<option value="">Chargement...</option>';
-
-            // Créer un AbortController pour gérer le timeout
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000); // Timeout de 10 secondes
-
-            currentContactsRequest = fetch(`${BASE_URL}interventions/getContacts/${clientId}`, {
-                signal: controller.signal
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(contacts => {
-                    clearTimeout(timeoutId);
-                    contactClientSelect.innerHTML = '<option value="">Sélectionner un contact existant</option>';
-                    if (contacts && Array.isArray(contacts)) {
-                        contacts.forEach(contact => {
-                            const option = document.createElement('option');
-                            option.value = contact.email;
-                            option.textContent = `${contact.first_name} ${contact.last_name} (${contact.email})`;
-                            contactClientSelect.appendChild(option);
-                        });
-                    }
-                })
-                .catch(error => {
-                    clearTimeout(timeoutId);
-                    if (error.name !== 'AbortError') {
-                        console.error('Erreur lors du chargement des contacts:', error);
-                        contactClientSelect.innerHTML = '<option value="">Erreur de chargement</option>';
-                    } else {
-                        contactClientSelect.innerHTML = '<option value="">Timeout - Veuillez réessayer</option>';
-                    }
-                })
-                .finally(() => {
-                    contactsLoading = false;
-                    contactClientSelect.disabled = false;
-                    currentContactsRequest = null;
-                });
-        }
-
-
-        // Validation de l'email
-        const emailError = document.getElementById('email-error');
-
-        contactClientInput.addEventListener('input', function () {
-            validateEmail(this.value);
-        });
-
-        contactClientInput.addEventListener('blur', function () {
-            validateEmail(this.value);
-        });
-
-        function validateEmail(email) {
-            // Réinitialiser les erreurs
-            contactClientInput.classList.remove('is-invalid', 'is-valid');
-            emailError.textContent = '';
-
-            // Si le champ est vide, pas de validation
-            if (!email.trim()) {
-                return true;
-            }
-
-            // Regex pour valider l'email
-            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-            if (!emailRegex.test(email)) {
-                contactClientInput.classList.add('is-invalid');
-                emailError.textContent = 'Format d\'email invalide. Exemple : nom@domaine.com';
-                return false;
-            } else {
-                contactClientInput.classList.add('is-valid');
-                return true;
-            }
-        }
-
-        // Validation du formulaire avant soumission
-        document.getElementById('interventionForm').addEventListener('submit', function (e) {
-            const email = contactClientInput.value.trim();
-            if (email && !validateEmail(email)) {
-                e.preventDefault();
-                contactClientInput.focus();
-                return false;
-            }
-        });
-
-        // Gestion de la création rapide de client
-        const quickCreateClientBtn = document.getElementById('quickCreateClientBtn');
-        const quickCreateClientModal = new bootstrap.Modal(document.getElementById('quickCreateClientModal'));
-        const saveQuickClientBtn = document.getElementById('saveQuickClientBtn');
-        const quickCreateClientForm = document.getElementById('quickCreateClientForm');
-        const clientSpinner = document.getElementById('clientSpinner');
-        const clientIcon = document.getElementById('clientIcon');
-
-        // Gestion de la création rapide de site
-        const quickCreateSiteBtn = document.getElementById('quickCreateSiteBtn');
-        const quickCreateSiteModal = new bootstrap.Modal(document.getElementById('quickCreateSiteModal'));
-        const saveQuickSiteBtn = document.getElementById('saveQuickSiteBtn');
-        const quickCreateSiteForm = document.getElementById('quickCreateSiteForm');
-        const siteSpinner = document.getElementById('siteSpinner');
-        const siteIcon = document.getElementById('siteIcon');
-
-        // Gestion de la création rapide de salle
-        const quickCreateRoomBtn = document.getElementById('quickCreateRoomBtn');
-        const quickCreateRoomModal = new bootstrap.Modal(document.getElementById('quickCreateRoomModal'));
-        const saveQuickRoomBtn = document.getElementById('saveQuickRoomBtn');
-        const quickCreateRoomForm = document.getElementById('quickCreateRoomForm');
-        const roomSpinner = document.getElementById('roomSpinner');
-        const roomIcon = document.getElementById('roomIcon');
-
-        // Gestion de la création rapide de contact
-        const quickCreateContactBtn = document.getElementById('quickCreateContactBtn');
-        const quickCreateContactModal = new bootstrap.Modal(document.getElementById('quickCreateContactModal'));
-        const saveQuickContactBtn = document.getElementById('saveQuickContactBtn');
-        const quickCreateContactForm = document.getElementById('quickCreateContactForm');
-        const contactSpinner = document.getElementById('contactSpinner');
-        const contactIcon = document.getElementById('contactIcon');
-
-        // Ouvrir la modale de création de client
-        quickCreateClientBtn.addEventListener('click', function () {
-            if (!canModifyClients) {
-                alert('Vous n\'avez pas les permissions nécessaires pour créer un client.');
-                return;
-            }
-            quickCreateClientForm.reset();
-            quickCreateClientModal.show();
-        });
-
-        // Créer le client via AJAX
-        saveQuickClientBtn.addEventListener('click', function () {
-            const formData = new FormData(quickCreateClientForm);
-
-            // Validation côté client
-            const clientName = formData.get('name').trim();
-            const clientEmail = formData.get('email').trim();
-            const clientWebsite = formData.get('website').trim();
-
-            if (!clientName) {
-                alert('Le nom du client est obligatoire');
-                return;
-            }
-
-            // Validation optionnelle de l'email
-            if (clientEmail && !validateEmailFormat(clientEmail)) {
-                alert('Format d\'email invalide');
-                return;
-            }
-
-            // Validation optionnelle du website
-            if (clientWebsite && !validateWebsiteFormat(clientWebsite)) {
-                alert('Format d\'URL invalide (ex: https://www.exemple.com)');
-                return;
-            }
-
-            // Afficher le spinner
-            clientSpinner.classList.remove('d-none');
-            clientIcon.classList.add('d-none');
-            saveQuickClientBtn.disabled = true;
-
-            // Envoyer la requête AJAX
-            fetch(`${BASE_URL}interventions/quickCreateClient`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-Token': '<?= csrf_token() ?>'
-                },
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Ajouter le nouveau client au select
-                        const newOption = document.createElement('option');
-                        newOption.value = data.client.id;
-                        newOption.textContent = data.client.name;
-                        newOption.selected = true;
-                        clientSelect.appendChild(newOption);
-
-                        // Fermer la modale
-                        quickCreateClientModal.hide();
-
-                        // Déclencher le changement pour charger les sites
-                        clientSelect.dispatchEvent(new Event('change'));
-
-                        // Afficher un message de succès
-                        showSuccessMessage(data.message);
-                    } else {
-                        alert('Erreur : ' + (data.error || 'Une erreur est survenue'));
-                    }
-                })
-                .catch(error => {
-                    console.error('Erreur:', error);
-                    alert('Une erreur est survenue lors de la création du client');
-                })
-                .finally(() => {
-                    // Masquer le spinner
-                    clientSpinner.classList.add('d-none');
-                    clientIcon.classList.remove('d-none');
-                    saveQuickClientBtn.disabled = false;
-                });
-        });
-
-        // Ouvrir la modale de création de site (avec validation client)
-        quickCreateSiteBtn.addEventListener('click', function () {
-            if (!canModifyClients) {
-                alert('Vous n\'avez pas les permissions nécessaires pour créer un site.');
-                return;
-            }
-
-            const selectedClientId = clientSelect.value;
-
-            if (!selectedClientId) {
-                // Aucun client sélectionné - afficher un message
-                alert('Veuillez d\'abord sélectionner un client avant de créer un site.');
-                clientSelect.focus();
-                return;
-            }
-
-            // Client sélectionné - ouvrir la modale
-            quickCreateSiteForm.reset();
-            quickCreateSiteModal.show();
-        });
-
-        // Créer le site via AJAX
-        saveQuickSiteBtn.addEventListener('click', function () {
-            const formData = new FormData(quickCreateSiteForm);
-            const selectedClientId = clientSelect.value;
-
-            // Ajouter le client_id aux données
-            formData.append('client_id', selectedClientId);
-
-            // Validation côté client
-            const siteName = formData.get('name').trim();
-            const siteEmail = formData.get('email').trim();
-
-            if (!siteName) {
-                alert('Le nom du site est obligatoire');
-                return;
-            }
-
-            if (!selectedClientId) {
-                alert('Aucun client sélectionné');
-                return;
-            }
-
-            // Validation optionnelle de l'email
-            if (siteEmail && !validateEmailFormat(siteEmail)) {
-                alert('Format d\'email invalide');
-                return;
-            }
-
-            // Afficher le spinner
-            siteSpinner.classList.remove('d-none');
-            siteIcon.classList.add('d-none');
-            saveQuickSiteBtn.disabled = true;
-
-            // Envoyer la requête AJAX
-            fetch(`${BASE_URL}interventions/quickCreateSite`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-Token': '<?= csrf_token() ?>'
-                },
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Ajouter le nouveau site au select
-                        const newOption = document.createElement('option');
-                        newOption.value = data.site.id;
-                        newOption.textContent = data.site.name;
-                        newOption.selected = true;
-                        siteSelect.appendChild(newOption);
-
-                        // Fermer la modale
-                        quickCreateSiteModal.hide();
-
-                        // Déclencher le changement pour charger les salles
-                        siteSelect.dispatchEvent(new Event('change'));
-
-                        // Afficher un message de succès
-                        showSuccessMessage(data.message);
-                    } else {
-                        alert('Erreur : ' + (data.error || 'Une erreur est survenue'));
-                    }
-                })
-                .catch(error => {
-                    console.error('Erreur:', error);
-                    alert('Une erreur est survenue lors de la création du site');
-                })
-                .finally(() => {
-                    // Masquer le spinner
-                    siteSpinner.classList.add('d-none');
-                    siteIcon.classList.remove('d-none');
-                    saveQuickSiteBtn.disabled = false;
-                });
-        });
-
-        // Ouvrir la modale de création de salle (avec validation site)
-        quickCreateRoomBtn.addEventListener('click', function () {
-            if (!canModifyClients) {
-                alert('Vous n\'avez pas les permissions nécessaires pour créer une salle.');
-                return;
-            }
-
-            const selectedSiteId = siteSelect.value;
-
-            if (!selectedSiteId) {
-                // Aucun site sélectionné - afficher un message
-                alert('Veuillez d\'abord sélectionner un site avant de créer une salle.');
-                siteSelect.focus();
-                return;
-            }
-
-            // Site sélectionné - ouvrir la modale
-            quickCreateRoomForm.reset();
-            quickCreateRoomModal.show();
-        });
-
-        // Créer la salle via AJAX
-        saveQuickRoomBtn.addEventListener('click', function () {
-            const formData = new FormData(quickCreateRoomForm);
-            const selectedSiteId = siteSelect.value;
-            const selectedClientId = clientSelect.value;
-
-            // Ajouter le site_id et client_id aux données
-            formData.append('site_id', selectedSiteId);
-            formData.append('client_id', selectedClientId);
-
-            // Validation côté client
-            const roomName = formData.get('name').trim();
-
-            if (!roomName) {
-                alert('Le nom de la salle est obligatoire');
-                return;
-            }
-
-            if (!selectedSiteId) {
-                alert('Aucun site sélectionné');
-                return;
-            }
-
-            if (!selectedClientId) {
-                alert('Aucun client sélectionné');
-                return;
-            }
-
-            // Afficher le spinner
-            roomSpinner.classList.remove('d-none');
-            roomIcon.classList.add('d-none');
-            saveQuickRoomBtn.disabled = true;
-
-            // Envoyer la requête AJAX
-            fetch(`${BASE_URL}interventions/quickCreateRoom`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-Token': '<?= csrf_token() ?>'
-                },
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Ajouter la nouvelle salle au select
-                        const newOption = document.createElement('option');
-                        newOption.value = data.room.id;
-                        newOption.textContent = data.room.name;
-                        newOption.selected = true;
-                        roomSelect.appendChild(newOption);
-
-                        // Fermer la modale
-                        quickCreateRoomModal.hide();
-
-                        // Déclencher le changement pour charger les contrats
-                        roomSelect.dispatchEvent(new Event('change'));
-
-                        // Afficher un message de succès
-                        showSuccessMessage(data.message);
-                    } else {
-                        alert('Erreur : ' + (data.error || 'Une erreur est survenue'));
-                    }
-                })
-                .catch(error => {
-                    console.error('Erreur:', error);
-                    alert('Une erreur est survenue lors de la création de la salle');
-                })
-                .finally(() => {
-                    // Masquer le spinner
-                    roomSpinner.classList.add('d-none');
-                    roomIcon.classList.remove('d-none');
-                    saveQuickRoomBtn.disabled = false;
-                });
-        });
-
-        // Ouvrir la modale de création de contact (avec validation client)
-        quickCreateContactBtn.addEventListener('click', function () {
-            if (!canModifyClients) {
-                alert('Vous n\'avez pas les permissions nécessaires pour créer un contact.');
-                return;
-            }
-
-            const selectedClientId = clientSelect.value;
-
-            if (!selectedClientId) {
-                // Aucun client sélectionné - afficher un message
-                alert('Veuillez d\'abord sélectionner un client avant de créer un contact.');
-                clientSelect.focus();
-                return;
-            }
-
-            // Client sélectionné - ouvrir la modale
-            quickCreateContactForm.reset();
-            quickCreateContactModal.show();
-        });
-
-        // Créer le contact via AJAX
-        saveQuickContactBtn.addEventListener('click', function () {
-            const formData = new FormData(quickCreateContactForm);
-            const selectedClientId = clientSelect.value;
-
-            // Ajouter le client_id aux données
-            formData.append('client_id', selectedClientId);
-
-            // Validation côté client
-            const firstName = formData.get('first_name').trim();
-            const lastName = formData.get('last_name').trim();
-            const email = formData.get('email').trim();
-
-            if (!firstName) {
-                alert('Le prénom est obligatoire');
-                return;
-            }
-
-            if (!lastName) {
-                alert('Le nom est obligatoire');
-                return;
-            }
-
-            if (!selectedClientId) {
-                alert('Aucun client sélectionné');
-                return;
-            }
-
-            // Validation optionnelle de l'email
-            if (email && !validateEmailFormat(email)) {
-                alert('Format d\'email invalide');
-                return;
-            }
-
-            // Afficher le spinner
-            contactSpinner.classList.remove('d-none');
-            contactIcon.classList.add('d-none');
-            saveQuickContactBtn.disabled = true;
-
-            // Envoyer la requête AJAX
-            fetch(`${BASE_URL}interventions/quickCreateContact`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-Token': '<?= csrf_token() ?>'
-                },
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Ajouter le nouveau contact au select
-                        const newOption = document.createElement('option');
-                        newOption.value = data.contact.email;
-                        newOption.textContent = `${data.contact.first_name} ${data.contact.last_name} (${data.contact.email})`;
-                        newOption.selected = true;
-                        contactClientSelect.appendChild(newOption);
-
-                        // Fermer la modale
-                        quickCreateContactModal.hide();
-
-                        // Afficher un message de succès
-                        showSuccessMessage(data.message);
-                    } else {
-                        alert('Erreur : ' + (data.error || 'Une erreur est survenue'));
-                    }
-                })
-                .catch(error => {
-                    console.error('Erreur:', error);
-                    alert('Une erreur est survenue lors de la création du contact');
-                })
-                .finally(() => {
-                    // Masquer le spinner
-                    contactSpinner.classList.add('d-none');
-                    contactIcon.classList.remove('d-none');
-                    saveQuickContactBtn.disabled = false;
-                });
-        });
-
-        // Fonction pour valider le format d'email
-        function validateEmailFormat(email) {
-            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            return emailRegex.test(email);
-        }
-
-        // Fonction pour valider le format d'URL
-        function validateWebsiteFormat(website) {
-            try {
-                const url = new URL(website);
-                return url.protocol === 'http:' || url.protocol === 'https:';
-            } catch {
-                return false;
-            }
-        }
-
-        // Fonction pour afficher un message de succès
-        function showSuccessMessage(message) {
-            // Créer une alerte temporaire
-            const alertDiv = document.createElement('div');
-            alertDiv.className = 'alert alert-success alert-dismissible fade show position-fixed';
-            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-            alertDiv.innerHTML = `
-            <i class="bi bi-check-circle me-2"></i>${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-
-            document.body.appendChild(alertDiv);
-
-            // Supprimer automatiquement après 3 secondes
-            setTimeout(() => {
-                if (alertDiv.parentNode) {
-                    alertDiv.remove();
-                }
-            }, 3000);
-        }
-    });
-</script>
-
-<!-- Modal de notification technicien -->
-<div class="modal fade" id="notifyTechnicianModal" tabindex="-1" aria-labelledby="notifyTechnicianModalLabel"
-    aria-hidden="true">
+<!-- Modale notification technicien -->
+<div class="modal fade" id="notifyTechnicianModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="notifyTechnicianModalLabel">
-                    <i class="bi bi-envelope me-2"></i>Notifier le technicien
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title"><i class="bi bi-envelope me-2"></i>Notifier le technicien</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Un technicien a été affecté à cette intervention. Souhaitez-vous lui envoyer un email de notification
-                    ?</p>
+                <p>Un technicien a été affecté à cette intervention. Souhaitez-vous lui envoyer un email de notification ?</p>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="notifyTechnicianCheckbox" checked>
-                    <label class="form-check-label" for="notifyTechnicianCheckbox">
-                        Envoyer un email au technicien
-                    </label>
+                    <label class="form-check-label" for="notifyTechnicianCheckbox">Envoyer un email au technicien</label>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1401,31 +596,56 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const createButton = document.getElementById('createButton');
-        const form = document.getElementById('interventionForm');
-        // const technicianSelect = document.getElementById('technician_id');
+<!-- Modale Flash Intervention -->
+<div class="modal fade" id="flashInterventionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white mb-3">
+                <h5 class="modal-title mb-3"><i class="bi bi-lightning-charge me-2"></i>Flash Intervention</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Création rapide d'une intervention de type <strong>Assistance téléphonique</strong> (30 min)
+                </div>
+                <form id="flashInterventionForm">
+                    <?= csrf_field() ?>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Client *</label>
+                        <select class="form-select" id="flash_client_id" name="client_id" required>
+                            <option value="">Sélectionner un client</option>
+                            <?php foreach ($clients as $client): ?>
+                                <option value="<?= $client['id'] ?>"><?= htmlspecialchars($client['name'] ?? '') ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="invalid-feedback">Veuillez sélectionner un client</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Sujet (optionnel)</label>
+                        <input type="text" class="form-control" id="flash_title" name="title" placeholder="Ex: Problème de connexion">
+                        <small class="text-muted">Laissez vide pour un titre automatique</small>
+                    </div>
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <strong>Note :</strong> L'intervention sera créée comme <strong>incomplète</strong>.<br>
+                        Vous devrez compléter le lieu, le sujet et la description après création.
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-success" id="confirmFlashBtn">
+                    <span class="spinner-border spinner-border-sm d-none" id="flashSpinner"></span>
+                    <i class="bi bi-lightning-charge me-1"></i> Créer l'intervention flash
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
-        // Intercepter le clic sur le bouton Créer
-        createButton.addEventListener('click', function (e) {
-            e.preventDefault();
-            form.submit();
-        });
-
-        // Gérer la confirmation dans la modale
-        document.getElementById('confirmNotifyBtn').addEventListener('click', function () {
-            // Fermer la modale
-            // const modal = bootstrap.Modal.getInstance(document.getElementById('notifyTechnicianModal'));
-            // modal.hide();
-            // Soumettre le formulaire
-            form.submit();
-        });
-    });
-</script>
-
+<!-- ===== STYLES ===== -->
 <style>
-    /* Styles pour la carte des informations de contact */
     .contact-info-card {
         border-width: 2px !important;
         border-style: solid !important;
@@ -1436,7 +656,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         border-bottom: 2px solid !important;
     }
 
-    /* Mode clair */
     [data-bs-theme="light"] .contact-info-card {
         background-color: #f8f9fa !important;
         border-color: #dee2e6 !important;
@@ -1448,7 +667,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         color: #495057 !important;
     }
 
-    /* Mode sombre */
     [data-bs-theme="dark"] .contact-info-card {
         background-color: var(--bs-body-bg) !important;
         border-color: var(--bs-border-color) !important;
@@ -1460,5 +678,790 @@ include_once __DIR__ . '/../../includes/navbar.php';
         color: var(--bs-body-color) !important;
     }
 </style>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+    window.BASE_URL = '<?= BASE_URL ?>';
+    window.csrfToken = '<?= csrf_token() ?>';
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        initBaseUrl('<?php echo BASE_URL; ?>');
+
+        const canModifyClients = <?php echo canModifyClients() ? 'true' : 'false'; ?>;
+
+        // ── Sélecteurs principaux ────────────────────────────────────────────────
+        const clientSelect = document.getElementById('client_id');
+        const siteSelect = document.getElementById('site_id');
+        const buildingSelect = document.getElementById('building_id');
+        const roomSelect = document.getElementById('room_id');
+        const contractSelect = document.getElementById('contract_id');
+
+        // ── Chargement en cascade ────────────────────────────────────────────────
+
+        <?php if ($selectedClientId): ?>
+            if (clientSelect.value) {
+                loadSites(clientSelect.value, 'site_id', null, null, function () {
+                    updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
+                });
+            }
+        <?php endif; ?>
+
+        clientSelect.addEventListener('change', function () {
+            loadSites(this.value, 'site_id', null, null, function () {
+                updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
+                buildingSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
+                roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+            });
+            loadContacts(clientSelect.value);
+        });
+
+        siteSelect.addEventListener('change', function () {
+            loadBuildingsLocal(this.value, 'building_id', null, function () {
+                updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
+                roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+            });
+        });
+
+        buildingSelect.addEventListener('change', function () {
+            loadRoomsByBuildingLocal(this.value, 'room_id', null, function () {
+                updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
+            });
+        });
+
+        roomSelect.addEventListener('change', function () {
+            updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
+            const roomId = this.value;
+            if (roomId) {
+                fetch(`${BASE_URL}interventions/getContractByRoom/${roomId}`)
+                    .then(r => r.json())
+                    .then(contract => {
+                        if (contract && contract.id) {
+                            setTimeout(() => {
+                                const opt = contractSelect.querySelector(`option[value="${contract.id}"]`);
+                                if (opt) opt.selected = true;
+                            }, 100);
+                        }
+                    })
+                    .catch(err => console.error('Erreur contrat salle:', err));
+            }
+        });
+
+        // ── Contacts ─────────────────────────────────────────────────────────────
+
+        const contactClientSelect = document.getElementById('contact_client_select');
+        const contactClientInput = document.getElementById('contact_client');
+
+        contactClientSelect.addEventListener('change', function () {
+            if (this.value) contactClientInput.value = this.value;
+        });
+
+        let contactsLoading = false;
+        let currentContactsRequest = null;
+
+        function loadContacts(clientId) {
+            if (!clientId) {
+                contactClientSelect.innerHTML = '<option value="">Sélectionner un contact existant</option>';
+                return;
+            }
+            if (currentContactsRequest) contactsLoading = false;
+            if (contactsLoading) return;
+            contactsLoading = true;
+            contactClientSelect.disabled = true;
+            contactClientSelect.innerHTML = '<option value="">Chargement...</option>';
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
+            currentContactsRequest = fetch(`${BASE_URL}interventions/getContacts/${clientId}`, {
+                    signal: controller.signal
+                })
+                .then(r => {
+                    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                    return r.json();
+                })
+                .then(contacts => {
+                    clearTimeout(timeoutId);
+                    contactClientSelect.innerHTML = '<option value="">Sélectionner un contact existant</option>';
+                    if (contacts && Array.isArray(contacts)) {
+                        contacts.forEach(c => {
+                            const opt = document.createElement('option');
+                            opt.value = c.email;
+                            opt.textContent = `${c.first_name} ${c.last_name} (${c.email})`;
+                            contactClientSelect.appendChild(opt);
+                        });
+                    }
+                })
+                .catch(err => {
+                    clearTimeout(timeoutId);
+                    contactClientSelect.innerHTML = err.name === 'AbortError' ?
+                        '<option value="">Timeout - Veuillez réessayer</option>' :
+                        '<option value="">Erreur de chargement</option>';
+                })
+                .finally(() => {
+                    contactsLoading = false;
+                    contactClientSelect.disabled = false;
+                    currentContactsRequest = null;
+                });
+        }
+
+        // ── Fonctions de chargement dynamique ────────────────────────────────────
+
+        function loadBuildingsLocal(siteId, targetSelectId, selectedId = null, callback = null) {
+            const targetSelect = document.getElementById(targetSelectId);
+            if (!siteId) {
+                targetSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
+                if (callback) callback();
+                return;
+            }
+            targetSelect.disabled = true;
+            targetSelect.innerHTML = '<option value="">Chargement...</option>';
+            fetch(`${BASE_URL}interventions/getBuildings/${siteId}`)
+                .then(r => r.json())
+                .then(buildings => {
+                    targetSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
+                    if (buildings && Array.isArray(buildings)) {
+                        buildings.forEach(b => {
+                            const opt = document.createElement('option');
+                            opt.value = b.id;
+                            opt.textContent = b.name;
+                            if (selectedId && selectedId == b.id) opt.selected = true;
+                            targetSelect.appendChild(opt);
+                        });
+                    }
+                    targetSelect.disabled = false;
+                    if (callback) callback();
+                })
+                .catch(err => {
+                    console.error('Erreur chargement bâtiments:', err);
+                    targetSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+                    targetSelect.disabled = false;
+                    if (callback) callback();
+                });
+        }
+
+        function loadRoomsByBuildingLocal(buildingId, targetSelectId, selectedId = null, callback = null) {
+            const targetSelect = document.getElementById(targetSelectId);
+            if (!buildingId) {
+                targetSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+                if (callback) callback();
+                return;
+            }
+            targetSelect.disabled = true;
+            targetSelect.innerHTML = '<option value="">Chargement...</option>';
+            fetch(`${BASE_URL}interventions/getRoomsByBuilding/${buildingId}`)
+                .then(r => r.json())
+                .then(rooms => {
+                    targetSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+                    if (rooms && Array.isArray(rooms)) {
+                        rooms.forEach(r => {
+                            const opt = document.createElement('option');
+                            opt.value = r.id;
+                            opt.textContent = r.name;
+                            if (selectedId && selectedId == r.id) opt.selected = true;
+                            targetSelect.appendChild(opt);
+                        });
+                    }
+                    targetSelect.disabled = false;
+                    if (callback) callback();
+                })
+                .catch(err => {
+                    console.error('Erreur chargement salles:', err);
+                    targetSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+                    targetSelect.disabled = false;
+                    if (callback) callback();
+                });
+        }
+
+        // ── Validation email ──────────────────────────────────────────────────────
+
+        const emailError = document.getElementById('email-error');
+        contactClientInput.addEventListener('input', function () {
+            validateEmail(this.value);
+        });
+        contactClientInput.addEventListener('blur', function () {
+            validateEmail(this.value);
+        });
+
+        function validateEmail(email) {
+            contactClientInput.classList.remove('is-invalid', 'is-valid');
+            emailError.textContent = '';
+            if (!email.trim()) return true;
+            const ok = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+            if (!ok) {
+                contactClientInput.classList.add('is-invalid');
+                emailError.textContent = "Format d'email invalide. Exemple : nom@domaine.com";
+            } else {
+                contactClientInput.classList.add('is-valid');
+            }
+            return ok;
+        }
+
+        document.getElementById('interventionForm').addEventListener('submit', function (e) {
+            const email = contactClientInput.value.trim();
+            if (email && !validateEmail(email)) {
+                e.preventDefault();
+                contactClientInput.focus();
+            }
+        });
+
+        // ── Helpers ───────────────────────────────────────────────────────────────
+
+        function validateEmailFormat(email) {
+            return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+        }
+
+        function validateWebsiteFormat(website) {
+            try {
+                const u = new URL(website);
+                return u.protocol === 'http:' || u.protocol === 'https:';
+            } catch {
+                return false;
+            }
+        }
+
+        function showSuccessMessage(message) {
+            const div = document.createElement('div');
+            div.className = 'alert alert-success alert-dismissible fade show position-fixed';
+            div.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            div.innerHTML = `<i class="bi bi-check-circle me-2"></i>${message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
+            document.body.appendChild(div);
+            setTimeout(() => {
+                if (div.parentNode) div.remove();
+            }, 3000);
+        }
+
+        // ── Références modales ────────────────────────────────────────────────────
+
+        const quickCreateClientModal = new bootstrap.Modal(document.getElementById('quickCreateClientModal'));
+        const quickCreateSiteModal = new bootstrap.Modal(document.getElementById('quickCreateSiteModal'));
+        const quickCreateBuildingModal = new bootstrap.Modal(document.getElementById('quickCreateBuildingModal'));
+        const quickCreateRoomModal = new bootstrap.Modal(document.getElementById('quickCreateRoomModal'));
+        const quickCreateContactModal = new bootstrap.Modal(document.getElementById('quickCreateContactModal'));
+
+        // ── CRUD Client ───────────────────────────────────────────────────────────
+
+        document.getElementById('quickCreateClientBtn').addEventListener('click', function () {
+            if (!canModifyClients) {
+                alert("Vous n'avez pas les permissions nécessaires pour créer un client.");
+                return;
+            }
+            document.getElementById('quickCreateClientForm').reset();
+            quickCreateClientModal.show();
+        });
+
+        document.getElementById('saveQuickClientBtn').addEventListener('click', function () {
+            const formData = new FormData(document.getElementById('quickCreateClientForm'));
+            const name = formData.get('name').trim();
+            const email = (document.getElementById('client_email')?.value || '').trim();
+            const website = (document.getElementById('client_website')?.value || '').trim();
+            if (!name) {
+                alert('Le nom du client est obligatoire');
+                return;
+            }
+            if (email && !validateEmailFormat(email)) {
+                alert("Format d'email invalide");
+                return;
+            }
+            if (website && !validateWebsiteFormat(website)) {
+                alert("Format d'URL invalide");
+                return;
+            }
+
+            const spinner = document.getElementById('clientSpinner');
+            const icon = document.getElementById('clientIcon');
+            const btn = this;
+            spinner.classList.remove('d-none');
+            icon.classList.add('d-none');
+            btn.disabled = true;
+
+            fetch(`${BASE_URL}interventions/quickCreateClient`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-Token': window.csrfToken
+                    },
+                    body: formData
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        const opt = document.createElement('option');
+                        opt.value = data.client.id;
+                        opt.textContent = data.client.name;
+                        opt.selected = true;
+                        clientSelect.appendChild(opt);
+                        quickCreateClientModal.hide();
+                        clientSelect.dispatchEvent(new Event('change'));
+                        showSuccessMessage(data.message);
+                    } else {
+                        alert('Erreur : ' + (data.error || 'Une erreur est survenue'));
+                    }
+                })
+                .catch(() => alert('Une erreur est survenue lors de la création du client'))
+                .finally(() => {
+                    spinner.classList.add('d-none');
+                    icon.classList.remove('d-none');
+                    btn.disabled = false;
+                });
+        });
+
+        // ── CRUD Site ─────────────────────────────────────────────────────────────
+
+        document.getElementById('quickCreateSiteBtn').addEventListener('click', function () {
+            if (!canModifyClients) {
+                alert("Vous n'avez pas les permissions nécessaires pour créer un site.");
+                return;
+            }
+            if (!clientSelect.value) {
+                alert("Veuillez d'abord sélectionner un client avant de créer un site.");
+                clientSelect.focus();
+                return;
+            }
+            document.getElementById('quickCreateSiteForm').reset();
+            quickCreateSiteModal.show();
+        });
+
+        document.getElementById('saveQuickSiteBtn').addEventListener('click', function () {
+            const formData = new FormData(document.getElementById('quickCreateSiteForm'));
+            formData.append('client_id', clientSelect.value);
+            const name = formData.get('name').trim();
+            const email = (document.getElementById('site_email')?.value || '').trim();
+            if (!name) {
+                alert('Le nom du site est obligatoire');
+                return;
+            }
+            if (!clientSelect.value) {
+                alert('Aucun client sélectionné');
+                return;
+            }
+            if (email && !validateEmailFormat(email)) {
+                alert("Format d'email invalide");
+                return;
+            }
+
+            const spinner = document.getElementById('siteSpinner');
+            const icon = document.getElementById('siteIcon');
+            const btn = this;
+            spinner.classList.remove('d-none');
+            icon.classList.add('d-none');
+            btn.disabled = true;
+
+            fetch(`${BASE_URL}interventions/quickCreateSite`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-Token': window.csrfToken
+                    },
+                    body: formData
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        const opt = document.createElement('option');
+                        opt.value = data.site.id;
+                        opt.textContent = data.site.name;
+                        opt.selected = true;
+                        siteSelect.appendChild(opt);
+                        quickCreateSiteModal.hide();
+                        siteSelect.dispatchEvent(new Event('change'));
+                        showSuccessMessage(data.message);
+                    } else {
+                        alert('Erreur : ' + (data.error || 'Une erreur est survenue'));
+                    }
+                })
+                .catch(() => alert('Une erreur est survenue lors de la création du site'))
+                .finally(() => {
+                    spinner.classList.add('d-none');
+                    icon.classList.remove('d-none');
+                    btn.disabled = false;
+                });
+        });
+
+        // ── CRUD Bâtiment ─────────────────────────────────────────────────────────
+
+        document.getElementById('quickCreateBuildingBtn').addEventListener('click', function () {
+            if (!canModifyClients) {
+                alert("Vous n'avez pas les permissions nécessaires pour créer un bâtiment.");
+                return;
+            }
+            if (!siteSelect.value) {
+                alert("Veuillez d'abord sélectionner un site avant de créer un bâtiment.");
+                siteSelect.focus();
+                return;
+            }
+            document.getElementById('quickCreateBuildingForm').reset();
+            quickCreateBuildingModal.show();
+        });
+
+        document.getElementById('saveQuickBuildingBtn').addEventListener('click', function () {
+            const formData = new FormData(document.getElementById('quickCreateBuildingForm'));
+            formData.append('site_id', siteSelect.value);
+            formData.append('client_id', clientSelect.value);
+            const name = formData.get('name').trim();
+            if (!name) {
+                alert('Le nom du bâtiment est obligatoire');
+                return;
+            }
+            if (!siteSelect.value) {
+                alert('Aucun site sélectionné');
+                return;
+            }
+            if (!clientSelect.value) {
+                alert('Aucun client sélectionné');
+                return;
+            }
+
+            const spinner = document.getElementById('buildingSpinner');
+            const icon = document.getElementById('buildingIcon');
+            const btn = this;
+            spinner.classList.remove('d-none');
+            icon.classList.add('d-none');
+            btn.disabled = true;
+
+            fetch(`${BASE_URL}interventions/quickCreateBuilding`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-Token': window.csrfToken
+                    },
+                    body: formData
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        const opt = document.createElement('option');
+                        opt.value = data.building.id;
+                        opt.textContent = data.building.name;
+                        opt.selected = true;
+                        buildingSelect.appendChild(opt);
+                        quickCreateBuildingModal.hide();
+                        buildingSelect.dispatchEvent(new Event('change'));
+                        showSuccessMessage(data.message);
+                    } else {
+                        alert('Erreur : ' + (data.error || 'Une erreur est survenue'));
+                    }
+                })
+                .catch(() => alert('Une erreur est survenue lors de la création du bâtiment'))
+                .finally(() => {
+                    spinner.classList.add('d-none');
+                    icon.classList.remove('d-none');
+                    btn.disabled = false;
+                });
+        });
+
+        // ── CRUD Salle ────────────────────────────────────────────────────────────
+
+        document.getElementById('quickCreateRoomBtn').addEventListener('click', function () {
+            if (!canModifyClients) {
+                alert("Vous n'avez pas les permissions nécessaires pour créer une salle.");
+                return;
+            }
+            if (!buildingSelect.value) {
+                alert("Veuillez d'abord sélectionner un bâtiment avant de créer une salle.");
+                buildingSelect.focus();
+                return;
+            }
+            document.getElementById('quickCreateRoomForm').reset();
+            quickCreateRoomModal.show();
+        });
+
+        document.getElementById('saveQuickRoomBtn').addEventListener('click', function () {
+            const formData = new FormData(document.getElementById('quickCreateRoomForm'));
+            formData.append('building_id', buildingSelect.value);
+            formData.append('site_id', siteSelect.value);
+            formData.append('client_id', clientSelect.value);
+            const name = formData.get('name').trim();
+            if (!name) {
+                alert('Le nom de la salle est obligatoire');
+                return;
+            }
+            if (!buildingSelect.value) {
+                alert('Aucun bâtiment sélectionné');
+                return;
+            }
+            if (!siteSelect.value) {
+                alert('Aucun site sélectionné');
+                return;
+            }
+            if (!clientSelect.value) {
+                alert('Aucun client sélectionné');
+                return;
+            }
+
+            const spinner = document.getElementById('roomSpinner');
+            const icon = document.getElementById('roomIcon');
+            const btn = this;
+            spinner.classList.remove('d-none');
+            icon.classList.add('d-none');
+            btn.disabled = true;
+
+            fetch(`${BASE_URL}interventions/quickCreateRoom`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-Token': window.csrfToken
+                    },
+                    body: formData
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        const opt = document.createElement('option');
+                        opt.value = data.room.id;
+                        opt.textContent = data.room.name;
+                        opt.selected = true;
+                        roomSelect.appendChild(opt);
+                        quickCreateRoomModal.hide();
+                        roomSelect.dispatchEvent(new Event('change'));
+                        showSuccessMessage(data.message);
+                    } else {
+                        alert('Erreur : ' + (data.error || 'Une erreur est survenue'));
+                    }
+                })
+                .catch(() => alert('Une erreur est survenue lors de la création de la salle'))
+                .finally(() => {
+                    spinner.classList.add('d-none');
+                    icon.classList.remove('d-none');
+                    btn.disabled = false;
+                });
+        });
+
+        // ── CRUD Contact ──────────────────────────────────────────────────────────
+
+        document.getElementById('quickCreateContactBtn').addEventListener('click', function () {
+            if (!canModifyClients) {
+                alert("Vous n'avez pas les permissions nécessaires pour créer un contact.");
+                return;
+            }
+            if (!clientSelect.value) {
+                alert("Veuillez d'abord sélectionner un client avant de créer un contact.");
+                clientSelect.focus();
+                return;
+            }
+            document.getElementById('quickCreateContactForm').reset();
+            quickCreateContactModal.show();
+        });
+
+        document.getElementById('saveQuickContactBtn').addEventListener('click', function () {
+            const firstName = document.getElementById('contact_first_name').value.trim();
+            const lastName = document.getElementById('contact_last_name').value.trim();
+            const email = document.getElementById('contact_email').value.trim();
+            const phone1 = document.getElementById('contact_phone1').value.trim();
+            const phone2 = document.getElementById('contact_phone2').value.trim();
+            const fonction = document.getElementById('contact_fonction').value.trim();
+            const comment = document.getElementById('contact_comment').value.trim();
+
+            if (!firstName) {
+                alert('Le prénom est obligatoire');
+                return;
+            }
+            if (!lastName) {
+                alert('Le nom est obligatoire');
+                return;
+            }
+            if (!clientSelect.value) {
+                alert('Aucun client sélectionné');
+                return;
+            }
+            if (email && !validateEmailFormat(email)) {
+                alert("Format d'email invalide");
+                return;
+            }
+
+            const spinner = document.getElementById('contactSpinner');
+            const icon = document.getElementById('contactIcon');
+            const btn = this;
+            spinner.classList.remove('d-none');
+            icon.classList.add('d-none');
+            btn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('client_id', clientSelect.value);
+            formData.append('first_name', firstName);
+            formData.append('last_name', lastName);
+            formData.append('email', email);
+            formData.append('phone1', phone1);
+            formData.append('phone2', phone2);
+            formData.append('fonction', fonction);
+            formData.append('comment', comment);
+            formData.append('csrf_token', window.csrfToken);
+
+            fetch(`${BASE_URL}interventions/quickCreateContact`, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        const opt = document.createElement('option');
+                        opt.value = data.contact.email;
+                        opt.textContent = `${data.contact.first_name} ${data.contact.last_name} (${data.contact.email})`;
+                        opt.selected = true;
+                        contactClientSelect.appendChild(opt);
+                        quickCreateContactModal.hide();
+                        showSuccessMessage(data.message);
+                    } else {
+                        alert('Erreur : ' + (data.error || 'Une erreur est survenue'));
+                    }
+                })
+                .catch(err => alert('Une erreur est survenue lors de la création du contact: ' + err.message))
+                .finally(() => {
+                    spinner.classList.add('d-none');
+                    icon.classList.remove('d-none');
+                    btn.disabled = false;
+                });
+        });
+
+        // ── Boutons formulaire principal ──────────────────────────────────────────
+
+        document.getElementById('createButton').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('interventionForm').submit();
+        });
+
+        document.getElementById('confirmNotifyBtn').addEventListener('click', function () {
+            document.getElementById('interventionForm').submit();
+        });
+
+        // ── Flash Intervention ────────────────────────────────────────────────────
+
+        const flashBtn = document.getElementById('confirmFlashBtn');
+        const flashClient = document.getElementById('flash_client_id');
+        const flashSpinner = document.getElementById('flashSpinner');
+
+        if (flashBtn) {
+            flashBtn.addEventListener('click', function () {
+                const clientId = flashClient.value;
+                if (!clientId) {
+                    flashClient.classList.add('is-invalid');
+                    flashClient.focus();
+                    return;
+                }
+                flashClient.classList.remove('is-invalid');
+                flashSpinner.classList.remove('d-none');
+                flashBtn.disabled = true;
+
+                const formData = new URLSearchParams();
+                formData.append('client_id', clientId);
+                formData.append('title', document.getElementById('flash_title').value);
+                formData.append('csrf_token', window.csrfToken);
+
+                fetch(`${window.BASE_URL}interventions/flash`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-Token': window.csrfToken
+                        },
+                        body: formData
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = `${window.BASE_URL}interventions/edit/${data.intervention_id}`;
+                        } else {
+                            alert('Erreur : ' + (data.error || 'Une erreur est survenue'));
+                            flashSpinner.classList.add('d-none');
+                            flashBtn.disabled = false;
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Erreur:', err);
+                        alert('Une erreur est survenue lors de la création flash');
+                        flashSpinner.classList.add('d-none');
+                        flashBtn.disabled = false;
+                    });
+            });
+        }
+
+    }); // fin DOMContentLoaded
+</script>
+
+<!-- Validation JavaScript pour le formulaire d'intervention -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Validation des champs
+        const typeInput = document.getElementById('type_id');
+        const typeError = document.getElementById('typeError');
+        const contractInput = document.getElementById('contract_id');
+        const contractError = document.getElementById('contractError');
+        const statutInput = document.getElementById('status_id');
+        const statutError = document.getElementById('statutError');
+        const prioriInput = document.getElementById('priority_id');
+        const prioriError = document.getElementById('prioriError');
+        const form = document.getElementById('interventionForm');
+
+        function validateType() {
+            if (typeInput.value === '') {
+                typeError.classList.remove('d-none');
+                typeInput.classList.add('is-invalid');
+                return false;
+            } else {
+                typeError.classList.add('d-none');
+                typeInput.classList.remove('is-invalid');
+                return true;
+            }
+        }
+
+        function validateContract() {
+            if (contractInput.value === '') {
+                contractError.classList.remove('d-none');
+                contractInput.classList.add('is-invalid');
+                return false;
+            } else {
+                contractError.classList.add('d-none');
+                contractInput.classList.remove('is-invalid');
+                return true;
+            }
+        }
+
+        function validateStatus() {
+            if (statutInput.value === '') {
+                statutError.classList.remove('d-none');
+                statutInput.classList.add('is-invalid');
+                return false;
+            } else {
+                statutError.classList.add('d-none');
+                statutInput.classList.remove('is-invalid');
+                return true;
+            }
+        }
+
+        function validatePriority() {
+            if (prioriInput.value === '') {
+                prioriError.classList.remove('d-none');
+                prioriInput.classList.add('is-invalid');
+                return false;
+            } else {
+                prioriError.classList.add('d-none');
+                prioriInput.classList.remove('is-invalid');
+                return true;
+            }
+        }
+
+        // Initial validation
+        validateType();
+        validateContract();
+        validateStatus();
+        validatePriority();
+
+        // Event listeners
+        typeInput.addEventListener('change', validateType);
+        contractInput.addEventListener('change', validateContract);
+        statutInput.addEventListener('change', validateStatus);
+        prioriInput.addEventListener('change', validatePriority);
+
+        // Form submission
+        form.addEventListener('submit', function (e) {
+            let isValid = true;
+            if (!validateType()) isValid = false;
+            if (!validateContract()) isValid = false;
+            if (!validateStatus()) isValid = false;
+            if (!validatePriority()) isValid = false;
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
 
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../includes/functions.php';
 /**
  * Vue de la liste de la documentation client
- * Affiche la liste des documents regroupés par site/salle avec filtres
+ * Affiche la liste des documents regroupés par site/bâtiment/salle avec filtres
  */
 
 // Vérifier si l'utilisateur est connecté
@@ -30,14 +30,16 @@ include_once __DIR__ . '/../../includes/navbar.php';
 // Récupérer les données depuis le contrôleur
 $documentation_list = $documentation_list ?? [];
 $sites = $sites ?? [];
+$buildings = $buildings ?? [];
 $salles = $salles ?? [];
 $filters = $filters ?? [];
 
-// Organiser la documentation par client/site/salle
+// Organiser la documentation par client/site/bâtiment/salle
 $documentation_organise = [];
 foreach ($documentation_list as $doc) {
     $client_id = $doc['client_nom'] ?? 'Sans client';
     $site_id = $doc['site_nom'] ?? 'Sans site';
+    $building_id = $doc['building_nom'] ?? 'Sans bâtiment';
     $salle_id = $doc['salle_nom'] ?? 'Sans salle';
     
     if (!isset($documentation_organise[$client_id])) {
@@ -46,11 +48,14 @@ foreach ($documentation_list as $doc) {
     if (!isset($documentation_organise[$client_id][$site_id])) {
         $documentation_organise[$client_id][$site_id] = [];
     }
-    if (!isset($documentation_organise[$client_id][$site_id][$salle_id])) {
-        $documentation_organise[$client_id][$site_id][$salle_id] = [];
+    if (!isset($documentation_organise[$client_id][$site_id][$building_id])) {
+        $documentation_organise[$client_id][$site_id][$building_id] = [];
+    }
+    if (!isset($documentation_organise[$client_id][$site_id][$building_id][$salle_id])) {
+        $documentation_organise[$client_id][$site_id][$building_id][$salle_id] = [];
     }
     
-    $documentation_organise[$client_id][$site_id][$salle_id][] = $doc;
+    $documentation_organise[$client_id][$site_id][$building_id][$salle_id][] = $doc;
 }
 ?>
 
@@ -134,7 +139,7 @@ foreach ($documentation_list as $doc) {
                     <h4 class="fw-bold mb-1">
                         <i class="bi bi-file-text me-2 me-1"></i>Ma Documentation
                     </h4>
-                    <p class="text-muted mb-0">Consultation de la documentation par site et salle</p>
+                    <p class="text-muted mb-0">Consultation de la documentation par site, bâtiment et salle</p>
                 </div>
                 <div class="d-flex gap-2">
                     <?php
@@ -142,6 +147,9 @@ foreach ($documentation_list as $doc) {
                     $addParams = [];
                     if (!empty($filters['site_id'])) {
                         $addParams['site_id'] = $filters['site_id'];
+                    }
+                    if (!empty($filters['building_id'])) {
+                        $addParams['building_id'] = $filters['building_id'];
                     }
                     if (!empty($filters['salle_id'])) {
                         $addParams['salle_id'] = $filters['salle_id'];
@@ -169,9 +177,9 @@ foreach ($documentation_list as $doc) {
         </div>
         <div class="card-body py-2">
             <form method="get" action="" class="row g-3 align-items-end" id="filterForm">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="site_id" class="form-label fw-bold mb-0">Site</label>
-                    <select class="form-select bg-body text-body" id="site_id" name="site_id" onchange="updateRoomsAndSubmit()">
+                    <select class="form-select bg-body text-body" id="site_id" name="site_id" onchange="updateBuildingsAndSubmit()">
                         <option value="">Tous les sites</option>
                         <?php if (isset($sites) && is_array($sites)): ?>
                             <?php foreach ($sites as $site): ?>
@@ -183,7 +191,19 @@ foreach ($documentation_list as $doc) {
                     </select>
                 </div>
                 
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <label for="building_id" class="form-label fw-bold mb-0">Bâtiment</label>
+                    <select class="form-select bg-body text-body" id="building_id" name="building_id" onchange="updateRoomsAndSubmit()">
+                        <option value="">Tous les bâtiments</option>
+                        <?php foreach ($buildings as $building): ?>
+                            <option value="<?= $building['id'] ?>" <?= ($filters['building_id'] ?? '') == $building['id'] ? 'selected' : '' ?>>
+                                <?= h($building['name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                
+                <div class="col-md-3">
                     <label for="salle_id" class="form-label fw-bold mb-0">Salle</label>
                     <select class="form-select bg-body text-body" id="salle_id" name="salle_id" onchange="document.getElementById('filterForm').submit();">
                         <option value="">Toutes les salles</option>
@@ -195,7 +215,7 @@ foreach ($documentation_list as $doc) {
                     </select>
                 </div>
                 
-                <div class="col-md-4 d-flex align-items-end">
+                <div class="col-md-3 d-flex align-items-end">
                     <a href="<?= BASE_URL ?>documentation_client" class="btn btn-outline-secondary">
                         <i class="bi bi-x-lg me-2 me-1"></i>Réinitialiser
                     </a>
@@ -217,6 +237,9 @@ foreach ($documentation_list as $doc) {
                 if (!empty($filters['site_id'])) {
                     $addParams['site_id'] = $filters['site_id'];
                 }
+                if (!empty($filters['building_id'])) {
+                    $addParams['building_id'] = $filters['building_id'];
+                }
                 if (!empty($filters['salle_id'])) {
                     $addParams['salle_id'] = $filters['salle_id'];
                 }
@@ -234,7 +257,7 @@ foreach ($documentation_list as $doc) {
             </div>
         </div>
     <?php else: ?>
-        <?php foreach ($documentation_organise as $client_nom => $sites): ?>
+        <?php foreach ($documentation_organise as $client_nom => $sites_data): ?>
             <div class="card mb-4">
                 <div class="card-header bg-body-secondary">
                     <h5 class="card-title mb-0">
@@ -243,7 +266,7 @@ foreach ($documentation_list as $doc) {
                     </h5>
                 </div>
                 <div class="card-body p-0">
-                    <?php foreach ($sites as $site_nom => $salles): ?>
+                    <?php foreach ($sites_data as $site_nom => $buildings_data): ?>
                         <div class="border-bottom">
                             <div class="p-3 bg-body-secondary bg-opacity-10">
                                 <h6 class="mb-0">
@@ -251,186 +274,206 @@ foreach ($documentation_list as $doc) {
                                     <?= h($site_nom) ?>
                                 </h6>
                             </div>
-                            <?php foreach ($salles as $salle_nom => $documents): ?>
+                            <?php foreach ($buildings_data as $building_nom => $salles_data): ?>
                                 <div class="border-bottom">
-                                    <div class="p-3">
-                                        <h6 class="mb-3">
-                                            <i class="bi bi-door-open me-2 text-info me-1"></i>
-                                            <?= h($salle_nom) ?>
-                                            <span class="badge bg-secondary ms-2"><?= count($documents) ?> document(s)</span>
+                                    <div class="p-3 ps-4">
+                                        <h6 class="mb-2">
+                                            <i class="bi bi-building-fill me-2 text-warning me-1"></i>
+                                            <?= h($building_nom) ?>
+                                            <span class="badge bg-secondary ms-2">
+                                                <?php 
+                                                $totalDocs = 0;
+                                                foreach ($salles_data as $salle_docs) {
+                                                    $totalDocs += count($salle_docs);
+                                                }
+                                                echo $totalDocs;
+                                                ?> document(s)
+                                            </span>
                                         </h6>
+                                        
+                                        <?php foreach ($salles_data as $salle_nom => $documents): ?>
+                                            <div class="ms-4">
+                                                <div class="p-2">
+                                                    <h6 class="mb-3">
+                                                        <i class="bi bi-door-open me-2 text-info me-1"></i>
+                                                        <?= h($salle_nom) ?>
+                                                        <span class="badge bg-secondary ms-2"><?= count($documents) ?> document(s)</span>
+                                                    </h6>
 
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead class="table-light">
-                                                    <tr>
-                                                        <th style="width: 40%;">Document</th>
-                                                        <th style="width: 15%;">Type</th>
-                                                        <th style="width: 10%;">Taille</th>
-                                                        <th style="width: 15%;">Date</th>
-                                                        <th style="width: 10%;">User</th>
-                                                        <th style="width: 10%;">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php foreach ($documents as $doc): ?>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="d-flex align-items-center">
-                                                                    <i class="<?= getFileIcon($doc['type_fichier'] ?? '') ?> text-primary me-2"></i>
-                                                                    <div class="flex-grow-1 min-w-0">
-                                                                        <div class="fw-bold text-primary d-flex align-items-center gap-2">
-                                                                            <span class="editable-name" 
-                                                                                  data-id="<?= $doc['id'] ?>"
-                                                                                  data-current-name="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document sans nom') ?>"
-                                                                                  style="cursor: pointer;"
-                                                                                  title="Double-clic pour modifier">
-                                                                                <?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document sans nom') ?>
-                                                                            </span>
-                                                                            <?php if (hasPermission('client_add_documentation') && isset($doc['created_by']) && $doc['created_by'] == $_SESSION['user']['id']): ?>
-                                                                                <button type="button" 
-                                                                                        class="btn btn-sm btn-link p-0 edit-name-btn" 
-                                                                                        data-id="<?= $doc['id'] ?>"
-                                                                                        data-current-name="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document sans nom') ?>"
-                                                                                        title="Modifier le nom"
-                                                                                        style="font-size: 0.75rem; line-height: 1;">
-                                                                                    <i class="bi bi-pencil"></i>
-                                                                                </button>
-                                                                            <?php endif; ?>
-                                                                        </div>
-                                                                        <?php if (!empty($doc['nom_personnalise']) && $doc['nom_personnalise'] !== $doc['nom_fichier']): ?>
-                                                                            <small class="text-muted">
-                                                                                <i class="bi bi-file-earmark me-1"></i>
-                                                                                <?= h($doc['nom_fichier']) ?>
-                                                                            </small>
-                                                                        <?php endif; ?>
-                                                                        <?php if (!empty($doc['description'])): ?>
-                                                                            <small class="text-muted d-block">
-                                                                                <i class="bi bi-chat-text me-1"></i>
-                                                                                <?= h($doc['description']) ?>
-                                                                            </small>
-                                                                        <?php endif; ?>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <?php if (!empty($doc['type_fichier'])): ?>
-                                                                    <span class="badge bg-info"><?= strtoupper($doc['type_fichier']) ?></span>
-                                                                <?php endif; ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php if (!empty($doc['taille_fichier']) && $doc['taille_fichier'] > 0): ?>
-                                                                    <small class="text-muted"><?= formatFileSize($doc['taille_fichier']) ?></small>
-                                                                <?php endif; ?>
-                                                            </td>
-                                                            <td>
-                                                                <small class="text-muted">
-                                                                    <i class="bi bi-calendar me-1"></i>
-                                                                    <?= formatDateFrench($doc['date_creation'] ?? '') ?>
-                                                                </small>
-                                                            </td>
-                                                            <td>
-                                                                <?php if (!empty($doc['uploader_name'])): ?>
-                                                                    <small class="text-muted">
-                                                                        <i class="bi bi-person me-1"></i>
-                                                                        <?= h($doc['uploader_name']) ?>
-                                                                    </small>
-                                                                <?php endif; ?>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex gap-1">
-                                                                    <!-- Bouton aperçu (pour images et PDF) -->
-                                                                    <?php 
-                                                                    $fileType = strtolower($doc['type_fichier'] ?? '');
-                                                                    $canPreview = in_array($fileType, ['pdf', 'jpg', 'jpeg', 'png', 'gif']);
-                                                                    ?>
-                                                                    <?php if ($canPreview && !empty($doc['chemin_fichier'])): ?>
-                                                                        <button type="button" 
-                                                                                class="btn btn-sm btn-outline-info btn-action" 
-                                                                                title="Aperçu"
-                                                                                data-bs-toggle="modal" 
-                                                                                data-bs-target="#previewModal<?= $doc['id'] ?>">
-                                                                            <i class="bi bi-eye"></i>
-                                                                        </button>
-                                                                    <?php endif; ?>
-                                                                    
-                                                                    <!-- Bouton télécharger -->
-                                                                    <?php if (!empty($doc['chemin_fichier'])): ?>
-                                                                        <a href="<?= BASE_URL ?>documentation_client/download?attachment_id=<?= $doc['id'] ?>" 
-                                                                           class="btn btn-sm btn-outline-success btn-action" 
-                                                                           title="Télécharger">
-                                                                            <i class="bi bi-download"></i>
-                                                                        </a>
-                                                                    <?php endif; ?>
-                                                                    
-                                                                    <!-- Bouton suppression (pour les documents uploadés par l'utilisateur) -->
-                                                                    <?php if (hasPermission('client_add_documentation') && isset($doc['created_by']) && $doc['created_by'] == $_SESSION['user']['id']): ?>
-                                                                        <button type="button" 
-                                                                                class="btn btn-sm btn-outline-danger btn-action" 
-                                                                                title="Supprimer"
-                                                                                onclick="confirmDeleteDocument(<?= $doc['id'] ?>, '<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>')">
-                                                                            <i class="bi bi-trash"></i>
-                                                                        </button>
-                                                                    <?php endif; ?>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        
-                                                        <!-- Modal d'aperçu pour ce document -->
-                                                        <?php if ($canPreview && !empty($doc['chemin_fichier'])): ?>
-                                                            <?php 
-                                                            $extension = strtolower(pathinfo($doc['nom_fichier'], PATHINFO_EXTENSION));
-                                                            ?>
-                                                            <div class="modal fade" id="previewModal<?= $doc['id'] ?>" tabindex="-1" aria-hidden="true">
-                                                                <div class="modal-dialog modal-xl">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title"><?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?></h5>
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <div class="preview-container">
-                                                                                <?php if ($extension === 'pdf'): ?>
-                                                                                    <iframe src="<?= BASE_URL ?>documentation_client/preview?attachment_id=<?= $doc['id'] ?>" 
-                                                                                            width="100%" 
-                                                                                            height="600px" 
-                                                                                            frameborder="0">
-                                                                                    </iframe>
-                                                                                <?php elseif (in_array($extension, ['jpg', 'jpeg', 'png', 'gif'])): ?>
-                                                                                    <img src="<?= BASE_URL ?>documentation_client/preview?attachment_id=<?= $doc['id'] ?>" 
-                                                                                         class="img-fluid" 
-                                                                                         alt="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>"
-                                                                                         onerror="handleImageError(this, <?= $doc['id'] ?>, '<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>')"
-                                                                                         onload="handleImageLoad(this)">
-                                                                                <?php else: ?>
-                                                                                    <div class="alert alert-info">
-                                                                                        <i class="bi bi-info-circle me-1"></i> 
-                                                                                        Ce type de fichier ne peut pas être prévisualisé. 
-                                                                                        <a href="<?= BASE_URL ?>documentation_client/download?attachment_id=<?= $doc['id'] ?>" 
-                                                                                           class="alert-link" 
-                                                                                           target="_blank">
-                                                                                            Télécharger le fichier
-                                                                                        </a>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th style="width: 40%;">Document</th>
+                                                                    <th style="width: 15%;">Type</th>
+                                                                    <th style="width: 10%;">Taille</th>
+                                                                    <th style="width: 15%;">Date</th>
+                                                                    <th style="width: 10%;">User</th>
+                                                                    <th style="width: 10%;">Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php foreach ($documents as $doc): ?>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="d-flex align-items-center">
+                                                                                <i class="<?= getFileIcon($doc['type_fichier'] ?? '') ?> text-primary me-2"></i>
+                                                                                <div class="flex-grow-1 min-w-0">
+                                                                                    <div class="fw-bold text-primary d-flex align-items-center gap-2">
+                                                                                        <span class="editable-name" 
+                                                                                              data-id="<?= $doc['id'] ?>"
+                                                                                              data-current-name="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document sans nom') ?>"
+                                                                                              style="cursor: pointer;"
+                                                                                              title="Double-clic pour modifier">
+                                                                                            <?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document sans nom') ?>
+                                                                                        </span>
+                                                                                        <?php if (hasPermission('client_add_documentation') && isset($doc['created_by']) && $doc['created_by'] == $_SESSION['user']['id']): ?>
+                                                                                            <button type="button" 
+                                                                                                    class="btn btn-sm btn-link p-0 edit-name-btn" 
+                                                                                                    data-id="<?= $doc['id'] ?>"
+                                                                                                    data-current-name="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document sans nom') ?>"
+                                                                                                    title="Modifier le nom"
+                                                                                                    style="font-size: 0.75rem; line-height: 1;">
+                                                                                                <i class="bi bi-pencil"></i>
+                                                                                            </button>
+                                                                                        <?php endif; ?>
                                                                                     </div>
+                                                                                    <?php if (!empty($doc['nom_personnalise']) && $doc['nom_personnalise'] !== $doc['nom_fichier']): ?>
+                                                                                        <small class="text-muted">
+                                                                                            <i class="bi bi-file-earmark me-1"></i>
+                                                                                            <?= h($doc['nom_fichier']) ?>
+                                                                                        </small>
+                                                                                    <?php endif; ?>
+                                                                                    <?php if (!empty($doc['description'])): ?>
+                                                                                        <small class="text-muted d-block">
+                                                                                            <i class="bi bi-chat-text me-1"></i>
+                                                                                            <?= h($doc['description']) ?>
+                                                                                        </small>
+                                                                                    <?php endif; ?>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php if (!empty($doc['type_fichier'])): ?>
+                                                                                <span class="badge bg-info"><?= strtoupper($doc['type_fichier']) ?></span>
+                                                                            <?php endif; ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php if (!empty($doc['taille_fichier']) && $doc['taille_fichier'] > 0): ?>
+                                                                                <small class="text-muted"><?= formatFileSize($doc['taille_fichier']) ?></small>
+                                                                            <?php endif; ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <small class="text-muted">
+                                                                                <i class="bi bi-calendar me-1"></i>
+                                                                                <?= formatDateFrench($doc['date_creation'] ?? '') ?>
+                                                                            </small>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php if (!empty($doc['uploader_name'])): ?>
+                                                                                <small class="text-muted">
+                                                                                    <i class="bi bi-person me-1"></i>
+                                                                                    <?= h($doc['uploader_name']) ?>
+                                                                                </small>
+                                                                            <?php endif; ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="d-flex gap-1">
+                                                                                <!-- Bouton aperçu (pour images et PDF) -->
+                                                                                <?php 
+                                                                                $fileType = strtolower($doc['type_fichier'] ?? '');
+                                                                                $canPreview = in_array($fileType, ['pdf', 'jpg', 'jpeg', 'png', 'gif']);
+                                                                                ?>
+                                                                                <?php if ($canPreview && !empty($doc['chemin_fichier'])): ?>
+                                                                                    <button type="button" 
+                                                                                            class="btn btn-sm btn-outline-info btn-action" 
+                                                                                            title="Aperçu"
+                                                                                            data-bs-toggle="modal" 
+                                                                                            data-bs-target="#previewModal<?= $doc['id'] ?>">
+                                                                                        <i class="bi bi-eye"></i>
+                                                                                    </button>
+                                                                                <?php endif; ?>
+                                                                                
+                                                                                <!-- Bouton télécharger -->
+                                                                                <?php if (!empty($doc['chemin_fichier'])): ?>
+                                                                                    <a href="<?= BASE_URL ?>documentation_client/download?attachment_id=<?= $doc['id'] ?>" 
+                                                                                       class="btn btn-sm btn-outline-success btn-action" 
+                                                                                       title="Télécharger">
+                                                                                        <i class="bi bi-download"></i>
+                                                                                    </a>
+                                                                                <?php endif; ?>
+                                                                                
+                                                                                <!-- Bouton suppression (pour les documents uploadés par l'utilisateur) -->
+                                                                                <?php if (hasPermission('client_add_documentation') && isset($doc['created_by']) && $doc['created_by'] == $_SESSION['user']['id']): ?>
+                                                                                    <button type="button" 
+                                                                                            class="btn btn-sm btn-outline-danger btn-action" 
+                                                                                            title="Supprimer"
+                                                                                            onclick="confirmDeleteDocument(<?= $doc['id'] ?>, '<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>')">
+                                                                                        <i class="bi bi-trash"></i>
+                                                                                    </button>
                                                                                 <?php endif; ?>
                                                                             </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    
+                                                                    <!-- Modal d'aperçu pour ce document -->
+                                                                    <?php if ($canPreview && !empty($doc['chemin_fichier'])): ?>
+                                                                        <?php 
+                                                                        $extension = strtolower(pathinfo($doc['nom_fichier'], PATHINFO_EXTENSION));
+                                                                        ?>
+                                                                        <div class="modal fade" id="previewModal<?= $doc['id'] ?>" tabindex="-1" aria-hidden="true">
+                                                                            <div class="modal-dialog modal-xl">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title"><?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?></h5>
+                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <div class="preview-container">
+                                                                                            <?php if ($extension === 'pdf'): ?>
+                                                                                                <iframe src="<?= BASE_URL ?>documentation_client/preview?attachment_id=<?= $doc['id'] ?>" 
+                                                                                                        width="100%" 
+                                                                                                        height="600px" 
+                                                                                                        frameborder="0">
+                                                                                                </iframe>
+                                                                                            <?php elseif (in_array($extension, ['jpg', 'jpeg', 'png', 'gif'])): ?>
+                                                                                                <img src="<?= BASE_URL ?>documentation_client/preview?attachment_id=<?= $doc['id'] ?>" 
+                                                                                                     class="img-fluid" 
+                                                                                                     alt="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>"
+                                                                                                     onerror="handleImageError(this, <?= $doc['id'] ?>, '<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>')"
+                                                                                                     onload="handleImageLoad(this)">
+                                                                                            <?php else: ?>
+                                                                                                <div class="alert alert-info">
+                                                                                                    <i class="bi bi-info-circle me-1"></i> 
+                                                                                                    Ce type de fichier ne peut pas être prévisualisé. 
+                                                                                                    <a href="<?= BASE_URL ?>documentation_client/download?attachment_id=<?= $doc['id'] ?>" 
+                                                                                                       class="alert-link" 
+                                                                                                       target="_blank">
+                                                                                                        Télécharger le fichier
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                            <?php endif; ?>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <a href="<?= BASE_URL ?>documentation_client/download?attachment_id=<?= $doc['id'] ?>" 
+                                                                                           class="btn btn-primary" 
+                                                                                           target="_blank">
+                                                                                            <i class="bi bi-download me-1"></i> Télécharger
+                                                                                        </a>
+                                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="modal-footer">
-                                                                            <a href="<?= BASE_URL ?>documentation_client/download?attachment_id=<?= $doc['id'] ?>" 
-                                                                               class="btn btn-primary" 
-                                                                               target="_blank">
-                                                                                <i class="bi bi-download me-1"></i> Télécharger
-                                                                            </a>
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        <?php endif; ?>
-                                                    <?php endforeach; ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                                    <?php endif; ?>
+                                                                <?php endforeach; ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -446,13 +489,63 @@ foreach ($documentation_list as $doc) {
 // Variable globale pour l'URL de base
 const baseUrl = '<?= BASE_URL ?>';
 
-// Fonction pour mettre à jour les salles selon le site sélectionné ET soumettre le formulaire
-function updateRoomsAndSubmit() {
+// Fonction pour mettre à jour les bâtiments selon le site sélectionné
+function updateBuildingsAndSubmit() {
     const siteId = document.getElementById('site_id').value;
-    console.log('updateRoomsAndSubmit appelé avec siteId:', siteId);
+    console.log('updateBuildingsAndSubmit appelé avec siteId:', siteId);
     
     if (siteId) {
-        const url = '<?= BASE_URL ?>documentation_client/get_rooms?site_id=' + siteId;
+        const url = '<?= BASE_URL ?>documentation_client/get_buildings?site_id=' + siteId;
+        console.log('URL de la requête:', url);
+        
+        fetch(url)
+            .then(response => {
+                console.log('Réponse reçue:', response);
+                if (!response.ok) {
+                    throw new Error('Erreur HTTP: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Données reçues:', data);
+                const buildingSelect = document.getElementById('building_id');
+                const roomSelect = document.getElementById('salle_id');
+                
+                buildingSelect.innerHTML = '<option value="">Tous les bâtiments</option>';
+                roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
+                
+                if (Array.isArray(data)) {
+                    data.forEach(building => {
+                        const option = document.createElement('option');
+                        option.value = building.id;
+                        option.textContent = building.name;
+                        buildingSelect.appendChild(option);
+                    });
+                }
+                
+                // Soumettre le formulaire après la mise à jour
+                document.getElementById('filterForm').submit();
+            })
+            .catch(error => {
+                console.error('Erreur lors de la mise à jour des bâtiments:', error);
+                alert('Erreur lors de la mise à jour des bâtiments: ' + error.message);
+            });
+    } else {
+        document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
+        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
+        
+        // Soumettre le formulaire même si aucun site n'est sélectionné
+        document.getElementById('filterForm').submit();
+    }
+}
+
+// Fonction pour mettre à jour les salles selon le bâtiment sélectionné
+function updateRoomsAndSubmit() {
+    const buildingId = document.getElementById('building_id').value;
+    console.log('updateRoomsAndSubmit appelé avec buildingId:', buildingId);
+    
+    if (buildingId) {
+        const url = '<?= BASE_URL ?>documentation_client/get_rooms_by_building?building_id=' + buildingId;
         console.log('URL de la requête:', url);
         
         fetch(url)
@@ -487,8 +580,11 @@ function updateRoomsAndSubmit() {
     } else {
         document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
         
-        // Soumettre le formulaire même si aucun site n'est sélectionné
-        document.getElementById('filterForm').submit();
+        // Vérifier si un site est sélectionné pour soumettre
+        const siteId = document.getElementById('site_id').value;
+        if (siteId) {
+            document.getElementById('filterForm').submit();
+        }
     }
 }
 
@@ -506,7 +602,7 @@ function handleImageError(img, attachmentId, fileName) {
             <i class="bi bi-exclamation-triangle me-2"></i>
             <strong>Impossible d'afficher l'aperçu de l'image</strong><br>
             <small class="text-muted">${fileName}</small><br><br>
-            <a href="<?= BASE_URL ?>documentation_client/download?attachment_id=${attachmentId}" 
+            <a href="${baseUrl}documentation_client/download?attachment_id=${attachmentId}" 
                class="btn btn-sm btn-outline-primary" 
                target="_blank">
                 <i class="bi bi-download me-1"></i> Télécharger le fichier
@@ -525,8 +621,7 @@ function handleImageLoad(img) {
 // Fonction pour confirmer la suppression d'un document
 function confirmDeleteDocument(documentId, documentName) {
     if (confirm(`Êtes-vous sûr de vouloir supprimer le document "${documentName}" ?\n\nCette action est irréversible et supprimera définitivement le document et toutes ses données associées.`)) {
-        // Rediriger vers la page de suppression
-        window.location.href = `<?= BASE_URL ?>documentation_client/delete/${documentId}`;
+        window.location.href = `${baseUrl}documentation_client/delete/${documentId}`;
     }
 }
 
@@ -538,12 +633,10 @@ function editDocumentName(element) {
     const parent = span.parentElement;
     const editBtn = parent.querySelector('.edit-name-btn');
     
-    // Si déjà en édition, ne rien faire
     if (parent.querySelector('input.editing-name-input')) {
         return;
     }
     
-    // Créer un input inline
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'form-control form-control-sm editing-name-input';
@@ -551,35 +644,27 @@ function editDocumentName(element) {
     input.style.minWidth = '200px';
     input.style.display = 'inline-block';
     
-    // Cacher le span et le bouton
     span.style.display = 'none';
     if (editBtn) editBtn.style.display = 'none';
     
-    // Ajouter l'input après le span
     parent.insertBefore(input, span.nextSibling);
     
-    // Focus et sélectionner le texte
     input.focus();
     input.select();
     
-    // Sauvegarder au Enter ou Escape
     const saveEdit = () => {
         const newName = input.value.trim();
         if (newName === currentName) {
-            // Pas de changement, restaurer
             input.remove();
             span.style.display = '';
             if (editBtn) editBtn.style.display = '';
             return;
         }
         
-        // Le nom peut être vide (on utilisera nom_fichier dans ce cas)
-        // Désactiver l'input pendant la sauvegarde
         input.disabled = true;
-        
-        // Sauvegarder via AJAX (envoyer null si vide)
         const nomToSend = newName || '';
-        fetch('<?= BASE_URL ?>documentation_client/updateName', {
+        
+        fetch(`${baseUrl}documentation_client/updateName`, {
             method: 'POST',
             headers: {
                 'X-CSRF-Token': '<?= csrf_token() ?>',
@@ -591,18 +676,15 @@ function editDocumentName(element) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Mettre à jour l'affichage avec le nom affiché (nom_personnalise ou nom_fichier)
                 const displayName = data.display_name || newName || currentName;
                 span.setAttribute('data-current-name', displayName);
                 span.textContent = displayName;
                 if (editBtn) {
                     editBtn.setAttribute('data-current-name', displayName);
                 }
-                // Retirer l'input et réafficher
                 input.remove();
                 span.style.display = '';
                 if (editBtn) editBtn.style.display = '';
-                // Recharger la page pour mettre à jour l'affichage complet
                 window.location.reload();
             } else {
                 input.disabled = false;
@@ -640,16 +722,16 @@ function editDocumentName(element) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM chargé, fonctions de filtres disponibles');
     
-    // Vérifier que les éléments existent
     const siteSelect = document.getElementById('site_id');
+    const buildingSelect = document.getElementById('building_id');
     const roomSelect = document.getElementById('salle_id');
     
     console.log('Éléments trouvés:', {
         site: !!siteSelect,
+        building: !!buildingSelect,
         room: !!roomSelect
     });
     
-    // Gérer l'édition des noms de documents
     document.querySelectorAll('.editable-name').forEach(element => {
         element.addEventListener('dblclick', function() {
             editDocumentName(this);
@@ -666,7 +748,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Gérer les erreurs d'iframe pour les PDFs
     const iframes = document.querySelectorAll('iframe[src*="documentation_client/preview"]');
     iframes.forEach(iframe => {
         iframe.addEventListener('error', function() {
@@ -676,7 +757,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="alert alert-warning text-center">
                     <i class="bi bi-exclamation-triangle me-2"></i>
                     <strong>Impossible d'afficher l'aperçu du PDF</strong><br><br>
-                    <a href="<?= BASE_URL ?>documentation_client/download?attachment_id=${attachmentId}" 
+                    <a href="${baseUrl}documentation_client/download?attachment_id=${attachmentId}" 
                        class="btn btn-sm btn-outline-primary" 
                        target="_blank">
                         <i class="bi bi-download me-1"></i> Télécharger le fichier

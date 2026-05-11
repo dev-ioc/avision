@@ -19,16 +19,17 @@ class MaterielClientController
         $this->model = new MaterielClientModel($this->db);
         $this->models = new MaterielModel($this->db);
     }
+
     public function indexExcel()
     {
         require __DIR__ . '/../views/excel.php';
     }
+
     /**
      * create material using excel
      */
     public function save()
     {
-
         $data = json_decode(file_get_contents("php://input"), true);
 
         if (!isset($data['data'])) {
@@ -43,10 +44,10 @@ class MaterielClientController
 
     public function load()
     {
-
         $data = $this->models->getAll();
         echo json_encode($data);
     }
+
     /**
      * Affiche la liste du matériel du client
      */
@@ -61,6 +62,7 @@ class MaterielClientController
         // Récupération des filtres
         $filters = [
             'site_id' => isset($_GET['site_id']) ? (int) $_GET['site_id'] : null,
+            'building_id' => isset($_GET['building_id']) ? (int) $_GET['building_id'] : null,
             'salle_id' => isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null,
             'search' => $_GET['search'] ?? null
         ];
@@ -71,6 +73,7 @@ class MaterielClientController
 
             // Initialiser les variables
             $sites = [];
+            $buildings = [];
             $salles = [];
             $materiel_list = [];
             $visibilites_champs = [];
@@ -79,12 +82,19 @@ class MaterielClientController
             // Récupération des sites selon les localisations autorisées
             $sites = $this->model->getSitesByLocations($userLocations);
 
-
-
-
-
-            // Récupération des salles selon le filtre site
+            // Récupération des bâtiments selon le filtre site
             if ($filters['site_id']) {
+                $buildings = $this->model->getBuildingsBySiteAndLocations($filters['site_id'], $userLocations);
+            } else {
+                // Si pas de site sélectionné, récupérer tous les bâtiments selon les localisations
+                $buildings = $this->model->getBuildingsByLocations($userLocations);
+            }
+
+            // Récupération des salles selon le filtre bâtiment
+            if ($filters['building_id']) {
+                $salles = $this->model->getRoomsByBuildingAndLocations($filters['building_id'], $userLocations);
+            } else if ($filters['site_id']) {
+                // Si un site est sélectionné mais pas de bâtiment, récupérer toutes les salles du site via ses bâtiments
                 $salles = $this->model->getRoomsBySiteAndLocations($filters['site_id'], $userLocations);
             } else {
                 // Si pas de site sélectionné, récupérer toutes les salles selon les localisations
@@ -100,7 +110,6 @@ class MaterielClientController
                 $visibilites_champs = $this->model->getVisibiliteChampsForMateriels($materiel_ids);
 
                 // OPTIMISATION N+1 : Récupération du nombre de pièces jointes pour tous les matériels en une seule requête
-                // Au lieu de faire N requêtes (une par matériel), on fait 1 seule requête avec GROUP BY
                 $pieces_jointes_count = $this->model->getPiecesJointesCountForMultiple($materiel_ids);
 
                 // Initialiser à 0 pour les matériels sans pièces jointes
@@ -115,6 +124,7 @@ class MaterielClientController
             // En cas d'erreur, initialiser les variables avec des tableaux vides
             $clients = [];
             $sites = [];
+            $buildings = [];
             $salles = [];
             $materiel_list = [];
             $visibilites_champs = [];
@@ -127,8 +137,6 @@ class MaterielClientController
         // Définir la page courante pour le menu
         $currentPage = 'materiel_client';
         $pageTitle = 'Mon Matériel';
-
-
 
         // Inclure la vue
         require_once __DIR__ . '/../views/materiel_client/index.php';
@@ -149,7 +157,7 @@ class MaterielClientController
             $userLocations = getUserLocations();
             error_log("DEBUG: userLocations = " . json_encode($userLocations));
 
-            // Récupérer les informations de la salle avec vérification d'accès
+            // Récupérer les informations de la salle avec vérification d'accès (via bâtiment)
             $salle = $this->model->getRoomByIdWithAccess($salleId, $userLocations);
             error_log("DEBUG: salle = " . json_encode($salle));
 
@@ -174,7 +182,7 @@ class MaterielClientController
 
             error_log("DEBUG: Chargement de la vue");
             $currentPage = 'materiel_client';
-            $pageTitle = "Matériel - " . $salle['site_name'] . " - " . $salle['salle_name'];
+            $pageTitle = "Matériel - " . ($salle['site_name'] ?? '') . " - " . ($salle['building_name'] ?? '') . " - " . ($salle['room_name'] ?? $salle['name'] ?? '');
             require_once __DIR__ . '/../views/materiel_client/salle.php';
             error_log("DEBUG: Vue chargée avec succès");
 
@@ -243,7 +251,47 @@ class MaterielClientController
     }
 
     /**
-     * Récupère les salles d'un site selon les localisations autorisées (AJAX)
+     * Récupère les bâtiments d'un site selon les localisations autorisées (AJAX)
+     */
+    public function get_buildings()
+    {
+        $this->checkClientPermission('client_view_materiel', "Vous n'avez pas les permissions pour accéder au matériel.");
+
+        $siteId = $_GET['site_id'] ?? null;
+        if (!$siteId) {
+            echo json_encode(['error' => 'ID du site manquant']);
+            return;
+        }
+
+        $userLocations = getUserLocations();
+        $buildings = $this->model->getBuildingsBySiteAndLocations($siteId, $userLocations);
+
+        header('Content-Type: application/json');
+        echo json_encode($buildings);
+    }
+
+    /**
+     * Récupère les salles d'un bâtiment selon les localisations autorisées (AJAX)
+     */
+    public function get_rooms_by_building()
+    {
+        $this->checkClientPermission('client_view_materiel', "Vous n'avez pas les permissions pour accéder au matériel.");
+
+        $buildingId = $_GET['building_id'] ?? null;
+        if (!$buildingId) {
+            echo json_encode(['error' => 'ID du bâtiment manquant']);
+            return;
+        }
+
+        $userLocations = getUserLocations();
+        $rooms = $this->model->getRoomsByBuildingAndLocations($buildingId, $userLocations);
+
+        header('Content-Type: application/json');
+        echo json_encode($rooms);
+    }
+
+    /**
+     * Récupère les salles d'un site selon les localisations autorisées (AJAX - pour compatibilité)
      */
     public function get_rooms()
     {

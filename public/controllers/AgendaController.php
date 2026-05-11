@@ -9,7 +9,8 @@ require_once __DIR__ . '/../models/UserModel.php';
 /**
  * Contrôleur pour la gestion de l'agenda des interventions
  */
-class AgendaController {
+class AgendaController
+{
     private $db;
     private $interventionModel;
     private $clientModel;
@@ -17,7 +18,8 @@ class AgendaController {
     private $roomModel;
     private $userModel;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
         $this->interventionModel = new InterventionModel($db);
         $this->clientModel = new ClientModel($db);
@@ -29,7 +31,8 @@ class AgendaController {
     /**
      * Récupère tous les statuts disponibles
      */
-    private function getAllStatuses() {
+    private function getAllStatuses()
+    {
         $sql = "SELECT id, name, color, is_critical, created_at FROM intervention_statuses ORDER BY id ASC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
@@ -39,7 +42,8 @@ class AgendaController {
     /**
      * Récupère toutes les priorités disponibles
      */
-    private function getAllPriorities() {
+    private function getAllPriorities()
+    {
         $sql = "SELECT id, name, color, created_at FROM intervention_priorities ORDER BY id ASC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
@@ -49,8 +53,26 @@ class AgendaController {
     /**
      * Récupère tous les types d'intervention
      */
-    private function getAllTypes() {
+    private function getAllTypes()
+    {
         $sql = "SELECT id, name, requires_travel, created_at FROM intervention_types ORDER BY id ASC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Récupère la liste des techniciens ayant des interventions planifiées
+     */
+    private function getTechniciansWithScheduledInterventions()
+    {
+        $sql = "SELECT DISTINCT u.id, u.first_name, u.last_name 
+                FROM users u
+                INNER JOIN intervention_techniciens it ON u.id = it.technicien_id
+                WHERE u.user_type_id = '1'
+                AND it.start_time IS NOT NULL
+                ORDER BY u.last_name, u.first_name";
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -59,76 +81,21 @@ class AgendaController {
     /**
      * Affiche la page principale de l'agenda
      */
-    public function index() {
+    public function index()
+    {
         // Vérifier les permissions
         checkInterventionManagementAccess();
 
-        // Récupérer les filtres
-        $filters = [
-            'client_id' => $_GET['client_id'] ?? null,
-            'site_id' => $_GET['site_id'] ?? null,
-            'room_id' => $_GET['room_id'] ?? null,
-            'status_id' => $_GET['status_id'] ?? null,
-            'priority_id' => $_GET['priority_id'] ?? null,
-            'technician_id' => $_GET['technician_id'] ?? null,
-            'date_from' => $_GET['date_from'] ?? null,
-            'date_to' => $_GET['date_to'] ?? null
-        ];
+        // Récupérer les techniciens pour les filtres
+        $technicians = $this->getTechniciansWithScheduledInterventions();
 
-        // Récupérer les interventions planifiées
-        $interventions = $this->interventionModel->getScheduledInterventions($filters);
-
-        // Récupérer les données pour les filtres
+        // Récupérer les données pour les filtres supplémentaires
         $clients = $this->clientModel->getAllClients();
         $sites = $this->siteModel->getAllSites();
         $rooms = $this->roomModel->getAllRooms();
-        $technicians = $this->userModel->getTechnicians();
         $statuses = $this->getAllStatuses();
         $priorities = $this->getAllPriorities();
         $types = $this->getAllTypes();
-
-        // Préparer les données pour le calendrier
-        $calendarEvents = [];
-        foreach ($interventions as $intervention) {
-            $startDate = $intervention['date_planif'];
-            $startTime = $intervention['heure_planif'] ?? '09:00:00';
-            $startDateTime = $startDate . ' ' . $startTime;
-            
-            // Calculer la fin basée sur la durée
-            $duration = $intervention['duration'] ?? 1;
-            $endDateTime = date('Y-m-d H:i:s', strtotime($startDateTime . ' + ' . ($duration * 60) . ' minutes'));
-            
-            // Créer le titre avec client et numéro d'intervention
-            $clientName = $intervention['client_name'] ?? 'Client inconnu';
-            $interventionNumber = $intervention['reference'] ?? '#' . $intervention['id'];
-            $displayTitle = $clientName . "\n" . $interventionNumber;
-            
-            $calendarEvents[] = [
-                'id' => $intervention['id'],
-                'title' => $displayTitle,
-                'start' => $startDateTime,
-                'end' => $endDateTime,
-                'allDay' => false,
-                'url' => BASE_URL . 'interventions/view/' . $intervention['id'],
-                'extendedProps' => [
-                    'reference' => $intervention['reference'],
-                    'client' => $intervention['client_name'],
-                    'site' => $intervention['site_name'],
-                    'room' => $intervention['room_name'],
-                    'technician' => $intervention['technician_name'],
-                    'technician_id' => $intervention['technician_id'],
-                    'status' => $intervention['status_name'],
-                    'priority' => $intervention['priority_name'],
-                    'type' => $intervention['type_name'],
-                    'status_color' => $intervention['status_color'],
-                    'priority_color' => $intervention['priority_color'],
-                    'original_title' => $intervention['title'],
-                    'planned_date' => $intervention['date_planif'] ? date('d/m/Y', strtotime($intervention['date_planif'])) : null,
-                    'planned_time' => $intervention['heure_planif'],
-                    'duration' => $intervention['duration']
-                ]
-            ];
-        }
 
         // Rendre les variables disponibles dans la vue
         extract([
@@ -138,105 +105,172 @@ class AgendaController {
             'technicians' => $technicians,
             'statuses' => $statuses,
             'priorities' => $priorities,
-            'types' => $types,
-            'calendarEvents' => $calendarEvents
+            'types' => $types
         ]);
-        
+
         // Inclure la vue
         require_once __DIR__ . '/../views/agenda/index.php';
     }
 
+    public function getEvents()
+    {
+        try {
+            // Vérifier les permissions
+            checkInterventionManagementAccess();
+
+            // Récupérer la plage de dates
+            $start = $_GET['start'] ?? null;
+            $end = $_GET['end'] ?? null;
+
+            // Log pour debug
+            error_log("AgendaController::getEvents - start: $start, end: $end");
+
+            // ... reste du code
+
+        } catch (Exception $e) {
+            error_log("Erreur dans AgendaController::getEvents: " . $e->getMessage());
+            header('Content-Type: application/json');
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+
     /**
-     * API pour récupérer les événements du calendrier
+     * Récupère les interventions planifiées depuis la table intervention_techniciens
      */
-    public function getEvents() {
-        // Vérifier les permissions
-        checkInterventionManagementAccess();
+    private function getScheduledInterventionsFromTechnicians($start = null, $end = null, $technicianFilter = [])
+    {
+        $sql = "SELECT DISTINCT 
+                i.id,
+                i.reference,
+                i.title,
+                i.description,
+                i.client_id,
+                i.site_id,
+                i.room_id,
+                i.status_id,
+                i.priority_id,
+                i.type_id,
+                i.created_at,
+                c.name as client_name,
+                s.name as site_name,
+                r.name as room_name,
+                its.name as status_name,
+                its.color as status_color,
+                ip.name as priority_name,
+                ip.color as priority_color,
+                it.name as type_name,
+                ite.start_time,
+                ite.end_time,
+                ite.temps_passe as duration,
+                ite.deplacement,
+                ite.commentaire as technician_comment,
+                u.id as technician_id,
+                CONCAT(u.first_name, ' ', u.last_name) as technician_name
+                FROM interventions i
+                LEFT JOIN clients c ON i.client_id = c.id
+                LEFT JOIN sites s ON i.site_id = s.id
+                LEFT JOIN rooms r ON i.room_id = r.id
+                LEFT JOIN intervention_statuses its ON i.status_id = its.id
+                LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+                LEFT JOIN intervention_types it ON i.type_id = it.id
+                INNER JOIN intervention_techniciens ite ON i.id = ite.intervention_id
+                LEFT JOIN users u ON ite.technicien_id = u.id
+                WHERE ite.start_time IS NOT NULL";
 
-        // Récupérer les filtres
-        $filters = [
-            'client_id' => $_GET['client_id'] ?? null,
-            'site_id' => $_GET['site_id'] ?? null,
-            'room_id' => $_GET['room_id'] ?? null,
-            'status_id' => $_GET['status_id'] ?? null,
-            'priority_id' => $_GET['priority_id'] ?? null,
-            'technician_id' => $_GET['technician_id'] ?? null,
-            'date_from' => $_GET['start'] ?? null,
-            'date_to' => $_GET['end'] ?? null
-        ];
+        $params = [];
 
-        // Traiter les filtres par technicien
-        if (isset($_GET['filters'])) {
-            $activeFilters = json_decode($_GET['filters'], true);
-            if ($activeFilters) {
-                $technicianIds = [];
-                $showUnassigned = false;
-                
-                foreach ($activeFilters as $filter) {
-                    if (strpos($filter, 'technician_') === 0) {
-                        $technicianId = str_replace('technician_', '', $filter);
-                        $technicianIds[] = $technicianId;
-                    } elseif ($filter === 'sans_affectation') {
-                        $showUnassigned = true;
-                    }
-                }
-                
-                if (!empty($technicianIds) || $showUnassigned) {
-                    $filters['technician_filter'] = [
-                        'technician_ids' => $technicianIds,
-                        'show_unassigned' => $showUnassigned
-                    ];
-                }
+        // Filtrer par plage de dates
+        if ($start) {
+            $sql .= " AND ite.start_time >= ?";
+            $params[] = $start;
+        }
+        if ($end) {
+            $sql .= " AND ite.start_time <= ?";
+            $params[] = $end;
+        }
+
+        // Filtrer par techniciens
+        if (!empty($technicianFilter)) {
+            $conditions = [];
+
+            if (!empty($technicianFilter['technician_ids'])) {
+                $placeholders = str_repeat('?,', count($technicianFilter['technician_ids']) - 1) . '?';
+                $conditions[] = "u.id IN ($placeholders)";
+                $params = array_merge($params, $technicianFilter['technician_ids']);
+            }
+
+            if (!empty($technicianFilter['show_unassigned'])) {
+                $conditions[] = "u.id IS NULL";
+            }
+
+            if (!empty($conditions)) {
+                $sql .= " AND (" . implode(" OR ", $conditions) . ")";
             }
         }
 
-        // Récupérer les interventions planifiées
-        $interventions = $this->interventionModel->getScheduledInterventions($filters);
+        $sql .= " ORDER BY ite.start_time ASC";
 
-        // Préparer les données pour le calendrier
-        $calendarEvents = [];
-        foreach ($interventions as $intervention) {
-            $startDate = $intervention['date_planif'];
-            $startTime = $intervention['heure_planif'] ?? '09:00:00';
-            $startDateTime = $startDate . ' ' . $startTime;
-            
-            // Calculer la fin basée sur la durée
-            $duration = $intervention['duration'] ?? 1;
-            $endDateTime = date('Y-m-d H:i:s', strtotime($startDateTime . ' + ' . ($duration * 60) . ' minutes'));
-            
-            // Créer le titre avec client et numéro d'intervention
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Formater pour FullCalendar
+        $events = [];
+        foreach ($results as $intervention) {
+            $startDateTime = $intervention['start_time'];
+            $endDateTime = $intervention['end_time'];
+
+            // Si pas de date de fin, calculer basée sur la durée
+            if (!$endDateTime && $intervention['duration']) {
+                $endDateTime = date('Y-m-d H:i:s', strtotime($startDateTime . ' + ' . $intervention['duration'] . ' minutes'));
+            }
+
+            // Créer le titre
             $clientName = $intervention['client_name'] ?? 'Client inconnu';
             $interventionNumber = $intervention['reference'] ?? '#' . $intervention['id'];
-            $displayTitle = $clientName . "\n" . $interventionNumber;
-            
-            $calendarEvents[] = [
+            $displayTitle = $clientName . ' - ' . $interventionNumber;
+            if ($intervention['technician_name']) {
+                $displayTitle .= ' (' . $intervention['technician_name'] . ')';
+            }
+
+            // Déterminer la couleur selon le statut
+            $color = $intervention['status_color'] ?? '#6c757d';
+
+            $events[] = [
                 'id' => $intervention['id'],
                 'title' => $displayTitle,
                 'start' => $startDateTime,
                 'end' => $endDateTime,
                 'allDay' => false,
-                'url' => BASE_URL . 'interventions/view/' . $intervention['id'],
+                'color' => $color,
+                'textColor' => '#ffffff',
                 'extendedProps' => [
                     'reference' => $intervention['reference'],
+                    'reference_number' => $interventionNumber,
                     'client' => $intervention['client_name'],
+                    'client_id' => $intervention['client_id'],
                     'site' => $intervention['site_name'],
+                    'site_id' => $intervention['site_id'],
                     'room' => $intervention['room_name'],
+                    'room_id' => $intervention['room_id'],
                     'technician' => $intervention['technician_name'],
+                    'technician_id' => $intervention['technician_id'],
                     'status' => $intervention['status_name'],
-                    'priority' => $intervention['priority_name'],
-                    'type' => $intervention['type_name'],
                     'status_color' => $intervention['status_color'],
+                    'priority' => $intervention['priority_name'],
                     'priority_color' => $intervention['priority_color'],
+                    'type' => $intervention['type_name'],
                     'original_title' => $intervention['title'],
-                    'planned_date' => $intervention['date_planif'] ? date('d/m/Y', strtotime($intervention['date_planif'])) : null,
-                    'planned_time' => $intervention['heure_planif'],
-                    'duration' => $intervention['duration']
+                    'description' => $intervention['description'],
+                    'start_time' => $startDateTime,
+                    'end_time' => $endDateTime,
+                    'duration' => $intervention['duration'],
+                    'deplacement' => $intervention['deplacement'],
+                    'technician_comment' => $intervention['technician_comment']
                 ]
             ];
         }
 
-        // Retourner les événements en JSON
-        header('Content-Type: application/json');
-        echo json_encode($calendarEvents);
+        return $events;
     }
-} 
+}

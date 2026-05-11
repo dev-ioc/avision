@@ -5,24 +5,29 @@ require_once __DIR__ . '/../models/ContractModel.php';
 require_once __DIR__ . '/../models/RoomModel.php';
 require_once __DIR__ . '/../models/ContactModel.php';
 require_once __DIR__ . '/../models/InterventionModel.php';
+require_once __DIR__ . '/../models/BuildingModel.php';
 
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 
-class ClientController {
+class ClientController
+{
     use AccessControlTrait;
     private $db;
     private $clientModel;
     private $siteModel;
+    private $buildingModel;
     private $contractModel;
     private $roomModel;
     private $contactModel;
     private $interventionModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         global $db;
         $this->db = $db;
         $this->clientModel = new ClientModel($this->db);
         $this->siteModel = new SiteModel($this->db);
+        $this->buildingModel = new BuildingModel($this->db);
         $this->contractModel = new ContractModel($this->db);
         $this->roomModel = new RoomModel($this->db);
         $this->contactModel = new ContactModel($this->db);
@@ -36,7 +41,8 @@ class ClientController {
     /**
      * Affiche la liste des clients avec leurs statistiques
      */
-    public function index() {
+    public function index()
+    {
         $this->checkAccess();
 
         try {
@@ -59,7 +65,8 @@ class ClientController {
         }
     }
 
-    public function view($id) {
+    public function view($id)
+    {
         $this->checkAccess();
 
         // Vérifier si l'ID est valide
@@ -71,7 +78,7 @@ class ClientController {
 
         // Récupérer les informations du client
         $client = $this->clientModel->getClientById($id);
-        
+
         if (!$client) {
             $_SESSION['error'] = "Client non trouvé";
             header('Location: ' . BASE_URL . 'clients');
@@ -81,16 +88,42 @@ class ClientController {
         // Récupérer les statistiques du client
         $stats = [
             'site_count' => $this->siteModel->getSiteCountByClientId($id),
-            'room_count' => $this->siteModel->getRoomCountByClientId($id),
+            'building_count' => count($this->buildingModel->getBuildingsByClientId($id)),
+            'room_count' => $this->roomModel->getRoomCountByClientId($id),
             'contract_count' => $this->contractModel->getContractCountByClientId($id)
         ];
 
-        // Récupérer les sites du client
+        // Récupérer les sites du client avec leurs bâtiments et salles
         $sites = $this->siteModel->getSitesByClientId($id);
+        $totalRoomsCount = 0;
 
-        // Pour chaque site, récupérer ses salles
         foreach ($sites as $key => $site) {
-            $sites[$key]['rooms'] = $this->roomModel->getRoomsBySiteId($site['id'], true); // true = salles actives uniquement
+            // Récupérer les bâtiments du site
+            $buildings = $this->buildingModel->getBuildingsBySiteId($site['id']);
+
+            $siteRoomsCount = 0;
+
+            foreach ($buildings as $buildingKey => $building) {
+                // Récupérer les salles de chaque bâtiment
+                $rooms = $this->roomModel->getRoomsByBuildingId($building['id']);
+                $buildings[$buildingKey]['rooms'] = $rooms;
+                $siteRoomsCount += count($rooms);
+            }
+
+            $sites[$key]['buildings'] = $buildings;
+            $sites[$key]['rooms_count'] = $siteRoomsCount;
+            $totalRoomsCount += $siteRoomsCount;
+
+            // Pour les salles directement liées au site (ancienne méthode, pour compatibilité)
+            // Note: Les salles ne devraient pas être directement liées aux sites dans la nouvelle hiérarchie
+            $sites[$key]['rooms'] = []; // Laisser vide car les salles sont maintenant sous les bâtiments
+        }
+
+        // Récupérer tous les bâtiments du client (pour l'affichage global si besoin)
+        $allBuildings = $this->buildingModel->getBuildingsByClientId($id);
+
+        foreach ($allBuildings as $key => $building) {
+            $allBuildings[$key]['rooms'] = $this->roomModel->getRoomsByBuildingId($building['id']);
         }
 
         // Récupérer les contrats du client (actifs et inactifs)
@@ -102,14 +135,17 @@ class ClientController {
         // Récupérer les interventions groupées par contrat et par type
         $interventionsGrouped = $this->interventionModel->getInterventionsByClientGrouped($id);
 
+        // Mettre à jour les statistiques avec le vrai compteur de salles
+        $stats['room_count'] = $totalRoomsCount;
+
         // Charger la vue avec les données structurées
         require_once VIEWS_PATH . '/client/view.php';
     }
-
     /**
      * Affiche le formulaire d'édition d'un client
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $this->checkAccess();
 
         // Vérifier si l'utilisateur a les droits de modification
@@ -128,7 +164,7 @@ class ClientController {
 
         // Récupérer les informations du client
         $client = $this->clientModel->getClientById($id);
-        
+
         if (!$client) {
             $_SESSION['error'] = "Client non trouvé";
             header('Location: ' . BASE_URL . 'clients');
@@ -140,7 +176,7 @@ class ClientController {
 
         // Pour chaque site, récupérer ses salles
         foreach ($sites as $key => $site) {
-            $sites[$key]['rooms'] = $this->roomModel->getRoomsBySiteId($site['id'], true);
+            $sites[$key]['rooms'] = $this->roomModel->getRoomsByBuildingId($site['id'], true);
         }
 
         // Récupérer les contrats du client (actifs et inactifs)
@@ -159,7 +195,8 @@ class ClientController {
     /**
      * Met à jour les informations d'un client
      */
-    public function update($id) {
+    public function update($id)
+    {
         $this->checkAccess();
 
         // Vérifier si l'utilisateur a les droits de modification
@@ -193,10 +230,10 @@ class ClientController {
             'website' => $_POST['website'] ?? '',
             'comment' => $_POST['comment'] ?? ''
         ];
-        
+
         // Seul un administrateur peut modifier le statut
         if (isAdmin()) {
-            $clientData['status'] = isset($_POST['status']) ? (int)$_POST['status'] : 0;
+            $clientData['status'] = isset($_POST['status']) ? (int) $_POST['status'] : 0;
         }
 
         // Valider les données
@@ -209,7 +246,7 @@ class ClientController {
         try {
             // Mettre à jour le client
             $this->clientModel->updateClient($id, $clientData);
-            
+
             $_SESSION['success'] = "Le client a été mis à jour avec succès";
             header('Location: ' . BASE_URL . 'clients/view/' . $id);
             exit;
@@ -224,7 +261,8 @@ class ClientController {
     /**
      * Affiche le formulaire d'ajout d'un client
      */
-    public function add() {
+    public function add()
+    {
         $this->checkAccess();
 
         // Vérifier si l'utilisateur a les droits d'ajout
@@ -241,7 +279,15 @@ class ClientController {
     /**
      * Traite l'ajout d'un nouveau client
      */
-    public function store() {
+    public function store()
+    {
+        // Vérifier le token CSRF
+        if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            $_SESSION['error'] = "Token CSRF invalide. Veuillez réessayer.";
+            header('Location: ' . BASE_URL . 'clients/add');
+            exit;
+        }
+
         $this->checkAccess();
 
         // Vérifier si l'utilisateur a les droits d'ajout
@@ -268,10 +314,10 @@ class ClientController {
             'website' => $_POST['website'] ?? '',
             'comment' => $_POST['comment'] ?? ''
         ];
-        
+
         // Seul un administrateur peut définir le statut
         if (isAdmin()) {
-            $clientData['status'] = isset($_POST['status']) ? (int)$_POST['status'] : 1;
+            $clientData['status'] = isset($_POST['status']) ? (int) $_POST['status'] : 1;
         } else {
             $clientData['status'] = 1; // Par défaut actif pour les non-admins
         }
@@ -287,10 +333,10 @@ class ClientController {
         try {
             // Ajouter le client
             $clientId = $this->clientModel->createClient($clientData);
-            
+
             // Créer automatiquement les contrats "hors contrat" avec des types appropriés
             $this->createDefaultContracts($clientId);
-            
+
             $_SESSION['success'] = "Le client a été ajouté avec succès";
             header('Location: ' . BASE_URL . 'clients/view/' . $clientId);
             exit;
@@ -302,17 +348,17 @@ class ClientController {
             exit;
         }
     }
-
     /**
      * Crée automatiquement les contrats "hors contrat" pour un nouveau client
      * 
      * @param int $clientId ID du client
      */
-    private function createDefaultContracts($clientId) {
+    private function createDefaultContracts($clientId)
+    {
         try {
             // Récupérer le niveau d'accès par défaut
             $defaultAccessLevelId = $this->getDefaultAccessLevel();
-            
+
             // Créer le contrat "Hors contrat facturable" SANS type de contrat
             $this->contractModel->createContract([
                 'client_id' => $clientId,
@@ -329,7 +375,7 @@ class ClientController {
                 'reminder_enabled' => 0,
                 'reminder_days' => 30
             ]);
-            
+
             // Créer le contrat "Hors contrat non facturable" SANS type de contrat
             $this->contractModel->createContract([
                 'client_id' => $clientId,
@@ -346,9 +392,9 @@ class ClientController {
                 'reminder_enabled' => 0,
                 'reminder_days' => 30
             ]);
-            
+
             custom_log("Contrats par défaut créés pour le client ID: $clientId", 'INFO');
-            
+
         } catch (Exception $e) {
             custom_log("Erreur lors de la création des contrats par défaut pour le client $clientId : " . $e->getMessage(), 'ERROR');
             // Ne pas faire échouer la création du client si les contrats échouent
@@ -362,22 +408,23 @@ class ClientController {
      * @param string $description Description du type de contrat
      * @return int ID du type de contrat
      */
-    private function getOrCreateContractType($name, $description) {
+    private function getOrCreateContractType($name, $description)
+    {
         try {
             // Vérifier si le type existe déjà
             $query = "SELECT id FROM contract_types WHERE name = :name LIMIT 1";
             $stmt = $this->db->prepare($query);
             $stmt->execute([':name' => $name]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if ($result) {
                 return $result['id'];
             }
-            
+
             // Créer le type s'il n'existe pas
             $type = $this->createContractType($name, $description, 0, 0);
             return $type['id'];
-            
+
         } catch (Exception $e) {
             custom_log("Erreur lors de la récupération/création du type de contrat '$name' : " . $e->getMessage(), 'ERROR');
             throw $e;
@@ -393,7 +440,8 @@ class ClientController {
      * @param int $nbInterPrev Nombre d'interventions préventives
      * @return array Le type de contrat créé
      */
-    private function createContractType($name, $description, $defaultTickets = 0, $nbInterPrev = 0) {
+    private function createContractType($name, $description, $defaultTickets = 0, $nbInterPrev = 0)
+    {
         try {
             $query = "INSERT INTO contract_types (
                         name, 
@@ -418,10 +466,10 @@ class ClientController {
             $stmt->bindParam(':description', $description, PDO::PARAM_STR);
             $stmt->bindParam(':default_tickets', $defaultTickets, PDO::PARAM_INT);
             $stmt->bindParam(':nb_inter_prev', $nbInterPrev, PDO::PARAM_INT);
-            
+
             $stmt->execute();
             $typeId = $this->db->lastInsertId();
-            
+
             return [
                 'id' => $typeId,
                 'name' => $name,
@@ -429,7 +477,7 @@ class ClientController {
                 'default_tickets' => $defaultTickets,
                 'nb_inter_prev' => $nbInterPrev
             ];
-            
+
         } catch (Exception $e) {
             custom_log("Erreur lors de la création du type de contrat '$name' : " . $e->getMessage(), 'ERROR');
             throw $e;
@@ -441,25 +489,26 @@ class ClientController {
      * 
      * @return int ID du niveau d'accès par défaut
      */
-    private function getDefaultAccessLevel() {
+    private function getDefaultAccessLevel()
+    {
         try {
             $query = "SELECT id FROM contract_access_levels WHERE name = 'gratuit' LIMIT 1";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if ($result) {
                 return $result['id'];
             }
-            
+
             // Si le niveau gratuit n'existe pas, créer les niveaux d'accès par défaut
             $this->createDefaultAccessLevels();
-            
+
             // Récupérer à nouveau l'ID du niveau gratuit
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return $result['id'];
-            
+
         } catch (Exception $e) {
             custom_log("Erreur lors de la récupération du niveau d'accès par défaut : " . $e->getMessage(), 'ERROR');
             return 1; // Valeur par défaut
@@ -469,7 +518,8 @@ class ClientController {
     /**
      * Crée les niveaux d'accès par défaut s'ils n'existent pas
      */
-    private function createDefaultAccessLevels() {
+    private function createDefaultAccessLevels()
+    {
         try {
             // Créer les niveaux d'accès de base
             $levels = [
@@ -477,7 +527,7 @@ class ClientController {
                 ['name' => 'gold', 'description' => 'Niveau d\'accès Gold - visibilité intermédiaire des champs matériel'],
                 ['name' => 'premium', 'description' => 'Niveau d\'accès Premium - visibilité complète des champs matériel']
             ];
-            
+
             foreach ($levels as $index => $level) {
                 $query = "INSERT IGNORE INTO contract_access_levels (name, description, ordre_affichage) VALUES (:name, :description, :ordre_affichage)";
                 $stmt = $this->db->prepare($query);
@@ -487,9 +537,9 @@ class ClientController {
                     ':ordre_affichage' => $index + 1
                 ]);
             }
-            
+
             custom_log("Niveaux d'accès par défaut créés", 'INFO');
-            
+
         } catch (Exception $e) {
             custom_log("Erreur lors de la création des niveaux d'accès par défaut : " . $e->getMessage(), 'ERROR');
         }
@@ -498,7 +548,8 @@ class ClientController {
     /**
      * Supprime un client
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         $this->checkAccess();
 
         // Vérifier si l'utilisateur a les droits de suppression
@@ -526,11 +577,11 @@ class ClientController {
         try {
             // Supprimer le client et toutes ses données associées
             $this->clientModel->deleteClient($id);
-            
+
             $_SESSION['success'] = "Le client '" . h($client['name']) . "' a été supprimé avec succès";
             header('Location: ' . BASE_URL . 'clients');
             exit;
-            
+
         } catch (Exception $e) {
             custom_log("Erreur lors de la suppression du client ID $id : " . $e->getMessage(), 'ERROR');
             $_SESSION['error'] = "Une erreur est survenue lors de la suppression du client : " . $e->getMessage();
@@ -538,4 +589,4 @@ class ClientController {
             exit;
         }
     }
-} 
+}

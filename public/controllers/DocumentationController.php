@@ -92,70 +92,99 @@ class DocumentationController
         // Récupération des données pour les filtres
         $clients = $this->clientModel->getAllClients();
         $sites = $client_id ? $this->siteModel->getSitesByClientId($client_id) : [];
-        $salles = $site_id ? $this->roomModel->getRoomsBySiteId($site_id) : [];
+
+        // Récupérer les bâtiments pour le filtre (nouveau)
+        $buildings = [];
+        if ($site_id) {
+            $query = "SELECT id, name FROM buildings WHERE site_id = :site_id ORDER BY name";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':site_id' => $site_id]);
+            $buildings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        // Récupérer les salles par bâtiment (corrigé)
+        $salles = [];
+        if ($site_id) {
+            // Si building_id est fourni, filtrer par bâtiment
+            $building_id = isset($_GET['building_id']) ? (int) $_GET['building_id'] : null;
+            if ($building_id) {
+                $salles = $this->roomModel->getRoomsByBuildingId($building_id);
+            } else {
+                // Sinon, récupérer toutes les salles du site via les bâtiments
+                $query = "SELECT r.id, r.name, r.building_id, b.name as building_name
+                      FROM rooms r
+                      LEFT JOIN buildings b ON r.building_id = b.id
+                      WHERE b.site_id = :site_id
+                      ORDER BY b.name, r.name";
+                $stmt = $this->db->prepare($query);
+                $stmt->execute([':site_id' => $site_id]);
+                $salles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+        }
 
         // Initialiser la liste de documentation vide
         $documentation_list = [];
 
         // Ne charger les documents que si un client est sélectionné
         if ($client_id) {
-            // Requête pour récupérer les pièces jointes de documentation
-            // On récupère toujours les informations complètes (client, site, salle) même si le document
-            // est lié directement à une salle ou un site
+            // Requête corrigée pour utiliser la nouvelle structure (rooms -> buildings -> sites)
             $query = "
-                SELECT 
-                    pj.*,
-                    COALESCE(pj.content, pj.commentaire) as description,
-                    COALESCE(c.name, c2.name, c3.name) as client_nom,
-                    COALESCE(s.name, s2.name) as site_nom,
-                    r.name as salle_nom,
-                    COALESCE(c.id, c2.id, c3.id) as client_id,
-                    COALESCE(s.id, s2.id) as site_id,
-                    r.id as salle_id,
-                    u.username as uploader_name
-                FROM pieces_jointes pj
-                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-                -- JOIN pour les documents liés directement au client
-                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
-                -- JOIN pour les documents liés directement au site
-                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
-                -- JOIN pour récupérer le client depuis le site (quand document lié au site)
-                LEFT JOIN clients c2 ON s.client_id = c2.id
-                -- JOIN pour les documents liés directement à la salle
-                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
-                -- JOIN pour récupérer le site depuis la salle (quand document lié à la salle)
-                LEFT JOIN sites s2 ON r.site_id = s2.id
-                -- JOIN pour récupérer le client depuis le site de la salle (quand document lié à la salle)
-                LEFT JOIN clients c3 ON s2.client_id = c3.id
-                LEFT JOIN users u ON pj.created_by = u.id
-                WHERE lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
-            ";
+            SELECT 
+                pj.*,
+                COALESCE(pj.content, pj.commentaire) as description,
+                COALESCE(c.name, c2.name, c3.name) as client_nom,
+                COALESCE(s.name, s2.name) as site_nom,
+                b.name as building_nom,
+                r.name as salle_nom,
+                COALESCE(c.id, c2.id, c3.id) as client_id,
+                COALESCE(s.id, s2.id) as site_id,
+                b.id as building_id,
+                r.id as salle_id,
+                u.username as uploader_name
+            FROM pieces_jointes pj
+            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+            -- JOIN pour les documents liés directement au client
+            LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+            -- JOIN pour les documents liés directement au site
+            LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+            -- JOIN pour récupérer le client depuis le site
+            LEFT JOIN clients c2 ON s.client_id = c2.id
+            -- JOIN pour les documents liés directement à la salle
+            LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+            -- JOIN pour récupérer le bâtiment depuis la salle
+            LEFT JOIN buildings b ON r.building_id = b.id
+            -- JOIN pour récupérer le site depuis le bâtiment
+            LEFT JOIN sites s2 ON b.site_id = s2.id
+            -- JOIN pour récupérer le client depuis le site de la salle
+            LEFT JOIN clients c3 ON s2.client_id = c3.id
+            LEFT JOIN users u ON pj.created_by = u.id
+            WHERE lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
+        ";
 
             $params = [];
 
-            // Filtres - vérifier le client_id dans toutes les possibilités
+            // Filtre par client
             $query .= " AND (
-                c.id = ? 
-                OR c2.id = ? 
-                OR c3.id = ? 
-                OR s.client_id = ? 
-                OR s2.client_id = ? 
-                OR r.site_id IN (SELECT id FROM sites WHERE client_id = ?)
-            )";
-            $params[] = $client_id;
+            c.id = ? 
+            OR c2.id = ? 
+            OR c3.id = ? 
+            OR s.client_id = ? 
+            OR s2.client_id = ?
+        )";
             $params[] = $client_id;
             $params[] = $client_id;
             $params[] = $client_id;
             $params[] = $client_id;
             $params[] = $client_id;
 
+            // Filtre par site
             if ($site_id) {
-                $query .= " AND (s.id = ? OR s2.id = ? OR r.site_id = ?)";
-                $params[] = $site_id;
+                $query .= " AND (s.id = ? OR s2.id = ?)";
                 $params[] = $site_id;
                 $params[] = $site_id;
             }
 
+            // Filtre par salle
             if ($salle_id) {
                 $query .= " AND r.id = ?";
                 $params[] = $salle_id;
@@ -207,7 +236,7 @@ class DocumentationController
         }
 
         if (isset($_GET['site_id'])) {
-            $rooms = $this->roomModel->getRoomsBySiteId($_GET['site_id']);
+            $rooms = $this->roomModel->getRoomsByBuildingId($_GET['site_id']);
         }
 
         require_once __DIR__ . '/../views/documentation/add.php';
@@ -235,6 +264,7 @@ class DocumentationController
 
         $clientId = isset($_POST['client_id']) ? (int) $_POST['client_id'] : null;
         $siteId = isset($_POST['site_id']) && !empty($_POST['site_id']) ? (int) $_POST['site_id'] : null;
+        $buildingId = isset($_POST['building_id']) && !empty($_POST['building_id']) ? (int) $_POST['building_id'] : null;
         $roomId = isset($_POST['room_id']) && !empty($_POST['room_id']) ? (int) $_POST['room_id'] : null;
 
         if (!$clientId) {
@@ -251,7 +281,7 @@ class DocumentationController
             exit;
         }
 
-        error_log("[DEBUG] DocumentationController::store - clientId: $clientId, siteId: $siteId, roomId: $roomId");
+        error_log("[DEBUG] DocumentationController::store - clientId: $clientId, siteId: $siteId, buildingId: $buildingId, roomId: $roomId");
 
         $uploadedFiles = [];
         $errors = [];
@@ -306,12 +336,12 @@ class DocumentationController
 
                         // Insérer la pièce jointe
                         $query = "INSERT INTO pieces_jointes (
-                                nom_fichier, nom_personnalise, chemin_fichier, type_fichier, taille_fichier, 
-                                commentaire, masque_client, created_by, date_creation
-                              ) VALUES (
-                                :nom_fichier, :nom_personnalise, :chemin_fichier, :type_fichier, :taille_fichier,
-                                :commentaire, :masque_client, :created_by, NOW()
-                              )";
+                            nom_fichier, nom_personnalise, chemin_fichier, type_fichier, taille_fichier, 
+                            commentaire, masque_client, created_by, date_creation
+                          ) VALUES (
+                            :nom_fichier, :nom_personnalise, :chemin_fichier, :type_fichier, :taille_fichier,
+                            :commentaire, :masque_client, :created_by, NOW()
+                          )";
 
                         $stmt = $this->db->prepare($query);
                         $result = $stmt->execute([
@@ -328,20 +358,29 @@ class DocumentationController
                         if ($result) {
                             $pieceJointeId = $this->db->lastInsertId();
 
-                            // Créer la liaison selon le niveau
+                            // Créer la liaison selon le niveau (priorité: salle > bâtiment > site > client)
                             if ($roomId) {
                                 // Liaison avec une salle
                                 $linkQuery = "INSERT INTO liaisons_pieces_jointes (piece_jointe_id, type_liaison, entite_id) 
-                                          VALUES (:piece_jointe_id, 'documentation_room', :room_id)";
+                                      VALUES (:piece_jointe_id, 'documentation_room', :room_id)";
                                 $linkStmt = $this->db->prepare($linkQuery);
                                 $linkStmt->execute([
                                     ':piece_jointe_id' => $pieceJointeId,
                                     ':room_id' => $roomId
                                 ]);
+                            } elseif ($buildingId) {
+                                // Liaison avec un bâtiment
+                                $linkQuery = "INSERT INTO liaisons_pieces_jointes (piece_jointe_id, type_liaison, entite_id) 
+                                      VALUES (:piece_jointe_id, 'documentation_building', :building_id)";
+                                $linkStmt = $this->db->prepare($linkQuery);
+                                $linkStmt->execute([
+                                    ':piece_jointe_id' => $pieceJointeId,
+                                    ':building_id' => $buildingId
+                                ]);
                             } elseif ($siteId) {
                                 // Liaison avec un site
                                 $linkQuery = "INSERT INTO liaisons_pieces_jointes (piece_jointe_id, type_liaison, entite_id) 
-                                          VALUES (:piece_jointe_id, 'documentation_site', :site_id)";
+                                      VALUES (:piece_jointe_id, 'documentation_site', :site_id)";
                                 $linkStmt = $this->db->prepare($linkQuery);
                                 $linkStmt->execute([
                                     ':piece_jointe_id' => $pieceJointeId,
@@ -350,7 +389,7 @@ class DocumentationController
                             } else {
                                 // Liaison avec le client
                                 $linkQuery = "INSERT INTO liaisons_pieces_jointes (piece_jointe_id, type_liaison, entite_id) 
-                                          VALUES (:piece_jointe_id, 'documentation_client', :client_id)";
+                                      VALUES (:piece_jointe_id, 'documentation_client', :client_id)";
                                 $linkStmt = $this->db->prepare($linkQuery);
                                 $linkStmt->execute([
                                     ':piece_jointe_id' => $pieceJointeId,
@@ -414,7 +453,6 @@ class DocumentationController
             exit;
         }
     }
-
     /**
      * Traite l'ajout d'un nouveau document (ancienne méthode create)
      */
@@ -721,7 +759,7 @@ class DocumentationController
         $clients = $this->clientModel->getAllClients();
         $categories = $this->categoryModel->getAllCategories();
         $sites = $client_id ? $this->siteModel->getSitesByClientId($client_id) : [];
-        $rooms = $site_id ? $this->roomModel->getRoomsBySiteId($site_id) : [];
+        $rooms = $site_id ? $this->roomModel->getRoomsByBuildingId($site_id) : [];
 
         // Récupérer les valeurs du formulaire depuis GET si elles existent (pour la persistance après rechargement client/site)
         $form_category_id = $_GET['form_category_id'] ?? $document['category_id'];
@@ -1585,33 +1623,61 @@ class DocumentationController
         // Récupération des données pour les filtres
         $client = $this->clientModel->getClientById($clientId);
         $sites = $this->siteModel->getSitesByClientId($clientId);
-        $rooms = $siteId ? $this->roomModel->getRoomsBySiteId($siteId) : [];
 
-        // Requête pour récupérer les pièces jointes de documentation
+        // Récupérer les bâtiments pour le filtre
+        $buildings = [];
+        if ($siteId) {
+            $query = "SELECT id, name FROM buildings WHERE site_id = :site_id ORDER BY name";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':site_id' => $siteId]);
+            $buildings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        // Récupérer les salles par bâtiment (corrigé)
+        $rooms = [];
+        if ($siteId) {
+            $building_id = isset($_GET['building_id']) ? (int) $_GET['building_id'] : null;
+            if ($building_id) {
+                $rooms = $this->roomModel->getRoomsByBuildingId($building_id);
+            } else {
+                $query = "SELECT r.id, r.name, r.building_id, b.name as building_name
+                      FROM rooms r
+                      LEFT JOIN buildings b ON r.building_id = b.id
+                      WHERE b.site_id = :site_id
+                      ORDER BY b.name, r.name";
+                $stmt = $this->db->prepare($query);
+                $stmt->execute([':site_id' => $siteId]);
+                $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+        }
+
+        // Requête corrigée pour la documentation
         $query = "
-            SELECT 
-                pj.*,
-                COALESCE(pj.content, pj.commentaire) as description,
-                c.name as client_nom,
-                s.name as site_nom,
-                r.name as salle_nom,
-                c.id as client_id,
-                s.id as site_id,
-                r.id as salle_id
-            FROM pieces_jointes pj
-            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-            LEFT JOIN clients c ON (lpj.type_liaison = 'documentation' AND lpj.entite_id = c.id)
-            LEFT JOIN sites s ON (lpj.type_liaison = 'documentation' AND lpj.entite_id = s.id)
-            LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation' AND lpj.entite_id = r.id)
-            WHERE lpj.type_liaison = 'documentation' 
-            AND (c.id = ? OR s.client_id = ? OR r.site_id IN (SELECT id FROM sites WHERE client_id = ?))
-        ";
+        SELECT 
+            pj.*,
+            COALESCE(pj.content, pj.commentaire) as description,
+            c.name as client_nom,
+            s.name as site_nom,
+            b.name as building_nom,
+            r.name as salle_nom,
+            c.id as client_id,
+            s.id as site_id,
+            b.id as building_id,
+            r.id as salle_id
+        FROM pieces_jointes pj
+        INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+        LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+        LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+        LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+        LEFT JOIN buildings b ON r.building_id = b.id
+        WHERE lpj.type_liaison = 'documentation' 
+        AND (c.id = ? OR s.client_id = ? OR b.site_id IN (SELECT id FROM sites WHERE client_id = ?))
+    ";
 
         $params = [$clientId, $clientId, $clientId];
 
-        // Filtres
         if ($siteId) {
-            $query .= " AND (s.id = ? OR r.site_id = ?)";
+            $query .= " AND (s.id = ? OR b.site_id = ?)";
             $params[] = $siteId;
             $params[] = $siteId;
         }
@@ -1621,7 +1687,7 @@ class DocumentationController
             $params[] = $salleId;
         }
 
-        $query .= " ORDER BY s.name, r.name, pj.date_creation DESC";
+        $query .= " ORDER BY s.name, b.name, r.name, pj.date_creation DESC";
 
         $stmt = $this->db->prepare($query);
         $stmt->execute($params);
@@ -1635,7 +1701,6 @@ class DocumentationController
 
         require_once __DIR__ . '/../views/documentation/view.php';
     }
-
     /**
      * Récupère les sites d'un client spécifique via AJAX
      */
@@ -1670,7 +1735,7 @@ class DocumentationController
     }
 
     /**
-     * Récupère les salles d'un site spécifique via AJAX
+     * Récupère les salles d'un site spécifique via AJAX (corrigée)
      */
     public function get_rooms()
     {
@@ -1684,13 +1749,36 @@ class DocumentationController
         $siteId = $_GET['site_id'] ?? null;
 
         if (!$siteId) {
+            // Alternative : récupérer par bâtiment
+            $buildingId = $_GET['building_id'] ?? null;
+            if ($buildingId) {
+                try {
+                    $rooms = $this->roomModel->getRoomsByBuildingId($buildingId);
+                    echo json_encode($rooms);
+                } catch (Exception $e) {
+                    custom_log("Erreur lors de la récupération des salles : " . $e->getMessage(), 'ERROR');
+                    http_response_code(500);
+                    echo json_encode(['error' => 'Erreur lors de la récupération des salles']);
+                }
+                return;
+            }
+
             http_response_code(400);
-            echo json_encode(['error' => 'ID du site manquant']);
+            echo json_encode(['error' => 'ID du site ou du bâtiment manquant']);
             return;
         }
 
         try {
-            $rooms = $this->roomModel->getRoomsBySiteId($siteId);
+            // Récupérer toutes les salles du site via les bâtiments
+            $query = "SELECT r.id, r.name, r.building_id, b.name as building_name
+                  FROM rooms r
+                  LEFT JOIN buildings b ON r.building_id = b.id
+                  WHERE b.site_id = :site_id
+                  ORDER BY b.name, r.name";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':site_id' => $siteId]);
+            $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
             echo json_encode($rooms);
         } catch (Exception $e) {
             custom_log("Erreur lors de la récupération des salles : " . $e->getMessage(), 'ERROR');
@@ -1908,28 +1996,86 @@ class DocumentationController
             exit;
         }
     }
-
     /**
      * Aperçu d'une pièce jointe de documentation
-     * Utilise AttachmentService pour centraliser la logique
      */
     public function preview($attachmentId)
     {
         $this->checkAccess();
 
         try {
-            // Utiliser AttachmentService pour gérer l'aperçu
-            $attachmentService = new AttachmentService($this->db);
-            $attachmentService->preview($attachmentId);
+            // Récupérer les informations de la pièce jointe
+            $query = "SELECT pj.*, lpj.type_liaison 
+                  FROM pieces_jointes pj 
+                  LEFT JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id 
+                  WHERE pj.id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':id' => $attachmentId]);
+            $pieceJointe = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$pieceJointe) {
+                throw new Exception("Document non trouvé");
+            }
+
+            // Vérifier les permissions
+            if ($pieceJointe['masque_client'] == 1 && !isStaff() && !isAdmin()) {
+                throw new Exception("Vous n'avez pas les droits pour accéder à ce document");
+            }
+
+            // Construction du chemin absolu
+            $filePath = __DIR__ . '/../../' . $pieceJointe['chemin_fichier'];
+
+            // Normaliser le chemin (pour Windows)
+            $filePath = str_replace('/', DIRECTORY_SEPARATOR, $filePath);
+
+            if (!file_exists($filePath)) {
+                error_log("Fichier non trouvé: " . $filePath);
+                throw new Exception("Fichier non trouvé sur le serveur");
+            }
+
+            // Déterminer le type MIME
+            $extension = strtolower(pathinfo($pieceJointe['nom_fichier'], PATHINFO_EXTENSION));
+            $mimeTypes = [
+                'pdf' => 'application/pdf',
+                'jpg' => 'image/jpeg',
+                'jpeg' => 'image/jpeg',
+                'png' => 'image/png',
+                'gif' => 'image/gif',
+                'webp' => 'image/webp'
+            ];
+
+            $mimeType = $mimeTypes[$extension] ?? 'application/octet-stream';
+
+            // Nettoyer les buffers
+            if (ob_get_level()) {
+                ob_end_clean();
+            }
+
+            // Headers pour l'aperçu
+            header('Content-Type: ' . $mimeType);
+            header('Content-Disposition: inline; filename="' . ($pieceJointe['nom_personnalise'] ?? $pieceJointe['nom_fichier']) . '"');
+            header('Cache-Control: public, max-age=3600');
+            header('Content-Length: ' . filesize($filePath));
+
+            // Lire et afficher le fichier
+            readfile($filePath);
+            exit;
 
         } catch (Exception $e) {
-            custom_log("Erreur lors de l'aperçu de la pièce jointe : " . $e->getMessage(), 'ERROR');
+            custom_log("Erreur lors de l'aperçu: " . $e->getMessage(), 'ERROR');
+
+            // Vérifier si c'est une requête AJAX
+            if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+                header('Content-Type: application/json');
+                echo json_encode(['error' => $e->getMessage()]);
+                exit;
+            }
+
             $_SESSION['error'] = "Erreur lors de l'aperçu : " . $e->getMessage();
             header('Location: ' . BASE_URL . 'documentation');
             exit;
         }
     }
-
     /**
      * Change la visibilité d'une pièce jointe de documentation
      */
@@ -2077,6 +2223,73 @@ class DocumentationController
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'error' => 'Erreur lors de la mise à jour']);
             exit;
+        }
+    }
+
+    /**
+     * Récupère les bâtiments d'un site via AJAX
+     */
+    public function get_buildings()
+    {
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            return;
+        }
+
+        $siteId = $_GET['site_id'] ?? null;
+
+        if (!$siteId) {
+            http_response_code(400);
+            echo json_encode(['error' => 'ID du site manquant']);
+            return;
+        }
+
+        try {
+            $query = "SELECT id, name FROM buildings WHERE site_id = :site_id ORDER BY name";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':site_id' => $siteId]);
+            $buildings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            echo json_encode($buildings);
+        } catch (Exception $e) {
+            custom_log("Erreur lors de la récupération des bâtiments : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur lors de la récupération des bâtiments']);
+        }
+    }
+    /**
+     * Récupère les salles par bâtiment via AJAX
+     */
+    public function get_rooms_by_building()
+    {
+        // Vérifier si l'utilisateur est connecté
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            return;
+        }
+
+        $buildingId = $_GET['building_id'] ?? null;
+
+        if (!$buildingId) {
+            http_response_code(400);
+            echo json_encode(['error' => 'ID du bâtiment manquant']);
+            return;
+        }
+
+        try {
+            $query = "SELECT id, name FROM rooms WHERE building_id = :building_id ORDER BY name";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':building_id' => $buildingId]);
+            $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            header('Content-Type: application/json');
+            echo json_encode($rooms);
+        } catch (Exception $e) {
+            custom_log("Erreur lors de la récupération des salles : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur lors de la récupération des salles']);
         }
     }
 

@@ -562,7 +562,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     </div>
                 </div>
             </div>
-
             <!-- Colonne 2 : Pièces jointes (4 colonnes) -->
             <div class="col-md-4">
                 <div class="card mb-3 h-auto">
@@ -580,7 +579,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <p class="text-muted mb-0">Aucune pièce jointe pour le moment.</p>
                         <?php else: ?>
                             <?php
-                            // Trier les pièces jointes pour mettre les bons d'intervention en premier
+                            // Trier les pièces jointes
                             usort($attachments, function ($a, $b) {
                                 $aIsBI = $a['type_liaison'] === 'bi';
                                 $bIsBI = $b['type_liaison'] === 'bi';
@@ -601,7 +600,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                                 $isPdf = $extension === 'pdf';
                                 $isImage = in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg']);
-                                $isExcel = in_array($extension, ['xls', 'xlsx']);
                                 ?>
                                 <div class="card mb-2">
                                     <div class="card-header py-1 d-flex justify-content-between align-items-center">
@@ -614,15 +612,27 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             </small>
                                         </div>
                                         <div>
-                                            <button type="button" class="btn btn-sm btn-outline-info btn-action"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#previewModal<?= $attachment['id'] ?>_<?= $attachment['type_liaison'] ?>"
-                                                title="Aperçu">
-                                                <i class="<?php echo getIcon('visibility', 'bi bi-eye'); ?>"></i>
-                                            </button>
+                                            <?php if ($isPdf): ?>
+                                                <button type="button" class="btn btn-sm btn-outline-info btn-action"
+                                                    onclick="openPdfViewer(<?= $attachment['id'] ?>, '<?= addslashes($attachment['nom_personnalise'] ?? $attachment['nom_fichier']) ?>')"
+                                                    title="Aperçu">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            <?php elseif ($isImage): ?>
+                                                <button type="button" class="btn btn-sm btn-outline-info btn-action"
+                                                    onclick="openImageViewer(<?= $attachment['id'] ?>, '<?= addslashes($attachment['nom_personnalise'] ?? $attachment['nom_fichier']) ?>')"
+                                                    title="Aperçu">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            <?php else: ?>
+                                                <a href="<?php echo BASE_URL; ?>interventions/download/<?php echo $attachment['id']; ?>"
+                                                    class="btn btn-sm btn-outline-info btn-action" title="Télécharger" target="_blank">
+                                                    <i class="bi bi-download"></i>
+                                                </a>
+                                            <?php endif; ?>
                                             <a href="<?php echo BASE_URL; ?>interventions/download/<?php echo $attachment['id']; ?>"
                                                 class="btn btn-sm btn-outline-success btn-action" title="Télécharger">
-                                                <i class="<?php echo getIcon('download', 'bi bi-download'); ?>"></i>
+                                                <i class="bi bi-download"></i>
                                             </a>
                                             <?php if (canDelete()): ?>
                                                 <a href="<?php echo BASE_URL; ?>interventions/deleteAttachment/<?php echo $attachment['id']; ?>"
@@ -642,8 +652,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 <i class="bi bi-file-pdf text-danger me-2"></i>
                                             <?php elseif ($isImage): ?>
                                                 <i class="bi bi-image-fill text-primary me-2"></i>
-                                            <?php elseif ($isExcel): ?>
-                                                <i class="bi bi-file-spreadsheet text-success me-2"></i>
                                             <?php else: ?>
                                                 <i class="bi bi-file-earmark text-secondary me-2"></i>
                                             <?php endif; ?>
@@ -667,72 +675,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Modal d'aperçu -->
-                                <div class="modal fade" id="previewModal<?= $attachment['id'] ?>_<?= $attachment['type_liaison'] ?>"
-                                    tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">
-                                                    <div class="attachment-name">
-                                                        <div class="display-name">
-                                                            <?= h($attachment['nom_personnalise'] ?? $attachment['nom_fichier']) ?>
-                                                        </div>
-                                                        <?php if (!empty($attachment['nom_personnalise']) && $attachment['nom_personnalise'] !== $attachment['nom_fichier']): ?>
-                                                            <div class="original-name text-muted small">
-                                                                <?= h($attachment['nom_fichier']) ?>
-                                                            </div>
-                                                        <?php endif; ?>
-                                                    </div>
-                                                </h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="preview-container">
-                                                    <?php
-                                                    $previewExtension = strtolower(pathinfo($attachment['nom_fichier'], PATHINFO_EXTENSION));
-                                                    if (empty($previewExtension) && !empty($attachment['type_fichier'])) {
-                                                        $previewExtension = strtolower($attachment['type_fichier']);
-                                                    }
-                                                    if ($previewExtension === 'pdf'):
-                                                        ?>
-                                                        <iframe src="<?= BASE_URL; ?>interventions/preview/<?= $attachment['id'] ?>"
-                                                            width="100%" height="600px" frameborder="0">
-                                                        </iframe>
-                                                    <?php elseif (in_array($previewExtension, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'])): ?>
-                                                        <img src="<?= BASE_URL; ?>interventions/preview/<?= $attachment['id'] ?>"
-                                                            class="img-fluid" alt="<?= h($attachment['nom_fichier']) ?>">
-                                                    <?php else: ?>
-                                                        <div class="alert alert-info">
-                                                            <i class="bi bi-info-circle me-1"></i>
-                                                            Ce type de fichier ne peut pas être prévisualisé.
-                                                            <a href="<?= BASE_URL; ?>interventions/download/<?= $attachment['id'] ?>"
-                                                                class="alert-link" target="_blank">
-                                                                Télécharger le fichier
-                                                            </a>
-                                                        </div>
-                                                    <?php endif; ?>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a href="<?= BASE_URL; ?>interventions/download/<?= $attachment['id'] ?>"
-                                                    class="btn btn-primary" target="_blank">
-                                                    <i class="bi bi-download me-1"></i> Télécharger
-                                                </a>
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Fermer</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
                 </div>
             </div>
-
             <!-- Colonne 3 : Techniciens d'intervention (4 colonnes) -->
             <div class="col-md-4">
                 <div class="card mb-3 h-150 overflow-auto">
@@ -1901,9 +1848,31 @@ include_once __DIR__ . '/../../includes/navbar.php';
         const container = document.getElementById("techniciansListContainer");
         if (!container) return;
 
-        const interventionId = <?= $intervention['id'] ?>;
+        const interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 
-        fetch(`${window.BASE_URL}interventions/interventionsTechnician?id=${interventionId}`, {
+        // Récupérer les informations de l'intervention pour savoir si c'est une flash
+        const isFlash = <?= isset($intervention['is_flash']) && $intervention['is_flash'] == 1 ? 'true' : 'false' ?>;
+        const needsCompletion = <?= isset($intervention['needs_completion']) && $intervention['needs_completion'] == 1 ? 'true' : 'false' ?>;
+
+        // Récupérer les champs manquants depuis PHP
+        const missingFields = <?php
+        $missing = [];
+        if (empty($intervention['site_id']))
+            $missing[] = 'Site';
+        if (empty($intervention['room_id']))
+            $missing[] = 'Salle';
+        if (empty($intervention['description']))
+            $missing[] = 'Description';
+        if (empty($intervention['demande_par']))
+            $missing[] = 'Demandeur';
+        if (empty($intervention['title']) || $intervention['title'] == '')
+            $missing[] = 'Titre';
+        echo json_encode($missing);
+        ?>;
+
+        const apiUrl = window.BASE_URL + 'interventions/interventionsTechnician?id=' + interventionId;
+
+        fetch(apiUrl, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -1922,35 +1891,70 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                 let html = '<div class="list-group list-group-flush">';
                 assignedDetails.forEach(tech => {
-                    const name = tech.full_name || `${tech.first_name} ${tech.last_name}`;
+                    const name = tech.full_name || (tech.first_name + ' ' + tech.last_name);
                     const startTime = tech.start_time ? formatDateTime(tech.start_time) : 'Non défini';
                     const endTime = tech.end_time ? formatDateTime(tech.end_time) : 'Non défini';
                     const tempsPasse = tech.temps_passe ? tech.temps_passe + ' min' : 'Non défini';
                     const deplacement = tech.deplacement == 1 ? 'Oui' : 'Non';
 
-                    html += `
-                    <div class="list-group-item">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div style="flex: 1;">
-                                <strong><i class="bi bi-person-badge"></i> ${escapeHtml(name)}</strong><br>
-                                <div class="row mt-2">
-                                    <div class="col-md-6">
-                                        <small class="text-muted">
-                                            <i class="bi bi-calendar"></i> Début: ${startTime}<br>
-                                            <i class="bi bi-calendar-check"></i> Fin: ${endTime}
-                                        </small>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <small class="text-muted">
-                                            <i class="bi bi-clock"></i> Durée: ${tempsPasse}<br>
-                                            <i class="bi bi-car"></i> Déplacement: ${deplacement}
-                                        </small>
-                                    </div>
-                                </div>
-                                ${tech.commentaire ? `<small class="text-info d-block mt-1"><i class="bi bi-chat"></i> ${escapeHtml(tech.commentaire.substring(0, 100))}</small>` : ''}
+                    // Afficher l'alerte flash uniquement si c'est une intervention flash incomplète
+                    let flashAlertHtml = '';
+                    if (isFlash && needsCompletion && missingFields.length > 0) {
+                        flashAlertHtml = `
+                    <div class="alert alert-warning mt-2 mb-0 py-1 small" style="font-size: 0.75rem;">
+                        <i class="bi bi-lightning-charge-fill me-1"></i>
+                        <strong class="text-dark">Intervention Flash à compléter !</strong>
+                        <div class="mt-1">
+                            <span class="text-muted">Éléments manquants :</span>
+                            <div class="d-flex flex-wrap gap-1 mt-1">
+                    `;
+                        missingFields.forEach(field => {
+                            flashAlertHtml += `<span class="badge bg-warning text-dark"><i class="bi bi-exclamation-circle"></i> ${field}</span>`;
+                        });
+                        flashAlertHtml += `
                             </div>
                         </div>
+                        <div class="mt-2">
+                            <a href="${window.BASE_URL}interventions/edit/${interventionId}" class="btn btn-sm btn-warning w-100">
+                                <i class="bi bi-pencil-square"></i> Compléter l'intervention
+                            </a>
+                        </div>
                     </div>
+                    `;
+                    }
+
+                    html += `
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div style="flex: 1;">
+                            <strong><i class="bi bi-person-badge"></i> ${escapeHtml(name)}</strong><br>
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                    <small class="text-muted">
+                                        <i class="bi bi-calendar"></i> Début: ${startTime}<br>
+                                        <i class="bi bi-calendar-check"></i> Fin: ${endTime}
+                                    </small>
+                                </div>
+                                <div class="col-md-6">
+                                    <small class="text-muted">
+                                        <i class="bi bi-clock"></i> Durée: ${tempsPasse}<br>
+                                        <i class="bi bi-car"></i> Déplacement: ${deplacement}
+                                    </small>
+                                </div>
+                            </div>
+                            ${tech.commentaire ? `<small class="text-info d-block mt-1"><i class="bi bi-chat"></i> ${escapeHtml(tech.commentaire.substring(0, 100))}</small>` : ''}
+                            ${flashAlertHtml}
+                        </div>
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-sm btn-outline-primary" onclick="sendEmailToTechnician(${tech.technicien_id}, '${escapeHtml(name)}')" title="Renvoyer l'email">
+                                <i class="bi bi-envelope"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="removeTechnicianFromPage(${tech.technicien_id})" title="Retirer le technicien">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 `;
                 });
                 html += '</div>';
@@ -1962,9 +1966,74 @@ include_once __DIR__ . '/../../includes/navbar.php';
             });
     }
 
-    function openTechModal(id) {
-        console.log("Opening modal for intervention:", id);
+    // Fonction pour retirer un technicien depuis la page
+    function removeTechnicianFromPage(technicianId) {
+        const interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 
+        if (!confirm('Voulez-vous retirer ce technicien de cette intervention ?')) {
+            return;
+        }
+
+        const container = document.getElementById("techniciansListContainer");
+        container.innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary" role="status"></div><p class="text-muted mt-2 mb-0">Mise à jour...</p></div>';
+
+        const apiUrl = window.BASE_URL + 'interventions/interventionsTechnician?id=' + interventionId;
+
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => response.json())
+            .then((data) => {
+                const currentTechnicians = data.data?.assigned || data.assigned || [];
+                const updatedTechnicians = currentTechnicians.filter(tech => tech.technicien_id != technicianId);
+
+                const techniciansToSave = updatedTechnicians.map(tech => ({
+                    technicien_id: tech.technicien_id,
+                    start_time: tech.start_time || null,
+                    end_time: tech.end_time || null,
+                    temps_passe: tech.temps_passe || null,
+                    deplacement: tech.deplacement || 0,
+                    commentaire: tech.commentaire || "",
+                    notify_technician: 0
+                }));
+
+                return fetch(window.BASE_URL + 'interventions/assignTechnicians', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        intervention_id: parseInt(interventionId),
+                        technicians: techniciansToSave,
+                    })
+                });
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert("Technicien retiré avec succès !");
+                    loadTechniciansInPage();
+                } else {
+                    alert("Erreur: " + (result.error || "Erreur inconnue"));
+                    loadTechniciansInPage();
+                }
+            })
+            .catch(error => {
+                console.error("Erreur:", error);
+                alert("Erreur lors du retrait du technicien: " + error.message);
+                loadTechniciansInPage();
+            });
+    }
+
+    // Fonction pour ouvrir la modale d'affectation des techniciens
+    function openTechModal(id) {
         if (!id) {
             console.error("ID intervention manquant");
             alert("Erreur: ID intervention manquant");
@@ -1980,8 +2049,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
         const techSelect = document.getElementById("techSelect");
         techSelect.innerHTML = '<option value="">Chargement des techniciens...</option>';
 
-        const apiUrl = `${window.BASE_URL}interventions/interventionsTechnician?id=${id}`;
-        console.log("Fetching from:", apiUrl);
+        const apiUrl = window.BASE_URL + 'interventions/interventionsTechnician?id=' + id;
 
         fetch(apiUrl, {
             method: 'GET',
@@ -1993,17 +2061,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
         })
             .then(response => response.json())
             .then((data) => {
-                console.log("Données reçues:", data);
-
                 const select = document.getElementById("techSelect");
                 select.innerHTML = '<option value="">-- Sélectionner un technicien --</option>';
 
                 const technicians = data.data?.technicians || data.technicians || [];
                 const assignedDetails = data.data?.assigned || data.assigned || [];
 
-                // Charger les techniciens assignés
                 assignedDetails.forEach(assignedTech => {
-                    const techId = assignedTech.technicien_id || assignedTech;
+                    const techId = assignedTech.technicien_id;
                     const tech = technicians.find(t => t.id == techId);
                     if (tech) {
                         assignedTechnicians.push({
@@ -2018,7 +2083,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     }
                 });
 
-                // Ajouter les options
                 if (technicians.length === 0) {
                     select.innerHTML = '<option value="">Aucun technicien disponible</option>';
                 } else {
@@ -2030,7 +2094,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     });
                 }
 
-                // Initialiser Select2
                 if (typeof $ !== 'undefined' && $('#techSelect').select2) {
                     $('#techSelect').select2({
                         placeholder: "Rechercher un technicien",
@@ -2056,6 +2119,78 @@ include_once __DIR__ . '/../../includes/navbar.php';
             });
     }
 
+    // Réinitialiser le formulaire des techniciens
+    function resetTechnicianForm() {
+        document.getElementById("selected_technician_id").value = "";
+        document.getElementById("selectedTechnicianName").textContent = "---";
+        document.getElementById("start_time").value = "";
+        document.getElementById("end_time").value = "";
+        document.getElementById("temps_passe").value = "";
+        document.getElementById("deplacement").value = "0";
+        document.getElementById("commentaire").value = "";
+        document.getElementById("technicianDetails").style.display = "block";
+        document.getElementById("btnRemoveCurrent").style.display = "none";
+        currentEditId = null;
+    }
+
+    // Arrondir à la demi-heure
+    function roundToHalfHour(minutes) {
+        if (!minutes || minutes <= 0) return 0;
+        const roundedMinutes = Math.round(minutes / 30) * 30;
+        if (roundedMinutes === 0 && minutes > 0) return 30;
+        return roundedMinutes;
+    }
+
+    // Afficher la durée arrondie
+    function displayRoundedTime() {
+        const inputMinutes = parseInt(document.getElementById("temps_passe").value) || 0;
+        const roundedMinutes = roundToHalfHour(inputMinutes);
+        const roundedDisplay = document.getElementById("roundedTimeDisplay");
+
+        if (inputMinutes > 0) {
+            const heures = Math.floor(roundedMinutes / 60);
+            const minutes = roundedMinutes % 60;
+            let formattedTime = "";
+            if (heures > 0 && minutes > 0) {
+                formattedTime = `${heures}h${minutes}`;
+            } else if (heures > 0) {
+                formattedTime = `${heures}h`;
+            } else {
+                formattedTime = `${minutes}min`;
+            }
+
+            let warningHtml = "";
+            if (inputMinutes !== roundedMinutes && roundedMinutes > 0) {
+                warningHtml = `<br><small class="text-primary"> Sera arrondi à ${formattedTime} (${roundedMinutes} minutes) lors de l'enregistrement</small>`;
+            }
+
+            roundedDisplay.innerHTML = `
+                <i class="bi bi-calculator-fill text-primary"></i>
+                <strong>Durée saisie :</strong> ${inputMinutes} minutes<br>
+                <strong>Durée après arrondi :</strong> ${formattedTime}
+                ${warningHtml}
+            `;
+            roundedDisplay.style.display = "block";
+        } else {
+            roundedDisplay.style.display = "none";
+        }
+    }
+
+    // Écouteurs pour la durée
+    function onTempsPasseInput() {
+        displayRoundedTime();
+    }
+
+    function onTempsPasseBlur() {
+        let value = parseInt(document.getElementById("temps_passe").value) || 0;
+        const rounded = roundToHalfHour(value);
+        if (rounded !== value && rounded > 0) {
+            document.getElementById("temps_passe").value = rounded;
+            displayRoundedTime();
+        }
+    }
+
+    // Écouteur de changement du select technicien
     document.getElementById("techSelect")?.addEventListener("change", function () {
         const techId = this.value;
         if (!techId) {
@@ -2091,128 +2226,121 @@ include_once __DIR__ . '/../../includes/navbar.php';
         document.getElementById("technicianDetails").style.display = "block";
     });
 
-    function resetTechnicianForm() {
-        document.getElementById("selected_technician_id").value = "";
-        document.getElementById("selectedTechnicianName").textContent = "---";
-        document.getElementById("start_time").value = "";
-        document.getElementById("end_time").value = "";
-        document.getElementById("temps_passe").value = "";
-        document.getElementById("deplacement").value = "0";
-        document.getElementById("commentaire").value = "";
-        document.getElementById("technicianDetails").style.display = "block";
-        document.getElementById("btnRemoveCurrent").style.display = "none";
-        currentEditId = null;
+    // Rafraîchir la liste des techniciens dans la modale
+    function refreshTechniciansList() {
+        const container = document.getElementById("techniciansListContainer");
+        if (!container) return;
+
+        if (assignedTechnicians.length === 0) {
+            container.innerHTML = '<div class="list-group-item text-muted">Aucun technicien affecté</div>';
+            return;
+        }
+
+        container.innerHTML = assignedTechnicians.map(tech => `
+        <div class="list-group-item">
+            <div class="d-flex justify-content-between align-items-start">
+                <div style="flex: 1;">
+                    <strong><i class="bi bi-person-badge"></i> ${escapeHtml(tech.name)}</strong><br>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <small class="text-muted">
+                                <i class="bi bi-calendar"></i> Début: ${tech.start_time ? formatDateTime(tech.start_time) : 'Non défini'}<br>
+                                <i class="bi bi-calendar-check"></i> Fin: ${tech.end_time ? formatDateTime(tech.end_time) : 'Non défini'}
+                            </small>
+                        </div>
+                        <div class="col-md-6">
+                            <small class="text-muted">
+                                <i class="bi bi-clock"></i> Durée: ${tech.temps_passe ? tech.temps_passe + ' min' : 'Non défini'}<br>
+                                <i class="bi bi-car"></i> Déplacement: ${tech.deplacement == 1 ? 'Oui' : 'Non'}
+                            </small>
+                        </div>
+                    </div>
+                    ${tech.commentaire ? `<small class="text-info d-block mt-1"><i class="bi bi-chat"></i> ${escapeHtml(tech.commentaire.substring(0, 150))}</small>` : ''}
+                </div>
+                <div class="d-flex gap-1">
+                    <button class="btn btn-sm btn-outline-primary" onclick="sendEmailToTechnician(${tech.id}, '${escapeHtml(tech.name)}')" title="Renvoyer l'email">
+                        <i class="bi bi-envelope"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="removeTechnicianFromPage(${tech.id})" title="Retirer le technicien">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `).join("");
     }
 
-    function roundToHalfHour(minutes) {
-        if (!minutes || minutes <= 0) return 0;
-        const roundedMinutes = Math.round(minutes / 30) * 30;
-        if (roundedMinutes === 0 && minutes > 0) return 30;
-        return roundedMinutes;
-    }
+    // Envoyer un email à un technicien
+    async function sendEmailToTechnician(technicianId, technicianName) {
+        const interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 
-    function displayRoundedTime() {
-        const inputMinutes = parseInt(document.getElementById("temps_passe").value) || 0;
-        const roundedMinutes = roundToHalfHour(inputMinutes);
-        const roundedDisplay = document.getElementById("roundedTimeDisplay");
+        if (!interventionId) {
+            alert("Erreur: ID intervention manquant");
+            return;
+        }
 
-        if (inputMinutes > 0) {
-            const heures = Math.floor(roundedMinutes / 60);
-            const minutes = roundedMinutes % 60;
-            let formattedTime = "";
-            if (heures > 0 && minutes > 0) {
-                formattedTime = `${heures}h${minutes}`;
-            } else if (heures > 0) {
-                formattedTime = `${heures}h`;
+        if (!confirm(`Envoyer un email de notification à ${technicianName} ?`)) {
+            return;
+        }
+
+        const btn = event?.target?.closest('button');
+        const originalHtml = btn ? btn.innerHTML : '';
+        if (btn) {
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+            btn.disabled = true;
+        }
+
+        try {
+            const formData = new URLSearchParams();
+            formData.append('intervention_id', interventionId);
+            formData.append('technician_id', technicianId);
+            formData.append('csrf_token', window.csrfToken || '<?= csrf_token() ?>');
+
+            const response = await fetch(window.BASE_URL + 'interventions/sendTechnicianEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                alert(`✅ Email envoyé avec succès à ${technicianName}`);
             } else {
-                formattedTime = `${minutes}min`;
+                alert(`❌ Erreur: ${data.error || "Échec de l'envoi de l'email"}`);
             }
-
-            let warningHtml = "";
-            if (inputMinutes !== roundedMinutes && roundedMinutes > 0) {
-                warningHtml = `<br><small class="text-primary"> Sera arrondi à ${formattedTime} (${roundedMinutes} minutes) lors de l'enregistrement</small>`;
-            }
-
-            roundedDisplay.innerHTML = `
-                <i class="bi bi-calculator-fill text-primary"></i>
-                <strong>Durée saisie :</strong> ${inputMinutes} minutes<br>
-                <strong>Durée après arrondi :</strong> ${formattedTime}
-                ${warningHtml}
-            `;
-            roundedDisplay.style.display = "block";
-        } else {
-            roundedDisplay.style.display = "none";
-        }
-    }
-
-    function onTempsPasseInput() {
-        displayRoundedTime();
-    }
-
-    function onTempsPasseBlur() {
-        let value = parseInt(document.getElementById("temps_passe").value) || 0;
-        const rounded = roundToHalfHour(value);
-        if (rounded !== value && rounded > 0) {
-            document.getElementById("temps_passe").value = rounded;
-            displayRoundedTime();
-        }
-    }
-
-    function addOrUpdateTechnician() {
-        const techId = document.getElementById("selected_technician_id").value;
-        if (!techId) {
-            alert("Veuillez sélectionner un technicien");
-            return;
-        }
-
-        const techSelect = document.getElementById("techSelect");
-        const techName = techSelect.options[techSelect.selectedIndex].text;
-        const startTime = document.getElementById("start_time").value;
-        const endTime = document.getElementById("end_time").value;
-        let tempsPasse = document.getElementById("temps_passe").value;
-
-        if (startTime && endTime && new Date(startTime) >= new Date(endTime)) {
-            alert("La date/heure de fin doit être postérieure à la date/heure de début");
-            return;
-        }
-
-        if ((!tempsPasse || tempsPasse === "") && startTime && endTime) {
-            const start = new Date(startTime);
-            const end = new Date(endTime);
-            if (end > start) {
-                tempsPasse = Math.round((end - start) / (1000 * 60));
+        } catch (error) {
+            console.error('Erreur:', error);
+            alert(`❌ Erreur lors de l'envoi de l'email: ${error.message}`);
+        } finally {
+            if (btn) {
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
             }
         }
-
-        const technician = {
-            id: parseInt(techId),
-            name: techName,
-            start_time: startTime,
-            end_time: endTime,
-            temps_passe: tempsPasse ? parseInt(tempsPasse) : null,
-            deplacement: parseInt(document.getElementById("deplacement").value),
-            commentaire: document.getElementById("commentaire").value
-        };
-
-        const existingIndex = assignedTechnicians.findIndex(t => t.id == techId);
-
-        if (existingIndex !== -1) {
-            assignedTechnicians[existingIndex] = technician;
-            alert(`Technicien "${techName}" mis à jour`);
-        } else {
-            assignedTechnicians.push(technician);
-            alert(`Technicien "${techName}" ajouté`);
-        }
-
-        refreshTechniciansList();
-
-        document.getElementById("techSelect").value = "";
-        if (typeof $ !== 'undefined' && $('#techSelect').select2) {
-            $('#techSelect').val('').trigger('change');
-        }
-        resetTechnicianForm();
     }
 
+    // Retirer un technicien depuis la modale
+    function removeTechnicianById(techId) {
+        const tech = assignedTechnicians.find(t => t.id == techId);
+        if (tech && confirm(`Voulez-vous retirer ${tech.name} de cette intervention ?`)) {
+            assignedTechnicians = assignedTechnicians.filter(t => t.id != techId);
+            refreshTechniciansList();
+
+            if (currentEditId == techId) {
+                resetTechnicianForm();
+                document.getElementById("techSelect").value = "";
+                if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+                    $('#techSelect').val('').trigger('change');
+                }
+            }
+        }
+    }
+
+    // Retirer le technicien actuellement sélectionné
     function removeCurrentTechnician() {
         const techId = document.getElementById("selected_technician_id").value;
         if (!techId) return;
@@ -2230,60 +2358,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
         }
     }
 
-    function removeTechnicianById(techId) {
-        const tech = assignedTechnicians.find(t => t.id == techId);
-        if (tech && confirm(`Voulez-vous retirer ${tech.name} de cette intervention ?`)) {
-            assignedTechnicians = assignedTechnicians.filter(t => t.id != techId);
-            refreshTechniciansList();
-
-            if (currentEditId == techId) {
-                resetTechnicianForm();
-                document.getElementById("techSelect").value = "";
-                if (typeof $ !== 'undefined' && $('#techSelect').select2) {
-                    $('#techSelect').val('').trigger('change');
-                }
-            }
-        }
-    }
-
-    function refreshTechniciansList() {
-        const container = document.getElementById("techniciansListContainer");
-        if (!container) return;
-
-        if (assignedTechnicians.length === 0) {
-            container.innerHTML = '<div class="list-group-item text-muted">Aucun technicien affecté</div>';
-            return;
-        }
-
-        container.innerHTML = assignedTechnicians.map(tech => `
-            <div class="list-group-item">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div style="flex: 1;">
-                        <strong><i class="bi bi-person-badge"></i> ${escapeHtml(tech.name)}</strong><br>
-                        <div class="row mt-2">
-                            <div class="col-md-6">
-                                <small class="text-muted">
-                                    <i class="bi bi-calendar"></i> Début: ${tech.start_time ? formatDateTime(tech.start_time) : 'Non défini'}<br>
-                                    <i class="bi bi-calendar-check"></i> Fin: ${tech.end_time ? formatDateTime(tech.end_time) : 'Non défini'}
-                                </small>
-                            </div>
-                            <div class="col-md-6">
-                                <small class="text-muted">
-                                    <i class="bi bi-clock"></i> Durée: ${tech.temps_passe ? tech.temps_passe + ' min' : 'Non défini'}<br>
-                                    <i class="bi bi-car"></i> Déplacement: ${tech.deplacement == 1 ? 'Oui' : 'Non'}
-                                </small>
-                            </div>
-                        </div>
-                        ${tech.commentaire ? `<small class="text-info d-block mt-1"><i class="bi bi-chat"></i> ${escapeHtml(tech.commentaire.substring(0, 150))}</small>` : ''}
-                    </div>
-                    <button class="btn btn-sm btn-outline-danger ms-2" onclick="removeTechnicianById(${tech.id})">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </div>
-            </div>
-        `).join("");
-    }
-
+    // Sauvegarder tous les techniciens
     function saveAllTechnicians() {
         const interventionId = document.getElementById("intervention_id").value;
 
@@ -2292,29 +2367,21 @@ include_once __DIR__ . '/../../includes/navbar.php';
             return;
         }
 
-        // Récupérer le technicien sélectionné dans le select
         const techSelect = document.getElementById("techSelect");
-        const techId = techSelect.value;
-
-        // Construire la liste des techniciens à partir du select
         let techniciansToSave = [];
 
-        // Parcourir toutes les options du select
         for (let i = 0; i < techSelect.options.length; i++) {
             const option = techSelect.options[i];
             if (option.selected) {
-                // Récupérer les détails du formulaire
                 const startTime = document.getElementById("start_time").value;
                 const endTime = document.getElementById("end_time").value;
                 let tempsPasse = document.getElementById("temps_passe").value;
 
-                // Validation des dates
                 if (startTime && endTime && new Date(startTime) >= new Date(endTime)) {
                     alert(`La date/heure de fin doit être postérieure à la date/heure de début pour ${option.text}`);
                     return;
                 }
 
-                // Arrondir la durée
                 if (tempsPasse && tempsPasse > 0) {
                     tempsPasse = roundToHalfHour(parseInt(tempsPasse));
                 }
@@ -2336,9 +2403,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             return;
         }
 
-        console.log("Saving technicians:", techniciansToSave);
-
-        const url = `${window.BASE_URL}interventions/assignTechnicians`;
+        const url = window.BASE_URL + 'interventions/assignTechnicians';
 
         fetch(url, {
             method: "POST",
@@ -2368,6 +2433,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 alert("Erreur lors de l'enregistrement: " + error.message);
             });
     }
+
+    // Formater une date/heure
     function formatDateTime(dateTimeStr) {
         if (!dateTimeStr) return '';
         const date = new Date(dateTimeStr);
@@ -2380,6 +2447,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
         });
     }
 
+    // Échapper les caractères HTML
     function escapeHtml(str) {
         if (!str) return '';
         return str.replace(/[&<>]/g, function (m) {
@@ -2392,15 +2460,305 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     // Initialisation au chargement de la page
     document.addEventListener("DOMContentLoaded", function () {
-        // Charger les techniciens dans la page
         loadTechniciansInPage();
 
-        // Initialiser les écouteurs pour la durée
         const tempsPasseInput = document.getElementById("temps_passe");
         if (tempsPasseInput) {
             tempsPasseInput.addEventListener("input", onTempsPasseInput);
             tempsPasseInput.addEventListener("blur", onTempsPasseBlur);
         }
+    });
+</script>
+<!-- Modal PDF Viewer avec PDF.js -->
+<div class="modal fade" id="pdfViewerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfViewerTitle">
+                    <i class="bi bi-file-pdf text-danger me-2"></i>
+                    <span id="pdfFileName">Document PDF</span>
+                </h5>
+                <div class="ms-auto me-3">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="pdfZoomOutBtn"
+                        title="Zoom arrière">
+                        <i class="bi bi-zoom-out"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="pdfZoomInBtn" title="Zoom avant">
+                        <i class="bi bi-zoom-in"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="pdfResetZoomBtn"
+                        title="Zoom par défaut">
+                        <i class="bi bi-arrow-repeat"></i>
+                    </button>
+                    <span id="pdfPageInfo" class="mx-2"></span>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="pdfPrevPageBtn"
+                        title="Page précédente">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="pdfNextPageBtn"
+                        title="Page suivante">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div id="pdfViewerContainer" style="height: calc(100vh - 120px); overflow: auto; background: #525659;">
+                    <canvas id="pdfCanvas" style="display: block; margin: 0 auto;"></canvas>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" id="pdfDownloadLink" class="btn btn-primary" target="_blank">
+                    <i class="bi bi-download me-1"></i> Télécharger
+                </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Image Viewer -->
+<div class="modal fade" id="imageViewerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-image-fill text-primary me-2"></i>
+                    <span id="imageFileName">Image</span>
+                </h5>
+                <div class="ms-auto me-3">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="imageZoomOutBtn"
+                        title="Zoom arrière">
+                        <i class="bi bi-zoom-out"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="imageZoomInBtn"
+                        title="Zoom avant">
+                        <i class="bi bi-zoom-in"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="imageResetZoomBtn"
+                        title="Zoom par défaut">
+                        <i class="bi bi-arrow-repeat"></i>
+                    </button>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0" style="background: #f5f5f5;">
+                <div id="imageViewerContainer" style="height: calc(100vh - 120px); overflow: auto; text-align: center;">
+                    <img id="viewerImage" src="" alt=""
+                        style="max-width: 100%; height: auto; cursor: zoom-in; transition: transform 0.1s ease;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" id="imageDownloadLink" class="btn btn-primary" target="_blank">
+                    <i class="bi bi-download me-1"></i> Télécharger
+                </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script>
+    // Configuration du worker PDF.js
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+    let pdfDoc = null;
+    let currentPdfPage = 1;
+    let pdfScale = 1.5;
+    let pdfCanvas = null;
+    let pdfCtx = null;
+
+    let currentImageScale = 1;
+
+    // Fonction pour ouvrir le viewer PDF
+    function openPdfViewer(attachmentId, fileName) {
+        document.getElementById('pdfFileName').innerText = fileName;
+        document.getElementById('pdfDownloadLink').href = window.BASE_URL + 'interventions/download/' + attachmentId;
+
+        currentPdfPage = 1;
+        pdfScale = 1.5;
+
+        const modal = new bootstrap.Modal(document.getElementById('pdfViewerModal'));
+        modal.show();
+
+        const container = document.getElementById('pdfViewerContainer');
+        container.innerHTML = '<div class="text-center text-white py-5"><div class="spinner-border text-light" role="status"></div><p class="mt-3">Chargement du PDF...</p></div>';
+
+        fetch(window.BASE_URL + 'interventions/getFileData/' + attachmentId, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+            .then(response => response.arrayBuffer())
+            .then(data => pdfjsLib.getDocument({ data: data }).promise)
+            .then(pdf => {
+                pdfDoc = pdf;
+                document.getElementById('pdfPageInfo').innerText = `Page ${currentPdfPage} / ${pdfDoc.numPages}`;
+                container.innerHTML = '<canvas id="pdfCanvas" style="display: block; margin: 0 auto; max-width: 100%; height: auto;"></canvas>';
+                pdfCanvas = document.getElementById('pdfCanvas');
+                pdfCtx = pdfCanvas.getContext('2d');
+                renderPdfPage(currentPdfPage);
+            })
+            .catch(error => {
+                console.error('Erreur de chargement PDF:', error);
+                container.innerHTML = `
+            <div class="alert alert-danger m-3">
+                <i class="bi bi-exclamation-triangle"></i>
+                Erreur lors du chargement du PDF: ${error.message}
+                <br><br>
+                <a href="${window.BASE_URL}interventions/download/${attachmentId}" class="btn btn-primary" target="_blank">
+                    <i class="bi bi-download"></i> Télécharger le fichier
+                </a>
+            </div>
+        `;
+            });
+    }
+
+    function renderPdfPage(num) {
+        if (!pdfDoc) return;
+        pdfDoc.getPage(num).then(page => {
+            const viewport = page.getViewport({ scale: pdfScale });
+            pdfCanvas.height = viewport.height;
+            pdfCanvas.width = viewport.width;
+            pdfCanvas.style.maxWidth = '100%';
+            pdfCanvas.style.height = 'auto';
+            page.render({ canvasContext: pdfCtx, viewport: viewport });
+            document.getElementById('pdfPageInfo').innerText = `Page ${num} / ${pdfDoc.numPages}`;
+        });
+    }
+
+    // Fonction pour ouvrir le viewer d'images
+    function openImageViewer(attachmentId, fileName) {
+        document.getElementById('imageFileName').innerText = fileName;
+        document.getElementById('imageDownloadLink').href = window.BASE_URL + 'interventions/download/' + attachmentId;
+
+        currentImageScale = 1;
+        const img = document.getElementById('viewerImage');
+        img.style.transform = 'scale(1)';
+
+        const modal = new bootstrap.Modal(document.getElementById('imageViewerModal'));
+        modal.show();
+
+        const container = document.getElementById('imageViewerContainer');
+        container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-3">Chargement de l\'image...</p></div>';
+
+        const imgElement = new Image();
+        imgElement.onload = function () {
+            container.innerHTML = '';
+            container.appendChild(imgElement);
+            imgElement.id = 'viewerImage';
+            imgElement.style.maxWidth = '100%';
+            imgElement.style.height = 'auto';
+            imgElement.style.cursor = 'zoom-in';
+            imgElement.style.transition = 'transform 0.1s ease';
+            initImageControls();
+        };
+        imgElement.onerror = function () {
+            container.innerHTML = `
+            <div class="alert alert-danger m-3">
+                <i class="bi bi-exclamation-triangle"></i>
+                Erreur lors du chargement de l'image.
+                <br><br>
+                <a href="${window.BASE_URL}interventions/download/${attachmentId}" class="btn btn-primary" target="_blank">
+                    <i class="bi bi-download"></i> Télécharger le fichier
+                </a>
+            </div>
+        `;
+        };
+        imgElement.src = window.BASE_URL + 'interventions/getFileData/' + attachmentId + '?t=' + new Date().getTime();
+    }
+
+    function initImageControls() {
+        const img = document.getElementById('viewerImage');
+
+        document.getElementById('imageZoomInBtn').onclick = () => {
+            currentImageScale = Math.min(currentImageScale + 0.25, 3);
+            if (img) img.style.transform = `scale(${currentImageScale})`;
+        };
+
+        document.getElementById('imageZoomOutBtn').onclick = () => {
+            currentImageScale = Math.max(currentImageScale - 0.25, 0.5);
+            if (img) img.style.transform = `scale(${currentImageScale})`;
+        };
+
+        document.getElementById('imageResetZoomBtn').onclick = () => {
+            currentImageScale = 1;
+            if (img) img.style.transform = 'scale(1)';
+        };
+
+        // Zoom tactile pour iOS
+        const container = document.getElementById('imageViewerContainer');
+        let touchStartDistance = 0;
+        let initialScale = 1;
+
+        container.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 2) {
+                e.preventDefault();
+                touchStartDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                initialScale = currentImageScale;
+            }
+        });
+
+        container.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 2 && img) {
+                e.preventDefault();
+                const touchDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                const newScale = initialScale * (touchDistance / touchStartDistance);
+                currentImageScale = Math.min(Math.max(newScale, 0.5), 3);
+                img.style.transform = `scale(${currentImageScale})`;
+            }
+        });
+    }
+
+    // Gestion des boutons PDF
+    document.getElementById('pdfPrevPageBtn')?.addEventListener('click', () => {
+        if (pdfDoc && currentPdfPage > 1) { currentPdfPage--; renderPdfPage(currentPdfPage); }
+    });
+    document.getElementById('pdfNextPageBtn')?.addEventListener('click', () => {
+        if (pdfDoc && currentPdfPage < pdfDoc.numPages) { currentPdfPage++; renderPdfPage(currentPdfPage); }
+    });
+    document.getElementById('pdfZoomInBtn')?.addEventListener('click', () => {
+        if (pdfDoc) { pdfScale += 0.25; renderPdfPage(currentPdfPage); }
+    });
+    document.getElementById('pdfZoomOutBtn')?.addEventListener('click', () => {
+        if (pdfDoc && pdfScale > 0.5) { pdfScale -= 0.25; renderPdfPage(currentPdfPage); }
+    });
+    document.getElementById('pdfResetZoomBtn')?.addEventListener('click', () => {
+        if (pdfDoc) { pdfScale = 1.5; renderPdfPage(currentPdfPage); }
+    });
+
+    // Zoom tactile pour iOS sur PDF
+    const pdfContainer = document.getElementById('pdfViewerContainer');
+    let touchStartDistance = 0;
+    let initialPdfScale = 1.5;
+
+    pdfContainer?.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+            e.preventDefault();
+            touchStartDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+            initialPdfScale = pdfScale;
+        }
+    });
+
+    pdfContainer?.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2) {
+            e.preventDefault();
+            const touchDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+            pdfScale = Math.min(Math.max(initialPdfScale * (touchDistance / touchStartDistance), 0.5), 4);
+            if (pdfDoc) renderPdfPage(currentPdfPage);
+        }
+    });
+
+    document.getElementById('pdfViewerModal')?.addEventListener('hidden.bs.modal', () => {
+        pdfDoc = null;
+        currentPdfPage = 1;
+        pdfScale = 1.5;
     });
 </script>
 

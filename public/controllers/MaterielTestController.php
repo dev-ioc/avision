@@ -1,7 +1,8 @@
 <?php
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 
-class MaterielTestController {
+class MaterielTestController
+{
     use AccessControlTrait;
     private $db;
     private $materielModel;
@@ -10,18 +11,19 @@ class MaterielTestController {
     private $roomModel;
     private $documentationModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         // Récupérer l'instance de la base de données
         $config = Config::getInstance();
         $this->db = $config->getDb();
-        
+
         // Initialiser les modèles
         require_once MODELS_PATH . '/MaterielModel.php';
         require_once MODELS_PATH . '/ClientModel.php';
         require_once MODELS_PATH . '/SiteModel.php';
         require_once MODELS_PATH . '/RoomModel.php';
         require_once MODELS_PATH . '/DocumentationModel.php';
-        
+
         $this->materielModel = new MaterielModel($this->db);
         $this->clientModel = new ClientModel($this->db);
         $this->siteModel = new SiteModel($this->db);
@@ -32,7 +34,8 @@ class MaterielTestController {
     /**
      * Affiche la page combinée matériel et documentation avec filtres site et salle
      */
-    public function index() {
+    public function index()
+    {
         // Vérifier que l'utilisateur est un technicien ou admin
         if (!isStaff()) {
             $_SESSION['error'] = "Accès non autorisé";
@@ -42,15 +45,15 @@ class MaterielTestController {
 
         // Récupération des filtres (client, site et salle)
         $filters = [
-            'client_id' => isset($_GET['client_id']) ? (int)$_GET['client_id'] : null,
-            'site_id' => isset($_GET['site_id']) ? (int)$_GET['site_id'] : null,
-            'salle_id' => isset($_GET['salle_id']) ? (int)$_GET['salle_id'] : null
+            'client_id' => isset($_GET['client_id']) ? (int) $_GET['client_id'] : null,
+            'site_id' => isset($_GET['site_id']) ? (int) $_GET['site_id'] : null,
+            'salle_id' => isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null
         ];
 
         try {
             // Récupération de tous les clients
             $clients = $this->clientModel->getAllClients();
-            
+
             // Initialiser les variables
             $sites = [];
             $salles = [];
@@ -67,17 +70,17 @@ class MaterielTestController {
 
             // Si un site est sélectionné, récupérer les salles
             if ($filters['site_id']) {
-                $salles = $this->roomModel->getRoomsBySiteId($filters['site_id']);
+                $salles = $this->roomModel->getRoomsByBuildingId($filters['site_id']);
                 $selectedSite = $this->siteModel->getSiteById($filters['site_id']);
             }
 
             // Si une salle est sélectionnée, récupérer les données
             if ($filters['salle_id']) {
                 $selectedRoom = $this->roomModel->getRoomById($filters['salle_id']);
-                
+
                 // Log pour debug
                 custom_log("MaterielTestController::index - salle_id: " . $filters['salle_id'] . ", selectedRoom: " . ($selectedRoom ? 'found' : 'not found'), 'DEBUG');
-                
+
                 if ($selectedRoom) {
                     // Test direct de la requête SQL pour le matériel
                     $testQuery = "SELECT COUNT(*) as count FROM materiel WHERE salle_id = :salle_id";
@@ -86,17 +89,17 @@ class MaterielTestController {
                     $testStmt->execute();
                     $testResult = $testStmt->fetch(PDO::FETCH_ASSOC);
                     custom_log("MaterielTestController::index - Direct SQL count for salle_id " . $filters['salle_id'] . ": " . $testResult['count'], 'DEBUG');
-                    
+
                     // Récupération du matériel de la salle
                     // Utiliser seulement salle_id pour être sûr que ça fonctionne
                     $materiel_filters = [
                         'salle_id' => $filters['salle_id']
                     ];
-                    
+
                     custom_log("MaterielTestController::index - materiel_filters: " . json_encode($materiel_filters), 'DEBUG');
-                    
+
                     $materiel_list = $this->materielModel->getAllMateriel($materiel_filters);
-                    
+
                     // Log pour debug
                     custom_log("MaterielTestController::index - materiel_list count: " . count($materiel_list), 'DEBUG');
                     if (!empty($materiel_list)) {
@@ -117,7 +120,7 @@ class MaterielTestController {
                         $fullResult = $fullStmt->fetchAll(PDO::FETCH_ASSOC);
                         custom_log("MaterielTestController::index - Full query result count: " . count($fullResult), 'DEBUG');
                     }
-                    
+
                     // Récupération du nombre de pièces jointes pour chaque matériel
                     if (!empty($materiel_list)) {
                         $materiel_ids = array_column($materiel_list, 'id');
@@ -128,7 +131,7 @@ class MaterielTestController {
 
                     // Récupération de la documentation de la salle
                     $documentation_list = $this->getRoomDocumentation($filters['salle_id']);
-                    
+
                     // Log pour debug
                     custom_log("MaterielTestController::index - documentation_list count: " . count($documentation_list), 'DEBUG');
                 }
@@ -142,7 +145,7 @@ class MaterielTestController {
             $materiel_list = [];
             $documentation_list = [];
             $pieces_jointes_count = [];
-            
+
             // Log de l'erreur
             custom_log("Erreur lors du chargement de materiel_test : " . $e->getMessage(), 'ERROR');
         }
@@ -161,16 +164,17 @@ class MaterielTestController {
     /**
      * Récupère la documentation d'une salle
      */
-    private function getRoomDocumentation($roomId) {
+    private function getRoomDocumentation($roomId)
+    {
         // Récupérer d'abord les infos de la salle pour avoir le site_id et client_id
         $room = $this->roomModel->getRoomById($roomId);
         if (!$room) {
             return [];
         }
-        
+
         $siteId = $room['site_id'];
         $clientId = null;
-        
+
         // Récupérer le client_id depuis le site
         if ($siteId) {
             $site = $this->siteModel->getSiteById($siteId);
@@ -178,7 +182,7 @@ class MaterielTestController {
                 $clientId = $site['client_id'];
             }
         }
-        
+
         // Requête similaire à DocumentationController pour récupérer tous les documents
         // liés à la salle, au site ou au client
         $query = "
@@ -223,20 +227,20 @@ class MaterielTestController {
                 -- Documents liés directement à la salle
                 (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = :room_id)
         ";
-        
+
         $params = [':room_id' => $roomId];
-        
+
         // Ajouter les conditions pour le site et le client seulement s'ils existent
         if ($siteId) {
             $query .= " OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = :site_id)";
             $params[':site_id'] = $siteId;
         }
-        
+
         if ($clientId) {
             $query .= " OR (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = :client_id)";
             $params[':client_id'] = $clientId;
         }
-        
+
         $query .= "
             )
             ORDER BY pj.date_creation DESC
@@ -249,7 +253,7 @@ class MaterielTestController {
         $testStmt->execute();
         $testResult = $testStmt->fetch(PDO::FETCH_ASSOC);
         custom_log("getRoomDocumentation - Direct SQL count for room_id $roomId: " . $testResult['count'], 'DEBUG');
-        
+
         // Test avec tous les types de liaison
         $testQuery2 = "SELECT type_liaison, COUNT(*) as count FROM liaisons_pieces_jointes WHERE entite_id = :room_id GROUP BY type_liaison";
         $testStmt2 = $this->db->prepare($testQuery2);
@@ -257,32 +261,33 @@ class MaterielTestController {
         $testStmt2->execute();
         $testResult2 = $testStmt2->fetchAll(PDO::FETCH_ASSOC);
         custom_log("getRoomDocumentation - All types for room_id $roomId: " . json_encode($testResult2), 'DEBUG');
-        
+
         $stmt = $this->db->prepare($query);
         $stmt->execute($params);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
         // Log pour debug
         custom_log("getRoomDocumentation - roomId: $roomId, siteId: " . ($siteId ?? 'null') . ", clientId: " . ($clientId ?? 'null') . ", count: " . count($result), 'DEBUG');
         if (!empty($result)) {
             custom_log("getRoomDocumentation - First doc: " . json_encode($result[0]), 'DEBUG');
         }
-        
+
         return $result;
     }
 
     /**
      * API pour récupérer les sites d'un client (AJAX)
      */
-    public function get_sites() {
+    public function get_sites()
+    {
         if (!isStaff()) {
             http_response_code(403);
             echo json_encode(['error' => 'Accès non autorisé']);
             exit;
         }
 
-        $client_id = isset($_GET['client_id']) ? (int)$_GET['client_id'] : null;
-        
+        $client_id = isset($_GET['client_id']) ? (int) $_GET['client_id'] : null;
+
         if (!$client_id) {
             http_response_code(400);
             echo json_encode(['error' => 'Client ID manquant']);
@@ -303,15 +308,16 @@ class MaterielTestController {
     /**
      * API pour récupérer les salles d'un site (AJAX)
      */
-    public function get_rooms() {
+    public function get_rooms()
+    {
         if (!isStaff()) {
             http_response_code(403);
             echo json_encode(['error' => 'Accès non autorisé']);
             exit;
         }
 
-        $site_id = isset($_GET['site_id']) ? (int)$_GET['site_id'] : null;
-        
+        $site_id = isset($_GET['site_id']) ? (int) $_GET['site_id'] : null;
+
         if (!$site_id) {
             http_response_code(400);
             echo json_encode(['error' => 'Site ID manquant']);
@@ -319,7 +325,7 @@ class MaterielTestController {
         }
 
         try {
-            $salles = $this->roomModel->getRoomsBySiteId($site_id);
+            $salles = $this->roomModel->getRoomsByBuildingId($site_id);
             header('Content-Type: application/json');
             echo json_encode($salles);
         } catch (Exception $e) {

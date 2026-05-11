@@ -10,7 +10,8 @@ require_once __DIR__ . '/../includes/DateUtils.php';
 require_once __DIR__ . '/../classes/Services/AttachmentService.php';
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 
-class ContractController {
+class ContractController
+{
     use AccessControlTrait;
     private $db;
     private $contractModel;
@@ -19,7 +20,8 @@ class ContractController {
     private $roomModel;
     private $accessLevelModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         global $db;
         $this->db = $db;
         $this->contractModel = new ContractModel($this->db);
@@ -33,14 +35,15 @@ class ContractController {
     /**
      * Vérifie si l'utilisateur peut gérer les contrats (admin ou permission spécifique)
      */
-    private function checkContractManagementAccess() {
+    private function checkContractManagementAccess()
+    {
         $this->checkAccess();
-        
+
         // Les administrateurs ont toujours accès
         if (isAdmin()) {
             return;
         }
-        
+
         // Vérifier la permission spécifique
         if (!canManageContracts()) {
             $_SESSION['error'] = "Vous n'avez pas les permissions pour gérer les contrats.";
@@ -52,7 +55,8 @@ class ContractController {
     /**
      * Affiche la liste des contrats
      */
-    public function index($id = null) {
+    public function index($id = null)
+    {
         $this->checkAccess();
 
         // Si un ID est fourni, rediriger vers la page d'édition du client
@@ -63,7 +67,7 @@ class ContractController {
 
         // Récupérer le filtre d'affichage des statuts
         $show_status = $_GET['show_status'] ?? 'actif'; // Par défaut: 'actif'
-        
+
         // Récupérer le filtre d'affichage des types de tickets
         $ticket_type = $_GET['ticket_type'] ?? 'all'; // Par défaut: 'all'
 
@@ -115,15 +119,15 @@ class ContractController {
         // Récupérer les salles pour le filtre (si un site est sélectionné)
         $rooms = [];
         if ($filters['site_id']) {
-            $rooms = $this->roomModel->getRoomsBySiteId($filters['site_id']);
+            $rooms = $this->roomModel->getRoomsByBuildingId($filters['site_id']);
         }
 
         // Récupérer les types de contrats
         $contractTypes = $this->contractModel->getContractTypes();
-        
+
         // Passer la vue de filtre actuelle au template pour l'affichage des boutons
         $current_filter_view = $show_status;
-        
+
         // Passer le filtre de type de tickets au template
         $current_ticket_filter = $ticket_type;
 
@@ -137,12 +141,13 @@ class ContractController {
     /**
      * Affiche le formulaire d'ajout d'un contrat
      */
-    public function add($clientId = null) {
+    public function add($clientId = null)
+    {
         checkContractManagementAccess();
 
         // echo "Debug: Entered add method.<br>"; // Temporary debug
 
-        $client = null; 
+        $client = null;
         $sites = [];
         $rooms = [];
         $allClientsForDropdown = null;
@@ -167,7 +172,7 @@ class ContractController {
                 // echo "Debug: Client data fetched.<br>"; // Temporary debug
                 $sites = $this->siteModel->getSitesByClientId($clientId);
                 foreach ($sites as $site) {
-                    $siteRooms = $this->roomModel->getRoomsBySiteId($site['id']);
+                    $siteRooms = $this->roomModel->getRoomsByBuildingId($site['id']);
                     foreach ($siteRooms as $room) {
                         $rooms[] = $room;
                     }
@@ -176,7 +181,7 @@ class ContractController {
             } else {
                 // Aucun ID client fourni
                 // echo "Debug: clientId is null, fetching all clients.<br>"; // Temporary debug
-                $allClientsForDropdown = $this->clientModel->getAllClients(); 
+                $allClientsForDropdown = $this->clientModel->getAllClients();
                 // if ($allClientsForDropdown === null) { echo "Debug: getAllClients returned null.<br>"; } // Temporary debug
                 // else { echo "Debug: getAllClients returned " . count($allClientsForDropdown) . " clients.<br>"; } // Temporary debug
             }
@@ -185,10 +190,10 @@ class ContractController {
             $contractTypes = $this->contractModel->getContractTypes();
             // if ($contractTypes === null) { echo "Debug: getContractTypes returned null.<br>"; } // Temporary debug
             // else { echo "Debug: getContractTypes returned " . count($contractTypes) . " types.<br>"; } // Temporary debug
-            
+
             // Récupérer les niveaux d'accès disponibles
             $accessLevels = $this->accessLevelModel->getAllAccessLevels();
-            
+
             // echo "Debug: About to load view /contract/add.php.<br>"; // Temporary debug
             // exit; // <<< ADD THIS EXIT TEMPORARILY TO SEE IF WE REACH HERE
 
@@ -210,7 +215,8 @@ class ContractController {
     /**
      * Traite l'ajout d'un contrat
      */
-    public function create() {
+    public function create()
+    {
         checkContractManagementAccess();
 
         try {
@@ -243,7 +249,7 @@ class ContractController {
             if (empty($clientId) || empty($contractTypeId) || empty($accessLevelId) || empty($name) || empty($startDate) || empty($endDate)) {
                 $_SESSION['error'] = "Tous les champs obligatoires doivent être remplis.";
                 $_SESSION['form_data'] = $_POST;
-                
+
                 // Gérer le retour en cas d'erreur de validation
                 $returnTo = $_GET['return_to'] ?? 'index';
                 if ($returnTo === 'view') {
@@ -280,12 +286,12 @@ class ContractController {
                 // Récupérer les informations du type de contrat pour les interventions préventives
                 $contractType = $this->contractModel->getContractTypeById($contractTypeId);
                 $nbInterPrev = $contractType['nb_inter_prev'] ?? 0;
-                
+
                 // Vérifier que c'est un contrat non-ticket (tickets initiaux = 0)
                 if ($nbInterPrev > 0 && $ticketsNumber == 0) {
                     // Récupérer les salles du contrat
                     $contractRooms = $this->contractModel->getContractRooms($result);
-                    
+
                     if (!empty($contractRooms)) {
                         // Programmer les interventions préventives pour chaque salle
                         $scheduledInterventions = [];
@@ -297,7 +303,7 @@ class ContractController {
                                 '09:00', // Heure par défaut
                                 $room // Passer les informations de la salle
                             );
-                            
+
                             // Ajouter les interventions de cette salle
                             foreach ($roomInterventions as $intervention) {
                                 $intervention['room_id'] = $room['room_id'];
@@ -306,7 +312,7 @@ class ContractController {
                                 $scheduledInterventions[] = $intervention;
                             }
                         }
-                        
+
                         // Stocker les interventions programmées en session pour confirmation
                         $_SESSION['scheduled_interventions'] = $scheduledInterventions;
                         $_SESSION['contract_id'] = $result;
@@ -314,13 +320,13 @@ class ContractController {
                         $_SESSION['contract_name'] = $name;
                         $_SESSION['nb_interventions'] = count($scheduledInterventions);
                         $_SESSION['nb_rooms'] = count($contractRooms);
-                        
+
                         $_SESSION['success'] = "Le contrat a été créé avec succès. " . count($scheduledInterventions) . " intervention(s) préventive(s) ont été programmées pour " . count($contractRooms) . " salle(s).";
                         header('Location: ' . BASE_URL . 'contracts/confirmPreventiveInterventions/' . $result);
                         exit;
                     } else {
                         $_SESSION['success'] = "Le contrat a été créé avec succès. Aucune salle associée, donc pas d'interventions préventives.";
-                        
+
                         // Gérer le retour intelligent
                         $returnTo = $_GET['return_to'] ?? 'index';
                         if ($returnTo === 'view') {
@@ -336,7 +342,7 @@ class ContractController {
                     } else {
                         $_SESSION['success'] = "Le contrat a été créé avec succès.";
                     }
-                    
+
                     // Gérer le retour intelligent
                     $returnTo = $_GET['return_to'] ?? 'index';
                     if ($returnTo === 'view') {
@@ -349,7 +355,7 @@ class ContractController {
             } else {
                 $_SESSION['error'] = "Une erreur est survenue lors de la création du contrat.";
                 $_SESSION['form_data'] = $_POST;
-                
+
                 // Gérer le retour en cas d'erreur
                 $returnTo = $_GET['return_to'] ?? 'index';
                 if ($returnTo === 'view') {
@@ -363,7 +369,7 @@ class ContractController {
             custom_log("Erreur dans ContractController::create : " . $e->getMessage(), 'ERROR');
             $_SESSION['error'] = "Une erreur est survenue lors de la création du contrat.";
             $_SESSION['form_data'] = $_POST;
-            
+
             // Gérer le retour en cas d'erreur
             $returnTo = $_GET['return_to'] ?? 'index';
             if ($returnTo === 'view') {
@@ -378,7 +384,8 @@ class ContractController {
     /**
      * Affiche la page de confirmation des interventions préventives
      */
-    public function confirmPreventiveInterventions($contractId) {
+    public function confirmPreventiveInterventions($contractId)
+    {
         checkContractManagementAccess();
 
         try {
@@ -437,7 +444,8 @@ class ContractController {
     /**
      * Crée les interventions préventives confirmées
      */
-    public function createPreventiveInterventions() {
+    public function createPreventiveInterventions()
+    {
         checkContractManagementAccess();
 
         try {
@@ -481,7 +489,7 @@ class ContractController {
                 $technicianId = $_POST['technician_id'][$index] ?? null;
                 $typeId = $_POST['type_id'][$index] ?? 2; // Maintenance par défaut
                 $description = $_POST['description'][$index] ?? $intervention['description'];
-                
+
                 // Ajouter le commentaire additionnel s'il existe
                 if (isset($intervention['comment']) && !empty($intervention['comment'])) {
                     $description .= "\n\n" . $intervention['comment'];
@@ -490,7 +498,7 @@ class ContractController {
                 // Récupérer les informations de salle si disponibles
                 $roomId = $intervention['room_id'] ?? null;
                 $siteId = null;
-                
+
                 // Si on a une room_id, récupérer le site_id correspondant
                 if ($roomId) {
                     $roomQuery = "SELECT site_id FROM rooms WHERE id = :room_id";
@@ -499,7 +507,7 @@ class ContractController {
                     $roomData = $roomStmt->fetch(PDO::FETCH_ASSOC);
                     $siteId = $roomData['site_id'] ?? null;
                 }
-                
+
                 // Créer l'intervention
                 $interventionData = [
                     'title' => $title,
@@ -530,7 +538,7 @@ class ContractController {
             // Sauvegarder l'ID du contrat avant de nettoyer la session
             $contractId = $_SESSION['contract_id'];
             $isExistingContract = $_SESSION['is_existing_contract'] ?? false;
-            
+
             // Nettoyer les données de session
             unset($_SESSION['scheduled_interventions']);
             unset($_SESSION['contract_id']);
@@ -541,7 +549,7 @@ class ContractController {
             unset($_SESSION['is_existing_contract']);
 
             $_SESSION['success'] = "{$createdCount} intervention(s) préventive(s) ont été créées avec succès.";
-            
+
             // Rediriger vers le contrat si c'était un contrat existant
             if ($isExistingContract) {
                 header('Location: ' . BASE_URL . 'contracts/view/' . $contractId);
@@ -561,13 +569,14 @@ class ContractController {
     /**
      * Ignore la création des interventions préventives
      */
-    public function ignorePreventiveInterventions() {
+    public function ignorePreventiveInterventions()
+    {
         checkContractManagementAccess();
 
         // Sauvegarder l'ID du contrat avant de nettoyer la session
         $contractId = $_SESSION['contract_id'] ?? null;
         $isExistingContract = $_SESSION['is_existing_contract'] ?? false;
-        
+
         // Nettoyer les données de session
         unset($_SESSION['scheduled_interventions']);
         unset($_SESSION['contract_id']);
@@ -591,7 +600,8 @@ class ContractController {
     /**
      * Affiche le formulaire d'édition d'un contrat
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         checkContractManagementAccess();
 
         try {
@@ -604,7 +614,7 @@ class ContractController {
 
             // Récupérer les informations du contrat
             $contract = $this->contractModel->getContractById($id);
-            
+
             if (!$contract) {
                 $_SESSION['error'] = "Contrat non trouvé";
                 header('Location: ' . BASE_URL . 'dashboard');
@@ -636,7 +646,8 @@ class ContractController {
     /**
      * Met à jour un contrat
      */
-    public function update($id) {
+    public function update($id)
+    {
         checkContractManagementAccess();
 
         try {
@@ -685,7 +696,7 @@ class ContractController {
             $oldContract = $this->contractModel->getContractById($id);
             $oldAccessLevelId = $oldContract['access_level_id'] ?? null;
             $accessLevelChanged = ($oldAccessLevelId != $accessLevelId);
-            
+
             // Vérification de sécurité : si on désactive les tickets, vérifier qu'il n'y a pas d'interventions qui ont décompté des tickets
             $oldIsticketcontract = $oldContract['isticketcontract'] ?? 0;
             if ($oldIsticketcontract == 1 && $isticketcontract == 0) {
@@ -698,12 +709,12 @@ class ContractController {
                 ");
                 $stmt->execute([$id]);
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                
+
                 if ($result['count'] > 0) {
                     // Il y a des interventions qui ont décompté des tickets
                     $totalTicketsUsed = $result['total_tickets_used'] ?? 0;
                     $interventionsCount = $result['count'];
-                    
+
                     // Vérifier si l'utilisateur a confirmé la suppression des tickets
                     if (!isset($_POST['confirm_ticket_removal'])) {
                         // Afficher un message d'erreur avec demande de confirmation
@@ -788,18 +799,18 @@ class ContractController {
             if ($result) {
                 // Enregistrer les modifications dans l'historique
                 $this->contractModel->recordChanges($id, $oldContract, $newData);
-                
+
                 $_SESSION['success'] = "Le contrat a été mis à jour avec succès.";
-                
+
                 // Si le niveau d'accès a changé, proposer de mettre à jour les matériels
                 if ($accessLevelChanged) {
                     // Récupérer les informations sur les niveaux d'accès
                     $oldAccessLevel = $this->accessLevelModel->getAccessLevelById($oldAccessLevelId);
                     $newAccessLevel = $this->accessLevelModel->getAccessLevelById($accessLevelId);
-                    
+
                     // Compter les matériels affectés
                     $affectedMaterials = $this->countMaterialsForContract($id);
-                    
+
                     if ($affectedMaterials > 0) {
                         $_SESSION['access_level_change'] = [
                             'contract_id' => $id,
@@ -807,13 +818,13 @@ class ContractController {
                             'new_level' => $newAccessLevel,
                             'affected_materials' => $affectedMaterials
                         ];
-                        
+
                         // Rediriger vers une page de confirmation
                         header('Location: ' . BASE_URL . 'contracts/confirm_access_level_change/' . $id);
                         exit;
                     }
                 }
-                
+
                 header('Location: ' . BASE_URL . 'contracts/view/' . $id);
                 exit;
             } else {
@@ -834,7 +845,8 @@ class ContractController {
     /**
      * Supprime un contrat
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         $this->checkAdminAccess("Seuls les administrateurs peuvent gérer les contrats.");
 
         // Déterminer l'URL de redirection
@@ -871,8 +883,8 @@ class ContractController {
             exit;
         }
     }
-
-    public function view($id) {
+    public function view($id)
+    {
         // Vérifier les permissions
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -882,27 +894,47 @@ class ContractController {
         try {
             // Récupérer le contrat avec les informations associées
             $contract = $this->contractModel->getContractById($id);
-            
+
             if (!$contract) {
                 $_SESSION['error'] = "Contrat introuvable.";
                 header('Location: ' . BASE_URL . 'contracts');
                 exit;
             }
 
-            // Récupérer les interventions associées
+            // Récupérer les interventions associées - CORRIGÉ (plus de LEFT JOIN sur users)
             $sql_interventions = "SELECT i.*, 
-                    CONCAT(u.first_name, ' ', u.last_name) as technician_name,
-                    ist.name as status_name,
-                    ist.color as status_color
-                    FROM interventions i
-                    LEFT JOIN users u ON i.technician_id = u.id
-                    LEFT JOIN intervention_statuses ist ON i.status_id = ist.id
-                    WHERE i.contract_id = ?
-                    ORDER BY COALESCE(i.date_planif, i.created_at) DESC";
-            
+                ist.name as status_name,
+                ist.color as status_color
+                FROM interventions i
+                LEFT JOIN intervention_statuses ist ON i.status_id = ist.id
+                WHERE i.contract_id = ?
+                ORDER BY COALESCE(i.created_at) DESC";
+
             $stmt_interventions = $this->db->prepare($sql_interventions);
             $stmt_interventions->execute([$id]);
             $interventions = $stmt_interventions->fetchAll(PDO::FETCH_ASSOC);
+
+            // Pour chaque intervention, récupérer les techniciens assignés
+            require_once __DIR__ . '/../models/UserModel.php';
+            $userModel = new UserModel($this->db);
+
+            foreach ($interventions as &$intervention) {
+                // Récupérer les techniciens assignés à cette intervention
+                $sql_technicians = "SELECT u.id, u.first_name, u.last_name, u.email
+                                FROM intervention_techniciens it
+                                JOIN users u ON it.technicien_id = u.id
+                                WHERE it.intervention_id = ?";
+                $stmt_tech = $this->db->prepare($sql_technicians);
+                $stmt_tech->execute([$intervention['id']]);
+                $technicians = $stmt_tech->fetchAll(PDO::FETCH_ASSOC);
+
+                // Construire le nom des techniciens pour l'affichage
+                $technician_names = [];
+                foreach ($technicians as $tech) {
+                    $technician_names[] = $tech['first_name'] . ' ' . $tech['last_name'];
+                }
+                $intervention['technician_name'] = !empty($technician_names) ? implode(', ', $technician_names) : 'Non assigné';
+            }
 
             // Récupérer les pièces jointes
             $attachments = $this->contractModel->getPiecesJointes($id);
@@ -923,9 +955,10 @@ class ContractController {
     /**
      * Endpoint AJAX pour récupérer les salles d'un client
      */
-    public function getRoomsForClient($clientId) {
+    public function getRoomsForClient($clientId)
+    {
         $this->checkAccess();
-        
+
         try {
             if (!$clientId || !is_numeric($clientId)) {
                 http_response_code(400);
@@ -934,7 +967,7 @@ class ContractController {
             }
 
             $rooms = $this->contractModel->getRoomsForClient($clientId);
-            
+
             header('Content-Type: application/json');
             echo json_encode(['rooms' => $rooms]);
         } catch (Exception $e) {
@@ -946,7 +979,8 @@ class ContractController {
     /**
      * Compte les matériels associés à un contrat
      */
-    private function countMaterialsForContract($contractId) {
+    private function countMaterialsForContract($contractId)
+    {
         $query = "SELECT COUNT(*) as count 
                   FROM materiel m 
                   INNER JOIN contract_rooms cr ON m.salle_id = cr.room_id 
@@ -960,24 +994,25 @@ class ContractController {
     /**
      * Affiche la page de confirmation pour la mise à jour des matériels
      */
-    public function confirmAccessLevelChange($contractId) {
+    public function confirmAccessLevelChange($contractId)
+    {
         $this->checkAdminAccess("Seuls les administrateurs peuvent gérer les contrats.");
-        
+
         if (!isset($_SESSION['access_level_change']) || $_SESSION['access_level_change']['contract_id'] != $contractId) {
             $_SESSION['error'] = "Session de confirmation invalide.";
             header('Location: ' . BASE_URL . 'contracts');
             exit;
         }
-        
+
         $changeData = $_SESSION['access_level_change'];
         $contract = $this->contractModel->getContractById($contractId);
-        
+
         if (!$contract) {
             $_SESSION['error'] = "Contrat introuvable.";
             header('Location: ' . BASE_URL . 'contracts');
             exit;
         }
-        
+
         // Charger la vue de confirmation
         require_once VIEWS_PATH . '/contract/confirm_access_level_change.php';
     }
@@ -985,51 +1020,52 @@ class ContractController {
     /**
      * Traite la mise à jour des matériels suite au changement de niveau d'accès
      */
-    public function applyAccessLevelChange($contractId) {
+    public function applyAccessLevelChange($contractId)
+    {
         $this->checkAdminAccess("Seuls les administrateurs peuvent gérer les contrats.");
-        
+
         if (!isset($_SESSION['access_level_change']) || $_SESSION['access_level_change']['contract_id'] != $contractId) {
             $_SESSION['error'] = "Session de confirmation invalide.";
             header('Location: ' . BASE_URL . 'contracts');
             exit;
         }
-        
+
         try {
             $changeData = $_SESSION['access_level_change'];
             $newAccessLevelId = $changeData['new_level']['id'];
-            
+
             // Récupérer les règles de visibilité du nouveau niveau d'accès
             $visibilityRules = $this->accessLevelModel->getVisibilityRulesForLevel($newAccessLevelId);
-            
+
             // Log des règles de visibilité
             custom_log("[DEBUG] Règles de visibilité pour le niveau d'accès $newAccessLevelId : " . json_encode($visibilityRules), 'DEBUG');
-            
+
             // Récupérer tous les matériels des salles associées au contrat
             $query = "SELECT m.id FROM materiel m 
                      INNER JOIN contract_rooms cr ON m.salle_id = cr.room_id
                      WHERE cr.contract_id = :contract_id";
-            
+
             $stmt = $this->db->prepare($query);
             $stmt->execute([':contract_id' => $contractId]);
             $materiels = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
+
             custom_log("[DEBUG] Matériels trouvés pour le contrat $contractId : " . count($materiels), 'DEBUG');
-            
+
             // Mettre à jour la visibilité pour chaque matériel
             $materielModel = new MaterielModel($this->db);
             $affectedRows = 0;
-            
+
             foreach ($materiels as $materiel) {
                 $materielId = $materiel['id'];
-                
+
                 // Préparer les visibilités basées sur les règles du niveau d'accès
                 $visibilites = [];
                 foreach ($visibilityRules as $champ => $visible) {
                     $visibilites[$champ] = $visible;
                 }
-                
+
                 custom_log("[DEBUG] Mise à jour matériel $materielId avec visibilités : " . json_encode($visibilites), 'DEBUG');
-                
+
                 // Sauvegarder les visibilités pour ce matériel
                 if ($materielModel->saveVisibiliteChamps($materielId, $visibilites)) {
                     $affectedRows++;
@@ -1038,16 +1074,16 @@ class ContractController {
                     custom_log("[ERROR] Échec de la mise à jour du matériel $materielId", 'ERROR');
                 }
             }
-            
+
             // $affectedRows est déjà calculé dans la boucle
-            
+
             // Nettoyer la session
             unset($_SESSION['access_level_change']);
-            
+
             $_SESSION['success'] = "Le niveau d'accès a été mis à jour et $affectedRows matériel(s) ont été modifié(s).";
             header('Location: ' . BASE_URL . 'contracts');
             exit;
-            
+
         } catch (Exception $e) {
             custom_log("[ERROR] Exception dans ContractController::applyAccessLevelChange : " . $e->getMessage() . "\nTrace: " . $e->getTraceAsString(), 'ERROR');
             $_SESSION['error'] = "Une erreur est survenue lors de la mise à jour des matériels.";
@@ -1059,18 +1095,19 @@ class ContractController {
     /**
      * Ignore la mise à jour des matériels
      */
-    public function ignoreAccessLevelChange($contractId) {
+    public function ignoreAccessLevelChange($contractId)
+    {
         $this->checkAdminAccess("Seuls les administrateurs peuvent gérer les contrats.");
-        
+
         if (!isset($_SESSION['access_level_change']) || $_SESSION['access_level_change']['contract_id'] != $contractId) {
             $_SESSION['error'] = "Session de confirmation invalide.";
             header('Location: ' . BASE_URL . 'contracts');
             exit;
         }
-        
+
         // Nettoyer la session
         unset($_SESSION['access_level_change']);
-        
+
         $_SESSION['success'] = "Le contrat a été mis à jour. Les matériels n'ont pas été modifiés.";
         header('Location: ' . BASE_URL . 'contracts');
         exit;
@@ -1079,9 +1116,10 @@ class ContractController {
     /**
      * Endpoint AJAX pour charger les salles d'un client avec HTML formaté
      */
-    public function load_client_rooms() {
+    public function load_client_rooms()
+    {
         $this->checkAccess();
-        
+
         try {
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
                 http_response_code(405);
@@ -1100,7 +1138,7 @@ class ContractController {
 
             // Récupérer les salles du client
             $rooms = $this->contractModel->getRoomsForClient($clientId);
-            
+
             // Récupérer les salles déjà associées au contrat (si en mode édition)
             $selectedRooms = [];
             if ($contractId && is_numeric($contractId)) {
@@ -1130,11 +1168,11 @@ class ContractController {
                     echo '<strong class="text-primary">' . h($siteName) . '</strong>';
                     echo '</div>';
                     echo '<div class="ms-4">';
-                    
+
                     foreach ($siteRooms as $room) {
                         $roomId = $room['id'];
                         $isChecked = in_array($roomId, array_column($selectedRooms, 'room_id'));
-                        
+
                         echo '<div class="form-check mb-1">';
                         echo '<input class="form-check-input" type="checkbox" ';
                         echo 'id="room_' . $roomId . '" name="rooms[]" ';
@@ -1149,7 +1187,7 @@ class ContractController {
                         echo '</label>';
                         echo '</div>';
                     }
-                    
+
                     echo '</div>';
                     echo '</div>';
                 }
@@ -1159,12 +1197,12 @@ class ContractController {
                 echo ' Aucune salle disponible pour ce client';
                 echo '</div>';
             }
-            
+
             $html = ob_get_clean();
-            
+
             header('Content-Type: application/json');
             echo json_encode(['html' => $html]);
-            
+
         } catch (Exception $e) {
             custom_log("Erreur dans ContractController::load_client_rooms : " . $e->getMessage(), 'ERROR');
             http_response_code(500);
@@ -1175,7 +1213,8 @@ class ContractController {
     /**
      * Ajoute une pièce jointe à un contrat
      */
-    public function addAttachment($contractId) {
+    public function addAttachment($contractId)
+    {
         $this->checkAccess();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -1239,7 +1278,7 @@ class ContractController {
 
                 // Ajouter la pièce jointe
                 $pieceJointeId = $this->contractModel->addPieceJointe($contractId, $data);
-                
+
                 $_SESSION['success'] = "Pièce jointe ajoutée avec succès";
             } else {
                 throw new Exception("Erreur lors du déplacement du fichier");
@@ -1258,7 +1297,8 @@ class ContractController {
      * Ajoute plusieurs pièces jointes à un contrat (Drag & Drop)
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function addMultipleAttachments($contractId) {
+    public function addMultipleAttachments($contractId)
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Content-Type: application/json');
@@ -1286,7 +1326,7 @@ class ContractController {
 
             // Utiliser AttachmentService pour gérer l'upload
             $attachmentService = new AttachmentService($this->db);
-            
+
             // Préparer les options
             $options = [
                 'descriptions' => $_POST['file_description'] ?? [],
@@ -1331,14 +1371,15 @@ class ContractController {
      * Supprime une pièce jointe d'un contrat
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function deleteAttachment($contractId, $pieceJointeId) {
+    public function deleteAttachment($contractId, $pieceJointeId)
+    {
         $this->checkAccess();
 
         try {
             // Utiliser AttachmentService pour gérer la suppression
             $attachmentService = new AttachmentService($this->db);
             $attachmentService->delete($pieceJointeId, AttachmentService::TYPE_CONTRACT, $contractId);
-            
+
             $_SESSION['success'] = "Pièce jointe supprimée avec succès";
 
         } catch (Exception $e) {
@@ -1354,7 +1395,8 @@ class ContractController {
      * Télécharge une pièce jointe
      * Utilise AttachmentService pour centraliser la logique
      */
-    public function download($pieceJointeId) {
+    public function download($pieceJointeId)
+    {
         $this->checkAccess();
 
         try {
@@ -1373,16 +1415,17 @@ class ContractController {
     /**
      * Aperçu d'une pièce jointe
      */
-    public function preview($attachmentId) {
+    public function preview($attachmentId)
+    {
         $this->checkAccess();
 
         try {
             // Log pour débogage
             custom_log("Tentative d'aperçu contrat pour l'ID: " . $attachmentId, 'DEBUG');
-            
+
             // Récupérer les informations de la pièce jointe
             $pieceJointe = $this->contractModel->getPieceJointeById($attachmentId);
-            
+
             if (!$pieceJointe) {
                 throw new Exception("Pièce jointe non trouvée");
             }
@@ -1391,7 +1434,7 @@ class ContractController {
 
             $filePath = __DIR__ . '/../../' . $pieceJointe['chemin_fichier'];
             custom_log("Chemin du fichier: " . $filePath, 'DEBUG');
-            
+
             if (!file_exists($filePath)) {
                 custom_log("Le fichier n'existe pas: " . $filePath, 'ERROR');
                 throw new Exception("Fichier non trouvé");
@@ -1402,7 +1445,7 @@ class ContractController {
             // Définir les en-têtes pour l'aperçu
             $mimeType = mime_content_type($filePath);
             custom_log("Type MIME détecté: " . ($mimeType ?: 'null'), 'DEBUG');
-            
+
             if (!$mimeType) {
                 // Fallback basé sur l'extension si mime_content_type échoue
                 $extension = strtolower(pathinfo($pieceJointe['nom_fichier'], PATHINFO_EXTENSION));
@@ -1434,9 +1477,9 @@ class ContractController {
                         break;
                 }
             }
-            
+
             header('Content-Type: ' . $mimeType);
-            
+
             // Pour les images et PDFs, utiliser inline pour la prévisualisation
             if (strpos($mimeType, 'image/') === 0 || $mimeType === 'application/pdf') {
                 header('Content-Disposition: inline; filename="' . $pieceJointe['nom_fichier'] . '"');
@@ -1469,14 +1512,15 @@ class ContractController {
     /**
      * Change la visibilité d'une pièce jointe
      */
-    public function toggleAttachmentVisibility($contractId, $pieceJointeId) {
+    public function toggleAttachmentVisibility($contractId, $pieceJointeId)
+    {
         $this->checkAccess();
 
         try {
             // Récupérer les informations de la pièce jointe
             $attachments = $this->contractModel->getPiecesJointes($contractId);
             $pieceJointe = null;
-            
+
             foreach ($attachments as $piece) {
                 if ($piece['id'] == $pieceJointeId) {
                     $pieceJointe = $piece;
@@ -1491,9 +1535,9 @@ class ContractController {
             // Inverser la visibilité
             $newVisibility = $pieceJointe['masque_client'] == 1 ? 0 : 1;
             $this->contractModel->updatePieceJointeVisibility($pieceJointeId, $newVisibility);
-            
-            $_SESSION['success'] = $newVisibility == 1 ? 
-                "Pièce jointe masquée aux clients" : 
+
+            $_SESSION['success'] = $newVisibility == 1 ?
+                "Pièce jointe masquée aux clients" :
                 "Pièce jointe rendue visible aux clients";
 
         } catch (Exception $e) {
@@ -1508,7 +1552,8 @@ class ContractController {
     /**
      * Ajoute des tickets à un contrat
      */
-    public function addTickets($contractId) {
+    public function addTickets($contractId)
+    {
         $this->checkAdminAccess("Seuls les administrateurs peuvent gérer les contrats.");
 
         try {
@@ -1524,7 +1569,7 @@ class ContractController {
             }
 
             // Récupérer les données du formulaire
-            $ticketsToAdd = (int)($_POST['tickets_to_add'] ?? 0);
+            $ticketsToAdd = (int) ($_POST['tickets_to_add'] ?? 0);
             $addTicketsDate = $_POST['add_tickets_date'] ?? date('Y-m-d');
             $addTicketsComment = trim($_POST['add_tickets_comment'] ?? '');
             $newNumFacture = trim($_POST['new_num_facture'] ?? '');
@@ -1641,7 +1686,7 @@ class ContractController {
                 'tickets_remaining' => $newTicketsRemaining,
                 'updated_at' => 'NOW()'
             ];
-            
+
             $oldNumFacture = $contract['num_facture'];
             if (!empty($newNumFacture)) {
                 $updateFields['num_facture'] = $newNumFacture;
@@ -1681,8 +1726,8 @@ class ContractController {
             if ($result) {
                 // Enregistrer dans l'historique
                 $this->contractModel->recordTicketAddition(
-                    $contractId, 
-                    $ticketsToAdd, 
+                    $contractId,
+                    $ticketsToAdd,
                     $addTicketsDate,
                     $addTicketsComment,
                     $oldNumFacture,
@@ -1692,7 +1737,7 @@ class ContractController {
                 );
 
                 custom_log("DEBUG - Historique enregistré", 'DEBUG');
-                
+
                 $successMessage = "$ticketsToAdd tickets ajoutés avec succès au contrat.";
                 if (!empty($newNumFacture)) {
                     $successMessage .= " Numéro de facture mis à jour.";
@@ -1704,7 +1749,7 @@ class ContractController {
                 if ($avenantUploaded) {
                     $successMessage .= " Avenant uploadé.";
                 }
-                
+
                 $_SESSION['success'] = $successMessage;
             } else {
                 $_SESSION['error'] = "Erreur lors de l'ajout des tickets.";
@@ -1724,7 +1769,8 @@ class ContractController {
     /**
      * Vérifie les droits de renouvellement de contrat
      */
-    private function checkRenewalRights() {
+    private function checkRenewalRights()
+    {
         // Vérifier que l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -1742,7 +1788,8 @@ class ContractController {
     /**
      * Renouvelle un contrat avec renouvellement tacite
      */
-    public function renew($contractId) {
+    public function renew($contractId)
+    {
         $this->checkRenewalRights();
 
         try {
@@ -1780,7 +1827,7 @@ class ContractController {
             $daysUntilEnd = $today->diff($endDate)->days;
             $isExpired = $today > $endDate;
             $canRenew = ($daysUntilEnd <= 30 && $daysUntilEnd >= 0) || $isExpired;
-            
+
             if (!$canRenew) {
                 $_SESSION['error'] = "Le contrat ne peut être renouvelé que dans les 30 jours précédant sa date de fin ou après son expiration.";
                 header('Location: ' . BASE_URL . 'contracts/view/' . $contractId);
@@ -1804,8 +1851,8 @@ class ContractController {
 
             // Déterminer les tickets pour le nouveau contrat
             $newTicketsNumber = $currentContract['tickets_number'];
-            $newTicketsRemaining = isContractTicketById($currentContract['id']) ? 
-                ($resetTickets ? $currentContract['tickets_number'] : $currentContract['tickets_remaining']) : 
+            $newTicketsRemaining = isContractTicketById($currentContract['id']) ?
+                ($resetTickets ? $currentContract['tickets_number'] : $currentContract['tickets_remaining']) :
                 0;
 
             // Créer le nouveau contrat
@@ -1871,7 +1918,8 @@ class ContractController {
     /**
      * Affiche la page de confirmation des interventions préventives pour un contrat existant
      */
-    public function generatePreventiveInterventions($contractId) {
+    public function generatePreventiveInterventions($contractId)
+    {
         checkContractManagementAccess();
 
         try {
@@ -1899,7 +1947,7 @@ class ContractController {
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Traitement du formulaire de génération
-                $nbInterventions = (int)($_POST['nb_interventions'] ?? 4);
+                $nbInterventions = (int) ($_POST['nb_interventions'] ?? 4);
                 $defaultHour = $_POST['default_hour'] ?? '09:00';
                 $interventionComment = $_POST['intervention_comment'] ?? '';
 
@@ -1912,7 +1960,7 @@ class ContractController {
 
                 // Récupérer les salles du contrat
                 $contractRooms = $this->contractModel->getContractRooms($contractId);
-                
+
                 if (empty($contractRooms)) {
                     $_SESSION['error'] = "Ce contrat n'a pas de salles associées. Impossible de créer des interventions préventives.";
                     header('Location: ' . BASE_URL . 'contracts/view/' . $contractId);
@@ -1929,7 +1977,7 @@ class ContractController {
                         $defaultHour,
                         $room
                     );
-                    
+
                     // Ajouter les interventions de cette salle
                     foreach ($roomInterventions as $intervention) {
                         $intervention['room_id'] = $room['room_id'];
@@ -1967,7 +2015,8 @@ class ContractController {
     /**
      * Affiche le formulaire de génération d'interventions préventives
      */
-    private function showGeneratePreventiveForm($contractId) {
+    private function showGeneratePreventiveForm($contractId)
+    {
         checkContractManagementAccess();
 
         try {
@@ -2000,4 +2049,4 @@ class ContractController {
             exit;
         }
     }
-} 
+}

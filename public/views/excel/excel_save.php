@@ -1,133 +1,248 @@
 <?php
+// Fichier: public/views/excel/excel_save.php
+error_reporting(0); // Désactiver l'affichage des erreurs
+ini_set('display_errors', 0);
 header('Content-Type: application/json');
 session_start();
 
-require_once __DIR__ . '/../../includes/functions.php';
-
-$host = 'localhost';
-$db = 'avision';
-$user = 'root';
-$pass = '';
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    ]);
-} catch (PDOException $e) {
-    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-    exit;
+// Log simple
+function simple_log($msg, $data = null)
+{
+    $logFile = __DIR__ . '/../../logs/excel_save_' . date('Y-m-d') . '.log';
+    $timestamp = date('Y-m-d H:i:s');
+    $content = "[{$timestamp}] " . $msg;
+    if ($data !== null)
+        $content .= "\n" . print_r($data, true);
+    $content .= "\n" . str_repeat('-', 80) . "\n";
+    file_put_contents($logFile, $content, FILE_APPEND | LOCK_EX);
 }
 
+simple_log("=== DÉBUT ===");
+
+// Inclure l'initialisation
+require_once __DIR__ . '/../../includes/init.php';
+
+// Vérifier l'utilisateur
 if (!isset($_SESSION['user'])) {
+    simple_log("Utilisateur non connecté");
     echo json_encode(['status' => 'error', 'message' => 'Non autorisé']);
     exit;
 }
 
-$input = json_decode(file_get_contents('php://input'), true);
+// Récupérer les données
+$rawInput = file_get_contents('php://input');
+$input = json_decode($rawInput, true);
 
-if (!isset($input['data'])) {
+simple_log("Input reçu", ['raw_length' => strlen($rawInput), 'has_data' => isset($input['data'])]);
+
+if (!$input || !isset($input['data']) || !is_array($input['data'])) {
+    simple_log("Données invalides", $input);
     echo json_encode(['status' => 'error', 'message' => 'Données invalides']);
     exit;
 }
 
-$data = $input['data'];
-file_put_contents(
-    __DIR__ . '/debug.json',
-    json_encode($data, JSON_PRETTY_PRINT)
-);
+try {
+    // Utiliser Config pour la connexion
+    $config = Config::getInstance();
+    $db = $config->getDb();
+    simple_log("Connexion BDD OK");
 
-$updated = 0;
-$errors = [];
+    // Mise à jour directe sans passer par ExcelModel (pour debug)
+    $data = $input['data'];
+    $updated = 0;
+    $errors = [];
 
-$stmt = $pdo->prepare("
-    UPDATE materiel SET
-        marque = :marque,
-        type_nom = :type_nom,
-        numero_serie = :numero_serie,
-        version_firmware = :version_firmware,
-        adresse_ip = :adresse_ip,
-        adresse_mac = :adresse_mac,
-        date_fin_maintenance = :date_fin_maintenance,
-        reference = :reference,
-        usage_materiel = :usage_materiel,
-        modele = :modele,
-        ancien_firmware = :ancien_firmware,
-        masque = :masque,
-        passerelle = :passerelle,
-        login = :login,
-        password = :password,
-        ip_primaire = :ip_primaire,
-        mac_primaire = :mac_primaire,
-        ip_secondaire = :ip_secondaire,
-        mac_secondaire = :mac_secondaire,
-        stream_aes67_recu = :stream_aes67_recu,
-        stream_aes67_transmis = :stream_aes67_transmis,
-        ssid = :ssid,
-        type_cryptage = :type_cryptage,
-        password_wifi = :password_wifi,
-        libelle_pa_salle = :libelle_pa_salle,
-        numero_port_switch = :numero_port_switch,
-        vlan = :vlan,
-        date_fin_garantie = :date_fin_garantie,
-        date_derniere_inter = :date_derniere_inter,
-        commentaire = :commentaire,
-        url_github = :url_github
-    WHERE id = :id
-");
+    foreach ($data as $index => $row) {
+        if (empty($row['id'])) {
+            $errors[] = "Ligne " . ($index + 1) . ": ID manquant";
+            continue;
+        }
 
-foreach ($data as $row) {
-    // 🔴 skip si pas d'id
-    if (empty($row['id'])) {
-        $errors[] = "ID manquant";
-        continue;
+        $id = (int) $row['id'];
+        simple_log("Traitement ID: $id");
+
+        try {
+            // Mise à jour simple
+            $updateFields = [];
+            $params = [];
+
+            if (!empty($row['marque'])) {
+                $updateFields[] = "marque = :marque";
+                $params[':marque'] = trim($row['marque']);
+            }
+            if (!empty($row['modele'])) {
+                $updateFields[] = "modele = :modele";
+                $params[':modele'] = trim($row['modele']);
+            }
+            if (!empty($row['type_materiel'])) {
+                $updateFields[] = "type_materiel = :type_materiel";
+                $params[':type_materiel'] = trim($row['type_materiel']);
+            }
+            if (!empty($row['numero_serie'])) {
+                $updateFields[] = "numero_serie = :numero_serie";
+                $params[':numero_serie'] = trim($row['numero_serie']);
+            }
+            if (!empty($row['version_firmware'])) {
+                $updateFields[] = "version_firmware = :version_firmware";
+                $params[':version_firmware'] = trim($row['version_firmware']);
+            }
+            if (!empty($row['adresse_ip'])) {
+                $updateFields[] = "adresse_ip = :adresse_ip";
+                $params[':adresse_ip'] = trim($row['adresse_ip']);
+            }
+            if (!empty($row['adresse_mac'])) {
+                $updateFields[] = "adresse_mac = :adresse_mac";
+                $params[':adresse_mac'] = trim($row['adresse_mac']);
+            }
+            if (!empty($row['reference'])) {
+                $updateFields[] = "reference = :reference";
+                $params[':reference'] = trim($row['reference']);
+            }
+            if (!empty($row['usage_materiel'])) {
+                $updateFields[] = "usage_materiel = :usage_materiel";
+                $params[':usage_materiel'] = trim($row['usage_materiel']);
+            }
+            if (!empty($row['ancien_firmware'])) {
+                $updateFields[] = "ancien_firmware = :ancien_firmware";
+                $params[':ancien_firmware'] = trim($row['ancien_firmware']);
+            }
+            if (!empty($row['masque'])) {
+                $updateFields[] = "masque = :masque";
+                $params[':masque'] = trim($row['masque']);
+            }
+            if (!empty($row['passerelle'])) {
+                $updateFields[] = "passerelle = :passerelle";
+                $params[':passerelle'] = trim($row['passerelle']);
+            }
+            if (!empty($row['login'])) {
+                $updateFields[] = "login = :login";
+                $params[':login'] = trim($row['login']);
+            }
+            if (!empty($row['password'])) {
+                $updateFields[] = "password = :password";
+                $params[':password'] = trim($row['password']);
+            }
+            if (!empty($row['ip_primaire'])) {
+                $updateFields[] = "ip_primaire = :ip_primaire";
+                $params[':ip_primaire'] = trim($row['ip_primaire']);
+            }
+            if (!empty($row['mac_primaire'])) {
+                $updateFields[] = "mac_primaire = :mac_primaire";
+                $params[':mac_primaire'] = trim($row['mac_primaire']);
+            }
+            if (!empty($row['ip_secondaire'])) {
+                $updateFields[] = "ip_secondaire = :ip_secondaire";
+                $params[':ip_secondaire'] = trim($row['ip_secondaire']);
+            }
+            if (!empty($row['mac_secondaire'])) {
+                $updateFields[] = "mac_secondaire = :mac_secondaire";
+                $params[':mac_secondaire'] = trim($row['mac_secondaire']);
+            }
+            if (!empty($row['stream_aes67_recu'])) {
+                $updateFields[] = "stream_aes67_recu = :stream_aes67_recu";
+                $params[':stream_aes67_recu'] = trim($row['stream_aes67_recu']);
+            }
+            if (!empty($row['stream_aes67_transmis'])) {
+                $updateFields[] = "stream_aes67_transmis = :stream_aes67_transmis";
+                $params[':stream_aes67_transmis'] = trim($row['stream_aes67_transmis']);
+            }
+            if (!empty($row['ssid'])) {
+                $updateFields[] = "ssid = :ssid";
+                $params[':ssid'] = trim($row['ssid']);
+            }
+            if (!empty($row['type_cryptage'])) {
+                $updateFields[] = "type_cryptage = :type_cryptage";
+                $params[':type_cryptage'] = trim($row['type_cryptage']);
+            }
+            if (!empty($row['password_wifi'])) {
+                $updateFields[] = "password_wifi = :password_wifi";
+                $params[':password_wifi'] = trim($row['password_wifi']);
+            }
+            if (!empty($row['libelle_pa_salle'])) {
+                $updateFields[] = "libelle_pa_salle = :libelle_pa_salle";
+                $params[':libelle_pa_salle'] = trim($row['libelle_pa_salle']);
+            }
+            if (!empty($row['numero_port_switch'])) {
+                $updateFields[] = "numero_port_switch = :numero_port_switch";
+                $params[':numero_port_switch'] = trim($row['numero_port_switch']);
+            }
+            if (!empty($row['vlan'])) {
+                $updateFields[] = "vlan = :vlan";
+                $params[':vlan'] = trim($row['vlan']);
+            }
+            if (!empty($row['date_fin_garantie'])) {
+                $updateFields[] = "date_fin_garantie = :date_fin_garantie";
+                $params[':date_fin_garantie'] = formatDateForDb($row['date_fin_garantie']);
+            }
+            if (!empty($row['date_derniere_inter'])) {
+                $updateFields[] = "date_derniere_inter = :date_derniere_inter";
+                $params[':date_derniere_inter'] = formatDateForDb($row['date_derniere_inter']);
+            }
+            if (!empty($row['commentaire'])) {
+                $updateFields[] = "commentaire = :commentaire";
+                $params[':commentaire'] = trim($row['commentaire']);
+            }
+            if (!empty($row['url_github'])) {
+                $updateFields[] = "url_github = :url_github";
+                $params[':url_github'] = trim($row['url_github']);
+            }
+            if (empty($updateFields)) {
+                $errors[] = "Ligne " . ($index + 1) . " (ID {$id}): Aucune donnée";
+                continue;
+            }
+
+            $params[':id'] = $id;
+            $sql = "UPDATE materiel SET " . implode(', ', $updateFields) . " WHERE id = :id";
+
+            simple_log("SQL", ['sql' => $sql, 'params' => array_keys($params)]);
+
+            $stmt = $db->prepare($sql);
+            if ($stmt->execute($params)) {
+                $updated++;
+                simple_log("Mise à jour réussie ID: $id");
+            } else {
+                $errors[] = "Ligne " . ($index + 1) . " (ID {$id}): Échec";
+            }
+
+        } catch (Exception $e) {
+            simple_log("Erreur", $e->getMessage());
+            $errors[] = "Ligne " . ($index + 1) . " (ID {$id}): " . $e->getMessage();
+        }
     }
 
-    try {
-        $stmt->execute([
-            ':id' => $row['id'],
-            ':marque' => $row['marque'] ?? null,
-            ':type_nom' => $row['type_nom'] ?? null,
-            ':numero_serie' => $row['numero_serie'] ?? null,
-            ':version_firmware' => $row['version_firmware'] ?? null,
-            ':adresse_ip' => $row['adresse_ip'] ?? null,
-            ':adresse_mac' => $row['adresse_mac'] ?? null,
-            ':date_fin_maintenance' => $row['date_fin_maintenance'] ?: null,
-            ':reference' => $row['reference'] ?? null,
-            ':usage_materiel' => $row['usage_materiel'] ?? null,
-            ':modele' => $row['modele'] ?? null,
-            ':ancien_firmware' => $row['ancien_firmware'] ?? null,
-            ':masque' => $row['masque'] ?? null,
-            ':passerelle' => $row['passerelle'] ?? null,
-            ':login' => $row['login'] ?? null,
-            ':password' => $row['password'] ?? null,
-            ':ip_primaire' => $row['ip_primaire'] ?? null,
-            ':mac_primaire' => $row['mac_primaire'] ?? null,
-            ':ip_secondaire' => $row['ip_secondaire'] ?? null,
-            ':mac_secondaire' => $row['mac_secondaire'] ?? null,
-            ':stream_aes67_recu' => $row['stream_aes67_recu'] ?? null,
-            ':stream_aes67_transmis' => $row['stream_aes67_transmis'] ?? null,
-            ':ssid' => $row['ssid'] ?? null,
-            ':type_cryptage' => $row['type_cryptage'] ?? null,
-            ':password_wifi' => $row['password_wifi'] ?? null,
-            ':libelle_pa_salle' => $row['libelle_pa_salle'] ?? null,
-            ':numero_port_switch' => $row['numero_port_switch'] ?? null,
-            ':vlan' => $row['vlan'] ?? null,
-            ':date_fin_garantie' => $row['date_fin_garantie'] ?: null,
-            ':date_derniere_inter' => $row['date_derniere_inter'] ?: null,
-            ':commentaire' => $row['commentaire'] ?? null,
-            ':url_github' => $row['url_github'] ?? null
-        ]);
+    $response = [
+        'status' => empty($errors) ? 'success' : 'partial',
+        'message' => $updated . " ligne(s) mise(s) à jour",
+        'updated' => $updated,
+        'total_rows' => count($data),
+        'errors' => $errors
+    ];
 
-        $updated++;
+    simple_log("Réponse", $response);
+    echo json_encode($response);
 
-    } catch (PDOException $e) {
-        $errors[] = "ID {$row['id']} : " . $e->getMessage();
+} catch (Exception $e) {
+    simple_log("Exception générale", $e->getMessage());
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Erreur: ' . $e->getMessage()
+    ]);
+}
+function formatDateForDb($date)
+{
+    if (empty($date))
+        return null;
+    $date = trim($date);
+    if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date))
+        return $date;
+    if (preg_match('/^(\d{2})\/(\d{2})\/(\d{4})$/', $date, $m)) {
+        return checkdate($m[2], $m[1], $m[3]) ? "{$m[3]}-{$m[2]}-{$m[1]}" : null;
     }
+    if (preg_match('/^(\d{2})-(\d{2})-(\d{4})$/', $date, $m)) {
+        return checkdate($m[2], $m[1], $m[3]) ? "{$m[3]}-{$m[2]}-{$m[1]}" : null;
+    }
+    return null;
 }
 
-echo json_encode([
-    'status' => count($errors) ? 'partial' : 'success',
-    'message' => "$updated ligne(s) mise(s) à jour",
-    'updated' => $updated,
-    'errors' => $errors
-]);
+simple_log("=== FIN ===");
+?>

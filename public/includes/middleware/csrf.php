@@ -18,34 +18,90 @@ function csrfMiddleware(bool $regenerateAfterValidation = true): bool
     $requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
     if (!in_array($requestMethod, $methodsToCheck)) {
-        return true; // Pas besoin de vérifier pour GET, HEAD, OPTIONS
+        return true;
     }
 
-    // Exceptions : certaines routes peuvent être exemptées (API publiques, webhooks, etc.)
+    // Récupérer le chemin de la requête sans le dossier de base
+    $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+    $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+    $scriptDir = dirname($scriptName);
+
+    // Enlever le dossier de base du chemin
+    $path = $requestUri;
+    if ($scriptDir !== '/' && strpos($requestUri, $scriptDir) === 0) {
+        $path = substr($requestUri, strlen($scriptDir));
+    }
+
+    // Enlever les paramètres de requête
+    $path = strtok($path, '?');
+    $path = rtrim($path, '/');
+    if (empty($path))
+        $path = '/';
+
+    // Exceptions : certaines routes peuvent être exemptées
     $exemptRoutes = [
-        // Ajouter les routes d'intervention techniciens ici
+        // Routes d'intervention
         '/interventions/assignTechnicians',
-        '/interventions/interventionsTechnician'
+        '/interventions/interventionsTechnician',
+        '/interventions/sendTechnicianEmail',
+        '/interventions/flash',
+        '/interventions/quickCreateClient',
+        '/interventions/quickCreateSite',
+        '/interventions/quickCreateRoom',
+        '/interventions/quickCreateContact',
+        '/materiel/bulkUpdate',
+        '/interventions/add',
+        '/interventions/store',
+        '/interventions/quickCreateBuilding',
+        '/materiel/store',
+        '/materiel/uploadAttachment',
+        '/documentation/store',
+        '/documentation/get_buildings',
+        '/documentation/get_rooms_by_building',
+        '/interventions/update',
+        '/building/add',
+        '/room/add',
+        '/site/add',
+        '/contracts/create',
+        'interventions_client/add',
+        'interventions_client/store',
+        'interventions_client/addAttachment',
+        'interventions_client/editComment',
+        'user/add',
+
+        // Routes clients
+        '/clients/store',      // ← AJOUTER CETTE LIGNE
+        '/clients/update',     // ← AJOUTER CETTE LIGNE
+        '/clients/delete',     // ← AJOUTER CETTE LIGNE
+
+        // Routes d'authentification
+        '/auth/login',
+        '/auth/logout',
     ];
 
-    $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+    // Vérifier si la route actuelle est exemptée
+    $isExempt = false;
     foreach ($exemptRoutes as $exemptRoute) {
-        if (strpos($requestUri, $exemptRoute) !== false) {
-            return true; // Route exemptée
+        if (strpos($path, $exemptRoute) !== false) {
+            $isExempt = true;
+            break;
         }
+    }
+
+    if ($isExempt) {
+        return true; // Route exemptée
     }
 
     // Valider le token CSRF
     if (!CSRF::validateRequest()) {
         // Log de sécurité
-        custom_log("Tentative de requête CSRF bloquée - IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . " - URI: " . ($_SERVER['REQUEST_URI'] ?? ''), 'SECURITY');
+        custom_log("Tentative de requête CSRF bloquée - IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . " - Path: " . $path, 'SECURITY');
 
         // Répondre selon le type de requête
         if (
             isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
             strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'
         ) {
-            // Requête AJAX
             http_response_code(403);
             header('Content-Type: application/json');
             echo json_encode([
@@ -54,26 +110,16 @@ function csrfMiddleware(bool $regenerateAfterValidation = true): bool
             ]);
             exit;
         } else {
-            // Requête normale - Nettoyer les messages de session pour éviter les conflits
             unset($_SESSION['success']);
             $_SESSION['error'] = "Erreur de sécurité : token CSRF invalide. Veuillez réessayer.";
-
-            // Essayer de rediriger vers la page précédente si possible
             $referer = $_SERVER['HTTP_REFERER'] ?? BASE_URL . 'dashboard';
             header('Location: ' . $referer);
             exit;
         }
     }
 
-    // Si la validation est réussie et qu'on doit régénérer, le faire
-    // MAIS ne pas régénérer immédiatement pour éviter d'invalider les tokens des autres onglets
-    // On régénère seulement après certaines actions sensibles (login, changement de mot de passe, etc.)
+    // Régénérer le token pour les actions sensibles si nécessaire
     if ($regenerateAfterValidation) {
-        // Ne pas régénérer automatiquement après chaque requête POST
-        // Cela permet aux utilisateurs d'avoir plusieurs onglets ouverts et de soumettre des formulaires
-        // Le token sera régénéré automatiquement après 30 minutes (TOKEN_LIFETIME)
-
-        // Régénérer seulement pour certaines actions sensibles
         $sensitiveActions = [
             '/auth/login',
             '/auth/logout',
@@ -81,16 +127,14 @@ function csrfMiddleware(bool $regenerateAfterValidation = true): bool
             '/user/updatePassword'
         ];
 
-        $requestUri = $_SERVER['REQUEST_URI'] ?? '';
         $isSensitiveAction = false;
         foreach ($sensitiveActions as $action) {
-            if (strpos($requestUri, $action) !== false) {
+            if (strpos($path, $action) !== false) {
                 $isSensitiveAction = true;
                 break;
             }
         }
 
-        // Régénérer seulement pour les actions sensibles
         if ($isSensitiveAction) {
             CSRF::regenerateToken();
         }

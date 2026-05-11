@@ -179,6 +179,7 @@ require_once MODELS_PATH . '/InterventionModel.php';
 require_once MODELS_PATH . '/DocumentationModel.php';
 require_once MODELS_PATH . '/MaterielModel.php';
 require_once MODELS_PATH . '/InterventionTypeModel.php';
+require_once MODELS_PATH . '/BuildingModel.php';
 
 // Chargement des contrôleurs
 require_once CONTROLLERS_PATH . '/AuthController.php';
@@ -207,6 +208,7 @@ require_once CONTROLLERS_PATH . '/SettingsController.php';
 require_once CONTROLLERS_PATH . '/InterventionTypeController.php';
 require_once CONTROLLERS_PATH . '/QRCodeController.php';
 require_once CONTROLLERS_PATH . '/ExcelController.php';
+require_once CONTROLLERS_PATH . '/BuildingsController.php';
 
 // Récupération de l'URL demandée
 $request_uri = $_SERVER['REQUEST_URI'];
@@ -559,15 +561,15 @@ try {
                     $documentationController->addMultipleAttachments();
                     break;
                 case 'download':
-                    if (isset($_GET['attachment_id'])) {
-                        $documentationController->download($_GET['attachment_id']);
+                    if ($id) {
+                        $documentationController->download($id);
                     } else {
                         header('Location: ' . BASE_URL . 'documentation');
                     }
                     break;
                 case 'preview':
-                    if (isset($_GET['attachment_id'])) {
-                        $documentationController->preview($_GET['attachment_id']);
+                    if ($id) {
+                        $documentationController->preview($id);
                     } else {
                         header('Location: ' . BASE_URL . 'documentation');
                     }
@@ -585,6 +587,13 @@ try {
                 default:
                     header('Location: ' . BASE_URL . 'documentation');
                     break;
+                case 'get_buildings':
+                    $documentationController->get_buildings();
+                    break;
+                case 'get_rooms_by_building':
+                    $documentationController->get_rooms_by_building();
+                    break;
+
             }
             break;
 
@@ -617,7 +626,38 @@ try {
                     break;
             }
             break;
-
+        case 'building':
+            $buildingController = new BuildingController();
+            switch ($action) {
+                case 'add':
+                    if ($id || isset($_GET['client_id'])) {
+                        $buildingController->add($id ?? 0);
+                    } else {
+                        header('Location: ' . BASE_URL . 'dashboard');
+                    }
+                    break;
+                case 'edit':
+                    if ($id) {
+                        $buildingController->edit($id);
+                    } else {
+                        header('Location: ' . BASE_URL . 'dashboard');
+                    }
+                    break;
+                // case 'delete':
+                //     if ($id) {
+                //         $roomController->delete($id);
+                //     } else {
+                //         header('Location: ' . BASE_URL . 'dashboard');
+                //     }
+                //     break;
+                // case 'getRoomsBySite':
+                //     $roomController->getRoomsBySite();
+                //     break;
+                default:
+                    header('Location: ' . BASE_URL . 'dashboard');
+                    break;
+            }
+            break;
         case 'room':
             $roomController = new RoomController();
             switch ($action) {
@@ -847,6 +887,7 @@ try {
 
         case 'interventions':
             $interventionController = new InterventionController($db);
+            $buildingController = new BuildingController($db);
             switch ($action) {
                 case 'index':
                     header('Location: ' . BASE_URL . 'interventions/curatives');
@@ -1125,6 +1166,9 @@ try {
                         exit;
                     }
                     break;
+                case 'sendTechnicianEmail':
+                    $interventionController->sendTechnicianEmail();
+                    break;
                 case 'getContacts':
                     if ($id) {
                         $interventionController->getContacts($id);
@@ -1149,6 +1193,40 @@ try {
                 default:
                     header('Location: ' . BASE_URL . 'interventions');
                     break;
+                case 'flash':
+                    $interventionController->flash();
+                    break;
+                case 'getFileData':
+                    if ($id) {
+                        $interventionController->getFileData($id);
+                    } else {
+                        http_response_code(400);
+                        echo json_encode(['error' => 'ID manquant']);
+                    }
+                    break;
+                case 'quickCreateBuilding':
+                    $interventionController->quickCreateBuilding();
+                    break;
+                case 'getBuildings':
+                    if ($id) {
+                        $interventionController->getBuildings($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['error' => 'ID site manquant']);
+                        exit;
+                    }
+                    break;
+
+                case 'getRoomsByBuilding':
+                    if ($id) {
+                        $interventionController->getRoomsByBuilding($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['error' => 'ID bâtiment manquant']);
+                        exit;
+                    }
+                    break;
+
             }
             break;
 
@@ -1368,6 +1446,9 @@ try {
                         header('Location: ' . BASE_URL . 'materiel');
                     }
                     break;
+                case 'bulkUpdate':
+                    $materielController->bulkUpdate();
+                    break;
                 case 'addAttachment':
                     if ($id) {
                         $materielController->addAttachment($id);
@@ -1393,6 +1474,15 @@ try {
                     } else {
                         header('Location: ' . BASE_URL . 'materiel');
                     }
+                    break;
+                case 'get_buildings':
+                    $materielController->get_buildings();
+                    break;
+                case 'get_rooms_by_building':
+                    $materielController->get_rooms_by_building();
+                    break;
+                case 'get_rooms_by_site':
+                    $materielController->get_rooms_by_site();
                     break;
                 case 'toggleAttachmentVisibility':
                     if ($id) {
@@ -1454,9 +1544,6 @@ try {
                     break;
                 case 'uploadAttachment':
                     $materielController->uploadAttachment();
-                    break;
-                case 'toggleAttachmentVisibility':
-                    $materielController->toggleAttachmentVisibility();
                     break;
                 case 'deleteBulk':
                     $materielController->deleteBulk();
@@ -1625,6 +1712,12 @@ try {
                     break;
                 case 'get_rooms':
                     $documentationClientController->get_rooms();
+                    break;
+                case 'get_buildings':
+                    $documentationClientController->get_buildings();
+                    break;
+                case 'get_rooms_by_building':
+                    $documentationClientController->get_rooms_by_building();
                     break;
                 case 'download':
                     if (isset($_GET['attachment_id'])) {

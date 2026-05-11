@@ -19,27 +19,24 @@ class InterventionModel extends BaseModel
     public function getAll($filters = [])
     {
         $sql = "SELECT i.*, 
-                c.name as client_name,
-                s.name as site_name,
-                r.name as room_name,
-                -- u.first_name as technician_first_name,
-                -- u.last_name as technician_last_name,
-                -- u.email as technician_email,
-                its.name as status_name,
-                its.color as status_color,
-                it.name as type_name,
-                -- it.requires_travel as type_requires_travel_default,
-                -- COALESCE(i.type_requires_travel, it.requires_travel) as type_requires_travel,
-                ip.name as priority_name,
-                ip.color as priority_color
-                FROM " . $this->table . " i
-                LEFT JOIN clients c ON i.client_id = c.id
-                LEFT JOIN sites s ON i.site_id = s.id
-                LEFT JOIN rooms r ON i.room_id = r.id
-                LEFT JOIN intervention_statuses its ON i.status_id = its.id
-                LEFT JOIN intervention_types it ON i.type_id = it.id
-                LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
-                WHERE 1=1";
+            c.name as client_name,
+            s.name as site_name,
+            b.name as building_name,
+            r.name as room_name,
+            its.name as status_name,
+            its.color as status_color,
+            it.name as type_name,
+            ip.name as priority_name,
+            ip.color as priority_color
+            FROM " . $this->table . " i
+            LEFT JOIN clients c ON i.client_id = c.id
+            LEFT JOIN sites s ON i.site_id = s.id
+            LEFT JOIN buildings b ON i.building_id = b.id
+            LEFT JOIN rooms r ON i.room_id = r.id
+            LEFT JOIN intervention_statuses its ON i.status_id = its.id
+            LEFT JOIN intervention_types it ON i.type_id = it.id
+            LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+            WHERE 1=1";
 
         $params = [];
 
@@ -51,6 +48,10 @@ class InterventionModel extends BaseModel
         if (!empty($filters['site_id'])) {
             $sql .= " AND i.site_id = ?";
             $params[] = $filters['site_id'];
+        }
+        if (!empty($filters['building_id'])) {
+            $sql .= " AND i.building_id = ?";
+            $params[] = $filters['building_id'];
         }
         if (!empty($filters['room_id'])) {
             $sql .= " AND i.room_id = ?";
@@ -64,6 +65,13 @@ class InterventionModel extends BaseModel
             $sql .= " AND i.priority_id = ?";
             $params[] = $filters['priority_id'];
         }
+
+        // Filtre par type d'intervention (préventive/curative)
+        if (isset($filters['is_preventive'])) {
+            $sql .= " AND i.is_preventive = ?";
+            $params[] = $filters['is_preventive'];
+        }
+
         if (!empty($filters['search'])) {
             $sql .= " AND (i.title LIKE ? OR c.name LIKE ? OR s.name LIKE ? OR r.name LIKE ? OR i.reference LIKE ?)";
             $searchTerm = '%' . $filters['search'] . '%';
@@ -79,10 +87,6 @@ class InterventionModel extends BaseModel
             $sql .= " AND i.priority_id NOT IN ($placeholders)";
             $params = array_merge($params, $filters['exclude_priority_ids']);
         }
-        // if (!empty($filters['technician_id'])) {
-        //     $sql .= " AND i.technician_id = ?";
-        //     $params[] = $filters['technician_id'];
-        // }
 
         // Tri par défaut : date de création décroissante
         $sql .= " ORDER BY i.created_at DESC";
@@ -100,62 +104,43 @@ class InterventionModel extends BaseModel
     public function getById($id)
     {
         $sql = "SELECT i.*, 
-                c.name as client_name,
-                s.name as site_name,
-                s.address as site_address,
-                s.postal_code as site_postal_code,
-                s.city as site_city,
-                s.phone as site_phone,
-                s.email as site_email,
-                r.name as room_name,
-                -- u.first_name as technician_first_name,
-                -- u.last_name as technician_last_name,
-                its.name as status_name,
-                its.color as status_color,
-                it.name as type_name,
-                -- it.requires_travel as type_requires_travel_default,
-                -- COALESCE(i.type_requires_travel, it.requires_travel) as type_requires_travel,
-                ip.name as priority_name,
-                ip.color as priority_color,
-                co.name as contract_name,
-                co.contract_type_id,
-                ct.name as contract_type_name,
-                cont.first_name as contact_first_name,
-                cont.last_name as contact_last_name,
-                cont.phone1 as contact_phone
-                FROM " . $this->table . " i
-                LEFT JOIN clients c ON i.client_id = c.id
-                LEFT JOIN sites s ON i.site_id = s.id
-                LEFT JOIN rooms r ON i.room_id = r.id
-                LEFT JOIN intervention_statuses its ON i.status_id = its.id
-                LEFT JOIN intervention_types it ON i.type_id = it.id
-                LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
-                LEFT JOIN contracts co ON i.contract_id = co.id
-                LEFT JOIN contract_types ct ON co.contract_type_id = ct.id
-                LEFT JOIN contacts cont ON s.main_contact_id = cont.id
-                WHERE i.id = ?";
+            c.name as client_name,
+            s.name as site_name,
+            s.address as site_address,
+            s.postal_code as site_postal_code,
+            s.city as site_city,
+            s.phone as site_phone,
+            s.email as site_email,
+            b.name as building_name,
+            r.name as room_name,
+            its.name as status_name,
+            its.color as status_color,
+            it.name as type_name,
+            ip.name as priority_name,
+            ip.color as priority_color,
+            co.name as contract_name,
+            co.contract_type_id,
+            ct.name as contract_type_name,
+            cont.first_name as contact_first_name,
+            cont.last_name as contact_last_name,
+            cont.phone1 as contact_phone,
+            i.is_preventive
+            FROM " . $this->table . " i
+            LEFT JOIN clients c ON i.client_id = c.id
+            LEFT JOIN sites s ON i.site_id = s.id
+            LEFT JOIN buildings b ON i.building_id = b.id
+            LEFT JOIN rooms r ON i.room_id = r.id
+            LEFT JOIN intervention_statuses its ON i.status_id = its.id
+            LEFT JOIN intervention_types it ON i.type_id = it.id
+            LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+            LEFT JOIN contracts co ON i.contract_id = co.id
+            LEFT JOIN contract_types ct ON co.contract_type_id = ct.id
+            LEFT JOIN contacts cont ON s.main_contact_id = cont.id
+            WHERE i.id = ?";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Créer le nom complet du technicien
-        // if ($result && !empty($result['technician_first_name']) && !empty($result['technician_last_name'])) {
-        //     $result['technician_name'] = $result['technician_first_name'] . ' ' . $result['technician_last_name'];
-        // } else {
-        //     $result['technician_name'] = null;
-        // }
-
-        // Code de débogage temporaire
-        error_log("DEBUG - InterventionModel::getById($id) - Résultat SQL: " . print_r($result, true));
-        error_log("DEBUG - site_id existe? " . (array_key_exists('site_id', $result) ? 'OUI' : 'NON'));
-        error_log("DEBUG - site_id valeur: " . ($result['site_id'] ?? 'NULL'));
-
-        // Débogage spécifique pour les champs date_planif et heure_planif
-        error_log("DEBUG - date_planif existe? " . (array_key_exists('date_planif', $result) ? 'OUI' : 'NON'));
-        error_log("DEBUG - date_planif valeur: " . ($result['date_planif'] ?? 'NULL'));
-        error_log("DEBUG - heure_planif existe? " . (array_key_exists('heure_planif', $result) ? 'OUI' : 'NON'));
-        error_log("DEBUG - heure_planif valeur: " . ($result['heure_planif'] ?? 'NULL'));
 
         return $result;
     }
@@ -184,6 +169,10 @@ class InterventionModel extends BaseModel
             $sql .= " AND i.site_id = ?";
             $params[] = $filters['site_id'];
         }
+        if (!empty($filters['building_id'])) {
+            $sql .= " AND i.building_id = ?";
+            $params[] = $filters['building_id'];
+        }
         if (!empty($filters['room_id'])) {
             $sql .= " AND i.room_id = ?";
             $params[] = $filters['room_id'];
@@ -201,10 +190,6 @@ class InterventionModel extends BaseModel
             $sql .= " AND i.priority_id NOT IN ($placeholders)";
             $params = array_merge($params, $filters['exclude_priority_ids']);
         }
-        // if (!empty($filters['technician_id'])) {
-        //     $sql .= " AND i.technician_id = ?";
-        //     $params[] = $filters['technician_id'];
-        // }
         if (!empty($filters['exclude_status_ids'])) {
             $placeholders = str_repeat('?,', count($filters['exclude_status_ids']) - 1) . '?';
             $sql .= " AND i.status_id NOT IN ($placeholders)";
@@ -222,17 +207,17 @@ class InterventionModel extends BaseModel
     public function getStatsByStatus($filters = [])
     {
         $sql = "SELECT 
-                its.id,
-                its.name,
-                its.color,
-                COUNT(i.id) as count
-                FROM intervention_statuses its
-                LEFT JOIN " . $this->table . " i ON its.id = i.status_id";
+            its.id,
+            its.name,
+            its.color,
+            COUNT(i.id) as count
+            FROM intervention_statuses its
+            LEFT JOIN " . $this->table . " i ON its.id = i.status_id";
 
         $whereConditions = [];
         $params = [];
 
-        // Appliquer les filtres (mais pas le filtre de statut pour garder tous les statuts visibles)
+        // Appliquer les filtres
         if (!empty($filters['client_id'])) {
             $whereConditions[] = "i.client_id = ?";
             $params[] = $filters['client_id'];
@@ -241,24 +226,30 @@ class InterventionModel extends BaseModel
             $whereConditions[] = "i.site_id = ?";
             $params[] = $filters['site_id'];
         }
+        if (!empty($filters['building_id'])) {
+            $whereConditions[] = "i.building_id = ?";
+            $params[] = $filters['building_id'];
+        }
         if (!empty($filters['room_id'])) {
             $whereConditions[] = "i.room_id = ?";
             $params[] = $filters['room_id'];
         }
-        // Note: On ne met pas le filtre status_id ici pour garder tous les statuts visibles
         if (!empty($filters['priority_id'])) {
             $whereConditions[] = "i.priority_id = ?";
             $params[] = $filters['priority_id'];
         }
+
+        // Filtre par type d'intervention
+        if (isset($filters['is_preventive'])) {
+            $whereConditions[] = "i.is_preventive = ?";
+            $params[] = $filters['is_preventive'];
+        }
+
         if (!empty($filters['exclude_priority_ids'])) {
             $placeholders = str_repeat('?,', count($filters['exclude_priority_ids']) - 1) . '?';
             $whereConditions[] = "i.priority_id NOT IN ($placeholders)";
             $params = array_merge($params, $filters['exclude_priority_ids']);
         }
-        // if (!empty($filters['technician_id'])) {
-        //     $whereConditions[] = "i.technician_id = ?";
-        //     $params[] = $filters['technician_id'];
-        // }
         if (!empty($filters['exclude_status_ids'])) {
             $placeholders = str_repeat('?,', count($filters['exclude_status_ids']) - 1) . '?';
             $whereConditions[] = "i.status_id NOT IN ($placeholders)";
@@ -278,17 +269,12 @@ class InterventionModel extends BaseModel
 
     /**
      * Met à jour une intervention
-     * @param int $id L'ID de l'intervention à mettre à jour
-     * @param array $data Les données à mettre à jour
-     * @return bool True si la mise à jour a réussi, false sinon
      */
     public function update($id, $data)
     {
-        // Construire la requête SQL
         $updates = [];
         $params = [];
 
-        // Ajouter les champs à mettre à jour
         if (isset($data['title'])) {
             $updates[] = "title = :title";
             $params[':title'] = $data['title'];
@@ -304,15 +290,15 @@ class InterventionModel extends BaseModel
             $params[':site_id'] = empty($data['site_id']) ? null : $data['site_id'];
         }
 
+        if (isset($data['building_id'])) {
+            $updates[] = "building_id = :building_id";
+            $params[':building_id'] = empty($data['building_id']) ? null : $data['building_id'];
+        }
+
         if (isset($data['room_id'])) {
             $updates[] = "room_id = :room_id";
             $params[':room_id'] = empty($data['room_id']) ? null : $data['room_id'];
         }
-
-        // if (isset($data['technician_id'])) {
-        //     $updates[] = "technician_id = :technician_id";
-        //     $params[':technician_id'] = empty($data['technician_id']) ? null : $data['technician_id'];
-        // }
 
         if (isset($data['status_id'])) {
             $updates[] = "status_id = :status_id";
@@ -328,11 +314,6 @@ class InterventionModel extends BaseModel
             $updates[] = "type_id = :type_id";
             $params[':type_id'] = $data['type_id'];
         }
-
-        // if (isset($data['duration'])) {
-        //     $updates[] = "duration = :duration";
-        //     $params[':duration'] = $data['duration'];
-        // }
 
         if (isset($data['description'])) {
             $updates[] = "description = :description";
@@ -364,15 +345,10 @@ class InterventionModel extends BaseModel
             $params[':closed_at'] = $data['closed_at'];
         }
 
-        // if (array_key_exists('date_planif', $data)) {
-        //     $updates[] = "date_planif = :date_planif";
-        //     $params[':date_planif'] = $data['date_planif'];
-        // }
-
-        // if (array_key_exists('heure_planif', $data)) {
-        //     $updates[] = "heure_planif = :heure_planif";
-        //     $params[':heure_planif'] = $data['heure_planif'];
-        // }
+        if (array_key_exists('is_preventive', $data)) {
+            $updates[] = "is_preventive = :is_preventive";
+            $params[':is_preventive'] = $data['is_preventive'];
+        }
 
         if (array_key_exists('created_at', $data)) {
             $updates[] = "created_at = :created_at";
@@ -389,24 +365,13 @@ class InterventionModel extends BaseModel
             $params[':contact_client'] = $data['contact_client'];
         }
 
-        // Si aucun champ à mettre à jour, retourner false
         if (empty($updates)) {
             return false;
         }
 
-        // Ajouter l'ID à la requête
         $params[':id'] = $id;
-
-        // Construire la requête SQL
         $sql = "UPDATE " . $this->table . " SET " . implode(", ", $updates) . " WHERE id = :id";
 
-        // Log de debug
-        custom_log("SQL Update Intervention: " . $sql, "DEBUG", [
-            'params' => $params,
-            'updates' => $updates
-        ]);
-
-        // Exécuter la requête
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute($params);
 
@@ -419,8 +384,6 @@ class InterventionModel extends BaseModel
 
     /**
      * Récupère les informations d'un type d'intervention
-     * @param int $typeId ID du type d'intervention
-     * @return array|null Les informations du type d'intervention ou null si non trouvé
      */
     public function getTypeInfo($typeId)
     {
@@ -432,7 +395,6 @@ class InterventionModel extends BaseModel
 
     /**
      * Récupère tous les types d'intervention
-     * @return array Liste des types d'intervention
      */
     public function getAllTypes()
     {
@@ -444,29 +406,19 @@ class InterventionModel extends BaseModel
 
     /**
      * Génère une référence unique pour une intervention
-     * Format : #VS{client_id}{année}-{numéro aléatoire}
-     * Exemple : #VS2524-1234
-     * 
-     * @param int $clientId L'ID du client
-     * @return string La référence générée
      */
     public function generateReference($clientId)
     {
         try {
-            // Récupérer l'année courante
             $year = date('y');
-
-            // Récupérer toutes les références existantes pour ce client et cette année
             $sql = "SELECT reference FROM interventions 
                     WHERE client_id = ? 
                     AND reference LIKE ?";
-
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$clientId, "#VS{$clientId}{$year}-%"]);
             $existingReferences = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-            // Générer un numéro aléatoire unique
-            $maxAttempts = 100; // Limite de tentatives pour éviter une boucle infinie
+            $maxAttempts = 100;
             $attempt = 0;
             $reference = null;
 
@@ -478,7 +430,6 @@ class InterventionModel extends BaseModel
                     $reference = $newReference;
                     break;
                 }
-
                 $attempt++;
             }
 
@@ -500,58 +451,38 @@ class InterventionModel extends BaseModel
     public function create($data)
     {
         try {
-            // Générer la référence
             $reference = $this->generateReference($data['client_id']);
             if (!$reference) {
                 return false;
             }
 
             $sql = "INSERT INTO interventions (
-                        reference, title, client_id, site_id, room_id, 
-                         status_id, priority_id, type_id, 
-                        description, demande_par, ref_client, contact_client, 
-                        contract_id, 
-                    ) VALUES (
-                        :reference, :title, :client_id, :site_id, :room_id, 
-                         :status_id, :priority_id, :type_id, 
-                     :description, :demande_par, :ref_client, :contact_client, 
-                        :contract_id
-                    )";
-            // $sql = "INSERT INTO interventions (
-            //             reference, title, client_id, site_id, room_id, 
-            //             technician_id, status_id, priority_id, type_id, 
-            //             duration, description, demande_par, ref_client, contact_client, 
-            //             contract_id, date_planif, heure_planif, type_requires_travel
-            //         ) VALUES (
-            //             :reference, :title, :client_id, :site_id, :room_id, 
-            //             :technician_id, :status_id, :priority_id, :type_id, 
-            //             :duration, :description, :demande_par, :ref_client, :contact_client, 
-            //             :contract_id, :date_planif, :heure_planif, :type_requires_travel
-            //         )";
+                reference, title, client_id, site_id, building_id, room_id, 
+                status_id, priority_id, type_id, 
+                description, demande_par, ref_client, contact_client, 
+                contract_id, is_preventive, created_at
+            ) VALUES (
+                :reference, :title, :client_id, :site_id, :building_id, :room_id, 
+                :status_id, :priority_id, :type_id, 
+                :description, :demande_par, :ref_client, :contact_client, 
+                :contract_id, :is_preventive, NOW()
+            )";
+
             $stmt = $this->db->prepare($sql);
             $data['reference'] = $reference;
 
-            // S'assurer que les champs date_planif et heure_planif existent dans le tableau de données
-            // if (!isset($data['date_planif'])) {
-            //     $data['date_planif'] = null;
-            // }
-            // if (!isset($data['heure_planif'])) {
-            //     $data['heure_planif'] = null;
-            // }
-
-            // // S'assurer que les nouveaux champs existent dans le tableau de données
-            // if (!isset($data['demande_par'])) {
-            //     $data['demande_par'] = null;
-            // }
             if (!isset($data['ref_client'])) {
                 $data['ref_client'] = null;
             }
             if (!isset($data['contact_client'])) {
                 $data['contact_client'] = null;
             }
-            // if (!isset($data['type_requires_travel'])) {
-            //     $data['type_requires_travel'] = 0;
-            // }
+            if (!isset($data['building_id'])) {
+                $data['building_id'] = null;
+            }
+            if (!isset($data['is_preventive'])) {
+                $data['is_preventive'] = 0;
+            }
 
             return $stmt->execute($data);
         } catch (PDOException $e) {
@@ -561,9 +492,7 @@ class InterventionModel extends BaseModel
     }
 
     /**
-     * Récupère les pièces jointes d'une intervention (intervention + bi)
-     * @param int $interventionId ID de l'intervention
-     * @return array Liste des pièces jointes
+     * Récupère les pièces jointes d'une intervention
      */
     public function getPiecesJointes($interventionId)
     {
@@ -589,17 +518,12 @@ class InterventionModel extends BaseModel
 
     /**
      * Ajoute une pièce jointe à une intervention
-     * 
-     * @param int $interventionId ID de l'intervention
-     * @param array $data Données de la pièce jointe
-     * @return int ID de la pièce jointe créée
      */
     public function addPieceJointe($interventionId, $data)
     {
         try {
             $this->db->beginTransaction();
 
-            // Insérer la pièce jointe
             $query = "INSERT INTO pieces_jointes (
                         nom_fichier, nom_personnalise, chemin_fichier, type_fichier, taille_fichier, 
                         commentaire, masque_client, type_id, created_by
@@ -623,7 +547,6 @@ class InterventionModel extends BaseModel
 
             $pieceJointeId = $this->db->lastInsertId();
 
-            // Créer la liaison
             $query = "INSERT INTO liaisons_pieces_jointes (
                         piece_jointe_id, type_liaison, entite_id
                     ) VALUES (
@@ -646,9 +569,7 @@ class InterventionModel extends BaseModel
     }
 
     /**
-     * Récupère uniquement les bons d'intervention d'une intervention
-     * @param int $interventionId ID de l'intervention
-     * @return array Liste des bons d'intervention
+     * Récupère uniquement les bons d'intervention
      */
     public function getBonsIntervention($interventionId)
     {
@@ -672,18 +593,13 @@ class InterventionModel extends BaseModel
     }
 
     /**
-     * Supprime une pièce jointe d'une intervention
-     * 
-     * @param int $pieceJointeId ID de la pièce jointe
-     * @param int $interventionId ID de l'intervention (pour vérification)
-     * @return bool Succès de la suppression
+     * Supprime une pièce jointe
      */
     public function deletePieceJointe($pieceJointeId, $interventionId)
     {
         try {
             $this->db->beginTransaction();
 
-            // Vérifier que la pièce jointe appartient bien à l'intervention
             $query = "SELECT pj.* FROM pieces_jointes pj
                      INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
                      WHERE (lpj.type_liaison = 'intervention' OR lpj.type_liaison = 'bi')
@@ -701,13 +617,11 @@ class InterventionModel extends BaseModel
                 throw new Exception("Pièce jointe non trouvée ou n'appartient pas à cette intervention");
             }
 
-            // Supprimer le fichier physique
             $filePath = __DIR__ . '/../' . $pieceJointe['chemin_fichier'];
             if (file_exists($filePath)) {
                 unlink($filePath);
             }
 
-            // Supprimer la liaison
             $query = "DELETE FROM liaisons_pieces_jointes 
                      WHERE piece_jointe_id = :piece_jointe_id 
                      AND (type_liaison = 'intervention' OR type_liaison = 'bi')
@@ -719,7 +633,6 @@ class InterventionModel extends BaseModel
                 ':intervention_id' => $interventionId
             ]);
 
-            // Supprimer la pièce jointe
             $query = "DELETE FROM pieces_jointes WHERE id = :piece_jointe_id";
             $stmt = $this->db->prepare($query);
             $stmt->execute([':piece_jointe_id' => $pieceJointeId]);
@@ -735,9 +648,6 @@ class InterventionModel extends BaseModel
 
     /**
      * Récupère une pièce jointe par son ID
-     * 
-     * @param int $pieceJointeId ID de la pièce jointe
-     * @return array|null La pièce jointe ou null
      */
     public function getPieceJointeById($pieceJointeId)
     {
@@ -753,10 +663,6 @@ class InterventionModel extends BaseModel
 
     /**
      * Met à jour la visibilité d'une pièce jointe
-     * 
-     * @param int $pieceJointeId ID de la pièce jointe
-     * @param int $masqueClient Nouvelle valeur de visibilité
-     * @return bool Succès de la mise à jour
      */
     public function updatePieceJointeVisibility($pieceJointeId, $masqueClient)
     {
@@ -773,10 +679,6 @@ class InterventionModel extends BaseModel
 
     /**
      * Met à jour le nom d'une pièce jointe
-     * 
-     * @param int $pieceJointeId ID de la pièce jointe
-     * @param string $newName Nouveau nom
-     * @return bool Succès de l'opération
      */
     public function updateAttachmentName($pieceJointeId, $newName)
     {
@@ -798,24 +700,18 @@ class InterventionModel extends BaseModel
 
     /**
      * Met à jour la sélection des commentaires pour le bon d'intervention
-     * 
-     * @param int $interventionId ID de l'intervention
-     * @param array $selectedCommentIds IDs des commentaires sélectionnés
-     * @return bool Succès de l'opération
      */
     public function updateCommentsForBon($interventionId, $selectedCommentIds)
     {
         try {
             $this->db->beginTransaction();
 
-            // D'abord, désélectionner tous les commentaires de cette intervention
             $query = "UPDATE intervention_comments 
                      SET pour_bon_intervention = 0 
                      WHERE intervention_id = :intervention_id";
             $stmt = $this->db->prepare($query);
             $stmt->execute([':intervention_id' => $interventionId]);
 
-            // Ensuite, sélectionner les commentaires spécifiés
             if (!empty($selectedCommentIds)) {
                 $placeholders = str_repeat('?,', count($selectedCommentIds) - 1) . '?';
                 $query = "UPDATE intervention_comments 
@@ -837,24 +733,18 @@ class InterventionModel extends BaseModel
 
     /**
      * Met à jour la sélection des pièces jointes pour le bon d'intervention
-     * 
-     * @param int $interventionId ID de l'intervention
-     * @param array $selectedAttachmentIds IDs des pièces jointes sélectionnées
-     * @return bool Succès de l'opération
      */
     public function updateAttachmentsForBon($interventionId, $selectedAttachmentIds)
     {
         try {
             $this->db->beginTransaction();
 
-            // D'abord, désélectionner toutes les pièces jointes de cette intervention
             $query = "UPDATE liaisons_pieces_jointes 
                      SET pour_bon_intervention = 0 
                      WHERE entite_id = ? AND (type_liaison = 'intervention' OR type_liaison = 'bi')";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$interventionId]);
 
-            // Ensuite, sélectionner les pièces jointes spécifiées
             if (!empty($selectedAttachmentIds)) {
                 $placeholders = str_repeat('?,', count($selectedAttachmentIds) - 1) . '?';
                 $query = "UPDATE liaisons_pieces_jointes 
@@ -876,18 +766,12 @@ class InterventionModel extends BaseModel
 
     /**
      * Ajoute une pièce jointe avec un type de liaison spécifique
-     * 
-     * @param int $interventionId ID de l'intervention
-     * @param array $data Données de la pièce jointe
-     * @param string $typeLiaison Type de liaison ('intervention', 'bi', etc.)
-     * @return int ID de la pièce jointe créée
      */
     public function addPieceJointeWithType($interventionId, $data, $typeLiaison)
     {
         try {
             $this->db->beginTransaction();
 
-            // Insérer la pièce jointe
             $query = "INSERT INTO pieces_jointes (
                         nom_fichier, nom_personnalise, chemin_fichier, type_fichier, taille_fichier, 
                         commentaire, masque_client, type_id, created_by
@@ -911,7 +795,6 @@ class InterventionModel extends BaseModel
 
             $pieceJointeId = $this->db->lastInsertId();
 
-            // Créer la liaison avec le type spécifié
             $query = "INSERT INTO liaisons_pieces_jointes (
                         piece_jointe_id, type_liaison, entite_id
                     ) VALUES (
@@ -939,31 +822,35 @@ class InterventionModel extends BaseModel
      */
     public function getScheduledInterventions($filters = [])
     {
-        $sql = "SELECT i.*, 
-                c.name as client_name,
-                s.name as site_name,
-                r.name as room_name,
-                -- u.first_name as technician_first_name,
-                -- u.last_name as technician_last_name,
-                its.name as status_name,
-                its.color as status_color,
-                it.name as type_name,
-                -- it.requires_travel as type_requires_travel_default,
-                -- COALESCE(i.type_requires_travel, it.requires_travel) as type_requires_travel,
-                ip.name as priority_name,
-                ip.color as priority_color
-                FROM " . $this->table . " i
-                LEFT JOIN clients c ON i.client_id = c.id
-                LEFT JOIN sites s ON i.site_id = s.id
-                LEFT JOIN rooms r ON i.room_id = r.id
-                LEFT JOIN intervention_statuses its ON i.status_id = its.id
-                LEFT JOIN intervention_types it ON i.type_id = it.id
-                LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
-                WHERE i.date_planif IS NOT NULL AND i.date_planif > '1900-01-01'";
+        $sql = "SELECT DISTINCT i.*, 
+            c.name as client_name,
+            s.name as site_name,
+            b.name as building_name,
+            r.name as room_name,
+            its.name as status_name,
+            its.color as status_color,
+            it.name as type_name,
+            ip.name as priority_name,
+            ip.color as priority_color,
+            ite.start_time as date_planif,
+            ite.end_time as end_time,
+            ite.temps_passe as duration,
+            u.id as technician_id,
+            CONCAT(u.first_name, ' ', u.last_name) as technician_name
+            FROM " . $this->table . " i
+            LEFT JOIN clients c ON i.client_id = c.id
+            LEFT JOIN sites s ON i.site_id = s.id
+            LEFT JOIN buildings b ON i.building_id = b.id
+            LEFT JOIN rooms r ON i.room_id = r.id
+            LEFT JOIN intervention_statuses its ON i.status_id = its.id
+            LEFT JOIN intervention_types it ON i.type_id = it.id
+            LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+            INNER JOIN intervention_techniciens ite ON i.id = ite.intervention_id
+            LEFT JOIN users u ON ite.technicien_id = u.id
+            WHERE ite.start_time IS NOT NULL AND ite.start_time > '1900-01-01'";
 
         $params = [];
 
-        // Appliquer les filtres
         if (!empty($filters['client_id'])) {
             $sql .= " AND i.client_id = ?";
             $params[] = $filters['client_id'];
@@ -971,6 +858,10 @@ class InterventionModel extends BaseModel
         if (!empty($filters['site_id'])) {
             $sql .= " AND i.site_id = ?";
             $params[] = $filters['site_id'];
+        }
+        if (!empty($filters['building_id'])) {
+            $sql .= " AND i.building_id = ?";
+            $params[] = $filters['building_id'];
         }
         if (!empty($filters['room_id'])) {
             $sql .= " AND i.room_id = ?";
@@ -984,63 +875,39 @@ class InterventionModel extends BaseModel
             $sql .= " AND i.priority_id = ?";
             $params[] = $filters['priority_id'];
         }
-        // if (!empty($filters['technician_id'])) {
-        //     $sql .= " AND i.technician_id = ?";
-        //     $params[] = $filters['technician_id'];
-        // }
 
-        // Filtre par technicien (nouveau système)
         if (!empty($filters['technician_filter'])) {
-            // $technicianFilter = $filters['technician_filter'];
-            $conditions = [];
+            if (!empty($filters['technician_filter']['technician_ids'])) {
+                $placeholders = str_repeat('?,', count($filters['technician_filter']['technician_ids']) - 1) . '?';
+                $sql .= " AND u.id IN ($placeholders)";
+                $params = array_merge($params, $filters['technician_filter']['technician_ids']);
+            }
 
-            // if (!empty($technicianFilter['technician_ids'])) {
-            //     $placeholders = str_repeat('?,', count($technicianFilter['technician_ids']) - 1) . '?';
-            //     $conditions[] = "i.technician_id IN ($placeholders)";
-            //     $params = array_merge($params, $technicianFilter['technician_ids']);
-            // }
-
-            // if ($technicianFilter['show_unassigned']) {
-            //     $conditions[] = "i.technician_id IS NULL";
-            // }
-
-            if (!empty($conditions)) {
-                $sql .= " AND (" . implode(" OR ", $conditions) . ")";
+            if (!empty($filters['technician_filter']['show_unassigned'])) {
+                $sql .= " OR (i.id IN (SELECT intervention_id FROM intervention_techniciens WHERE start_time IS NOT NULL AND technicien_id IS NULL))";
             }
         }
 
         if (!empty($filters['date_from'])) {
-            $sql .= " AND i.date_planif >= ?";
+            $sql .= " AND ite.start_time >= ?";
             $params[] = $filters['date_from'];
         }
         if (!empty($filters['date_to'])) {
-            $sql .= " AND i.date_planif <= ?";
+            $sql .= " AND ite.start_time <= ?";
             $params[] = $filters['date_to'];
         }
 
-        // Tri par date planifiée puis par heure
-        $sql .= " ORDER BY i.date_planif ASC, i.heure_planif ASC";
+        $sql .= " ORDER BY ite.start_time ASC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Ajouter le nom complet du technicien pour chaque intervention
-        foreach ($results as &$result) {
-            if (!empty($result['technician_first_name']) && !empty($result['technician_last_name'])) {
-                $result['technician_name'] = $result['technician_first_name'] . ' ' . $result['technician_last_name'];
-            } else {
-                $result['technician_name'] = null;
-            }
-        }
-
         return $results;
     }
 
     /**
-     * Récupère les commentaires solution d'une intervention (sans observations)
-     * @param int $interventionId ID de l'intervention
-     * @return array Liste des commentaires solution uniquement
+     * Récupère les commentaires solution d'une intervention
      */
     public function getSolutionComments($interventionId)
     {
@@ -1058,8 +925,6 @@ class InterventionModel extends BaseModel
 
     /**
      * Récupère les commentaires pour le bon d'intervention
-     * @param int $interventionId ID de l'intervention
-     * @return array Liste des commentaires sélectionnés pour le bon
      */
     public function getCommentsForBon($interventionId)
     {
@@ -1076,62 +941,47 @@ class InterventionModel extends BaseModel
     }
 
     /**
-     * Récupère les interventions d'un client groupées par contrat et par type (préventif/non-préventif)
-     * @param int $clientId ID du client
-     * @return array Interventions groupées par contrat et par type
+     * Récupère les interventions d'un client groupées par contrat et par type
      */
     public function getInterventionsByClientGrouped($clientId)
     {
         $sql = "SELECT i.*, 
-                c.name as client_name,
-                s.name as site_name,
-                r.name as room_name,
-                -- u.first_name as technician_first_name,
-                -- u.last_name as technician_last_name,
-                its.name as status_name,
-                its.color as status_color,
-                it.name as type_name,
-                -- it.requires_travel as type_requires_travel_default,
-                -- COALESCE(i.type_requires_travel, it.requires_travel) as type_requires_travel,
-                ip.name as priority_name,
-                ip.color as priority_color,
-                co.name as contract_name,
-                co.id as contract_id,
-                ct.name as contract_type_name
-                FROM " . $this->table . " i
-                LEFT JOIN clients c ON i.client_id = c.id
-                LEFT JOIN sites s ON i.site_id = s.id
-                LEFT JOIN rooms r ON i.room_id = r.id
-                LEFT JOIN intervention_statuses its ON i.status_id = its.id
-                LEFT JOIN intervention_types it ON i.type_id = it.id
-                LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
-                LEFT JOIN contracts co ON i.contract_id = co.id
-                LEFT JOIN contract_types ct ON co.contract_type_id = ct.id
-                WHERE i.client_id = ?
-                ORDER BY co.name ASC, i.created_at DESC";
+            c.name as client_name,
+            s.name as site_name,
+            b.name as building_name,
+            r.name as room_name,
+            its.name as status_name,
+            its.color as status_color,
+            it.name as type_name,
+            ip.name as priority_name,
+            ip.color as priority_color,
+            co.name as contract_name,
+            co.id as contract_id,
+            ct.name as contract_type_name,
+            i.is_preventive
+            FROM " . $this->table . " i
+            LEFT JOIN clients c ON i.client_id = c.id
+            LEFT JOIN sites s ON i.site_id = s.id
+            LEFT JOIN buildings b ON i.building_id = b.id
+            LEFT JOIN rooms r ON i.room_id = r.id
+            LEFT JOIN intervention_statuses its ON i.status_id = its.id
+            LEFT JOIN intervention_types it ON i.type_id = it.id
+            LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+            LEFT JOIN contracts co ON i.contract_id = co.id
+            LEFT JOIN contract_types ct ON co.contract_type_id = ct.id
+            WHERE i.client_id = ?
+            ORDER BY co.name ASC, i.created_at DESC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$clientId]);
         $interventions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Grouper les interventions par contrat et par type préventif
         $groupedInterventions = [];
 
         foreach ($interventions as $intervention) {
             $contractName = $intervention['contract_name'] ?: 'Sans contrat';
             $contractId = $intervention['contract_id'] ?: 'no_contract';
-
-            // Déterminer si l'intervention est préventive basé sur la priorité
-            $priorityName = strtolower($intervention['priority_name'] ?? '');
-            $isPreventive = (strpos($priorityName, 'préventif') !== false ||
-                strpos($priorityName, 'preventif') !== false) ? 'preventive' : 'corrective';
-
-            // Ajouter le nom complet du technicien
-            if (!empty($intervention['technician_first_name']) && !empty($intervention['technician_last_name'])) {
-                $intervention['technician_name'] = $intervention['technician_first_name'] . ' ' . $intervention['technician_last_name'];
-            } else {
-                $intervention['technician_name'] = null;
-            }
+            $isPreventive = $intervention['is_preventive'] == 1 ? 'preventive' : 'corrective';
 
             if (!isset($groupedInterventions[$contractId])) {
                 $groupedInterventions[$contractId] = [
@@ -1146,5 +996,54 @@ class InterventionModel extends BaseModel
         }
 
         return $groupedInterventions;
+    }
+
+    /**
+     * Récupère les interventions flash qui nécessitent d'être complétées
+     */
+    public function getFlashInterventionsNeedingCompletion($technicianId = null)
+    {
+        $sql = "SELECT i.*, 
+                   c.name as client_name,
+                   s.name as site_name,
+                   b.name as building_name,
+                   r.name as room_name,
+                   st.name as status_name,
+                   st.color as status_color,
+                   p.name as priority_name,
+                   p.color as priority_color,
+                   t.name as type_name
+            FROM interventions i
+            LEFT JOIN clients c ON i.client_id = c.id
+            LEFT JOIN sites s ON i.site_id = s.id
+            LEFT JOIN buildings b ON i.building_id = b.id
+            LEFT JOIN rooms r ON i.room_id = r.id
+            LEFT JOIN intervention_statuses st ON i.status_id = st.id
+            LEFT JOIN intervention_priorities p ON i.priority_id = p.id
+            LEFT JOIN intervention_types t ON i.type_id = t.id
+            WHERE i.is_flash = 1 
+              AND i.needs_completion = 1
+              AND i.status_id != 6";
+
+        if ($technicianId) {
+            $sql .= " AND EXISTS (SELECT 1 FROM intervention_techniciens it WHERE it.intervention_id = i.id AND it.technicien_id = :technician_id)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([':technician_id' => $technicianId]);
+        } else {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+        }
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Marque une intervention flash comme complétée
+     */
+    public function markFlashAsCompleted($interventionId)
+    {
+        $sql = "UPDATE interventions SET needs_completion = 0 WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([':id' => $interventionId]);
     }
 }

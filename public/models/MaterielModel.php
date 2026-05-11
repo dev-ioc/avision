@@ -22,14 +22,20 @@ class MaterielModel extends BaseModel
 
         // Filtre par client
         if (!empty($filters['client_id'])) {
-            $where[] = "s.client_id = :client_id";
+            $where[] = "c.id = :client_id";
             $params[':client_id'] = $filters['client_id'];
         }
 
-        // Filtre par site
+        // Filtre par site - CORRIGÉ : utiliser $filters au lieu de $params
         if (!empty($filters['site_id'])) {
-            $where[] = "r.site_id = :site_id";
+            $where[] = "s.id = :site_id";
             $params[':site_id'] = $filters['site_id'];
+        }
+
+        // Filtre par bâtiment
+        if (!empty($filters['building_id'])) {
+            $where[] = "b.id = :building_id";
+            $params[':building_id'] = $filters['building_id'];
         }
 
         // Filtre par salle
@@ -38,25 +44,36 @@ class MaterielModel extends BaseModel
             $params[':salle_id'] = $filters['salle_id'];
         }
 
+        // Requête avec la hiérarchie complète
         $query = "
-            SELECT 
-                m.*,
-                r.name as salle_nom,
-                s.name as site_nom,
-                c.name as client_nom,
-                m.type_materiel as type_nom
-            FROM materiel m
-            LEFT JOIN rooms r ON m.salle_id = r.id
-            LEFT JOIN sites s ON r.site_id = s.id
-            LEFT JOIN clients c ON s.client_id = c.id
-        ";
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+    ";
 
-        // Ajouter la clause WHERE seulement s'il y a des conditions
+        // Ajouter la clause WHERE s'il y a des conditions
         if (!empty($where)) {
-            $query .= " WHERE " . implode(" AND ", $where);
+            $query .= " AND " . implode(" AND ", $where);
         }
 
-        $query .= " ORDER BY c.name, s.name, r.name, m.marque, m.modele";
+        $query .= " ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele";
+
+        custom_log("SQL Materiel: " . $query, 'DEBUG');
+        custom_log("Params: " . json_encode($params), 'DEBUG');
 
         $stmt = $this->db->prepare($query);
         foreach ($params as $key => $value) {
@@ -66,7 +83,6 @@ class MaterielModel extends BaseModel
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
     /**
      * Récupère un matériel par son ID
      * 
@@ -75,20 +91,25 @@ class MaterielModel extends BaseModel
      */
     public function getMaterielById($id)
     {
+        // Requête corrigée : rooms -> buildings -> sites
         $query = "
             SELECT 
                 m.*,
                 r.name as salle_nom,
+                r.id as salle_id,
+                b.name as building_nom,
+                b.id as building_id,
                 s.name as site_nom,
                 s.id as site_id,
                 c.name as client_nom,
                 c.id as client_id,
                 m.type_materiel as type_nom
             FROM materiel m
-            LEFT JOIN rooms r ON m.salle_id = r.id
-            LEFT JOIN sites s ON r.site_id = s.id
-            LEFT JOIN clients c ON s.client_id = c.id
-            WHERE m.id = :id
+            LEFT JOIN rooms r ON m.salle_id = r.id 
+            LEFT JOIN buildings b ON r.building_id = b.id 
+            LEFT JOIN sites s ON b.site_id = s.id 
+            LEFT JOIN clients c ON s.client_id = c.id AND c.status = 1
+            WHERE m.id = :id 
         ";
 
         $stmt = $this->db->prepare($query);
@@ -111,14 +132,16 @@ class MaterielModel extends BaseModel
                     passerelle, id_materiel, login, password, ip_primaire, mac_primaire,
                     ip_secondaire, mac_secondaire, stream_aes67_recu, stream_aes67_transmis,
                     ssid, type_cryptage, password_wifi, libelle_pa_salle, numero_port_switch, vlan,
-                    date_fin_maintenance, date_fin_garantie, date_derniere_inter, commentaire, url_github
+                    date_fin_maintenance, date_fin_garantie, date_derniere_inter, commentaire, url_github,
+                    created_at, updated_at
                 ) VALUES (
                     :salle_id, :type_materiel, :modele, :marque, :reference, :usage_materiel, :numero_serie,
                     :version_firmware, :ancien_firmware, :adresse_mac, :adresse_ip, :masque,
                     :passerelle, :id_materiel, :login, :password, :ip_primaire, :mac_primaire,
                     :ip_secondaire, :mac_secondaire, :stream_aes67_recu, :stream_aes67_transmis,
                     :ssid, :type_cryptage, :password_wifi, :libelle_pa_salle, :numero_port_switch, :vlan,
-                    :date_fin_maintenance, :date_fin_garantie, :date_derniere_inter, :commentaire, :url_github
+                    :date_fin_maintenance, :date_fin_garantie, :date_derniere_inter, :commentaire, :url_github,
+                    NOW(), NOW()
                 )";
 
         $params = [
@@ -169,7 +192,6 @@ class MaterielModel extends BaseModel
             return $materielId;
         } catch (Exception $e) {
             $this->db->rollBack();
-
             throw $e;
         }
     }
@@ -271,10 +293,9 @@ class MaterielModel extends BaseModel
     public function updateMaterielPartial($id, $data)
     {
         if (empty($data)) {
-            return true; // Rien à mettre à jour
+            return true;
         }
 
-        // Construire dynamiquement la requête avec seulement les champs fournis
         $setParts = [];
         $params = [':id' => $id];
 
@@ -322,29 +343,31 @@ class MaterielModel extends BaseModel
         }
 
         if (empty($setParts)) {
-            return true; // Aucun champ valide à mettre à jour
+            return true;
         }
 
         $setParts[] = "updated_at = NOW()";
-        $query = "UPDATE materiel SET " . implode(', ', $setParts) . " WHERE id = :id";
+        $query = "UPDATE materiel SET " . implode(', ', $setParts) . " WHERE id = :id AND deleted_at IS NULL";
 
         $stmt = $this->db->prepare($query);
         return $stmt->execute($params);
     }
 
     /**
-     * Supprime un matériel
+     * Supprime un matériel (soft delete)
      * 
      * @param int $id ID du matériel
      * @return bool Succès de la suppression
      */
     public function deleteMateriel($id)
     {
-        return parent::delete($id);
+        $query = "UPDATE materiel SET deleted_at = NOW() WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        return $stmt->execute([':id' => $id]);
     }
 
     /**
-     * Supprime plusieurs matériels en masse
+     * Supprime plusieurs matériels en masse (soft delete)
      * 
      * @param array $ids Liste des IDs des matériels à supprimer
      * @return array Résultat de la suppression avec détails
@@ -363,7 +386,6 @@ class MaterielModel extends BaseModel
             ];
         }
 
-        // Nettoyer et valider les IDs
         $validIds = array_filter(array_map('intval', $ids), function ($id) {
             return $id > 0;
         });
@@ -386,72 +408,23 @@ class MaterielModel extends BaseModel
             $deletedCount = 0;
             $errors = [];
 
-            foreach ($validIds as $id) {
-                try {
-                    custom_log("Traitement de la suppression du matériel ID: $id", 'INFO');
+            $placeholders = implode(',', array_fill(0, count($validIds), '?'));
+            $query = "UPDATE materiel SET deleted_at = NOW() WHERE id IN ($placeholders)";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute($validIds);
+            $deletedCount = $stmt->rowCount();
 
-                    // Vérifier que le matériel existe
-                    $checkQuery = "SELECT id FROM materiel WHERE id = :id";
-                    $checkStmt = $this->db->prepare($checkQuery);
-                    $checkStmt->bindParam(':id', $id, PDO::PARAM_INT);
-                    $checkStmt->execute();
+            $this->db->commit();
 
-                    if (!$checkStmt->fetch()) {
-                        $errorMsg = "Matériel ID $id non trouvé";
-                        $errors[] = $errorMsg;
-                        custom_log($errorMsg, 'WARNING');
-                        continue;
-                    }
+            $message = "$deletedCount matériel(s) supprimé(s) avec succès";
+            custom_log($message, 'INFO');
 
-                    custom_log("Matériel ID $id trouvé, suppression des pièces jointes...", 'INFO');
-
-                    // Supprimer les pièces jointes associées
-                    $this->deleteMaterielAttachments($id);
-
-                    custom_log("Suppression du matériel ID $id de la base de données...", 'INFO');
-
-                    // Supprimer le matériel
-                    $deleteQuery = "DELETE FROM materiel WHERE id = :id";
-                    $deleteStmt = $this->db->prepare($deleteQuery);
-                    $deleteStmt->bindParam(':id', $id, PDO::PARAM_INT);
-
-                    if ($deleteStmt->execute()) {
-                        $deletedCount++;
-                        custom_log("Matériel ID $id supprimé avec succès", 'INFO');
-                    } else {
-                        $errorMsg = "Erreur lors de la suppression du matériel ID $id";
-                        $errors[] = $errorMsg;
-                        custom_log($errorMsg, 'ERROR');
-                    }
-
-                } catch (Exception $e) {
-                    $errorMsg = "Erreur lors de la suppression du matériel ID $id: " . $e->getMessage();
-                    $errors[] = $errorMsg;
-                    custom_log($errorMsg, 'ERROR');
-                }
-            }
-
-            if ($deletedCount > 0) {
-                $this->db->commit();
-                $message = "$deletedCount matériel(s) supprimé(s) avec succès";
-                custom_log($message, 'INFO');
-                return [
-                    'success' => true,
-                    'message' => $message,
-                    'deleted_count' => $deletedCount,
-                    'errors' => $errors
-                ];
-            } else {
-                $this->db->rollBack();
-                $message = 'Aucun matériel n\'a pu être supprimé';
-                custom_log($message, 'ERROR');
-                return [
-                    'success' => false,
-                    'message' => $message,
-                    'deleted_count' => 0,
-                    'errors' => $errors
-                ];
-            }
+            return [
+                'success' => true,
+                'message' => $message,
+                'deleted_count' => $deletedCount,
+                'errors' => $errors
+            ];
 
         } catch (Exception $e) {
             $this->db->rollBack();
@@ -467,69 +440,6 @@ class MaterielModel extends BaseModel
     }
 
     /**
-     * Supprime toutes les pièces jointes d'un matériel
-     * 
-     * @param int $materielId ID du matériel
-     * @return bool Succès de la suppression
-     */
-    private function deleteMaterielAttachments($materielId)
-    {
-        try {
-            // Récupérer les pièces jointes du matériel
-            $query = "SELECT pj.* FROM pieces_jointes pj
-                     INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-                     WHERE lpj.type_liaison = 'materiel' 
-                     AND lpj.entite_id = :materiel_id";
-
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([':materiel_id' => $materielId]);
-            $attachments = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            custom_log("Suppression des pièces jointes pour le matériel $materielId: " . count($attachments) . " fichier(s) trouvé(s)", 'INFO');
-
-            // Supprimer les fichiers physiques et les enregistrements
-            foreach ($attachments as $attachment) {
-                // Supprimer le fichier physique
-                $filePath = __DIR__ . '/../../' . $attachment['chemin_fichier'];
-                custom_log("Tentative de suppression du fichier: $filePath", 'INFO');
-
-                if (file_exists($filePath)) {
-                    if (unlink($filePath)) {
-                        custom_log("Fichier supprimé avec succès: $filePath", 'INFO');
-                    } else {
-                        custom_log("Erreur lors de la suppression du fichier: $filePath", 'ERROR');
-                    }
-                } else {
-                    custom_log("Fichier non trouvé (déjà supprimé?): $filePath", 'WARNING');
-                }
-
-                // Supprimer la liaison
-                $deleteLiaisonQuery = "DELETE FROM liaisons_pieces_jointes 
-                                     WHERE piece_jointe_id = :piece_jointe_id 
-                                     AND type_liaison = 'materiel' 
-                                     AND entite_id = :materiel_id";
-                $deleteLiaisonStmt = $this->db->prepare($deleteLiaisonQuery);
-                $deleteLiaisonStmt->execute([
-                    ':piece_jointe_id' => $attachment['id'],
-                    ':materiel_id' => $materielId
-                ]);
-
-                // Supprimer la pièce jointe
-                $deletePjQuery = "DELETE FROM pieces_jointes WHERE id = :piece_jointe_id";
-                $deletePjStmt = $this->db->prepare($deletePjQuery);
-                $deletePjStmt->execute([':piece_jointe_id' => $attachment['id']]);
-
-                custom_log("Pièce jointe ID {$attachment['id']} supprimée de la base de données", 'INFO');
-            }
-
-            return true;
-        } catch (Exception $e) {
-            custom_log("Erreur lors de la suppression des pièces jointes du matériel $materielId: " . $e->getMessage(), 'ERROR');
-            return false;
-        }
-    }
-
-    /**
      * Récupère les statistiques du matériel
      * 
      * @return array Statistiques
@@ -538,25 +448,25 @@ class MaterielModel extends BaseModel
     {
         $stats = [];
 
-        // Total matériel
-        $query = "SELECT COUNT(*) as total FROM materiel";
+        // Total matériel (non supprimé)
+        $query = "SELECT COUNT(*) as total FROM materiel WHERE deleted_at IS NULL";
         $stmt = $this->db->query($query);
         $stats['total'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
         // Matériel avec maintenance expirée
         $query = "SELECT COUNT(*) as maintenance_expired FROM materiel 
-                 WHERE date_fin_maintenance IS NOT NULL AND date_fin_maintenance < CURDATE()";
+                 WHERE deleted_at IS NULL AND date_fin_maintenance IS NOT NULL AND date_fin_maintenance < CURDATE()";
         $stmt = $this->db->query($query);
         $stats['maintenance_expired'] = $stmt->fetch(PDO::FETCH_ASSOC)['maintenance_expired'];
 
         // Matériel avec certificat expiré
         $query = "SELECT COUNT(*) as certificat_expired FROM materiel 
-                 WHERE date_fin_garantie IS NOT NULL AND date_fin_garantie < CURDATE()";
+                 WHERE deleted_at IS NULL AND date_fin_garantie IS NOT NULL AND date_fin_garantie < CURDATE()";
         $stmt = $this->db->query($query);
         $stats['certificat_expired'] = $stmt->fetch(PDO::FETCH_ASSOC)['certificat_expired'];
 
         // Matériel en ligne (avec IP)
-        $query = "SELECT COUNT(*) as online FROM materiel WHERE adresse_ip IS NOT NULL AND adresse_ip != ''";
+        $query = "SELECT COUNT(*) as online FROM materiel WHERE deleted_at IS NULL AND adresse_ip IS NOT NULL AND adresse_ip != ''";
         $stmt = $this->db->query($query);
         $stats['online'] = $stmt->fetch(PDO::FETCH_ASSOC)['online'];
 
@@ -564,12 +474,260 @@ class MaterielModel extends BaseModel
     }
 
     /**
-     * Récupère la liste des champs matériel avec leurs visibilités
+     * Récupère les pièces jointes d'un matériel
      * 
-     * @param int $materielId ID du matériel (optionnel, pour édition)
-     * @param int $contractId ID du contrat (optionnel, pour nouveau matériel)
-     * @return array Liste des champs avec visibilité
+     * @param int $materielId ID du matériel
+     * @return array Liste des pièces jointes
      */
+    public function getPiecesJointes($materielId)
+    {
+        $query = "
+            SELECT 
+                pj.*,
+                st.setting_value as type_nom,
+                CONCAT(u.first_name, ' ', u.last_name) as created_by_name
+            FROM pieces_jointes pj
+            LEFT JOIN settings st ON pj.type_id = st.id
+            LEFT JOIN users u ON pj.created_by = u.id
+            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+            WHERE lpj.type_liaison = 'materiel' 
+            AND lpj.entite_id = :materiel_id
+            ORDER BY pj.date_creation DESC
+        ";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':materiel_id', $materielId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Compte le nombre de pièces jointes d'un matériel
+     * 
+     * @param int $materielId ID du matériel
+     * @return int Nombre de pièces jointes
+     */
+    public function getPiecesJointesCount($materielId)
+    {
+        $query = "
+            SELECT COUNT(*) as count
+            FROM pieces_jointes pj
+            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+            WHERE lpj.type_liaison = 'materiel' 
+            AND lpj.entite_id = :materiel_id
+        ";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':materiel_id', $materielId, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return (int) $result['count'];
+    }
+
+    /**
+     * Ajoute une pièce jointe à un matériel
+     * 
+     * @param int $materielId ID du matériel
+     * @param array $data Données de la pièce jointe
+     * @return int ID de la pièce jointe créée
+     */
+    public function addPieceJointe($materielId, $data)
+    {
+        try {
+            $this->db->beginTransaction();
+
+            $query = "INSERT INTO pieces_jointes (
+                        nom_fichier, chemin_fichier, type_fichier, taille_fichier, 
+                        commentaire, masque_client, type_id, created_by, date_creation
+                    ) VALUES (
+                        :nom_fichier, :chemin_fichier, :type_fichier, :taille_fichier,
+                        :commentaire, :masque_client, :type_id, :created_by, NOW()
+                    )";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([
+                ':nom_fichier' => $data['nom_fichier'],
+                ':chemin_fichier' => $data['chemin_fichier'],
+                ':type_fichier' => $data['type_fichier'],
+                ':taille_fichier' => $data['taille_fichier'],
+                ':commentaire' => $data['commentaire'] ?? null,
+                ':masque_client' => $data['masque_client'] ?? 0,
+                ':type_id' => $data['type_id'] ?? null,
+                ':created_by' => $data['created_by'] ?? null
+            ]);
+
+            $pieceJointeId = $this->db->lastInsertId();
+
+            $query = "INSERT INTO liaisons_pieces_jointes (
+                        piece_jointe_id, type_liaison, entite_id
+                    ) VALUES (
+                        :piece_jointe_id, 'materiel', :materiel_id
+                    )";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([
+                ':piece_jointe_id' => $pieceJointeId,
+                ':materiel_id' => $materielId
+            ]);
+
+            $this->db->commit();
+            return $pieceJointeId;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
+    }
+
+    /**
+     * Supprime une pièce jointe d'un matériel
+     * 
+     * @param int $pieceJointeId ID de la pièce jointe
+     * @param int $materielId ID du matériel (pour vérification)
+     * @return bool Succès de la suppression
+     */
+    public function deletePieceJointe($pieceJointeId, $materielId)
+    {
+        try {
+            $this->db->beginTransaction();
+
+            $query = "SELECT pj.* FROM pieces_jointes pj
+                     INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                     WHERE lpj.type_liaison = 'materiel' 
+                     AND lpj.entite_id = :materiel_id 
+                     AND pj.id = :piece_jointe_id";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([
+                ':materiel_id' => $materielId,
+                ':piece_jointe_id' => $pieceJointeId
+            ]);
+
+            $pieceJointe = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (!$pieceJointe) {
+                throw new Exception("Pièce jointe non trouvée ou non autorisée");
+            }
+
+            $query = "DELETE FROM liaisons_pieces_jointes 
+                     WHERE piece_jointe_id = :piece_jointe_id 
+                     AND type_liaison = 'materiel' 
+                     AND entite_id = :materiel_id";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([
+                ':piece_jointe_id' => $pieceJointeId,
+                ':materiel_id' => $materielId
+            ]);
+
+            $query = "DELETE FROM pieces_jointes WHERE id = :piece_jointe_id";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':piece_jointe_id' => $pieceJointeId]);
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
+    }
+
+    /**
+     * Récupère les matériels pour l'export en masse
+     * 
+     * @param int $clientId ID du client
+     * @param int|null $siteId ID du site (optionnel)
+     * @return array Liste des matériels avec informations complètes
+     */
+    public function getMaterielsForBulkExport($clientId, $siteId = null)
+    {
+        $params = [':client_id' => $clientId];
+
+        $query = "
+            SELECT 
+                m.*,
+                r.id as salle_id,
+                r.name as salle_name,
+                b.name as building_name,
+                s.name as site_name,
+                c.name as client_name
+            FROM materiel m
+            LEFT JOIN rooms r ON m.salle_id = r.id 
+            LEFT JOIN buildings b ON r.building_id = b.id 
+            LEFT JOIN sites s ON b.site_id = s.id 
+            LEFT JOIN clients c ON s.client_id = c.id AND c.status = 1
+            WHERE c.id = :client_id 
+        ";
+
+        if ($siteId) {
+            $query .= " AND s.id = :site_id";
+            $params[':site_id'] = $siteId;
+        }
+
+        $query .= " ORDER BY s.name, b.name, r.name, m.marque, m.modele";
+
+        $stmt = $this->db->prepare($query);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Compte le nombre de matériel dans une salle
+     * 
+     * @param int $salleId ID de la salle
+     * @return int Nombre de matériel
+     */
+    public function getMaterielCountBySalle($salleId)
+    {
+        $query = "SELECT COUNT(*) as count FROM materiel WHERE salle_id = :salle_id AND deleted_at IS NULL";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':salle_id', $salleId, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return (int) $result['count'];
+    }
+    public function saveAll($rows)
+    {
+        $this->db->exec("TRUNCATE TABLE materiel");
+
+        $stmt = $this->db->prepare(
+            "INSERT INTO excel_tables (nom, quantite, prix) VALUES (?, ?, ?)"
+        );
+
+        foreach ($rows as $i => $row) {
+            if ($i === 0)
+                continue;
+
+            $stmt->execute([
+                $row[0] ?? null,
+                $row[1] ?? 0,
+                $row[2] ?? 0
+            ]);
+        }
+    }
+    public function getAll()
+    {
+
+        $stmt = $this->db->query(
+            "SELECT nom, quantite, prix FROM excel_tables"
+        );
+
+        $data = [["Nom", "Quantité", "Prix"]];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $data[] = [
+                $row['nom'],
+                $row['quantite'],
+                $row['prix']
+            ];
+        }
+
+        return $data;
+    }
     public function getChampsVisibilite($materielId = null, $contractId = null)
     {
         $champs = [
@@ -654,7 +812,6 @@ class MaterielModel extends BaseModel
 
         return $champs;
     }
-
     /**
      * Applique les valeurs par défaut de visibilité aux champs
      * @param array &$champs Référence vers le tableau des champs
@@ -741,148 +898,6 @@ class MaterielModel extends BaseModel
             return false;
         }
     }
-
-    /**
-     * Récupère les pièces jointes d'un matériel
-     * 
-     * @param int $materielId ID du matériel
-     * @return array Liste des pièces jointes
-     */
-    public function getPiecesJointes($materielId)
-    {
-        $query = "
-            SELECT 
-                pj.*,
-                st.setting_value as type_nom,
-                CONCAT(u.first_name, ' ', u.last_name) as created_by_name
-            FROM pieces_jointes pj
-            LEFT JOIN settings st ON pj.type_id = st.id
-            LEFT JOIN users u ON pj.created_by = u.id
-            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-            WHERE lpj.type_liaison = 'materiel' 
-            AND lpj.entite_id = :materiel_id
-            ORDER BY pj.date_creation DESC
-        ";
-
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':materiel_id', $materielId, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * Ajoute une pièce jointe à un matériel
-     * 
-     * @param int $materielId ID du matériel
-     * @param array $data Données de la pièce jointe
-     * @return int ID de la pièce jointe créée
-     */
-    public function addPieceJointe($materielId, $data)
-    {
-        try {
-            $this->db->beginTransaction();
-
-            // Insérer la pièce jointe
-            $query = "INSERT INTO pieces_jointes (
-                        nom_fichier, chemin_fichier, type_fichier, taille_fichier, 
-                        commentaire, masque_client, type_id, created_by
-                    ) VALUES (
-                        :nom_fichier, :chemin_fichier, :type_fichier, :taille_fichier,
-                        :commentaire, :masque_client, :type_id, :created_by
-                    )";
-
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([
-                ':nom_fichier' => $data['nom_fichier'],
-                ':chemin_fichier' => $data['chemin_fichier'],
-                ':type_fichier' => $data['type_fichier'],
-                ':taille_fichier' => $data['taille_fichier'],
-                ':commentaire' => $data['commentaire'] ?? null,
-                ':masque_client' => $data['masque_client'] ?? 0,
-                ':type_id' => $data['type_id'] ?? null,
-                ':created_by' => $data['created_by'] ?? null
-            ]);
-
-            $pieceJointeId = $this->db->lastInsertId();
-
-            // Créer la liaison
-            $query = "INSERT INTO liaisons_pieces_jointes (
-                        piece_jointe_id, type_liaison, entite_id
-                    ) VALUES (
-                        :piece_jointe_id, 'materiel', :materiel_id
-                    )";
-
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([
-                ':piece_jointe_id' => $pieceJointeId,
-                ':materiel_id' => $materielId
-            ]);
-
-            $this->db->commit();
-            return $pieceJointeId;
-        } catch (Exception $e) {
-            $this->db->rollBack();
-
-            throw $e;
-        }
-    }
-
-    /**
-     * Supprime une pièce jointe d'un matériel
-     * 
-     * @param int $pieceJointeId ID de la pièce jointe
-     * @param int $materielId ID du matériel (pour vérification)
-     * @return bool Succès de la suppression
-     */
-    public function deletePieceJointe($pieceJointeId, $materielId)
-    {
-        try {
-            $this->db->beginTransaction();
-
-            // Vérifier que la pièce jointe appartient bien au matériel
-            $query = "SELECT pj.* FROM pieces_jointes pj
-                     INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-                     WHERE lpj.type_liaison = 'materiel' 
-                     AND lpj.entite_id = :materiel_id 
-                     AND pj.id = :piece_jointe_id";
-
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([
-                ':materiel_id' => $materielId,
-                ':piece_jointe_id' => $pieceJointeId
-            ]);
-
-            $pieceJointe = $stmt->fetch(PDO::FETCH_ASSOC);
-            if (!$pieceJointe) {
-                throw new Exception("Pièce jointe non trouvée ou non autorisée");
-            }
-
-            // Supprimer la liaison
-            $query = "DELETE FROM liaisons_pieces_jointes 
-                     WHERE piece_jointe_id = :piece_jointe_id 
-                     AND type_liaison = 'materiel' 
-                     AND entite_id = :materiel_id";
-
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([
-                ':piece_jointe_id' => $pieceJointeId,
-                ':materiel_id' => $materielId
-            ]);
-
-            // Supprimer la pièce jointe
-            $query = "DELETE FROM pieces_jointes WHERE id = :piece_jointe_id";
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([':piece_jointe_id' => $pieceJointeId]);
-
-            $this->db->commit();
-            return true;
-        } catch (Exception $e) {
-            $this->db->rollBack();
-
-            throw $e;
-        }
-    }
-
     /**
      * Récupère les informations de visibilité des champs pour une liste de matériels
      * 
@@ -962,125 +977,5 @@ class MaterielModel extends BaseModel
         return $visibilites;
     }
 
-    /**
-     * Compte le nombre de pièces jointes d'un matériel
-     * 
-     * @param int $materielId ID du matériel
-     * @return int Nombre de pièces jointes
-     */
-    public function getPiecesJointesCount($materielId)
-    {
-        $query = "
-            SELECT COUNT(*) as count
-            FROM pieces_jointes pj
-            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-            WHERE lpj.type_liaison = 'materiel' 
-            AND lpj.entite_id = :materiel_id
-        ";
 
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':materiel_id', $materielId, PDO::PARAM_INT);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return (int) $result['count'];
-    }
-
-
-
-    /**
-     * Récupère les matériels pour l'export en masse
-     * 
-     * @param int $clientId ID du client
-     * @param int|null $siteId ID du site (optionnel)
-     * @return array Liste des matériels avec informations complètes
-     */
-    public function getMaterielsForBulkExport($clientId, $siteId = null)
-    {
-        $params = [':client_id' => $clientId];
-
-        $query = "
-            SELECT 
-                m.*,
-                r.id as salle_id,
-                r.name as salle_name,
-                s.name as site_name,
-                c.name as client_name
-            FROM materiel m
-            LEFT JOIN rooms r ON m.salle_id = r.id
-            LEFT JOIN sites s ON r.site_id = s.id
-            LEFT JOIN clients c ON s.client_id = c.id
-            WHERE c.id = :client_id
-        ";
-
-        if ($siteId) {
-            $query .= " AND s.id = :site_id";
-            $params[':site_id'] = $siteId;
-        }
-
-        $query .= " ORDER BY s.name, r.name, m.marque, m.modele";
-
-        $stmt = $this->db->prepare($query);
-        foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
-        }
-        $stmt->execute();
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * Compte le nombre de matériel dans une salle
-     * 
-     * @param int $salleId ID de la salle
-     * @return int Nombre de matériel
-     */
-    public function getMaterielCountBySalle($salleId)
-    {
-        $query = "SELECT COUNT(*) as count FROM materiel WHERE salle_id = :salle_id";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':salle_id', $salleId, PDO::PARAM_INT);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return (int) $result['count'];
-    }
-    public function saveAll($rows)
-    {
-        $this->db->exec("TRUNCATE TABLE materiel");
-
-        $stmt = $this->db->prepare(
-            "INSERT INTO excel_tables (nom, quantite, prix) VALUES (?, ?, ?)"
-        );
-
-        foreach ($rows as $i => $row) {
-            if ($i === 0)
-                continue;
-
-            $stmt->execute([
-                $row[0] ?? null,
-                $row[1] ?? 0,
-                $row[2] ?? 0
-            ]);
-        }
-    }
-    public function getAll()
-    {
-
-        $stmt = $this->db->query(
-            "SELECT nom, quantite, prix FROM excel_tables"
-        );
-
-        $data = [["Nom", "Quantité", "Prix"]];
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $data[] = [
-                $row['nom'],
-                $row['quantite'],
-                $row['prix']
-            ];
-        }
-
-        return $data;
-    }
 }

@@ -8,14 +8,16 @@ require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 
-class QRCodeController {
+class QRCodeController
+{
     use AccessControlTrait;
     private $db;
     private $siteModel;
     private $roomModel;
     private $materielModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         global $db;
         $this->db = $db;
         $this->siteModel = new SiteModel($this->db);
@@ -27,7 +29,8 @@ class QRCodeController {
     /**
      * Génère les fiches QR codes pour un site complet
      */
-    public function generateSite($siteId) {
+    public function generateSite($siteId)
+    {
         $this->checkAccess();
 
         // Récupérer les informations du site
@@ -39,7 +42,7 @@ class QRCodeController {
         }
 
         // Récupérer toutes les salles du site
-        $salles = $this->roomModel->getRoomsBySiteId($siteId, true); // activeOnly = true
+        $salles = $this->roomModel->getRoomsByBuildingId($siteId, true); // activeOnly = true
 
         // Récupérer le nombre de matériel par salle
         $materielCounts = [];
@@ -55,7 +58,8 @@ class QRCodeController {
     /**
      * Génère une fiche QR code pour une salle spécifique
      */
-    public function generateSalle($salleId) {
+    public function generateSalle($salleId)
+    {
         $this->checkAccess();
 
         // Récupérer les informations de la salle
@@ -79,7 +83,8 @@ class QRCodeController {
     /**
      * Gère la redirection après authentification via QR code
      */
-    public function redirect() {
+    public function redirect()
+    {
         // Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -112,7 +117,8 @@ class QRCodeController {
     /**
      * Génère l'URL pour un QR code
      */
-    public function generateQRUrl($salleId, $type = 'staff') {
+    public function generateQRUrl($salleId, $type = 'staff')
+    {
         // URL simplifiée pour éviter les problèmes de longueur
         return BASE_URL . 'auth/login?qr=' . $salleId . '&t=' . $type;
     }
@@ -120,7 +126,8 @@ class QRCodeController {
     /**
      * Génère les données pour les QR codes (pour les vues)
      */
-    public function generateQRData($salleId) {
+    public function generateQRData($salleId)
+    {
         return [
             'staff_url' => $this->generateQRUrl($salleId, 'staff'),
             'client_url' => $this->generateQRUrl($salleId, 'client')
@@ -130,17 +137,18 @@ class QRCodeController {
     /**
      * Génère un QR code en base64 pour l'affichage
      */
-    public function generateQRCodeBase64($text, $size = 200) {
+    public function generateQRCodeBase64($text, $size = 200)
+    {
         try {
             $qrCode = new QrCode(
                 data: $text,
                 size: $size,
                 margin: 10
             );
-            
+
             $writer = new PngWriter();
             $result = $writer->write($qrCode);
-            
+
             return 'data:image/png;base64,' . base64_encode($result->getString());
         } catch (Exception $e) {
             error_log('Erreur génération QR code: ' . $e->getMessage());
@@ -152,31 +160,32 @@ class QRCodeController {
     /**
      * Génère un placeholder QR code simple en base64
      */
-    private function generatePlaceholderQR($text, $size = 200) {
+    private function generatePlaceholderQR($text, $size = 200)
+    {
         // Créer une image simple avec le texte
         $image = imagecreate($size, $size);
         $white = imagecolorallocate($image, 255, 255, 255);
         $black = imagecolorallocate($image, 0, 0, 0);
-        
+
         // Dessiner un rectangle blanc
         imagefill($image, 0, 0, $white);
-        
+
         // Ajouter du texte
         $fontSize = max(8, $size / 20);
         $text = substr($text, 0, 20) . '...';
         $textWidth = strlen($text) * $fontSize * 0.6;
         $textX = ($size - $textWidth) / 2;
         $textY = $size / 2;
-        
+
         imagestring($image, 1, $textX, $textY, $text, $black);
-        
+
         // Convertir en base64
         ob_start();
         imagepng($image);
         $imageData = ob_get_contents();
         ob_end_clean();
         imagedestroy($image);
-        
+
         return 'data:image/png;base64,' . base64_encode($imageData);
     }
 }

@@ -21,4 +21,4 @@ if (isClient()) {
     // Inclure le dashboard staff
     require_once __DIR__ . '/staff.php';
 }
-?> 
+?>
