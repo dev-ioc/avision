@@ -36021,3 +36021,106 @@ Quant à l’écran n°1, il est HS
 [2026-05-06 16:33:09][INFO] 81 
 [2026-05-06 16:33:09][INFO] 110 
 [2026-05-06 16:33:09][DEBUG] SiteClientController::index - sites count: 2 
+[2026-05-07 14:41:59][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: j2p8dj8jediod8pt88bd2l8n2c) 
+[2026-05-07 14:42:04][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-07 14:42:04][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-07 14:42:04][DEBUG] Login réussi - Session ID: j2p8dj8jediod8pt88bd2l8n2c 
+[2026-05-07 14:42:04][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-05-07 14:42:04][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-07 14:42:04][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-05-07 14:42:04][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-05-07 14:44:06][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /user/load_permissions 
+[2026-05-07 14:44:26][INFO] Données POST reçues pour création d'utilisateur: {"csrf_token":"7cdd5b0032046e9fa07284d8acebf1ec6bf5bf5981467125afa7bb591bca81d5","username":"Technicien","email":"pibac29480@codoteam.com","first_name":"Tech Karija","last_name":"Tech","password":"TechK-26*","type":"technicien","status":"1","coef_utilisateur":"1.00","client_id":""} 
+[2026-05-07 14:44:26][INFO] Données traitées pour création d'utilisateur: {"username":"Technicien","email":"pibac29480@codoteam.com","password":"TechK-26*","first_name":"Tech Karija","last_name":"Tech","type":"technicien","is_admin":0,"status":1,"coef_utilisateur":"1.00","client_id":""} 
+[2026-05-07 14:44:26][INFO] Résultat de la création d'utilisateur: Succès, ID: 41 
+[2026-05-07 14:44:26][INFO] Permissions à ajouter: [] 
+[2026-05-07 14:44:35][DEBUG] Permissions chargées pour Technicien : {"role":"technicien","rights":[],"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-07 14:44:35][INFO] Utilisateur connecté : Technicien {"user_id":41,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-05-07 14:44:35][DEBUG] Login réussi - Session ID: fbqqrnd8p9c9rfu6660njseebd 
+[2026-05-07 14:44:35][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-07 14:44:35][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-07 14:44:35][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-07 14:44:35][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-07 14:44:35][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-07 14:45:41][DEBUG] Redirection vers login - URL sauvegardée: interventions/add (Session ID: 5vne2mgif98s531ahj3q1iesah) 
+[2026-05-07 14:45:44][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-07 14:45:44][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-07 14:45:44][DEBUG] Login réussi - Session ID: 5vne2mgif98s531ahj3q1iesah 
+[2026-05-07 14:45:44][DEBUG] Login réussi - redirect_after_login: interventions/add 
+[2026-05-07 14:45:44][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-07 14:45:44][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-05-07 14:45:44][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/add 
+[2026-05-07 14:49:21][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-07 14:50:31][WARNING] Undefined variable $isExpired {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\view.php","line":1057,"errno":2}
+[2026-05-07 14:50:40][WARNING] Undefined variable $isExpired {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\view.php","line":1057,"errno":2}
+[2026-05-07 14:50:54][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-07 14:50:54][DEBUG] Params: [] 
+[2026-05-07 14:50:59][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-07 14:50:59][DEBUG] Params: {":client_id":46} 
+[2026-05-07 14:51:30][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-07 14:51:40][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-07 14:57:08][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /user/load_permissions 
+[2026-05-07 14:57:40][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /user/load_permissions 
+[2026-05-07 15:00:33][INFO] Technicien 41 retiré de l'intervention 328 
+[2026-05-07 15:01:16][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - Path: /user/load_permissions 
+[2026-05-07 15:01:35][WARNING] Tentative de connexion échouée pour l'utilisateur : Eric 
+[2026-05-07 15:02:04][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-07 15:02:04][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-07 15:02:04][DEBUG] Login réussi - Session ID: e1t6k02cuj6493i8q2favhk9b8 
+[2026-05-07 15:02:04][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-07 15:02:04][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-07 15:02:04][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-07 15:02:04][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-07 15:02:04][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-07 15:02:50][DEBUG] Permissions chargées pour Technicien : {"role":"technicien","rights":[],"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-07 15:02:50][INFO] Utilisateur connecté : Technicien {"user_id":41,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-07 15:02:50][DEBUG] Login réussi - Session ID: fmd667b5ftac4u55ckjg48ri9b 
+[2026-05-07 15:02:50][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-07 15:02:50][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-07 15:02:50][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-07 15:02:50][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-07 15:02:50][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-07 15:03:55][DEBUG] Permissions chargées pour Technicien : {"role":"technicien","rights":[],"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-07 15:03:55][INFO] Utilisateur connecté : Technicien {"user_id":41,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-05-07 15:03:55][DEBUG] Login réussi - Session ID: 8epdi6vns5u1kej7bgvajpfufu 
+[2026-05-07 15:03:55][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-07 15:03:55][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-07 15:03:55][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-07 15:03:55][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-07 15:03:55][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
