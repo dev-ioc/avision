@@ -5,7 +5,7 @@
 
 // Paramètres de connexion à la base de données
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'avision');
+define('DB_NAME', 'avisiondb');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
@@ -27,4 +27,4 @@ try {
 } catch (PDOException $e) {
     custom_log("Erreur de connexion à la base de données : " . $e->getMessage(), 'ERROR');
     die("Une erreur est survenue lors de la connexion à la base de données");
-} 
+}
