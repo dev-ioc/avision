@@ -36785,3 +36785,13 @@ Quant à l’écran n°1, il est HS
 [2026-05-15 11:57:56][DEBUG] [DEBUG] Données reçues pour updateContract : {"id":"223","client_id":"46","rooms":["371","370"],"contract_type_id":"1","access_level_id":"8","name":"TEST TEST TEST","start_date":"2026-05-15","end_date":"2027-12-31","tickets_number":"0","tickets_remaining":"0","comment":"TEST TEST ","reminder_enabled":1,"reminder_days":"30","status":"actif"} 
 [2026-05-15 11:58:34][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /user/load_permissions 
 [2026-05-15 11:58:56][DEBUG] load_permissions - Session ID: ko8mp146sfcibjav3qdfluld5u, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-05-15 12:04:58][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - Path: /user/load_client_locations 
+[2026-05-15 12:04:58][DEBUG] load_permissions - Session ID: r92iqjlfp23r7jumrt0phprjqk, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-05-15 12:05:31][DEBUG] load_permissions - Session ID: r92iqjlfp23r7jumrt0phprjqk, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-05-15 12:05:31][DEBUG] load_client_locations - Session ID: r92iqjlfp23r7jumrt0phprjqk, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-05-15 12:05:31][ERROR] Erreur lors de la récupération des localisations du client 36: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause' 
+[2026-05-15 12:05:42][DEBUG] load_permissions - Session ID: r92iqjlfp23r7jumrt0phprjqk, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-05-15 12:05:53][DEBUG] load_permissions - Session ID: r92iqjlfp23r7jumrt0phprjqk, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-05-15 12:05:53][DEBUG] load_client_locations - Session ID: r92iqjlfp23r7jumrt0phprjqk, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-05-15 12:05:53][ERROR] Erreur lors de la récupération des localisations du client 30: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause' 
+[2026-05-15 12:06:08][DEBUG] load_permissions - Session ID: r92iqjlfp23r7jumrt0phprjqk, Has User: yes, Is Admin: yes, Is AJAX: yes 

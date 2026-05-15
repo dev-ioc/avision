@@ -71,6 +71,7 @@ function csrfMiddleware(bool $regenerateAfterValidation = true): bool
         '/contracts/load_client_rooms',
         '/contracts/update/',
         '/user/load_permissions',
+        '/user/load_client_locations',
 
         // Routes clients
         '/clients/store',      // ← AJOUTER CETTE LIGNE
