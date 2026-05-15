@@ -68,6 +68,9 @@ function csrfMiddleware(bool $regenerateAfterValidation = true): bool
         'interventions_client/addAttachment',
         'interventions_client/editComment',
         'user/add',
+        '/contracts/load_client_rooms',
+        '/contracts/update/',
+        '/user/load_permissions',
 
         // Routes clients
         '/clients/store',      // ← AJOUTER CETTE LIGNE

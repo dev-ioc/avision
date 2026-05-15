@@ -1112,21 +1112,24 @@ class ContractController
         header('Location: ' . BASE_URL . 'contracts');
         exit;
     }
-
-    /**
-     * Endpoint AJAX pour charger les salles d'un client avec HTML formaté
-     */
     public function load_client_rooms()
     {
-        $this->checkAccess();
+        // Vérification de session en mode JSON
+        if (!isset($_SESSION['user'])) {
+            header('Content-Type: application/json');
+            http_response_code(401);
+            echo json_encode(['error' => 'Session expirée', 'session_expired' => true]);
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Content-Type: application/json');
+            http_response_code(405);
+            echo json_encode(['error' => 'Méthode non autorisée']);
+            return;
+        }
 
         try {
-            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-                http_response_code(405);
-                echo json_encode(['error' => 'Méthode non autorisée']);
-                return;
-            }
-
             $clientId = $_POST['client_id'] ?? null;
             $contractId = $_POST['contract_id'] ?? null;
 
@@ -1136,80 +1139,81 @@ class ContractController
                 return;
             }
 
-            // Récupérer les salles du client
             $rooms = $this->contractModel->getRoomsForClient($clientId);
 
-            // Récupérer les salles déjà associées au contrat (si en mode édition)
-            $selectedRooms = [];
+            // Salles déjà sélectionnées (mode édition)
+            $selectedRoomIds = [];
             if ($contractId && is_numeric($contractId)) {
                 $contract = $this->contractModel->getContractById($contractId);
                 if ($contract) {
-                    $selectedRooms = $this->contractModel->getContractRooms($contractId);
+                    $contractRooms = $this->contractModel->getContractRooms($contractId);
+                    $selectedRoomIds = array_column($contractRooms, 'room_id');
                 }
             }
 
-            // Grouper les salles par site
-            $sites = [];
+            // Grouper : site > bâtiment > salle
+            $tree = [];
             foreach ($rooms as $room) {
-                $siteName = $room['site_name'] ?? 'Site inconnu';
-                if (!isset($sites[$siteName])) {
-                    $sites[$siteName] = [];
-                }
-                $sites[$siteName][] = $room;
+                $siteKey = $room['site_id'] . '|' . $room['site_name'];
+                $buildingKey = $room['building_id'] . '|' . $room['building_name'];
+                $tree[$siteKey][$buildingKey][] = $room;
             }
 
-            // Générer le HTML
             ob_start();
-            if (!empty($sites)) {
-                foreach ($sites as $siteName => $siteRooms) {
+            if (!empty($tree)) {
+                foreach ($tree as $siteKey => $buildings) {
+                    [, $siteName] = explode('|', $siteKey, 2);
                     echo '<div class="mb-3">';
-                    echo '<div class="d-flex align-items-center mb-2">';
-                    echo '<i class="fas fa-building text-primary me-2"></i>';
+                    echo '<div class="d-flex align-items-center mb-1">';
+                    echo '<i class="bi bi-geo-alt-fill text-primary me-2"></i>';
                     echo '<strong class="text-primary">' . h($siteName) . '</strong>';
                     echo '</div>';
-                    echo '<div class="ms-4">';
 
-                    foreach ($siteRooms as $room) {
-                        $roomId = $room['id'];
-                        $isChecked = in_array($roomId, array_column($selectedRooms, 'room_id'));
-
-                        echo '<div class="form-check mb-1">';
-                        echo '<input class="form-check-input" type="checkbox" ';
-                        echo 'id="room_' . $roomId . '" name="rooms[]" ';
-                        echo 'value="' . $roomId . '"';
-                        if ($isChecked) {
-                            echo ' checked';
-                        }
-                        echo '>';
-                        echo '<label class="form-check-label" for="room_' . $roomId . '">';
-                        echo '<i class="fas fa-door-open text-muted me-1"></i>';
-                        echo h($room['name']);
-                        echo '</label>';
+                    foreach ($buildings as $buildingKey => $bRooms) {
+                        [, $buildingName] = explode('|', $buildingKey, 2);
+                        echo '<div class="ms-3 mb-2">';
+                        echo '<div class="d-flex align-items-center mb-1">';
+                        echo '<i class="bi bi-building text-secondary me-2"></i>';
+                        echo '<span class="text-secondary fw-semibold">' . h($buildingName) . '</span>';
                         echo '</div>';
-                    }
+                        echo '<div class="ms-3">';
 
-                    echo '</div>';
-                    echo '</div>';
+                        foreach ($bRooms as $room) {
+                            $roomId = $room['id'];
+                            $isChecked = in_array($roomId, $selectedRoomIds);
+                            echo '<div class="form-check mb-1">';
+                            echo '<input class="form-check-input" type="checkbox" ';
+                            echo 'id="room_' . $roomId . '" name="rooms[]" value="' . $roomId . '"';
+                            if ($isChecked)
+                                echo ' checked';
+                            echo '>';
+                            echo '<label class="form-check-label" for="room_' . $roomId . '">';
+                            echo '<i class="bi bi-door-open text-muted me-1"></i>';
+                            echo h($room['name']);
+                            echo '</label>';
+                            echo '</div>';
+                        }
+
+                        echo '</div></div>'; // ms-3 + building div
+                    }
+                    echo '</div>'; // site div
                 }
             } else {
                 echo '<div class="text-center text-muted">';
-                echo '<i class="fas fa-info-circle"></i>';
-                echo ' Aucune salle disponible pour ce client';
+                echo '<i class="bi bi-info-circle me-1"></i> Aucune salle disponible pour ce client';
                 echo '</div>';
             }
-
             $html = ob_get_clean();
 
             header('Content-Type: application/json');
             echo json_encode(['html' => $html]);
 
         } catch (Exception $e) {
-            custom_log("Erreur dans ContractController::load_client_rooms : " . $e->getMessage(), 'ERROR');
+            custom_log("Erreur dans load_client_rooms : " . $e->getMessage(), 'ERROR');
             http_response_code(500);
             echo json_encode(['error' => 'Erreur lors du chargement des salles']);
         }
     }
-
     /**
      * Ajoute une pièce jointe à un contrat
      */

@@ -107,17 +107,30 @@ echo '<script>const baseUrl = "' . BASE_URL . '";</script>';
                             </select>
                         </div>
 
+                       <!-- Salles associées -->
                         <div class="mb-3">
                             <label class="form-label">Salles associées</label>
                             <div id="rooms-container" class="border rounded p-3" style="max-height: 300px; overflow-y: auto;">
-                                <div class="text-center text-muted">
-                                    <i class="bi bi-arrow-clockwise spin me-1"></i> Chargement des salles...
-                                </div>
+                                <?php if (!empty($allRooms)): ?>
+                                    <?php foreach ($allRooms as $room): ?>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="rooms[]" value="<?php echo $room['id']; ?>"
+                                                id="room_<?php echo $room['id']; ?>"
+                                                <?php echo (isset($contract['rooms']) && in_array($room['id'], array_column($contract['rooms'] ?? [], 'room_id'))) ? 'checked' : ''; ?>>
+                                            <label class="form-check-label" for="room_<?php echo $room['id']; ?>">
+                                                <?php echo h($room['site_name'] ?? ''); ?> - <?php echo h($room['building_name'] ?? ''); ?> - <?php echo h($room['name']); ?>
+                                            </label>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <div class="text-center text-muted">
+                                        Aucune salle disponible pour ce client.
+                                    </div>
+                                <?php endif; ?>
                             </div>
                             <small class="form-text text-muted">Cochez les salles que vous souhaitez associer à ce contrat.</small>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="start_date" class="form-label">Date de début <span class="text-danger">*</span></label>
