@@ -37014,3 +37014,30 @@ Quant à l’écran n°1, il est HS
 [2026-05-15 13:52:39][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/236/1778845959_coursUML-1.pdf 
 [2026-05-15 13:52:39][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML-1.pdf (ID: 353) 
 [2026-05-15 13:52:56][INFO] 28 
+[2026-05-15 14:54:20][DEBUG] Redirection vers login - URL sauvegardée: interventions/add (Session ID: ij7dsjcht28frqlokp42jqq5im) 
+[2026-05-15 14:54:35][DEBUG] Permissions chargées pour FOlyia : {"role":"client","rights":{"client_modify_info":true,"client_view_materiel":true,"client_view_interventions":true,"client_view_documentation":true,"client_view_contracts":true,"client_manage_contacts":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-05-15 14:54:35][INFO] Utilisateur connecté : FOlyia {"user_id":16,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-05-15 14:54:35][DEBUG] Login réussi - Session ID: ij7dsjcht28frqlokp42jqq5im 
+[2026-05-15 14:54:35][DEBUG] Login réussi - redirect_after_login: interventions/add 
+[2026-05-15 14:54:35][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-15 14:54:35][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-05-15 14:54:35][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/add 
+[2026-05-15 14:55:42][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-15 14:55:42][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-15 14:55:42][DEBUG] Login réussi - Session ID: fn97ogf7k2icjdgkaufubabtti 
+[2026-05-15 14:55:42][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-15 14:55:42][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-15 14:55:42][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-15 14:55:42][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-15 15:43:08][WARNING] Undefined variable $interventionsController {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":1231,"errno":2}
+[2026-05-15 15:43:08][ERROR] Call to a member function reopen() on null {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":1231,"trace":"#0 {main}","type":"Error"}
+[2026-05-15 15:46:31][ERROR] Erreur lors de la réouverture de l'intervention : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'needs_recalculation' in 'field list' 
+[2026-05-15 15:46:31][INFO] 54 
+[2026-05-15 15:48:14][INFO] 54 
+[2026-05-15 15:54:31][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3110,"errno":2}
+[2026-05-15 15:55:14][WARNING] Undefined array key "technician_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3110,"errno":2}
+[2026-05-15 15:56:30][WARNING] Undefined array key "technicien_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3110,"errno":2}
+[2026-05-15 16:00:21][WARNING] Undefined array key "technicien_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3110,"errno":2}
+[2026-05-15 16:01:57][WARNING] Undefined array key "technicien_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3113,"errno":2}
+[2026-05-15 16:02:20][WARNING] Undefined array key "technicien_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3113,"errno":2}
+[2026-05-15 16:05:36][WARNING] Undefined array key "technicien_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3124,"errno":2}

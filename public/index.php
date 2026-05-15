@@ -1226,7 +1226,13 @@ try {
                         exit;
                     }
                     break;
-
+                case 'reopen':
+                    if ($id) {
+                        $interventionController->reopen($id);
+                    } else {
+                        header('Location: ' . BASE_URL . 'interventions');
+                    }
+                    break;
             }
             break;
 

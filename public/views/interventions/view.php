@@ -43,6 +43,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
     <div class="d-flex bd-highlight mb-3">
         <div class="p-2 bd-highlight">
             <h4 class="py-4 mb-6">Détails de l'intervention</h4>
+
         </div>
 
         <div class="ms-auto p-2 bd-highlight">
@@ -88,13 +89,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#sendEmailModal">
                 <i class="bi bi-envelope me-1"></i> Envoyer un email
             </button>
-
             <?php if (canModifyInterventions()): ?>
                 <a href="<?php echo BASE_URL; ?>interventions/edit/<?php echo $intervention['id']; ?>"
                     class="btn btn-warning me-2">
                     <i class="bi bi-pencil me-1"></i> Modifier
                 </a>
-
                 <?php if ($intervention['status_id'] != 6): ?>
                     <a href="<?php echo BASE_URL; ?>interventions/assignToMe/<?php echo $intervention['id']; ?>"
                         class="btn btn-success me-2">
@@ -140,10 +139,19 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <i class="bi bi-x-lg-circle me-1"></i> Fermer l'intervention
                         </button>
                     <?php endif; ?>
+
                 <?php else: ?>
                     <button type="button" class="btn btn-secondary me-2" disabled>
                         <i class="bi bi-check-circle me-1"></i> Intervention fermée
                     </button>
+
+                    <!-- Bouton Réouvrir - PLACÉ ICI (quand l'intervention est fermée) -->
+                    <?php if (canModifyInterventions()): ?>
+                        <button type="button" class="btn btn-warning me-2"
+                            onclick="if(confirm('Attention : Cette action va re-créditer les tickets au contrat (si applicable) et rouvrir l\'intervention. Continuer ?')) window.location.href='<?= BASE_URL ?>interventions/reopen/<?= $intervention['id'] ?>'">
+                            <i class="bi bi-arrow-repeat me-1"></i> Réouvrir l'intervention
+                        </button>
+                    <?php endif; ?>
 
                     <?php if ($isAdmin && $intervention['status_id'] == 6): ?>
                         <button type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#forceTicketsModal">
@@ -2761,5 +2769,126 @@ include_once __DIR__ . '/../../includes/navbar.php';
         pdfScale = 1.5;
     });
 </script>
+<script>
+    function loadCloseInterventionDetails(interventionId) {
+        fetch(baseUrl + 'interventions/getCloseDetails/' + interventionId)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('closeInterventionContent').innerHTML = `
+                    <div class="alert alert-danger">${data.error}</div>
+                `;
+                    document.getElementById('cancelCloseBtn').disabled = false;
+                    return;
+                }
 
+                let html = `
+                <div class="alert alert-info">
+                    <strong>Intervention ${data.intervention.reference}</strong><br>
+                    Type: ${data.intervention.type_name}${data.intervention.requires_travel ? ' (avec déplacement)' : ''}
+                    ${data.intervention.is_remote ? ' (intervention à distance)' : ''}
+                </div>
+            `;
+
+                if (data.technicians && data.technicians.length > 0) {
+                    html += `
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Technicien</th>
+                                <th>Durée</th>
+                                <th>Qualifié</th>
+                                <th>Calcul</th>
+                                <th>Tickets</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                    data.technicians.forEach(tech => {
+                        html += `
+                        <tr>
+                            <td>${tech.name}</td>
+                            <td>${tech.duration_minutes} min (${tech.duration_hours.toFixed(2)}h)</td>
+                            <td>${tech.is_qualified ? 'Oui' : 'Non'}</td>
+                            <td>${tech.has_travel ? '+1 déplacement' : ''} ${tech.is_qualified && tech.duration_hours >= 1 ? '+1 qualifié' : ''}</td>
+                            <td><strong>${tech.tickets_rounded}</strong></td>
+                        </tr>
+                    `;
+                    });
+
+                    html += `
+                        </tbody>
+                    </table>
+                    <div class="alert alert-success">
+                        <strong>Total tickets proposés : ${data.total_tickets}</strong>
+                    </div>
+                `;
+                }
+
+                if (data.contract) {
+                    html += `
+                    <div class="alert alert-warning">
+                        <strong>Contrat : ${data.contract.name}</strong><br>
+                        Tickets restants avant fermeture : ${data.contract.tickets_remaining}<br>
+                        Tickets après fermeture : <strong>${data.contract.tickets_after_close}</strong>
+                    </div>
+                `;
+                }
+
+                html += `
+                <div class="form-group">
+                    <label for="manual_tickets">Nombre de tickets à déduire (modifiable)</label>
+                    <input type="number" class="form-control" id="manual_tickets" value="${data.total_tickets}" min="0">
+                    <small class="form-text text-muted">Modifiez ce nombre si vous n'êtes pas d'accord avec le calcul proposé.</small>
+                </div>
+                <div class="form-check mt-2">
+                    <input type="checkbox" class="form-check-input" id="send_email_notification" checked>
+                    <label class="form-check-label" for="send_email_notification">Envoyer une notification par email</label>
+                </div>
+                <input type="hidden" id="reopen_intervention" value="0">
+            `;
+
+                document.getElementById('closeInterventionContent').innerHTML = html;
+                document.getElementById('cancelCloseBtn').disabled = false;
+                document.getElementById('confirmCloseBtn').disabled = false;
+
+                // Gérer la confirmation de fermeture
+                document.getElementById('confirmCloseBtn').onclick = function () {
+                    const ticketsUsed = document.getElementById('manual_tickets').value;
+                    const sendEmail = document.getElementById('send_email_notification').checked ? 1 : 0;
+
+                    const formData = new FormData();
+                    formData.append('tickets_used', ticketsUsed);
+                    formData.append('send_email', sendEmail);
+                    formData.append('csrf_token', window.csrfToken || '<?= csrf_token() ?>');
+
+                    fetch(baseUrl + 'interventions/close/' + interventionId, {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    })
+                        .then(response => response.json())
+                        .then(result => {
+                            if (result.success) {
+                                location.reload();
+                            } else {
+                                alert('Erreur: ' + result.error);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erreur:', error);
+                            alert('Erreur lors de la fermeture');
+                        });
+                };
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                document.getElementById('closeInterventionContent').innerHTML = `
+                <div class="alert alert-danger">Erreur lors du chargement des détails</div>
+            `;
+                document.getElementById('cancelCloseBtn').disabled = false;
+            });
+    }
+</script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
