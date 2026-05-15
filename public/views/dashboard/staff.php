@@ -111,10 +111,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
 
         <!-- Prochaines interventions planifiées -->
+        <!-- Prochaines interventions -->
         <div class="col-md-6">
             <div class="card h-100">
                 <div class="card-header text-dark">
-                    <i class="bi bi-calendar-check me-1"></i> Prochaines interventions planifiées
+                    <i class="bi bi-clock-history me-1"></i> Dernières interventions
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -124,7 +125,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <th>N° Inter</th>
                                     <th>Client</th>
                                     <th>Techniciens</th>
-                                    <th>Date planifiée</th>
+                                    <th>Date création</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -151,22 +152,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 ?>
                                             </td>
                                             <td>
-                                                <?php
-                                                $datePlanif = $intervention['date_planif'];
-                                                $heurePlanif = $intervention['heure_planif'];
-                                                echo formatDate($datePlanif);
-                                                if ($heurePlanif) {
-                                                    echo ' ' . $heurePlanif;
-                                                }
-                                                ?>
+                                                <?php echo formatDate($intervention['created_at'] ?? date('Y-m-d')); ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
                                         <td colspan="4" class="text-center text-muted">
-                                            Aucune intervention planifiée
-                                        </td>
+                                            Aucune intervention récente
+                                    </tr>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
@@ -210,7 +204,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         </td>
                                         <td>
                                             <?php
-                                            if ($contract['site_names']) {
+                                            if (isset($contract['site_names']) && !empty($contract['site_names'])) {
                                                 echo h($contract['site_names']);
                                             } else {
                                                 echo "Client";
@@ -261,7 +255,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         </td>
                                         <td>
                                             <?php
-                                            if ($contract['site_names']) {
+                                            if (isset($contract['site_names']) && !empty($contract['site_names'])) {
                                                 echo h($contract['site_names']);
                                             } else {
                                                 echo "Client";

@@ -36336,3 +36336,435 @@ Quant à l’écran n°1, il est HS
         WHERE 1=1
      AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
 [2026-05-11 14:42:38][DEBUG] Params: {":client_id":46} 
+[2026-05-13 14:59:27][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: ksmfgpivju53egaol3fckjlsdl) 
+[2026-05-13 14:59:32][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-13 14:59:32][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-13 14:59:32][DEBUG] Login réussi - Session ID: ksmfgpivju53egaol3fckjlsdl 
+[2026-05-13 14:59:32][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-05-13 14:59:32][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-13 14:59:32][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-05-13 14:59:32][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-05-13 15:00:41][DEBUG] Permissions chargées pour Technicien : {"role":"technicien","rights":[],"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-13 15:00:41][INFO] Utilisateur connecté : Technicien {"user_id":41,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-05-13 15:00:41][DEBUG] Login réussi - Session ID: uirkcldk64e6gsbks2q17fvf8q 
+[2026-05-13 15:00:41][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-13 15:00:41][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-13 15:00:41][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-13 15:00:41][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-13 15:00:41][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-13 15:00:53][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-13 15:00:53][DEBUG] Params: [] 
+[2026-05-13 15:07:52][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-13 15:07:52][DEBUG] Params: {":client_id":46} 
+[2026-05-13 15:08:25][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-13 15:08:25][DEBUG] Params: {":client_id":46} 
+[2026-05-13 15:08:45][INFO] 81 
+[2026-05-13 15:08:45][INFO] 81 
+[2026-05-13 15:08:45][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-13 15:08:45][DEBUG] Params: {":client_id":46,":site_id":81} 
+[2026-05-13 15:08:50][INFO] 110 
+[2026-05-13 15:08:50][INFO] 110 
+[2026-05-13 15:08:50][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-13 15:08:50][DEBUG] Params: {":client_id":46,":site_id":110} 
+[2026-05-13 15:08:53][INFO] 81 
+[2026-05-13 15:08:53][INFO] 81 
+[2026-05-13 15:08:53][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-13 15:08:53][DEBUG] Params: {":client_id":46,":site_id":81} 
+[2026-05-13 15:09:01][INFO] 110 
+[2026-05-13 15:09:01][INFO] 110 
+[2026-05-13 15:09:01][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-13 15:09:01][DEBUG] Params: {":client_id":46,":site_id":110} 
+[2026-05-13 15:09:04][INFO] 81 
+[2026-05-13 15:09:04][INFO] 81 
+[2026-05-13 15:09:04][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-13 15:09:04][DEBUG] Params: {":client_id":46,":site_id":81} 
+[2026-05-13 15:12:22][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-13 15:12:22][DEBUG] Params: [] 
+[2026-05-13 15:12:41][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-13 15:12:41][DEBUG] Params: [] 
+[2026-05-13 15:47:21][DEBUG] Redirection vers login - URL sauvegardée: interventions/add (Session ID: 0f0dkdbocvklrdlbk3id2rom3m) 
+[2026-05-13 15:48:05][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-13 15:48:05][DEBUG] Params: [] 
+[2026-05-15 09:30:20][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: apv4oftiuu9ptladdhav2qlks2) 
+[2026-05-15 09:30:24][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-15 09:30:24][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-15 09:30:24][DEBUG] Login réussi - Session ID: apv4oftiuu9ptladdhav2qlks2 
+[2026-05-15 09:30:24][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-05-15 09:30:24][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-15 09:30:24][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-05-15 09:30:24][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-05-15 09:30:35][DEBUG] Redirection vers login - URL sauvegardée: interventions/add (Session ID: qgu4sd9kok8mk2sov0n1vgps6h) 
+[2026-05-15 09:30:37][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-15 09:30:37][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-15 09:30:37][DEBUG] Login réussi - Session ID: qgu4sd9kok8mk2sov0n1vgps6h 
+[2026-05-15 09:30:37][DEBUG] Login réussi - redirect_after_login: interventions/add 
+[2026-05-15 09:30:37][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-15 09:30:37][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-05-15 09:30:37][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/add 
+[2026-05-15 09:42:42][DEBUG] Permissions chargées pour Technicien : {"role":"technicien","rights":[],"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-15 09:42:42][INFO] Utilisateur connecté : Technicien {"user_id":41,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-05-15 09:42:42][DEBUG] Login réussi - Session ID: lmr0ulpl7k0mfp2mr4su9l15qd 
+[2026-05-15 09:42:42][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-15 09:42:42][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-15 09:42:42][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-15 09:42:42][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-15 09:42:43][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 09:44:36][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 09:45:12][INFO] 81 
+[2026-05-15 09:45:12][INFO] 110 
+[2026-05-15 09:46:38][WARNING] Undefined variable $isExpired {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\view.php","line":1057,"errno":2}
+[2026-05-15 09:49:43][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 10:07:50][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 10:09:54][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 10:09:56][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 10:10:00][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 10:13:21][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 10:13:33][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-15 10:13:33][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-15 10:13:33][DEBUG] Login réussi - Session ID: 32dnj59occj6ukn20lgd13croh 
+[2026-05-15 10:13:33][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-15 10:13:33][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-15 10:13:33][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-15 10:13:33][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-15 10:13:33][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 10:15:22][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 10:18:16][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 10:22:47][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.date_planif' in 'field list' 
+[2026-05-15 10:22:56][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.date_planif' in 'field list' 
+[2026-05-15 10:33:35][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 10:34:06][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.date_planif' in 'field list' 
+[2026-05-15 10:36:09][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: 64e3pbf7ejherlgc9an66g140u) 
+[2026-05-15 10:36:56][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S02]: Base table or view not found: 1146 Table 'avisiondb.intervention_planification' doesn't exist 
+[2026-05-15 10:39:59][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'ip.date_planif' in 'where clause' 
+[2026-05-15 10:40:40][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 10:41:06][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= u.id
+            WHERE st.name = 'Nouveau'
+            AND p.name != 'Pr...' at line 14 
+[2026-05-15 10:41:10][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= u.id
+            WHERE st.name = 'Nouveau'
+            AND p.name != 'Pr...' at line 14 
+[2026-05-15 10:44:02][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'itech.technician_id' in 'on clause' 
+[2026-05-15 10:44:37][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.date_planif' in 'field list' 
+[2026-05-15 10:45:27][WARNING] Undefined array key "date_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":155,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "heure_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":156,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "date_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":155,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "heure_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":156,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "date_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":155,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "heure_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":156,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "date_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":155,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "heure_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":156,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "date_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":155,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "heure_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":156,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":213,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:27][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:28][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "date_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":155,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "heure_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":156,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "date_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":155,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "heure_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":156,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "date_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":155,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "heure_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":156,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "date_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":155,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "heure_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":156,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "date_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":155,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "heure_planif" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":156,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":213,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":264,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":450,"errno":2}
+[2026-05-15 10:45:35][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":452,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":207,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:47:47][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "site_names" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":258,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:48:38][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":444,"errno":2}
+[2026-05-15 10:49:18][WARNING] Undefined array key "contact_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":446,"errno":2}
