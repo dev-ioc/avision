@@ -440,26 +440,28 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 data-sort-value="<?php echo h(strtolower($room['room_name'])); ?>">
                                                 <?php echo h($room['room_name']); ?>
                                             </td>
-                                            <td data-label="Contact principal"
-                                                data-sort-value="<?php echo h(strtolower($room['contact_name'] ?: 'aucun contact')); ?>">
+                                            <<td data-label="Contact principal"
+                                                data-sort-value="<?php echo h(strtolower($room['contact_name'] ?? 'aucun contact')); ?>">
                                                 <?php
-                                                if ($room['contact_name']) {
-                                                    echo h($room['contact_name']);
+                                                // Vérifier si contact_name existe, sinon afficher "Aucun contact"
+                                                $contactName = $room['contact_name'] ?? null;
+                                                if (!empty($contactName)) {
+                                                    echo h($contactName);
                                                 } else {
                                                     echo '<span class="text-muted">Aucun contact</span>';
                                                 }
                                                 ?>
-                                            </td>
-                                            <td data-label="Commentaire"
-                                                data-sort-value="<?php echo h(strtolower($room['comment'] ?: 'aucun commentaire')); ?>">
-                                                <?php
-                                                if ($room['comment']) {
-                                                    echo h($room['comment']);
-                                                } else {
-                                                    echo '<span class="text-muted">Aucun commentaire</span>';
-                                                }
-                                                ?>
-                                            </td>
+                                                </td>
+                                                <td data-label="Commentaire"
+                                                    data-sort-value="<?php echo h(strtolower($room['comment'] ?: 'aucun commentaire')); ?>">
+                                                    <?php
+                                                    if ($room['comment']) {
+                                                        echo h($room['comment']);
+                                                    } else {
+                                                        echo '<span class="text-muted">Aucun commentaire</span>';
+                                                    }
+                                                    ?>
+                                                </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
