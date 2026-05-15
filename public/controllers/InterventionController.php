@@ -3109,7 +3109,7 @@ class InterventionController
         }
 
         $isClosed = $intervention['status_id'] == 6;
-        $needsRecalculation = $intervention['needs_recalculation'] ?? 0;
+        $needsRecalculation = $intervention['needs_completion'] ?? 0;
 
         if ($isClosed && !$needsRecalculation && (!isset($_POST['reopen']) || $_POST['reopen'] != '1')) {
             $_SESSION['info'] = "Cette intervention est déjà fermée.";
@@ -3179,7 +3179,6 @@ class InterventionController
             $oldTickets = (int) ($intervention['tickets_used'] ?? 0);
             $difference = $ticketsUsed - $oldTickets;
 
-            // ✅ Fix closed_at (logique correcte)
             $closedAt = $isClosed
                 ? $intervention['closed_at']
                 : date('Y-m-d H:i:s');
@@ -3188,7 +3187,7 @@ class InterventionController
             status_id = 6, 
             closed_at = :closed_at,
             tickets_used = :tickets_used,
-            needs_recalculation = 0
+            needs_completion = 0
             WHERE id = :id";
 
             $stmt = $this->db->prepare($sql);
@@ -3280,6 +3279,7 @@ class InterventionController
             }
 
             error_log("Erreur close(): " . $e->getMessage());
+            custom_log("Erreur close(): " . $e->getMessage());
             $_SESSION['error'] = "Erreur critique.";
         }
 
@@ -5409,7 +5409,6 @@ class InterventionController
             echo json_encode(['error' => $e->getMessage()]);
         }
     }
-
     /**
      * Réouvre une intervention fermée
      */
@@ -5425,7 +5424,8 @@ class InterventionController
             exit;
         }
 
-        if ($intervention['status_id'] != 6) {
+        // Vérification statut
+        if ((int) $intervention['status_id'] !== 6) {
             $_SESSION['error'] = "Seules les interventions fermées peuvent être réouvertes.";
             header('Location: ' . BASE_URL . 'interventions/view/' . $id);
             exit;
@@ -5434,12 +5434,20 @@ class InterventionController
         try {
             $this->db->beginTransaction();
 
-            // Recréditer les tickets si c'est un contrat à tickets
-            if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
-                $ticketsToRecredit = $intervention['tickets_used'] ?? 0;
+            $ticketsToRecredit = 0;
+            if (
+                !empty($intervention['contract_id']) &&
+                isContractTicketById($intervention['contract_id']) &&
+                !empty($intervention['tickets_used'])
+            ) {
+                $ticketsToRecredit = (int) $intervention['tickets_used'];
 
                 if ($ticketsToRecredit > 0) {
-                    $sql = "UPDATE contracts SET tickets_remaining = tickets_remaining + :tickets WHERE id = :contract_id";
+
+                    $sql = "UPDATE contracts 
+                        SET tickets_remaining = tickets_remaining + :tickets 
+                        WHERE id = :contract_id";
+
                     $stmt = $this->db->prepare($sql);
                     $stmt->execute([
                         ':tickets' => $ticketsToRecredit,
@@ -5447,37 +5455,52 @@ class InterventionController
                     ]);
 
                     $contractModel = new ContractModel($this->db);
-                    $interventionRef = $intervention['reference'] ?? "#$id";
+
+                    $ref = !empty($intervention['reference'])
+                        ? $intervention['reference']
+                        : "#$id";
+
                     $contractModel->recordTicketModification(
                         $intervention['contract_id'],
                         -$ticketsToRecredit,
-                        $interventionRef . ' - Recrédit automatique suite à réouverture'
+                        $ref . ' - Recrédit suite réouverture intervention'
                     );
                 }
             }
+            $newStatusId = 1;
 
-            // Mettre à jour le statut (sans la colonne needs_recalculation)
             $sql = "UPDATE interventions SET 
-            status_id = 1,
+            status_id = :status_id,
+            needs_completion = 1,
             updated_at = NOW()
-            WHERE id = :id";
+        WHERE id = :id";
+
             $stmt = $this->db->prepare($sql);
-            $result = $stmt->execute([':id' => $id]);
+            $result = $stmt->execute([
+                ':status_id' => $newStatusId,
+                ':id' => $id
+            ]);
+
+            $stmt = $this->db->prepare($sql);
+            $result = $stmt->execute([
+                ':status_id' => $newStatusId,
+                ':id' => $id
+            ]);
 
             if (!$result) {
                 throw new Exception("Erreur lors de la mise à jour du statut");
             }
 
-            // Récupérer les noms des statuts pour l'historique
+            // 📌 Historique
             $oldStatusName = $this->getStatusName($intervention['status_id']);
-            $newStatusName = $this->getStatusName(1);
+            $newStatusName = $this->getStatusName($newStatusId);
 
-            // Historique
             $sql = "INSERT INTO intervention_history (
                     intervention_id, field_name, old_value, new_value, changed_by, description
                 ) VALUES (
                     :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
                 )";
+
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
                 ':intervention_id' => $id,
@@ -5485,21 +5508,26 @@ class InterventionController
                 ':old_value' => $oldStatusName,
                 ':new_value' => $newStatusName,
                 ':changed_by' => $_SESSION['user']['id'],
-                ':description' => "Intervention réouverte" . (isset($ticketsToRecredit) && $ticketsToRecredit > 0 ? " - {$ticketsToRecredit} tickets re-crédités" : "")
+                ':description' => "Intervention réouverte" .
+                    ($ticketsToRecredit > 0 ? " - {$ticketsToRecredit} tickets re-crédités" : "")
             ]);
 
             $this->db->commit();
 
-            $message = "Intervention réouverte avec succès.";
-            if (isset($ticketsToRecredit) && $ticketsToRecredit > 0) {
-                $message .= " {$ticketsToRecredit} tickets ont été re-crédités au contrat.";
-            }
-            $_SESSION['success'] = $message;
+            $_SESSION['success'] = "Intervention réouverte avec succès." .
+                ($ticketsToRecredit > 0
+                    ? " {$ticketsToRecredit} tickets ont été re-crédités."
+                    : "");
 
         } catch (Exception $e) {
-            $this->db->rollBack();
-            custom_log("Erreur lors de la réouverture de l'intervention : " . $e->getMessage(), 'ERROR');
-            $_SESSION['error'] = "Erreur lors de la réouverture de l'intervention : " . $e->getMessage();
+
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
+
+            custom_log("Erreur reopen(): " . $e->getMessage(), 'ERROR');
+
+            $_SESSION['error'] = "Erreur lors de la réouverture de l'intervention.";
         }
 
         header('Location: ' . BASE_URL . 'interventions/view/' . $id);

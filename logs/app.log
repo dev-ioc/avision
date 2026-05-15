@@ -37041,3 +37041,4 @@ Quant à l’écran n°1, il est HS
 [2026-05-15 16:01:57][WARNING] Undefined array key "technicien_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3113,"errno":2}
 [2026-05-15 16:02:20][WARNING] Undefined array key "technicien_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3113,"errno":2}
 [2026-05-15 16:05:36][WARNING] Undefined array key "technicien_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3124,"errno":2}
+[2026-05-15 16:25:39][INFO] Erreur close(): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'needs_recalculation' in 'field list' 
