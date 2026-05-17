@@ -1,153 +1,78 @@
 <?php
 /**
  * Middleware CSRF
- * 
  * Vérifie la validité du token CSRF pour les requêtes POST, PUT, DELETE
- * 
- * @param bool $regenerateAfterValidation Si true, régénère le token après validation
- * @return bool True si la requête est valide, false sinon
- * @throws Exception Si le token CSRF est invalide
  */
-function csrfMiddleware(bool $regenerateAfterValidation = true): bool
-{
-    // Charger la classe CSRF
-    require_once __DIR__ . '/../../classes/Security/CSRF.php';
 
-    // Ne vérifier que pour les méthodes qui modifient les données
+// Démarrer la session si ce n'est pas déjà fait
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Charger la classe CSRF si nécessaire
+if (!class_exists('CSRF')) {
+    require_once __DIR__ . '/../../classes/Security/CSRF.php';
+}
+
+/**
+ * Vérifie et valide le token CSRF pour la requête courante
+ * 
+ * @return bool True si la validation réussit ou n'est pas nécessaire
+ */
+function checkCsrfOrFail(): bool
+{
+    // Méthodes HTTP à vérifier
     $methodsToCheck = ['POST', 'PUT', 'DELETE', 'PATCH'];
     $requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
+    // Si ce n'est pas une méthode modifiante, on passe
     if (!in_array($requestMethod, $methodsToCheck)) {
         return true;
     }
 
-    // Récupérer le chemin de la requête sans le dossier de base
+    // Récupérer l'URI pour les logs
     $requestUri = $_SERVER['REQUEST_URI'] ?? '';
-    $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
-    $scriptDir = dirname($scriptName);
 
-    // Enlever le dossier de base du chemin
-    $path = $requestUri;
-    if ($scriptDir !== '/' && strpos($requestUri, $scriptDir) === 0) {
-        $path = substr($requestUri, strlen($scriptDir));
-    }
-
-    // Enlever les paramètres de requête
-    $path = strtok($path, '?');
-    $path = rtrim($path, '/');
-    if (empty($path))
-        $path = '/';
-
-    // Exceptions : certaines routes peuvent être exemptées
+    // Vérifier si la route est exemptée
     $exemptRoutes = [
-        // Routes d'intervention
-        '/interventions/assignTechnicians',
-        '/interventions/interventionsTechnician',
-        '/interventions/sendTechnicianEmail',
-        '/interventions/flash',
-        '/interventions/quickCreateClient',
-        '/interventions/quickCreateSite',
-        '/interventions/quickCreateRoom',
-        '/interventions/quickCreateContact',
-        '/materiel/bulkUpdate',
-        '/interventions/add',
-        '/interventions/store',
-        '/interventions/quickCreateBuilding',
-        '/materiel/store',
-        '/materiel/uploadAttachment',
-        '/documentation/store',
-        '/documentation/get_buildings',
-        '/documentation/get_rooms_by_building',
-        '/interventions/update',
-        '/building/add',
-        '/room/add',
-        '/site/add',
-        '/contracts/create',
-        'interventions_client/add',
-        'interventions_client/store',
-        'interventions_client/addAttachment',
-        'interventions_client/editComment',
-        'user/add',
-        '/contracts/load_client_rooms',
-        '/contracts/update/',
-        '/user/load_permissions',
-        '/user/load_client_locations',
-        '/interventions/editComment/',
-        '/contracts/addTickets/',
-        '/intverventions/reopen/',
-        '/interventions/close/',
-        '/interventions/reopen/',
-
-        // Routes clients
-        '/clients/store',      // ← AJOUTER CETTE LIGNE
-        '/clients/update',     // ← AJOUTER CETTE LIGNE
-        '/clients/delete',     // ← AJOUTER CETTE LIGNE
-
-        // Routes d'authentification
-        '/auth/login',
-        '/auth/logout',
+        // '/api/webhook', // Exemple de route exemptée
     ];
 
-    // Vérifier si la route actuelle est exemptée
-    $isExempt = false;
     foreach ($exemptRoutes as $exemptRoute) {
-        if (strpos($path, $exemptRoute) !== false) {
-            $isExempt = true;
-            break;
+        if (strpos($requestUri, $exemptRoute) !== false) {
+            return true;
         }
-    }
-
-    if ($isExempt) {
-        return true; // Route exemptée
     }
 
     // Valider le token CSRF
     if (!CSRF::validateRequest()) {
         // Log de sécurité
-        custom_log("Tentative de requête CSRF bloquée - IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . " - Path: " . $path, 'SECURITY');
-
-        // Répondre selon le type de requête
-        if (
-            isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'
-        ) {
-            http_response_code(403);
-            header('Content-Type: application/json');
-            echo json_encode([
-                'success' => false,
-                'error' => 'Token CSRF invalide ou expiré. Veuillez recharger la page.'
-            ]);
-            exit;
-        } else {
-            unset($_SESSION['success']);
-            $_SESSION['error'] = "Erreur de sécurité : token CSRF invalide. Veuillez réessayer.";
-            $referer = $_SERVER['HTTP_REFERER'] ?? BASE_URL . 'dashboard';
-            header('Location: ' . $referer);
-            exit;
-        }
-    }
-
-    // Régénérer le token pour les actions sensibles si nécessaire
-    if ($regenerateAfterValidation) {
-        $sensitiveActions = [
-            '/auth/login',
-            '/auth/logout',
-            '/user/changePassword',
-            '/user/updatePassword'
-        ];
-
-        $isSensitiveAction = false;
-        foreach ($sensitiveActions as $action) {
-            if (strpos($path, $action) !== false) {
-                $isSensitiveAction = true;
-                break;
-            }
+        if (function_exists('custom_log')) {
+            custom_log("Tentative de requête CSRF bloquée - IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . " - URI: " . $requestUri, 'SECURITY');
+            custom_log("POST data: " . json_encode($_POST), 'DEBUG');
+            custom_log("Session token: " . json_encode($_SESSION['csrf_token'] ?? 'NOT SET'), 'DEBUG');
         }
 
-        if ($isSensitiveAction) {
-            CSRF::regenerateToken();
-        }
+        // Vider les messages précédents
+        unset($_SESSION['success']);
+
+        // Définir le message d'erreur
+        $_SESSION['error'] = "Erreur de sécurité : token CSRF invalide. Veuillez réessayer.";
+
+        // Rediriger vers la page précédente ou le dashboard
+        $referer = $_SERVER['HTTP_REFERER'] ?? BASE_URL . 'dashboard';
+        header('Location: ' . $referer);
+        exit;
     }
 
     return true;
+}
+
+// Si le fichier est inclus et que la requête est POST, exécuter la vérification
+// Mais attention : on ne doit l'exécuter qu'une seule fois
+if (!defined('CSRF_MIDDLEWARE_RUN')) {
+    define('CSRF_MIDDLEWARE_RUN', true);
+
+    // Ne pas exécuter automatiquement, laisser le routeur décider
+    // pour éviter la double validation
 }

@@ -24,13 +24,37 @@ class RoomController
         $this->clientModel = new ClientModel($this->db);
     }
 
-
     /**
      * Affiche le formulaire d'ajout d'une salle
      * Peut accepter soit un building_id (comportement classique) soit un client_id via GET
      */
     public function add($id)
     {
+        // Appliquer le middleware CSRF pour les requêtes POST
+        // Dans RoomController::add(), avant la validation CSRF
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Test manuel
+            $postToken = $_POST['csrf_token'] ?? '';
+            $sessionToken = $_SESSION['csrf_token']['token'] ?? '';
+
+            error_log("=== TEST MANUEL CSRF ===");
+            error_log("POST token: '" . $postToken . "'");
+            error_log("Session token: '" . $sessionToken . "'");
+            error_log("POST token length: " . strlen($postToken));
+            error_log("Session token length: " . strlen($sessionToken));
+            error_log("POST token type: " . gettype($postToken));
+            error_log("Session token type: " . gettype($sessionToken));
+            error_log("Are identical: " . ($postToken === $sessionToken ? 'YES' : 'NO'));
+            error_log("hash_equals result: " . (hash_equals($sessionToken, $postToken) ? 'TRUE' : 'FALSE'));
+
+            // Test caractère par caractère
+            for ($i = 0; $i < strlen($postToken); $i++) {
+                if ($postToken[$i] !== $sessionToken[$i]) {
+                    error_log("Différence à la position $i: '" . $postToken[$i] . "' vs '" . $sessionToken[$i] . "'");
+                    break;
+                }
+            }
+        }
         $this->checkAccess();
 
         // Vérifier si on a un client_id dans les paramètres GET (mode sélection de bâtiment)
@@ -161,6 +185,7 @@ class RoomController
         $pageTitle = "Ajouter une salle";
         require_once VIEWS_PATH . '/room/add.php';
     }
+
     /**
      * Affiche le formulaire d'édition d'une salle
      */

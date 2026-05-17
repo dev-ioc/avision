@@ -160,11 +160,8 @@ require_once __DIR__ . '/includes/init.php';
 require_once __DIR__ . '/includes/middleware/csrf.php';
 
 // Application du middleware CSRF pour les requêtes modifiantes
-try {
-    csrfMiddleware();
-} catch (Exception $e) {
-    // Le middleware gère déjà les erreurs et les redirections
-    exit;
+if (function_exists('checkCsrfOrFail')) {
+    checkCsrfOrFail();
 }
 
 // Chargement des modèles
