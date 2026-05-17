@@ -75,6 +75,8 @@ function csrfMiddleware(bool $regenerateAfterValidation = true): bool
         '/interventions/editComment/',
         '/contracts/addTickets/',
         '/intverventions/reopen/',
+        '/interventions/close/',
+        '/interventions/reopen/',
 
         // Routes clients
         '/clients/store',      // ← AJOUTER CETTE LIGNE
