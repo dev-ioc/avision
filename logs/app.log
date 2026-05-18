@@ -37935,3 +37935,13 @@ Quant à l’écran n°1, il est HS
 [2026-05-18 12:52:22][DEBUG] Fichier trouvé, taille: 1248321 
 [2026-05-18 12:52:22][DEBUG] Type MIME détecté: application/pdf 
 [2026-05-18 12:53:55][INFO] 81 
+[2026-05-18 12:59:46][DEBUG] Tentative d'aperçu contrat pour l'ID: 355 
+[2026-05-18 12:59:46][DEBUG] Pièce jointe trouvée: {"id":355,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779086037_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 1 tickets - ajout 1 ticket","date_creation":"2026-05-18 09:33:57","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 12:59:46][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779086037_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 12:59:46][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 12:59:46][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 12:59:46][DEBUG] Tentative d'aperçu contrat pour l'ID: 354 
+[2026-05-18 12:59:46][DEBUG] Pièce jointe trouvée: {"id":354,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779085766_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 3 tickets - test","date_creation":"2026-05-18 09:29:26","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 12:59:46][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779085766_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 12:59:46][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 12:59:46][DEBUG] Type MIME détecté: application/pdf 

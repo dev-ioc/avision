@@ -1777,7 +1777,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 					var et = tech.end_time ? formatDateTime(tech.end_time) : 'Non défini';
 					var tp = tech.temps_passe ? tech.temps_passe + ' min' : 'Non défini';
 					var dep = tech.deplacement == 1 ? 'Oui' : 'Non';
-					var qual = tech.is_qualified == 1 ? '<span class="badge bg-warning text-dark"><i class="bi bi-star-fill me-1"></i>Qualifié</span>' : '<span class="badge bg-secondary">Non qualifié</span>';
+					var qual = tech.is_qualified == 1 ? '<span class="badge bg-success text-dark">Qualifié</span>' : '<span class="badge bg-secondary">Non qualifié</span>';
 					var flashAlert = '';
 					if (isFlash && needsCompletion && missingFields.length > 0) {
 						flashAlert = '<div class="alert alert-warning mt-2 mb-0 py-1 small" style="font-size:.75rem;"><i class="bi bi-lightning-charge-fill me-1"></i><strong class="text-dark">Intervention Flash à compléter !</strong><div class="mt-1"><span class="text-muted">Éléments manquants :</span><div class="d-flex flex-wrap gap-1 mt-1">';
