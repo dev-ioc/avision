@@ -1583,8 +1583,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 				.catch(function (e) {
 					showFermetureLoading(false);
 					document.getElementById('fermetureContent').innerHTML =
-						'<div class="alert alert-danger"><i class="bi bi-exclamation-triangle me-2"></i>Erreur réseau : '
-						+ esc(e.message) + '</div>';
+						'<div class="alert alert-danger"><i class="bi bi-exclamation-triangle me-2"></i>'
+						+ 'Impossible de fermer cette intervention : Aucun technicien n\'est affecté à cette intervention. Veuillez d\'abord affecter un technicien.'
+						+ '</div>';
 				});
 		});
 

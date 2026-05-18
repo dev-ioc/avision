@@ -3117,15 +3117,6 @@ class InterventionController
      *
      * Guard anti-double-déduction : si status_id == 6 on bloque.
      */
-    /**
-     * Ferme une intervention.
-     *
-     * POST params attendus (via modale JS) :
-     *  - tickets_used  (float)  : décompte validé par l'opérateur
-     *  - send_email    (0|1)    : envoyer ou non un email
-     *
-     * Guard anti-double-déduction : si status_id == 6 on bloque.
-     */
     public function close($id)
     {
         checkInterventionManagementAccess();
@@ -3297,8 +3288,6 @@ class InterventionController
         header('Location: ' . BASE_URL . 'interventions/view/' . $id);
         exit;
     }
-
-
 
     /**
      * Insère une ligne dans intervention_history.

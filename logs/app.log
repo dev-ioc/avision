@@ -38024,3 +38024,14 @@ Quant à l’écran n°1, il est HS
 [2026-05-18 15:04:57][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779085766_avenant_coursUML_compressed__1_.pdf 
 [2026-05-18 15:04:57][DEBUG] Fichier trouvé, taille: 1248321 
 [2026-05-18 15:04:57][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 16:05:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 7aa3bc5190960903cc01... 
+[2026-05-18 16:05:04][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 16:05:04][INFO] Tickets à recréditer: 8 
+[2026-05-18 16:05:04][INFO] Contrat ID: 221 
+[2026-05-18 16:05:04][INFO] Had tickets: oui 
+[2026-05-18 16:05:04][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 16:05:04][INFO] Solde contrat AVANT recrédit: 12 
+[2026-05-18 16:05:04][INFO] Tickets à recréditer: 8 
+[2026-05-18 16:05:04][INFO] Solde contrat APRÈS recrédit: 20 
+[2026-05-18 16:05:04][INFO] Recrédit de 8 tickets effectué pour le contrat 221 
+[2026-05-18 16:05:04][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
