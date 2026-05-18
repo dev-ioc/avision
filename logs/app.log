@@ -37903,3 +37903,35 @@ Quant à l’écran n°1, il est HS
 [2026-05-18 12:35:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
 [2026-05-18 12:35:50][DEBUG] load_permissions - Session ID: np2ek0s3v3587tm6vj9kh7hrep, Has User: yes, Is Admin: yes, Is AJAX: yes 
 [2026-05-18 12:36:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:51:45][DEBUG] Tentative d'aperçu contrat pour l'ID: 355 
+[2026-05-18 12:51:45][DEBUG] Pièce jointe trouvée: {"id":355,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779086037_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 1 tickets - ajout 1 ticket","date_creation":"2026-05-18 09:33:57","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 12:51:45][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779086037_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 12:51:45][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 12:51:45][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 12:51:45][DEBUG] Tentative d'aperçu contrat pour l'ID: 354 
+[2026-05-18 12:51:45][DEBUG] Pièce jointe trouvée: {"id":354,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779085766_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 3 tickets - test","date_creation":"2026-05-18 09:29:26","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 12:51:45][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779085766_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 12:51:45][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 12:51:45][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 12:52:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:52:06][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 12:52:06][INFO] Tickets à déduire: 7.5 
+[2026-05-18 12:52:06][INFO] Contrat ID: 221 
+[2026-05-18 12:52:06][INFO] Solde contrat AVANT déduction: 20 
+[2026-05-18 12:52:06][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 12:52:06][INFO] Tickets à déduire: 7.5 
+[2026-05-18 12:52:06][INFO] Solde AVANT déduction: 20 
+[2026-05-18 12:52:06][INFO] Solde APRÈS déduction: 12 
+[2026-05-18 12:52:06][INFO] Déduction de 7.5 tickets réussie 
+[2026-05-18 12:52:06][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 12 
+[2026-05-18 12:52:22][DEBUG] Tentative d'aperçu contrat pour l'ID: 355 
+[2026-05-18 12:52:22][DEBUG] Pièce jointe trouvée: {"id":355,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779086037_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 1 tickets - ajout 1 ticket","date_creation":"2026-05-18 09:33:57","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 12:52:22][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779086037_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 12:52:22][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 12:52:22][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 12:52:22][DEBUG] Tentative d'aperçu contrat pour l'ID: 354 
+[2026-05-18 12:52:22][DEBUG] Pièce jointe trouvée: {"id":354,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779085766_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 3 tickets - test","date_creation":"2026-05-18 09:29:26","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 12:52:22][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779085766_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 12:52:22][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 12:52:22][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 12:53:55][INFO] 81 

@@ -116,9 +116,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 					</button>
 
 					<?php if ($isAdmin && $intervention['status_id'] == 6): ?>
-						<button type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#forceTicketsModal">
+						<!-- <button type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#forceTicketsModal">
 							<i class="bi bi-ticket-perforated me-1"></i> Forcer tickets utilisés
-						</button>
+						</button> -->
 					<?php endif; ?>
 
 				<?php endif; ?>
