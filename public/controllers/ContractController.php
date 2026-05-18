@@ -914,26 +914,41 @@ class ContractController
             $stmt_interventions->execute([$id]);
             $interventions = $stmt_interventions->fetchAll(PDO::FETCH_ASSOC);
 
-            // Pour chaque intervention, récupérer les techniciens assignés ET calculer les tickets en temps réel
+            // Pour chaque intervention, récupérer les techniciens assignés, la durée totale et les tickets
             require_once __DIR__ . '/../models/UserModel.php';
             $userModel = new UserModel($this->db);
 
             foreach ($interventions as &$intervention) {
-                // Récupérer les techniciens assignés à cette intervention
-                $sql_technicians = "SELECT u.id, u.first_name, u.last_name, u.email
-                            FROM intervention_techniciens it
-                            JOIN users u ON it.technicien_id = u.id
-                            WHERE it.intervention_id = ?";
+                // Récupérer les techniciens assignés à cette intervention et la durée totale
+                $sql_technicians = "SELECT u.id, u.first_name, u.last_name, u.email,
+                                       it.temps_passe, it.is_qualified, it.deplacement
+                                FROM intervention_techniciens it
+                                JOIN users u ON it.technicien_id = u.id
+                                WHERE it.intervention_id = ?";
                 $stmt_tech = $this->db->prepare($sql_technicians);
                 $stmt_tech->execute([$intervention['id']]);
                 $technicians = $stmt_tech->fetchAll(PDO::FETCH_ASSOC);
 
                 // Construire le nom des techniciens pour l'affichage
                 $technician_names = [];
+                $total_duration_minutes = 0;
+
                 foreach ($technicians as $tech) {
                     $technician_names[] = $tech['first_name'] . ' ' . $tech['last_name'];
+                    // Additionner les durées de chaque technicien
+                    if (!empty($tech['temps_passe'])) {
+                        $total_duration_minutes += (int) $tech['temps_passe'];
+                    }
                 }
+
                 $intervention['technician_name'] = !empty($technician_names) ? implode(', ', $technician_names) : 'Non assigné';
+
+                // Convertir la durée totale en heures et minutes pour l'affichage
+                $total_hours = floor($total_duration_minutes / 60);
+                $total_minutes = $total_duration_minutes % 60;
+                $intervention['total_duration_display'] = $total_hours . 'h' . ($total_minutes > 0 ? $total_minutes : '');
+                $intervention['total_duration_minutes'] = $total_duration_minutes;
+                $intervention['total_duration_hours'] = round($total_duration_minutes / 60, 2);
 
                 // Calculer les tickets utilisés en temps réel pour les interventions fermées
                 if ((int) $intervention['status_id'] === 6) {

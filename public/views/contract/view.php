@@ -468,7 +468,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
     <div class="card mb-4">
         <div class="card-header py-2">
             <h5 class="card-title mb-0">
-                <i class="bi bi-tools me-1 me-1"></i>
+                <i class="bi bi-tools me-1"></i>
                 Interventions associées
             </h5>
         </div>
@@ -480,8 +480,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <th>Référence</th>
                             <th>Titre</th>
                             <th>Date</th>
-                            <th>Technicien</th>
-                            <th>Durée</th>
+                            <th>Technicien(s)</th>
+                            <th>Durée totale</th>
+                            <th>Durée (h)</th>
                             <th>Tickets utilisés</th>
                             <th>Statut</th>
                         </tr>
@@ -496,11 +497,56 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <?= htmlspecialchars($intervention['reference'] ?? '') ?>
                                         </a>
                                     </td>
-                                    <td><?= htmlspecialchars($intervention['title'] ?? '') ?></td>
-                                    <td><?= !empty($intervention['date_planif']) ? date('d/m/Y', strtotime($intervention['date_planif'])) . (!empty($intervention['heure_planif']) ? ' ' . $intervention['heure_planif'] : '') : date('d/m/Y H:i', strtotime($intervention['created_at'])) ?>
+                                    <td>
+                                        <?= htmlspecialchars($intervention['title'] ?? '') ?>
                                     </td>
-                                    <td><?= htmlspecialchars($intervention['technician_name'] ?? '') ?></td>
-                                    <td><?= $intervention['duration'] ?? 0 ?>h</td>
+                                    <td>
+                                        <?= !empty($intervention['date_planif']) ? date('d/m/Y', strtotime($intervention['date_planif'])) . (!empty($intervention['heure_planif']) ? ' ' . $intervention['heure_planif'] : '') : date('d/m/Y H:i', strtotime($intervention['created_at'])) ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $technicianNames = !empty($intervention['technician_name']) && $intervention['technician_name'] != 'Non assigné'
+                                            ? explode(', ', $intervention['technician_name'])
+                                            : [];
+
+                                        if (!empty($technicianNames)): ?>
+                                            <div>
+                                                <?php foreach ($technicianNames as $index => $techName): ?>
+                                                    <div class="mb-1">
+                                                        <span>-</span>
+                                                        <?= htmlspecialchars($techName) ?>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            </div>
+                                            <small class="text-muted">
+                                                <i class="bi bi-people me-1"></i>
+                                                <?= count($technicianNames) ?> technicien(s)
+                                            </small>
+                                        <?php else: ?>
+                                            <?= htmlspecialchars($intervention['technician_name'] ?? 'Non assigné') ?>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?php if (!empty($intervention['total_duration_minutes']) && $intervention['total_duration_minutes'] > 0): ?>
+                                            <span class="badge bg-primary">
+                                                <i class="bi bi-clock me-1"></i>
+                                                <?= $intervention['total_duration_display'] ?>
+                                            </span>
+                                            <br>
+                                            <small class="text-muted">
+                                                <?= $intervention['total_duration_minutes'] ?> min
+                                            </small>
+                                        <?php else: ?>
+                                            <span class="text-muted">-</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?php if (!empty($intervention['total_duration_hours'])): ?>
+                                            <?= number_format($intervention['total_duration_hours'], 2, ',', ' ') ?> h
+                                        <?php else: ?>
+                                            -
+                                        <?php endif; ?>
+                                    </td>
                                     <td>
                                         <?php if (isContractTicketById($contract['id'])): ?>
                                             <?= $intervention['tickets_used'] ?? 0 ?>
@@ -520,14 +566,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="7" class="text-center">Aucune intervention associée</td>
+                                <td colspan="8" class="text-center">Aucune intervention associée</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
+    </div>>
 </div>
 
 <!-- Modal Ajout de pièces jointes avec Drag & Drop -->
