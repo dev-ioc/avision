@@ -2881,382 +2881,516 @@ class InterventionController
         exit;
     }
     /**
-     * Calcule le nombre total de tickets utilisés pour une intervention
-     * en tenant compte de tous les techniciens assignés
-     * 
-     * @param int $interventionId ID de l'intervention
-     * @param float $duration Durée en heures
-     * @param int $typeId ID du type d'intervention
-     * @return int Nombre total de tickets utilisés
+     * Calcule le total de tickets pour tous les techs d'une intervention.
+     *
+     * @param int   $interventionId
+     * @param mixed $durationUnused  (ignoré, on lit temps_passe par tech)
+     * @param int   $typeId
+     * @return float
      */
-private function calculateTotalTicketsUsed(int $interventionId, $durationUnused, $typeId): float
-{
-    // Récupérer tous les techniciens assignés avec leurs données propres
-    $sql = "SELECT it.technicien_id,
-                   it.temps_passe,
-                   it.is_qualified,
-                   it.deplacement
-            FROM intervention_techniciens it
-            WHERE it.intervention_id = ?";
-    $stmt = $this->db->prepare($sql);
-    $stmt->execute([$interventionId]);
-    $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
- 
-    if (empty($technicians)) {
-        return 0;
+    private function calculateTotalTicketsUsed(int $interventionId, $durationUnused, $typeId): float
+    {
+        $sql = "SELECT technicien_id, temps_passe, is_qualified, deplacement
+            FROM intervention_techniciens
+            WHERE intervention_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$interventionId]);
+        $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($technicians)) {
+            return 0;
+        }
+
+        $type = $this->interventionModel->getTypeInfo($typeId);
+        $isRemote = empty($type['requires_travel']) || (int) ($type['requires_travel'] ?? 0) === 0;
+
+        $total = 0.0;
+        foreach ($technicians as $tech) {
+            $total += $this->computeTicketsForTech($tech, $isRemote);
+        }
+        return $total;
     }
- 
-    // Savoir si l'inter est à distance (pas de déplacement requis = remote/tel)
-    $type = $this->interventionModel->getTypeInfo($typeId);
-    $isRemote = empty($type['requires_travel']) || (int)$type['requires_travel'] === 0;
- 
-    $total = 0.0;
- 
-    foreach ($technicians as $tech) {
-        $total += $this->computeTicketsForTech($tech, $isRemote);
-    }
- 
-    return $total;
-}
-/**
- * Calcule les tickets pour UN technicien selon les nouvelles règles.
- *
- * @param array $tech  Ligne de intervention_techniciens
- *   - temps_passe  : minutes (peut être null)
- *   - is_qualified : 0|1
- *   - deplacement  : 0|1
- * @param bool  $isRemote  true = inter à distance ou tél
- * @return float
- */
-private function computeTicketsForTech(array $tech, bool $isRemote): float
-{
-    $minutes      = (float)($tech['temps_passe'] ?? 0);
-    $isQualified  = (int)($tech['is_qualified']  ?? 0) === 1;
-    $hasTravel    = (int)($tech['deplacement']   ?? 0) === 1;
- 
-    $hours  = $minutes / 60.0;
-    $raw    = 0.0;
- 
-    // Déplacement
-    if ($hasTravel) {
-        $raw += 1.0;
-    }
- 
-    // Main d'œuvre : 1h = 1 ticket
-    $raw += $hours;
- 
-    // Technicien qualifié : la 1ère heure complète compte double (+1)
-    if ($isQualified && $hours >= 1.0) {
-        $raw += 1.0;
-    }
- 
-    // Arrondi
-    if ($isRemote) {
-        // À la demi-heure près (0.5 ticket)
-        return round($raw * 2) / 2;
-    } else {
-        // À l'entier supérieur
-        return (float)ceil($raw);
-    }
-}
- 
     /**
-     * Récupère les détails de calcul de tickets pour la fermeture d'intervention
+     * Calcule les tickets pour UN technicien selon les nouvelles règles.
+     *
+     * @param array $tech  Ligne de intervention_techniciens
+     *   - temps_passe  : minutes (peut être null)
+     *   - is_qualified : 0|1
+     *   - deplacement  : 0|1
+     * @param bool  $isRemote  true = inter à distance ou tél
+     * @return float
      */
-public function getCloseDetails($id)
-{
-    checkInterventionManagementAccess();
- 
-    header('Content-Type: application/json');
- 
-    $intervention = $this->interventionModel->getById($id);
- 
-    if (!$intervention) {
-        http_response_code(404);
-        echo json_encode(['error' => 'Intervention introuvable.']);
-        exit;
-    }
- 
-    if ((int)$intervention['status_id'] === 6) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Cette intervention est déjà fermée.']);
-        exit;
-    }
- 
-    // Vérifier qu'au moins un technicien est assigné
-    $sql = "SELECT it.technicien_id,
-                   it.temps_passe,
-                   it.is_qualified,
-                   it.deplacement,
-                   CONCAT(u.first_name,' ',u.last_name) AS technician_name
-            FROM intervention_techniciens it
-            JOIN users u ON it.technicien_id = u.id
-            WHERE it.intervention_id = ?";
-    $stmt = $this->db->prepare($sql);
-    $stmt->execute([$id]);
-    $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
- 
-    if (empty($technicians)) {
-        http_response_code(400);
-        echo json_encode(['error' => "Impossible de fermer l'intervention sans avoir assigné au moins un technicien."]);
-        exit;
-    }
- 
-    // Infos type
-    $type     = $this->interventionModel->getTypeInfo($intervention['type_id'] ?? null);
-    $isRemote = empty($type['requires_travel']) || (int)($type['requires_travel'] ?? 0) === 0;
- 
-    // Calcul par technicien
-    $ticketsPerTech = [];
-    $totalTickets   = 0.0;
- 
-    foreach ($technicians as $tech) {
-        $minutes     = (float)($tech['temps_passe'] ?? 0);
-        $isQualified = (int)($tech['is_qualified']  ?? 0) === 1;
-        $hasTravel   = (int)($tech['deplacement']   ?? 0) === 1;
-        $hours       = $minutes / 60.0;
- 
+    /**
+     * Calcule les tickets pour UN technicien selon les nouvelles règles.
+     * On utilise is_qualified stocké dans intervention_techniciens, pas le coef_utilisateur du profil.
+     *
+     * @param array $tech  Ligne de intervention_techniciens
+     *   - temps_passe  : minutes (peut être null)
+     *   - is_qualified : 0|1 (stocké dans l'intervention, pas dans le profil)
+     *   - deplacement  : 0|1
+     * @param bool  $isRemote  true = inter à distance ou tél
+     * @return float
+     */
+    private function computeTicketsForTech(array $tech, bool $isRemote): float
+    {
+        $minutes = (float) ($tech['temps_passe'] ?? 0);
+        // Utiliser is_qualified de l'intervention_techniciens, PAS du profil utilisateur
+        $isQualified = (int) ($tech['is_qualified'] ?? 0) === 1;
+        $hasTravel = (int) ($tech['deplacement'] ?? 0) === 1;
+
+        $hours = $minutes / 60.0;
         $raw = 0.0;
-        $parts = [];
- 
+
+        // Déplacement : +1 ticket
         if ($hasTravel) {
             $raw += 1.0;
-            $parts[] = '+1 déplacement';
         }
+
+        // Main d'œuvre : 1h = 1 ticket
         $raw += $hours;
-        $parts[] = number_format($hours, 2, '.', '') . 'h MO';
- 
+
+        // Technicien qualifié : la première heure compte double (+1 ticket supplémentaire)
+        // Uniquement si la durée est d'au moins 1 heure
         if ($isQualified && $hours >= 1.0) {
             $raw += 1.0;
-            $parts[] = '+1 (qualifié, 1ère h)';
         }
- 
-        $rounded = $isRemote
-            ? round($raw * 2) / 2
-            : (float)ceil($raw);
- 
-        $totalTickets += $rounded;
- 
-        $ticketsPerTech[] = [
-            'technicien_id'   => $tech['technicien_id'],
-            'name'            => $tech['technician_name'],
-            'duration_minutes'=> $minutes,
-            'duration_hours'  => round($hours, 2),
-            'is_qualified'    => $isQualified,
-            'has_travel'      => $hasTravel,
-            'tickets_raw'     => round($raw, 2),
-            'tickets_rounded' => $rounded,
-            'formula'         => implode(' + ', $parts)
-                                 . ' = ' . round($raw, 2)
-                                 . ' → ' . $rounded
-                                 . ($isRemote ? ' (arrondi ½h)' : ' (arrondi ↑)'),
-        ];
-    }
- 
-    // Infos contrat
-    $contractInfo = null;
-    if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
-        $contract = $this->contractModel->getContractById($intervention['contract_id']);
-        if ($contract) {
-            $contractInfo = [
-                'id'                  => $contract['id'],
-                'name'                => $contract['name'],
-                'tickets_remaining'   => (float)($contract['tickets_remaining'] ?? 0),
-                'tickets_number'      => (float)($contract['tickets_number']    ?? 0),
-                'tickets_after_close' => max(0, (float)($contract['tickets_remaining'] ?? 0) - $totalTickets),
-            ];
+
+        // Arrondi selon type d'intervention
+        if ($isRemote) {
+            return round($raw * 2) / 2;   // ½ ticket
+        } else {
+            return (float) ceil($raw);    // entier supérieur
         }
     }
- 
-    echo json_encode([
-        'success'      => true,
-        'intervention' => [
-            'id'               => $intervention['id'],
-            'reference'        => $intervention['reference'],
-            'title'            => $intervention['title'],
-            'type_name'        => $type['name'] ?? '',
-            'is_remote'        => $isRemote,
-            'technician_count' => count($technicians),
-        ],
-        'technicians'  => $ticketsPerTech,
-        'total_tickets'=> $totalTickets,
-        'is_remote'    => $isRemote,
-        'contract'     => $contractInfo,
-    ]);
-    exit;
-}
+
     /**
-     * Ferme une intervention
+     * Retourne le détail du calcul de tickets pour la modale de fermeture.
+     * Appelé en GET par la modale via fetch().
      */
-    /**
-     * Ferme une intervention
-     */
-public function close($id)
-{
-    checkInterventionManagementAccess();
- 
-    $intervention = $this->interventionModel->getById($id);
- 
-    if (!$intervention) {
-        $_SESSION['error'] = 'Intervention introuvable.';
-        header('Location: ' . $this->getInterventionsListUrl());
-        exit;
-    }
- 
-    $isClosed = (int)$intervention['status_id'] === 6;
- 
-    // Déjà fermée et pas de demande de réouverture → rien à faire
-    if ($isClosed && empty($_POST['reopen'])) {
-        $_SESSION['info'] = 'Cette intervention est déjà fermée.';
-        header('Location: ' . BASE_URL . 'interventions/view/' . $id);
-        exit;
-    }
- 
-    // Vérifications prérequis (seulement pour une fermeture fraîche)
-    if (!$isClosed) {
-        // Au moins un technicien
-        $stmt = $this->db->prepare('SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ?');
-        $stmt->execute([$id]);
-        if ((int)$stmt->fetchColumn() === 0) {
-            $_SESSION['error'] = "Impossible de fermer l'intervention sans technicien assigné.";
-            header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
+    public function getCloseDetails($id)
+    {
+        checkInterventionManagementAccess();
+        header('Content-Type: application/json');
+
+        $intervention = $this->interventionModel->getById($id);
+
+        if (!$intervention) {
+            http_response_code(404);
+            echo json_encode(['success' => false, 'error' => 'Intervention introuvable.']);
             exit;
         }
+
+        // Déjà fermée : on ne peut pas recalculer
+        if ((int) $intervention['status_id'] === 6) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Cette intervention est déjà fermée.']);
+            exit;
+        }
+
+        // Vérifier qu'au moins un technicien est assigné
+        $sql = "SELECT it.technicien_id,
+               it.temps_passe,
+               it.is_qualified,
+               it.deplacement,
+               CONCAT(u.first_name,' ',u.last_name) AS technician_name
+        FROM intervention_techniciens it
+        JOIN users u ON it.technicien_id = u.id
+        WHERE it.intervention_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($technicians)) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'error' => "Impossible de fermer l'intervention sans avoir assigné au moins un technicien.",
+            ]);
+            exit;
+        }
+
+        // Infos type d'intervention
+        $type = $this->interventionModel->getTypeInfo($intervention['type_id'] ?? null);
+        $isRemote = empty($type['requires_travel']) || (int) ($type['requires_travel'] ?? 0) === 0;
+
+        // Calcul détaillé par technicien
+        $ticketsPerTech = [];
+        $totalTickets = 0.0;
+
+        foreach ($technicians as $tech) {
+            $minutes = (float) ($tech['temps_passe'] ?? 0);
+            $isQualified = (int) ($tech['is_qualified'] ?? 0) === 1;
+            $hasTravel = (int) ($tech['deplacement'] ?? 0) === 1;
+            $hours = $minutes / 60.0;
+
+            $raw = 0.0;
+            $parts = [];
+
+            // 1. Déplacement = 1 ticket
+            if ($hasTravel) {
+                $raw += 1.0;
+                $parts[] = '+1 déplacement';
+            }
+
+            // 2. Main d'œuvre : 1h = 1 ticket
+            $raw += $hours;
+
+            // Affichage de la MO (sans le détail des heures décimales inutiles)
+            if ($hours == floor($hours)) {
+                $parts[] = number_format($hours, 0, '.', '') . 'h de main d\'œuvre';
+            } else {
+                $parts[] = number_format($hours, 2, '.', '') . 'h de main d\'œuvre';
+            }
+
+            // 3. Technicien qualifié : la première heure compte double
+            //    Cela signifie +1 ticket supplémentaire si la durée atteint au moins 1h
+            if ($isQualified && $hours >= 1.0) {
+                $raw += 1.0;
+                $parts[] = '(+1 (prime 1ère heure qualifié))';
+            }
+
+            // 4. Arrondi selon le type d'intervention
+            if ($isRemote) {
+                // À distance/téléphone : arrondi à la 1/2 ticket
+                $rounded = round($raw * 2) / 2;
+            } else {
+                // Sur site : arrondi à l'entier supérieur
+                $rounded = (float) ceil($raw);
+            }
+
+            $totalTickets += $rounded;
+
+            $ticketsPerTech[] = [
+                'technicien_id' => (int) $tech['technicien_id'],
+                'name' => $tech['technician_name'],
+                'duration_minutes' => $minutes,
+                'duration_hours' => round($hours, 2),
+                'is_qualified' => $isQualified,
+                'has_travel' => $hasTravel,
+                'tickets_raw' => round($raw, 2),
+                'tickets_rounded' => $rounded,
+                'formula' => implode(' + ', $parts)
+                    . ' = ' . round($raw, 2)
+                    . ' → ' . $rounded
+            ];
+        }
+
+        // Infos contrat
+        $contractInfo = null;
+        if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
+            $contract = $this->contractModel->getContractById($intervention['contract_id']);
+            if ($contract) {
+                $contractInfo = [
+                    'id' => $contract['id'],
+                    'name' => $contract['name'],
+                    'tickets_remaining' => (float) ($contract['tickets_remaining'] ?? 0),
+                    'tickets_number' => (float) ($contract['tickets_number'] ?? 0),
+                    'tickets_after_close' => max(0, (float) ($contract['tickets_remaining'] ?? 0) - $totalTickets),
+                ];
+            }
+        }
+
+        echo json_encode([
+            'success' => true,
+            'intervention' => [
+                'id' => $intervention['id'],
+                'reference' => $intervention['reference'],
+                'title' => $intervention['title'],
+                'type_name' => $type['name'] ?? '',
+                // 'is_remote' => $isRemote,
+                'technician_count' => count($technicians),
+            ],
+            'technicians' => $ticketsPerTech,
+            'total_tickets' => $totalTickets,
+            'is_remote' => $isRemote,
+            'contract' => $contractInfo,
+        ]);
+        exit;
     }
- 
-    try {
-        $this->db->beginTransaction();
- 
-        // ── Réouverture ──────────────────────────────────────────────────────
-        if ($isClosed && !empty($_POST['reopen']) && (int)$_POST['reopen'] === 1) {
-            $this->recreditTicketsForIntervention($id, $intervention);
- 
-            // Repasser en statut "En cours" (id=2) ou le 1er statut non-fermé
-            $newStatusId = 1; // Nouveau
-            $sql = "UPDATE interventions SET status_id = :s, tickets_used = 0, needs_completion = 1, updated_at = NOW() WHERE id = :id";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([':s' => $newStatusId, ':id' => $id]);
- 
-            // Historique
-            $oldName = $this->getStatusName($intervention['status_id']);
-            $newName = $this->getStatusName($newStatusId);
-            $this->insertHistory($id, 'Statut', $oldName, $newName,
-                "Intervention réouverte – tickets recrédités : " . ($intervention['tickets_used'] ?? 0));
- 
-            $this->db->commit();
-            $_SESSION['success'] = "Intervention réouverte. " . ($intervention['tickets_used'] ?? 0) . " ticket(s) recrédité(s).";
+
+    /**
+     * Ferme une intervention.
+     *
+     * POST params attendus (via modale JS) :
+     *  - tickets_used  (float)  : décompte validé par l'opérateur
+     *  - send_email    (0|1)    : envoyer ou non un email
+     *
+     * Guard anti-double-déduction : si status_id == 6 on bloque.
+     */
+    /**
+     * Ferme une intervention.
+     *
+     * POST params attendus (via modale JS) :
+     *  - tickets_used  (float)  : décompte validé par l'opérateur
+     *  - send_email    (0|1)    : envoyer ou non un email
+     *
+     * Guard anti-double-déduction : si status_id == 6 on bloque.
+     */
+    public function close($id)
+    {
+        checkInterventionManagementAccess();
+
+        $intervention = $this->interventionModel->getById($id);
+
+        if (!$intervention) {
+            $_SESSION['error'] = 'Intervention introuvable.';
+            header('Location: ' . $this->getInterventionsListUrl());
+            exit;
+        }
+
+        // ── GUARD : déjà fermée → impossible de re-déduire ──────────────────────
+        if ((int) $intervention['status_id'] === 6) {
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'error' => 'Cette intervention est déjà fermée.',
+                ]);
+                exit;
+            }
+            $_SESSION['info'] = 'Cette intervention est déjà fermée.';
             header('Location: ' . BASE_URL . 'interventions/view/' . $id);
             exit;
         }
- 
-        // ── Fermeture ────────────────────────────────────────────────────────
-        // Récupérer le nombre de tickets depuis le POST (validé par la modale)
-        $ticketsUsed = 0.0;
-        if (isset($_POST['tickets_used']) && is_numeric($_POST['tickets_used'])) {
-            $ticketsUsed = (float)$_POST['tickets_used'];
-        } else {
-            // Fallback : calcul automatique
-            $ticketsUsed = $this->calculateTotalTicketsUsed($id, null, $intervention['type_id']);
-        }
- 
-        $closedAt = date('Y-m-d H:i:s');
- 
-        $sql = "UPDATE interventions
-                SET status_id = 6,
-                    closed_at = :ca,
-                    tickets_used = :tu,
-                    needs_completion = 0,
-                    updated_at = NOW()
-                WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([':ca' => $closedAt, ':tu' => $ticketsUsed, ':id' => $id]);
- 
-        // Déduire les tickets du contrat
-        if ($ticketsUsed > 0
-            && !empty($intervention['contract_id'])
-            && isContractTicketById($intervention['contract_id'])
-        ) {
-            $this->deductTicketsFromContract($intervention['contract_id'], $ticketsUsed, $id);
-        }
- 
-        // Historique
-        $oldName = $this->getStatusName($intervention['status_id']);
-        $this->insertHistory($id, 'Statut', $oldName, 'Fermé',
-            "Intervention fermée – {$ticketsUsed} ticket(s) déduit(s)");
- 
-        // Email optionnel
-        if (!empty($_POST['send_email']) && (int)$_POST['send_email'] === 1) {
-            try {
-                $this->mailService->sendInterventionClosed($id, true);
-            } catch (\Exception $e) {
-                custom_log_mail("Erreur email fermeture $id : " . $e->getMessage(), 'ERROR');
+
+        // Vérifier qu'au moins un technicien est assigné
+        $stmt = $this->db->prepare('SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ?');
+        $stmt->execute([$id]);
+        if ((int) $stmt->fetchColumn() === 0) {
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'error' => "Impossible de fermer l'intervention sans technicien assigné.",
+                ]);
+                exit;
             }
+            $_SESSION['error'] = "Impossible de fermer l'intervention sans technicien assigné.";
+            header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+            exit;
         }
- 
-        $this->db->commit();
- 
-        $msg = "Intervention fermée avec succès.";
-        if ($ticketsUsed > 0) {
-            $msg .= " {$ticketsUsed} ticket(s) déduit(s) du contrat.";
+
+        try {
+            $this->db->beginTransaction();
+
+            // Nombre de tickets : priorité au POST (choix de l'opérateur dans la modale)
+            $ticketsUsed = 0.0;
+            if (isset($_POST['tickets_used']) && is_numeric($_POST['tickets_used'])) {
+                $ticketsUsed = max(0.0, (float) $_POST['tickets_used']);
+            } else {
+                // Fallback automatique (ne devrait pas arriver si la modale est utilisée)
+                $ticketsUsed = $this->calculateTotalTicketsUsed($id, null, $intervention['type_id']);
+            }
+
+            custom_log("=== FERMETURE INTERVENTION $id ===", 'INFO');
+            custom_log("Tickets à déduire: $ticketsUsed", 'INFO');
+            custom_log("Contrat ID: " . ($intervention['contract_id'] ?? 'aucun'), 'INFO');
+
+            // ── VÉRIFICATION DU SOLDE CONTRAT AVANT DÉDUCTION ──────────────────────
+            if ($ticketsUsed > 0 && !empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
+                // Récupérer le solde actuel du contrat
+                $stmtCheck = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = ?");
+                $stmtCheck->execute([$intervention['contract_id']]);
+                $currentRemaining = (float) $stmtCheck->fetchColumn();
+
+                custom_log("Solde contrat AVANT déduction: $currentRemaining", 'INFO');
+
+                // Vérifier si le solde est suffisant
+                if ($currentRemaining < $ticketsUsed) {
+                    // Solde insuffisant
+                    $errorMsg = "Solde de tickets insuffisant sur le contrat. Solde actuel: $currentRemaining, Tickets à déduire: $ticketsUsed";
+                    custom_log($errorMsg, 'ERROR');
+
+                    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+                        header('Content-Type: application/json');
+                        echo json_encode([
+                            'success' => false,
+                            'error' => $errorMsg . ". Veuillez ajuster le nombre de tickets ou ajouter des tickets au contrat."
+                        ]);
+                        exit;
+                    }
+                    $_SESSION['error'] = $errorMsg;
+                    header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+                    exit;
+                }
+            }
+
+            $closedAt = date('Y-m-d H:i:s');
+
+            // Fermer l'intervention
+            $sql = "UPDATE interventions
+            SET status_id       = 6,
+                closed_at       = :ca,
+                tickets_used    = :tu,
+                needs_completion= 0,
+                updated_at      = NOW()
+            WHERE id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([':ca' => $closedAt, ':tu' => $ticketsUsed, ':id' => $id]);
+
+            // Déduire les tickets du contrat (seulement si contrat à tickets)
+            if ($ticketsUsed > 0 && !empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
+                $this->deductTicketsFromContract($intervention['contract_id'], $ticketsUsed, $id);
+            }
+
+            // Vérifier le nouveau solde du contrat
+            if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
+                $stmtCheck = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = ?");
+                $stmtCheck->execute([$intervention['contract_id']]);
+                $newRemaining = $stmtCheck->fetchColumn();
+                custom_log("NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: $newRemaining", 'INFO');
+
+                // Alerter si le solde est négatif
+                if ($newRemaining < 0) {
+                    custom_log("⚠️ ATTENTION: Solde contrat négatif: $newRemaining", 'WARNING');
+                }
+            }
+
+            // Historique intervention
+            $oldStatusName = $this->getStatusName($intervention['status_id']);
+            $this->insertHistory(
+                $id,
+                'Statut',
+                $oldStatusName,
+                'Fermé',
+                "Intervention fermée — {$ticketsUsed} ticket(s) déduit(s)"
+            );
+
+            // Email optionnel
+            if (!empty($_POST['send_email']) && (int) $_POST['send_email'] === 1) {
+                try {
+                    $this->mailService->sendInterventionClosed($id, true);
+                } catch (\Exception $e) {
+                    custom_log_mail("Erreur email fermeture $id : " . $e->getMessage(), 'ERROR');
+                }
+            }
+
+            $this->db->commit();
+
+            $msg = "Intervention fermée avec succès.";
+            if ($ticketsUsed > 0) {
+                $msg .= " {$ticketsUsed} ticket(s) déduit(s) du contrat.";
+            }
+
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => true, 'message' => $msg]);
+                exit;
+            }
+
+            $_SESSION['success'] = $msg;
+
+        } catch (\Exception $e) {
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
+            custom_log("Erreur close() intervention $id : " . $e->getMessage(), 'ERROR');
+
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'error' => "Erreur lors de la fermeture."]);
+                exit;
+            }
+            $_SESSION['error'] = "Erreur lors de la fermeture de l'intervention.";
         }
-        $_SESSION['success'] = $msg;
- 
-    } catch (\Exception $e) {
-        if ($this->db->inTransaction()) {
-            $this->db->rollBack();
-        }
-        custom_log("Erreur close() : " . $e->getMessage(), 'ERROR');
-        $_SESSION['error'] = "Erreur lors de la fermeture de l'intervention.";
+
+        header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+        exit;
     }
- 
-    header('Location: ' . BASE_URL . 'interventions/view/' . $id);
-    exit;
-}
- 
-private function insertHistory(int $interventionId, string $field, string $old, string $new, string $desc): void
-{
-    $sql = "INSERT INTO intervention_history
+
+
+
+    /**
+     * Insère une ligne dans intervention_history.
+     */
+    private function insertHistory(
+        int $interventionId,
+        string $field,
+        string $old,
+        string $new,
+        string $desc
+    ): void {
+        $sql = "INSERT INTO intervention_history
                 (intervention_id, field_name, old_value, new_value, changed_by, description)
             VALUES (:iid, :fn, :ov, :nv, :by, :desc)";
-    $stmt = $this->db->prepare($sql);
-    $stmt->execute([
-        ':iid'  => $interventionId,
-        ':fn'   => $field,
-        ':ov'   => $old,
-        ':nv'   => $new,
-        ':by'   => $_SESSION['user']['id'],
-        ':desc' => $desc,
-    ]);
-}
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':iid' => $interventionId,
+            ':fn' => $field,
+            ':ov' => $old,
+            ':nv' => $new,
+            ':by' => $_SESSION['user']['id'],
+            ':desc' => $desc,
+        ]);
+    }
     /**
-     * Re-crédite les tickets d'un contrat lors de la réouverture d'une intervention
+     * Re-crédite les tickets d'un contrat suite à la réouverture d'une inter.
+     * Met à jour tickets_remaining ET enregistre dans l'historique du contrat.
      */
-    private function recreditTicketsForIntervention($interventionId, $intervention)
+    private function recreditTicketsForIntervention($interventionId, $intervention): void
     {
-        if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
-            $ticketsToRecredit = $intervention['tickets_used'] ?? 0;
+        custom_log("=== RECRÉDIT TICKETS POUR INTERVENTION $interventionId ===", 'INFO');
 
-            if ($ticketsToRecredit > 0) {
-                // Mettre à jour le nombre de tickets restants dans le contrat
-                $sql = "UPDATE contracts SET tickets_remaining = tickets_remaining + :tickets WHERE id = :contract_id";
-                $stmt = $this->db->prepare($sql);
-                $stmt->execute([
-                    ':tickets' => $ticketsToRecredit,
-                    ':contract_id' => $intervention['contract_id']
-                ]);
-
-                // Enregistrer dans l'historique du contrat
-                $contractModel = new ContractModel($this->db);
-                $interventionRef = $this->getInterventionReference($interventionId);
-                $contractModel->recordTicketModification(
-                    $intervention['contract_id'],
-                    -$ticketsToRecredit, // Négatif car on ajoute des tickets
-                    $interventionRef . ' - Recrédit automatique suite à réouverture'
-                );
-
-                custom_log("Tickets recrédités: $ticketsToRecredit pour intervention $interventionId", 'INFO');
-            }
+        if (empty($intervention['contract_id'])) {
+            custom_log("Pas de contrat associé, recrédit ignoré", 'INFO');
+            return;
         }
+
+        if (!isContractTicketById($intervention['contract_id'])) {
+            custom_log("Contrat non ticket, recrédit ignoré", 'INFO');
+            return;
+        }
+
+        $ticketsToRecredit = (float) ($intervention['tickets_used'] ?? 0);
+        if ($ticketsToRecredit <= 0) {
+            custom_log("Pas de tickets à recréditer (tickets_used = 0)", 'INFO');
+            return;
+        }
+
+        // Récupérer le solde actuel AVANT recrédit
+        $stmt = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = :contract_id");
+        $stmt->execute([':contract_id' => $intervention['contract_id']]);
+        $currentRemaining = (float) $stmt->fetchColumn();
+        custom_log("Solde contrat AVANT recrédit: $currentRemaining", 'INFO');
+        custom_log("Tickets à recréditer: $ticketsToRecredit", 'INFO');
+
+        // Mise à jour du solde du contrat (ADDITION des tickets) - UNE SEULE FOIS
+        $sql = "UPDATE contracts SET tickets_remaining = tickets_remaining + :tickets WHERE id = :contract_id";
+        $stmt = $this->db->prepare($sql);
+        $result = $stmt->execute([
+            ':tickets' => $ticketsToRecredit,
+            ':contract_id' => $intervention['contract_id'],
+        ]);
+
+        if (!$result) {
+            custom_log("ERREUR: Échec de la mise à jour du contrat", 'ERROR');
+            throw new \Exception("Erreur lors du recrédit des tickets");
+        }
+
+        // Vérifier le nouveau solde
+        $stmt = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = :contract_id");
+        $stmt->execute([':contract_id' => $intervention['contract_id']]);
+        $newRemaining = (float) $stmt->fetchColumn();
+        custom_log("Solde contrat APRÈS recrédit: $newRemaining", 'INFO');
+
+        // Enregistrer dans l'historique (sans modifier le solde)
+        $sqlHistory = "INSERT INTO contract_history (
+                contract_id, field_name, old_value, new_value, changed_by, description
+            ) VALUES (
+                :contract_id, :field_name, :old_value, :new_value, :changed_by, :description
+            )";
+        $stmtHistory = $this->db->prepare($sqlHistory);
+        $interventionRef = $this->getInterventionReference($interventionId);
+        $stmtHistory->execute([
+            ':contract_id' => $intervention['contract_id'],
+            ':field_name' => 'Tickets restants',
+            ':old_value' => $currentRemaining,
+            ':new_value' => $newRemaining,
+            ':changed_by' => $_SESSION['user']['id'],
+            ':description' => $interventionRef . ' — Recrédit automatique suite à réouverture : +' . $ticketsToRecredit . ' tickets'
+        ]);
+
+        custom_log("Recrédit de {$ticketsToRecredit} tickets effectué pour le contrat {$intervention['contract_id']}", 'INFO');
     }
     public function generateReport($id)
     {
@@ -3298,54 +3432,43 @@ private function insertHistory(int $interventionId, string $field, string $old, 
      */
     private function deductTicketsFromContract($contractId, $ticketsUsed, $interventionId = null)
     {
-        error_log("DEBUG - deductTicketsFromContract appelée avec: contractId=$contractId, ticketsUsed=$ticketsUsed");
+        custom_log("=== DÉDUCTION TICKETS CONTRAT $contractId ===", 'INFO');
+        custom_log("Tickets à déduire: $ticketsUsed", 'INFO');
 
         if (!$contractId) {
-            error_log("DEBUG - deductTicketsFromContract: Pas de contrat, pas de déduction");
-            return; // Pas de contrat, pas de déduction
+            custom_log("Pas de contrat, déduction ignorée", 'INFO');
+            return;
         }
 
-        // Vérifier si le contrat est de type ticket (isticketcontract = 1)
+        // Vérifier si le contrat est de type ticket
         $sql = "SELECT isticketcontract FROM contracts WHERE id = :contract_id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':contract_id' => $contractId]);
         $contract = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$contract || $contract['isticketcontract'] != 1) {
-            error_log("DEBUG - deductTicketsFromContract: Contrat non-ticket ou inexistant, pas de déduction");
-            // Ce n'est pas un contrat de type ticket, pas de déduction
+            custom_log("Contrat non-ticket ou inexistant, déduction ignorée", 'INFO');
             return;
         }
 
-        error_log("DEBUG - deductTicketsFromContract: Enregistrement de l'historique AVANT mise à jour");
+        // Récupérer le solde avant déduction
+        $stmt = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = :contract_id");
+        $stmt->execute([':contract_id' => $contractId]);
+        $currentRemaining = (float) $stmt->fetchColumn();
+        custom_log("Solde AVANT déduction: $currentRemaining", 'INFO');
 
-        // Enregistrer la déduction dans l'historique du contrat AVANT de modifier les tickets
-        $contractModel = new ContractModel($this->db);
-
-        // Construire le commentaire avec le code d'intervention si disponible
+        // Construire le commentaire
         $comment = 'Déduction automatique - Intervention fermée';
         if ($interventionId) {
-            // Récupérer le code d'intervention
             $stmt = $this->db->prepare("SELECT reference FROM interventions WHERE id = ?");
             $stmt->execute([$interventionId]);
             $intervention = $stmt->fetch(PDO::FETCH_ASSOC);
-
             if ($intervention && !empty($intervention['reference'])) {
                 $comment = $intervention['reference'] . ' - ' . $comment;
             }
         }
 
-        $historyResult = $contractModel->recordTicketDeduction($contractId, $ticketsUsed, $comment);
-
-        if ($historyResult) {
-            error_log("DEBUG - deductTicketsFromContract: Enregistrement dans l'historique réussi");
-        } else {
-            error_log("ERROR - deductTicketsFromContract: Échec de l'enregistrement dans l'historique");
-        }
-
-        error_log("DEBUG - deductTicketsFromContract: Mise à jour des tickets restants");
-
-        // Maintenant mettre à jour les tickets restants
+        // Mettre à jour les tickets restants (UNE SEULE FOIS)
         $sql = "UPDATE contracts SET tickets_remaining = tickets_remaining - :tickets_used WHERE id = :contract_id";
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([
@@ -3354,12 +3477,32 @@ private function insertHistory(int $interventionId, string $field, string $old, 
         ]);
 
         if ($result) {
-            error_log("DEBUG - deductTicketsFromContract: Mise à jour des tickets réussie");
+            // Vérifier le nouveau solde
+            $stmt = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = :contract_id");
+            $stmt->execute([':contract_id' => $contractId]);
+            $newRemaining = (float) $stmt->fetchColumn();
+            custom_log("Solde APRÈS déduction: $newRemaining", 'INFO');
+            custom_log("Déduction de $ticketsUsed tickets réussie", 'INFO');
+
+            // Enregistrer uniquement dans l'historique (sans modifier le solde)
+            $sqlHistory = "INSERT INTO contract_history (
+                    contract_id, field_name, old_value, new_value, changed_by, description
+                ) VALUES (
+                    :contract_id, :field_name, :old_value, :new_value, :changed_by, :description
+                )";
+            $stmtHistory = $this->db->prepare($sqlHistory);
+            $stmtHistory->execute([
+                ':contract_id' => $contractId,
+                ':field_name' => 'Tickets restants',
+                ':old_value' => $currentRemaining,
+                ':new_value' => $newRemaining,
+                ':changed_by' => $_SESSION['user']['id'],
+                ':description' => $comment . ' : -' . $ticketsUsed . ' tickets'
+            ]);
         } else {
-            error_log("ERROR - deductTicketsFromContract: Échec de la mise à jour des tickets");
+            custom_log("ERREUR: Échec de la déduction des tickets", 'ERROR');
         }
     }
-
     /**
      * Force le nombre de tickets utilisés pour une intervention fermée (admin seulement)
      */
@@ -4575,20 +4718,20 @@ private function insertHistory(int $interventionId, string $field, string $old, 
      * API: Récupérer les techniciens pour une intervention
      * GET /api/interventions/technicians/{id}
      */
-public function apiGetTechnicians($id)
-{
-    while (ob_get_level()) ob_end_clean();
-    header('Content-Type: application/json');
- 
-    try {
-        if (!$id || !is_numeric($id)) {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'error' => 'ID intervention invalide']);
-            return;
-        }
- 
-        // Une seule requête avec LEFT JOIN — inclut is_qualified
-        $stmt = $this->db->prepare("
+    public function apiGetTechnicians($id)
+    {
+        while (ob_get_level())
+            ob_end_clean();
+        header('Content-Type: application/json');
+
+        try {
+            if (!$id || !is_numeric($id)) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'error' => 'ID intervention invalide']);
+                return;
+            }
+
+            $stmt = $this->db->prepare("
             SELECT
                 u.id             AS technicien_id,
                 u.first_name,
@@ -4598,7 +4741,7 @@ public function apiGetTechnicians($id)
                 it.end_time,
                 it.deplacement,
                 it.temps_passe,
-                it.is_qualified,
+                COALESCE(it.is_qualified, 0) AS is_qualified,
                 it.commentaire,
                 CASE WHEN it.technicien_id IS NOT NULL THEN 1 ELSE 0 END AS is_assigned
             FROM users u
@@ -4607,172 +4750,215 @@ public function apiGetTechnicians($id)
             WHERE u.user_type_id = 1
             ORDER BY u.first_name, u.last_name
         ");
-        $stmt->execute([$id]);
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
- 
-        $technicians = [];
-        $assigned    = [];
- 
-        foreach ($results as $row) {
-            $technicians[] = [
-                'id'        => (int)$row['technicien_id'],
-                'first_name'=> $row['first_name'],
-                'last_name' => $row['last_name'],
-                'full_name' => $row['first_name'] . ' ' . $row['last_name'],
-                'email'     => $row['email'] ?? '',
-            ];
- 
-            if ($row['is_assigned']) {
-                $assigned[] = [
-                    'technicien_id'  => (int)$row['technicien_id'],
-                    'start_time'     => $row['start_time'],
-                    'end_time'       => $row['end_time'],
-                    'deplacement'    => (int)$row['deplacement'],
-                    'temps_passe'    => $row['temps_passe'] !== null ? (int)$row['temps_passe'] : null,
-                    'is_qualified'   => (int)($row['is_qualified'] ?? 0),   // ← nouveau
-                    'commentaire'    => $row['commentaire'],
-                    'full_name'      => $row['first_name'] . ' ' . $row['last_name'],
+            $stmt->execute([$id]);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $technicians = [];
+            $assigned = [];
+
+            foreach ($results as $row) {
+                $technicians[] = [
+                    'id' => (int) $row['technicien_id'],
+                    'first_name' => $row['first_name'],
+                    'last_name' => $row['last_name'],
+                    'full_name' => $row['first_name'] . ' ' . $row['last_name'],
+                    'email' => $row['email'] ?? '',
                 ];
+
+                if ($row['is_assigned']) {
+                    $assigned[] = [
+                        'technicien_id' => (int) $row['technicien_id'],
+                        'start_time' => $row['start_time'],
+                        'end_time' => $row['end_time'],
+                        'deplacement' => (int) $row['deplacement'],
+                        'temps_passe' => $row['temps_passe'] !== null ? (int) $row['temps_passe'] : null,
+                        'is_qualified' => (int) ($row['is_qualified'] ?? 0),
+                        'commentaire' => $row['commentaire'],
+                        'full_name' => $row['first_name'] . ' ' . $row['last_name'],
+                    ];
+                }
             }
+
+            echo json_encode([
+                'success' => true,
+                'data' => [
+                    'intervention_id' => (int) $id,
+                    'assigned' => $assigned,
+                    'technicians' => $technicians,
+                ],
+            ]);
+
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur serveur : ' . $e->getMessage()]);
         }
- 
-        echo json_encode([
-            'success' => true,
-            'data'    => [
-                'intervention_id' => (int)$id,
-                'assigned'        => $assigned,
-                'technicians'     => $technicians,
-            ],
-        ]);
- 
-    } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['success' => false, 'error' => 'Erreur serveur : ' . $e->getMessage()]);
     }
-}
 
     /**
      * API: Assigner des techniciens à une intervention
      * POST /api/interventions/assignTechnicians
      */
-public function apiAssignTechnicians()
-{
-    while (ob_get_level()) ob_end_clean();
-    header('Content-Type: application/json');
- 
-    try {
-        $input = json_decode(file_get_contents('php://input'), true);
-        if (!$input) {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'error' => 'Données JSON invalides']);
-            return;
-        }
- 
-        $interventionId = $input['intervention_id'] ?? null;
-        $technicians    = $input['technicians']     ?? [];
- 
-        if (!$interventionId) {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'error' => 'ID intervention manquant']);
-            return;
-        }
- 
-        $this->db->beginTransaction();
- 
-        // 1. IDs actuellement assignés
-        $stmt = $this->db->prepare(
-            'SELECT technicien_id FROM intervention_techniciens WHERE intervention_id = ?'
-        );
-        $stmt->execute([$interventionId]);
-        $currentIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
- 
-        // 2. IDs dans la nouvelle liste
-        $newIds = array_column($technicians, 'technicien_id');
- 
-        // 3. Supprimer ceux qui ne sont plus là
-        $toDelete = array_diff($currentIds, $newIds);
-        if (!empty($toDelete)) {
-            $del = $this->db->prepare(
-                'DELETE FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?'
-            );
-            foreach ($toDelete as $tid) {
-                $del->execute([$interventionId, $tid]);
+    /**
+     * API: Assigner des techniciens à une intervention
+     * POST /api/interventions/assignTechnicians
+     */
+    /**
+     * API: Assigner des techniciens à une intervention
+     * POST /api/interventions/assignTechnicians
+     */
+    public function apiAssignTechnicians()
+    {
+        while (ob_get_level())
+            ob_end_clean();
+        header('Content-Type: application/json');
+
+        try {
+            $input = json_decode(file_get_contents('php://input'), true);
+            if (!$input) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'error' => 'Données JSON invalides']);
+                return;
             }
-        }
- 
-        // 4. Insérer ou mettre à jour
-        $checkStmt = $this->db->prepare(
-            'SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?'
-        );
-        $insertStmt = $this->db->prepare("
+
+            $interventionId = $input['intervention_id'] ?? null;
+            $technicians = $input['technicians'] ?? [];
+            $replace = (bool) ($input['replace'] ?? false); // Si true, on remplace complètement la liste
+
+            if (!$interventionId) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'error' => 'ID intervention manquant']);
+                return;
+            }
+
+            $this->db->beginTransaction();
+
+            // 1. Récupérer les IDs actuellement assignés
+            $stmt = $this->db->prepare(
+                'SELECT technicien_id FROM intervention_techniciens WHERE intervention_id = ?'
+            );
+            $stmt->execute([$interventionId]);
+            $currentIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+            // 2. IDs dans la nouvelle liste
+            $newIds = array_column($technicians, 'technicien_id');
+
+            // 3. Si mode replace = true, supprimer ceux qui ne sont plus dans la liste
+            if ($replace) {
+                $toDelete = array_diff($currentIds, $newIds);
+                if (!empty($toDelete)) {
+                    $delStmt = $this->db->prepare(
+                        'DELETE FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?'
+                    );
+                    foreach ($toDelete as $tid) {
+                        $delStmt->execute([$interventionId, $tid]);
+                        custom_log("Technicien $tid supprimé de l'intervention $interventionId", 'INFO');
+                    }
+                }
+            }
+
+            // 4. Insérer ou mettre à jour les techniciens
+            $checkStmt = $this->db->prepare(
+                'SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?'
+            );
+            $insertStmt = $this->db->prepare("
             INSERT INTO intervention_techniciens
                 (intervention_id, technicien_id, start_time, end_time,
-                 deplacement, temps_passe, is_qualified, commentaire)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                 deplacement, temps_passe, is_qualified, commentaire, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
         ");
-        $updateStmt = $this->db->prepare("
+            $updateStmt = $this->db->prepare("
             UPDATE intervention_techniciens
             SET start_time  = ?,
                 end_time    = ?,
                 deplacement = ?,
                 temps_passe = ?,
-                is_qualified= ?,
-                commentaire = ?
+                is_qualified = ?,
+                commentaire = ?,
+                updated_at = NOW()
             WHERE intervention_id = ? AND technicien_id = ?
         ");
- 
-        $notify = (int)($input['notify_technician'] ?? 0);
- 
-        foreach ($technicians as $tech) {
-            $isQualified = (int)($tech['is_qualified'] ?? 0);
- 
-            $checkStmt->execute([$interventionId, $tech['technicien_id']]);
-            $exists = (int)$checkStmt->fetchColumn() > 0;
- 
-            if ($exists) {
-                $updateStmt->execute([
-                    $tech['start_time']  ?? null,
-                    $tech['end_time']    ?? null,
-                    $tech['deplacement'] ?? 0,
-                    $tech['temps_passe'] ?? null,
-                    $isQualified,                   // ← nouveau
-                    $tech['commentaire'] ?? null,
-                    $interventionId,
-                    $tech['technicien_id'],
-                ]);
-            } else {
-                $insertStmt->execute([
-                    $interventionId,
-                    $tech['technicien_id'],
-                    $tech['start_time']  ?? null,
-                    $tech['end_time']    ?? null,
-                    $tech['deplacement'] ?? 0,
-                    $tech['temps_passe'] ?? null,
-                    $isQualified,                   // ← nouveau
-                    $tech['commentaire'] ?? null,
-                ]);
-            }
- 
-            // Email si demandé
-            if ($notify === 1 && !empty($tech['technicien_id'])) {
-                try {
-                    $this->mailService->sendTechnicianAssigned($interventionId, $tech['technicien_id']);
-                } catch (Exception $e) {
-                    custom_log_mail('Erreur mail tech : ' . $e->getMessage(), 'ERROR');
+
+            $notify = (int) ($input['notify_technician'] ?? 0);
+            $assignedCount = 0;
+
+            foreach ($technicians as $tech) {
+                $technicienId = $tech['technicien_id'] ?? null;
+                if (!$technicienId) {
+                    continue;
+                }
+
+                $isQualified = (int) ($tech['is_qualified'] ?? 0);
+                $startTime = !empty($tech['start_time']) ? $tech['start_time'] : null;
+                $endTime = !empty($tech['end_time']) ? $tech['end_time'] : null;
+                $deplacement = (int) ($tech['deplacement'] ?? 0);
+                $tempsPasse = !empty($tech['temps_passe']) ? (int) $tech['temps_passe'] : null;
+                $commentaire = $tech['commentaire'] ?? null;
+
+                $checkStmt->execute([$interventionId, $technicienId]);
+                $exists = (int) $checkStmt->fetchColumn() > 0;
+
+                if ($exists) {
+                    // Mise à jour du technicien existant
+                    $updateStmt->execute([
+                        $startTime,
+                        $endTime,
+                        $deplacement,
+                        $tempsPasse,
+                        $isQualified,
+                        $commentaire,
+                        $interventionId,
+                        $technicienId,
+                    ]);
+                    custom_log("Technicien $technicienId mis à jour pour l'intervention $interventionId", 'INFO');
+                } else {
+                    // Ajout d'un nouveau technicien
+                    $insertStmt->execute([
+                        $interventionId,
+                        $technicienId,
+                        $startTime,
+                        $endTime,
+                        $deplacement,
+                        $tempsPasse,
+                        $isQualified,
+                        $commentaire,
+                    ]);
+                    custom_log("Technicien $technicienId ajouté à l'intervention $interventionId", 'INFO');
+                }
+
+                $assignedCount++;
+
+                // Email si demandé
+                if ($notify === 1 && !empty($technicienId)) {
+                    try {
+                        $this->mailService->sendTechnicianAssigned($interventionId, $technicienId);
+                        custom_log_mail("Email envoyé au technicien $technicienId pour l'intervention $interventionId", 'INFO');
+                    } catch (Exception $e) {
+                        custom_log_mail('Erreur mail tech ' . $technicienId . ' : ' . $e->getMessage(), 'ERROR');
+                    }
                 }
             }
+
+            $this->db->commit();
+
+            $message = $assignedCount . ' technicien(s) affecté(s) avec succès';
+            if ($replace && !empty($toDelete)) {
+                $message .= ' (' . count($toDelete) . ' technicien(s) retiré(s))';
+            }
+
+            echo json_encode([
+                'success' => true,
+                'message' => $message,
+                'assigned_count' => $assignedCount,
+                'deleted_count' => $replace ? (count($toDelete ?? [])) : 0
+            ]);
+
+        } catch (Exception $e) {
+            if ($this->db->inTransaction())
+                $this->db->rollBack();
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur serveur : ' . $e->getMessage()]);
         }
- 
-        $this->db->commit();
- 
-        echo json_encode(['success' => true, 'message' => 'Techniciens affectés avec succès']);
- 
-    } catch (Exception $e) {
-        if ($this->db->inTransaction()) $this->db->rollBack();
-        http_response_code(500);
-        echo json_encode(['success' => false, 'error' => 'Erreur serveur : ' . $e->getMessage()]);
     }
-}
     public function interventionsTechnician($id)
     {
 
@@ -4783,7 +4969,140 @@ public function apiAssignTechnicians()
     {
         $this->apiAssignTechnicians();
     }
+    /**
+     * Supprime un technicien d'une intervention
+     * POST /api/interventions/removeTechnician
+     */
+    /**
+     * Supprime un technicien d'une intervention
+     * POST /api/interventions/removeTechnician
+     */
+    /**
+     * Supprime un technicien d'une intervention
+     * POST /interventions/removeTechnician
+     */
+    public function removeTechnician()
+    {
+        // Nettoyer tous les buffers existants
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
 
+        // Désactiver l'affichage des erreurs pour l'API
+        error_reporting(0);
+        ini_set('display_errors', 0);
+
+        header('Content-Type: application/json; charset=UTF-8');
+        header('Cache-Control: no-cache, must-revalidate');
+
+        try {
+            // Lire les données JSON
+            $input = json_decode(file_get_contents('php://input'), true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception('Données JSON invalides: ' . json_last_error_msg());
+            }
+
+            if (!$input) {
+                throw new Exception('Données JSON invalides ou vides');
+            }
+
+            $interventionId = $input['intervention_id'] ?? null;
+            $technicianId = $input['technician_id'] ?? null;
+
+            if (!$interventionId) {
+                throw new Exception('ID intervention manquant');
+            }
+
+            if (!$technicianId) {
+                throw new Exception('ID technicien manquant');
+            }
+
+            // Vérifier les permissions
+            if (!isset($_SESSION['user']) || !canModifyInterventions()) {
+                throw new Exception('Permissions insuffisantes');
+            }
+
+            // Vérifier si l'intervention existe et n'est pas fermée
+            $intervention = $this->interventionModel->getById($interventionId);
+            if (!$intervention) {
+                throw new Exception('Intervention introuvable');
+            }
+
+            if ((int) $intervention['status_id'] === 6) {
+                throw new Exception('Impossible de modifier une intervention fermée');
+            }
+
+            // Vérifier si le technicien est assigné à cette intervention
+            $stmt = $this->db->prepare(
+                'SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?'
+            );
+            $stmt->execute([$interventionId, $technicianId]);
+            $exists = (int) $stmt->fetchColumn() > 0;
+
+            if (!$exists) {
+                throw new Exception('Ce technicien n\'est pas assigné à cette intervention');
+            }
+
+            // Récupérer le nom du technicien avant suppression
+            $stmt = $this->db->prepare("SELECT CONCAT(first_name, ' ', last_name) as name FROM users WHERE id = ?");
+            $stmt->execute([$technicianId]);
+            $technician = $stmt->fetch(PDO::FETCH_ASSOC);
+            $technicianName = $technician['name'] ?? '#' . $technicianId;
+
+            // Supprimer le technicien
+            $stmt = $this->db->prepare(
+                'DELETE FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?'
+            );
+            $result = $stmt->execute([$interventionId, $technicianId]);
+
+            if (!$result) {
+                throw new Exception('Erreur lors de la suppression en base de données');
+            }
+
+            // Enregistrer dans l'historique de l'intervention
+            $sql = "INSERT INTO intervention_history (
+                    intervention_id, field_name, old_value, new_value, changed_by, description
+                ) VALUES (
+                    :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
+                )";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':intervention_id' => $interventionId,
+                ':field_name' => 'Technicien',
+                ':old_value' => $technicianName,
+                ':new_value' => '',
+                ':changed_by' => $_SESSION['user']['id'],
+                ':description' => "Technicien retiré : " . $technicianName
+            ]);
+
+            custom_log("Technicien $technicianId supprimé de l'intervention $interventionId", 'INFO');
+
+            // Réponse JSON propre
+            echo json_encode([
+                'success' => true,
+                'message' => 'Technicien retiré avec succès',
+                'technician_id' => $technicianId,
+                'technician_name' => $technicianName
+            ]);
+            exit;
+
+        } catch (Exception $e) {
+            custom_log("Erreur removeTechnician: " . $e->getMessage(), 'ERROR');
+
+            // S'assurer qu'aucun output n'a été généré avant
+            while (ob_get_level()) {
+                ob_end_clean();
+            }
+
+            header('Content-Type: application/json; charset=UTF-8');
+            echo json_encode([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+            exit;
+        }
+    }
     /**
      * Flash Intervention - Création rapide en 1 clic
      */
@@ -5345,87 +5664,240 @@ public function apiAssignTechnicians()
         }
     }
     /**
-     * Réouvre une intervention fermée
+     * Réouvre une intervention fermée.
+     *
+     * Si l'intervention avait consommé des tickets, ils sont re-crédités
+     * AVANT que l'inter repasse en statut ouvert, afin qu'une éventuelle
+     * re-fermeture ultérieure puisse les déduire à nouveau sans double-déduction.
      */
-   public function reopen($id)
-{
-    checkInterventionManagementAccess();
- 
-    $intervention = $this->interventionModel->getById($id);
- 
-    if (!$intervention) {
-        $_SESSION['error'] = 'Intervention introuvable.';
-        header('Location: ' . $this->getInterventionsListUrl());
-        exit;
-    }
- 
-    if ((int)$intervention['status_id'] !== 6) {
-        $_SESSION['error'] = 'Seules les interventions fermées peuvent être réouvertes.';
+    public function reopen($id)
+    {
+        checkInterventionManagementAccess();
+
+        $intervention = $this->interventionModel->getById($id);
+
+        if (!$intervention) {
+            $_SESSION['error'] = 'Intervention introuvable.';
+            header('Location: ' . $this->getInterventionsListUrl());
+            exit;
+        }
+
+        if ((int) $intervention['status_id'] !== 6) {
+            $_SESSION['error'] = 'Seules les interventions fermées peuvent être réouvertes.';
+            header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+            exit;
+        }
+
+        try {
+            $this->db->beginTransaction();
+
+            $ticketsToRecredit = (float) ($intervention['tickets_used'] ?? 0);
+            $hadTickets = $ticketsToRecredit > 0
+                && !empty($intervention['contract_id'])
+                && isContractTicketById($intervention['contract_id']);
+
+            custom_log("=== RÉOUVERTURE INTERVENTION $id ===", 'INFO');
+            custom_log("Tickets à recréditer: $ticketsToRecredit", 'INFO');
+            custom_log("Contrat ID: " . ($intervention['contract_id'] ?? 'aucun'), 'INFO');
+            custom_log("Had tickets: " . ($hadTickets ? 'oui' : 'non'), 'INFO');
+
+            // ── Re-créditer les tickets AVANT de changer le statut ──────────────
+            if ($hadTickets) {
+                $this->recreditTicketsForIntervention($id, $intervention);
+            }
+
+            // Repasser en statut "Nouveau" et RAZ des tickets_used
+            $newStatusId = 1;
+            $sql = "UPDATE interventions
+            SET status_id       = :s,
+                tickets_used    = 0,
+                closed_at       = NULL,
+                needs_completion= 1,
+                updated_at      = NOW()
+            WHERE id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([':s' => $newStatusId, ':id' => $id]);
+
+            // Historique
+            $oldName = $this->getStatusName($intervention['status_id']);
+            $newName = $this->getStatusName($newStatusId);
+            $desc = "Intervention réouverte";
+            if ($hadTickets) {
+                $desc .= " — {$ticketsToRecredit} ticket(s) re-crédité(s) au contrat";
+            }
+            $this->insertHistory($id, 'Statut', $oldName, $newName, $desc);
+
+            $this->db->commit();
+
+            $msg = "Intervention réouverte avec succès.";
+            if ($hadTickets) {
+                $msg .= " {$ticketsToRecredit} ticket(s) re-crédité(s) au contrat.";
+            }
+            $_SESSION['success'] = $msg;
+
+            custom_log("RÉOUVERTURE RÉUSSIE - Intervention $id", 'INFO');
+
+        } catch (\Exception $e) {
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
+            custom_log("Erreur reopen() intervention $id : " . $e->getMessage(), 'ERROR');
+            $_SESSION['error'] = "Erreur lors de la réouverture de l'intervention.";
+        }
+
         header('Location: ' . BASE_URL . 'interventions/view/' . $id);
         exit;
     }
- 
-    try {
-        $this->db->beginTransaction();
- 
-        $ticketsToRecredit = (float)($intervention['tickets_used'] ?? 0);
- 
-        // Re-créditer les tickets si contrat à tickets
-        if ($ticketsToRecredit > 0
-            && !empty($intervention['contract_id'])
-            && isContractTicketById($intervention['contract_id'])
-        ) {
-            $this->recreditTicketsForIntervention($id, $intervention);
-        }
- 
-        // Repasser en statut ouvert
-        $newStatusId = 1;
-        $sql = "UPDATE interventions
-                SET status_id = :s,
-                    tickets_used = 0,
-                    closed_at = NULL,
-                    needs_completion = 1,
-                    updated_at = NOW()
-                WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([':s' => $newStatusId, ':id' => $id]);
- 
-        // Historique
-        $oldName = $this->getStatusName($intervention['status_id']);
-        $newName = $this->getStatusName($newStatusId);
-        $this->insertHistory(
-            $id, 'Statut', $oldName, $newName,
-            "Intervention réouverte" . ($ticketsToRecredit > 0 ? " – {$ticketsToRecredit} ticket(s) recrédité(s)" : "")
-        );
- 
-        $this->db->commit();
- 
-        $msg = "Intervention réouverte avec succès.";
-        if ($ticketsToRecredit > 0) {
-            $msg .= " {$ticketsToRecredit} ticket(s) recrédité(s) au contrat.";
-        }
-        $_SESSION['success'] = $msg;
- 
-    } catch (\Exception $e) {
-        if ($this->db->inTransaction()) {
-            $this->db->rollBack();
-        }
-        custom_log("Erreur reopen() : " . $e->getMessage(), 'ERROR');
-        $_SESSION['error'] = "Erreur lors de la réouverture.";
-    }
- 
-    header('Location: ' . BASE_URL . 'interventions/view/' . $id);
-    exit;
-}
+
     /**
-     * Récupère le nom d'un statut par son ID
+     * Retourne le nom d'un statut par son id.
      */
-    private function getStatusName($statusId)
+    private function getStatusName($statusId): string
     {
-        $sql = "SELECT name FROM intervention_statuses WHERE id = ?";
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->db->prepare(
+            "SELECT name FROM intervention_statuses WHERE id = ?"
+        );
         $stmt->execute([$statusId]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? $result['name'] : 'Inconnu';
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ? $row['name'] : 'Inconnu';
     }
+
+    /**
+     * Retourne le détail du calcul de tickets pour la modale de réouverture.
+     * Appelé en GET par la modale via fetch().
+     */
+    public function getReopenDetails($id)
+    {
+        checkInterventionManagementAccess();
+        header('Content-Type: application/json');
+
+        $intervention = $this->interventionModel->getById($id);
+
+        if (!$intervention) {
+            http_response_code(404);
+            echo json_encode(['success' => false, 'error' => 'Intervention introuvable.']);
+            exit;
+        }
+
+        // Vérifier que l'intervention est fermée
+        if ((int) $intervention['status_id'] !== 6) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Seules les interventions fermées peuvent être réouvertes.']);
+            exit;
+        }
+
+        // Vérifier qu'au moins un technicien est assigné
+        $sql = "SELECT it.technicien_id,
+               it.temps_passe,
+               it.is_qualified,
+               it.deplacement,
+               CONCAT(u.first_name,' ',u.last_name) AS technician_name
+        FROM intervention_techniciens it
+        JOIN users u ON it.technicien_id = u.id
+        WHERE it.intervention_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($technicians)) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'error' => "Impossible de réouvrir l'intervention sans technicien assigné.",
+            ]);
+            exit;
+        }
+
+        // Infos type d'intervention
+        $type = $this->interventionModel->getTypeInfo($intervention['type_id'] ?? null);
+        $isRemote = empty($type['requires_travel']) || (int) ($type['requires_travel'] ?? 0) === 0;
+
+        // Calcul détaillé par technicien
+        $ticketsPerTech = [];
+        $totalTickets = 0.0;
+
+        foreach ($technicians as $tech) {
+            $minutes = (float) ($tech['temps_passe'] ?? 0);
+            $isQualified = (int) ($tech['is_qualified'] ?? 0) === 1;
+            $hasTravel = (int) ($tech['deplacement'] ?? 0) === 1;
+            $hours = $minutes / 60.0;
+
+            $raw = 0.0;
+            $parts = [];
+
+            if ($hasTravel) {
+                $raw += 1.0;
+                $parts[] = '+1 déplacement';
+            }
+            $raw += $hours;
+
+            if ($hours == floor($hours)) {
+                $parts[] = number_format($hours, 0, '.', '') . 'h de main d\'œuvre';
+            } else {
+                $parts[] = number_format($hours, 2, '.', '') . 'h de main d\'œuvre';
+            }
+
+            if ($isQualified && $hours >= 1.0) {
+                $raw += 1.0;
+                $parts[] = '(+1 prime qualifié)';
+            }
+
+            if ($isRemote) {
+                $rounded = round($raw * 2) / 2;
+            } else {
+                $rounded = (float) ceil($raw);
+            }
+
+            $totalTickets += $rounded;
+
+            $ticketsPerTech[] = [
+                'technicien_id' => (int) $tech['technicien_id'],
+                'name' => $tech['technician_name'],
+                'duration_minutes' => $minutes,
+                'duration_hours' => round($hours, 2),
+                'is_qualified' => $isQualified,
+                'has_travel' => $hasTravel,
+                'tickets_raw' => round($raw, 2),
+                'tickets_rounded' => $rounded,
+                'formula' => implode(' + ', $parts) . ' = ' . round($raw, 2) . ' → ' . $rounded,
+            ];
+        }
+
+        // Infos contrat
+        $contractInfo = null;
+        $ticketsToRecredit = (float) ($intervention['tickets_used'] ?? 0);
+        $hasTicketsToRecredit = $ticketsToRecredit > 0 && !empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id']);
+
+        if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
+            $contract = $this->contractModel->getContractById($intervention['contract_id']);
+            if ($contract) {
+                $contractInfo = [
+                    'id' => $contract['id'],
+                    'name' => $contract['name'],
+                    'tickets_remaining' => (float) ($contract['tickets_remaining'] ?? 0),
+                    'tickets_number' => (float) ($contract['tickets_number'] ?? 0),
+                ];
+            }
+        }
+
+        echo json_encode([
+            'success' => true,
+            'intervention' => [
+                'id' => $intervention['id'],
+                'reference' => $intervention['reference'],
+                'title' => $intervention['title'],
+                'type_name' => $type['name'] ?? '',
+                'is_remote' => $isRemote,
+                'technician_count' => count($technicians),
+            ],
+            'technicians' => $ticketsPerTech,
+            'total_tickets' => $totalTickets,
+            'is_remote' => $isRemote,
+            'contract' => $contractInfo,
+            'has_tickets' => $hasTicketsToRecredit,
+            'tickets_to_recredit' => $ticketsToRecredit,
+        ]);
+        exit;
+    }
+
 }

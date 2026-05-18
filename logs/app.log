@@ -37268,3 +37268,638 @@ Quant à l’écran n°1, il est HS
 [2026-05-17 21:29:56][DEBUG] Chemin du fichier: C:\wamp64\www\avision\public\controllers/../../uploads/contracts/107/1769704617_0_20260129174844498.pdf 
 [2026-05-17 21:29:56][DEBUG] Fichier trouvé, taille: 558997 
 [2026-05-17 21:29:56][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 08:05:27][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: ts10hd92o0s41jv03kchsm7t1e) 
+[2026-05-18 08:05:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 1bb594b5cc989b7281dc... 
+[2026-05-18 08:05:31][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-18 08:05:31][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-18 08:05:31][DEBUG] Login réussi - Session ID: ts10hd92o0s41jv03kchsm7t1e 
+[2026-05-18 08:05:31][DEBUG] Login réussi - redirect_after_login: dashboard 
+[2026-05-18 08:05:31][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-18 08:05:31][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-05-18 08:05:31][DEBUG] Redirection après login vers: http://localhost/avision/public/dashboard 
+[2026-05-18 08:09:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 1bb594b5cc989b7281dc... 
+[2026-05-18 08:10:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 1bb594b5cc989b7281dc... 
+[2026-05-18 08:10:54][DEBUG] CSRF: Token manquant dans la requête - URI: /avision/public/contracts/addTickets/221 
+[2026-05-18 08:10:54][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/contracts/addTickets/221 
+[2026-05-18 08:10:54][DEBUG] POST data: {"tickets_to_add":"2","add_tickets_date":"2026-05-18","new_num_facture":"FACT-2026-002","add_tickets_comment":"test"} 
+[2026-05-18 08:10:54][DEBUG] Session token: "1bb594b5cc989b7281dcc4e5e5edb1ec5bd53281967db07f17383b5cdef855d4" 
+[2026-05-18 08:15:28][DEBUG] CSRF: Token trouvé dans la requête - Token: f8dedfe070e331b7ba72... 
+[2026-05-18 08:15:28][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/contracts/addTickets/221 
+[2026-05-18 08:15:28][DEBUG] POST data: {"csrf_token":"f8dedfe070e331b7ba725340f97b7f1a45239f22a541678b6a5e98c631776e2a","tickets_to_add":"3","add_tickets_date":"2026-05-18","new_num_facture":"FACT-2026-002","add_tickets_comment":"test"} 
+[2026-05-18 08:15:28][DEBUG] Session token: "d204d384ff0e2fc8209192036f04c57b750c9df4032d259d453bd0bd6b5160db" 
+[2026-05-18 08:19:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 89cf710c257b535ee8da... 
+[2026-05-18 08:19:36][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/contracts/addTickets/221 
+[2026-05-18 08:19:36][DEBUG] POST data: {"csrf_token":"89cf710c257b535ee8dadd1deb3bd674ce7d69ed7dbcd34b01d9feb58a8344a9","tickets_to_add":"3","add_tickets_date":"2026-05-18","new_num_facture":"FACT-2026-002","add_tickets_comment":"test"} 
+[2026-05-18 08:19:36][DEBUG] Session token: "594b959ca536cc9da1f9f0d2910aa5ed774f62ea1d792f44974314fdc1bd7e7e" 
+[2026-05-18 08:22:54][DEBUG] CSRF: Nouveau token généré: dee7f4707e982eec5575... 
+[2026-05-18 08:23:08][DEBUG] CSRF: Token trouvé dans la requête - Token: dee7f4707e982eec5575... 
+[2026-05-18 08:23:08][DEBUG] CSRF validateToken: ❌ Token INVALIDE 
+[2026-05-18 08:23:08][DEBUG]   Session: 69178b423a523d49668407f047bfb582fcf818ac92afcbd77377b578e87dc9bb 
+[2026-05-18 08:23:08][DEBUG]   Reçu:    dee7f4707e982eec5575eec51409b05c1d8b1ea56abae569df47267d53a7e5f6 
+[2026-05-18 08:23:08][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/contracts/addTickets/221 
+[2026-05-18 08:23:08][DEBUG] POST data: {"csrf_token":"dee7f4707e982eec5575eec51409b05c1d8b1ea56abae569df47267d53a7e5f6","tickets_to_add":"3","add_tickets_date":"2026-05-18","new_num_facture":"FACT-2026-002","add_tickets_comment":"test"} 
+[2026-05-18 08:23:08][DEBUG] Session token: "69178b423a523d49668407f047bfb582fcf818ac92afcbd77377b578e87dc9bb" 
+[2026-05-18 08:23:08][DEBUG] CSRF: Nouveau token généré: 0b5ad896cc3d44787710... 
+[2026-05-18 08:23:34][DEBUG] CSRF: Nouveau token généré: 227460d96afeff5e19db... 
+[2026-05-18 08:23:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 227460d96afeff5e19db... 
+[2026-05-18 08:23:46][DEBUG] CSRF validateToken: ❌ Token INVALIDE 
+[2026-05-18 08:23:46][DEBUG]   Session: 3e243c27e797996ee8aea847218456a277d34e1fbdd22eea6084d4103c431375 
+[2026-05-18 08:23:46][DEBUG]   Reçu:    227460d96afeff5e19db72458dcab1eebc211f1df9c7e40ffb402a9a9078adbc 
+[2026-05-18 08:23:46][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/contracts/addTickets/221 
+[2026-05-18 08:23:46][DEBUG] POST data: {"csrf_token":"227460d96afeff5e19db72458dcab1eebc211f1df9c7e40ffb402a9a9078adbc","tickets_to_add":"3","add_tickets_date":"2026-05-18","new_num_facture":"FACT-2026-002","add_tickets_comment":"test"} 
+[2026-05-18 08:23:46][DEBUG] Session token: "3e243c27e797996ee8aea847218456a277d34e1fbdd22eea6084d4103c431375" 
+[2026-05-18 08:23:46][DEBUG] CSRF: Nouveau token généré: e1499a6ba47807946b95... 
+[2026-05-18 08:26:20][DEBUG] CSRF: Nouveau token généré: 365da3aca0c517dfd7ad... 
+[2026-05-18 08:26:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 365da3aca0c517dfd7ad... 
+[2026-05-18 08:26:32][DEBUG] CSRF validateToken: ❌ Token INVALIDE 
+[2026-05-18 08:26:32][DEBUG]   Session: c99cb0b0614d5aade4cd615013e4006cd565684379e86c88d9776d557ac81338 
+[2026-05-18 08:26:32][DEBUG]   Reçu:    365da3aca0c517dfd7adabc7b62bf4fb65ef14dfa34cd15ca9da2d6c343a00ad 
+[2026-05-18 08:26:32][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/contracts/addTickets/221 
+[2026-05-18 08:26:32][DEBUG] POST data: {"csrf_token":"365da3aca0c517dfd7adabc7b62bf4fb65ef14dfa34cd15ca9da2d6c343a00ad","tickets_to_add":"3","add_tickets_date":"2026-05-18","new_num_facture":"FACT-2026-002","add_tickets_comment":"test"} 
+[2026-05-18 08:26:32][DEBUG] Session token: "c99cb0b0614d5aade4cd615013e4006cd565684379e86c88d9776d557ac81338" 
+[2026-05-18 08:26:32][DEBUG] CSRF: Nouveau token généré: afc137cd324155d7bc0e... 
+[2026-05-18 08:27:03][DEBUG] CSRF: Token converti du format string vers array 
+[2026-05-18 08:27:16][DEBUG] CSRF: Token converti du format string vers array 
+[2026-05-18 08:27:16][DEBUG] CSRF: Token trouvé dans la requête - Token: d8a554d72652bf7557c3... 
+[2026-05-18 08:27:16][DEBUG] CSRF validateToken: ❌ Token INVALIDE 
+[2026-05-18 08:27:16][DEBUG]   Session: d6d1e9bff14f517639b28622ab2624d299c9bcdaab1e9179564599205644a712 
+[2026-05-18 08:27:16][DEBUG]   Reçu:    d8a554d72652bf7557c31ad240d21ec1e321005776d42373a190b355949a9ef3 
+[2026-05-18 08:27:16][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/contracts/addTickets/221 
+[2026-05-18 08:27:16][DEBUG] POST data: {"csrf_token":"d8a554d72652bf7557c31ad240d21ec1e321005776d42373a190b355949a9ef3","tickets_to_add":"3","add_tickets_date":"2026-05-18","new_num_facture":"FACT-2026-002","add_tickets_comment":"test"} 
+[2026-05-18 08:27:16][DEBUG] Session token: {"token":"d6d1e9bff14f517639b28622ab2624d299c9bcdaab1e9179564599205644a712","created_at":1779085636} 
+[2026-05-18 08:27:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 4e34cee742f1586c9fb8... 
+[2026-05-18 08:27:59][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/contracts/addTickets/221 
+[2026-05-18 08:27:59][DEBUG] POST data: {"csrf_token":"4e34cee742f1586c9fb86e0b4f75b330a9f3d97ffe91a51bb4b330d07f5ae480","tickets_to_add":"3","add_tickets_date":"2026-05-18","new_num_facture":"FACT-2026-002","add_tickets_comment":"test"} 
+[2026-05-18 08:27:59][DEBUG] Session token: "2c456c45f996b6c94e136366c6fd58ff82da3394dbab95b9ccb31af318f36c30" 
+[2026-05-18 08:29:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:29:26][DEBUG] DEBUG - addTickets appelé avec contractId: 221 
+[2026-05-18 08:29:26][DEBUG] DEBUG - POST data: {"csrf_token":"4c3a022bdaa5402bdc25191045ea81f8bfcc39ae34b9d0866627bd3e5d67bca6","tickets_to_add":"3","add_tickets_date":"2026-05-18","new_num_facture":"FACT-2026-002","add_tickets_comment":"test"} 
+[2026-05-18 08:29:26][DEBUG] DEBUG - Tickets à ajouter: 3 
+[2026-05-18 08:29:26][DEBUG] DEBUG - Date: 2026-05-18 
+[2026-05-18 08:29:26][DEBUG] DEBUG - Commentaire: test 
+[2026-05-18 08:29:26][DEBUG] DEBUG - Nouveau numéro de facture: FACT-2026-002 
+[2026-05-18 08:29:26][DEBUG] DEBUG - Prolonger contrat: NON 
+[2026-05-18 08:29:26][DEBUG] DEBUG - Contrat trouvé: {"id":221,"client_id":46,"contract_type_id":1,"access_level_id":8,"name":"test","start_date":"2026-05-06","end_date":"2026-07-06","tickets_number":2,"tickets_remaining":2,"comment":"test","status":"actif","reminder_enabled":1,"reminder_days":30,"num_facture":"FACT-2026-002","tarif":"1500.00","indice":"2026-01","renouvellement_tacite":0,"isticketcontract":1,"created_at":"2026-05-06 11:59:07","updated_at":"2026-05-06 11:59:07","contract_type_name":"Contrat Base","client_name":"ALPHABET","access_level_name":"gratuit","access_level_description":"Niveau d'acc\u00e8s gratuit - visibilit\u00e9 limit\u00e9e des champs mat\u00e9riel","rooms":[]} 
+[2026-05-18 08:29:26][DEBUG] DEBUG - Anciens tickets: 2, Nouveaux: 5 
+[2026-05-18 08:29:26][DEBUG] DEBUG - Anciens restants: 2, Nouveaux: 5 
+[2026-05-18 08:29:26][DEBUG] DEBUG - Avenant uploadé avec succès: coursUML_compressed (1).pdf 
+[2026-05-18 08:29:26][DEBUG] DEBUG - Mise à jour numéro de facture: 'FACT-2026-002' → 'FACT-2026-002' 
+[2026-05-18 08:29:26][DEBUG] DEBUG - Update SQL result: success 
+[2026-05-18 08:29:26][DEBUG] DEBUG - Historique enregistré 
+[2026-05-18 08:29:26][DEBUG] DEBUG - Redirection vers: http://localhost/avision/public/contracts/view/221 
+[2026-05-18 08:29:27][DEBUG] Tentative d'aperçu contrat pour l'ID: 354 
+[2026-05-18 08:29:27][DEBUG] Pièce jointe trouvée: {"id":354,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779085766_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 3 tickets - test","date_creation":"2026-05-18 09:29:26","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 08:29:27][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779085766_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 08:29:27][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 08:29:27][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 08:30:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:31:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:32:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:32:38][DEBUG] Tentative d'aperçu contrat pour l'ID: 354 
+[2026-05-18 08:32:38][DEBUG] Pièce jointe trouvée: {"id":354,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779085766_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 3 tickets - test","date_creation":"2026-05-18 09:29:26","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 08:32:38][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779085766_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 08:32:38][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 08:32:38][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 08:32:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:33:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:33:33][DEBUG] Tentative d'aperçu contrat pour l'ID: 354 
+[2026-05-18 08:33:33][DEBUG] Pièce jointe trouvée: {"id":354,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779085766_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 3 tickets - test","date_creation":"2026-05-18 09:29:26","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 08:33:33][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779085766_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 08:33:33][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 08:33:33][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 08:33:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:33:57][DEBUG] DEBUG - addTickets appelé avec contractId: 221 
+[2026-05-18 08:33:57][DEBUG] DEBUG - POST data: {"csrf_token":"4c3a022bdaa5402bdc25191045ea81f8bfcc39ae34b9d0866627bd3e5d67bca6","tickets_to_add":"1","add_tickets_date":"2026-05-18","new_num_facture":"FACT-2026-002","add_tickets_comment":"ajout 1 ticket"} 
+[2026-05-18 08:33:57][DEBUG] DEBUG - Tickets à ajouter: 1 
+[2026-05-18 08:33:57][DEBUG] DEBUG - Date: 2026-05-18 
+[2026-05-18 08:33:57][DEBUG] DEBUG - Commentaire: ajout 1 ticket 
+[2026-05-18 08:33:57][DEBUG] DEBUG - Nouveau numéro de facture: FACT-2026-002 
+[2026-05-18 08:33:57][DEBUG] DEBUG - Prolonger contrat: NON 
+[2026-05-18 08:33:57][DEBUG] DEBUG - Contrat trouvé: {"id":221,"client_id":46,"contract_type_id":1,"access_level_id":8,"name":"test","start_date":"2026-05-06","end_date":"2026-07-06","tickets_number":5,"tickets_remaining":5,"comment":"test","status":"actif","reminder_enabled":1,"reminder_days":30,"num_facture":"FACT-2026-002","tarif":"1500.00","indice":"2026-01","renouvellement_tacite":0,"isticketcontract":1,"created_at":"2026-05-06 11:59:07","updated_at":"2026-05-18 09:29:26","contract_type_name":"Contrat Base","client_name":"ALPHABET","access_level_name":"gratuit","access_level_description":"Niveau d'acc\u00e8s gratuit - visibilit\u00e9 limit\u00e9e des champs mat\u00e9riel","rooms":[]} 
+[2026-05-18 08:33:57][DEBUG] DEBUG - Anciens tickets: 5, Nouveaux: 6 
+[2026-05-18 08:33:57][DEBUG] DEBUG - Anciens restants: 5, Nouveaux: 6 
+[2026-05-18 08:33:57][DEBUG] DEBUG - Avenant uploadé avec succès: coursUML_compressed (1).pdf 
+[2026-05-18 08:33:57][DEBUG] DEBUG - Mise à jour numéro de facture: 'FACT-2026-002' → 'FACT-2026-002' 
+[2026-05-18 08:33:57][DEBUG] DEBUG - Update SQL result: success 
+[2026-05-18 08:33:57][DEBUG] DEBUG - Historique enregistré 
+[2026-05-18 08:33:57][DEBUG] DEBUG - Redirection vers: http://localhost/avision/public/contracts/view/221 
+[2026-05-18 08:33:57][DEBUG] Tentative d'aperçu contrat pour l'ID: 355 
+[2026-05-18 08:33:57][DEBUG] Pièce jointe trouvée: {"id":355,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779086037_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 1 tickets - ajout 1 ticket","date_creation":"2026-05-18 09:33:57","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 08:33:57][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779086037_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 08:33:57][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 08:33:57][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 08:33:57][DEBUG] Tentative d'aperçu contrat pour l'ID: 354 
+[2026-05-18 08:33:57][DEBUG] Pièce jointe trouvée: {"id":354,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779085766_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 3 tickets - test","date_creation":"2026-05-18 09:29:26","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 08:33:57][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779085766_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 08:33:57][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 08:33:57][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 08:42:55][INFO] 81 
+[2026-05-18 08:43:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:44:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:47:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:50:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:53:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:54:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:56:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:57:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:59:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 08:59:52][INFO] Technicien 5 mis à jour pour l'intervention 330 
+[2026-05-18 09:03:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 09:05:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 09:07:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 09:08:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 09:10:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 09:10:56][INFO] Technicien 39 supprimé de l'intervention 330 
+[2026-05-18 09:11:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 09:11:32][INFO] Technicien 5 mis à jour pour l'intervention 330 
+[2026-05-18 09:11:32][INFO] Technicien 39 ajouté à l'intervention 330 
+[2026-05-18 09:27:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 09:27:04][INFO] Technicien 39 mis à jour pour l'intervention 330 
+[2026-05-18 09:27:04][INFO] Technicien 5 mis à jour pour l'intervention 330 
+[2026-05-18 09:41:22][DEBUG] Redirection vers login - URL sauvegardée: interventions/view/330 (Session ID: 79hn9cqtfe4rbr6kor2kr5vnav) 
+[2026-05-18 09:43:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 09:43:13][INFO] Technicien 39 mis à jour pour l'intervention 330 
+[2026-05-18 09:43:13][INFO] Technicien 5 mis à jour pour l'intervention 330 
+[2026-05-18 09:43:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 09:43:31][INFO] Technicien 39 mis à jour pour l'intervention 330 
+[2026-05-18 09:43:31][INFO] Technicien 5 mis à jour pour l'intervention 330 
+[2026-05-18 09:47:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 09:47:18][INFO] Technicien 39 mis à jour pour l'intervention 330 
+[2026-05-18 09:47:18][INFO] Technicien 5 mis à jour pour l'intervention 330 
+[2026-05-18 09:54:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:09:36][DEBUG] Tentative d'aperçu contrat pour l'ID: 355 
+[2026-05-18 10:09:36][DEBUG] Pièce jointe trouvée: {"id":355,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779086037_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 1 tickets - ajout 1 ticket","date_creation":"2026-05-18 09:33:57","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 10:09:36][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779086037_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 10:09:36][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 10:09:36][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 10:09:36][DEBUG] Tentative d'aperçu contrat pour l'ID: 354 
+[2026-05-18 10:09:36][DEBUG] Pièce jointe trouvée: {"id":354,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779085766_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 3 tickets - test","date_creation":"2026-05-18 09:29:26","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 10:09:36][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779085766_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 10:09:36][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 10:09:36][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 10:17:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:17:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:18:58][DEBUG] Tentative d'aperçu contrat pour l'ID: 355 
+[2026-05-18 10:18:58][DEBUG] Pièce jointe trouvée: {"id":355,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779086037_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 1 tickets - ajout 1 ticket","date_creation":"2026-05-18 09:33:57","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 10:18:58][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779086037_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 10:18:58][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 10:18:58][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 10:18:58][DEBUG] Tentative d'aperçu contrat pour l'ID: 354 
+[2026-05-18 10:18:58][DEBUG] Pièce jointe trouvée: {"id":354,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779085766_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 3 tickets - test","date_creation":"2026-05-18 09:29:26","masque_client":0,"type_id":null,"created_by":1} 
+[2026-05-18 10:18:58][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779085766_avenant_coursUML_compressed__1_.pdf 
+[2026-05-18 10:18:58][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-05-18 10:18:58][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-18 10:20:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:20:56][INFO] Recrédit 4 tickets → contrat 221 (réouverture inter 330) 
+[2026-05-18 10:21:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:21:53][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: 91l2kv50neqc0359gnm3jdthd2) 
+[2026-05-18 10:22:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:22:48][INFO] Recrédit 4 tickets → contrat 221 (réouverture inter 330) 
+[2026-05-18 10:25:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:26:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:26:24][INFO] Recrédit 10 tickets → contrat 221 (réouverture inter 330) 
+[2026-05-18 10:27:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:28:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:28:15][INFO] Recrédit 28 tickets → contrat 221 (réouverture inter 330) 
+[2026-05-18 10:37:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:38:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:38:05][DEBUG] === recreditTicketsForIntervention === 
+[2026-05-18 10:38:05][DEBUG] Intervention ID: 330 
+[2026-05-18 10:38:05][DEBUG] Contract ID: 221 
+[2026-05-18 10:38:05][DEBUG] Tickets used: 4 
+[2026-05-18 10:38:05][DEBUG] Solde avant recrédit: 52 
+[2026-05-18 10:38:05][DEBUG] Solde après recrédit: 56 
+[2026-05-18 10:38:05][INFO] Recrédit 4 tickets → contrat 221 
+[2026-05-18 10:46:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:47:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:47:09][DEBUG] === recreditTicketsForIntervention === 
+[2026-05-18 10:47:09][DEBUG] Intervention ID: 330 
+[2026-05-18 10:47:09][DEBUG] Contract ID: 221 
+[2026-05-18 10:47:09][DEBUG] Tickets used: 60 
+[2026-05-18 10:47:09][DEBUG] Solde avant recrédit: 0 
+[2026-05-18 10:47:09][DEBUG] Solde après recrédit: 60 
+[2026-05-18 10:47:09][INFO] Recrédit 60 tickets → contrat 221 
+[2026-05-18 10:52:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:52:52][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 10:52:52][INFO] Tickets à déduire: 120 
+[2026-05-18 10:52:52][INFO] Contrat ID: 221 
+[2026-05-18 10:52:52][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 10:52:52][INFO] Tickets à déduire: 120 
+[2026-05-18 10:52:52][INFO] Solde AVANT déduction: 120 
+[2026-05-18 10:52:52][INFO] Solde APRÈS déduction: 0 
+[2026-05-18 10:52:52][INFO] Déduction de 120 tickets réussie 
+[2026-05-18 10:52:52][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 0 
+[2026-05-18 10:53:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 10:53:12][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 10:53:12][INFO] Tickets à recréditer: 120 
+[2026-05-18 10:53:12][INFO] Contrat ID: 221 
+[2026-05-18 10:53:12][INFO] Had tickets: oui 
+[2026-05-18 10:53:12][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 10:53:12][INFO] Solde contrat AVANT recrédit: 0 
+[2026-05-18 10:53:12][INFO] Tickets à recréditer: 120 
+[2026-05-18 10:53:12][INFO] Solde contrat APRÈS recrédit: 120 
+[2026-05-18 10:53:12][INFO] Recrédit de 120 tickets effectué pour le contrat 221 
+[2026-05-18 10:53:12][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-05-18 11:35:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 11:35:38][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 11:35:38][INFO] Tickets à déduire: 240 
+[2026-05-18 11:35:38][INFO] Contrat ID: 221 
+[2026-05-18 11:35:38][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 11:35:38][INFO] Tickets à déduire: 240 
+[2026-05-18 11:35:38][INFO] Solde AVANT déduction: 240 
+[2026-05-18 11:35:38][INFO] Solde APRÈS déduction: 0 
+[2026-05-18 11:35:38][INFO] Déduction de 240 tickets réussie 
+[2026-05-18 11:35:38][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 0 
+[2026-05-18 11:35:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 11:35:59][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 11:35:59][INFO] Tickets à recréditer: 240 
+[2026-05-18 11:35:59][INFO] Contrat ID: 221 
+[2026-05-18 11:35:59][INFO] Had tickets: oui 
+[2026-05-18 11:35:59][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 11:35:59][INFO] Solde contrat AVANT recrédit: 0 
+[2026-05-18 11:35:59][INFO] Tickets à recréditer: 240 
+[2026-05-18 11:35:59][INFO] Solde contrat APRÈS recrédit: 240 
+[2026-05-18 11:35:59][INFO] Recrédit de 240 tickets effectué pour le contrat 221 
+[2026-05-18 11:35:59][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-05-18 11:43:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 11:43:30][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 11:43:30][INFO] Tickets à déduire: 480 
+[2026-05-18 11:43:30][INFO] Contrat ID: 221 
+[2026-05-18 11:43:30][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 11:43:30][INFO] Tickets à déduire: 480 
+[2026-05-18 11:43:30][INFO] Solde AVANT déduction: 480 
+[2026-05-18 11:43:30][INFO] Solde APRÈS déduction: 0 
+[2026-05-18 11:43:30][INFO] Déduction de 480 tickets réussie 
+[2026-05-18 11:43:30][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 0 
+[2026-05-18 11:44:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 11:44:21][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 11:44:21][INFO] Tickets à recréditer: 480 
+[2026-05-18 11:44:21][INFO] Contrat ID: 221 
+[2026-05-18 11:44:21][INFO] Had tickets: oui 
+[2026-05-18 11:44:21][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 11:44:21][INFO] Solde contrat AVANT recrédit: 0 
+[2026-05-18 11:44:21][INFO] Tickets à recréditer: 480 
+[2026-05-18 11:44:21][INFO] Solde contrat APRÈS recrédit: 480 
+[2026-05-18 11:44:21][INFO] Recrédit de 480 tickets effectué pour le contrat 221 
+[2026-05-18 11:44:21][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-05-18 11:44:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 11:44:59][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 11:44:59][INFO] Tickets à déduire: 4 
+[2026-05-18 11:44:59][INFO] Contrat ID: 221 
+[2026-05-18 11:44:59][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 11:44:59][INFO] Tickets à déduire: 4 
+[2026-05-18 11:44:59][INFO] Solde AVANT déduction: 480 
+[2026-05-18 11:44:59][INFO] Solde APRÈS déduction: 476 
+[2026-05-18 11:44:59][INFO] Déduction de 4 tickets réussie 
+[2026-05-18 11:44:59][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 476 
+[2026-05-18 11:45:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 11:45:36][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 11:45:36][INFO] Tickets à recréditer: 4 
+[2026-05-18 11:45:36][INFO] Contrat ID: 221 
+[2026-05-18 11:45:36][INFO] Had tickets: oui 
+[2026-05-18 11:45:36][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 11:45:36][INFO] Solde contrat AVANT recrédit: 476 
+[2026-05-18 11:45:36][INFO] Tickets à recréditer: 4 
+[2026-05-18 11:45:36][INFO] Solde contrat APRÈS recrédit: 480 
+[2026-05-18 11:45:36][INFO] Recrédit de 4 tickets effectué pour le contrat 221 
+[2026-05-18 11:45:36][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-05-18 11:46:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 11:46:12][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 11:46:12][INFO] Tickets à déduire: 474 
+[2026-05-18 11:46:12][INFO] Contrat ID: 221 
+[2026-05-18 11:46:12][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 11:46:12][INFO] Tickets à déduire: 474 
+[2026-05-18 11:46:12][INFO] Solde AVANT déduction: 480 
+[2026-05-18 11:46:12][INFO] Solde APRÈS déduction: 6 
+[2026-05-18 11:46:12][INFO] Déduction de 474 tickets réussie 
+[2026-05-18 11:46:12][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 6 
+[2026-05-18 11:55:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 11:55:43][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 11:55:43][INFO] Tickets à recréditer: 2 
+[2026-05-18 11:55:43][INFO] Contrat ID: 221 
+[2026-05-18 11:55:43][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 11:55:43][INFO] Solde contrat AVANT recrédit: 6 
+[2026-05-18 11:55:43][INFO] Tickets à recréditer: 2 
+[2026-05-18 11:55:43][INFO] Solde contrat APRÈS recrédit: 8 
+[2026-05-18 11:55:43][INFO] Recrédit de 2 tickets effectué 
+[2026-05-18 11:55:43][ERROR] Call to undefined method MailService::sendInterventionReopened() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":5692,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(1228): InterventionController->reopen('330')\n#1 {main}","type":"Error"}
+[2026-05-18 11:56:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 11:56:15][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 11:56:15][INFO] Tickets à déduire: 4 
+[2026-05-18 11:56:15][INFO] Contrat ID: 221 
+[2026-05-18 11:56:15][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 11:56:15][INFO] Tickets à déduire: 4 
+[2026-05-18 11:56:15][INFO] Solde AVANT déduction: 10 
+[2026-05-18 11:56:15][INFO] Solde APRÈS déduction: 6 
+[2026-05-18 11:56:15][INFO] Déduction de 4 tickets réussie 
+[2026-05-18 11:56:15][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 6 
+[2026-05-18 11:56:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 11:56:43][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 11:56:43][INFO] Tickets à recréditer: 5 
+[2026-05-18 11:56:43][INFO] Contrat ID: 221 
+[2026-05-18 11:56:43][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 11:56:43][INFO] Solde contrat AVANT recrédit: 6 
+[2026-05-18 11:56:43][INFO] Tickets à recréditer: 5 
+[2026-05-18 11:56:43][INFO] Solde contrat APRÈS recrédit: 11 
+[2026-05-18 11:56:43][INFO] Recrédit de 5 tickets effectué 
+[2026-05-18 11:56:43][ERROR] Call to undefined method MailService::sendInterventionReopened() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":5692,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(1228): InterventionController->reopen('330')\n#1 {main}","type":"Error"}
+[2026-05-18 11:58:35][DEBUG] Redirection vers login - URL sauvegardée: interventions/view/330 (Session ID: 352ta9i1umjmthut792mn803aq) 
+[2026-05-18 12:00:10][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:00:10][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 12:00:10][INFO] Tickets à déduire: 16 
+[2026-05-18 12:00:10][INFO] Contrat ID: 221 
+[2026-05-18 12:00:10][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 12:00:10][INFO] Tickets à déduire: 16 
+[2026-05-18 12:00:10][INFO] Solde AVANT déduction: 16 
+[2026-05-18 12:00:10][INFO] Solde APRÈS déduction: 0 
+[2026-05-18 12:00:10][INFO] Déduction de 16 tickets réussie 
+[2026-05-18 12:00:10][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 0 
+[2026-05-18 12:00:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:00:44][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 12:00:44][INFO] Tickets à recréditer: 8 
+[2026-05-18 12:00:44][INFO] Contrat ID: 221 
+[2026-05-18 12:00:44][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 12:00:44][INFO] Solde contrat AVANT recrédit: 0 
+[2026-05-18 12:00:44][INFO] Tickets à recréditer: 8 
+[2026-05-18 12:00:44][INFO] Solde contrat APRÈS recrédit: 8 
+[2026-05-18 12:00:44][INFO] Recrédit de 8 tickets effectué 
+[2026-05-18 12:00:44][ERROR] Call to undefined method MailService::sendInterventionReopened() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":5692,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(1228): InterventionController->reopen('330')\n#1 {main}","type":"Error"}
+[2026-05-18 12:01:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:01:12][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 12:01:12][INFO] Tickets à déduire: 16 
+[2026-05-18 12:01:12][INFO] Contrat ID: 221 
+[2026-05-18 12:01:12][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 12:01:12][INFO] Tickets à déduire: 16 
+[2026-05-18 12:01:12][INFO] Solde AVANT déduction: 16 
+[2026-05-18 12:01:12][INFO] Solde APRÈS déduction: 0 
+[2026-05-18 12:01:12][INFO] Déduction de 16 tickets réussie 
+[2026-05-18 12:01:12][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 0 
+[2026-05-18 12:01:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:01:22][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 12:01:22][INFO] Tickets à recréditer: 20 
+[2026-05-18 12:01:22][INFO] Contrat ID: 221 
+[2026-05-18 12:01:22][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 12:01:22][INFO] Solde contrat AVANT recrédit: 0 
+[2026-05-18 12:01:22][INFO] Tickets à recréditer: 20 
+[2026-05-18 12:01:22][INFO] Solde contrat APRÈS recrédit: 20 
+[2026-05-18 12:01:22][INFO] Recrédit de 20 tickets effectué 
+[2026-05-18 12:01:22][ERROR] Call to undefined method MailService::sendInterventionReopened() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":5692,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(1228): InterventionController->reopen('330')\n#1 {main}","type":"Error"}
+[2026-05-18 12:06:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:06:02][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 12:06:02][INFO] Tickets à déduire: 40 
+[2026-05-18 12:06:02][INFO] Contrat ID: 221 
+[2026-05-18 12:06:02][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 12:06:02][INFO] Tickets à déduire: 40 
+[2026-05-18 12:06:02][INFO] Solde AVANT déduction: 40 
+[2026-05-18 12:06:02][INFO] Solde APRÈS déduction: 0 
+[2026-05-18 12:06:02][INFO] Déduction de 40 tickets réussie 
+[2026-05-18 12:06:02][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 0 
+[2026-05-18 12:06:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:06:33][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 12:06:33][INFO] Tickets à recréditer: 25 
+[2026-05-18 12:06:33][INFO] Contrat ID: 221 
+[2026-05-18 12:06:33][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 12:06:33][INFO] Solde contrat AVANT recrédit: 0 
+[2026-05-18 12:06:33][INFO] Tickets à recréditer: 25 
+[2026-05-18 12:06:33][INFO] Solde contrat APRÈS recrédit: 25 
+[2026-05-18 12:06:33][INFO] Recrédit de 25 tickets effectué 
+[2026-05-18 12:06:33][ERROR] Call to undefined method MailService::sendInterventionReopened() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":5692,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(1228): InterventionController->reopen('330')\n#1 {main}","type":"Error"}
+[2026-05-18 12:10:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:10:19][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 12:10:19][INFO] Tickets à déduire: 50 
+[2026-05-18 12:10:19][INFO] Contrat ID: 221 
+[2026-05-18 12:10:19][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 12:10:19][INFO] Tickets à déduire: 50 
+[2026-05-18 12:10:19][INFO] Solde AVANT déduction: 50 
+[2026-05-18 12:10:19][INFO] Solde APRÈS déduction: 0 
+[2026-05-18 12:10:19][INFO] Déduction de 50 tickets réussie 
+[2026-05-18 12:10:19][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 0 
+[2026-05-18 12:10:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:10:42][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 12:10:42][INFO] Tickets à recréditer: 10 
+[2026-05-18 12:10:42][INFO] Contrat ID: 221 
+[2026-05-18 12:10:42][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 12:10:42][INFO] Solde contrat AVANT recrédit: 0 
+[2026-05-18 12:10:42][INFO] Tickets à recréditer: 10 
+[2026-05-18 12:10:42][INFO] Solde contrat APRÈS recrédit: 10 
+[2026-05-18 12:10:42][INFO] Recrédit de 10 tickets effectué 
+[2026-05-18 12:10:42][ERROR] Call to undefined method MailService::sendInterventionReopened() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":5692,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(1228): InterventionController->reopen('330')\n#1 {main}","type":"Error"}
+[2026-05-18 12:12:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:12:11][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 12:12:11][INFO] Tickets à déduire: 4 
+[2026-05-18 12:12:11][INFO] Contrat ID: 221 
+[2026-05-18 12:12:11][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 12:12:11][INFO] Tickets à déduire: 4 
+[2026-05-18 12:12:11][INFO] Solde AVANT déduction: 20 
+[2026-05-18 12:12:11][INFO] Solde APRÈS déduction: 16 
+[2026-05-18 12:12:11][INFO] Déduction de 4 tickets réussie 
+[2026-05-18 12:12:11][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 16 
+[2026-05-18 12:12:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:12:31][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 12:12:31][INFO] Tickets à recréditer: 4 
+[2026-05-18 12:12:31][INFO] Contrat ID: 221 
+[2026-05-18 12:12:31][INFO] Had tickets: oui 
+[2026-05-18 12:12:31][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 12:12:31][INFO] Solde contrat AVANT recrédit: 16 
+[2026-05-18 12:12:31][INFO] Tickets à recréditer: 4 
+[2026-05-18 12:12:31][INFO] Solde contrat APRÈS recrédit: 20 
+[2026-05-18 12:12:31][INFO] Recrédit de 4 tickets effectué pour le contrat 221 
+[2026-05-18 12:12:31][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-05-18 12:13:41][DEBUG] Redirection vers login - URL sauvegardée: contracts (Session ID: 19bjsl35gfg5cpuer0pnk9mla6) 
+[2026-05-18 12:14:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:14:27][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 12:14:27][INFO] Tickets à déduire: 4 
+[2026-05-18 12:14:27][INFO] Contrat ID: 221 
+[2026-05-18 12:14:27][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 12:14:27][INFO] Tickets à déduire: 4 
+[2026-05-18 12:14:27][INFO] Solde AVANT déduction: 20 
+[2026-05-18 12:14:27][INFO] Solde APRÈS déduction: 16 
+[2026-05-18 12:14:27][INFO] Déduction de 4 tickets réussie 
+[2026-05-18 12:14:27][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 16 
+[2026-05-18 12:15:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:15:44][INFO] Technicien 39 mis à jour pour l'intervention 330 
+[2026-05-18 12:15:44][INFO] Technicien 5 mis à jour pour l'intervention 330 
+[2026-05-18 12:15:44][INFO] Technicien 41 ajouté à l'intervention 330 
+[2026-05-18 12:15:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:15:55][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 12:15:55][INFO] Tickets à recréditer: 4 
+[2026-05-18 12:15:55][INFO] Contrat ID: 221 
+[2026-05-18 12:15:55][INFO] Had tickets: oui 
+[2026-05-18 12:15:55][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 12:15:55][INFO] Solde contrat AVANT recrédit: 16 
+[2026-05-18 12:15:55][INFO] Tickets à recréditer: 4 
+[2026-05-18 12:15:55][INFO] Solde contrat APRÈS recrédit: 20 
+[2026-05-18 12:15:55][INFO] Recrédit de 4 tickets effectué pour le contrat 221 
+[2026-05-18 12:15:55][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-05-18 12:17:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:17:02][INFO] Technicien 39 mis à jour pour l'intervention 330 
+[2026-05-18 12:17:02][INFO] Technicien 41 mis à jour pour l'intervention 330 
+[2026-05-18 12:17:02][INFO] Technicien 5 mis à jour pour l'intervention 330 
+[2026-05-18 12:18:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:18:17][INFO] Technicien 39 mis à jour pour l'intervention 330 
+[2026-05-18 12:18:17][INFO] Technicien 41 mis à jour pour l'intervention 330 
+[2026-05-18 12:18:17][INFO] Technicien 5 mis à jour pour l'intervention 330 
+[2026-05-18 12:19:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:19:00][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-18 12:19:00][INFO] Tickets à déduire: 21 
+[2026-05-18 12:19:00][INFO] Contrat ID: 221 
+[2026-05-18 12:19:00][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-18 12:19:00][INFO] Tickets à déduire: 21 
+[2026-05-18 12:19:00][INFO] Solde AVANT déduction: 20 
+[2026-05-18 12:19:00][INFO] Solde APRÈS déduction: -1 
+[2026-05-18 12:19:00][INFO] Déduction de 21 tickets réussie 
+[2026-05-18 12:19:00][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: -1 
+[2026-05-18 12:23:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:23:42][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-18 12:23:42][INFO] Tickets à recréditer: 21 
+[2026-05-18 12:23:42][INFO] Contrat ID: 221 
+[2026-05-18 12:23:42][INFO] Had tickets: oui 
+[2026-05-18 12:23:42][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-18 12:23:42][INFO] Solde contrat AVANT recrédit: -1 
+[2026-05-18 12:23:42][INFO] Tickets à recréditer: 21 
+[2026-05-18 12:23:42][INFO] Solde contrat APRÈS recrédit: 20 
+[2026-05-18 12:23:42][INFO] Recrédit de 21 tickets effectué pour le contrat 221 
+[2026-05-18 12:23:42][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-05-18 12:29:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:31:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:31:33][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractModel.php","line":1275,"errno":2}
+[2026-05-18 12:31:33][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractModel.php","line":1275,"errno":2}
+[2026-05-18 12:31:33][INFO] Contrats par défaut créés pour le client ID: 64 
+[2026-05-18 12:32:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:32:22][INFO] 112 
+[2026-05-18 12:32:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:32:33][INFO] 112 
+[2026-05-18 12:32:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:32:42][WARNING] Uninitialized string offset 0 {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\RoomController.php","line":52,"errno":2}
+[2026-05-18 12:32:42][WARNING] Uninitialized string offset 0 {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\RoomController.php","line":53,"errno":2}
+[2026-05-18 12:32:42][INFO] 112 
+[2026-05-18 12:33:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:33:16][DEBUG] AttachmentService::normalizeFilesArray - Tableau de fichiers détecté, count: 1 
+[2026-05-18 12:33:16][DEBUG] AttachmentService::upload - Type: intervention, EntityId: 251, Files count: 1, UploadDir: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/251 
+[2026-05-18 12:33:16][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\phpA26E.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/251/1779100396_coursUML_compressed_1.pdf 
+[2026-05-18 12:33:16][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/251/1779100396_coursUML_compressed_1.pdf 
+[2026-05-18 12:33:16][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML_compressed (1).pdf (ID: 356) 
+[2026-05-18 12:34:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:34:00][INFO] Technicien 39 ajouté à l'intervention 251 
+[2026-05-18 12:34:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:34:19][INFO] 87 
+[2026-05-18 12:34:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:34:22][DEBUG] DEBUG - update() - Vérification de la fermeture 
+[2026-05-18 12:34:22][DEBUG] DEBUG - update() - data['status_id']: 1 
+[2026-05-18 12:34:22][DEBUG] DEBUG - update() - intervention['status_id']: 1 
+[2026-05-18 12:34:22][DEBUG] DEBUG - update() - isSaveBeforeClose: FAUX 
+[2026-05-18 12:34:48][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-18 12:34:48][DEBUG] Params: [] 
+[2026-05-18 12:34:52][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-18 12:34:52][DEBUG] Params: {":client_id":61} 
+[2026-05-18 12:35:03][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-18 12:35:03][DEBUG] Params: {":client_id":64} 
+[2026-05-18 12:35:05][INFO] 112 
+[2026-05-18 12:35:05][INFO] 112 
+[2026-05-18 12:35:05][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-18 12:35:05][DEBUG] Params: {":client_id":64,":site_id":112} 
+[2026-05-18 12:35:19][INFO] 112 
+[2026-05-18 12:35:19][INFO] 112 
+[2026-05-18 12:35:19][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-18 12:35:19][DEBUG] Params: {":client_id":64,":site_id":112} 
+[2026-05-18 12:35:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:35:42][DEBUG] load_permissions - Session ID: 7d4gva8c7un6s37aolq54470ab, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-05-18 12:35:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:35:44][INFO] Utilisateur 1 n'est plus un client, suppression des localisations 
+[2026-05-18 12:35:44][INFO] Début de saveUserLocations pour l'utilisateur 1 
+[2026-05-18 12:35:44][INFO] Localisations reçues: [] 
+[2026-05-18 12:35:44][INFO] Type d'utilisateur récupéré: technicien 
+[2026-05-18 12:35:44][INFO] Utilisateur 1 est un technicien, pas besoin de sauvegarder les localisations 
+[2026-05-18 12:35:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 
+[2026-05-18 12:35:50][DEBUG] load_permissions - Session ID: np2ek0s3v3587tm6vj9kh7hrep, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-05-18 12:36:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c3a022bdaa5402bdc25... 

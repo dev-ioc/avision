@@ -330,3 +330,26 @@
 [2026-05-17 21:22:46][ERROR] Erreur envoi email à test@gmail.com : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
 [2026-05-17 21:22:46][ERROR] Erreur lors de l'envoi de l'email : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) {"intervention_id":"302","mail_host":"172.20.64.14","mail_port":"587","mail_encryption":"tls","mail_from_address":"avision@caspeo.fr","oauth2_enabled":"0"}
 [2026-05-17 21:22:46][ERROR] Erreur envoi email fermeture intervention 302 : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-05-18 08:09:09][INFO] Envoi automatique de création désactivé pour l'intervention 330 
+[2026-05-18 08:30:07][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 08:32:19][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 09:54:15][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 10:17:20][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 10:21:04][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 10:25:37][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 10:27:23][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 10:37:33][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 10:46:35][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 10:52:52][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 11:35:38][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 11:43:30][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 11:44:59][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 11:46:12][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 11:56:15][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 12:00:10][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 12:01:12][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 12:06:02][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 12:10:19][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 12:12:11][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 12:14:27][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 
+[2026-05-18 12:19:00][ERROR] Erreur envoi email fermeture intervention 330 : Aucun destinataire trouvé pour l'intervention 330 

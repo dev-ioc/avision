@@ -168,7 +168,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-						<form method="POST" action="<?= BASE_URL ?>interventions/delete/<?= $intervention['id'] ?>" class="d-inline">
+						<form method="POST" action="<?= BASE_URL ?>interventions/delete/<?= $intervention['id'] ?>"
+							class="d-inline">
 							<?= csrf_field() ?>
 							<button type="submit" class="btn btn-danger">
 								<i class="bi bi-trash me-1"></i>Oui, supprimer
@@ -215,7 +216,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 								<?= h($intervention['tickets_used'] ?? '0') ?>
 							</div>
 						<?php endif; ?>
-						<span class="badge rounded-pill" style="background-color: <?= h($intervention['status_color'] ?? '') ?>">
+						<span class="badge rounded-pill"
+							style="background-color: <?= h($intervention['status_color'] ?? '') ?>">
 							<?= h($intervention['status_name'] ?? '') ?>
 						</span>
 					</div>
@@ -270,7 +272,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 									<label class="form-label fw-bold mb-0">Contrat</label>
 									<p class="form-control-static mb-0">
 										<a href="#" class="text-decoration-none contract-info-link"
-											data-contract-id="<?= $intervention['contract_id'] ?>" title="Voir les détails du contrat">
+											data-contract-id="<?= $intervention['contract_id'] ?>"
+											title="Voir les détails du contrat">
 											<i class="bi bi-info-circle me-1"></i>
 											<?= h($intervention['contract_name']) ?>
 										</a>
@@ -291,7 +294,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 							<div>
 								<label class="form-label fw-bold mb-0">Priorité</label>
 								<p class="form-control-static mb-0">
-									<span class="badge" style="background-color: <?= h($intervention['priority_color'] ?? '') ?>">
+									<span class="badge"
+										style="background-color: <?= h($intervention['priority_color'] ?? '') ?>">
 										<?= h($intervention['priority_name'] ?? '') ?>
 									</span>
 								</p>
@@ -393,7 +397,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 					<div class="card-header py-2 d-flex justify-content-between align-items-center">
 						<h5 class="card-title mb-0">Compte-rendu / observations</h5>
 						<?php if (canModifyInterventions() && $intervention['status_id'] != 6): ?>
-							<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addCommentModal">
+							<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+								data-bs-target="#addCommentModal">
 								<i class="bi bi-plus me-1"></i> Ajouter
 							</button>
 						<?php endif; ?>
@@ -405,10 +410,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
 									<div class="d-flex justify-content-between align-items-start mb-2">
 										<div class="d-flex align-items-center gap-2">
 											<strong><?= h($comment['created_by_name'] ?? 'Utilisateur inconnu') ?></strong>
-											<small class="text-muted"><?= date('d/m/Y H:i', strtotime($comment['created_at'])) ?></small>
+											<small
+												class="text-muted"><?= date('d/m/Y H:i', strtotime($comment['created_at'])) ?></small>
 										</div>
 										<div>
-											<?php if ($comment['is_solution']): ?><span class="badge bg-success">Solution</span><?php endif; ?>
+											<?php if ($comment['is_solution']): ?><span
+													class="badge bg-success">Solution</span><?php endif; ?>
 											<?php if ($comment['is_observation']): ?><span
 													class="badge bg-warning">Observation</span><?php endif; ?>
 											<?php if ($comment['visible_by_client']): ?>
@@ -417,8 +424,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 												<span class="badge bg-secondary">Interne</span>
 											<?php endif; ?>
 											<?php if (canModifyInterventions()): ?>
-												<button type="button" class="btn btn-sm btn-outline-warning btn-action" data-bs-toggle="modal"
-													data-bs-target="#editCommentModal<?= $comment['id'] ?>" title="Modifier">
+												<button type="button" class="btn btn-sm btn-outline-warning btn-action"
+													data-bs-toggle="modal" data-bs-target="#editCommentModal<?= $comment['id'] ?>"
+													title="Modifier">
 													<i class="bi bi-pencil"></i>
 												</button>
 												<a href="<?= BASE_URL ?>interventions/deleteComment/<?= $comment['id'] ?>"
@@ -437,7 +445,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 									<div class="modal fade" id="editCommentModal<?= $comment['id'] ?>" tabindex="-1" aria-hidden="true">
 										<div class="modal-dialog">
 											<div class="modal-content">
-												<form action="<?= BASE_URL ?>interventions/editComment/<?= $comment['id'] ?>" method="post">
+												<form action="<?= BASE_URL ?>interventions/editComment/<?= $comment['id'] ?>"
+													method="post">
 													<?= csrf_field() ?>
 													<div class="modal-header">
 														<h5 class="modal-title">Modifier le commentaire</h5>
@@ -456,8 +465,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 																le client</label>
 														</div>
 														<div class="form-check mb-2">
-															<input class="form-check-input" type="checkbox" name="is_solution" id="sol<?= $comment['id'] ?>"
-																<?= $comment['is_solution'] ? 'checked' : '' ?>>
+															<input class="form-check-input" type="checkbox" name="is_solution"
+																id="sol<?= $comment['id'] ?>" <?= $comment['is_solution'] ? 'checked' : '' ?>>
 															<label class="form-check-label" for="sol<?= $comment['id'] ?>">Marquer comme
 																solution</label>
 														</div>
@@ -469,7 +478,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 														</div>
 													</div>
 													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+														<button type="button" class="btn btn-secondary"
+															data-bs-dismiss="modal">Annuler</button>
 														<button type="submit" class="btn btn-primary">Enregistrer</button>
 													</div>
 												</form>
@@ -524,7 +534,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 									<div class="card-header py-1 d-flex justify-content-between align-items-center">
 										<div>
 											<strong><?= h($attachment['created_by_name'] ?? 'Utilisateur inconnu') ?></strong>
-											<small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($attachment['date_creation'])) ?></small>
+											<small
+												class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($attachment['date_creation'])) ?></small>
 										</div>
 										<div>
 											<?php if ($isPdf): ?>
@@ -797,7 +808,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 					</div>
 				</div>
 			</div>
-			<div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+			<div class="modal-footer"><button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Fermer</button>
 			</div>
 		</div>
 	</div>
@@ -871,7 +883,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-					<button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Sauvegarder</button>
+					<button type="submit" class="btn btn-primary"><i
+							class="bi bi-check-lg me-1"></i>Sauvegarder</button>
 				</div>
 			</form>
 		</div>
@@ -900,7 +913,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 					<div class="alert alert-danger mb-3">
 						<i class="bi bi-exclamation-triangle-fill me-2"></i>
 						<strong>Attention !</strong> Cette intervention a consommé
-						<strong><?= $ticketsUsedForReopen ?> ticket(s)</strong>.
+						<strong>
+							<?= $ticketsUsedForReopen ?> ticket(s)
+						</strong>.
 						En la réouvrant, ces tickets seront <strong>re-crédités</strong> sur le contrat.
 						Si vous la refermez ensuite, un nouveau décompte sera calculé.
 					</div>
@@ -910,11 +925,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-				<form method="POST" action="<?= BASE_URL ?>interventions/reopen/<?= $intervention['id'] ?>" class="d-inline">
+				<form method="POST" action="<?= BASE_URL ?>interventions/reopen/<?= $intervention['id'] ?>"
+					class="d-inline">
 					<?= csrf_field() ?>
 					<button type="submit" class="btn btn-warning">
 						<i class="bi bi-arrow-repeat me-1"></i>
-						Oui, réouvrir<?= ($hasTicketContractReopen && $ticketsUsedForReopen > 0)
+						Oui, réouvrir
+						<?= ($hasTicketContractReopen && $ticketsUsedForReopen > 0)
 							? ' et recréditer ' . $ticketsUsedForReopen . ' ticket(s)'
 							: '' ?>
 					</button>
@@ -964,10 +981,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
 	<div class="modal fade" id="forceTicketsModal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
+				<!-- <div class="modal-header">
 					<h5 class="modal-title"><i class="bi bi-ticket-perforated me-2"></i>Forcer les tickets utilisés</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-				</div>
+				</div> -->
 				<form action="<?= BASE_URL ?>interventions/forceTickets/<?= $intervention['id'] ?>" method="POST">
 					<?= csrf_field() ?>
 					<div class="modal-body">
@@ -978,10 +995,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
 						</div>
 						<div class="mb-3">
 							<label class="form-label">Tickets utilisés actuels</label>
-							<input type="text" class="form-control" value="<?= $intervention['tickets_used'] ?? 0 ?>" readonly>
+							<input type="text" class="form-control" value="<?= $intervention['tickets_used'] ?? 0 ?>"
+								readonly>
 						</div>
 						<div class="mb-3">
-							<label for="new_tickets" class="form-label">Nouveau nombre <span class="text-danger">*</span></label>
+							<label for="new_tickets" class="form-label">Nouveau nombre <span
+									class="text-danger">*</span></label>
 							<input type="number" class="form-control" id="new_tickets" name="tickets_used"
 								value="<?= $intervention['tickets_used'] ?? 0 ?>" min="0" step="0.5" required
 								data-current-tickets="<?= $intervention['tickets_used'] ?? 0 ?>"
@@ -1058,8 +1077,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 						<div class="col-md-4 mb-3">
 							<label class="form-label">Durée</label>
 							<div class="input-group">
-								<input type="number" id="temps_passe" class="form-control" min="0" step="30" placeholder="Ex: 120"
-									value="0">
+								<input type="number" id="temps_passe" class="form-control" min="0" step="30"
+									placeholder="Ex: 120" value="0">
 								<span class="input-group-text">min</span>
 							</div>
 							<div id="roundedTimeDisplay" class="mt-2 p-2 bg-light rounded" style="display:none;"></div>
@@ -1088,8 +1107,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 					</div>
 
 					<div class="d-flex gap-2">
-						<button type="button" class="btn btn-danger" onclick="removeCurrentTechnician()" id="btnRemoveCurrent"
-							style="display:none;">
+						<button type="button" class="btn btn-danger" onclick="removeCurrentTechnician()"
+							id="btnRemoveCurrent" style="display:none;">
 							<i class="bi bi-trash"></i> Retirer ce technicien
 						</button>
 					</div>
@@ -1121,7 +1140,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 				</div>
 				<div id="sendEmailModalContent" style="display:none;">
 					<p class="mb-3"><strong>Destinataire :</strong> <span id="sendEmailRecipient"></span></p>
-					<div id="sendEmailTestModeBlock" class="alert alert-warning mb-3 py-2" style="display:none;" role="status">
+					<div id="sendEmailTestModeBlock" class="alert alert-warning mb-3 py-2" style="display:none;"
+						role="status">
 						<i class="bi bi-info-circle me-2"></i>
 						<strong>Mode test</strong> : envoi vers <strong id="sendEmailTestAddress"></strong>
 					</div>
@@ -1129,12 +1149,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
 						<label class="form-label">Type d'envoi</label>
 						<div class="d-flex gap-3">
 							<div class="form-check">
-								<input class="form-check-input" type="radio" name="email_mode" id="emailModeTemplate" value="template"
-									checked>
+								<input class="form-check-input" type="radio" name="email_mode" id="emailModeTemplate"
+									value="template" checked>
 								<label class="form-check-label" for="emailModeTemplate">Utiliser un template</label>
 							</div>
 							<div class="form-check">
-								<input class="form-check-input" type="radio" name="email_mode" id="emailModeCustom" value="custom">
+								<input class="form-check-input" type="radio" name="email_mode" id="emailModeCustom"
+									value="custom">
 								<label class="form-check-label" for="emailModeCustom">Message personnalisé</label>
 							</div>
 						</div>
@@ -1144,13 +1165,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
 						<select class="form-select" id="sendEmailTemplateId" name="template_id">
 							<option value="">-- Choisir un template --</option>
 						</select>
-						<button type="button" class="btn btn-sm btn-outline-secondary mt-2" id="sendEmailPreviewBtn">Aperçu</button>
+						<button type="button" class="btn btn-sm btn-outline-secondary mt-2"
+							id="sendEmailPreviewBtn">Aperçu</button>
 						<div id="sendEmailPreview" class="mt-2 small border rounded p-2 bg-light" style="display:none;">
 						</div>
 					</div>
 					<div id="sendEmailCustomBlock" class="mb-3" style="display:none;">
 						<label for="sendEmailSubject" class="form-label">Sujet</label>
-						<input type="text" class="form-control" id="sendEmailSubject" name="subject" placeholder="Sujet de l'email">
+						<input type="text" class="form-control" id="sendEmailSubject" name="subject"
+							placeholder="Sujet de l'email">
 						<label for="sendEmailMessage" class="form-label mt-2">Message</label>
 						<textarea class="form-control" id="sendEmailMessage" name="message" rows="5"
 							placeholder="Corps du message"></textarea>
@@ -1201,7 +1224,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#" id="pdfDownloadLink" class="btn btn-primary" target="_blank"><i class="bi bi-download me-1"></i>
+				<a href="#" id="pdfDownloadLink" class="btn btn-primary" target="_blank"><i
+						class="bi bi-download me-1"></i>
 					Télécharger</a>
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
 			</div>
@@ -1213,7 +1237,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 	<div class="modal-dialog modal-fullscreen">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title"><i class="bi bi-image-fill text-primary me-2"></i><span id="imageFileName">Image</span>
+				<h5 class="modal-title"><i class="bi bi-image-fill text-primary me-2"></i><span
+						id="imageFileName">Image</span>
 				</h5>
 				<div class="ms-auto me-3">
 					<button type="button" class="btn btn-sm btn-outline-secondary" id="imageZoomOutBtn"><i
@@ -1232,7 +1257,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#" id="imageDownloadLink" class="btn btn-primary" target="_blank"><i class="bi bi-download me-1"></i>
+				<a href="#" id="imageDownloadLink" class="btn btn-primary" target="_blank"><i
+						class="bi bi-download me-1"></i>
 					Télécharger</a>
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
 			</div>
@@ -1546,12 +1572,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
 				.then(function (data) {
 					showFermetureLoading(false);
 					if (!data.success) {
-						/* Affiche le message d'erreur retourné par le serveur */
 						document.getElementById('fermetureContent').innerHTML =
 							'<div class="alert alert-danger"><i class="bi bi-exclamation-triangle me-2"></i>'
 							+ esc(data.error || 'Une erreur est survenue.')
 							+ '</div>';
-						/* bouton confirmer reste disabled */
 						return;
 					}
 					renderFermeture(data);
@@ -1567,14 +1591,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		function renderFermeture(data) {
 			var html = '';
 
-			/* Résumé type */
-			html += '<div class="alert alert-info py-2 mb-3">';
-			html += '<i class="bi bi-info-circle me-2"></i><strong>' + esc(data.intervention.type_name) + '</strong>';
-			html += data.intervention.is_remote
-				? ' — <span class="badge bg-secondary">À distance / tél.</span> arrondi à la ½ ticket'
-				: ' — <span class="badge bg-secondary">Sur site</span> arrondi à l\'entier supérieur';
-			html += '</div>';
-
 			/* Tableau techniciens */
 			html += '<table class="table table-sm table-bordered align-middle mb-3">';
 			html += '<thead class="table-light"><tr>'
@@ -1583,11 +1599,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
 				+ '</tr></thead><tbody>';
 
 			data.technicians.forEach(function (t) {
+				var qualifiedBadge = t.is_qualified
+					? '<i class="bi bi-check-circle-fill text-success"></i>'
+					: '-';
+
 				html += '<tr>';
 				html += '<td>' + esc(t.name) + '</td>';
 				html += '<td>' + t.duration_minutes + ' min<br><small class="text-muted">' + t.duration_hours.toFixed(2) + 'h</small></td>';
-				html += '<td class="text-center">' + (t.has_travel ? '<i class="bi bi-check-circle-fill text-success"></i>' : '<i class="bi bi-dash text-muted"></i>') + '</td>';
-				html += '<td class="text-center">' + (t.is_qualified ? '<i class="bi bi-star-fill text-warning"></i>' : '<i class="bi bi-dash text-muted"></i>') + '</td>';
+				html += '<td class="text-center">' + (t.has_travel ? '<i class="bi bi-check-circle-fill text-success"></i>' : '<i class="bi bi-dash-circle text-muted"></i>') + '</td>';
+				html += '<td class="text-center">' + qualifiedBadge + '</td>';
 				html += '<td><small class="text-muted font-monospace">' + esc(t.formula) + '</small></td>';
 				html += '<td class="text-end fw-bold">' + t.tickets_rounded + '</td>';
 				html += '</tr>';
@@ -1598,13 +1618,25 @@ include_once __DIR__ . '/../../includes/navbar.php';
 			html += '</table>';
 
 			/* Infos contrat */
+			var contractRemaining = 0;
 			if (data.contract) {
+				contractRemaining = data.contract.tickets_remaining;
 				var after = data.contract.tickets_after_close;
 				var cls = after > 3 ? 'success' : (after > 0 ? 'warning' : 'danger');
 				html += '<div class="alert alert-light border mb-3 py-2">';
 				html += '<strong>Contrat :</strong> ' + esc(data.contract.name);
 				html += ' &nbsp;|&nbsp; Solde actuel : <strong>' + data.contract.tickets_remaining + '</strong>';
 				html += ' &nbsp;→&nbsp; Après fermeture : <span class="badge bg-' + cls + '">' + after + '</span>';
+
+				// Alerte si solde deviendrait négatif
+				if (after < 0) {
+					html += '<div class="alert alert-danger mt-2 mb-0 py-1">';
+					html += '<i class="bi bi-exclamation-triangle-fill me-2"></i>';
+					html += '<strong>⚠️ Attention !</strong> Cette fermeture rendrait le solde du contrat négatif.';
+					html += '<br>Veuillez réduire le nombre de tickets ou ajouter des tickets au contrat.';
+					html += '</div>';
+				}
+
 				html += '</div>';
 			}
 
@@ -1615,11 +1647,45 @@ include_once __DIR__ . '/../../includes/navbar.php';
 				+ '<small class="text-muted fw-normal ms-2">(modifiez si nécessaire)</small>'
 				+ '</label>'
 				+ '<input type="number" class="form-control" id="ticketsManuel" min="0" step="0.5" value="' + data.total_tickets + '">'
+				+ '<div id="ticketsWarning" class="form-text" style="display:none; color: #dca235;">'
+				+ '<i class="bi bi-exclamation-triangle-fill me-1"></i> <span id="ticketsWarningText"></span>'
+				+ '</div>'
 				+ '</div>';
 
 			document.getElementById('fermetureContent').innerHTML = html;
 			document.getElementById('fermetureConfirmer').disabled = false;
 			document.getElementById('fermetureEmailCheck').style.display = 'flex';
+
+			/* Vérification en temps réel du solde */
+			var ticketsInput = document.getElementById('ticketsManuel');
+			var warningDiv = document.getElementById('ticketsWarning');
+			var warningText = document.getElementById('ticketsWarningText');
+			var confirmBtn = document.getElementById('fermetureConfirmer');
+
+			if (ticketsInput && warningDiv && data.contract) {
+				var currentRemaining = data.contract.tickets_remaining;
+
+				function checkSolde() {
+					var value = parseFloat(ticketsInput.value) || 0;
+					var newRemaining = currentRemaining - value;
+
+					if (newRemaining < 0) {
+						warningDiv.style.display = 'block';
+						warningText.innerHTML = 'Attention : Le solde deviendrait négatif (' + newRemaining.toFixed(2) + '). Veuillez réduire le nombre de tickets à ' + currentRemaining.toFixed(2) + ' maximum.';
+						confirmBtn.disabled = true;
+					} else {
+						warningDiv.style.display = 'none';
+						confirmBtn.disabled = false;
+					}
+				}
+
+				// Vérifier au chargement
+				checkSolde();
+
+				// Vérifier à chaque modification
+				ticketsInput.addEventListener('input', checkSolde);
+				ticketsInput.addEventListener('change', checkSolde);
+			}
 
 			/* Gestionnaire de confirmation */
 			document.getElementById('fermetureConfirmer').onclick = function () {
@@ -1629,6 +1695,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 				if (!token) {
 					alert('Token CSRF manquant. Rechargez la page et réessayez.');
+					return;
+				}
+
+				// Vérification finale avant envoi
+				if (data.contract && tickets > data.contract.tickets_remaining) {
+					alert('Erreur : Le nombre de tickets à déduire (' + tickets + ') dépasse le solde disponible (' + data.contract.tickets_remaining + ').');
+					document.getElementById('fermetureConfirmer').disabled = false;
+					document.getElementById('fermetureConfirmer').innerHTML = '<i class="bi bi-lock me-1"></i>Confirmer la fermeture';
 					return;
 				}
 
@@ -1651,7 +1725,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 					})
 					.then(function (result) {
 						if (result && result.success === false) {
-							/* Cas où close() renvoie du JSON d'erreur */
 							alert('Erreur : ' + (result.error || 'Fermeture impossible.'));
 							document.getElementById('fermetureConfirmer').disabled = false;
 							document.getElementById('fermetureConfirmer').innerHTML = '<i class="bi bi-lock me-1"></i>Confirmer la fermeture';
@@ -1660,7 +1733,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 						}
 					})
 					.catch(function (e) {
-						/* close() fait un redirect → on recharge quand même */
 						window.location.reload();
 					});
 			};
@@ -1731,32 +1803,109 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 	function removeTechnicianFromPage(technicianId) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
-		if (!confirm('Retirer ce technicien ?')) return;
-		var container = document.getElementById('techniciansListContainer');
-		container.innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary" role="status"></div></div>';
-		fetch(window.BASE_URL + 'interventions/interventionsTechnician?id=' + interventionId, { method: 'GET', headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin' })
-			.then(function (r) { return r.json(); })
-			.then(function (data) {
-				var cur = data.data?.assigned || data.assigned || [];
-				var upd = cur.filter(function (t) { return t.technicien_id != technicianId; });
-				var toSave = upd.map(function (t) { return { technicien_id: t.technicien_id, start_time: t.start_time || null, end_time: t.end_time || null, temps_passe: t.temps_passe || null, deplacement: t.deplacement || 0, is_qualified: t.is_qualified || 0, commentaire: t.commentaire || '', notify_technician: 0 }; });
-				return fetch(window.BASE_URL + 'interventions/assignTechnicians', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						'X-Requested-With': 'XMLHttpRequest',
-						'X-CSRF-Token': window.CSRF_TOKEN || ''
-					}, credentials: 'same-origin', body: JSON.stringify({ intervention_id: parseInt(interventionId), technicians: toSave })
-				});
-			})
-			.then(function (r) { return r.json(); })
-			.then(function (result) {
-				if (result.success) { alert('Technicien retiré.'); loadTechniciansInPage(); }
-				else { alert('Erreur: ' + (result.error || 'Inconnue')); loadTechniciansInPage(); }
-			})
-			.catch(function (e) { alert('Erreur: ' + e.message); loadTechniciansInPage(); });
-	}
 
+		// Récupérer le nom du technicien depuis l'élément DOM
+		var techElement = event?.target?.closest('button');
+		var techName = 'ce technicien';
+		if (techElement) {
+			var listItem = techElement.closest('.list-group-item');
+			if (listItem) {
+				var strongEl = listItem.querySelector('strong');
+				if (strongEl) techName = strongEl.innerText;
+			}
+		}
+
+		if (!confirm('Retirer ' + techName + ' de cette intervention ?')) return;
+
+		// Afficher un indicateur de chargement
+		var container = document.getElementById('techniciansListContainer');
+		var originalContent = container.innerHTML;
+		container.innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary" role="status"></div><p class="mt-2">Suppression en cours...</p></div>';
+
+		fetch(window.BASE_URL + 'interventions/removeTechnician', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Requested-With': 'XMLHttpRequest',
+				'X-CSRF-Token': window.CSRF_TOKEN || ''
+			},
+			credentials: 'same-origin',
+			body: JSON.stringify({
+				intervention_id: parseInt(interventionId),
+				technician_id: technicianId
+			})
+		})
+			.then(function (response) {
+				// Vérifier si la réponse est OK
+				if (!response.ok) {
+					return response.text().then(function (text) {
+						throw new Error('HTTP ' + response.status + ': ' + text.substring(0, 200));
+					});
+				}
+				return response.json();
+			})
+			.then(function (result) {
+				if (result.success) {
+					// Recharger la liste des techniciens
+					loadTechniciansInPage();
+					// Afficher un message de succès
+					alert(result.message);
+				} else {
+					loadTechniciansInPage();
+					alert('Erreur: ' + (result.error || 'Suppression impossible'));
+				}
+			})
+			.catch(function (error) {
+				console.error('Error:', error);
+				container.innerHTML = originalContent;
+				alert('Erreur: ' + error.message);
+			});
+	}
+	function removeTechnicianFromModal(technicianId) {
+		var interventionId = document.getElementById('intervention_id').value;
+		if (!interventionId) return;
+
+		var tech = assignedTechnicians.find(function (t) { return t.id == technicianId; });
+		if (!tech) return;
+
+		if (!confirm('Retirer ' + tech.name + ' de cette intervention ?')) return;
+
+		fetch(window.BASE_URL + 'interventions/removeTechnician', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Requested-With': 'XMLHttpRequest',
+				'X-CSRF-Token': window.CSRF_TOKEN || ''
+			},
+			credentials: 'same-origin',
+			body: JSON.stringify({
+				intervention_id: parseInt(interventionId),
+				technician_id: technicianId
+			})
+		})
+			.then(function (response) { return response.json(); })
+			.then(function (result) {
+				if (result.success) {
+					// Supprimer de la liste locale
+					assignedTechnicians = assignedTechnicians.filter(function (t) { return t.id != technicianId; });
+					// Si c'est le technicien actuellement sélectionné, réinitialiser le formulaire
+					if (currentEditId == technicianId) {
+						resetTechnicianForm();
+						document.getElementById('techSelect').value = '';
+						if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+							$('#techSelect').val('').trigger('change');
+						}
+					}
+					alert(result.message);
+				} else {
+					alert('Erreur: ' + (result.error || 'Suppression impossible'));
+				}
+			})
+			.catch(function (error) {
+				console.error('Error:', error);
+				alert('Erreur réseau: ' + error.message);
+			});
+	}
 	function openTechModal(id) {
 		if (!id) { alert('ID intervention manquant'); return; }
 		assignedTechnicians = []; currentEditId = null;
@@ -1764,23 +1913,60 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		resetTechnicianForm();
 		var sel = document.getElementById('techSelect');
 		sel.innerHTML = '<option value="">Chargement…</option>';
-		fetch(window.BASE_URL + 'interventions/interventionsTechnician?id=' + id, { method: 'GET', headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin' })
+		fetch(window.BASE_URL + 'interventions/interventionsTechnician?id=' + id, {
+			method: 'GET',
+			headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+			credentials: 'same-origin'
+		})
 			.then(function (r) { return r.json(); })
 			.then(function (data) {
 				sel.innerHTML = '<option value="">-- Sélectionner un technicien --</option>';
 				var technicians = data.data?.technicians || data.technicians || [];
 				var assigned = data.data?.assigned || data.assigned || [];
+
 				assigned.forEach(function (a) {
 					var tech = technicians.find(function (t) { return t.id == a.technicien_id; });
-					if (tech) { assignedTechnicians.push({ id: tech.id, name: tech.full_name || (tech.first_name + ' ' + tech.last_name), start_time: a.start_time || '', end_time: a.end_time || '', temps_passe: a.temps_passe || '', deplacement: a.deplacement || 0, is_qualified: a.is_qualified || 0, commentaire: a.commentaire || '' }); }
+					if (tech) {
+						assignedTechnicians.push({
+							id: tech.id,
+							name: tech.full_name || (tech.first_name + ' ' + tech.last_name),
+							start_time: a.start_time || '',
+							end_time: a.end_time || '',
+							temps_passe: a.temps_passe || '',
+							deplacement: a.deplacement || 0,
+							is_qualified: a.is_qualified || 0,  // ← Ajouté
+							commentaire: a.commentaire || ''
+						});
+					}
 				});
-				if (technicians.length === 0) { sel.innerHTML = '<option value="">Aucun technicien disponible</option>'; }
-				else { technicians.forEach(function (t) { var o = document.createElement('option'); o.value = t.id; o.text = t.full_name || (t.first_name + ' ' + t.last_name); sel.appendChild(o); }); }
-				if (typeof $ !== 'undefined' && $('#techSelect').select2) { $('#techSelect').select2({ placeholder: 'Rechercher un technicien', allowClear: true, width: '100%', dropdownParent: $('#techModal') }); }
+
+				if (technicians.length === 0) {
+					sel.innerHTML = '<option value="">Aucun technicien disponible</option>';
+				} else {
+					technicians.forEach(function (t) {
+						var o = document.createElement('option');
+						o.value = t.id;
+						o.text = t.full_name || (t.first_name + ' ' + t.last_name);
+						sel.appendChild(o);
+					});
+				}
+
+				if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+					$('#techSelect').select2({
+						placeholder: 'Rechercher un technicien',
+						allowClear: true,
+						width: '100%',
+						dropdownParent: $('#techModal')
+					});
+				}
+
 				var me = document.getElementById('techModal');
 				if (me) new bootstrap.Modal(me).show();
 			})
-			.catch(function (e) { alert('Erreur chargement: ' + e.message); sel.innerHTML = '<option value="">Erreur</option>'; });
+			.catch(function (e) {
+				alert('Erreur chargement: ' + e.message);
+				sel.innerHTML = '<option value="">Erreur</option>';
+			});
 	}
 
 	function resetTechnicianForm() {
@@ -1790,7 +1976,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		document.getElementById('end_time').value = '';
 		document.getElementById('temps_passe').value = '';
 		document.getElementById('deplacement').value = '0';
-		document.getElementById('is_qualified').value = '0';
+		document.getElementById('is_qualified').value = '0';  // ← Ajouté
 		document.getElementById('commentaire').value = '';
 		document.getElementById('technicianDetails').style.display = 'block';
 		document.getElementById('btnRemoveCurrent').style.display = 'none';
@@ -1844,41 +2030,181 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		var tid = document.getElementById('selected_technician_id').value;
 		if (!tid) return;
 		var tech = assignedTechnicians.find(function (t) { return t.id == tid; });
-		if (tech && confirm('Retirer ' + tech.name + ' ?')) {
+		if (tech && confirm('Retirer ' + tech.name + ' de cette intervention ?')) {
+			// Supprimer de la liste assignedTechnicians
 			assignedTechnicians = assignedTechnicians.filter(function (t) { return t.id != tid; });
 			resetTechnicianForm();
 			document.getElementById('techSelect').value = '';
-			if (typeof $ !== 'undefined' && $('#techSelect').select2) $('#techSelect').val('').trigger('change');
+			if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+				$('#techSelect').val('').trigger('change');
+			}
+			// Recharger l'affichage des techniciens dans la page principale
+			loadTechniciansInPage();
 		}
 	}
-
 	function saveAllTechnicians() {
 		var interventionId = document.getElementById('intervention_id').value;
 		if (!interventionId) { alert('ID intervention manquant'); return; }
-		var sel = document.getElementById('techSelect');
+
 		var toSave = [];
-		for (var i = 0; i < sel.options.length; i++) {
-			var opt = sel.options[i];
-			if (!opt.selected || !opt.value) continue;
+
+		// 1. Ajouter tous les techniciens déjà assignés
+		for (var i = 0; i < assignedTechnicians.length; i++) {
+			var existingTech = assignedTechnicians[i];
+			toSave.push({
+				technicien_id: parseInt(existingTech.id),
+				start_time: existingTech.start_time || null,
+				end_time: existingTech.end_time || null,
+				temps_passe: existingTech.temps_passe || null,
+				deplacement: existingTech.deplacement || 0,
+				is_qualified: existingTech.is_qualified || 0,  // ← Ajouté
+				commentaire: existingTech.commentaire || '',
+				notify_technician: 0
+			});
+		}
+
+		// 2. Ajouter ou mettre à jour le technicien actuellement sélectionné
+		var sel = document.getElementById('techSelect');
+		var selectedValue = sel.value;
+
+		if (selectedValue) {
 			var st = document.getElementById('start_time').value;
 			var et = document.getElementById('end_time').value;
 			var tp = parseInt(document.getElementById('temps_passe').value) || 0;
 			var dep = parseInt(document.getElementById('deplacement').value) || 0;
-			var iq = parseInt(document.getElementById('is_qualified').value) || 0;
-			if (st && et && new Date(st) >= new Date(et)) { alert('La date de fin doit être postérieure à la date de début.'); return; }
+			var iq = parseInt(document.getElementById('is_qualified').value) || 0;  // ← Ajouté
+			var comment = document.getElementById('commentaire').value;
+
+			if (st && et && new Date(st) >= new Date(et)) {
+				alert('La date de fin doit être postérieure à la date de début.');
+				return;
+			}
 			if (tp > 0) tp = roundToHalfHour(tp) || 30;
-			toSave.push({ technicien_id: parseInt(opt.value), start_time: st || null, end_time: et || null, temps_passe: tp || null, deplacement: dep, is_qualified: iq, commentaire: document.getElementById('commentaire').value, notify_technician: 1 });
+
+			// Vérifier si ce technicien est déjà dans la liste
+			var existingIndex = toSave.findIndex(function (t) { return t.technicien_id == selectedValue; });
+
+			var techData = {
+				technicien_id: parseInt(selectedValue),
+				start_time: st || null,
+				end_time: et || null,
+				temps_passe: tp || null,
+				deplacement: dep,
+				is_qualified: iq,  // ← Ajouté
+				commentaire: comment,
+				notify_technician: 1
+			};
+
+			if (existingIndex >= 0) {
+				toSave[existingIndex] = techData;
+			} else {
+				toSave.push(techData);
+			}
 		}
-		if (toSave.length === 0) { alert('Veuillez sélectionner au moins un technicien'); return; }
-		fetch(window.BASE_URL + 'interventions/assignTechnicians', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': window.CSRF_TOKEN || '' }, credentials: 'same-origin', body: JSON.stringify({ intervention_id: parseInt(interventionId), technicians: toSave }) })
+
+		if (toSave.length === 0) {
+			alert('Veuillez sélectionner au moins un technicien');
+			return;
+		}
+
+		var saveBtn = document.querySelector('#techModal .btn-primary');
+		var originalText = saveBtn ? saveBtn.innerHTML : '';
+		if (saveBtn) {
+			saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status"></span>Enregistrement...';
+			saveBtn.disabled = true;
+		}
+
+		fetch(window.BASE_URL + 'interventions/assignTechnicians', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Requested-With': 'XMLHttpRequest',
+				'X-CSRF-Token': window.CSRF_TOKEN || ''
+			},
+			credentials: 'same-origin',
+			body: JSON.stringify({
+				intervention_id: parseInt(interventionId),
+				technicians: toSave,
+				replace: true
+			})
+		})
 			.then(function (r) { return r.json(); })
 			.then(function (result) {
-				if (result.success) { alert('Techniciens affectés avec succès !'); var m = bootstrap.Modal.getInstance(document.getElementById('techModal')); if (m) m.hide(); location.reload(); }
-				else alert('Erreur: ' + (result.error || 'Inconnue'));
+				if (saveBtn) {
+					saveBtn.innerHTML = originalText;
+					saveBtn.disabled = false;
+				}
+				if (result.success) {
+					alert('Techniciens affectés avec succès !');
+					var m = bootstrap.Modal.getInstance(document.getElementById('techModal'));
+					if (m) m.hide();
+					location.reload();
+				} else {
+					alert('Erreur: ' + (result.error || 'Inconnue'));
+				}
 			})
-			.catch(function (e) { alert('Erreur réseau: ' + e.message); });
+			.catch(function (e) {
+				if (saveBtn) {
+					saveBtn.innerHTML = originalText;
+					saveBtn.disabled = false;
+				}
+				alert('Erreur réseau: ' + e.message);
+			});
 	}
+	function removeTechnicianFromPage(technicianId) {
+		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 
+		// Récupérer le nom du technicien depuis l'élément DOM
+		var techElement = document.querySelector('#techniciansListContainer .list-group-item button[onclick="removeTechnicianFromPage(' + technicianId + ')"]');
+		var techName = techElement ? techElement.closest('.list-group-item').querySelector('strong').innerText : 'ce technicien';
+
+		if (!confirm('Retirer ' + techName + ' de cette intervention ?')) return;
+
+		// Afficher un indicateur de chargement
+		var container = document.getElementById('techniciansListContainer');
+		container.innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary" role="status"></div><p class="mt-2">Suppression en cours...</p></div>';
+
+		fetch(window.BASE_URL + 'interventions/removeTechnician', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Requested-With': 'XMLHttpRequest',
+				'X-CSRF-Token': window.CSRF_TOKEN || ''
+			},
+			credentials: 'same-origin',
+			body: JSON.stringify({
+				intervention_id: parseInt(interventionId),
+				technician_id: technicianId
+			})
+		})
+			.then(function (response) { return response.json(); })
+			.then(function (result) {
+				if (result.success) {
+					// Recharger la liste des techniciens
+					loadTechniciansInPage();
+					// Optionnel : afficher un message de succès
+					if (typeof Swal !== 'undefined') {
+						Swal.fire({
+							icon: 'success',
+							title: 'Supprimé',
+							text: result.message,
+							timer: 2000,
+							showConfirmButton: false
+						});
+					} else {
+						alert(result.message);
+					}
+				} else {
+					loadTechniciansInPage();
+					alert('Erreur: ' + (result.error || 'Suppression impossible'));
+				}
+			})
+			.catch(function (error) {
+				console.error('Error:', error);
+				loadTechniciansInPage();
+				alert('Erreur réseau: ' + error.message);
+			});
+	}
 	async function sendEmailToTechnician(technicianId, technicianName) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 		if (!confirm('Envoyer un email de notification à ' + technicianName + ' ?')) return;

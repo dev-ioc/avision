@@ -901,29 +901,29 @@ class ContractController
                 exit;
             }
 
-            // Récupérer les interventions associées - CORRIGÉ (plus de LEFT JOIN sur users)
+            // Récupérer les interventions associées
             $sql_interventions = "SELECT i.*, 
-                ist.name as status_name,
-                ist.color as status_color
-                FROM interventions i
-                LEFT JOIN intervention_statuses ist ON i.status_id = ist.id
-                WHERE i.contract_id = ?
-                ORDER BY COALESCE(i.created_at) DESC";
+            ist.name as status_name,
+            ist.color as status_color
+            FROM interventions i
+            LEFT JOIN intervention_statuses ist ON i.status_id = ist.id
+            WHERE i.contract_id = ?
+            ORDER BY COALESCE(i.created_at) DESC";
 
             $stmt_interventions = $this->db->prepare($sql_interventions);
             $stmt_interventions->execute([$id]);
             $interventions = $stmt_interventions->fetchAll(PDO::FETCH_ASSOC);
 
-            // Pour chaque intervention, récupérer les techniciens assignés
+            // Pour chaque intervention, récupérer les techniciens assignés ET calculer les tickets en temps réel
             require_once __DIR__ . '/../models/UserModel.php';
             $userModel = new UserModel($this->db);
 
             foreach ($interventions as &$intervention) {
                 // Récupérer les techniciens assignés à cette intervention
                 $sql_technicians = "SELECT u.id, u.first_name, u.last_name, u.email
-                                FROM intervention_techniciens it
-                                JOIN users u ON it.technicien_id = u.id
-                                WHERE it.intervention_id = ?";
+                            FROM intervention_techniciens it
+                            JOIN users u ON it.technicien_id = u.id
+                            WHERE it.intervention_id = ?";
                 $stmt_tech = $this->db->prepare($sql_technicians);
                 $stmt_tech->execute([$intervention['id']]);
                 $technicians = $stmt_tech->fetchAll(PDO::FETCH_ASSOC);
@@ -934,6 +934,11 @@ class ContractController
                     $technician_names[] = $tech['first_name'] . ' ' . $tech['last_name'];
                 }
                 $intervention['technician_name'] = !empty($technician_names) ? implode(', ', $technician_names) : 'Non assigné';
+
+                // Calculer les tickets utilisés en temps réel pour les interventions fermées
+                if ((int) $intervention['status_id'] === 6) {
+                    $intervention['tickets_used'] = $this->calculateRealTicketsUsed($intervention['id']);
+                }
             }
 
             // Récupérer les pièces jointes
@@ -1769,7 +1774,72 @@ class ContractController
         header('Location: ' . BASE_URL . 'contracts/view/' . $contractId);
         exit;
     }
+    /**
+     * Calcule le nombre réel de tickets utilisés pour une intervention
+     * @param int $interventionId
+     * @return float
+     */
+    private function calculateRealTicketsUsed($interventionId)
+    {
+        // Récupérer l'intervention
+        $sql = "SELECT type_id FROM interventions WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$interventionId]);
+        $intervention = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if (!$intervention) {
+            return 0;
+        }
+
+        // Récupérer le type d'intervention pour savoir si c'est à distance
+        $sql = "SELECT requires_travel FROM intervention_types WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$intervention['type_id']]);
+        $type = $stmt->fetch(PDO::FETCH_ASSOC);
+        $isRemote = empty($type['requires_travel']) || (int) $type['requires_travel'] === 0;
+
+        // Récupérer les techniciens assignés
+        $sql = "SELECT temps_passe, is_qualified, deplacement FROM intervention_techniciens WHERE intervention_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$interventionId]);
+        $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($technicians)) {
+            return 0;
+        }
+
+        $totalTickets = 0.0;
+        foreach ($technicians as $tech) {
+            $minutes = (float) ($tech['temps_passe'] ?? 0);
+            $isQualified = (int) ($tech['is_qualified'] ?? 0) === 1;
+            $hasTravel = (int) ($tech['deplacement'] ?? 0) === 1;
+            $hours = $minutes / 60.0;
+
+            $raw = 0.0;
+
+            // Déplacement : +1 ticket
+            if ($hasTravel) {
+                $raw += 1.0;
+            }
+
+            // Main d'œuvre : 1h = 1 ticket
+            $raw += $hours;
+
+            // Technicien qualifié : première heure compte double
+            if ($isQualified && $hours >= 1.0) {
+                $raw += 1.0;
+            }
+
+            // Arrondi selon le type
+            if ($isRemote) {
+                $totalTickets += round($raw * 2) / 2;
+            } else {
+                $totalTickets += ceil($raw);
+            }
+        }
+
+        return $totalTickets;
+    }
     /**
      * Vérifie les droits de renouvellement de contrat
      */

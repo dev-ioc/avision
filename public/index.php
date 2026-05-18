@@ -1230,6 +1230,17 @@ try {
                         header('Location: ' . BASE_URL . 'interventions');
                     }
                     break;
+                case 'removeTechnician':
+                    $interventionController->removeTechnician();
+                    break;
+                case 'getReopenDetails':
+                    if ($id) {
+                        $interventionController->getReopenDetails($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['error' => 'ID manquant']);
+                    }
+                    break;
             }
             break;
 
