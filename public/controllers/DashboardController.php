@@ -27,6 +27,7 @@ class DashboardController
     /**
      * Dashboard pour le personnel (admin, technicien)
      */
+
     private function staffDashboard()
     {
         // Vérifier que l'utilisateur est staff (sécurité)
@@ -52,6 +53,9 @@ class DashboardController
             $plannedInterventions = $this->getPlannedInterventions($db);
             $roomsWithoutContract = $this->getRoomsWithoutContract($db);
             $financialData = $this->getFinancialData($db);
+
+            // AJOUT : Récupérer la liste des clients pour le modal Flash Intervention
+            $clients = $this->getAllClients($db);
 
             // Préparer les données pour les graphiques camembert
             $pieChartLabelsNonPreventive = [];
@@ -92,15 +96,27 @@ class DashboardController
             $pieChartLabelsPreventive = [];
             $pieChartSeriesPreventive = [];
             $pieChartColorsPreventive = [];
+            $clients = []; // AJOUT : Initialiser $clients vide en cas d'erreur
 
             // Log de l'erreur
             custom_log("Erreur lors du chargement des statistiques du dashboard : " . $e->getMessage(), 'ERROR');
         }
 
-        // Inclure la vue du dashboard staff
+        // AJOUT : Passer $clients à la vue via des variables globales ou inclure le fichier avec les données
+        // La vue dashboard/staff.php a besoin de $clients
         require_once VIEWS_PATH . '/dashboard/staff.php';
     }
-
+    /**
+     * Récupère la liste de tous les clients
+     */
+    private function getAllClients($db)
+    {
+        // Supprimer "WHERE deleted_at IS NULL" car cette colonne n'existe pas
+        $sql = "SELECT id, name FROM clients ORDER BY name ASC";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     /**
      * Dashboard pour les clients
      */

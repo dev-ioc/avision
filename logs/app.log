@@ -38045,3 +38045,32 @@ Quant à l’écran n°1, il est HS
 [2026-05-19 09:42:22][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-05-19 09:42:22][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
 [2026-05-19 09:42:22][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/view/330 
+[2026-05-19 10:07:56][WARNING] Undefined variable $clients {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":62,"errno":2}
+[2026-05-19 10:07:56][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":62,"errno":2}
+[2026-05-19 10:08:34][WARNING] Undefined variable $clients {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":62,"errno":2}
+[2026-05-19 10:08:34][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":62,"errno":2}
+[2026-05-19 10:08:51][WARNING] Undefined variable $clients {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":62,"errno":2}
+[2026-05-19 10:08:51][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":62,"errno":2}
+[2026-05-19 10:10:38][WARNING] Undefined variable $clients {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":61,"errno":2}
+[2026-05-19 10:10:38][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":61,"errno":2}
+[2026-05-19 10:10:41][WARNING] Undefined variable $clients {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":61,"errno":2}
+[2026-05-19 10:10:41][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":61,"errno":2}
+[2026-05-19 10:14:49][WARNING] Undefined variable $clients {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":513,"errno":2}
+[2026-05-19 10:14:49][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":513,"errno":2}
+[2026-05-19 10:16:58][WARNING] Undefined variable $clients {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":553,"errno":2}
+[2026-05-19 10:16:58][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":553,"errno":2}
+[2026-05-19 10:17:11][WARNING] Undefined variable $clients {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":553,"errno":2}
+[2026-05-19 10:17:11][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":553,"errno":2}
+[2026-05-19 10:17:40][WARNING] Undefined variable $clients {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":555,"errno":2}
+[2026-05-19 10:17:40][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":555,"errno":2}
+[2026-05-19 10:20:48][WARNING] Undefined variable $clients {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":555,"errno":2}
+[2026-05-19 10:20:48][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\dashboard\\staff.php","line":555,"errno":2}
+[2026-05-19 10:24:31][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'deleted_at' in 'where clause' 
+[2026-05-19 10:24:32][ERROR] Erreur lors du chargement des statistiques du dashboard : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'deleted_at' in 'where clause' 
+[2026-05-19 10:26:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 4472f1eb4c32b96a6d89... 
+[2026-05-19 10:28:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 4472f1eb4c32b96a6d89... 
+[2026-05-19 10:30:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 4472f1eb4c32b96a6d89... 
+[2026-05-19 10:31:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 4472f1eb4c32b96a6d89... 
+[2026-05-19 10:32:10][DEBUG] CSRF: Token trouvé dans la requête - Token: 4472f1eb4c32b96a6d89... 
+[2026-05-19 10:34:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 4472f1eb4c32b96a6d89... 
+[2026-05-19 10:34:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 4472f1eb4c32b96a6d89... 

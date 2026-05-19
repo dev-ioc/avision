@@ -1,4 +1,8 @@
 <?php
+
+include_once __DIR__ . '/../../includes/header.php';
+require_once __DIR__ . '/../../includes/functions.php';
+
 /**
  * Vue du tableau de bord
  * Affiche les statistiques et les informations importantes
@@ -19,16 +23,64 @@ $userType = $_SESSION['user']['user_type'] ?? null;
 $ticketsValue = $financialData['ticketsValue'] ?? 0;
 $contractsValue = $financialData['contractsValue'] ?? 0;
 $tarifTicket = $financialData['tarifTicket'] ?? 90.0;
+if (!isset($_SESSION['user']) || !canModifyInterventions()) {
+    $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour créer une intervention.";
+    header('Location: ' . BASE_URL . 'dashboard');
+    exit;
+}
 
+$pageTitle = "Nouvelle intervention";
+
+if (!canModifyInterventions()) {
+    $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour créer une intervention.";
+    header('Location: ' . BASE_URL . 'interventions');
+    exit;
+}
+
+setPageVariables('Nouvelle Intervention', 'interventions');
+$currentPage = 'interventions';
+
+$selectedClientId = $_GET['client_id'] ?? null;
+$selectedClient = null;
+if ($selectedClientId) {
+    if (isset($clients) && is_array($clients)) {
+        foreach ($clients as $c) {
+            if (isset($c['id']) && $c['id'] == $selectedClientId) {
+                $selectedClient = $c;
+                break;
+            }
+        }
+    }
+    if (!$selectedClient) {
+        require_once __DIR__ . '/../../models/ClientModel.php';
+        global $db;
+        $clientModel = new ClientModel($db);
+        $selectedClient = $clientModel->getClientById($selectedClientId);
+    }
+}
+
+$GLOBALS['customBreadcrumbs'] = generateInterventionAddBreadcrumbs($selectedClient);
 // Inclure le header qui contient le menu latéral
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
 
+
+
 ?>
 
 <div class="container-fluid flex-grow-1 container-p-y">
-    <h4 class="py-4 mb-6">Tableau de bord</h4>
+    <div class="d-flex justify-content-between align-items-center">
+        <h4 class="py-4 mb-6">Tableau de bord</h4>
+        <?php if (canModifyInterventions()): ?>
+            <div class="py-4 mb-6">
+                <button type="button" id="flashInterventionBtn" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#flashInterventionModal">
+                    <i class="bi bi-lightning-charge me-1"></i> Flash Intervention
+                </button>
+            </div>
+        <?php endif; ?>
+    </div>
 
     <!-- Card des montants financiers - COLLAPSIBLE ET FERMÉ PAR DÉFAUT -->
     <div class="row mb-4">
@@ -115,7 +167,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
 
         <!-- Prochaines interventions planifiées -->
-        <!-- Prochaines interventions -->
         <div class="col-md-6">
             <div class="card h-100">
                 <div class="card-header text-dark">
@@ -444,10 +495,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 data-sort-value="<?php echo h(strtolower($room['room_name'])); ?>">
                                                 <?php echo h($room['room_name']); ?>
                                             </td>
-                                            <<td data-label="Contact principal"
+                                            <td data-label="Contact principal"
                                                 data-sort-value="<?php echo h(strtolower($room['contact_name'] ?? 'aucun contact')); ?>">
                                                 <?php
-                                                // Vérifier si contact_name existe, sinon afficher "Aucun contact"
                                                 $contactName = $room['contact_name'] ?? null;
                                                 if (!empty($contactName)) {
                                                     echo h($contactName);
@@ -455,17 +505,17 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                     echo '<span class="text-muted">Aucun contact</span>';
                                                 }
                                                 ?>
-                                                </td>
-                                                <td data-label="Commentaire"
-                                                    data-sort-value="<?php echo h(strtolower($room['comment'] ?: 'aucun commentaire')); ?>">
-                                                    <?php
-                                                    if ($room['comment']) {
-                                                        echo h($room['comment']);
-                                                    } else {
-                                                        echo '<span class="text-muted">Aucun commentaire</span>';
-                                                    }
-                                                    ?>
-                                                </td>
+                                            </td>
+                                            <td data-label="Commentaire"
+                                                data-sort-value="<?php echo h(strtolower($room['comment'] ?: 'aucun commentaire')); ?>">
+                                                <?php
+                                                if ($room['comment']) {
+                                                    echo h($room['comment']);
+                                                } else {
+                                                    echo '<span class="text-muted">Aucun commentaire</span>';
+                                                }
+                                                ?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
@@ -482,9 +532,59 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
         </div>
     </div>
-</div>
 
-</div>
+    <!-- Modale Flash Intervention -->
+    <div class="modal fade" id="flashInterventionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white mb-3">
+                    <h5 class="modal-title mb-3"><i class="bi bi-lightning-charge me-2"></i>Flash Intervention</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Création rapide d'une intervention de type <strong>Assistance téléphonique</strong> (30 min)
+                    </div>
+                    <form id="flashInterventionForm">
+                        <?= csrf_field() ?>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Client *</label>
+                            <select class="form-select" id="flash_client_id" name="client_id" required>
+                                <option value="">Sélectionner un client</option>
+                                <?php foreach ($clients as $client): ?>
+                                    <option value="<?= $client['id'] ?>">
+                                        <?= htmlspecialchars($client['name'] ?? '') ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div class="invalid-feedback">Veuillez sélectionner un client</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Sujet (optionnel)</label>
+                            <input type="text" class="form-control" id="flash_title" name="title"
+                                placeholder="Ex: Problème de connexion">
+                            <small class="text-muted">Laissez vide pour un titre automatique</small>
+                        </div>
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            <strong>Note :</strong> L'intervention sera créée comme <strong>incomplète</strong>.<br>
+                            Vous devrez compléter le lieu, le sujet et la description après création.
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-success" id="confirmFlashBtn">
+                        <span class="spinner-border spinner-border-sm d-none" id="flashSpinner"></span>
+                        <i class="bi bi-lightning-charge me-1"></i> Créer l'intervention flash
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> <!-- ← CE DIV FERME LE CONTAINER ICI, À LA FIN DE TOUT LE CONTENU -->
 
 <!-- Script pour les graphiques camembert et la fonction toggle -->
 <script>
@@ -730,8 +830,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             // Gestionnaire d'événements pour les en-têtes triables
             table.querySelectorAll('th.sortable').forEach((header, index) => {
                 header.addEventListener('click', function () {
-                    const sortType = this.getAttribute('data-sort');
-
                     // Réinitialiser tous les en-têtes de cette table
                     table.querySelectorAll('th.sortable').forEach(th => {
                         th.classList.remove('sort-asc', 'sort-desc');
@@ -760,6 +858,126 @@ include_once __DIR__ . '/../../includes/navbar.php';
         initSortableTable('newInterventionsTable');
         initSortableTable('roomsWithoutContractTable');
     });
+
+    // Script pour la Flash Intervention
+    document.addEventListener('DOMContentLoaded', function () {
+        const flashBtn = document.getElementById('confirmFlashBtn');
+        const flashClient = document.getElementById('flash_client_id');
+        const flashSpinner = document.getElementById('flashSpinner');
+
+        if (flashBtn) {
+            flashBtn.addEventListener('click', function () {
+                const clientId = flashClient.value;
+                if (!clientId) {
+                    flashClient.classList.add('is-invalid');
+                    flashClient.focus();
+                    return;
+                }
+                flashClient.classList.remove('is-invalid');
+                flashSpinner.classList.remove('d-none');
+                flashBtn.disabled = true;
+
+                const formData = new URLSearchParams();
+                formData.append('client_id', clientId);
+                formData.append('title', document.getElementById('flash_title').value);
+                formData.append('csrf_token', '<?= csrf_token() ?>');
+
+                fetch('<?= BASE_URL ?>interventions/flash', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-Token': '<?= csrf_token() ?>'
+                    },
+                    body: formData
+                })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Créer un overlay semi-transparent
+                            const overlay = document.createElement('div');
+                            overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    `;
+
+                            // Créer la carte de succès
+                            const successCard = document.createElement('div');
+                            successCard.style.cssText = `
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        text-align: center;
+        min-width: 400px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        animation: slideIn 0.3s ease-out;
+    `;
+
+                            successCard.innerHTML = `
+        <style>
+            @keyframes slideIn {
+                from {
+                    transform: translateY(-50px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes progress {
+                0% { width: 0%; }
+                100% { width: 100%; }
+            }
+        </style>
+        <div style="background: #d4edda; border-radius: 12px; padding: 5px; margin-bottom: 20px;">
+            <i class="bi bi-check-circle-fill" style="font-size: 64px; color: #28a745; display: block;"></i>
+        </div>
+        <h3 style="color: #155724; margin-bottom: 10px;">Succès !</h3>
+        <p style="font-size: 16px; color: #155724; margin-bottom: 20px;">
+            L'intervention rapide a été créée avec succès.
+        </p>
+        <div style="height: 4px; background: #e9ecef; border-radius: 2px; overflow: hidden; margin: 20px 0;">
+            <div style="width: 100%; height: 100%; background: #28a745; animation: progress 2s linear;"></div>
+        </div>
+        <p style="font-size: 14px; color: #6c757d; margin: 0;">
+            Redirection en cours...
+        </p>
+    `;
+
+                            overlay.appendChild(successCard);
+                            document.body.appendChild(overlay);
+
+                            // Désactiver le bouton
+                            flashBtn.disabled = true;
+
+                            // Fermer la modale
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('flashInterventionModal'));
+                            if (modal) modal.hide();
+
+                            // Redirection après 2 secondes
+                            setTimeout(function () {
+                                window.location.href = '<?= BASE_URL ?>dashboard';
+                            }, 2000);
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Erreur:', err);
+                        alert('Une erreur est survenue lors de la création flash');
+                        flashSpinner.classList.add('d-none');
+                        flashBtn.disabled = false;
+                    });
+            });
+        }
+    });
 </script>
 
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
@@ -783,13 +1001,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     .sortable.sort-asc .sort-icon::before {
         content: "\F12C";
-        /* bi-arrow-up */
         opacity: 1;
     }
 
     .sortable.sort-desc .sort-icon::before {
         content: "\F12F";
-        /* bi-arrow-down */
         opacity: 1;
     }
 
