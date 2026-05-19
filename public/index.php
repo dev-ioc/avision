@@ -1649,6 +1649,16 @@ try {
                 case 'get_rooms':
                     $materielClientController->get_rooms();
                     break;
+                case 'get_buildings':  // AJOUTER CETTE LIGNE
+                    $materielClientController->get_buildings();
+                    break;
+                case 'get_building_by_id':  // AJOUTER CETTE LIGNE
+                case 'getBuildingByIdWithAccess':
+                    $materielClientController->getBuildingByIdWithAccess();
+                    break;
+                case 'get_rooms_by_building':
+                    $materielClientController->get_rooms_by_building();
+                    break;
                 case 'download':
                     if ($id) {
                         $materielClientController->download($id);

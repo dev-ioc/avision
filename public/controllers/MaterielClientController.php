@@ -383,4 +383,75 @@ class MaterielClientController
             exit;
         }
     }
+    /**
+     * Récupère un bâtiment par son ID avec vérification d'accès (API)
+     */
+    public function getBuildingByIdWithAccess()
+    {
+        // Définir le header JSON
+        header('Content-Type: application/json');
+
+        try {
+            // Vérifier si l'utilisateur est connecté
+            if (!isset($_SESSION['user'])) {
+                http_response_code(401);
+                echo json_encode(['success' => false, 'error' => 'Non authentifié']);
+                return;
+            }
+
+            // Récupérer l'ID du bâtiment depuis l'URL ou les paramètres
+            $buildingId = null;
+
+            // Vérifier dans l'URL (ex: /materiel_client/getBuildingByIdWithAccess/123)
+            global $parts;
+            if (isset($parts[3]) && is_numeric($parts[3])) {
+                $buildingId = (int) $parts[3];
+            }
+            // Vérifier dans les paramètres GET
+            elseif (isset($_GET['id']) && is_numeric($_GET['id'])) {
+                $buildingId = (int) $_GET['id'];
+            }
+            // Vérifier dans les paramètres POST
+            elseif (isset($_POST['building_id']) && is_numeric($_POST['building_id'])) {
+                $buildingId = (int) $_POST['building_id'];
+            }
+
+            if (!$buildingId) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'error' => 'ID du bâtiment manquant']);
+                return;
+            }
+
+            // Récupérer les localisations autorisées
+            $userLocations = getUserLocations();
+
+            if (empty($userLocations)) {
+                http_response_code(403);
+                echo json_encode(['success' => false, 'error' => 'Aucune localisation autorisée']);
+                return;
+            }
+
+            // Instancier le modèle
+            $config = Config::getInstance();
+            $db = $config->getDb();
+            $materielClientModel = new MaterielClientModel($db);
+
+            // Récupérer le bâtiment avec vérification d'accès
+            $building = $materielClientModel->getBuildingByIdWithAccess($buildingId, $userLocations);
+
+            if (!$building) {
+                http_response_code(404);
+                echo json_encode(['success' => false, 'error' => 'Bâtiment non trouvé ou accès non autorisé']);
+                return;
+            }
+
+            echo json_encode(['success' => true, 'building' => $building]);
+
+        } catch (Exception $e) {
+            custom_log("Erreur dans getBuildingByIdWithAccess: " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur serveur: ' . $e->getMessage()]);
+        }
+    }
+
 }

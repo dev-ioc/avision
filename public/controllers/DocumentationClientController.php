@@ -239,23 +239,25 @@ class DocumentationClientController
                     $condition .= " AND b.id = {$buildingId}";
                 }
                 $roomConditions[] = $condition;
+            } else {
+                // Accès au client entier
+                $roomConditions[] = "(s.client_id = {$clientId})";
             }
         }
 
         $locationWhere = empty($roomConditions) ? "1=0" : "(" . implode(" OR ", $roomConditions) . ")";
 
         $sql = "SELECT r.*, b.name as building_name
-                FROM rooms r
-                JOIN buildings b ON r.building_id = b.id
-                JOIN sites s ON b.site_id = s.id
-                WHERE r.building_id = ? AND {$locationWhere} AND r.status = 1
-                ORDER BY r.name";
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND {$locationWhere} AND r.status = 1
+            ORDER BY r.name";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$buildingId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
     /**
      * Récupère les salles d'un site (ancienne méthode - dépréciée)
      * @deprecated Utiliser getRoomsByBuildingAndLocations à la place
@@ -961,116 +963,6 @@ class DocumentationClientController
     }
 
     /**
-     * Supprime un document
-     */
-    public function delete($id)
-    {
-        $this->checkAccess();
-
-        // Vérifier que l'utilisateur a la permission d'ajouter de la documentation
-        if (!hasPermission('client_add_documentation')) {
-            $_SESSION['error'] = "Vous n'avez pas les permissions pour supprimer la documentation.";
-            header('Location: ' . BASE_URL . 'documentation_client');
-            exit;
-        }
-
-        try {
-            // Récupérer le document depuis pieces_jointes
-            $query = "SELECT pj.*, 
-                            COALESCE(c.id, c2.id, c3.id) as client_id,
-                            COALESCE(s.id, s2.id) as site_id,
-                            r.id as salle_id
-                     FROM pieces_jointes pj
-                     INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-                     LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
-                     LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
-                     LEFT JOIN clients c2 ON s.client_id = c2.id
-                     LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
-                     LEFT JOIN sites s2 ON r.site_id = s2.id
-                     LEFT JOIN clients c3 ON s2.client_id = c3.id
-                     WHERE pj.id = ? 
-                     AND lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
-                     AND pj.masque_client = 0";
-
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([$id]);
-            $document = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if (!$document) {
-                $_SESSION['error'] = "Document non trouvé ou non accessible.";
-                header('Location: ' . BASE_URL . 'documentation_client');
-                exit;
-            }
-
-            // Vérifier que l'utilisateur peut supprimer ce document (créé par lui)
-            if ($document['created_by'] != $_SESSION['user']['id']) {
-                $_SESSION['error'] = "Vous ne pouvez supprimer que vos propres documents.";
-                header('Location: ' . BASE_URL . 'documentation_client');
-                exit;
-            }
-
-            // Vérifier que l'utilisateur a accès à cette localisation
-            $userLocations = getUserLocations();
-            if (!$this->isLocationAuthorized($document['client_id'], $document['site_id'], $document['salle_id'], $userLocations)) {
-                $_SESSION['error'] = "Vous n'avez pas accès à ce document.";
-                header('Location: ' . BASE_URL . 'documentation_client');
-                exit;
-            }
-
-            // Supprimer le fichier physique s'il existe
-            if (!empty($document['chemin_fichier'])) {
-                $filePath = __DIR__ . '/../../' . $document['chemin_fichier'];
-                if (file_exists($filePath)) {
-                    if (!unlink($filePath)) {
-                        custom_log("Erreur lors de la suppression du fichier : " . $filePath, 'ERROR');
-                        $_SESSION['error'] = "Erreur lors de la suppression du fichier physique.";
-                        header('Location: ' . BASE_URL . 'documentation_client');
-                        exit;
-                    }
-                }
-            }
-
-            // Supprimer les liaisons
-            $deleteLiaisonQuery = "DELETE FROM liaisons_pieces_jointes WHERE piece_jointe_id = ?";
-            $deleteLiaisonStmt = $this->db->prepare($deleteLiaisonQuery);
-            $deleteLiaisonStmt->execute([$id]);
-
-            // Supprimer l'entrée dans pieces_jointes
-            $deleteQuery = "DELETE FROM pieces_jointes WHERE id = ?";
-            $deleteStmt = $this->db->prepare($deleteQuery);
-
-            if ($deleteStmt->execute([$id])) {
-                $_SESSION['success'] = "Document supprimé avec succès.";
-            } else {
-                $_SESSION['error'] = "Erreur lors de la suppression du document dans la base de données.";
-            }
-
-        } catch (Exception $e) {
-            custom_log("Erreur lors de la suppression du document : " . $e->getMessage(), 'ERROR');
-            $_SESSION['error'] = "Erreur lors de la suppression du document.";
-        }
-
-        // Rediriger avec les filtres de session si disponibles
-        $redirectUrl = BASE_URL . 'documentation_client';
-        if (isset($_SESSION['documentation_filters'])) {
-            $filters = $_SESSION['documentation_filters'];
-            $params = [];
-            if (!empty($filters['site_id'])) {
-                $params['site_id'] = $filters['site_id'];
-            }
-            if (!empty($filters['salle_id'])) {
-                $params['salle_id'] = $filters['salle_id'];
-            }
-            if (!empty($params)) {
-                $redirectUrl .= '?' . http_build_query($params);
-            }
-        }
-
-        header('Location: ' . $redirectUrl);
-        exit;
-    }
-
-    /**
      * Met à jour le nom personnalisé d'un document
      */
     public function updateName()
@@ -1224,9 +1116,6 @@ class DocumentationClientController
     }
 
     /**
-     * Télécharge une pièce jointe de documentation
-     */
-    /**
      * Télécharge une pièce jointe de documentation (client)
      * Utilise AttachmentService pour centraliser la logique
      */
@@ -1245,23 +1134,25 @@ class DocumentationClientController
         try {
             // Récupérer les informations de la pièce jointe avec les informations de localisation
             $query = "
-                SELECT 
-                    pj.*,
-                    COALESCE(c.id, c2.id, c3.id) as client_id,
-                    COALESCE(s.id, s2.id) as site_id,
-                    r.id as salle_id
-                FROM pieces_jointes pj
-                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
-                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
-                LEFT JOIN clients c2 ON s.client_id = c2.id
-                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
-                LEFT JOIN sites s2 ON r.site_id = s2.id
-                LEFT JOIN clients c3 ON s2.client_id = c3.id
-                WHERE pj.id = ? 
-                AND lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
-                AND pj.masque_client = 0
-            ";
+            SELECT 
+                pj.*,
+                COALESCE(c.id, c2.id, c3.id) as client_id,
+                COALESCE(s.id, s2.id) as site_id,
+                r.id as salle_id,
+                b.id as building_id
+            FROM pieces_jointes pj
+            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+            LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+            LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+            LEFT JOIN clients c2 ON s.client_id = c2.id
+            LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+            LEFT JOIN buildings b ON r.building_id = b.id
+            LEFT JOIN sites s2 ON b.site_id = s2.id
+            LEFT JOIN clients c3 ON s2.client_id = c3.id
+            WHERE pj.id = ? 
+            AND lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
+            AND pj.masque_client = 0
+        ";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$attachmentId]);
             $pieceJointe = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -1306,23 +1197,25 @@ class DocumentationClientController
         try {
             // Récupérer les informations de la pièce jointe avec les informations de localisation
             $query = "
-                SELECT 
-                    pj.*,
-                    COALESCE(c.id, c2.id, c3.id) as client_id,
-                    COALESCE(s.id, s2.id) as site_id,
-                    r.id as salle_id
-                FROM pieces_jointes pj
-                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
-                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
-                LEFT JOIN clients c2 ON s.client_id = c2.id
-                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
-                LEFT JOIN sites s2 ON r.site_id = s2.id
-                LEFT JOIN clients c3 ON s2.client_id = c3.id
-                WHERE pj.id = ? 
-                AND lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
-                AND pj.masque_client = 0
-            ";
+            SELECT 
+                pj.*,
+                COALESCE(c.id, c2.id, c3.id) as client_id,
+                COALESCE(s.id, s2.id) as site_id,
+                r.id as salle_id,
+                b.id as building_id
+            FROM pieces_jointes pj
+            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+            LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+            LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+            LEFT JOIN clients c2 ON s.client_id = c2.id
+            LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+            LEFT JOIN buildings b ON r.building_id = b.id
+            LEFT JOIN sites s2 ON b.site_id = s2.id
+            LEFT JOIN clients c3 ON s2.client_id = c3.id
+            WHERE pj.id = ? 
+            AND lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
+            AND pj.masque_client = 0
+        ";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$attachmentId]);
             $pieceJointe = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -1347,5 +1240,105 @@ class DocumentationClientController
             echo "Erreur : " . $e->getMessage();
             exit;
         }
+    }
+
+    /**
+     * Supprime un document
+     */
+    public function delete($id)
+    {
+        $this->checkAccess();
+
+        // Vérifier que l'utilisateur a la permission d'ajouter de la documentation
+        if (!hasPermission('client_add_documentation')) {
+            $_SESSION['error'] = "Vous n'avez pas les permissions pour supprimer la documentation.";
+            header('Location: ' . BASE_URL . 'documentation_client');
+            exit;
+        }
+
+        try {
+            // Récupérer le document depuis pieces_jointes avec les bonnes jointures
+            $query = "
+            SELECT 
+                pj.*,
+                COALESCE(c.id, c2.id, c3.id) as client_id,
+                COALESCE(s.id, s2.id) as site_id,
+                r.id as salle_id,
+                b.id as building_id,
+                pj.chemin_fichier
+            FROM pieces_jointes pj
+            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+            LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+            LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+            LEFT JOIN clients c2 ON s.client_id = c2.id
+            LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+            LEFT JOIN buildings b ON r.building_id = b.id
+            LEFT JOIN sites s2 ON b.site_id = s2.id
+            LEFT JOIN clients c3 ON s2.client_id = c3.id
+            WHERE pj.id = ? 
+            AND lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
+            AND pj.masque_client = 0
+        ";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$id]);
+            $document = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$document) {
+                $_SESSION['error'] = "Document non trouvé ou non accessible.";
+                header('Location: ' . BASE_URL . 'documentation_client');
+                exit;
+            }
+
+            // Vérifier que l'utilisateur peut supprimer ce document (créé par lui)
+            if ($document['created_by'] != $_SESSION['user']['id']) {
+                $_SESSION['error'] = "Vous ne pouvez supprimer que vos propres documents.";
+                header('Location: ' . BASE_URL . 'documentation_client');
+                exit;
+            }
+
+            // Vérifier que l'utilisateur a accès à cette localisation
+            $userLocations = getUserLocations();
+            if (!$this->isLocationAuthorized($document['client_id'], $document['site_id'], $document['salle_id'], $userLocations)) {
+                $_SESSION['error'] = "Vous n'avez pas accès à ce document.";
+                header('Location: ' . BASE_URL . 'documentation_client');
+                exit;
+            }
+
+            // Supprimer le fichier physique s'il existe
+            if (!empty($document['chemin_fichier'])) {
+                $filePath = __DIR__ . '/../../' . $document['chemin_fichier'];
+                if (file_exists($filePath)) {
+                    if (!unlink($filePath)) {
+                        custom_log("Erreur lors de la suppression du fichier : " . $filePath, 'ERROR');
+                        $_SESSION['error'] = "Erreur lors de la suppression du fichier physique.";
+                        header('Location: ' . BASE_URL . 'documentation_client');
+                        exit;
+                    }
+                }
+            }
+
+            // Supprimer les liaisons
+            $deleteLiaisonQuery = "DELETE FROM liaisons_pieces_jointes WHERE piece_jointe_id = ?";
+            $deleteLiaisonStmt = $this->db->prepare($deleteLiaisonQuery);
+            $deleteLiaisonStmt->execute([$id]);
+
+            // Supprimer l'entrée dans pieces_jointes
+            $deleteQuery = "DELETE FROM pieces_jointes WHERE id = ?";
+            $deleteStmt = $this->db->prepare($deleteQuery);
+
+            if ($deleteStmt->execute([$id])) {
+                $_SESSION['success'] = "Document supprimé avec succès.";
+            } else {
+                $_SESSION['error'] = "Erreur lors de la suppression du document dans la base de données.";
+            }
+
+        } catch (Exception $e) {
+            custom_log("Erreur lors de la suppression du document : " . $e->getMessage(), 'ERROR');
+            $_SESSION['error'] = "Erreur lors de la suppression du document.";
+        }
+
+        header('Location: ' . BASE_URL . 'documentation_client');
+        exit;
     }
 }
