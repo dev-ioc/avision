@@ -792,9 +792,6 @@ class InterventionsClientController
             'contact_client' => trim($_POST['contact_client'] ?? ''),
             'duration' => 0,
             'type_id' => 1,
-            'technician_id' => null,
-            'date_planif' => null,
-            'heure_planif' => null
         ];
 
         // Validation des champs obligatoires
