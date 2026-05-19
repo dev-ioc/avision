@@ -254,7 +254,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 $techs = explode(', ', $intervention['technicians_names']);
                                                 foreach ($techs as $tech): ?>
                                                     <div class="mb-1">
-                                                        <i class="bi bi-person-badge me-1 text-muted"></i>
+                                                        <span>-</span>
                                                         <?= h($tech) ?>
                                                     </div>
                                                 <?php endforeach; ?>
