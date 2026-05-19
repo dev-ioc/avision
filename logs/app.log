@@ -38035,3 +38035,13 @@ Quant à l’écran n°1, il est HS
 [2026-05-18 16:05:04][INFO] Solde contrat APRÈS recrédit: 20 
 [2026-05-18 16:05:04][INFO] Recrédit de 8 tickets effectué pour le contrat 221 
 [2026-05-18 16:05:04][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-05-18 16:38:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 7aa3bc5190960903cc01... 
+[2026-05-19 09:42:18][DEBUG] Redirection vers login - URL sauvegardée: interventions/view/330 (Session ID: j117j9pg5euttlk73q2nsufbli) 
+[2026-05-19 09:42:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 4472f1eb4c32b96a6d89... 
+[2026-05-19 09:42:22][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-19 09:42:22][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-19 09:42:22][DEBUG] Login réussi - Session ID: j117j9pg5euttlk73q2nsufbli 
+[2026-05-19 09:42:22][DEBUG] Login réussi - redirect_after_login: interventions/view/330 
+[2026-05-19 09:42:22][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-19 09:42:22][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-05-19 09:42:22][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/view/330 

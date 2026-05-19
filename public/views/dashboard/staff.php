@@ -30,14 +30,18 @@ include_once __DIR__ . '/../../includes/navbar.php';
 <div class="container-fluid flex-grow-1 container-p-y">
     <h4 class="py-4 mb-6">Tableau de bord</h4>
 
-    <!-- Card des montants financiers -->
+    <!-- Card des montants financiers - COLLAPSIBLE ET FERMÉ PAR DÉFAUT -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card">
-                <div class="card-header text-dark">
-                    <i class="bi bi-currency-euro me-1"></i> Aperçu financier des contrats actifs
+                <div class="card-header text-dark d-flex justify-content-between align-items-center"
+                    style="cursor: pointer;" onclick="toggleFinancialCard()">
+                    <div>
+                        <i class="bi bi-currency-euro me-1"></i> Aperçu financier des contrats actifs
+                    </div>
+                    <i class="bi bi-chevron-down" id="financialCardIcon"></i>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="financialCardBody" style="display: none;">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="d-flex align-items-center">
@@ -160,7 +164,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <tr>
                                         <td colspan="4" class="text-center text-muted">
                                             Aucune intervention récente
-                                    </tr>
+                                        </td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
@@ -482,8 +486,24 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 </div>
 
-<!-- Script pour les graphiques camembert -->
+<!-- Script pour les graphiques camembert et la fonction toggle -->
 <script>
+    // Fonction pour basculer l'affichage de la carte financière
+    function toggleFinancialCard() {
+        const body = document.getElementById('financialCardBody');
+        const icon = document.getElementById('financialCardIcon');
+
+        if (body.style.display === 'none' || body.style.display === '') {
+            body.style.display = 'block';
+            icon.classList.remove('bi-chevron-down');
+            icon.classList.add('bi-chevron-up');
+        } else {
+            body.style.display = 'none';
+            icon.classList.remove('bi-chevron-up');
+            icon.classList.add('bi-chevron-down');
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         // Couleurs par défaut si les couleurs de la base de données ne sont pas définies
         const defaultColors = [
@@ -776,5 +796,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
     .sortable.sort-asc,
     .sortable.sort-desc {
         background-color: rgba(0, 123, 255, 0.1);
+    }
+
+    .card-header {
+        transition: background-color 0.2s ease;
+    }
+
+    .card-header:hover {
+        background-color: rgba(0, 0, 0, 0.02);
     }
 </style>
