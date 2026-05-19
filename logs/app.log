@@ -42535,3 +42535,646 @@ Quant à l’écran n°1, il est HS
 [2026-05-19 15:41:26][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-05-19 15:41:26][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
 [2026-05-19 15:41:26][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-19 15:54:37][DEBUG] CSRF: Token trouvé dans la requête - Token: df520b8bf9b2a4b4a84a... 
+[2026-05-19 15:54:37][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-19 15:54:37][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-19 15:54:37][DEBUG] Login réussi - Session ID: 4focfjmhtjjq1grg8o88ljn3q6 
+[2026-05-19 15:54:37][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-19 15:54:37][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-19 15:54:37][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-19 15:54:37][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-19 15:54:54][DEBUG] CSRF: Token trouvé dans la requête - Token: df520b8bf9b2a4b4a84a... 
+[2026-05-19 15:54:55][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-19 15:54:55][INFO] Tickets à déduire: 20 
+[2026-05-19 15:54:55][INFO] Contrat ID: 221 
+[2026-05-19 15:54:55][INFO] Solde contrat AVANT déduction: 20 
+[2026-05-19 15:54:55][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-19 15:54:55][INFO] Tickets à déduire: 20 
+[2026-05-19 15:54:55][INFO] Solde AVANT déduction: 20 
+[2026-05-19 15:54:55][INFO] Solde APRÈS déduction: 0 
+[2026-05-19 15:54:55][INFO] Déduction de 20 tickets réussie 
+[2026-05-19 15:54:55][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 0 
+[2026-05-19 15:55:08][DEBUG] CSRF: Token trouvé dans la requête - Token: cc59cc138e0a847bc79e... 
+[2026-05-19 15:55:08][DEBUG] Permissions chargées pour KARIJA : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-05-19 15:55:08][INFO] Utilisateur connecté : KARIJA {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":46}
+[2026-05-19 15:55:08][DEBUG] Login réussi - Session ID: s6qjg025hnk68kqdd2i98b1so4 
+[2026-05-19 15:55:08][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-19 15:55:08][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-19 15:55:08][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-19 15:55:08][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-19 15:59:21][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:21][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:21][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 15:59:21][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 15:59:21][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 15:59:21][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:21][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 15:59:21][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 15:59:23][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:23][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 15:59:23][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:23][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:23][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 15:59:23][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 15:59:23][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 15:59:23][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:23][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 15:59:25][DEBUG] getRoomsByBuildingAndLocations - buildingId: 13, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:25][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 15:59:25][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:25][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:25][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 15:59:25][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 15:59:25][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 15:59:25][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:25][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 15:59:25][DEBUG] getRoomsByBuildingAndLocations - buildingId: 13, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:25][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 15:59:27][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:27][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:27][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 15:59:27][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 15:59:27][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 15:59:27][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:27][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 15:59:27][DEBUG] getRoomsByBuildingAndLocations - buildingId: 13, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 15:59:27][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:16][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:16][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:16][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:03:16][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:03:16][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:03:16][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:16][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 16:03:16][DEBUG] getRoomsByBuildingAndLocations - buildingId: 13, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:16][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:16][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:03:16][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) AND s.id = ? AND b.id = ? AND m.salle_id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:03:16][DEBUG] getAllByLocations - Params: [81,13,370] 
+[2026-05-19 16:03:16][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:03:18][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:03:25][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:25][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:25][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:03:25][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:03:25][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:03:25][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:25][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:03:25][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:03:25][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:03:25][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:03:25][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:03:25][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:03:32][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:32][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 16:03:33][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:33][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:33][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:03:33][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:03:33][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:03:33][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:33][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 16:03:33][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:03:33][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:03:33][DEBUG] getAllByLocations - Params: [81] 
+[2026-05-19 16:03:33][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:03:34][DEBUG] getRoomsByBuildingAndLocations - buildingId: 6, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:34][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:34][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:34][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:34][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:03:34][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:03:34][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:03:34][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:34][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 16:03:34][DEBUG] getRoomsByBuildingAndLocations - buildingId: 6, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:34][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:34][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:03:34][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:03:34][DEBUG] getAllByLocations - Params: [81,6] 
+[2026-05-19 16:03:34][DEBUG] getAllByLocations - Results count: 0 
+[2026-05-19 16:03:38][DEBUG] getRoomsByBuildingAndLocations - buildingId: 5, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:38][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:38][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:38][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:38][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:03:38][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:03:38][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:03:38][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:38][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 16:03:38][DEBUG] getRoomsByBuildingAndLocations - buildingId: 5, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:38][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:38][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:03:38][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:03:38][DEBUG] getAllByLocations - Params: [81,5] 
+[2026-05-19 16:03:38][DEBUG] getAllByLocations - Results count: 0 
+[2026-05-19 16:03:40][DEBUG] getRoomsByBuildingAndLocations - buildingId: 14, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:40][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:40][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:40][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:40][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:03:40][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:03:40][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:03:40][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:40][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 16:03:40][DEBUG] getRoomsByBuildingAndLocations - buildingId: 14, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:40][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:40][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:03:40][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:03:40][DEBUG] getAllByLocations - Params: [81,14] 
+[2026-05-19 16:03:40][DEBUG] getAllByLocations - Results count: 0 
+[2026-05-19 16:03:41][DEBUG] getRoomsByBuildingAndLocations - buildingId: 4, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:41][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:41][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:41][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:41][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:03:41][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:03:41][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:03:41][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:41][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 16:03:41][DEBUG] getRoomsByBuildingAndLocations - buildingId: 4, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:41][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:41][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:03:41][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:03:41][DEBUG] getAllByLocations - Params: [81,4] 
+[2026-05-19 16:03:41][DEBUG] getAllByLocations - Results count: 0 
+[2026-05-19 16:03:43][DEBUG] getRoomsByBuildingAndLocations - buildingId: 3, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:43][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:43][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:43][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:43][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:03:43][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:03:43][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:03:43][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:43][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 16:03:43][DEBUG] getRoomsByBuildingAndLocations - buildingId: 3, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:43][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:43][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:03:43][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:03:43][DEBUG] getAllByLocations - Params: [81,3] 
+[2026-05-19 16:03:43][DEBUG] getAllByLocations - Results count: 0 
+[2026-05-19 16:03:44][DEBUG] getRoomsByBuildingAndLocations - buildingId: 6, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:44][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:45][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:45][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:45][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:03:45][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:03:45][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:03:45][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:45][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 16:03:45][DEBUG] getRoomsByBuildingAndLocations - buildingId: 6, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:45][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:45][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:03:45][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:03:45][DEBUG] getAllByLocations - Params: [81,6] 
+[2026-05-19 16:03:45][DEBUG] getAllByLocations - Results count: 0 
+[2026-05-19 16:03:46][DEBUG] getRoomsByBuildingAndLocations - buildingId: 10, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:46][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:46][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:46][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:46][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:03:46][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:03:46][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:03:46][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:46][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 16:03:46][DEBUG] getRoomsByBuildingAndLocations - buildingId: 10, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:46][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:46][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:03:46][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:03:46][DEBUG] getAllByLocations - Params: [81,10] 
+[2026-05-19 16:03:46][DEBUG] getAllByLocations - Results count: 0 
+[2026-05-19 16:03:49][DEBUG] getRoomsByBuildingAndLocations - buildingId: 8, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:49][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:49][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:49][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:49][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:03:49][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:03:49][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:03:49][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:49][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 16:03:49][DEBUG] getRoomsByBuildingAndLocations - buildingId: 8, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:49][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:49][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:03:49][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:03:49][DEBUG] getAllByLocations - Params: [81,8] 
+[2026-05-19 16:03:49][DEBUG] getAllByLocations - Results count: 0 
+[2026-05-19 16:03:51][DEBUG] getRoomsByBuildingAndLocations - buildingId: 13, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:51][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:51][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:51][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:51][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:03:51][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:03:51][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:03:51][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:51][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 16:03:51][DEBUG] getRoomsByBuildingAndLocations - buildingId: 13, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:51][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 46)) AND r.status = 1
+            ORDER BY r.name 
+[2026-05-19 16:03:51][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:03:51][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:03:51][DEBUG] getAllByLocations - Params: [81,13] 
+[2026-05-19 16:03:51][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:03:52][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:03:57][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:57][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:57][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:03:57][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:03:57][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:03:57][DEBUG] getBuildingsBySiteAndLocations - siteId: 81, userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:03:57][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 46)) AND b.status = 1
+            ORDER BY b.name 
+[2026-05-19 16:03:57][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:03:57][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:03:57][DEBUG] getAllByLocations - Params: [81] 
+[2026-05-19 16:03:57][DEBUG] getAllByLocations - Results count: 1 

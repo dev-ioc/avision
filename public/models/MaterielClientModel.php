@@ -13,36 +13,109 @@ class MaterielClientModel extends BaseModel
         $this->table = 'materiel';
     }
 
+    /**
+     * Récupère tous les matériels selon les localisations autorisées
+     * @param array $userLocations Les localisations autorisées de l'utilisateur
+     * @param array $filters Filtres supplémentaires
+     * @return array Liste des matériels
+     */
     public function getAllByLocations($userLocations, $filters = [])
     {
-        // SOLUTION TEMPORAIRE : Si pas de localisations, récupérer tout le client
-        if (empty($userLocations)) {
-            $clientId = $_SESSION['user']['client_id'] ?? null;
-            if ($clientId) {
-                $sql = "SELECT 
-                    m.*,
-                    r.name as salle_nom,
-                    b.name as building_nom,
-                    s.name as site_nom,
-                    c.name as client_nom,
-                    m.type_materiel as type_nom
-                    FROM " . $this->table . " m
-                    LEFT JOIN rooms r ON m.salle_id = r.id
-                    LEFT JOIN buildings b ON r.building_id = b.id
-                    LEFT JOIN sites s ON b.site_id = s.id
-                    LEFT JOIN clients c ON s.client_id = c.id
-                    WHERE c.id = ?";
+        // NETTOYER les userLocations pour enlever les valeurs 0 et null
+        $cleanUserLocations = [];
+        foreach ($userLocations as $location) {
+            $cleanLocation = [];
+            $cleanLocation['client_id'] = isset($location['client_id']) && $location['client_id'] > 0 ? (int) $location['client_id'] : null;
+            $cleanLocation['site_id'] = isset($location['site_id']) && $location['site_id'] > 0 ? (int) $location['site_id'] : null;
+            $cleanLocation['building_id'] = isset($location['building_id']) && $location['building_id'] > 0 ? (int) $location['building_id'] : null;
+            $cleanLocation['room_id'] = isset($location['room_id']) && $location['room_id'] > 0 ? (int) $location['room_id'] : null;
 
-                $params = [$clientId];
-                // ... reste des filtres ...
-                $stmt = $this->db->prepare($sql);
-                $stmt->execute($params);
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($cleanLocation['client_id'] !== null) {
+                $cleanUserLocations[] = $cleanLocation;
             }
-            return [];
         }
 
-        // Code normal...
+        // Si aucune localisation valide, essayer d'utiliser le client_id de la session
+        if (empty($cleanUserLocations)) {
+            $clientId = $_SESSION['user']['client_id'] ?? null;
+            if ($clientId) {
+                $cleanUserLocations = [['client_id' => (int) $clientId, 'site_id' => null, 'building_id' => null, 'room_id' => null]];
+            } else {
+                return [];
+            }
+        }
+
+        // Construire la clause WHERE
+        $conditions = [];
+        foreach ($cleanUserLocations as $location) {
+            $clientId = $location['client_id'];
+
+            if ($location['room_id'] !== null) {
+                $conditions[] = "(r.id = {$location['room_id']})";
+            } elseif ($location['building_id'] !== null) {
+                $conditions[] = "(b.id = {$location['building_id']})";
+            } elseif ($location['site_id'] !== null) {
+                $conditions[] = "(s.id = {$location['site_id']})";
+            } else {
+                $conditions[] = "(c.id = {$clientId})";
+            }
+        }
+
+        $locationWhere = empty($conditions) ? "1=0" : "(" . implode(" OR ", $conditions) . ")";
+
+        custom_log("getAllByLocations - Cleaned locationWhere: " . $locationWhere, 'DEBUG');
+
+        $sql = "SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM " . $this->table . " m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE {$locationWhere}";
+
+        $params = [];
+
+        // Appliquer les filtres supplémentaires
+        if (!empty($filters['client_id'])) {
+            $sql .= " AND c.id = ?";
+            $params[] = $filters['client_id'];
+        }
+        if (!empty($filters['site_id'])) {
+            $sql .= " AND s.id = ?";
+            $params[] = $filters['site_id'];
+        }
+        if (!empty($filters['building_id'])) {
+            $sql .= " AND b.id = ?";
+            $params[] = $filters['building_id'];
+        }
+        if (!empty($filters['salle_id'])) {
+            $sql .= " AND m.salle_id = ?";
+            $params[] = $filters['salle_id'];
+        }
+        if (!empty($filters['search'])) {
+            $sql .= " AND (m.marque LIKE ? OR m.modele LIKE ? OR m.numero_serie LIKE ? OR c.name LIKE ? OR s.name LIKE ? OR r.name LIKE ?)";
+            $searchTerm = '%' . $filters['search'] . '%';
+            $params = array_merge($params, [$searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm]);
+        }
+
+        $sql .= " ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele";
+
+        custom_log("getAllByLocations - Final SQL: " . $sql, 'DEBUG');
+        custom_log("getAllByLocations - Params: " . json_encode($params), 'DEBUG');
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        custom_log("getAllByLocations - Results count: " . count($results), 'DEBUG');
+
+        return $results;
     }
     /**
      * Récupère un matériel par son ID avec vérification d'accès
