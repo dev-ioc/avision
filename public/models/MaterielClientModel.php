@@ -249,29 +249,36 @@ class MaterielClientModel extends BaseModel
     public function getPiecesJointesWithAccess($materielId, $userLocations)
     {
         try {
-            $locationWhere = buildLocationWhereClause($userLocations, 'c.id', 's.id', 'r.id');
+            // Vérifier d'abord que l'utilisateur a accès au matériel
+            $materiel = $this->getByIdWithAccess($materielId, $userLocations);
+            if (!$materiel) {
+                custom_log("getPiecesJointesWithAccess - Accès refusé au matériel ID: " . $materielId, 'DEBUG');
+                return [];
+            }
 
-            $sql = "SELECT pj.*, st.setting_value as type_nom, CONCAT(u.first_name, ' ', u.last_name) as created_by_name
-                    FROM pieces_jointes pj
-                    LEFT JOIN settings st ON pj.type_id = st.id
-                    LEFT JOIN users u ON pj.created_by = u.id
-                    INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-                    INNER JOIN " . $this->table . " m ON lpj.entite_id = m.id
-                    INNER JOIN rooms r ON m.salle_id = r.id
-                    INNER JOIN buildings b ON r.building_id = b.id
-                    INNER JOIN sites s ON b.site_id = s.id
-                    INNER JOIN clients c ON s.client_id = c.id
-                    WHERE lpj.type_liaison = 'materiel' 
-                    AND lpj.entite_id = ? 
-                    AND {$locationWhere}
-                    AND pj.masque_client = 0
-                    ORDER BY pj.date_creation DESC";
+            // Requête avec JOIN classique
+            $sql = "SELECT 
+                    pj.*, 
+                    st.setting_value as type_nom, 
+                    CONCAT(u.first_name, ' ', u.last_name) as created_by_name
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN settings st ON pj.type_id = st.id
+                LEFT JOIN users u ON pj.created_by = u.id
+                WHERE lpj.type_liaison = 'materiel' 
+                AND lpj.entite_id = :materiel_id
+                AND (pj.masque_client = 0 OR pj.masque_client IS NULL)
+                ORDER BY pj.date_creation DESC";
 
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$materielId]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt->execute([':materiel_id' => $materielId]);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            custom_log("getPiecesJointesWithAccess - Pièces jointes trouvées: " . count($results) . " pour le matériel ID: " . $materielId, 'DEBUG');
+
+            return $results;
         } catch (Exception $e) {
-            custom_log("Table pieces_jointes non trouvée, retour d'un tableau vide: " . $e->getMessage(), 'DEBUG');
+            custom_log("Erreur dans getPiecesJointesWithAccess: " . $e->getMessage(), 'ERROR');
             return [];
         }
     }

@@ -43178,3 +43178,1118 @@ Quant à l’écran n°1, il est HS
         WHERE ((c.id = 46)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
 [2026-05-19 16:03:57][DEBUG] getAllByLocations - Params: [81] 
 [2026-05-19 16:03:57][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:05:10][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:05:10][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:05:10][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:05:10][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:05:10][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:05:10][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:05:10][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:05:10][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:05:10][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:05:10][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:05:10][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:05:10][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:05:14][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:05:20][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:05:20][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:05:20][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:05:20][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:05:20][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:05:20][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:05:20][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:05:20][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:05:20][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:05:20][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:05:20][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:05:20][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:06:08][DEBUG] CSRF: Token trouvé dans la requête - Token: d979b5f8da5832a70f4b... 
+[2026-05-19 16:06:08][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-19 16:06:08][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-19 16:06:08][DEBUG] Login réussi - Session ID: ps9c5448t1uuue310ephd2m4ss 
+[2026-05-19 16:06:08][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-19 16:06:08][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-19 16:06:08][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-19 16:06:08][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-19 16:06:10][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:06:10][DEBUG] Params: [] 
+[2026-05-19 16:06:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:06:13][DEBUG] Params: {":client_id":46} 
+[2026-05-19 16:06:16][INFO] 81 
+[2026-05-19 16:06:16][INFO] 81 
+[2026-05-19 16:06:16][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:06:16][DEBUG] Params: {":client_id":46,":site_id":81} 
+[2026-05-19 16:06:19][INFO] 81 
+[2026-05-19 16:06:19][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:06:19][DEBUG] Params: {":client_id":46,":site_id":81,":building_id":13} 
+[2026-05-19 16:06:20][INFO] 81 
+[2026-05-19 16:06:20][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:06:20][DEBUG] Params: {":client_id":46,":site_id":81,":building_id":13,":salle_id":370} 
+[2026-05-19 16:06:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 9b3aa52b253b8921aaf7... 
+[2026-05-19 16:06:54][DEBUG] Permissions chargées pour KARIJA : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-05-19 16:06:54][INFO] Utilisateur connecté : KARIJA {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":46}
+[2026-05-19 16:06:54][DEBUG] Login réussi - Session ID: qa9b3iedfv8fokbs0pkddkah9r 
+[2026-05-19 16:06:54][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-19 16:06:54][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-19 16:06:54][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-19 16:06:54][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-19 16:06:57][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:06:57][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:06:57][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:06:57][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:06:57][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:06:57][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:06:57][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:06:57][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:06:57][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:06:57][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:06:57][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:06:57][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:07:08][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:09:32][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:09:32][DEBUG] getPiecesJointesWithAccess - SQL: SELECT 
+                    pj.*, 
+                    st.setting_value as type_nom, 
+                    CONCAT(u.first_name, ' ', u.last_name) as created_by_name
+                FROM pieces_jointes pj
+                LEFT JOIN settings st ON pj.type_id = st.id
+                LEFT JOIN users u ON pj.created_by = u.id
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                INNER JOIN materiel m ON lpj.entite_id = m.id
+                LEFT JOIN rooms r ON m.salle_id = r.id
+                LEFT JOIN buildings b ON r.building_id = b.id
+                LEFT JOIN sites s ON b.site_id = s.id
+                LEFT JOIN clients c ON s.client_id = c.id
+                WHERE lpj.type_liaison = 'materiel' 
+                AND lpj.entite_id = ? 
+                AND pj.masque_client = 0
+                AND (((c.id = 46)))
+                ORDER BY pj.date_creation DESC 
+[2026-05-19 16:09:32][DEBUG] getPiecesJointesWithAccess - materielId: 2712 
+[2026-05-19 16:09:32][DEBUG] getPiecesJointesWithAccess - Results count: 1 
+[2026-05-19 16:09:34][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:09:34][DEBUG] getPiecesJointesWithAccess - SQL: SELECT 
+                    pj.*, 
+                    st.setting_value as type_nom, 
+                    CONCAT(u.first_name, ' ', u.last_name) as created_by_name
+                FROM pieces_jointes pj
+                LEFT JOIN settings st ON pj.type_id = st.id
+                LEFT JOIN users u ON pj.created_by = u.id
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                INNER JOIN materiel m ON lpj.entite_id = m.id
+                LEFT JOIN rooms r ON m.salle_id = r.id
+                LEFT JOIN buildings b ON r.building_id = b.id
+                LEFT JOIN sites s ON b.site_id = s.id
+                LEFT JOIN clients c ON s.client_id = c.id
+                WHERE lpj.type_liaison = 'materiel' 
+                AND lpj.entite_id = ? 
+                AND pj.masque_client = 0
+                AND (((c.id = 46)))
+                ORDER BY pj.date_creation DESC 
+[2026-05-19 16:09:34][DEBUG] getPiecesJointesWithAccess - materielId: 2712 
+[2026-05-19 16:09:34][DEBUG] getPiecesJointesWithAccess - Results count: 1 
+[2026-05-19 16:09:54][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:09:54][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:09:54][DEBUG] getPiecesJointesWithAccess - SQL (simplifiée): SELECT 
+                    pj.*, 
+                    st.setting_value as type_nom, 
+                    CONCAT(u.first_name, ' ', u.last_name) as created_by_name
+                FROM pieces_jointes pj
+                LEFT JOIN settings st ON pj.type_id = st.id
+                LEFT JOIN users u ON pj.created_by = u.id
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                WHERE lpj.type_liaison = 'materiel' 
+                AND lpj.entite_id = ? 
+                AND pj.masque_client = 0
+                ORDER BY pj.date_creation DESC 
+[2026-05-19 16:09:54][DEBUG] getPiecesJointesWithAccess - materielId: 2712 
+[2026-05-19 16:09:54][DEBUG] getPiecesJointesWithAccess - Results count: 1 
+[2026-05-19 16:12:07][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:12:07][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:12:07][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:12:07][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:12:07][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:12:07][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:12:07][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:12:07][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:12:07][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:12:07][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:12:07][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:12:07][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:12:19][DEBUG] CSRF: Token trouvé dans la requête - Token: cddc66014e3b81db2672... 
+[2026-05-19 16:12:19][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-19 16:12:19][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-19 16:12:19][DEBUG] Login réussi - Session ID: ainou33oif9924a9o5klosrfk8 
+[2026-05-19 16:12:19][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-19 16:12:19][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-19 16:12:19][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-19 16:12:19][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-19 16:12:22][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:12:22][DEBUG] Params: [] 
+[2026-05-19 16:12:25][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:12:25][DEBUG] Params: {":client_id":46} 
+[2026-05-19 16:12:30][INFO] 81 
+[2026-05-19 16:12:30][INFO] 81 
+[2026-05-19 16:12:30][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:12:30][DEBUG] Params: {":client_id":46,":site_id":81} 
+[2026-05-19 16:12:33][INFO] 81 
+[2026-05-19 16:12:33][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:12:33][DEBUG] Params: {":client_id":46,":site_id":81,":building_id":13} 
+[2026-05-19 16:12:36][INFO] 81 
+[2026-05-19 16:12:36][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:12:36][DEBUG] Params: {":client_id":46,":site_id":81,":building_id":13,":salle_id":370} 
+[2026-05-19 16:15:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 2c4f6517490e635ec180... 
+[2026-05-19 16:15:52][DEBUG] Permissions chargées pour KARIJA : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-05-19 16:15:52][INFO] Utilisateur connecté : KARIJA {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":46}
+[2026-05-19 16:15:52][DEBUG] Login réussi - Session ID: tbooslpk92l02sjub7055u49dh 
+[2026-05-19 16:15:52][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-19 16:15:52][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-19 16:15:52][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-19 16:15:52][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-19 16:15:55][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:15:55][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:15:55][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:15:55][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:15:55][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:15:55][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:15:55][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:15:55][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:15:55][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:15:55][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:15:55][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:15:55][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:15:57][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:15:57][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:15:57][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:15:57][DEBUG] getPiecesJointesWithAccess - SQL (simplifiée): SELECT 
+                    pj.*, 
+                    st.setting_value as type_nom, 
+                    CONCAT(u.first_name, ' ', u.last_name) as created_by_name
+                FROM pieces_jointes pj
+                LEFT JOIN settings st ON pj.type_id = st.id
+                LEFT JOIN users u ON pj.created_by = u.id
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                WHERE lpj.type_liaison = 'materiel' 
+                AND lpj.entite_id = ? 
+                AND pj.masque_client = 0
+                ORDER BY pj.date_creation DESC 
+[2026-05-19 16:15:57][DEBUG] getPiecesJointesWithAccess - materielId: 2712 
+[2026-05-19 16:15:57][DEBUG] getPiecesJointesWithAccess - Results count: 1 
+[2026-05-19 16:15:57][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:16:38][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:16:38][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:16:38][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:16:38][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:16:38][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:17:03][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:17:03][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:17:03][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:17:03][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:17:03][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:18:58][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:18:58][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:18:58][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:18:58][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:18:58][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:19:00][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:19:00][ERROR] Erreur lors du téléchargement de la pièce jointe (client matériel) : Fichier non trouvé 
+[2026-05-19 16:19:00][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:19:00][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:19:00][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:19:00][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:19:00][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:19:03][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:19:03][ERROR] Erreur lors du téléchargement de la pièce jointe (client matériel) : Fichier non trouvé 
+[2026-05-19 16:19:03][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:19:03][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:19:03][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:19:03][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:19:03][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:20:57][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:20:57][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:20:57][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:20:57][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:20:57][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:20:59][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:20:59][ERROR] Erreur lors du téléchargement de la pièce jointe (client matériel) : Le fichier n'existe pas sur le serveur. 
+[2026-05-19 16:20:59][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:20:59][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:20:59][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:20:59][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:20:59][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:20:59][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:20:59][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:20:59][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:20:59][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:20:59][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:20:59][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:20:59][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:21:02][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:21:02][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:21:02][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:21:02][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:21:02][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:21:04][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:21:04][ERROR] Erreur lors du téléchargement de la pièce jointe (client matériel) : Le fichier n'existe pas sur le serveur. 
+[2026-05-19 16:21:04][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:21:04][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:21:04][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:21:04][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:21:04][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:21:04][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:21:04][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:21:04][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:21:04][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:21:04][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:21:04][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:21:04][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:21:05][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:21:05][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:21:05][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:21:05][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:21:05][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:21:25][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:21:25][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:21:25][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:21:25][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:21:25][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:21:27][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:21:27][ERROR] Erreur lors du téléchargement de la pièce jointe (client matériel) : Fichier non trouvé 
+[2026-05-19 16:21:27][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:21:27][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:21:27][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:21:27][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:21:27][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:21:27][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:21:27][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:21:27][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:21:27][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:21:27][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:21:27][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:21:27][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:21:30][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:21:30][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:21:30][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:21:30][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:21:30][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:21:38][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:21:38][ERROR] Erreur lors du téléchargement de la pièce jointe (client matériel) : Fichier non trouvé 
+[2026-05-19 16:21:39][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:21:39][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:21:39][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:21:39][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:21:39][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:21:39][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:21:39][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:21:39][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:21:39][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:21:39][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:21:39][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:21:39][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:22:25][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:22:25][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:22:25][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:22:25][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:22:25][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:22:26][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:22:26][ERROR] Erreur lors du téléchargement de la pièce jointe (client matériel) : Fichier non trouvé 
+[2026-05-19 16:22:26][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:22:26][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:22:26][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:22:26][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:22:26][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:22:26][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:22:26][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:22:26][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:22:26][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:22:26][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:22:26][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:22:26][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:23:05][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:23:05][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:23:05][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:23:05][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:23:05][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:23:07][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:23:07][ERROR] Erreur lors du téléchargement de la pièce jointe (client matériel) : Fichier non trouvé 
+[2026-05-19 16:23:07][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:23:07][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:23:07][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:23:07][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:23:07][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:23:07][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:23:07][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:23:07][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:23:07][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:23:07][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:23:07][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:23:07][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:24:30][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:24:30][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:24:30][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:24:30][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:24:30][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:24:30][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:24:30][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:24:30][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:24:30][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:24:30][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:24:30][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:24:30][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:24:32][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:24:32][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:24:32][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:24:32][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:24:32][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:24:33][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:24:33][ERROR] Erreur lors du téléchargement de la pièce jointe (client matériel) : Le fichier n'existe pas sur le serveur. 
+[2026-05-19 16:24:33][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:24:33][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:24:33][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:24:33][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:24:33][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:24:33][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:24:33][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:24:33][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:24:33][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:24:33][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:24:33][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:24:33][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:25:56][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:25:56][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:25:56][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:25:56][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:25:56][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:25:56][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:25:56][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:25:56][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:25:56][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:25:56][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:25:56][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:25:56][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:25:59][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:25:59][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:25:59][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:25:59][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:25:59][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:26:00][DEBUG] === DOWNLOAD METHOD STARTED === 
+[2026-05-19 16:26:00][DEBUG] Attachment ID: 344 
+[2026-05-19 16:26:00][DEBUG] User locations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:26:00][DEBUG] Attachment data: {"id":344,"nom_fichier":"coursUML.pdf","nom_personnalise":"coursUML.pdf","chemin_fichier":"uploads\/materiel\/2712\/1778500021_coursUML.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":2318612,"commentaire":"tes description 2","date_creation":"2026-05-11 14:47:01","masque_client":0,"type_id":null,"created_by":1,"type_liaison":"materiel","entite_id":2712} 
+[2026-05-19 16:26:00][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:26:00][DEBUG] Materiel found: YES 
+[2026-05-19 16:26:00][DEBUG] File path: C:\xampp\htdocs\avision\public\controllers/../../uploads/materiel/2712/1778500021_coursUML.pdf 
+[2026-05-19 16:26:00][DEBUG] File exists: NO 
+[2026-05-19 16:26:00][ERROR] ERROR in download: Le fichier n'existe pas sur le serveur. 
+[2026-05-19 16:26:00][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:26:00][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:26:00][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:26:00][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:26:00][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:26:00][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:26:00][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:26:00][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:26:00][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:26:00][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:26:00][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:26:00][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:26:28][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:26:28][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:26:28][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:26:28][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:26:28][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:26:30][DEBUG] === DOWNLOAD METHOD STARTED === 
+[2026-05-19 16:26:30][DEBUG] Attachment ID: 344 
+[2026-05-19 16:26:30][DEBUG] User locations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:26:30][DEBUG] Attachment data: {"id":344,"nom_fichier":"coursUML.pdf","nom_personnalise":"coursUML.pdf","chemin_fichier":"uploads\/materiel\/2712\/1778500021_coursUML.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":2318612,"commentaire":"tes description 2","date_creation":"2026-05-11 14:47:01","masque_client":0,"type_id":null,"created_by":1,"type_liaison":"materiel","entite_id":2712} 
+[2026-05-19 16:26:30][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:26:30][DEBUG] Materiel found: YES 
+[2026-05-19 16:26:30][DEBUG] File path: C:\xampp\htdocs\avision\public\controllers/../../uploads/materiel/2712/1778500021_coursUML.pdf 
+[2026-05-19 16:26:30][DEBUG] File exists: NO 
+[2026-05-19 16:26:30][ERROR] ERROR in download: Le fichier n'existe pas sur le serveur. 
+[2026-05-19 16:26:30][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:26:30][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:26:30][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:26:30][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:26:30][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:26:30][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:26:30][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:26:30][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:26:30][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:26:30][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:26:30][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:26:30][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:27:44][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:27:44][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:27:44][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:27:44][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:27:44][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:27:44][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:27:44][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:27:44][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:27:44][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:27:44][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:27:44][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:27:44][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:27:46][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:27:46][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:27:46][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:27:46][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:27:46][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:27:47][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:27:47][DEBUG] Relative path: uploads/materiel/2712/1778500021_coursUML.pdf 
+[2026-05-19 16:27:47][DEBUG] Full file path: C:/xampp/htdocs/avision/public/controllers/../../uploads/materiel/2712/1778500021_coursUML.pdf 
+[2026-05-19 16:27:47][DEBUG] File exists: NO 
+[2026-05-19 16:27:47][DEBUG] Alternative path: C:/xampp/htdocs/avision/public/uploads/materiel/2712/1778500021_coursUML.pdf 
+[2026-05-19 16:27:47][DEBUG] Alternative exists: NO 
+[2026-05-19 16:27:47][ERROR] ERROR in download: Le fichier n'existe pas sur le serveur. Chemin recherché: C:/xampp/htdocs/avision/public/controllers/../../uploads/materiel/2712/1778500021_coursUML.pdf 
+[2026-05-19 16:27:47][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:27:47][DEBUG] VIEW - Direct SQL count for materiel 2712: 1 
+[2026-05-19 16:27:47][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:27:47][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 1 pour le matériel ID: 2712 
+[2026-05-19 16:27:47][DEBUG] VIEW - Attachments from model: 1 
+[2026-05-19 16:29:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 52db6dd72b5a257d304b... 
+[2026-05-19 16:29:05][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-19 16:29:05][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-19 16:29:05][DEBUG] Login réussi - Session ID: tvfnbko7rapnea4024kgounpah 
+[2026-05-19 16:29:05][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-19 16:29:05][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-19 16:29:05][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-19 16:29:05][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-19 16:29:09][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:29:09][DEBUG] Params: [] 
+[2026-05-19 16:29:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:29:13][DEBUG] Params: {":client_id":61} 
+[2026-05-19 16:29:14][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:29:14][DEBUG] Params: {":client_id":46} 
+[2026-05-19 16:29:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 52db6dd72b5a257d304b... 
+[2026-05-19 16:29:37][DEBUG] AttachmentService::normalizeFilesArray - Tableau de fichiers détecté, count: 1 
+[2026-05-19 16:29:37][DEBUG] AttachmentService::upload - Type: materiel, EntityId: 2712, Files count: 1, UploadDir: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/materiel/2712 
+[2026-05-19 16:29:37][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\phpCD89.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/materiel/2712/1779200977_coursUML_compressed_1.pdf 
+[2026-05-19 16:29:37][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/materiel/2712/1779200977_coursUML_compressed_1.pdf 
+[2026-05-19 16:29:37][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML_compressed (1).pdf (ID: 362) 
+[2026-05-19 16:29:39][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:29:39][DEBUG] Params: {":client_id":46} 
+[2026-05-19 16:29:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 92507be8f2bbe586c818... 
+[2026-05-19 16:29:46][DEBUG] Permissions chargées pour KARIJA : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-05-19 16:29:46][INFO] Utilisateur connecté : KARIJA {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":46}
+[2026-05-19 16:29:46][DEBUG] Login réussi - Session ID: je1l3rk14vmlqsbu3r7rev0hvs 
+[2026-05-19 16:29:46][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-19 16:29:46][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-19 16:29:46][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-19 16:29:46][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-19 16:29:48][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:29:48][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:29:48][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46)) 
+[2026-05-19 16:29:48][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46)) AND s.status = 1
+                ORDER BY s.name 
+[2026-05-19 16:29:48][DEBUG] getSitesByLocations - result count: 2 
+[2026-05-19 16:29:48][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-05-19 16:29:48][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-05-19 16:29:48][DEBUG] getBuildingsByLocations - result count: 9 
+[2026-05-19 16:29:48][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 46)) 
+[2026-05-19 16:29:48][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 46)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-19 16:29:48][DEBUG] getAllByLocations - Params: [] 
+[2026-05-19 16:29:48][DEBUG] getAllByLocations - Results count: 1 
+[2026-05-19 16:29:50][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:29:50][DEBUG] VIEW - Direct SQL count for materiel 2712: 2 
+[2026-05-19 16:29:50][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:29:50][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 2 pour le matériel ID: 2712 
+[2026-05-19 16:29:50][DEBUG] VIEW - Attachments from model: 2 
+[2026-05-19 16:29:53][DEBUG] getByIdWithAccess result for id 2712: {"id":2712,"salle_id":370,"type_materiel":"TEST TEST","reference":"test","usage_materiel":null,"modele":"ES-PU2010W-UST","marque":"EPSON","numero_serie":"test","version_firmware":"test","ancien_firmware":"test 2","adresse_mac":"00:11:22:33:44:55","adresse_ip":"192.168.10.52","masque":"255.255.255.0","passerelle":"192.168.1.1","login":"admin","password":"test1234","id_materiel":null,"ip_primaire":"gsd","mac_primaire":"dfhdshds","ip_secondaire":"dhdhsdh","mac_secondaire":"dhsdhsdh","stream_aes67_recu":"sdhssh","stream_aes67_transmis":"sdhhds","ssid":"dhhds","type_cryptage":"dhdh","password_wifi":"dhhdhh","libelle_pa_salle":"dshsdh","numero_port_switch":"dssh","vlan":"dhh","date_fin_maintenance":"2026-04-28","date_fin_garantie":"2026-04-30","date_derniere_inter":"2026-05-01","commentaire":"dhdshsdhs","url_github":"https:\/\/www.test.mg","created_at":"2026-04-28 16:03:59","updated_at":"2026-05-13 16:08:19","salle_nom":"test salle","building_nom":"sdfskg","site_nom":"Alphabet","site_id":81,"client_nom":"ALPHABET","client_id":46,"type_nom":"TEST TEST"} 
+[2026-05-19 16:29:53][DEBUG] Relative path: uploads/materiel/2712/1779200977_coursUML_compressed_1.pdf 
+[2026-05-19 16:29:53][DEBUG] Full file path: C:/xampp/htdocs/avision/public/controllers/../../uploads/materiel/2712/1779200977_coursUML_compressed_1.pdf 
+[2026-05-19 16:29:53][DEBUG] File exists: YES 
