@@ -948,9 +948,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         <div style="height: 4px; background: #e9ecef; border-radius: 2px; overflow: hidden; margin: 20px 0;">
             <div style="width: 100%; height: 100%; background: #28a745; animation: progress 2s linear;"></div>
         </div>
-        <p style="font-size: 14px; color: #6c757d; margin: 0;">
-            Redirection en cours...
-        </p>
     `;
 
                             overlay.appendChild(successCard);
