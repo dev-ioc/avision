@@ -1248,7 +1248,7 @@ $allData = [];
                     rowHeaders: false,
                     licenseKey: 'non-commercial-and-evaluation',
                     stretchH: 'all',
-                    height: 300,
+                    height: "auto",
                     cells: function (row, col) {
                       const header = this.colHeaders[col];
                       if (header === 'Équipement') {
