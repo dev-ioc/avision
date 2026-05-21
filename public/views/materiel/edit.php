@@ -43,22 +43,27 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <div>
                     <?php
                         // Récupérer les IDs à partir du matériel actuel (depuis la base)
-                        $client_id = $materiel['client_id'] ?? '';
-                        $site_id   = $materiel['site_id'] ?? '';
+                        $client_id = $client['id'] ?? '';
+                        $site_id   = $site['id'] ?? '';
+                        $building_id = $building['id'] ?? '';
                         $salle_id  = $materiel['salle_id'] ?? '';
 
                         // Construire les paramètres pour le retour et le bouton "Ajouter un autre"
                         $params = [
-                        'client_id' => $client_id,
-                        'site_id'   => $site_id,
-                        'salle_id'  => $salle_id
+                            'client_id'   => $client_id,
+                            'site_id'     => $site_id,
+                            'building_id' => $building_id,
+                            'salle_id'    => $salle_id
                         ];
+
+                        // Filtrer les paramètres vides
+                        $params = array_filter($params);
 
                         // URL pour retourner à la liste filtrée
                         $returnUrl = BASE_URL . 'materiel?' . http_build_query($params);
                         // URL pour ajouter un autre matériel avec les mêmes filtres
                         $addAnotherUrl = BASE_URL . 'materiel/add?' . http_build_query($params);
-                        ?>
+                    ?>
                     <button type="button" class="btn btn-primary me-2" onclick="addAnotherMateriel()">
                         <i class="bi bi-plus me-2 me-1"></i>Ajouter un autre matériel
                     </button>
@@ -87,6 +92,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <?php if (isset($_GET['site_id']) && !empty($_GET['site_id'])): ?>
                     <input type="hidden" name="return_site_id" value="<?= h($_GET['site_id']) ?>">
                 <?php endif; ?>
+                <?php if (isset($_GET['building_id']) && !empty($_GET['building_id'])): ?>
+                    <input type="hidden" name="return_building_id" value="<?= h($_GET['building_id']) ?>">
+                <?php endif; ?>
                 <?php if (isset($_GET['salle_id']) && !empty($_GET['salle_id'])): ?>
                     <input type="hidden" name="return_salle_id" value="<?= h($_GET['salle_id']) ?>">
                 <?php endif; ?>
@@ -103,20 +111,20 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <div class="card-body">
                                 <!-- Localisation -->
                                 <div class="row mb-3">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label for="client_id" class="form-label fw-bold">
                                             <i class="bi bi-building me-2"></i>Client
                                         </label>
                                         <select class="form-select bg-body text-body" id="client_id" name="client_id" required>
                                             <option value="">Sélectionner un client</option>
                                             <?php foreach ($clients as $clientItem): ?>
-                                                <option value="<?= $clientItem['id'] ?>" <?= $clientItem['id'] == $client['id'] ? 'selected' : '' ?>>
+                                                <option value="<?= $clientItem['id'] ?>" <?= $clientItem['id'] == $client_id ? 'selected' : '' ?>>
                                                     <?= h($clientItem['name']) ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label for="site_id" class="form-label fw-bold">
                                             <i class="bi bi-geo-alt me-2"></i>Site
                                         </label>
@@ -124,23 +132,38 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <option value="">Sélectionner un site</option>
                                             <?php if (!empty($sites)): ?>
                                                 <?php foreach ($sites as $siteItem): ?>
-                                                    <option value="<?= $siteItem['id'] ?>" <?= $siteItem['id'] == $site['id'] ? 'selected' : '' ?>>
+                                                    <option value="<?= $siteItem['id'] ?>" <?= $siteItem['id'] == $site_id ? 'selected' : '' ?>>
                                                         <?= h($siteItem['name']) ?>
                                                     </option>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <label for="building_id" class="form-label fw-bold">
+                                            <i class="bi bi-building me-2"></i>Bâtiment
+                                        </label>
+                                        <select class="form-select bg-body text-body" id="building_id" name="building_id" required>
+                                            <option value="">Sélectionner un bâtiment</option>
+                                            <?php if (!empty($buildings)): ?>
+                                                <?php foreach ($buildings as $buildingItem): ?>
+                                                    <option value="<?= $buildingItem['id'] ?>" <?= $buildingItem['id'] == $building_id ? 'selected' : '' ?>>
+                                                        <?= h($buildingItem['name']) ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
                                         <label for="salle_id" class="form-label fw-bold">
                                             <i class="bi bi-door-open me-2"></i>Salle *
                                         </label>
                                         <select class="form-select bg-body text-body" id="salle_id" name="salle_id" required>
                                             <option value="">Sélectionner une salle</option>
-                                            <?php if (!empty($salles)): ?>
-                                                <?php foreach ($salles as $salleItem): ?>
-                                                    <option value="<?= $salleItem['id'] ?>" <?= $salleItem['id'] == $room['id'] ? 'selected' : '' ?>>
-                                                        <?= h($salleItem['name']) ?>
+                                            <?php if (!empty($rooms)): ?>
+                                                <?php foreach ($rooms as $roomItem): ?>
+                                                    <option value="<?= $roomItem['id'] ?>" <?= $roomItem['id'] == $salle_id ? 'selected' : '' ?>>
+                                                        <?= h($roomItem['name']) ?>
                                                     </option>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
@@ -562,20 +585,86 @@ include_once __DIR__ . '/../../includes/navbar.php';
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Initialiser BASE_URL pour JavaScript
-    initBaseUrl('<?php echo BASE_URL; ?>');
+    window.BASE_URL = '<?php echo BASE_URL; ?>';
     
     const clientSelect = document.getElementById('client_id');
     const siteSelect = document.getElementById('site_id');
+    const buildingSelect = document.getElementById('building_id');
     const roomSelect = document.getElementById('salle_id');
     
-    // Utiliser les fonctions centralisées pour charger les sites et salles dynamiquement
-    // Mais en surchargeant les URLs pour utiliser les endpoints materiel
+    // Charger les sites quand le client change
     clientSelect.addEventListener('change', function() {
-        loadSitesForMateriel(this.value, 'site_id');
+        const clientId = this.value;
+        siteSelect.innerHTML = '<option value="">Sélectionner un site</option>';
+        buildingSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
+        roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+        
+        if (clientId) {
+            fetch(`${window.BASE_URL}materiel/get_sites?client_id=${clientId}`, {
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && Array.isArray(data)) {
+                    data.forEach(site => {
+                        const option = document.createElement('option');
+                        option.value = site.id;
+                        option.textContent = site.name;
+                        siteSelect.appendChild(option);
+                    });
+                }
+            })
+            .catch(error => console.error('Erreur:', error));
+        }
     });
     
+    // Charger les bâtiments quand le site change
     siteSelect.addEventListener('change', function() {
-        loadRoomsForMateriel(this.value, 'salle_id');
+        const siteId = this.value;
+        buildingSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
+        roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+        
+        if (siteId) {
+            fetch(`${window.BASE_URL}materiel/get_buildings?site_id=${siteId}`, {
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && Array.isArray(data)) {
+                    data.forEach(building => {
+                        const option = document.createElement('option');
+                        option.value = building.id;
+                        option.textContent = building.name;
+                        buildingSelect.appendChild(option);
+                    });
+                }
+            })
+            .catch(error => console.error('Erreur:', error));
+        }
+    });
+    
+    // Charger les salles quand le bâtiment change
+    buildingSelect.addEventListener('change', function() {
+        const buildingId = this.value;
+        roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+        
+        if (buildingId) {
+            fetch(`${window.BASE_URL}materiel/get_rooms_by_building?building_id=${buildingId}`, {
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && Array.isArray(data)) {
+                    data.forEach(room => {
+                        const option = document.createElement('option');
+                        option.value = room.id;
+                        option.textContent = room.name;
+                        roomSelect.appendChild(option);
+                    });
+                }
+            })
+            .catch(error => console.error('Erreur:', error));
+        }
     });
 
     // Gestion de l'affichage du mot de passe
@@ -588,14 +677,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
             
-            // Changer l'icône
             if (type === 'text') {
-                passwordIcon.classList.remove('fa-eye');
-                passwordIcon.classList.add('fa-eye-slash');
+                passwordIcon.classList.remove('bi-eye');
+                passwordIcon.classList.add('bi-eye-slash');
                 togglePassword.title = 'Masquer le mot de passe';
             } else {
-                passwordIcon.classList.remove('fa-eye-slash');
-                passwordIcon.classList.add('fa-eye');
+                passwordIcon.classList.remove('bi-eye-slash');
+                passwordIcon.classList.add('bi-eye');
                 togglePassword.title = 'Afficher le mot de passe';
             }
         });
@@ -611,7 +699,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const type = passwordWifiInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordWifiInput.setAttribute('type', type);
             
-            // Changer l'icône
             if (type === 'text') {
                 passwordWifiIcon.classList.remove('bi-eye');
                 passwordWifiIcon.classList.add('bi-eye-slash');
@@ -625,79 +712,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Fonctions spécifiques pour materiel qui utilisent les bons endpoints
-function loadSitesForMateriel(clientId, siteSelectId) {
-    const siteSelect = document.getElementById(siteSelectId);
-    if (!siteSelect) return;
-    
-    // Vider le select sauf l'option par défaut
-    while (siteSelect.options.length > 1) {
-        siteSelect.remove(1);
-    }
-    
-    if (!clientId) return;
-    
-    fetch(`${BASE_URL}materiel/get_sites?client_id=${clientId}`, {
-        credentials: 'include'
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data && Array.isArray(data)) {
-                data.forEach(site => {
-                    const option = document.createElement('option');
-                    option.value = site.id;
-                    option.textContent = site.name;
-                    siteSelect.appendChild(option);
-                });
-            }
-        })
-        .catch(error => console.error('Erreur lors du chargement des sites:', error));
-}
-
-function loadRoomsForMateriel(siteId, roomSelectId) {
-    const roomSelect = document.getElementById(roomSelectId);
-    if (!roomSelect) return;
-    
-    roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
-    
-    if (!siteId) return;
-    
-    fetch(`${BASE_URL}materiel/get_rooms?site_id=${siteId}`, {
-        credentials: 'include'
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data && Array.isArray(data)) {
-                data.forEach(room => {
-                    const option = document.createElement('option');
-                    option.value = room.id;
-                    option.textContent = room.name;
-                    roomSelect.appendChild(option);
-                });
-            }
-        })
-        .catch(error => console.error('Erreur lors du chargement des salles:', error));
-}
-
 // Fonction pour ajouter un autre matériel avec les valeurs actuelles du formulaire
 function addAnotherMateriel() {
     const clientId = document.getElementById('client_id').value;
     const siteId = document.getElementById('site_id').value;
+    const buildingId = document.getElementById('building_id').value;
     const salleId = document.getElementById('salle_id').value;
     
-    // Construire l'URL avec les valeurs actuelles
     const params = new URLSearchParams();
-    if (clientId) {
-        params.set('client_id', clientId);
-    }
-    if (siteId) {
-        params.set('site_id', siteId);
-    }
-    if (salleId) {
-        params.set('salle_id', salleId);
-    }
+    if (clientId) params.set('client_id', clientId);
+    if (siteId) params.set('site_id', siteId);
+    if (buildingId) params.set('building_id', buildingId);
+    if (salleId) params.set('salle_id', salleId);
     
-    const url = `${BASE_URL}materiel/add${params.toString() ? '?' + params.toString() : ''}`;
+    const url = `${window.BASE_URL}materiel/add${params.toString() ? '?' + params.toString() : ''}`;
     window.location.href = url;
 }
 
@@ -713,4 +741,4 @@ function toggleAll(checked) {
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';
-?> 
+?>
