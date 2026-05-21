@@ -422,7 +422,7 @@ foreach ($materiel_list as $materiel) {
                                                                             <?php else: ?>
                                                                                 <span class="text-muted">---</span>
                                                                             <?php endif; ?>
-                                                                        </tr>
+                                                                       </td> 
                                                                         <td class="<?= (isset($visibilites_champs[$materiel['id']]['adresse_mac']) && !$visibilites_champs[$materiel['id']]['adresse_mac']) ? 'bg-warning bg-opacity-25' : '' ?>">
                                                                             <?php if (isset($visibilites_champs[$materiel['id']]['adresse_mac']) && $visibilites_champs[$materiel['id']]['adresse_mac'] && !empty($materiel['adresse_mac'])): ?>
                                                                                 <?= h($materiel['adresse_mac']) ?>
