@@ -449,37 +449,23 @@ $allData = [];
             </div>
             <div class="card-body p-0">
               <?php foreach ($sites as $site_nom => $buildings): ?>
-                <div class="ms-3 me-3 mb-2 mt-2">
-                  <h6 class="text-secondary mb-2">
-                    <i class="bi bi-geo-alt me-1"></i> Site : <?= h($site_nom) ?>
-                  </h6>
-                </div>
                 <?php foreach ($buildings as $building_nom => $salles): ?>
-                  <div class="ms-4 me-3 mb-2">
-                    <h6 class="text-info mb-2">
-                      <i class="bi bi-building me-1"></i> Bâtiment : <?= h($building_nom) ?>
-                    </h6>
-                  </div>
                   <?php foreach ($salles as $salle_nom => $materiels):
                     $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
                     $accordion_id = 'accordion_' . $salle_id;
+                    $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
                     ?>
-                    <div class="accordion ms-5 me-3 mb-3" id="<?= $accordion_id ?>">
+                    <div class="accordion mb-3" id="<?= $accordion_id ?>">
                       <div class="accordion-item">
                         <h2 class="accordion-header">
                           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapse_<?= $salle_id ?>">
-                            <div class="d-flex justify-content-between w-100 me-3">
+                            <div class="d-flex justify-content-between w-100 me-3 align-items-center">
                               <span>
                                 <i class="bi bi-door-open me-2 text-info"></i>
                                 <strong>
-                                  <?= h($salle_nom) ?>
+                                  <?= $locationString ?>
                                 </strong>
-                                <small class="text-muted ms-2">
-                                  —
-                                  <?= h($site_nom) ?> /
-                                  <?= h($building_nom) ?>
-                                </small>
                               </span>
                               <span class="badge bg-secondary ms-3">
                                 <?= count($materiels) ?> équipement(s)
@@ -1259,28 +1245,11 @@ $allData = [];
                       return $rowData;
                     }, $materiels)); ?>;
 
-                    const colWidthsConfig = <?= json_encode(array_map(function ($col) {
-                      switch ($col['field']) {
-                        case 'equipement':
-                          return 220;
-                        case 'pieces_jointes':
-                          return 120;
-                        case 'commentaire':
-                          return 250;
-                        case 'adresse_ip':
-                          return 140;
-                        case 'adresse_mac':
-                          return 140;
-                        default:
-                          return 120;
-                      }
-                    }, $allColumns)); ?>;
+
 
                     const hot = new Handsontable(container, {
                       data: data,
                       colHeaders: <?= json_encode($colHeaders) ?>,
-                      colWidths: colWidthsConfig,
-                      minColumnWidth: 80,
                       hiddenColumns: { columns: <?= json_encode($hiddenColumns) ?>, indicators: true },
                       rowHeaders: false,
                       licenseKey: 'non-commercial-and-evaluation',
