@@ -30,7 +30,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 ?>
 
 <div class="container-fluid flex-grow-1 container-p-y">
-    <!-- En-tête avec titre et bouton de retour -->
+    <!-- En-tête avec titre et boutons -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
@@ -40,7 +40,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     </h4>
                     <p class="text-muted mb-0">Modification des informations du matériel</p>
                 </div>
-                <div>
+                <div class="d-flex gap-2">
                     <?php
                         // Récupérer les IDs à partir du matériel actuel (depuis la base)
                         $client_id = $client['id'] ?? '';
@@ -61,15 +61,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                         // URL pour retourner à la liste filtrée
                         $returnUrl = BASE_URL . 'materiel?' . http_build_query($params);
-                        // URL pour ajouter un autre matériel avec les mêmes filtres
-                        $addAnotherUrl = BASE_URL . 'materiel/add?' . http_build_query($params);
                     ?>
-                    <button type="button" class="btn btn-primary me-2" onclick="addAnotherMateriel()">
-                        <i class="bi bi-plus me-2 me-1"></i>Ajouter un autre matériel
-                    </button>
                     <a href="<?= $returnUrl ?>" class="btn btn-secondary">
-                        <i class="bi bi-arrow-left me-2 me-1"></i>Retour à la liste
-                    </a>  
+                        <i class="bi bi-arrow-left me-2 me-1"></i>Annuler
+                    </a>
+                    <button type="submit" form="materielEditForm" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-2 me-1"></i>Enregistrer les Modifications
+                    </button>
                 </div>
             </div>
         </div>
@@ -83,7 +81,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </h5>
         </div>
         <div class="card-body">
-            <form method="POST" action="<?= BASE_URL ?>materiel/update/<?= $materiel['id'] ?>">
+            <form method="POST" action="<?= BASE_URL ?>materiel/update/<?= $materiel['id'] ?>" id="materielEditForm">
                 <?= csrf_field() ?>
                 <!-- Champs cachés pour conserver les filtres -->
                 <?php if (isset($_GET['client_id']) && !empty($_GET['client_id'])): ?>
@@ -562,21 +560,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </div>
                     </div>
                 </div>
-
-                <!-- Boutons d'action -->
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <hr>
-                        <div class="d-flex justify-content-end gap-2">
-                            <a href="<?= BASE_URL ?>materiel" class="btn btn-secondary">
-                                <i class="bi bi-x-lg me-2 me-1"></i>Annuler
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-check-lg me-2 me-1"></i>Enregistrer les Modifications
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </form>
         </div>
     </div>
@@ -711,23 +694,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
-// Fonction pour ajouter un autre matériel avec les valeurs actuelles du formulaire
-function addAnotherMateriel() {
-    const clientId = document.getElementById('client_id').value;
-    const siteId = document.getElementById('site_id').value;
-    const buildingId = document.getElementById('building_id').value;
-    const salleId = document.getElementById('salle_id').value;
-    
-    const params = new URLSearchParams();
-    if (clientId) params.set('client_id', clientId);
-    if (siteId) params.set('site_id', siteId);
-    if (buildingId) params.set('building_id', buildingId);
-    if (salleId) params.set('salle_id', salleId);
-    
-    const url = `${window.BASE_URL}materiel/add${params.toString() ? '?' + params.toString() : ''}`;
-    window.location.href = url;
-}
 
 // Fonction pour cocher/décocher toutes les cases
 function toggleAll(checked) {
