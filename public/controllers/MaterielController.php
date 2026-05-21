@@ -1647,14 +1647,55 @@ class MaterielController
         // Récupérer le matériel de cette salle
         $filters = ['salle_id' => $salleId];
         $materiel_list = $this->materielModel->getAllMateriel($filters);
+        $visibilites_champs = [];
+        $pieces_jointes_count = [];
 
         // Récupérer les informations de visibilité des champs
-        $visibilites_champs = [];
         if (!empty($materiel_list)) {
+            // Ajouter les informations de bâtiment pour chaque matériel
+            foreach ($materiel_list as $key => $materiel) {
+                if (!empty($materiel['salle_id'])) {
+                    // Récupérer la salle avec son bâtiment
+                    $room = $this->roomModel->getRoomById($materiel['salle_id']);
+                    if ($room) {
+                        $materiel_list[$key]['salle_nom'] = $room['name'];
+                        $materiel_list[$key]['building_id'] = $room['building_id'] ?? null;
+
+                        // Récupérer le bâtiment
+                        if (!empty($room['building_id'])) {
+                            $building = $this->buildingModel->getBuildingById($room['building_id']);
+                            if ($building) {
+                                $materiel_list[$key]['building_nom'] = $building['name'];
+                                $materiel_list[$key]['site_id'] = $building['site_id'] ?? null;
+
+                                // Récupérer le site
+                                if (!empty($building['site_id'])) {
+                                    $site = $this->siteModel->getSiteById($building['site_id']);
+                                    if ($site) {
+                                        $materiel_list[$key]['site_nom'] = $site['name'];
+                                        $materiel_list[$key]['client_id'] = $site['client_id'] ?? null;
+
+                                        // Récupérer le client
+                                        if (!empty($site['client_id'])) {
+                                            $client = $this->clientModel->getClientById($site['client_id']);
+                                            if ($client) {
+                                                $materiel_list[$key]['client_nom'] = $client['name'];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             $materiel_ids = array_column($materiel_list, 'id');
             $visibilites_champs = $this->materielModel->getVisibiliteChampsForMateriels($materiel_ids);
+            foreach ($materiel_ids as $materiel_id) {
+                $pieces_jointes_count[$materiel_id] = $this->materielModel->getPiecesJointesCount($materiel_id);
+            }
         }
-
         $pageTitle = "Matériel - " . ($building ? $building['name'] . ' - ' : '') . $salle['name'];
         require_once VIEWS_PATH . '/materiel/salle.php';
     }
