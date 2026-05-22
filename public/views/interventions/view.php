@@ -56,7 +56,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 			}
 			?>
 			<a href="<?= $returnUrl ?>" class="btn btn-secondary me-2">
-				<i class="bi bi-arrow-left me-1"></i> <?= $returnText ?>
+				<i class="bi bi-arrow-left me-1"></i>
+				<?= $returnText ?>
 			</a>
 
 			<?php
@@ -115,12 +116,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 						<i class="bi bi-arrow-repeat me-1"></i> Réouvrir l'intervention
 					</button>
 
-					<?php if ($isAdmin && $intervention['status_id'] == 6): ?>
-						<!-- <button type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#forceTicketsModal">
-							<i class="bi bi-ticket-perforated me-1"></i> Forcer tickets utilisés
-						</button> -->
-					<?php endif; ?>
-
 				<?php endif; ?>
 
 			<?php else: ?>
@@ -162,8 +157,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
 					</div>
 					<div class="modal-body">
 						<div class="alert alert-danger mb-0">
-							<strong><?= h($deleteWarningTitle) ?></strong>
-							<div class="mt-2"><?= h($deleteWarningText) ?></div>
+							<strong>
+								<?= h($deleteWarningTitle) ?>
+							</strong>
+							<div class="mt-2">
+								<?= h($deleteWarningText) ?>
+							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -183,16 +182,22 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 	<!-- ── Alertes session ───────────────────────────────────────────────── -->
 	<?php if (isset($_SESSION['error'])): ?>
-		<div class="alert alert-danger"><?= $_SESSION['error'];
-		unset($_SESSION['error']); ?></div>
+		<div class="alert alert-danger">
+			<?= $_SESSION['error'];
+			unset($_SESSION['error']); ?>
+		</div>
 	<?php endif; ?>
 	<?php if (isset($_SESSION['success'])): ?>
-		<div class="alert alert-success"><?= $_SESSION['success'];
-		unset($_SESSION['success']); ?></div>
+		<div class="alert alert-success">
+			<?= $_SESSION['success'];
+			unset($_SESSION['success']); ?>
+		</div>
 	<?php endif; ?>
 	<?php if (isset($_SESSION['info'])): ?>
-		<div class="alert alert-info"><?= $_SESSION['info'];
-		unset($_SESSION['info']); ?></div>
+		<div class="alert alert-info">
+			<?= $_SESSION['info'];
+			unset($_SESSION['info']); ?>
+		</div>
 	<?php endif; ?>
 
 	<?php if ($intervention): ?>
@@ -202,7 +207,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 			<div class="card-header py-2">
 				<div class="d-flex justify-content-between align-items-center">
 					<h5 class="card-title mb-0">
-						<span class="fw-bold me-3"><?= h($intervention['reference'] ?? '') ?></span>
+						<span class="fw-bold me-3">
+							<?= h($intervention['reference'] ?? '') ?>
+						</span>
 						<?= h($intervention['title'] ?? '') ?>
 					</h5>
 					<div class="d-flex align-items-center gap-2">
@@ -231,24 +238,32 @@ include_once __DIR__ . '/../../includes/navbar.php';
 						<div class="d-flex flex-column gap-2">
 							<div>
 								<label class="form-label fw-bold mb-0">Client</label>
-								<p class="form-control-static mb-0"><?= h($intervention['client_name'] ?? '') ?></p>
+								<p class="form-control-static mb-0">
+									<?= h($intervention['client_name'] ?? '') ?>
+								</p>
 							</div>
 							<?php if (!empty($intervention['site_name'])): ?>
 								<div>
 									<label class="form-label fw-bold mb-0">Site</label>
-									<p class="form-control-static mb-0"><?= h($intervention['site_name']) ?></p>
+									<p class="form-control-static mb-0">
+										<?= h($intervention['site_name']) ?>
+									</p>
 								</div>
 							<?php endif; ?>
 							<?php if (!empty($intervention['building_name'])): ?>
 								<div>
 									<label class="form-label fw-bold mb-0">Bâtiment</label>
-									<p class="form-control-static mb-0"><?= h($intervention['building_name']) ?></p>
+									<p class="form-control-static mb-0">
+										<?= h($intervention['building_name']) ?>
+									</p>
 								</div>
 							<?php endif; ?>
 							<?php if (!empty($intervention['room_name'])): ?>
 								<div>
 									<label class="form-label fw-bold mb-0">Salle</label>
-									<p class="form-control-static mb-0"><?= h($intervention['room_name']) ?></p>
+									<p class="form-control-static mb-0">
+										<?= h($intervention['room_name']) ?>
+									</p>
 								</div>
 							<?php endif; ?>
 						</div>
@@ -259,7 +274,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 						<div class="d-flex flex-column gap-2">
 							<div>
 								<label class="form-label fw-bold mb-0">Type d'intervention</label>
-								<p class="form-control-static mb-0"><?= h($intervention['type_name'] ?? '') ?></p>
+								<p class="form-control-static mb-0">
+									<?= h($intervention['type_name'] ?? '') ?>
+								</p>
 							</div>
 							<div>
 								<label class="form-label fw-bold mb-0">Déplacement</label>
@@ -282,7 +299,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 							<?php elseif (!empty($intervention['contract_name'])): ?>
 								<div>
 									<label class="form-label fw-bold mb-0">Contrat</label>
-									<p class="form-control-static mb-0"><?= h($intervention['contract_name']) ?></p>
+									<p class="form-control-static mb-0">
+										<?= h($intervention['contract_name']) ?>
+									</p>
 								</div>
 							<?php endif; ?>
 						</div>
@@ -302,12 +321,16 @@ include_once __DIR__ . '/../../includes/navbar.php';
 							</div>
 							<div>
 								<label class="form-label fw-bold mb-0">Date de création</label>
-								<p class="form-control-static mb-0"><?= formatDateFrench($intervention['created_at']) ?></p>
+								<p class="form-control-static mb-0">
+									<?= formatDateFrench($intervention['created_at']) ?>
+								</p>
 							</div>
 							<?php if (!empty($intervention['closed_at'])): ?>
 								<div>
 									<label class="form-label fw-bold mb-0">Date de fermeture</label>
-									<p class="form-control-static mb-0"><?= formatDateFrench($intervention['closed_at']) ?></p>
+									<p class="form-control-static mb-0">
+										<?= formatDateFrench($intervention['closed_at']) ?>
+									</p>
 								</div>
 							<?php endif; ?>
 						</div>
@@ -341,7 +364,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 								<h6 class="card-title mb-0">Demande / description du problème</h6>
 							</div>
 							<div class="card-body py-2">
-								<p class="mb-0"><?= nl2br(h($intervention['description'])) ?></p>
+								<p class="mb-0">
+									<?= nl2br(h($intervention['description'])) ?>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -361,13 +386,17 @@ include_once __DIR__ . '/../../includes/navbar.php';
 									<?php if (!empty($intervention['demande_par'])): ?>
 										<div class="col-md-6">
 											<label class="form-label fw-bold mb-0">Demande par</label>
-											<p class="mb-0"><?= h($intervention['demande_par']) ?></p>
+											<p class="mb-0">
+												<?= h($intervention['demande_par']) ?>
+											</p>
 										</div>
 									<?php endif; ?>
 									<?php if (!empty($intervention['ref_client'])): ?>
 										<div class="col-md-6">
 											<label class="form-label fw-bold mb-0">Référence client</label>
-											<p class="mb-0"><?= h($intervention['ref_client']) ?></p>
+											<p class="mb-0">
+												<?= h($intervention['ref_client']) ?>
+											</p>
 										</div>
 									<?php endif; ?>
 									<?php if (!empty($intervention['contact_client'])): ?>
@@ -375,8 +404,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 											<label class="form-label fw-bold mb-0">Contact client</label>
 											<p class="mb-0">
 												<i class="bi bi-envelope me-2"></i>
-												<a
-													href="mailto:<?= h($intervention['contact_client']) ?>"><?= h($intervention['contact_client']) ?></a>
+												<a href="mailto:<?= h($intervention['contact_client']) ?>">
+													<?= h($intervention['contact_client']) ?>
+												</a>
 											</p>
 										</div>
 									<?php endif; ?>
@@ -409,15 +439,19 @@ include_once __DIR__ . '/../../includes/navbar.php';
 								<div class="comment mb-3 p-3 border rounded">
 									<div class="d-flex justify-content-between align-items-start mb-2">
 										<div class="d-flex align-items-center gap-2">
-											<strong><?= h($comment['created_by_name'] ?? 'Utilisateur inconnu') ?></strong>
-											<small
-												class="text-muted"><?= date('d/m/Y H:i', strtotime($comment['created_at'])) ?></small>
+											<strong>
+												<?= h($comment['created_by_name'] ?? 'Utilisateur inconnu') ?>
+											</strong>
+											<small class="text-muted">
+												<?= date('d/m/Y H:i', strtotime($comment['created_at'])) ?>
+											</small>
 										</div>
 										<div>
-											<?php if ($comment['is_solution']): ?><span
-													class="badge bg-success">Solution</span><?php endif; ?>
+											<?php if ($comment['is_solution']): ?><span class="badge bg-success">Solution</span>
+											<?php endif; ?>
 											<?php if ($comment['is_observation']): ?><span
-													class="badge bg-warning">Observation</span><?php endif; ?>
+													class="badge bg-warning">Observation</span>
+											<?php endif; ?>
 											<?php if ($comment['visible_by_client']): ?>
 												<span class="badge bg-info">Visible client</span>
 											<?php else: ?>
@@ -437,7 +471,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 											<?php endif; ?>
 										</div>
 									</div>
-									<p class="mb-0"><?= nl2br(h($comment['comment'])) ?></p>
+									<p class="mb-0">
+										<?= nl2br(h($comment['comment'])) ?>
+									</p>
 								</div>
 
 								<!-- Modale édition commentaire -->
@@ -533,9 +569,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
 								<div class="card mb-2">
 									<div class="card-header py-1 d-flex justify-content-between align-items-center">
 										<div>
-											<strong><?= h($attachment['created_by_name'] ?? 'Utilisateur inconnu') ?></strong>
-											<small
-												class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($attachment['date_creation'])) ?></small>
+											<strong>
+												<?= h($attachment['created_by_name'] ?? 'Utilisateur inconnu') ?>
+											</strong>
+											<small class="text-muted ms-2">
+												<?= date('d/m/Y H:i', strtotime($attachment['date_creation'])) ?>
+											</small>
 										</div>
 										<div>
 											<?php if ($isPdf): ?>
@@ -586,7 +625,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 													<?= h($attachment['nom_personnalise'] ?? $attachment['nom_fichier']) ?>
 												</div>
 												<?php if (!empty($attachment['nom_personnalise']) && $attachment['nom_personnalise'] !== $attachment['nom_fichier']): ?>
-													<div class="original-name text-muted small"><?= h($attachment['nom_fichier']) ?>
+													<div class="original-name text-muted small">
+														<?= h($attachment['nom_fichier']) ?>
 													</div>
 												<?php endif; ?>
 											</div>
@@ -804,12 +844,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
 				<div id="contractDetailsContent">
 					<div class="text-center">
 						<div class="spinner-border text-primary" role="status"></div>
-						<p class="mt-2">Chargement…</p>
+						<p class="mt-2">Chargement...</p>
 					</div>
 				</div>
 			</div>
-			<div class="modal-footer"><button type="button" class="btn btn-secondary"
-					data-bs-dismiss="modal">Fermer</button>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
 			</div>
 		</div>
 	</div>
@@ -951,7 +991,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 			<div class="modal-header">
 				<h5 class="modal-title">
 					<i class="bi bi-lock me-2"></i>Fermer l'intervention
-					<small class="text-muted ms-2"><?= h($intervention['reference'] ?? '') ?></small>
+					<small class="text-muted ms-2">
+						<?= h($intervention['reference'] ?? '') ?>
+					</small>
 				</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
@@ -981,10 +1023,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 	<div class="modal fade" id="forceTicketsModal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<!-- <div class="modal-header">
-					<h5 class="modal-title"><i class="bi bi-ticket-perforated me-2"></i>Forcer les tickets utilisés</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-				</div> -->
 				<form action="<?= BASE_URL ?>interventions/forceTickets/<?= $intervention['id'] ?>" method="POST">
 					<?= csrf_field() ?>
 					<div class="modal-body">
@@ -1379,8 +1417,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 	window.BASE_URL = '<?= addslashes(BASE_URL) ?>';
 </script>
 
-<script src="<?= BASE_URL ?>assets/js/pages/interventions.js"
-	onerror="console.error('ERREUR: interventions.js introuvable.');"></script>
+<!-- <script src="<?= BASE_URL ?>assets/js/pages/interventions.js"
+	onerror="console.error('ERREUR: interventions.js introuvable.');"></script> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script>
@@ -1443,22 +1481,120 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </script>
 
 <script>
-	/* ── Contrat info ─────────────────────────────────────────────────────────── */
+	/* ── Contrat info (VERSION CORRIGÉE) ──────────────────────────────────────── */
 	function loadContractDetails(contractId) {
-		var d = document.getElementById('contractDetailsContent');
-		d.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Chargement…</p></div>';
-		fetch('<?= BASE_URL ?>interventions/getContractInfo/' + contractId)
-			.then(function (r) { return r.json(); })
-			.then(function (data) {
-				if (data.error) { d.innerHTML = '<div class="alert alert-danger">' + data.error + '</div>'; return; }
-				var s = data.start_date ? new Date(data.start_date).toLocaleDateString('fr-FR') : 'Non définie';
-				var e = data.end_date ? new Date(data.end_date).toLocaleDateString('fr-FR') : 'Non définie';
-				var tc = data.isticketcontract == 1;
-				var tc_color = data.tickets_remaining > 3 ? 'success' : (data.tickets_remaining > 0 ? 'warning' : 'danger');
-				var tr_row = tc ? '<tr><th class="text-muted">Tickets restants:</th><td><span class="badge bg-' + tc_color + '">' + (data.tickets_remaining || 0) + '</span></td></tr>' : '';
-				d.innerHTML = '<div class="row"><div class="col-md-6"><h6 class="fw-bold mb-3">Informations du contrat</h6><table class="table table-sm"><tr><th class="text-muted">Type:</th><td>' + (data.type_name || 'Non défini') + '</td></tr><tr><th class="text-muted">Nature:</th><td>' + (tc ? '<span class="badge bg-info">À tickets</span>' : '<span class="badge bg-secondary">Sans tickets</span>') + '</td></tr><tr><th class="text-muted">Début:</th><td>' + s + '</td></tr><tr><th class="text-muted">Fin:</th><td>' + e + '</td></tr>' + tr_row + '</table></div></div>' + (data.comment ? '<div class="row mt-3"><div class="col-12"><h6 class="fw-bold mb-2">Commentaire</h6><div class="alert alert-info">' + data.comment + '</div></div></div>' : '');
+		var modalContent = document.getElementById('contractDetailsContent');
+		if (!modalContent) {
+			console.error("Element contractDetailsContent non trouvé");
+			return;
+		}
+
+		modalContent.innerHTML = '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Chargement des détails du contrat...</p></div>';
+
+		var url = window.BASE_URL + 'interventions/getContractInfo/' + contractId + '?_t=' + Date.now();
+
+		fetch(url, {
+			method: 'GET',
+			headers: {
+				'X-Requested-With': 'XMLHttpRequest',
+				'Accept': 'application/json'
+			},
+			credentials: 'include'
+		})
+			.then(function (response) {
+				// Vérifier d'abord le Content-Type
+				var contentType = response.headers.get('content-type');
+				if (!contentType || !contentType.includes('application/json')) {
+					throw new Error('Le serveur n\'a pas retourné du JSON. Réponse reçue: ' + contentType);
+				}
+				if (!response.ok) {
+					throw new Error('HTTP ' + response.status);
+				}
+				return response.json();
 			})
-			.catch(function () { d.innerHTML = '<div class="alert alert-danger">Erreur de chargement.</div>'; });
+			.then(function (data) {
+				// Vérifier que data est un objet valide
+				if (!data || typeof data !== 'object') {
+					throw new Error('Données invalides reçues du serveur');
+				}
+
+				if (data.error) {
+					modalContent.innerHTML = '<div class="alert alert-danger m-3">' + escapeHtml2(data.error) + '</div>';
+					return;
+				}
+
+				var startDate = data.start_date ? new Date(data.start_date).toLocaleDateString('fr-FR') : 'Non définie';
+				var endDate = data.end_date ? new Date(data.end_date).toLocaleDateString('fr-FR') : 'Non définie';
+				var isTicketContract = (data.isticketcontract == 1);
+				var ticketColor = 'secondary';
+				var ticketsDisplay = '';
+
+				if (isTicketContract) {
+					if (data.tickets_remaining > 3) ticketColor = 'success';
+					else if (data.tickets_remaining > 0) ticketColor = 'warning';
+					else ticketColor = 'danger';
+					ticketsDisplay = '<tr><th class="text-muted">Tickets restants:</th><td><span class="badge bg-' + ticketColor + '">' + (data.tickets_remaining || 0) + '</span></td></tr>';
+				} else {
+					ticketsDisplay = '<tr><th class="text-muted">Tickets:</th><td><span class="badge bg-secondary">Sans tickets</span></td></tr>';
+				}
+
+				var html = '<div class="p-3">';
+				html += '<h6 class="fw-bold mb-3 border-bottom pb-2">' + escapeHtml2(data.name || 'Contrat') + '</h6>';
+				html += '<table class="table table-sm">';
+				html += '<tr><th class="text-muted" style="width:40%">Type:</th><td>' + (data.type_name ? escapeHtml2(data.type_name) : 'Non défini') + '</td></tr>';
+				html += ticketsDisplay;
+				html += '<tr><th class="text-muted">Date de début:</th><td>' + startDate + '</td></tr>';
+				html += '<tr><th class="text-muted">Date de fin:</th><td>' + endDate + '</td></tr>';
+				html += '</table>';
+
+				if (data.comment) {
+					html += '<div class="alert alert-info mt-2 mb-0">' + escapeHtml2(data.comment) + '</div>';
+				}
+
+				html += '</div>';
+				modalContent.innerHTML = html;
+			})
+			.catch(function (error) {
+				console.error('Erreur loadContractDetails:', error);
+				modalContent.innerHTML = '<div class="alert alert-danger m-3">' +
+					'<i class="bi bi-exclamation-triangle-fill me-2"></i>' +
+					'Erreur lors du chargement des détails du contrat.<br>' +
+					'<small class="text-muted">' + escapeHtml2(error.message) + '</small>' +
+					'<hr><button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="closeContractModalAndRefresh()">' +
+					'<i class="bi bi-arrow-repeat me-1"></i>Fermer et réessayer</button>' +
+					'</div>';
+			});
+	}
+
+	function closeContractModalAndRefresh() {
+		// Forcer la fermeture de la modale
+		var modalElement = document.getElementById('contractDetailsModal');
+		if (modalElement) {
+			var modal = bootstrap.Modal.getInstance(modalElement);
+			if (modal) {
+				modal.hide();
+			} else {
+				// Fallback si l'instance n'existe pas
+				modalElement.style.display = 'none';
+				document.body.classList.remove('modal-open');
+				var backdrops = document.querySelectorAll('.modal-backdrop');
+				backdrops.forEach(function (backdrop) {
+					backdrop.remove();
+				});
+			}
+		}
+		// Réinitialiser le contenu
+		var modalContent = document.getElementById('contractDetailsContent');
+		if (modalContent) {
+			modalContent.innerHTML = '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Chargement...</p></div>';
+		}
+	}
+
+	function escapeHtml2(text) {
+		if (!text) return '';
+		var div = document.createElement('div');
+		div.textContent = text;
+		return div.innerHTML;
 	}
 </script>
 
@@ -1533,8 +1669,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		var btn = document.getElementById('btnOuvrirFermeture');
 		if (!btn) return;
 
-		/* Récupère le token CSRF depuis window.CSRF_TOKEN (injecté en haut de page)
-			 ou depuis le champ caché du formulaire, ou depuis la session PHP */
 		function getCsrfToken() {
 			if (window.CSRF_TOKEN && window.CSRF_TOKEN.length > 0) return window.CSRF_TOKEN;
 			var el = document.getElementById('csrf_token');
@@ -1591,19 +1725,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 		function renderFermeture(data) {
 			var html = '';
-
-			/* Tableau techniciens */
 			html += '<table class="table table-sm table-bordered align-middle mb-3">';
-			html += '<thead class="table-light"><tr>'
-				+ '<th>Technicien</th><th>Durée</th><th>Dépl.</th>'
-				+ '<th>Qualifié</th><th>Détail calcul</th><th class="text-end">Tickets</th>'
-				+ '</tr></thead><tbody>';
-
+			html += '<thead class="table-light"><tr><th>Technicien</th><th>Durée</th><th>Dépl.</th><th>Qualifié</th><th>Détail calcul</th><th class="text-end">Tickets</th></tr></thead><tbody>';
 			data.technicians.forEach(function (t) {
-				var qualifiedBadge = t.is_qualified
-					? '<i class="bi bi-check-circle-fill text-success"></i>'
-					: '-';
-
+				var qualifiedBadge = t.is_qualified ? '<i class="bi bi-check-circle-fill text-success"></i>' : '-';
 				html += '<tr>';
 				html += '<td>' + esc(t.name) + '</td>';
 				html += '<td>' + t.duration_minutes + ' min<br><small class="text-muted">' + t.duration_hours.toFixed(2) + 'h</small></td>';
@@ -1613,23 +1738,17 @@ include_once __DIR__ . '/../../includes/navbar.php';
 				html += '<td class="text-end fw-bold">' + t.tickets_rounded + '</td>';
 				html += '</tr>';
 			});
-
 			html += '</tbody>';
 			html += '<tfoot><tr class="table-secondary fw-bold"><td colspan="5" class="text-end">Total proposé</td><td class="text-end">' + data.total_tickets + '</td></tr></tfoot>';
 			html += '</table>';
 
-			/* Infos contrat */
-			var contractRemaining = 0;
 			if (data.contract) {
-				contractRemaining = data.contract.tickets_remaining;
 				var after = data.contract.tickets_after_close;
 				var cls = after > 3 ? 'success' : (after > 0 ? 'warning' : 'danger');
 				html += '<div class="alert alert-light border mb-3 py-2">';
 				html += '<strong>Contrat :</strong> ' + esc(data.contract.name);
 				html += ' &nbsp;|&nbsp; Solde actuel : <strong>' + data.contract.tickets_remaining + '</strong>';
 				html += ' &nbsp;→&nbsp; Après fermeture : <span class="badge bg-' + cls + '">' + after + '</span>';
-
-				// Alerte si solde deviendrait négatif
 				if (after < 0) {
 					html += '<div class="alert alert-danger mt-2 mb-0 py-1">';
 					html += '<i class="bi bi-exclamation-triangle-fill me-2"></i>';
@@ -1637,11 +1756,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 					html += '<br>Veuillez réduire le nombre de tickets ou ajouter des tickets au contrat.';
 					html += '</div>';
 				}
-
 				html += '</div>';
 			}
 
-			/* Champ tickets modifiable */
 			html += '<div class="mb-2">'
 				+ '<label for="ticketsManuel" class="form-label fw-bold">'
 				+ 'Tickets à déduire'
@@ -1657,38 +1774,26 @@ include_once __DIR__ . '/../../includes/navbar.php';
 			document.getElementById('fermetureConfirmer').disabled = false;
 			document.getElementById('fermetureEmailCheck').style.display = 'flex';
 
-			/* Vérification en temps réel du solde */
 			var ticketsInput = document.getElementById('ticketsManuel');
-			var warningDiv = document.getElementById('ticketsWarning');
-			var warningText = document.getElementById('ticketsWarningText');
-			var confirmBtn = document.getElementById('fermetureConfirmer');
-
-			if (ticketsInput && warningDiv && data.contract) {
+			if (ticketsInput && data.contract) {
 				var currentRemaining = data.contract.tickets_remaining;
-
 				function checkSolde() {
 					var value = parseFloat(ticketsInput.value) || 0;
 					var newRemaining = currentRemaining - value;
-
 					if (newRemaining < 0) {
-						warningDiv.style.display = 'block';
-						warningText.innerHTML = 'Attention : Le solde deviendrait négatif (' + newRemaining.toFixed(2) + '). Veuillez réduire le nombre de tickets à ' + currentRemaining.toFixed(2) + ' maximum.';
-						confirmBtn.disabled = true;
+						document.getElementById('ticketsWarning').style.display = 'block';
+						document.getElementById('ticketsWarningText').innerHTML = 'Attention : Le solde deviendrait négatif (' + newRemaining.toFixed(2) + '). Veuillez réduire le nombre de tickets à ' + currentRemaining.toFixed(2) + ' maximum.';
+						document.getElementById('fermetureConfirmer').disabled = true;
 					} else {
-						warningDiv.style.display = 'none';
-						confirmBtn.disabled = false;
+						document.getElementById('ticketsWarning').style.display = 'none';
+						document.getElementById('fermetureConfirmer').disabled = false;
 					}
 				}
-
-				// Vérifier au chargement
-				checkSolde();
-
-				// Vérifier à chaque modification
 				ticketsInput.addEventListener('input', checkSolde);
 				ticketsInput.addEventListener('change', checkSolde);
+				checkSolde();
 			}
 
-			/* Gestionnaire de confirmation */
 			document.getElementById('fermetureConfirmer').onclick = function () {
 				var tickets = parseFloat(document.getElementById('ticketsManuel').value) || 0;
 				var sendEmail = document.getElementById('sendEmailClose').checked ? 1 : 0;
@@ -1698,8 +1803,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 					alert('Token CSRF manquant. Rechargez la page et réessayez.');
 					return;
 				}
-
-				// Vérification finale avant envoi
 				if (data.contract && tickets > data.contract.tickets_remaining) {
 					alert('Erreur : Le nombre de tickets à déduire (' + tickets + ') dépasse le solde disponible (' + data.contract.tickets_remaining + ').');
 					document.getElementById('fermetureConfirmer').disabled = false;
@@ -1733,7 +1836,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 							window.location.reload();
 						}
 					})
-					.catch(function (e) {
+					.catch(function () {
 						window.location.reload();
 					});
 			};
@@ -1750,22 +1853,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		var container = document.getElementById('techniciansListContainer');
 		if (!container) return;
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
-		var isFlash = <?= isset($intervention['is_flash']) && $intervention['is_flash'] == 1 ? 'true' : 'false' ?>;
-		var needsCompletion = <?= isset($intervention['needs_completion']) && $intervention['needs_completion'] == 1 ? 'true' : 'false' ?>;
-		var missingFields = <?php
-		$missing = [];
-		if (empty($intervention['site_id']))
-			$missing[] = 'Site';
-		if (empty($intervention['room_id']))
-			$missing[] = 'Salle';
-		if (empty($intervention['description']))
-			$missing[] = 'Description';
-		if (empty($intervention['demande_par']))
-			$missing[] = 'Demandeur';
-		if (empty($intervention['title']) || $intervention['title'] == '')
-			$missing[] = 'Titre';
-		echo json_encode($missing);
-		?>;
 		fetch(window.BASE_URL + 'interventions/interventionsTechnician?id=' + interventionId, { method: 'GET', headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin' })
 			.then(function (r) { return r.json(); })
 			.then(function (data) {
@@ -1774,27 +1861,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
 				var html = '<div class="list-group list-group-flush">';
 				assigned.forEach(function (tech) {
 					var name = tech.full_name || (tech.first_name + ' ' + tech.last_name);
-					var st = tech.start_time ? formatDateTime(tech.start_time) : 'Non défini';
-					var et = tech.end_time ? formatDateTime(tech.end_time) : 'Non défini';
+					var st = tech.start_time ? new Date(tech.start_time).toLocaleString('fr-FR') : 'Non défini';
+					var et = tech.end_time ? new Date(tech.end_time).toLocaleString('fr-FR') : 'Non défini';
 					var tp = tech.temps_passe ? tech.temps_passe + ' min' : 'Non défini';
 					var dep = tech.deplacement == 1 ? 'Oui' : 'Non';
 					var qual = tech.is_qualified == 1 ? '<span class="badge bg-success text-dark">Qualifié</span>' : '<span class="badge bg-secondary">Non qualifié</span>';
-					var flashAlert = '';
-					if (isFlash && needsCompletion && missingFields.length > 0) {
-						flashAlert = '<div class="alert alert-warning mt-2 mb-0 py-1 small" style="font-size:.75rem;"><i class="bi bi-lightning-charge-fill me-1"></i><strong class="text-dark">Intervention Flash à compléter !</strong><div class="mt-1"><span class="text-muted">Éléments manquants :</span><div class="d-flex flex-wrap gap-1 mt-1">';
-						missingFields.forEach(function (f) { flashAlert += '<span class="badge bg-warning text-dark"><i class="bi bi-exclamation-circle"></i> ' + f + '</span>'; });
-						flashAlert += '</div></div><div class="mt-2"><a href="' + window.BASE_URL + 'interventions/edit/' + interventionId + '" class="btn btn-sm btn-warning w-100"><i class="bi bi-pencil-square"></i> Compléter</a></div></div>';
-					}
-					html += '<div class="list-group-item"><div class="d-flex justify-content-between align-items-start">'
-						+ '<div style="flex:1;"><strong><i class="bi bi-person-badge"></i> ' + escapeHtml(name) + '</strong> ' + qual + '<br>'
-						+ '<div class="row mt-2"><div class="col-md-6"><small class="text-muted"><i class="bi bi-calendar"></i> Début: ' + st + '<br><i class="bi bi-calendar-check"></i> Fin: ' + et + '</small></div>'
-						+ '<div class="col-md-6"><small class="text-muted"><i class="bi bi-clock"></i> Durée: ' + tp + '<br><i class="bi bi-car"></i> Déplacement: ' + dep + '</small></div></div>'
-						+ (tech.commentaire ? '<small class="text-info d-block mt-1"><i class="bi bi-chat"></i> ' + escapeHtml(tech.commentaire.substring(0, 100)) + '</small>' : '')
-						+ flashAlert + '</div>'
-						+ '<div class="d-flex gap-1">'
-						+ '<button class="btn btn-sm btn-outline-primary" onclick="sendEmailToTechnician(' + tech.technicien_id + ',\'' + escapeHtml(name) + '\')" title="Email"><i class="bi bi-envelope"></i></button>'
-						+ '<button class="btn btn-sm btn-outline-danger" onclick="removeTechnicianFromPage(' + tech.technicien_id + ')" title="Retirer"><i class="bi bi-trash"></i></button>'
-						+ '</div></div></div>';
+					html += '<div class="list-group-item"><div class="d-flex justify-content-between align-items-start"><div style="flex:1;"><strong>' + escapeHtml(name) + '</strong> ' + qual + '<br><small>Début: ' + st + '<br>Fin: ' + et + '<br>Durée: ' + tp + '<br>Déplacement: ' + dep + '</small>' + (tech.commentaire ? '<br><small class="text-info">' + escapeHtml(tech.commentaire.substring(0, 100)) + '</small>' : '') + '</div><div class="d-flex gap-1"><button class="btn btn-sm btn-outline-primary" onclick="sendEmailToTechnician(' + tech.technicien_id + ',\'' + escapeHtml(name) + '\')"><i class="bi bi-envelope"></i></button><button class="btn btn-sm btn-outline-danger" onclick="removeTechnicianFromPage(' + tech.technicien_id + ')"><i class="bi bi-trash"></i></button></div></div></div>';
 				});
 				html += '</div>';
 				container.innerHTML = html;
@@ -1804,109 +1876,20 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 	function removeTechnicianFromPage(technicianId) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
-
-		// Récupérer le nom du technicien depuis l'élément DOM
-		var techElement = event?.target?.closest('button');
-		var techName = 'ce technicien';
-		if (techElement) {
-			var listItem = techElement.closest('.list-group-item');
-			if (listItem) {
-				var strongEl = listItem.querySelector('strong');
-				if (strongEl) techName = strongEl.innerText;
-			}
-		}
-
-		if (!confirm('Retirer ' + techName + ' de cette intervention ?')) return;
-
-		// Afficher un indicateur de chargement
-		var container = document.getElementById('techniciansListContainer');
-		var originalContent = container.innerHTML;
-		container.innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary" role="status"></div><p class="mt-2">Suppression en cours...</p></div>';
-
+		if (!confirm('Retirer ce technicien de cette intervention ?')) return;
 		fetch(window.BASE_URL + 'interventions/removeTechnician', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'X-Requested-With': 'XMLHttpRequest',
-				'X-CSRF-Token': window.CSRF_TOKEN || ''
-			},
-			credentials: 'same-origin',
-			body: JSON.stringify({
-				intervention_id: parseInt(interventionId),
-				technician_id: technicianId
-			})
+			headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': window.CSRF_TOKEN || '' },
+			body: JSON.stringify({ intervention_id: interventionId, technician_id: technicianId })
 		})
-			.then(function (response) {
-				// Vérifier si la réponse est OK
-				if (!response.ok) {
-					return response.text().then(function (text) {
-						throw new Error('HTTP ' + response.status + ': ' + text.substring(0, 200));
-					});
-				}
-				return response.json();
-			})
+			.then(function (r) { return r.json(); })
 			.then(function (result) {
-				if (result.success) {
-					// Recharger la liste des techniciens
-					loadTechniciansInPage();
-					// Afficher un message de succès
-					alert(result.message);
-				} else {
-					loadTechniciansInPage();
-					alert('Erreur: ' + (result.error || 'Suppression impossible'));
-				}
+				if (result.success) { loadTechniciansInPage(); alert(result.message); }
+				else { alert('Erreur: ' + (result.error || 'Suppression impossible')); loadTechniciansInPage(); }
 			})
-			.catch(function (error) {
-				console.error('Error:', error);
-				container.innerHTML = originalContent;
-				alert('Erreur: ' + error.message);
-			});
+			.catch(function (error) { console.error(error); alert('Erreur réseau'); loadTechniciansInPage(); });
 	}
-	function removeTechnicianFromModal(technicianId) {
-		var interventionId = document.getElementById('intervention_id').value;
-		if (!interventionId) return;
 
-		var tech = assignedTechnicians.find(function (t) { return t.id == technicianId; });
-		if (!tech) return;
-
-		if (!confirm('Retirer ' + tech.name + ' de cette intervention ?')) return;
-
-		fetch(window.BASE_URL + 'interventions/removeTechnician', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'X-Requested-With': 'XMLHttpRequest',
-				'X-CSRF-Token': window.CSRF_TOKEN || ''
-			},
-			credentials: 'same-origin',
-			body: JSON.stringify({
-				intervention_id: parseInt(interventionId),
-				technician_id: technicianId
-			})
-		})
-			.then(function (response) { return response.json(); })
-			.then(function (result) {
-				if (result.success) {
-					// Supprimer de la liste locale
-					assignedTechnicians = assignedTechnicians.filter(function (t) { return t.id != technicianId; });
-					// Si c'est le technicien actuellement sélectionné, réinitialiser le formulaire
-					if (currentEditId == technicianId) {
-						resetTechnicianForm();
-						document.getElementById('techSelect').value = '';
-						if (typeof $ !== 'undefined' && $('#techSelect').select2) {
-							$('#techSelect').val('').trigger('change');
-						}
-					}
-					alert(result.message);
-				} else {
-					alert('Erreur: ' + (result.error || 'Suppression impossible'));
-				}
-			})
-			.catch(function (error) {
-				console.error('Error:', error);
-				alert('Erreur réseau: ' + error.message);
-			});
-	}
 	function openTechModal(id) {
 		if (!id) { alert('ID intervention manquant'); return; }
 		assignedTechnicians = []; currentEditId = null;
@@ -1924,50 +1907,22 @@ include_once __DIR__ . '/../../includes/navbar.php';
 				sel.innerHTML = '<option value="">-- Sélectionner un technicien --</option>';
 				var technicians = data.data?.technicians || data.technicians || [];
 				var assigned = data.data?.assigned || data.assigned || [];
-
 				assigned.forEach(function (a) {
 					var tech = technicians.find(function (t) { return t.id == a.technicien_id; });
 					if (tech) {
 						assignedTechnicians.push({
-							id: tech.id,
-							name: tech.full_name || (tech.first_name + ' ' + tech.last_name),
-							start_time: a.start_time || '',
-							end_time: a.end_time || '',
-							temps_passe: a.temps_passe || '',
-							deplacement: a.deplacement || 0,
-							is_qualified: a.is_qualified || 0,  // ← Ajouté
-							commentaire: a.commentaire || ''
+							id: tech.id, name: tech.full_name || (tech.first_name + ' ' + tech.last_name),
+							start_time: a.start_time || '', end_time: a.end_time || '', temps_passe: a.temps_passe || '',
+							deplacement: a.deplacement || 0, is_qualified: a.is_qualified || 0, commentaire: a.commentaire || ''
 						});
 					}
 				});
-
-				if (technicians.length === 0) {
-					sel.innerHTML = '<option value="">Aucun technicien disponible</option>';
-				} else {
-					technicians.forEach(function (t) {
-						var o = document.createElement('option');
-						o.value = t.id;
-						o.text = t.full_name || (t.first_name + ' ' + t.last_name);
-						sel.appendChild(o);
-					});
-				}
-
-				if (typeof $ !== 'undefined' && $('#techSelect').select2) {
-					$('#techSelect').select2({
-						placeholder: 'Rechercher un technicien',
-						allowClear: true,
-						width: '100%',
-						dropdownParent: $('#techModal')
-					});
-				}
-
-				var me = document.getElementById('techModal');
-				if (me) new bootstrap.Modal(me).show();
+				if (technicians.length === 0) { sel.innerHTML = '<option value="">Aucun technicien disponible</option>'; }
+				else { technicians.forEach(function (t) { var o = document.createElement('option'); o.value = t.id; o.text = t.full_name || (t.first_name + ' ' + t.last_name); sel.appendChild(o); }); }
+				if (typeof $ !== 'undefined' && $('#techSelect').select2) { $('#techSelect').select2({ placeholder: 'Rechercher un technicien', allowClear: true, width: '100%', dropdownParent: $('#techModal') }); }
+				var me = document.getElementById('techModal'); if (me) new bootstrap.Modal(me).show();
 			})
-			.catch(function (e) {
-				alert('Erreur chargement: ' + e.message);
-				sel.innerHTML = '<option value="">Erreur</option>';
-			});
+			.catch(function (e) { alert('Erreur chargement: ' + e.message); sel.innerHTML = '<option value="">Erreur</option>'; });
 	}
 
 	function resetTechnicianForm() {
@@ -1977,7 +1932,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		document.getElementById('end_time').value = '';
 		document.getElementById('temps_passe').value = '';
 		document.getElementById('deplacement').value = '0';
-		document.getElementById('is_qualified').value = '0';  // ← Ajouté
+		document.getElementById('is_qualified').value = '0';
 		document.getElementById('commentaire').value = '';
 		document.getElementById('technicianDetails').style.display = 'block';
 		document.getElementById('btnRemoveCurrent').style.display = 'none';
@@ -1993,8 +1948,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		if (v > 0) {
 			var h2 = Math.floor(r / 60), m2 = r % 60;
 			var ft = h2 > 0 && m2 > 0 ? h2 + 'h' + m2 : (h2 > 0 ? h2 + 'h' : m2 + 'min');
-			var w = v !== r && r > 0 ? '<br><small class="text-primary">Sera arrondi à ' + ft + ' (' + r + ' min)</small>' : '';
-			d.innerHTML = '<i class="bi bi-calculator-fill text-primary"></i> <strong>Saisie :</strong> ' + v + ' min<br><strong>Après arrondi :</strong> ' + ft + w;
+			d.innerHTML = '<i class="bi bi-calculator-fill text-primary"></i> <strong>Saisie :</strong> ' + v + ' min<br><strong>Après arrondi :</strong> ' + ft;
 			d.style.display = 'block';
 		} else d.style.display = 'none';
 	}
@@ -2032,186 +1986,52 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		if (!tid) return;
 		var tech = assignedTechnicians.find(function (t) { return t.id == tid; });
 		if (tech && confirm('Retirer ' + tech.name + ' de cette intervention ?')) {
-			// Supprimer de la liste assignedTechnicians
 			assignedTechnicians = assignedTechnicians.filter(function (t) { return t.id != tid; });
 			resetTechnicianForm();
 			document.getElementById('techSelect').value = '';
-			if (typeof $ !== 'undefined' && $('#techSelect').select2) {
-				$('#techSelect').val('').trigger('change');
-			}
-			// Recharger l'affichage des techniciens dans la page principale
+			if (typeof $ !== 'undefined' && $('#techSelect').select2) { $('#techSelect').val('').trigger('change'); }
 			loadTechniciansInPage();
 		}
 	}
+
 	function saveAllTechnicians() {
 		var interventionId = document.getElementById('intervention_id').value;
 		if (!interventionId) { alert('ID intervention manquant'); return; }
-
 		var toSave = [];
-
-		// 1. Ajouter tous les techniciens déjà assignés
 		for (var i = 0; i < assignedTechnicians.length; i++) {
 			var existingTech = assignedTechnicians[i];
-			toSave.push({
-				technicien_id: parseInt(existingTech.id),
-				start_time: existingTech.start_time || null,
-				end_time: existingTech.end_time || null,
-				temps_passe: existingTech.temps_passe || null,
-				deplacement: existingTech.deplacement || 0,
-				is_qualified: existingTech.is_qualified || 0,  // ← Ajouté
-				commentaire: existingTech.commentaire || '',
-				notify_technician: 0
-			});
+			toSave.push({ technicien_id: parseInt(existingTech.id), start_time: existingTech.start_time || null, end_time: existingTech.end_time || null, temps_passe: existingTech.temps_passe || null, deplacement: existingTech.deplacement || 0, is_qualified: existingTech.is_qualified || 0, commentaire: existingTech.commentaire || '', notify_technician: 0 });
 		}
-
-		// 2. Ajouter ou mettre à jour le technicien actuellement sélectionné
 		var sel = document.getElementById('techSelect');
 		var selectedValue = sel.value;
-
 		if (selectedValue) {
-			var st = document.getElementById('start_time').value;
-			var et = document.getElementById('end_time').value;
-			var tp = parseInt(document.getElementById('temps_passe').value) || 0;
-			var dep = parseInt(document.getElementById('deplacement').value) || 0;
-			var iq = parseInt(document.getElementById('is_qualified').value) || 0;  // ← Ajouté
-			var comment = document.getElementById('commentaire').value;
-
-			if (st && et && new Date(st) >= new Date(et)) {
-				alert('La date de fin doit être postérieure à la date de début.');
-				return;
-			}
+			var st = document.getElementById('start_time').value, et = document.getElementById('end_time').value, tp = parseInt(document.getElementById('temps_passe').value) || 0, dep = parseInt(document.getElementById('deplacement').value) || 0, iq = parseInt(document.getElementById('is_qualified').value) || 0, comment = document.getElementById('commentaire').value;
+			if (st && et && new Date(st) >= new Date(et)) { alert('La date de fin doit être postérieure à la date de début.'); return; }
 			if (tp > 0) tp = roundToHalfHour(tp) || 30;
-
-			// Vérifier si ce technicien est déjà dans la liste
 			var existingIndex = toSave.findIndex(function (t) { return t.technicien_id == selectedValue; });
-
-			var techData = {
-				technicien_id: parseInt(selectedValue),
-				start_time: st || null,
-				end_time: et || null,
-				temps_passe: tp || null,
-				deplacement: dep,
-				is_qualified: iq,  // ← Ajouté
-				commentaire: comment,
-				notify_technician: 1
-			};
-
-			if (existingIndex >= 0) {
-				toSave[existingIndex] = techData;
-			} else {
-				toSave.push(techData);
-			}
+			var techData = { technicien_id: parseInt(selectedValue), start_time: st || null, end_time: et || null, temps_passe: tp || null, deplacement: dep, is_qualified: iq, commentaire: comment, notify_technician: 1 };
+			if (existingIndex >= 0) { toSave[existingIndex] = techData; } else { toSave.push(techData); }
 		}
-
-		if (toSave.length === 0) {
-			alert('Veuillez sélectionner au moins un technicien');
-			return;
-		}
-
+		if (toSave.length === 0) { alert('Veuillez sélectionner au moins un technicien'); return; }
 		var saveBtn = document.querySelector('#techModal .btn-primary');
 		var originalText = saveBtn ? saveBtn.innerHTML : '';
-		if (saveBtn) {
-			saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status"></span>Enregistrement...';
-			saveBtn.disabled = true;
-		}
-
+		if (saveBtn) { saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status"></span>Enregistrement...'; saveBtn.disabled = true; }
 		fetch(window.BASE_URL + 'interventions/assignTechnicians', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'X-Requested-With': 'XMLHttpRequest',
-				'X-CSRF-Token': window.CSRF_TOKEN || ''
-			},
-			credentials: 'same-origin',
-			body: JSON.stringify({
-				intervention_id: parseInt(interventionId),
-				technicians: toSave,
-				replace: true
-			})
+			method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': window.CSRF_TOKEN || '' },
+			body: JSON.stringify({ intervention_id: parseInt(interventionId), technicians: toSave, replace: true })
 		})
 			.then(function (r) { return r.json(); })
 			.then(function (result) {
-				if (saveBtn) {
-					saveBtn.innerHTML = originalText;
-					saveBtn.disabled = false;
-				}
-				if (result.success) {
-					alert('Techniciens affectés avec succès !');
-					var m = bootstrap.Modal.getInstance(document.getElementById('techModal'));
-					if (m) m.hide();
-					location.reload();
-				} else {
-					alert('Erreur: ' + (result.error || 'Inconnue'));
-				}
+				if (saveBtn) { saveBtn.innerHTML = originalText; saveBtn.disabled = false; }
+				if (result.success) { alert('Techniciens affectés avec succès !'); var m = bootstrap.Modal.getInstance(document.getElementById('techModal')); if (m) m.hide(); location.reload(); }
+				else { alert('Erreur: ' + (result.error || 'Inconnue')); }
 			})
-			.catch(function (e) {
-				if (saveBtn) {
-					saveBtn.innerHTML = originalText;
-					saveBtn.disabled = false;
-				}
-				alert('Erreur réseau: ' + e.message);
-			});
+			.catch(function (e) { if (saveBtn) { saveBtn.innerHTML = originalText; saveBtn.disabled = false; } alert('Erreur réseau: ' + e.message); });
 	}
-	function removeTechnicianFromPage(technicianId) {
-		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 
-		// Récupérer le nom du technicien depuis l'élément DOM
-		var techElement = document.querySelector('#techniciansListContainer .list-group-item button[onclick="removeTechnicianFromPage(' + technicianId + ')"]');
-		var techName = techElement ? techElement.closest('.list-group-item').querySelector('strong').innerText : 'ce technicien';
-
-		if (!confirm('Retirer ' + techName + ' de cette intervention ?')) return;
-
-		// Afficher un indicateur de chargement
-		var container = document.getElementById('techniciansListContainer');
-		container.innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary" role="status"></div><p class="mt-2">Suppression en cours...</p></div>';
-
-		fetch(window.BASE_URL + 'interventions/removeTechnician', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'X-Requested-With': 'XMLHttpRequest',
-				'X-CSRF-Token': window.CSRF_TOKEN || ''
-			},
-			credentials: 'same-origin',
-			body: JSON.stringify({
-				intervention_id: parseInt(interventionId),
-				technician_id: technicianId
-			})
-		})
-			.then(function (response) { return response.json(); })
-			.then(function (result) {
-				if (result.success) {
-					// Recharger la liste des techniciens
-					loadTechniciansInPage();
-					// Optionnel : afficher un message de succès
-					if (typeof Swal !== 'undefined') {
-						Swal.fire({
-							icon: 'success',
-							title: 'Supprimé',
-							text: result.message,
-							timer: 2000,
-							showConfirmButton: false
-						});
-					} else {
-						alert(result.message);
-					}
-				} else {
-					loadTechniciansInPage();
-					alert('Erreur: ' + (result.error || 'Suppression impossible'));
-				}
-			})
-			.catch(function (error) {
-				console.error('Error:', error);
-				loadTechniciansInPage();
-				alert('Erreur réseau: ' + error.message);
-			});
-	}
 	async function sendEmailToTechnician(technicianId, technicianName) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 		if (!confirm('Envoyer un email de notification à ' + technicianName + ' ?')) return;
-		var btn = event?.target?.closest('button');
-		var orig = btn ? btn.innerHTML : '';
-		if (btn) { btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span>'; btn.disabled = true; }
 		try {
 			var fd = new URLSearchParams();
 			fd.append('intervention_id', interventionId);
@@ -2219,13 +2039,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
 			fd.append('csrf_token', window.CSRF_TOKEN || '');
 			var r = await fetch(window.BASE_URL + 'interventions/sendTechnicianEmail', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' }, body: fd });
 			var data = await r.json();
-			if (data.success) alert('✅ Email envoyé à ' + technicianName);
-			else alert('❌ Erreur: ' + (data.error || 'Échec'));
-		} catch (e) { alert('❌ Erreur: ' + e.message); }
-		finally { if (btn) { btn.innerHTML = orig; btn.disabled = false; } }
+			if (data.success) alert('Email envoyé à ' + technicianName);
+			else alert('Erreur: ' + (data.error || 'Échec'));
+		} catch (e) { alert(' Erreur: ' + e.message); }
 	}
 
-	function formatDateTime(s) { if (!s) return ''; return new Date(s).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }); }
 	function escapeHtml(s) { if (!s) return ''; return s.replace(/[&<>]/g, function (m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
 
 	document.addEventListener('DOMContentLoaded', function () {
@@ -2233,22 +2051,88 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		var tp = document.getElementById('temps_passe');
 		if (tp) { tp.addEventListener('input', displayRoundedTime); tp.addEventListener('blur', function () { var v = parseInt(this.value) || 0; var r = roundToHalfHour(v); if (r !== v && r > 0) { this.value = r; displayRoundedTime(); } }); }
 	});
-
-	/* Forcer tickets — calcul temps réel */
-	(function () {
-		var inp = document.getElementById('new_tickets');
-		if (!inp) return;
-		var cur = parseFloat(inp.dataset.currentTickets) || 0;
-		var rem = parseFloat(inp.dataset.contractRemaining) || 0;
-		document.getElementById('current_remaining').textContent = rem;
-		inp.addEventListener('input', function () {
-			var nv = parseFloat(this.value) || 0;
-			var diff = nv - cur;
-			var newRem = rem - diff;
-			document.getElementById('new_remaining').textContent = newRem.toFixed(2) + (newRem < 0 ? ' ⚠️ (solde négatif)' : '');
-		});
-		inp.dispatchEvent(new Event('input'));
-	})();
 </script>
 
+<script>
+	document.addEventListener('click', function (e) {
+		var link = e.target.closest('.contract-info-link');
+		if (link) {
+			e.preventDefault();
+			var contractId = link.getAttribute('data-contract-id');
+			if (contractId) {
+				var modalElement = document.getElementById('contractDetailsModal');
+				if (modalElement) {
+					var modal = new bootstrap.Modal(modalElement);
+					modal.show();
+					loadContractDetails(contractId);
+				}
+			}
+		}
+	});
+</script>
+<script>
+	// Ajouter ce code après la définition de loadContractDetails
+	document.addEventListener('DOMContentLoaded', function () {
+		// Gestionnaire pour les liens contrat
+		document.addEventListener('click', function (e) {
+			var link = e.target.closest('.contract-info-link');
+			if (link) {
+				e.preventDefault();
+				e.stopPropagation();
+				var contractId = link.getAttribute('data-contract-id');
+				if (contractId) {
+					var modalElement = document.getElementById('contractDetailsModal');
+					if (modalElement) {
+						// Réinitialiser le contenu avant d'ouvrir
+						var modalContent = document.getElementById('contractDetailsContent');
+						if (modalContent) {
+							modalContent.innerHTML = '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Chargement...</p></div>';
+						}
+
+						// S'assurer que la modale est propre avant ouverture
+						if (document.body.classList.contains('modal-open')) {
+							var existingBackdrops = document.querySelectorAll('.modal-backdrop');
+							existingBackdrops.forEach(function (backdrop) {
+								backdrop.remove();
+							});
+							document.body.classList.remove('modal-open');
+						}
+
+						var modal = new bootstrap.Modal(modalElement, {
+							backdrop: 'static',
+							keyboard: true
+						});
+						modal.show();
+						loadContractDetails(contractId);
+
+						// Gérer la fermeture proprement
+						modalElement.addEventListener('hidden.bs.modal', function onHidden() {
+							modalElement.removeEventListener('hidden.bs.modal', onHidden);
+							// Nettoyer et restaurer l'accessibilité
+							document.body.style.overflow = '';
+							document.body.style.position = '';
+							document.body.style.paddingRight = '';
+						}, { once: true });
+					} else {
+						console.error('Modale contrat non trouvée');
+					}
+				}
+			}
+		});
+
+		// S'assurer que le bouton fermer fonctionne toujours
+		var closeButtons = document.querySelectorAll('#contractDetailsModal .btn-close, #contractDetailsModal .btn-secondary');
+		closeButtons.forEach(function (btn) {
+			btn.addEventListener('click', function () {
+				var modalElement = document.getElementById('contractDetailsModal');
+				if (modalElement) {
+					var modal = bootstrap.Modal.getInstance(modalElement);
+					if (modal) {
+						modal.hide();
+					}
+				}
+			});
+		});
+	});
+</script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

@@ -1155,13 +1155,7 @@ try {
                     }
                     break;
                 case 'getContractInfo':
-                    if ($id) {
-                        $interventionController->getContractInfo($id);
-                    } else {
-                        header('Content-Type: application/json');
-                        echo json_encode(['error' => 'ID contrat manquant']);
-                        exit;
-                    }
+                    $interventionController->getContractInfo($id);
                     break;
                 case 'sendTechnicianEmail':
                     $interventionController->sendTechnicianEmail();

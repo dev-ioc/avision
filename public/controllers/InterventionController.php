@@ -1899,45 +1899,54 @@ class InterventionController
     }
 
     /**
-     * Récupère les informations détaillées d'un contrat via AJAX
+     * Récupère les informations d'un contrat via AJAX
      */
     public function getContractInfo($contractId)
     {
-        // Vérifier les permissions
-        $this->checkAccess();
+        // Nettoyage total
+        while (ob_get_level())
+            ob_end_clean();
 
-        header('Content-Type: application/json');
+        header('Content-Type: application/json; charset=utf-8');
 
         try {
-            // Récupérer les infos détaillées du contrat
-            $contract = $this->contractModel->getContractById($contractId);
-
-            if (!$contract) {
-                http_response_code(404);
-                echo json_encode(['error' => 'Contrat non trouvé']);
-                return;
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
             }
 
-            // Formater les données pour l'affichage
-            $contractInfo = [
-                'id' => $contract['id'],
-                'name' => $contract['name'],
-                'type_name' => $contract['contract_type_name'] ?? null,
-                'start_date' => $contract['start_date'] ?? null,
-                'end_date' => $contract['end_date'] ?? null,
-                'tickets_remaining' => $contract['tickets_remaining'] ?? null,
-                'isticketcontract' => $contract['isticketcontract'] ?? 0,
-                'comment' => $contract['comment'] ?? null,
-                'status' => $contract['status'] ?? null
-            ];
+            if (!isset($_SESSION['user'])) {
+                http_response_code(401);
+                echo json_encode(['error' => 'Non authentifié']);
+                exit;
+            }
 
-            echo json_encode($contractInfo);
+            $contractId = (int) $contractId;
+
+            $sql = "SELECT c.id, c.name, c.start_date, c.end_date, 
+                       c.tickets_remaining, c.isticketcontract, c.comment,
+                       ct.name as contract_type_name
+                FROM contracts c
+                LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
+                WHERE c.id = :id";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([':id' => $contractId]);
+
+            $contract = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$contract) {
+                throw new Exception("Contrat non trouvé");
+            }
+
+            echo json_encode($contract, JSON_UNESCAPED_UNICODE);
+
         } catch (Exception $e) {
             http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
         }
-    }
 
+        exit;
+    }
     /**
      * Récupère les contacts d'un client
      */
