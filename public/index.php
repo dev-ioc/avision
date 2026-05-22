@@ -1328,6 +1328,12 @@ try {
                         header('Location: ' . BASE_URL . 'interventions_client');
                     }
                     break;
+                case 'ajaxGetBuildings':
+                    $interventionsClientController->ajaxGetBuildings();
+                    break;
+                case 'ajaxGetRooms':
+                    $interventionsClientController->ajaxGetRooms();
+                    break;
                 case 'get_rooms':
                     // Vérifier que l'utilisateur est connecté et est un client
                     if (!isset($_SESSION['user']) || !isClient()) {

@@ -872,7 +872,13 @@ class InterventionsClientController
      */
     public function ajaxGetBuildings()
     {
-        if (!isset($_SESSION['user']) || !isClient()) {
+        // Nettoyer les buffers de sortie
+        if (ob_get_level()) {
+            ob_clean();
+        }
+
+        // Vérifier si l'utilisateur est connecté
+        if (!isset($_SESSION['user'])) {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'error' => 'Non autorisé']);
             exit;
@@ -881,15 +887,39 @@ class InterventionsClientController
         $siteId = $_GET['site_id'] ?? null;
         if (!$siteId) {
             header('Content-Type: application/json');
-            echo json_encode(['success' => false, 'error' => 'Site ID manquant']);
+            echo json_encode(['success' => false, 'error' => 'ID du site manquant']);
             exit;
         }
 
-        $userLocations = getUserLocations();
-        $buildings = $this->model->getBuildingsBySiteAndLocations($siteId, $userLocations);
+        try {
+            // Récupérer les bâtiments
+            $sql = "SELECT b.id, b.name 
+                FROM buildings b
+                WHERE b.site_id = :site_id
+                ORDER BY b.name";
 
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true, 'buildings' => $buildings]);
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([':site_id' => $siteId]);
+            $buildings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // S'assurer qu'il n'y a rien avant l'envoi
+            if (ob_get_level()) {
+                ob_clean();
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'buildings' => $buildings]);
+
+        } catch (Exception $e) {
+            custom_log("Erreur ajaxGetBuildings: " . $e->getMessage(), 'ERROR');
+
+            if (ob_get_level()) {
+                ob_clean();
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'error' => 'Erreur lors du chargement des bâtiments']);
+        }
         exit;
     }
 
@@ -898,7 +928,13 @@ class InterventionsClientController
      */
     public function ajaxGetRooms()
     {
-        if (!isset($_SESSION['user']) || !isClient()) {
+        // Nettoyer les buffers de sortie
+        if (ob_get_level()) {
+            ob_clean();
+        }
+
+        // Vérifier si l'utilisateur est connecté
+        if (!isset($_SESSION['user'])) {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'error' => 'Non autorisé']);
             exit;
@@ -907,15 +943,39 @@ class InterventionsClientController
         $buildingId = $_GET['building_id'] ?? null;
         if (!$buildingId) {
             header('Content-Type: application/json');
-            echo json_encode(['success' => false, 'error' => 'Bâtiment ID manquant']);
+            echo json_encode(['success' => false, 'error' => 'ID du bâtiment manquant']);
             exit;
         }
 
-        $userLocations = getUserLocations();
-        $rooms = $this->model->getRoomsByBuildingAndLocations($buildingId, $userLocations);
+        try {
+            // Récupérer les salles
+            $sql = "SELECT r.id, r.name 
+                FROM rooms r
+                WHERE r.building_id = :building_id
+                ORDER BY r.name";
 
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true, 'rooms' => $rooms]);
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([':building_id' => $buildingId]);
+            $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // S'assurer qu'il n'y a rien avant l'envoi
+            if (ob_get_level()) {
+                ob_clean();
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'rooms' => $rooms]);
+
+        } catch (Exception $e) {
+            custom_log("Erreur ajaxGetRooms: " . $e->getMessage(), 'ERROR');
+
+            if (ob_get_level()) {
+                ob_clean();
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'error' => 'Erreur lors du chargement des salles']);
+        }
         exit;
     }
 }
