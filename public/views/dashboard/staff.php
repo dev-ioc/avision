@@ -1,6 +1,4 @@
 <?php
-
-include_once __DIR__ . '/../../includes/header.php';
 require_once __DIR__ . '/../../includes/functions.php';
 
 /**
@@ -23,11 +21,6 @@ $userType = $_SESSION['user']['user_type'] ?? null;
 $ticketsValue = $financialData['ticketsValue'] ?? 0;
 $contractsValue = $financialData['contractsValue'] ?? 0;
 $tarifTicket = $financialData['tarifTicket'] ?? 90.0;
-if (!isset($_SESSION['user']) || !canModifyInterventions()) {
-    $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour créer une intervention.";
-    header('Location: ' . BASE_URL . 'dashboard');
-    exit;
-}
 
 $pageTitle = "Nouvelle intervention";
 
