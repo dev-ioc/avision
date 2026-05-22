@@ -48477,3 +48477,92 @@ Quant à l’écran n°1, il est HS
 [2026-05-22 10:14:53][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-05-22 10:14:53][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
 [2026-05-22 10:14:53][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-22 10:16:49][DEBUG] CSRF: Token trouvé dans la requête - Token: fbce4288d03bec35533d... 
+[2026-05-22 10:16:49][WARNING] Tentative de connexion échouée pour l'utilisateur : Technicien 
+[2026-05-22 10:17:10][DEBUG] CSRF: Token trouvé dans la requête - Token: fbce4288d03bec35533d... 
+[2026-05-22 10:17:10][WARNING] Tentative de connexion échouée pour l'utilisateur : Technicien 
+[2026-05-22 10:17:28][DEBUG] CSRF: Token trouvé dans la requête - Token: fbce4288d03bec35533d... 
+[2026-05-22 10:17:28][DEBUG] Permissions chargées pour Technicien : {"role":"technicien","rights":[],"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-22 10:17:28][INFO] Utilisateur connecté : Technicien {"user_id":41,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-05-22 10:17:28][DEBUG] Login réussi - Session ID: 1l0d1l96rouddupoee3ctpg8ek 
+[2026-05-22 10:17:28][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-22 10:17:28][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-22 10:17:28][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-22 10:17:28][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-22 10:19:42][INFO] 55 
+[2026-05-22 10:19:42][INFO] 109 
+[2026-05-22 10:20:30][INFO] 81 
+[2026-05-22 10:20:30][INFO] 110 
+[2026-05-22 10:21:42][DEBUG] CSRF: Token trouvé dans la requête - Token: c57b99b33ce90f9222d9... 
+[2026-05-22 10:21:42][DEBUG] Permissions chargées pour Technicien : {"role":"technicien","rights":[],"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-22 10:21:42][INFO] Utilisateur connecté : Technicien {"user_id":41,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-05-22 10:21:42][DEBUG] Login réussi - Session ID: p41uf6icbnni740lihogbi7jp4 
+[2026-05-22 10:21:42][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-22 10:21:42][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-22 10:21:42][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-22 10:21:42][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-22 10:21:44][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-22 10:21:44][DEBUG] Params: [] 
+[2026-05-22 10:21:53][WARNING] Undefined variable $isExpired {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\view.php","line":1089,"errno":2}
+[2026-05-22 10:28:08][DEBUG] Tentative d'aperçu contrat pour l'ID: 185 
+[2026-05-22 10:28:08][DEBUG] Pièce jointe trouvée: {"id":185,"nom_fichier":"EnvelopePDF.aspx.pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/196\/1768486414_0_EnvelopePDF.aspx.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":588541,"commentaire":null,"date_creation":"2026-01-15 17:13:34","masque_client":0,"type_id":null,"created_by":2} 
+[2026-05-22 10:28:08][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/196/1768486414_0_EnvelopePDF.aspx.pdf 
+[2026-05-22 10:28:08][DEBUG] Fichier trouvé, taille: 588541 
+[2026-05-22 10:28:09][DEBUG] Type MIME détecté: application/pdf 
+[2026-05-22 10:35:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 223adb45db290200195f... 
+[2026-05-22 10:35:41][DEBUG] Permissions chargées pour KARIJA : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-05-22 10:35:41][INFO] Utilisateur connecté : KARIJA {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":46}
+[2026-05-22 10:35:41][DEBUG] Login réussi - Session ID: 6ltb0a2t68ctq1euvo5n8saouf 
+[2026-05-22 10:35:41][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-22 10:35:41][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-22 10:35:41][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-22 10:35:41][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-22 10:38:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 5e1570752b86faedab13... 
+[2026-05-22 10:38:07][DEBUG] Permissions chargées pour Technicien : {"role":"technicien","rights":[],"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-22 10:38:07][INFO] Utilisateur connecté : Technicien {"user_id":41,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-05-22 10:38:07][DEBUG] Login réussi - Session ID: gj9tcseqh4inf1au4mqv239ege 
+[2026-05-22 10:38:07][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-22 10:38:07][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-22 10:38:07][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-22 10:38:07][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-22 10:41:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 2d8a8f128a486dc19def... 
+[2026-05-22 10:41:01][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-22 10:41:01][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-22 10:41:01][DEBUG] Login réussi - Session ID: ijblf8b6socue2f8kjde1c3rmv 
+[2026-05-22 10:41:01][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-22 10:41:01][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-22 10:41:01][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-22 10:41:01][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-05-22 10:41:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 2d8a8f128a486dc19def... 
+[2026-05-22 10:41:36][DEBUG] load_permissions - Session ID: ijblf8b6socue2f8kjde1c3rmv, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-05-22 10:41:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 2d8a8f128a486dc19def... 
+[2026-05-22 10:41:44][INFO] Données POST reçues pour création d'utilisateur: {"csrf_token":"2d8a8f128a486dc19defba682c20db677893159a8e8c50a789ba4e7bcc7f4ef4","username":"Technicien 2","email":"test2@gmail.com","first_name":"Tech","last_name":"Tech","password":"passwordTech*123456","type":"technicien","status":"1","permissions":["20","25","26","22","21"],"coef_utilisateur":"1.00","client_id":""} 
+[2026-05-22 10:41:44][INFO] Données traitées pour création d'utilisateur: {"username":"Technicien 2","email":"test2@gmail.com","password":"passwordTech*123456","first_name":"Tech","last_name":"Tech","type":"technicien","is_admin":0,"status":1,"coef_utilisateur":"1.00","client_id":""} 
+[2026-05-22 10:41:44][INFO] Résultat de la création d'utilisateur: Succès, ID: 42 
+[2026-05-22 10:41:44][INFO] Permissions à ajouter: ["20","25","26","22","21"] 
+[2026-05-22 10:41:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 2266d3f16c70eac6e4e5... 
+[2026-05-22 10:41:52][DEBUG] Permissions chargées pour Technicien 2 : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-22 10:41:52][INFO] Utilisateur connecté : Technicien 2 {"user_id":42,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-05-22 10:41:52][DEBUG] Login réussi - Session ID: 3t5q3ss6tgm6pb9taglnkjef8c 
+[2026-05-22 10:41:52][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-05-22 10:41:52][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-22 10:41:52][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-05-22 10:41:52][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 

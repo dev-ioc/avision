@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../../includes/functions.php';
-
 /**
  * Vue du tableau de bord
  * Affiche les statistiques et les informations importantes
