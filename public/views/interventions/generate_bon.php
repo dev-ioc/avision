@@ -526,24 +526,127 @@ include_once __DIR__ . '/../../includes/navbar.php';
         });
     }
 
-    // Fonction pour afficher les alertes
+    // Fonction pour afficher les alertes stylisées
     function showAlert(message, type) {
+        // Supprimer les alertes existantes pour éviter les doublons
+        const existingAlerts = document.querySelectorAll('.custom-alert-floating');
+        existingAlerts.forEach(alert => alert.remove());
+
         const alertDiv = document.createElement('div');
-        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.className = `custom-alert-floating alert alert-${type} alert-dismissible fade show`;
+
+        // Icônes selon le type
+        const icons = {
+            success: '<i class="bi bi-check-circle-fill me-2"></i>',
+            danger: '<i class="bi bi-exclamation-triangle-fill me-2"></i>',
+            warning: '<i class="bi bi-exclamation-circle-fill me-2"></i>',
+            info: '<i class="bi bi-info-circle-fill me-2"></i>'
+        };
+
         alertDiv.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+                ${icons[type] || icons.info}
+            </div>
+            <div class="flex-grow-1 ms-2">
+                <strong>${type === 'success' ? 'Succès !' : type === 'danger' ? 'Erreur !' : 'Information'}</strong>
+                <div class="small mt-1">${message}</div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     `;
 
-        const container = document.querySelector('.container-fluid');
-        container.insertBefore(alertDiv, container.firstChild);
+        // Styles CSS inline pour un meilleur rendu
+        alertDiv.style.position = 'fixed';
+        alertDiv.style.top = '20px';
+        alertDiv.style.right = '20px';
+        alertDiv.style.minWidth = '320px';
+        alertDiv.style.maxWidth = '450px';
+        alertDiv.style.zIndex = '9999';
+        alertDiv.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+        alertDiv.style.borderRadius = '8px';
+        alertDiv.style.borderLeft = `4px solid ${type === 'success' ? '#28a745' : type === 'danger' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#17a2b8'}`;
+        alertDiv.style.animation = 'slideInRight 0.3s ease-out';
 
-        // Auto-dismiss after 5 seconds
+        // Ajouter l'animation CSS si elle n'existe pas
+        if (!document.querySelector('#alert-styles')) {
+            const style = document.createElement('style');
+            style.id = 'alert-styles';
+            style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+            .custom-alert-floating {
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            .custom-alert-floating:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            }
+        `;
+            document.head.appendChild(style);
+        }
+
+        document.body.appendChild(alertDiv);
+
+        // Barre de progression
+        const progressBar = document.createElement('div');
+        progressBar.style.position = 'absolute';
+        progressBar.style.bottom = '0';
+        progressBar.style.left = '0';
+        progressBar.style.height = '3px';
+        progressBar.style.backgroundColor = type === 'success' ? '#28a745' : type === 'danger' ? '#dc3545' : '#ffc107';
+        progressBar.style.width = '100%';
+        progressBar.style.borderRadius = '0 0 8px 8px';
+        progressBar.style.transition = 'width 4s linear';
+        alertDiv.appendChild(progressBar);
+
+        // Animer la barre de progression
+        setTimeout(() => {
+            progressBar.style.width = '0%';
+        }, 100);
+
+        // Fermeture automatique après 4 secondes
         setTimeout(() => {
             if (alertDiv.parentNode) {
-                alertDiv.remove();
+                alertDiv.style.animation = 'slideOutRight 0.3s ease-out forwards';
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 300);
             }
-        }, 5000);
+        }, 4000);
+
+        // Fermeture au clic
+        alertDiv.addEventListener('click', function (e) {
+            if (!e.target.closest('.btn-close')) {
+                alertDiv.style.animation = 'slideOutRight 0.3s ease-out forwards';
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 300);
+            }
+        });
     }
 </script>
 
