@@ -48650,3 +48650,106 @@ Quant à l’écran n°1, il est HS
 [2026-05-22 14:09:40][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\php21D1.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/330/1779451780_coursUML_compressed__1_.pdf 
 [2026-05-22 14:09:40][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/330/1779451780_coursUML_compressed__1_.pdf 
 [2026-05-22 14:09:40][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML_compressed__1_.pdf (ID: 366) 
+[2026-05-22 14:12:33][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:19:04][DEBUG] getEmailData - Intervention 330 - Email trouvé: AUCUN 
+[2026-05-22 14:19:23][INFO] 81 
+[2026-05-22 14:20:53][DEBUG] getEmailData - Intervention 330 - Email trouvé: AUCUN 
+[2026-05-22 14:22:06][DEBUG] getEmailData - Intervention 330 - Email trouvé: dev_mdg@caspeo.fr 
+[2026-05-22 14:22:23][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:24:40][DEBUG] getEmailData - Intervention 330 - Email trouvé: dev_mdg@caspeo.fr 
+[2026-05-22 14:24:47][DEBUG] getEmailData - Intervention 261 - Email trouvé: AUCUN 
+[2026-05-22 14:27:20][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:27:20][INFO] Génération PDF - Dossier: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/261 
+[2026-05-22 14:27:20][INFO] Génération PDF - Fichier: BI_#VS526-3211_20260522_1427.pdf 
+[2026-05-22 14:27:20][INFO] Génération PDF - Chemin complet: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/261/BI_#VS526-3211_20260522_1427.pdf 
+[2026-05-22 14:27:25][WARNING] Undefined array key "technician_first_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:27:25][WARNING] Undefined array key "technician_last_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:27:25][INFO] PDF généré - Vérification existence: OUI 
+[2026-05-22 14:27:25][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/261/BI_#VS526-3211_20260522_1427.pdf 
+[2026-05-22 14:28:12][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:28:12][INFO] Génération PDF - Dossier: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330 
+[2026-05-22 14:28:12][INFO] Génération PDF - Fichier: BI_#VS4626-2572_20260522_1428.pdf 
+[2026-05-22 14:28:12][INFO] Génération PDF - Chemin complet: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1428.pdf 
+[2026-05-22 14:28:17][WARNING] Undefined array key "technician_first_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:28:17][WARNING] Undefined array key "technician_last_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:28:17][INFO] PDF généré - Vérification existence: OUI 
+[2026-05-22 14:28:17][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1428.pdf 
+[2026-05-22 14:32:32][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:32:33][INFO] Génération PDF - Dossier: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330 
+[2026-05-22 14:32:33][INFO] Génération PDF - Fichier: BI_#VS4626-2572_20260522_1432.pdf 
+[2026-05-22 14:32:33][INFO] Génération PDF - Chemin complet: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1432.pdf 
+[2026-05-22 14:32:37][WARNING] Undefined array key "technician_first_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:32:37][WARNING] Undefined array key "technician_last_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:32:37][INFO] PDF généré - Vérification existence: OUI 
+[2026-05-22 14:32:37][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1432.pdf 
+[2026-05-22 14:33:44][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:33:45][INFO] Génération PDF - Dossier: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330 
+[2026-05-22 14:33:45][INFO] Génération PDF - Fichier: BI_#VS4626-2572_20260522_1433.pdf 
+[2026-05-22 14:33:45][INFO] Génération PDF - Chemin complet: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1433.pdf 
+[2026-05-22 14:33:49][WARNING] Undefined array key "technician_first_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:33:49][WARNING] Undefined array key "technician_last_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:33:49][INFO] PDF généré - Vérification existence: OUI 
+[2026-05-22 14:33:49][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1433.pdf 
+[2026-05-22 14:34:27][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:34:28][INFO] Génération PDF - Dossier: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330 
+[2026-05-22 14:34:28][INFO] Génération PDF - Fichier: BI_#VS4626-2572_20260522_1434.pdf 
+[2026-05-22 14:34:28][INFO] Génération PDF - Chemin complet: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1434.pdf 
+[2026-05-22 14:34:32][WARNING] Undefined array key "technician_first_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:34:32][WARNING] Undefined array key "technician_last_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:34:32][INFO] PDF généré - Vérification existence: OUI 
+[2026-05-22 14:34:32][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1434.pdf 
+[2026-05-22 14:38:31][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:38:31][INFO] Génération PDF - Dossier: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330 
+[2026-05-22 14:38:31][INFO] Génération PDF - Fichier: BI_#VS4626-2572_20260522_1438.pdf 
+[2026-05-22 14:38:31][INFO] Génération PDF - Chemin complet: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1438.pdf 
+[2026-05-22 14:38:37][WARNING] Undefined array key "technician_first_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:38:37][WARNING] Undefined array key "technician_last_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:38:37][INFO] PDF généré - Vérification existence: OUI 
+[2026-05-22 14:38:37][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1438.pdf 
+[2026-05-22 14:43:18][ERROR] Call to undefined method InterventionController::generateBon() {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":971,"trace":"#0 {main}","type":"Error"}
+[2026-05-22 14:44:30][ERROR] Call to undefined method InterventionController::generateBon() {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":971,"trace":"#0 {main}","type":"Error"}
+[2026-05-22 14:44:54][ERROR] Call to undefined method InterventionController::generateBon() {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":971,"trace":"#0 {main}","type":"Error"}
+[2026-05-22 14:46:07][ERROR] Call to undefined method InterventionController::generateBon() {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":971,"trace":"#0 {main}","type":"Error"}
+[2026-05-22 14:46:09][ERROR] Call to undefined method InterventionController::generateBon() {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":971,"trace":"#0 {main}","type":"Error"}
+[2026-05-22 14:47:02][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:47:07][WARNING] Undefined array key "technician_first_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:47:07][WARNING] Undefined array key "technician_last_name" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":244,"errno":2}
+[2026-05-22 14:47:07][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1447.pdf 
+[2026-05-22 14:52:18][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:52:22][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1452.pdf 
+[2026-05-22 14:53:23][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1453.pdf 
+[2026-05-22 14:53:31][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:53:35][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1453.pdf 
+[2026-05-22 14:54:15][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:54:19][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1454.pdf 
+[2026-05-22 14:54:41][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:54:46][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1454.pdf 
+[2026-05-22 14:55:20][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:55:24][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1455.pdf 
+[2026-05-22 14:55:50][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:55:54][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1455.pdf 
+[2026-05-22 14:56:58][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:56:58][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-22 14:56:58][INFO] Tickets à déduire: 7.5 
+[2026-05-22 14:56:58][INFO] Contrat ID: 221 
+[2026-05-22 14:56:58][INFO] Solde contrat AVANT déduction: 20 
+[2026-05-22 14:56:58][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-22 14:56:58][INFO] Tickets à déduire: 7.5 
+[2026-05-22 14:56:58][INFO] Solde AVANT déduction: 20 
+[2026-05-22 14:56:58][INFO] Solde APRÈS déduction: 12 
+[2026-05-22 14:56:58][INFO] Déduction de 7.5 tickets réussie 
+[2026-05-22 14:56:58][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 12 
+[2026-05-22 14:57:25][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:57:30][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1457.pdf 
+[2026-05-22 14:59:48][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 14:59:52][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1459.pdf 
+[2026-05-22 15:01:01][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 15:01:06][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1501.pdf 
+[2026-05-22 15:02:22][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 15:02:27][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1502.pdf 
+[2026-05-22 15:03:12][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 15:03:17][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1503.pdf 
+[2026-05-22 15:12:39][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 15:12:45][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1512.pdf 
+[2026-05-22 15:14:07][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
+[2026-05-22 15:14:12][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1514.pdf 

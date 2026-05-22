@@ -3878,52 +3878,33 @@ class InterventionController
         exit;
     }
 
+
     /**
-     * Afficher la page de génération du bon d'intervention
+     * Récupère les techniciens assignés à une intervention
      */
-    public function generateBon($interventionId)
+    private function getInterventionTechnicians($interventionId)
     {
-        if (!canModifyInterventions()) {
-            header('Location: ' . $this->getInterventionsListUrl());
-            exit;
-        }
+        $sql = "SELECT 
+                u.id,
+                u.first_name,
+                u.last_name,
+                CONCAT(u.first_name, ' ', u.last_name) as full_name,
+                u.email,
+                it.temps_passe,
+                it.deplacement,
+                it.is_qualified,
+                it.start_time,
+                it.end_time,
+                it.commentaire
+            FROM intervention_techniciens it
+            INNER JOIN users u ON it.technicien_id = u.id
+            WHERE it.intervention_id = :intervention_id
+            ORDER BY u.first_name, u.last_name";
 
-        try {
-            // Récupérer l'intervention avec toutes les données nécessaires
-            $intervention = $this->interventionModel->getById($interventionId);
-
-            if (!$intervention) {
-                $_SESSION['error'] = 'Intervention non trouvée';
-                header('Location: ' . $this->getInterventionsListUrl());
-                exit;
-            }
-
-            // Récupérer les commentaires
-            $comments = $this->getComments($interventionId);
-
-            // Récupérer les pièces jointes
-            $attachments = $this->getAttachments($interventionId);
-
-            // Récupérer les informations du contrat si disponible
-            if (!empty($intervention['contract_id'])) {
-                $contract = $this->contractModel->getContractById($intervention['contract_id']);
-                if ($contract) {
-                    $intervention['contract_type_name'] = $contract['contract_type_name'] ?? '';
-                    $intervention['tickets_remaining'] = $contract['tickets_remaining'] ?? 0;
-                }
-            }
-
-            // Inclure la vue
-            include __DIR__ . '/../views/interventions/generate_bon.php';
-
-        } catch (Exception $e) {
-            custom_log("Erreur lors de l'affichage de la génération du bon d'intervention : " . $e->getMessage(), 'ERROR');
-            $_SESSION['error'] = 'Erreur lors du chargement de la page';
-            header('Location: ' . BASE_URL . 'interventions/view/' . $interventionId);
-            exit;
-        }
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':intervention_id' => $interventionId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
     /**
      * Sauvegarder la sélection des éléments pour le bon d'intervention
      */
@@ -3975,12 +3956,14 @@ class InterventionController
                 exit;
             }
 
-
             // Récupérer les commentaires sélectionnés pour le bon
             $selectedComments = $this->getCommentsForBon($interventionId);
 
             // Récupérer les pièces jointes sélectionnées pour le bon
             $selectedAttachments = $this->getAttachmentsForBon($interventionId);
+
+            // Récupérer les techniciens assignés à l'intervention
+            $technicians = $this->getInterventionTechnicians($interventionId);
 
             // Récupérer les informations du contrat si disponible
             if (!empty($intervention['contract_id'])) {
@@ -3993,7 +3976,7 @@ class InterventionController
 
             // Générer le PDF
             try {
-                $pdfPath = $this->generateBonInterventionPdf($intervention, $selectedComments, $selectedAttachments);
+                $pdfPath = $this->generateBonInterventionPdf($intervention, $selectedComments, $selectedAttachments, $technicians);
                 custom_log("PDF généré avec succès: $pdfPath", 'INFO');
             } catch (Exception $e) {
                 custom_log("Erreur lors de la génération du PDF: " . $e->getMessage(), 'ERROR');
@@ -4004,9 +3987,7 @@ class InterventionController
 
             // Lire et afficher le PDF
             if (file_exists($pdfPath)) {
-                // Extraire le nom du fichier depuis le chemin
                 $filename = basename($pdfPath);
-
                 header('Content-Type: application/pdf');
                 header('Content-Disposition: inline; filename="' . $filename . '"');
                 header('Cache-Control: private, max-age=0, must-revalidate');
@@ -4027,7 +4008,67 @@ class InterventionController
             exit;
         }
     }
+    /**
+     * Génère le bon d'intervention PDF avec les éléments sélectionnés
+     * 
+     * @param array $intervention Données de l'intervention
+     * @param array $comments Commentaires sélectionnés
+     * @param array $attachments Pièces jointes sélectionnées
+     * @param array $technicians Techniciens assignés
+     * @return string Chemin du fichier PDF généré
+     */
+    private function generateBonInterventionPdf($intervention, $comments, $attachments, $technicians = [])
+    {
+        // Créer le dossier de stockage s'il n'existe pas
+        $uploadDir = __DIR__ . '/../../uploads/interventions/' . $intervention['id'];
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
 
+        // Générer un nom de fichier unique avec la date et l'heure
+        $fileName = 'BI_' . $intervention['reference'] . '_' . date('Ymd') . '_' . date('Hi') . '.pdf';
+        $filePath = $uploadDir . '/' . $fileName;
+
+        // Charger la classe InterventionPDF
+        require_once __DIR__ . '/../classes/InterventionPDF.php';
+
+        // Créer et générer le PDF avec les éléments sélectionnés
+        $pdf = new InterventionPDF();
+        $pdf->generateBonIntervention($intervention, $comments, $attachments, $technicians);
+        $pdf->Output($filePath, 'F');
+
+        // Ajouter le PDF comme pièce jointe
+        $data = [
+            'nom_fichier' => $fileName,
+            'nom_personnalise' => 'Bon_intervention_' . date('Ymd'),
+            'chemin_fichier' => 'uploads/interventions/' . $intervention['id'] . '/' . $fileName,
+            'type_fichier' => 'pdf',
+            'taille_fichier' => filesize($filePath),
+            'commentaire' => 'Bon d\'intervention généré automatiquement',
+            'masque_client' => 0,
+            'created_by' => $_SESSION['user']['id']
+        ];
+
+        $this->interventionModel->addPieceJointeWithType($intervention['id'], $data, 'bi');
+
+        // Enregistrer l'action dans l'historique
+        $sql = "INSERT INTO intervention_history (
+                intervention_id, field_name, old_value, new_value, changed_by, description
+            ) VALUES (
+                :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
+            )";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':intervention_id' => $intervention['id'],
+            ':field_name' => 'bon_intervention',
+            ':old_value' => '',
+            ':new_value' => 'Bon_intervention_' . date('Ymd'),
+            ':changed_by' => $_SESSION['user']['id'],
+            ':description' => 'Bon d\'intervention généré avec les éléments sélectionnés'
+        ]);
+
+        return $filePath;
+    }
     /**
      * Récupère les commentaires sélectionnés pour le bon d'intervention
      */
@@ -4072,76 +4113,56 @@ class InterventionController
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    /**
-     * Génère le PDF du bon d'intervention avec les éléments sélectionnés
-     * 
-     * @param array $intervention Données de l'intervention
-     * @param array $comments Commentaires sélectionnés
-     * @param array $attachments Pièces jointes sélectionnées
-     * @return string Chemin du fichier PDF généré
-     */
-    private function generateBonInterventionPdf($intervention, $comments, $attachments)
+    public function generateBon($interventionId)
     {
-        // Créer le dossier de stockage s'il n'existe pas
-        $uploadDir = __DIR__ . '/../../uploads/interventions/' . $intervention['id'];
-        if (!file_exists($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
+        if (!canModifyInterventions()) {
+            header('Location: ' . $this->getInterventionsListUrl());
+            exit;
         }
 
-        // Générer un nom de fichier unique avec la date et l'heure
-        $fileName = 'BI_' . $intervention['reference'] . '_' . date('Ymd') . '_' . date('Hi') . '.pdf';
-        $filePath = $uploadDir . '/' . $fileName;
+        try {
+            // Récupérer l'intervention
+            $intervention = $this->interventionModel->getById($interventionId);
 
-        custom_log("Génération PDF - Dossier: $uploadDir", 'INFO');
-        custom_log("Génération PDF - Fichier: $fileName", 'INFO');
-        custom_log("Génération PDF - Chemin complet: $filePath", 'INFO');
+            if (!$intervention) {
+                $_SESSION['error'] = 'Intervention non trouvée';
+                header('Location: ' . $this->getInterventionsListUrl());
+                exit;
+            }
 
-        // Charger la classe InterventionPDF
-        require_once __DIR__ . '/../classes/InterventionPDF.php';
+            // Récupérer les commentaires
+            $comments = $this->getComments($interventionId);
 
-        // Créer et générer le PDF avec les éléments sélectionnés
-        $pdf = new InterventionPDF();
-        $pdf->generateBonIntervention($intervention, $comments, $attachments);
-        $pdf->Output($filePath, 'F');
+            // Récupérer les pièces jointes
+            $attachments = $this->getAttachments($interventionId);
 
-        custom_log("PDF généré - Vérification existence: " . (file_exists($filePath) ? 'OUI' : 'NON'), 'INFO');
+            // Récupérer les techniciens assignés
+            $technicians = $this->getInterventionTechnicians($interventionId);
 
-        // Ajouter le PDF comme pièce jointe via le modèle
-        $data = [
-            'nom_fichier' => $fileName, // Nom du fichier physique avec l'heure
-            'nom_personnalise' => 'Bon_intervention_' . date('Ymd'), // Nom d'affichage personnalisé
-            'chemin_fichier' => 'uploads/interventions/' . $intervention['id'] . '/' . $fileName,
-            'type_fichier' => 'pdf',
-            'taille_fichier' => filesize($filePath),
-            'commentaire' => 'Bon d\'intervention généré automatiquement',
-            'masque_client' => 0, // Visible par les clients
-            'created_by' => $_SESSION['user']['id']
-        ];
+            // Récupérer la date prévisionnelle à partir des techniciens
+            $dateRange = $this->getInterventionDateRange($interventionId);
+            $intervention['planned_date'] = $dateRange['start'];
+            $intervention['date_range'] = $dateRange;
 
-        // Ajouter la pièce jointe avec le type de liaison 'bi' (Bon d'Intervention)
-        $pieceJointeId = $this->interventionModel->addPieceJointeWithType($intervention['id'], $data, 'bi');
+            // Récupérer les informations du contrat
+            if (!empty($intervention['contract_id'])) {
+                $contract = $this->contractModel->getContractById($intervention['contract_id']);
+                if ($contract) {
+                    $intervention['contract_type_name'] = $contract['contract_type_name'] ?? '';
+                    $intervention['tickets_remaining'] = $contract['tickets_remaining'] ?? 0;
+                }
+            }
 
-        // Enregistrer l'action dans l'historique
-        $sql = "INSERT INTO intervention_history (
-                    intervention_id, field_name, old_value, new_value, changed_by, description
-                ) VALUES (
-                    :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
-                )";
+            // Inclure la vue
+            include __DIR__ . '/../views/interventions/generate_bon.php';
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            ':intervention_id' => $intervention['id'],
-            ':field_name' => 'bon_intervention',
-            ':old_value' => '',
-            ':new_value' => 'Bon_intervention_' . date('Ymd'),
-            ':changed_by' => $_SESSION['user']['id'],
-            ':description' => 'Bon d\'intervention généré avec les éléments sélectionnés'
-        ]);
-
-        return $filePath;
+        } catch (Exception $e) {
+            custom_log("Erreur lors de l'affichage de la génération du bon d'intervention : " . $e->getMessage(), 'ERROR');
+            $_SESSION['error'] = 'Erreur lors du chargement de la page';
+            header('Location: ' . BASE_URL . 'interventions/view/' . $interventionId);
+            exit;
+        }
     }
-
     /**
      * Gère les tickets lors du changement de contrat pour une intervention fermée
      * @param int $interventionId ID de l'intervention
@@ -5896,5 +5917,54 @@ class InterventionController
         ]);
         exit;
     }
+    /**
+     * Récupère la date et heure prévisionnelle de l'intervention
+     * Basée sur la date de début du premier technicien
+     * @param int $interventionId ID de l'intervention
+     * @return string Date formatée ou message par défaut
+     */
+    private function getPlannedDateTime($interventionId)
+    {
+        $sql = "SELECT start_time FROM intervention_techniciens 
+            WHERE intervention_id = :intervention_id 
+            AND start_time IS NOT NULL 
+            ORDER BY start_time ASC 
+            LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':intervention_id' => $interventionId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if ($result && !empty($result['start_time'])) {
+            return date('d/m/Y H:i', strtotime($result['start_time']));
+        }
+
+        return 'Non spécifiée';
+    }
+
+    /**
+     * Récupère la date de début la plus ancienne et la date de fin la plus récente
+     * @param int $interventionId ID de l'intervention
+     * @return array ['start' => string, 'end' => string, 'has_dates' => bool]
+     */
+    public function getInterventionDateRange($interventionId)
+    {
+        $sql = "SELECT 
+                MIN(start_time) as earliest_start,
+                MAX(end_time) as latest_end
+            FROM intervention_techniciens 
+            WHERE intervention_id = :intervention_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':intervention_id' => $interventionId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $hasDates = (!empty($result['earliest_start']) && $result['earliest_start'] != '0000-00-00 00:00:00');
+
+        return [
+            'start' => $hasDates ? date('d/m/Y H:i', strtotime($result['earliest_start'])) : 'Non spécifiée',
+            'end' => (!empty($result['latest_end']) && $result['latest_end'] != '0000-00-00 00:00:00')
+                ? date('d/m/Y H:i', strtotime($result['latest_end']))
+                : 'Non spécifiée',
+            'has_dates' => $hasDates
+        ];
+    }
 }
