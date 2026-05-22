@@ -5371,9 +5371,6 @@ class InterventionController
         return $result ? $result['id'] : 2;
     }
     /**
-     * Envoie un email au technicien assigné
-     */
-    /**
      * Envoie un email à un technicien spécifique
      */
     public function sendTechnicianEmail()
@@ -5398,18 +5395,21 @@ class InterventionController
             exit;
         }
 
-        // Récupérer les données
+        // Récupérer les données (support des deux noms possibles)
         $interventionId = $_POST['intervention_id'] ?? null;
-        $technicianId = $_POST['technicien_id'] ?? null;
+        // CORRECTION : Accepter les deux noms de paramètre
+        $technicianId = $_POST['technicien_id'] ?? $_POST['technician_id'] ?? null;
+
+        // Log pour débogage
+        error_log("sendTechnicianEmail - POST reçu: " . print_r($_POST, true));
+        error_log("sendTechnicianEmail - interventionId: $interventionId, technicianId: $technicianId");
 
         if (!$interventionId) {
-            http_response_code(400);
             echo json_encode(['success' => false, 'error' => 'ID intervention manquant']);
             exit;
         }
 
         if (!$technicianId) {
-            http_response_code(400);
             echo json_encode(['success' => false, 'error' => 'ID technicien manquant']);
             exit;
         }
@@ -5426,13 +5426,13 @@ class InterventionController
             $emailSent = $this->mailService->sendTechnicianAssigned($interventionId, $technicianId);
 
             if ($emailSent) {
-                custom_log_mail("Email de notification renvoyé au technicien $technicianId pour l'intervention $interventionId", 'INFO');
+                custom_log_mail("Email de notification envoyé au technicien $technicianId pour l'intervention $interventionId", 'INFO');
                 echo json_encode([
                     'success' => true,
                     'message' => 'Email envoyé avec succès au technicien'
                 ]);
             } else {
-                custom_log_mail("Échec de l'envoi de l'email de notification au technicien $technicianId pour l'intervention $interventionId", 'WARNING');
+                custom_log_mail("Échec de l'envoi de l'email au technicien $technicianId", 'WARNING');
                 echo json_encode([
                     'success' => false,
                     'error' => 'Échec de l\'envoi de l\'email. Vérifiez la configuration du serveur mail.'
@@ -5440,7 +5440,7 @@ class InterventionController
             }
 
         } catch (Exception $e) {
-            custom_log_mail("Erreur lors de l'envoi de l'email de notification au technicien : " . $e->getMessage(), 'ERROR');
+            custom_log_mail("Erreur lors de l'envoi de l'email au technicien : " . $e->getMessage(), 'ERROR');
             http_response_code(500);
             echo json_encode([
                 'success' => false,
@@ -5449,7 +5449,6 @@ class InterventionController
         }
         exit;
     }
-
     public function getFileData($attachmentId)
     {
         // Vérifier les permissions
