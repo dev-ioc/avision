@@ -200,10 +200,8 @@
       }
     });
   }
-  /**
-   * Charge les détails d'un contrat
-   * @param {string|number} contractId - ID du contrat
-   */
+
+  /* ── Contrat info (VERSION CORRIGÉE) ──────────────────────────────────────── */
   function loadContractDetails(contractId) {
     var modalContent = document.getElementById("contractDetailsContent");
     if (!modalContent) {
@@ -212,10 +210,7 @@
     }
 
     modalContent.innerHTML =
-      '<div class="text-center p-4">' +
-      '<div class="spinner-border text-primary" role="status"></div>' +
-      '<p class="mt-2">Chargement...</p>' +
-      "</div>";
+      '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Chargement des détails du contrat...</p></div>';
 
     var url =
       window.BASE_URL +
@@ -233,28 +228,23 @@
       credentials: "include",
     })
       .then(function (response) {
-        // Lire la réponse comme TEXTE d'abord pour voir ce que le serveur retourne
-        return response.text().then(function (text) {
-          console.log("=== RÉPONSE BRUTE DU SERVEUR ===");
-          console.log("Status:", response.status);
-          console.log("Headers:", response.headers);
-          console.log("Contenu (premier 1000 caractères):");
-          console.log(text.substring(0, 1000));
-          console.log("================================");
-
-          // Essayer de parser le JSON
-          try {
-            var data = JSON.parse(text);
-            return data;
-          } catch (e) {
-            throw new Error(
-              "La réponse n'est pas du JSON valide. Le serveur a retourné: " +
-                text.substring(0, 200),
-            );
-          }
-        });
+        var contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error(
+            "Le serveur n'a pas retourné du JSON. Réponse reçue: " +
+              contentType,
+          );
+        }
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+        return response.json();
       })
       .then(function (data) {
+        if (!data || typeof data !== "object") {
+          throw new Error("Données invalides reçues du serveur");
+        }
+
         if (data.error) {
           modalContent.innerHTML =
             '<div class="alert alert-danger m-3">' +
@@ -263,25 +253,103 @@
           return;
         }
 
-        // Afficher les données normalement
-        renderContractDetails(data, modalContent);
+        // RENDER DIRECTEMENT ICI - sans appeler renderContractDetails
+        var startDate = data.start_date
+          ? new Date(data.start_date).toLocaleDateString("fr-FR")
+          : "Non définie";
+        var endDate = data.end_date
+          ? new Date(data.end_date).toLocaleDateString("fr-FR")
+          : "Non définie";
+        var isTicketContract = data.isticketcontract == 1;
+        var ticketColor = "secondary";
+        var ticketsDisplay = "";
+
+        if (isTicketContract) {
+          if (data.tickets_remaining > 3) ticketColor = "success";
+          else if (data.tickets_remaining > 0) ticketColor = "warning";
+          else ticketColor = "danger";
+          ticketsDisplay =
+            '<tr><th class="text-muted">Tickets restants:</th><td><span class="badge bg-' +
+            ticketColor +
+            '">' +
+            (data.tickets_remaining || 0) +
+            "</span></td></tr>";
+        } else {
+          ticketsDisplay =
+            '<tr><th class="text-muted">Tickets:</th><td><span class="badge bg-secondary">Sans tickets</span></td></tr>';
+        }
+
+        var html = '<div class="p-3">';
+        html +=
+          '<h6 class="fw-bold mb-3 border-bottom pb-2">' +
+          escapeHtml2(data.name || "Contrat") +
+          "</h6>";
+        html += '<table class="table table-sm">';
+        html +=
+          '<tr><th class="text-muted" style="width:40%">Type:</th><td>' +
+          (data.type_name ? escapeHtml2(data.type_name) : "Non défini") +
+          "</td></tr>";
+        html += ticketsDisplay;
+        html +=
+          '<tr><th class="text-muted">Date de début:</th><td>' +
+          escapeHtml2(startDate) +
+          "</td></tr>";
+        html +=
+          '<tr><th class="text-muted">Date de fin:</th><td>' +
+          escapeHtml2(endDate) +
+          "</td></tr>";
+        html += "</table>";
+
+        if (data.comment) {
+          html +=
+            '<div class="alert alert-info mt-2 mb-0">' +
+            escapeHtml2(data.comment) +
+            "</div>";
+        }
+
+        html += "</div>";
+        modalContent.innerHTML = html;
       })
       .catch(function (error) {
-        console.error("Erreur:", error);
+        console.error("Erreur loadContractDetails:", error);
         modalContent.innerHTML =
           '<div class="alert alert-danger m-3">' +
           '<i class="bi bi-exclamation-triangle-fill me-2"></i>' +
-          "Erreur lors du chargement des détails du contrat: " +
-          error.message +
-          "<br><small>Vérifiez la console pour plus de détails.</small>" +
+          "Erreur lors du chargement des détails du contrat.<br>" +
+          '<small class="text-muted">' +
+          escapeHtml2(error.message) +
+          "</small>" +
+          '<hr><button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="closeContractModalAndRefresh()">' +
+          '<i class="bi bi-arrow-repeat me-1"></i>Fermer et réessayer</button>' +
           "</div>";
       });
   }
 
-  // Fonction utilitaire pour échapper le HTML
-  function escapeHtml(text) {
+  function closeContractModalAndRefresh() {
+    var modalElement = document.getElementById("contractDetailsModal");
+    if (modalElement) {
+      var modal = bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      } else {
+        modalElement.style.display = "none";
+        document.body.classList.remove("modal-open");
+        var backdrops = document.querySelectorAll(".modal-backdrop");
+        backdrops.forEach(function (backdrop) {
+          backdrop.remove();
+        });
+      }
+    }
+    var modalContent = document.getElementById("contractDetailsContent");
+    if (modalContent) {
+      modalContent.innerHTML =
+        '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Chargement...</p></div>';
+    }
+  }
+
+  function escapeHtml2(text) {
     if (!text) return "";
-    const div = document.createElement("div");
+    var div = document.createElement("div");
     div.textContent = text;
     return div.innerHTML;
   }

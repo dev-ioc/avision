@@ -1068,9 +1068,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 	</div>
 <?php endif; ?>
 
-<!-- ══════════════════════════════════════════════════════════════════
-		 MODALE TECHNICIENS
-		 ══════════════════════════════════════════════════════════════════ -->
+
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
@@ -1303,10 +1301,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		</div>
 	</div>
 </div>
-
-<!-- ════════════════════════════════════════════════════════════════════════
-		 STYLES
-		 ════════════════════════════════════════════════════════════════════════ -->
 <style>
 	.drop-zone {
 		border: 2px dashed var(--bs-border-color);
@@ -1407,18 +1401,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
 	}
 </style>
 
-<!-- ════════════════════════════════════════════════════════════════════════
-		 SCRIPTS
-		 ════════════════════════════════════════════════════════════════════════ -->
-
-<!-- Token CSRF exposé globalement pour les fetch JS -->
 <script>
 	window.CSRF_TOKEN = '<?= addslashes(csrf_token()) ?>';
 	window.BASE_URL = '<?= addslashes(BASE_URL) ?>';
 </script>
 
-<!-- <script src="<?= BASE_URL ?>assets/js/pages/interventions.js"
-	onerror="console.error('ERREUR: interventions.js introuvable.');"></script> -->
+<script src="<?= BASE_URL ?>assets/js/pages/interventions.js"
+	onerror="console.error('ERREUR: interventions.js introuvable.');"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script>
@@ -1478,124 +1467,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 	document.getElementById('pdfZoomOutBtn')?.addEventListener('click', function () { if (pdfDoc && pdfScale > .5) { pdfScale -= .25; renderPdfPage(currentPdfPage); } });
 	document.getElementById('pdfResetZoomBtn')?.addEventListener('click', function () { if (pdfDoc) { pdfScale = 1.5; renderPdfPage(currentPdfPage); } });
 	document.getElementById('pdfViewerModal')?.addEventListener('hidden.bs.modal', function () { pdfDoc = null; currentPdfPage = 1; pdfScale = 1.5; });
-</script>
-
-<script>
-	/* ── Contrat info (VERSION CORRIGÉE) ──────────────────────────────────────── */
-	function loadContractDetails(contractId) {
-		var modalContent = document.getElementById('contractDetailsContent');
-		if (!modalContent) {
-			console.error("Element contractDetailsContent non trouvé");
-			return;
-		}
-
-		modalContent.innerHTML = '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Chargement des détails du contrat...</p></div>';
-
-		var url = window.BASE_URL + 'interventions/getContractInfo/' + contractId + '?_t=' + Date.now();
-
-		fetch(url, {
-			method: 'GET',
-			headers: {
-				'X-Requested-With': 'XMLHttpRequest',
-				'Accept': 'application/json'
-			},
-			credentials: 'include'
-		})
-			.then(function (response) {
-				// Vérifier d'abord le Content-Type
-				var contentType = response.headers.get('content-type');
-				if (!contentType || !contentType.includes('application/json')) {
-					throw new Error('Le serveur n\'a pas retourné du JSON. Réponse reçue: ' + contentType);
-				}
-				if (!response.ok) {
-					throw new Error('HTTP ' + response.status);
-				}
-				return response.json();
-			})
-			.then(function (data) {
-				// Vérifier que data est un objet valide
-				if (!data || typeof data !== 'object') {
-					throw new Error('Données invalides reçues du serveur');
-				}
-
-				if (data.error) {
-					modalContent.innerHTML = '<div class="alert alert-danger m-3">' + escapeHtml2(data.error) + '</div>';
-					return;
-				}
-
-				var startDate = data.start_date ? new Date(data.start_date).toLocaleDateString('fr-FR') : 'Non définie';
-				var endDate = data.end_date ? new Date(data.end_date).toLocaleDateString('fr-FR') : 'Non définie';
-				var isTicketContract = (data.isticketcontract == 1);
-				var ticketColor = 'secondary';
-				var ticketsDisplay = '';
-
-				if (isTicketContract) {
-					if (data.tickets_remaining > 3) ticketColor = 'success';
-					else if (data.tickets_remaining > 0) ticketColor = 'warning';
-					else ticketColor = 'danger';
-					ticketsDisplay = '<tr><th class="text-muted">Tickets restants:</th><td><span class="badge bg-' + ticketColor + '">' + (data.tickets_remaining || 0) + '</span></td></tr>';
-				} else {
-					ticketsDisplay = '<tr><th class="text-muted">Tickets:</th><td><span class="badge bg-secondary">Sans tickets</span></td></tr>';
-				}
-
-				var html = '<div class="p-3">';
-				html += '<h6 class="fw-bold mb-3 border-bottom pb-2">' + escapeHtml2(data.name || 'Contrat') + '</h6>';
-				html += '<table class="table table-sm">';
-				html += '<tr><th class="text-muted" style="width:40%">Type:</th><td>' + (data.type_name ? escapeHtml2(data.type_name) : 'Non défini') + '</td></tr>';
-				html += ticketsDisplay;
-				html += '<tr><th class="text-muted">Date de début:</th><td>' + startDate + '</td></tr>';
-				html += '<tr><th class="text-muted">Date de fin:</th><td>' + endDate + '</td></tr>';
-				html += '</table>';
-
-				if (data.comment) {
-					html += '<div class="alert alert-info mt-2 mb-0">' + escapeHtml2(data.comment) + '</div>';
-				}
-
-				html += '</div>';
-				modalContent.innerHTML = html;
-			})
-			.catch(function (error) {
-				console.error('Erreur loadContractDetails:', error);
-				modalContent.innerHTML = '<div class="alert alert-danger m-3">' +
-					'<i class="bi bi-exclamation-triangle-fill me-2"></i>' +
-					'Erreur lors du chargement des détails du contrat.<br>' +
-					'<small class="text-muted">' + escapeHtml2(error.message) + '</small>' +
-					'<hr><button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="closeContractModalAndRefresh()">' +
-					'<i class="bi bi-arrow-repeat me-1"></i>Fermer et réessayer</button>' +
-					'</div>';
-			});
-	}
-
-	function closeContractModalAndRefresh() {
-		// Forcer la fermeture de la modale
-		var modalElement = document.getElementById('contractDetailsModal');
-		if (modalElement) {
-			var modal = bootstrap.Modal.getInstance(modalElement);
-			if (modal) {
-				modal.hide();
-			} else {
-				// Fallback si l'instance n'existe pas
-				modalElement.style.display = 'none';
-				document.body.classList.remove('modal-open');
-				var backdrops = document.querySelectorAll('.modal-backdrop');
-				backdrops.forEach(function (backdrop) {
-					backdrop.remove();
-				});
-			}
-		}
-		// Réinitialiser le contenu
-		var modalContent = document.getElementById('contractDetailsContent');
-		if (modalContent) {
-			modalContent.innerHTML = '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Chargement...</p></div>';
-		}
-	}
-
-	function escapeHtml2(text) {
-		if (!text) return '';
-		var div = document.createElement('div');
-		div.textContent = text;
-		return div.innerHTML;
-	}
 </script>
 
 <script>
@@ -1843,7 +1714,54 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		}
 	})();
 </script>
+<script>
+	document.addEventListener('click', function (e) {
+		var link = e.target.closest('.contract-info-link');
+		if (link) {
+			e.preventDefault();
+			e.stopPropagation();
+			var contractId = link.getAttribute('data-contract-id');
+			if (contractId) {
+				var modalElement = document.getElementById('contractDetailsModal');
+				if (modalElement) {
+					// Nettoyer les backdrops existants avant d'ouvrir
+					cleanupModals();
 
+					var modal = new bootstrap.Modal(modalElement, {
+						backdrop: true,
+						keyboard: true
+					});
+					modal.show();
+					loadContractDetails(contractId);
+
+					// Nettoyer après fermeture
+					modalElement.addEventListener('hidden.bs.modal', function onHidden() {
+						modalElement.removeEventListener('hidden.bs.modal', onHidden);
+						cleanupModals();
+						// Restaurer le scroll
+						document.body.style.overflow = '';
+						document.body.style.position = '';
+						document.body.style.paddingRight = '';
+					});
+				}
+			}
+		}
+	});
+
+	function cleanupModals() {
+		// Supprimer les backdrops orphelins
+		var backdrops = document.querySelectorAll('.modal-backdrop');
+		backdrops.forEach(function (backdrop) {
+			backdrop.remove();
+		});
+		// Restaurer la classe body
+		document.body.classList.remove('modal-open');
+		document.body.style.overflow = '';
+		document.body.style.position = '';
+		document.body.style.paddingRight = '';
+	}
+	loadTechniciansInPage(); 
+</script>
 <script>
 	/* ── Techniciens ────────────────────────────────────────────────────────── */
 	var assignedTechnicians = [];
@@ -2050,89 +1968,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		loadTechniciansInPage();
 		var tp = document.getElementById('temps_passe');
 		if (tp) { tp.addEventListener('input', displayRoundedTime); tp.addEventListener('blur', function () { var v = parseInt(this.value) || 0; var r = roundToHalfHour(v); if (r !== v && r > 0) { this.value = r; displayRoundedTime(); } }); }
-	});
-</script>
-
-<script>
-	document.addEventListener('click', function (e) {
-		var link = e.target.closest('.contract-info-link');
-		if (link) {
-			e.preventDefault();
-			var contractId = link.getAttribute('data-contract-id');
-			if (contractId) {
-				var modalElement = document.getElementById('contractDetailsModal');
-				if (modalElement) {
-					var modal = new bootstrap.Modal(modalElement);
-					modal.show();
-					loadContractDetails(contractId);
-				}
-			}
-		}
-	});
-</script>
-<script>
-	// Ajouter ce code après la définition de loadContractDetails
-	document.addEventListener('DOMContentLoaded', function () {
-		// Gestionnaire pour les liens contrat
-		document.addEventListener('click', function (e) {
-			var link = e.target.closest('.contract-info-link');
-			if (link) {
-				e.preventDefault();
-				e.stopPropagation();
-				var contractId = link.getAttribute('data-contract-id');
-				if (contractId) {
-					var modalElement = document.getElementById('contractDetailsModal');
-					if (modalElement) {
-						// Réinitialiser le contenu avant d'ouvrir
-						var modalContent = document.getElementById('contractDetailsContent');
-						if (modalContent) {
-							modalContent.innerHTML = '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Chargement...</p></div>';
-						}
-
-						// S'assurer que la modale est propre avant ouverture
-						if (document.body.classList.contains('modal-open')) {
-							var existingBackdrops = document.querySelectorAll('.modal-backdrop');
-							existingBackdrops.forEach(function (backdrop) {
-								backdrop.remove();
-							});
-							document.body.classList.remove('modal-open');
-						}
-
-						var modal = new bootstrap.Modal(modalElement, {
-							backdrop: 'static',
-							keyboard: true
-						});
-						modal.show();
-						loadContractDetails(contractId);
-
-						// Gérer la fermeture proprement
-						modalElement.addEventListener('hidden.bs.modal', function onHidden() {
-							modalElement.removeEventListener('hidden.bs.modal', onHidden);
-							// Nettoyer et restaurer l'accessibilité
-							document.body.style.overflow = '';
-							document.body.style.position = '';
-							document.body.style.paddingRight = '';
-						}, { once: true });
-					} else {
-						console.error('Modale contrat non trouvée');
-					}
-				}
-			}
-		});
-
-		// S'assurer que le bouton fermer fonctionne toujours
-		var closeButtons = document.querySelectorAll('#contractDetailsModal .btn-close, #contractDetailsModal .btn-secondary');
-		closeButtons.forEach(function (btn) {
-			btn.addEventListener('click', function () {
-				var modalElement = document.getElementById('contractDetailsModal');
-				if (modalElement) {
-					var modal = bootstrap.Modal.getInstance(modalElement);
-					if (modal) {
-						modal.hide();
-					}
-				}
-			});
-		});
 	});
 </script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
