@@ -1772,6 +1772,8 @@ class InterventionController
      */
     public function getContractInfo($contractId)
     {
+        ob_start();
+
         if (
             empty($_SERVER['HTTP_X_REQUESTED_WITH']) ||
             strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest'
@@ -1862,7 +1864,10 @@ class InterventionController
             http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
         }
-
+        $debug = ob_get_clean();
+        if (!empty($debug)) {
+            error_log("=== getContractInfo DEBUG ===\n" . $debug);
+        }
         exit;
     }
     /**

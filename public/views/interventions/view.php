@@ -1767,7 +1767,7 @@ $closeReason = [];
 		document.body.style.position = '';
 		document.body.style.paddingRight = '';
 	}
-	loadTechniciansInPage(); 
+	// loadTechniciansInPage(); 
 </script>
 <script>
 	/* ── Techniciens ────────────────────────────────────────────────────────── */
