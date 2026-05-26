@@ -74,6 +74,7 @@ foreach ($materiel_list as $materiel) {
 
 // Définir toutes les colonnes disponibles avec leurs configurations
 $allColumns = [
+  ['label' => 'Actions', 'field' => 'actions', 'default' => true],
   ['label' => 'Équipement', 'field' => 'equipement', 'default' => true],
   ['label' => 'Type', 'field' => 'type_nom', 'default' => true],
   ['label' => 'S/N', 'field' => 'numero_serie', 'default' => true],
@@ -572,7 +573,6 @@ $allData = [];
       </div>
     </div>
   </div>
-
   <style>
     body {
       background: #f4f6f9;
@@ -615,6 +615,15 @@ $allData = [];
 
     /* Style pour la colonne Équipement (toujours à l'index 0 après rendu) */
     .handsontable td:first-child {
+      background-color: #f8f9fa !important;
+      text-align: center;
+      vertical-align: middle;
+      width: 100px;
+      min-width: 100px;
+    }
+
+    /* Style pour la colonne Équipement (deuxième colonne) */
+    .handsontable td:nth-child(2) {
       background-color: #ffffff !important;
       color: #0d6efd !important;
       font-weight: 600;
@@ -681,14 +690,109 @@ $allData = [];
     .file-item.invalid {
       background-color: var(--bs-danger-bg-subtle);
     }
+
+    /* Style pour la colonne Actions */
+    .handsontable td:first-child {
+      background-color: #f8f9fa !important;
+      text-align: center;
+      vertical-align: middle;
+      width: 100px;
+      min-width: 100px;
+    }
+
+    .handsontable td:first-child button {
+      white-space: nowrap;
+      font-size: 12px;
+      padding: 4px 8px;
+    }
+
+    /* Ajuster la largeur de la colonne Actions */
+    .handsontable col:first-child {
+      width: 100px;
+    }
   </style>
-
-
   <script>
     const baseUrl = '<?= BASE_URL ?>';
     let currentSearchTerm = '';
     let hotInstances = {};
+    // Fonction pour afficher les toasts
+    function showToast(message, type) {
+      const existingToasts = document.querySelectorAll('.custom-toast');
+      existingToasts.forEach(toast => toast.remove());
 
+      const toastDiv = document.createElement('div');
+      toastDiv.className = `custom-toast position-fixed top-0 end-0 m-3`;
+      toastDiv.style.zIndex = '9999';
+      toastDiv.style.minWidth = '300px';
+      toastDiv.style.maxWidth = '400px';
+
+      const colors = {
+        success: { bg: '#d4edda', border: '#28a745', icon: '#28a745' },
+        danger: { bg: '#f8d7da', border: '#dc3545', icon: '#dc3545' },
+        info: { bg: '#d1ecf1', border: '#17a2b8', icon: '#17a2b8' }
+      };
+
+      const color = colors[type] || colors.info;
+
+      toastDiv.style.backgroundColor = color.bg;
+      toastDiv.style.borderLeft = `4px solid ${color.border}`;
+      toastDiv.style.borderRadius = '8px';
+      toastDiv.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+      toastDiv.style.padding = '12px 16px';
+
+      toastDiv.innerHTML = `
+        <div class="d-flex align-items-center">
+            <div class="me-3" style="color: ${color.icon}">
+                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : type === 'danger' ? 'bi-x-circle-fill' : 'bi-info-circle-fill'} fs-4"></i>
+            </div>
+            <div class="flex-grow-1" style="font-size: 14px;">
+                <strong>${type === 'success' ? 'Succès' : type === 'danger' ? 'Erreur' : 'Information'}</strong>
+                <div class="mt-1">${message}</div>
+            </div>
+            <button type="button" class="btn-close ms-2" style="font-size: 12px;" onclick="this.closest('.custom-toast').remove()"></button>
+        </div>
+    `;
+
+      document.body.appendChild(toastDiv);
+      setTimeout(() => {
+        if (toastDiv.parentNode) {
+          toastDiv.style.opacity = '0';
+          toastDiv.style.transition = 'opacity 0.3s ease';
+          setTimeout(() => toastDiv.remove(), 300);
+        }
+      }, 4000);
+    }
+
+    function addNewRowToTable(tableId, locationName, salleId) {
+      const hot = hotInstances[tableId];
+      if (!hot) {
+        console.error('Tableau non trouvé:', tableId);
+        return;
+      }
+
+      const data = hot.getSourceData();
+      const colCount = <?= count($allColumns) ?>;
+      const newRow = Array(colCount).fill('');
+
+      // Col 0 : Actions - STOCKER LE salleId ICI
+      newRow[0] = { type: 'add_button', salle_id: salleId };  // <-- salle_id stocké
+
+      // Col 1 : Équipement
+      newRow[1] = { id: null, marque: '', modele: '' };
+
+      // Col 8 : Pièces jointes
+      newRow[8] = { count: 0, id: null, name: '' };
+
+      data.push(newRow);
+      hot.loadData(data);
+
+      const newRowIndex = data.length - 1;
+      hot.scrollViewportTo(newRowIndex, 2);
+      hot.selectCell(newRowIndex, 2);
+
+      console.log(`Nouvelle ligne ajoutée avec salle_id: ${salleId}`);
+      showToast('Nouvelle ligne ajoutée. Remplissez les informations puis sauvegardez.', 'info');
+    }
     function submitFilters() {
       const clientId = document.getElementById('client_id').value;
       const siteId = document.getElementById('site_id').value;
@@ -1226,7 +1330,10 @@ $allData = [];
                     const data = <?= json_encode(array_map(function ($m) use ($allColumns, $pieces_jointes_count) {
                       $rowData = [];
                       foreach ($allColumns as $col) {
-                        if ($col['field'] === 'equipement') {
+                        if ($col['field'] === 'actions') {
+                          // Colonne Actions - ajouter un marqueur pour le renderer
+                          $rowData[] = ['type' => 'add_button', 'salle_id' => $m['salle_id'] ?? null];
+                        } elseif ($col['field'] === 'equipement') {
                           $rowData[] = [
                             'id' => $m['id'],
                             'marque' => $m['marque'] ?? '',
@@ -1246,7 +1353,6 @@ $allData = [];
                     }, $materiels)); ?>;
 
 
-
                     const hot = new Handsontable(container, {
                       data: data,
                       colHeaders: <?= json_encode($colHeaders) ?>,
@@ -1257,35 +1363,68 @@ $allData = [];
                       height: 'auto',
                       cells: function (row, col) {
                         const header = this.colHeaders[col];
-
+                        if (header === 'Actions') {
+                          return {
+                            renderer: function (instance, td, row, col, prop, value) {
+                              const salleId = value?.salle_id || <?= json_encode($filters['salle_id'] ?? null) ?>;
+                              td.innerHTML = `
+                        <button type="button" class="btn btn-sm btn-success w-100" 
+                                onclick="addNewRowToTable('excelTable-<?= $salle_id ?>', '<?= addslashes($locationString) ?>', ${salleId})">
+                            <i class="bi bi-plus-circle me-1"></i> Ajouter
+                        </button>
+                    `;
+                              td.style.textAlign = 'center';
+                              td.style.verticalAlign = 'middle';
+                              td.style.backgroundColor = '#f8f9fa';
+                              return td;
+                            }
+                          };
+                        }
                         if (header === 'Équipement') {
                           return {
                             renderer: function (instance, td, row, col, prop, value) {
-                              const materielId = value?.id || '';
-                              const marque = escapeHtml(value?.marque || '');
-                              const modele = escapeHtml(value?.modele || '');
-                              if (materielId) {
-                                const urlParams = new URLSearchParams(window.location.search);
-                                const filterParams = urlParams.toString() ? '?' + urlParams.toString() : '';
-                                const baseViewUrl = '<?= BASE_URL ?>materiel/view/';
-                                const fullUrl = baseViewUrl + materielId + filterParams;
-                                const link = document.createElement('a');
-                                link.href = fullUrl;
-                                link.className = 'text-decoration-none fw-bold text-primary';
-                                link.onclick = function (e) { e.stopPropagation(); };
-                                link.textContent = value?.marque || '';
-                                const small = document.createElement('small');
-                                small.className = 'text-muted';
-                                small.textContent = value?.modele || '';
-                                td.innerHTML = '';
-                                td.appendChild(link);
-                                td.appendChild(document.createElement('br'));
-                                td.appendChild(small);
+                              td.innerHTML = '';
+
+                              // Cas objet (ligne existante ou déjà initialisée)
+                              if (value && typeof value === 'object') {
+                                const materielId = value.id || null;
+                                const marque = escapeHtml(value.marque || '');
+                                const modele = escapeHtml(value.modele || '');
+
+                                if (materielId) {
+                                  const urlParams = new URLSearchParams(window.location.search);
+                                  const link = document.createElement('a');
+                                  link.href = '<?= BASE_URL ?>materiel/view/' + materielId
+                                    + (urlParams.toString() ? '?' + urlParams.toString() : '');
+                                  link.className = 'text-decoration-none fw-bold text-primary';
+                                  link.onclick = e => e.stopPropagation();
+                                  link.textContent = value.marque || '';
+                                  const small = document.createElement('small');
+                                  small.className = 'text-muted';
+                                  small.textContent = value.modele || '';
+                                  td.appendChild(link);
+                                  td.appendChild(document.createElement('br'));
+                                  td.appendChild(small);
+                                } else {
+                                  // Nouvelle ligne : afficher les valeurs texte directement
+                                  const span = document.createElement('span');
+                                  span.className = 'fw-bold text-primary';
+                                  span.textContent = value.marque || '';
+                                  const small = document.createElement('small');
+                                  small.className = 'text-muted d-block';
+                                  small.textContent = value.modele || '';
+                                  td.appendChild(span);
+                                  td.appendChild(small);
+                                }
                               } else {
-                                td.innerHTML = `${marque}<br><small class="text-muted">${modele}</small>`;
+                                // Fallback : valeur string brute (saisie directe)
+                                td.textContent = value || '';
                               }
+
                               td.style.cursor = 'default';
-                            }
+                            },
+                            // ← Indique à Handsontable de ne pas écraser l'objet avec la valeur brute
+                            editor: false
                           };
                         }
 
@@ -1302,6 +1441,35 @@ $allData = [];
               }
 
               return {};
+            },
+            afterChange: function (changes, source) {
+              if (!changes || source === 'loadData') return;
+
+              changes.forEach(([row, col, oldVal, newVal]) => {
+                const colHeader = this.getColHeader(col);
+
+                // Si on édite Marque ou Modèle directement dans une cellule texte,
+                // on reconstruit l'objet Équipement (col index 1)
+                if (colHeader === 'Équipement') return;
+
+                // Synchroniser marque/modele dans l'objet Équipement de la ligne
+                const equipCol = 1; // index de la colonne Équipement
+                let equipVal = this.getDataAtCell(row, equipCol);
+
+                if (!equipVal || typeof equipVal !== 'object') {
+                  equipVal = { id: null, marque: '', modele: '' };
+                }
+
+                // Si l'utilisateur édite col "Marque" ou "Modèle" séparément (colonnes cachées)
+                if (colHeader === 'Marque') {
+                  equipVal = { ...equipVal, marque: newVal || '' };
+                  this.setDataAtCell(row, equipCol, equipVal, 'equipSync');
+                }
+                if (colHeader === 'Modèle') {
+                  equipVal = { ...equipVal, modele: newVal || '' };
+                }
+                this.setDataAtCell(row, equipCol, equipVal, 'equipSync');
+              });
             }
           });
 
@@ -1343,7 +1511,8 @@ $allData = [];
   </script>
   <script>
     window.saveAllTablesData = function () {
-      let totalSaved = 0;
+      let totalUpdated = 0;
+      let totalCreated = 0;
       let totalErrors = 0;
       const savePromises = [];
 
@@ -1352,97 +1521,202 @@ $allData = [];
         if (!hot) return;
 
         const allData = hot.getSourceData();
+        const filters = <?= json_encode($filters ?? []) ?>;
 
-        const formattedData = allData
-          .filter(row => row[0]?.id)  // l'id est dans l'objet equipement
-          .map(row => ({
-            id: parseInt(row[0].id),   // ← depuis row[0].id
-            type_materiel: row[1] || null,
-            numero_serie: row[2] || null,
-            version_firmware: row[3] || null,
-            adresse_ip: row[4] || null,
-            adresse_mac: row[5] || null,
-            date_fin_maintenance: row[6] || null,
-            // row[7] = pièces jointes (objet, on skip)
-            reference: row[8] || null,
-            usage_materiel: row[9] || null,
-            marque: row[0].marque || null, // ← depuis row[0].marque
-            modele: row[0].modele || null, // ← depuis row[0].modele
-            ancien_firmware: row[12] || null,
-            masque: row[13] || null,
-            passerelle: row[14] || null,
-            login: row[15] || null,
-            password: row[16] || null,
-            // row[17] = ID (caché, on le skip — déjà dans row[0].id)
-            ip_primaire: row[18] || null,
-            mac_primaire: row[19] || null,
-            ip_secondaire: row[20] || null,
-            mac_secondaire: row[21] || null,
-            stream_aes67_recu: row[22] || null,
-            stream_aes67_transmis: row[23] || null,
-            ssid: row[24] || null,
-            type_cryptage: row[25] || null,
-            password_wifi: row[26] || null,
-            libelle_pa_salle: row[27] || null,
-            numero_port_switch: row[28] || null,
-            vlan: row[29] || null,
-            date_fin_garantie: row[30] || null,
-            date_derniere_inter: row[31] || null,
-            commentaire: row[32] || null,
-            url_github: row[33] || null
-          }));
+        // Priorité: filtre salle_id ou salle_id de la première ligne
+        let globalSalleId = filters.salle_id || null;
 
-        if (formattedData.length === 0) {
-          console.log(`${tableId}: aucune donnée valide à sauvegarder`);
+        // Si pas de salle_id dans les filtres, essayer de le récupérer depuis la première ligne
+        if (!globalSalleId && allData.length > 0) {
+          const firstRow = allData[0];
+          if (firstRow[0] && firstRow[0].salle_id) {
+            globalSalleId = firstRow[0].salle_id;
+          }
+        }
+
+        if (!globalSalleId) {
+          console.warn(`Table ${tableId}: pas de salle_id trouvé, sauvegarde ignorée`);
+          showToast(`Impossible de sauvegarder: salle non identifiée`, 'danger');
           return;
         }
 
-        const filters = <?= json_encode($filters ?? []) ?>;
+        // Séparer les lignes existantes (avec ID) et nouvelles (sans ID)
+        const existingRows = allData.filter(row => {
+          const eq = row[1];
+          return eq && typeof eq === 'object' && eq.id;
+        });
 
-        const promise = fetch('<?= BASE_URL ?>views/excel/excel_save.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-Token': '<?= csrf_token() ?>'
-          },
-          body: JSON.stringify({
-            table_id: tableId,
-            salle_id: filters.salle_id,
-            data: formattedData
+        const newRows = allData.filter(row => {
+          const eq = row[1];
+          return eq && typeof eq === 'object' && !eq.id && (eq.marque || eq.modele);
+        });
+
+        console.log(`Table ${tableId}: ${existingRows.length} à mettre à jour, ${newRows.length} à créer`);
+        console.log(`Salle ID utilisé: ${globalSalleId}`);
+
+        // 1. MISE À JOUR des lignes existantes
+        if (existingRows.length > 0) {
+          const formattedData = existingRows.map(row => ({
+            id: parseInt(row[1].id),
+            marque: row[1].marque || null,
+            modele: row[1].modele || null,
+            type_materiel: row[2] || null,
+            numero_serie: row[3] || null,
+            version_firmware: row[4] || null,
+            adresse_ip: row[5] || null,
+            adresse_mac: row[6] || null,
+            date_fin_maintenance: row[7] || null,
+            reference: row[9] || null,
+            usage_materiel: row[10] || null,
+            ancien_firmware: row[13] || null,
+            masque: row[14] || null,
+            passerelle: row[15] || null,
+            login: row[16] || null,
+            password: row[17] || null,
+            ip_primaire: row[19] || null,
+            mac_primaire: row[20] || null,
+            ip_secondaire: row[21] || null,
+            mac_secondaire: row[22] || null,
+            stream_aes67_recu: row[23] || null,
+            stream_aes67_transmis: row[24] || null,
+            ssid: row[25] || null,
+            type_cryptage: row[26] || null,
+            password_wifi: row[27] || null,
+            libelle_pa_salle: row[28] || null,
+            numero_port_switch: row[29] || null,
+            vlan: row[30] || null,
+            date_fin_garantie: row[31] || null,
+            date_derniere_inter: row[32] || null,
+            commentaire: row[33] || null,
+            url_github: row[34] || null
+          }));
+
+          const updatePromise = fetch('<?= BASE_URL ?>views/excel/excel_save.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': '<?= csrf_token() ?>'
+            },
+            body: JSON.stringify({
+              table_id: tableId,
+              salle_id: globalSalleId,
+              data: formattedData
+            })
           })
-        })
-          .then(response => response.json())
-          .then(result => {
-            if (result.status === 'success' || result.status === 'partial') {
-              totalSaved++;
-              console.log(`${tableId}: ${result.message}`);
-              if (result.errors && result.errors.length > 0) {
-                console.warn(`${tableId} Erreurs:`, result.errors);
+            .then(response => response.json())
+            .then(result => {
+              if (result.status === 'success' || result.status === 'partial') {
+                totalUpdated += result.updated || 0;
+                console.log(`${tableId}: ${result.message}`);
+              } else {
+                totalErrors++;
+                console.error(`${tableId}:`, result.message);
               }
-            } else {
+            })
+            .catch(error => {
               totalErrors++;
-              console.error(`${tableId}:`, result.message);
-            }
-          })
-          .catch(error => {
-            totalErrors++;
-            console.error(`${tableId}:`, error);
-          });
+              console.error(`${tableId} (update):`, error);
+            });
 
-        savePromises.push(promise);
+          savePromises.push(updatePromise);
+        }
+
+        // 2. CRÉATION des nouvelles lignes
+        for (let idx = 0; idx < newRows.length; idx++) {
+          const row = newRows[idx];
+          const eq = row[1];
+
+          console.log(`Traitement nouvelle ligne ${idx + 1}:`, { marque: eq?.marque, modele: eq?.modele, salleId: globalSalleId });
+
+          if (!eq.marque || !eq.modele) {
+            console.warn(`Nouvelle ligne ${idx + 1}: marque et modèle obligatoires`);
+            totalErrors++;
+            continue;
+          }
+
+          const formData = new FormData();
+          formData.append('salle_id', globalSalleId);
+          formData.append('marque', eq.marque || '');
+          formData.append('modele', eq.modele || '');
+          formData.append('type_materiel', row[2] || '');
+          formData.append('numero_serie', row[3] || '');
+          formData.append('version_firmware', row[4] || '');
+          formData.append('adresse_ip', row[5] || '');
+          formData.append('adresse_mac', row[6] || '');
+          formData.append('date_fin_maintenance', row[7] || '');
+          formData.append('reference', row[9] || '');
+          formData.append('usage_materiel', row[10] || '');
+          formData.append('ancien_firmware', row[13] || '');
+          formData.append('masque', row[14] || '');
+          formData.append('passerelle', row[15] || '');
+          formData.append('login', row[16] || '');
+          formData.append('password', row[17] || '');
+          formData.append('ip_primaire', row[19] || '');
+          formData.append('mac_primaire', row[20] || '');
+          formData.append('ip_secondaire', row[21] || '');
+          formData.append('mac_secondaire', row[22] || '');
+          formData.append('stream_aes67_recu', row[23] || '');
+          formData.append('stream_aes67_transmis', row[24] || '');
+          formData.append('ssid', row[25] || '');
+          formData.append('type_cryptage', row[26] || '');
+          formData.append('password_wifi', row[27] || '');
+          formData.append('libelle_pa_salle', row[28] || '');
+          formData.append('numero_port_switch', row[29] || '');
+          formData.append('vlan', row[30] || '');
+          formData.append('date_fin_garantie', row[31] || '');
+          formData.append('date_derniere_inter', row[32] || '');
+          formData.append('commentaire', row[33] || '');
+          formData.append('url_github', row[34] || '');
+
+          if (filters.client_id) formData.append('return_client_id', filters.client_id);
+          if (filters.site_id) formData.append('return_site_id', filters.site_id);
+          if (filters.salle_id) formData.append('return_salle_id', filters.salle_id);
+
+          const createPromise = fetch('<?= BASE_URL ?>materiel/store', {
+            method: 'POST',
+            headers: { 'X-CSRF-Token': '<?= csrf_token() ?>' },
+            body: formData
+          })
+            .then(async response => {
+              if (response.ok || response.redirected) {
+                totalCreated++;
+                console.log(`✅ Nouveau matériel créé: ${eq.marque} ${eq.modele}`);
+                return response;
+              } else {
+                const text = await response.text();
+                console.error(`❌ Échec création: HTTP ${response.status}`, text);
+                totalErrors++;
+              }
+            })
+            .catch(error => {
+              totalErrors++;
+              console.error(`❌ Erreur création:`, error);
+            });
+
+          savePromises.push(createPromise);
+        }
       });
 
       if (savePromises.length === 0) {
-        alert('Aucune donnée à sauvegarder');
+        showToast('Aucune donnée à sauvegarder', 'info');
         return;
       }
 
       Promise.all(savePromises).then(() => {
-        const message = `Sauvegarde terminée : ${totalSaved} tableau(x), ${totalErrors} erreur(s)`;
+        const parts = [];
+        if (totalUpdated > 0) parts.push(`${totalUpdated} mise(s) à jour`);
+        if (totalCreated > 0) parts.push(`${totalCreated} équipement(s) créé(s)`);
+        if (totalErrors > 0) parts.push(`${totalErrors} erreur(s)`);
+
+        const message = 'Sauvegarde terminée : ' + parts.join(', ');
+
         if (totalErrors === 0) {
-          alert(message + '\n\nToutes les modifications ont été sauvegardées avec succès!');
+          showToast(message + ' ✅', 'success');
+          if (totalCreated > 0) {
+            setTimeout(() => window.location.reload(), 2000);
+          }
         } else {
-          alert(message + '\n\n Certaines lignes n\'ont pas pu être sauvegardées. Vérifiez la console.');
+          showToast(message + ' ⚠️', 'danger');
         }
       });
     };

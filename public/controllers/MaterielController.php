@@ -269,7 +269,9 @@ class MaterielController
                 'date_derniere_inter' => !empty($_POST['date_derniere_inter']) ? $_POST['date_derniere_inter'] : null,
                 'commentaire' => $_POST['commentaire'] ?? null
             ];
-
+            custom_log("=== STORE CALLED FROM EXCEL ===", "INFO");
+            custom_log("POST data: " . print_r($_POST, true), "INFO");
+            custom_log("FILES: " . print_r($_FILES, true), "INFO");
             // ========== LOG AVANT INSERTION ==========
             // Log 1: Affichage structuré dans le fichier de log
             custom_log("=== NOUVEAU MATERIEL A INSERER ===", "INFO");
