@@ -228,12 +228,7 @@
       credentials: "include",
     })
       .then(function (response) {
-        // Lire d'abord comme TEXTE pour éviter les erreurs de parsing
         return response.text().then(function (text) {
-          console.log("=== RÉPONSE BRUTE (premiers caractères) ===");
-          console.log(text.substring(0, 200));
-
-          // Vérifier si c'est du HTML
           if (text.trim().startsWith("<")) {
             throw new Error("Le serveur a retourné du HTML au lieu de JSON");
           }
