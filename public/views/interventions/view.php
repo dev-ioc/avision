@@ -24,6 +24,9 @@ if (isset($intervention) && !empty($intervention)) {
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
+
+$canClose = true;
+$closeReason = [];
 ?>
 
 <div class="container-fluid flex-grow-1 container-p-y">
@@ -86,8 +89,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 					<?php
 					/* ── Conditions de fermeture ── */
-					$canClose = true;
-					$closeReason = [];
+
 
 					if (empty($intervention['contract_id'])) {
 						$canClose = false;
@@ -653,9 +655,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
 						<h5 class="card-title mb-0">
 							<i class="bi bi-people"></i> Techniciens d'intervention
 						</h5>
-						<button class="btn btn-sm btn-primary" onclick="openTechModal(<?= $intervention['id'] ?>)">
-							<i class="bi bi-plus me-1"></i> Ajouter
-						</button>
+						<?php if (canModifyInterventions() && $intervention['status_id'] != 6): ?>
+							<button class="btn btn-sm btn-primary" onclick="openTechModal(<?= $intervention['id'] ?>)">
+								<i class="bi bi-plus me-1"></i> Ajouter
+							</button>
+						<?php else: ?>
+							<button class="btn btn-sm btn-secondary" disabled title="Intervention fermée">
+								<i class="bi bi-plus me-1"></i> Ajouter
+							</button>
+						<?php endif; ?>
 					</div>
 					<div class="card-body py-2" id="techniciansListContainer" style="max-height:500px;overflow-y:auto;">
 						<div class="text-center py-3">
@@ -1794,6 +1802,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 	function removeTechnicianFromPage(technicianId) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
+		var interventionStatus = <?= (int) ($intervention['status_id'] ?? 0) ?>;
+		if (interventionStatus === 6) {
+			alert('Impossible de retirer un technicien d\'une intervention fermée. Veuillez la réouvrir d\'abord.');
+			return;
+		}
 		if (!confirm('Retirer ce technicien de cette intervention ?')) return;
 		fetch(window.BASE_URL + 'interventions/removeTechnician', {
 			method: 'POST',
@@ -1914,6 +1927,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 	function saveAllTechnicians() {
 		var interventionId = document.getElementById('intervention_id').value;
+		var interventionStatus = <?= (int) ($intervention['status_id'] ?? 0) ?>;
+		if (interventionStatus === 6) {
+			alert('Impossible de modifier les techniciens d\'une intervention fermée. Veuillez la réouvrir d\'abord.');
+			return;
+		}
 		if (!interventionId) { alert('ID intervention manquant'); return; }
 		var toSave = [];
 		for (var i = 0; i < assignedTechnicians.length; i++) {
@@ -1950,6 +1968,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
 	async function sendEmailToTechnician(technicianId, technicianName) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 		if (!confirm('Envoyer un email de notification à ' + technicianName + ' ?')) return;
+		var interventionStatus = <?= (int) ($intervention['status_id'] ?? 0) ?>;
+		if (interventionStatus === 6) {
+			alert('Impossible d\'envoyer un mail au technicien d\'une intervention fermée. Veuillez la réouvrir d\'abord.');
+			return;
+		}
 		try {
 			var fd = new URLSearchParams();
 			fd.append('intervention_id', interventionId);
@@ -1969,5 +1992,50 @@ include_once __DIR__ . '/../../includes/navbar.php';
 		var tp = document.getElementById('temps_passe');
 		if (tp) { tp.addEventListener('input', displayRoundedTime); tp.addEventListener('blur', function () { var v = parseInt(this.value) || 0; var r = roundToHalfHour(v); if (r !== v && r > 0) { this.value = r; displayRoundedTime(); } }); }
 	});
+</script>
+<script>
+	function calculateDurationFromDates() {
+		var startTime = document.getElementById('start_time').value;
+		var endTime = document.getElementById('end_time').value;
+		var tempsPasseInput = document.getElementById('temps_passe');
+
+		if (startTime && endTime) {
+			var start = new Date(startTime);
+			var end = new Date(endTime);
+
+			if (end > start) {
+				var diffMinutes = Math.round((end - start) / 60000);
+				// Arrondir à 30 minutes près
+				var roundedMinutes = Math.round(diffMinutes / 30) * 30;
+				tempsPasseInput.value = roundedMinutes;
+				displayRoundedTime();
+
+				// Afficher une notification visuelle
+				showDurationCalculated(diffMinutes, roundedMinutes);
+			}
+		}
+	}
+
+	function showDurationCalculated(actualMinutes, roundedMinutes) {
+		var displayDiv = document.getElementById('roundedTimeDisplay');
+		if (displayDiv) {
+			var actualHours = (actualMinutes / 60).toFixed(2);
+			var roundedHours = (roundedMinutes / 60).toFixed(2);
+			displayDiv.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i> ' +
+				'Durée calculée automatiquement : ' + actualHours + 'h → ' +
+				roundedHours + 'h (arrondi à 30min)';
+			displayDiv.style.display = 'block';
+			displayDiv.style.backgroundColor = '#d4edda';
+			displayDiv.style.color = '#155724';
+			setTimeout(function () {
+				displayDiv.style.opacity = '0';
+				setTimeout(function () { displayDiv.style.display = 'none'; displayDiv.style.opacity = '1'; }, 2000);
+			}, 3000);
+		}
+	}
+
+	// Ajouter les écouteurs d'événements
+	document.getElementById('start_time')?.addEventListener('change', calculateDurationFromDates);
+	document.getElementById('end_time')?.addEventListener('change', calculateDurationFromDates);
 </script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

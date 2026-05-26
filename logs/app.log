@@ -48769,3 +48769,129 @@ Quant à l’écran n°1, il est HS
 [2026-05-22 15:31:15][DEBUG] DEBUG - update() - isSaveBeforeClose: FAUX 
 [2026-05-22 15:31:29][DEBUG] CSRF: Token trouvé dans la requête - Token: b3e18af56046d90f57a9... 
 [2026-05-22 15:31:34][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260522_1531.pdf 
+[2026-05-26 08:39:22][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: 8qjs5mi68dl3jbik9p2ju48jnl) 
+[2026-05-26 08:39:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 08:39:43][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-26 08:39:43][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-26 08:39:43][DEBUG] Login réussi - Session ID: 8qjs5mi68dl3jbik9p2ju48jnl 
+[2026-05-26 08:39:43][DEBUG] Login réussi - redirect_after_login: dashboard 
+[2026-05-26 08:39:43][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-26 08:39:43][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-05-26 08:39:43][DEBUG] Redirection après login vers: http://localhost/avision/public/dashboard 
+[2026-05-26 08:44:51][DEBUG] Redirection vers login - URL sauvegardée: interventions/preventives (Session ID: 3sl257m5n5sdb99l99c7c71lop) 
+[2026-05-26 08:49:46][WARNING] Undefined variable $canClose {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":656,"errno":2}
+[2026-05-26 08:49:46][WARNING] Undefined variable $canClose {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":665,"errno":2}
+[2026-05-26 08:49:51][DEBUG] Redirection vers login - URL sauvegardée: interventions/view/330 (Session ID: 705chab3cdhmf7umtovrnjccln) 
+[2026-05-26 08:51:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 08:51:06][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-26 08:51:06][INFO] Tickets à recréditer: 8 
+[2026-05-26 08:51:06][INFO] Contrat ID: 221 
+[2026-05-26 08:51:06][INFO] Had tickets: oui 
+[2026-05-26 08:51:06][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-26 08:51:06][INFO] Solde contrat AVANT recrédit: 12 
+[2026-05-26 08:51:06][INFO] Tickets à recréditer: 8 
+[2026-05-26 08:51:06][INFO] Solde contrat APRÈS recrédit: 20 
+[2026-05-26 08:51:06][INFO] Recrédit de 8 tickets effectué pour le contrat 221 
+[2026-05-26 08:51:06][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-05-26 08:54:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 08:54:03][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-26 08:54:03][INFO] Tickets à déduire: 7.5 
+[2026-05-26 08:54:03][INFO] Contrat ID: 221 
+[2026-05-26 08:54:03][INFO] Solde contrat AVANT déduction: 20 
+[2026-05-26 08:54:03][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-26 08:54:03][INFO] Tickets à déduire: 7.5 
+[2026-05-26 08:54:03][INFO] Solde AVANT déduction: 20 
+[2026-05-26 08:54:03][INFO] Solde APRÈS déduction: 12 
+[2026-05-26 08:54:03][INFO] Déduction de 7.5 tickets réussie 
+[2026-05-26 08:54:03][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 12 
+[2026-05-26 08:54:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 08:54:28][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-26 08:54:28][INFO] Tickets à recréditer: 8 
+[2026-05-26 08:54:28][INFO] Contrat ID: 221 
+[2026-05-26 08:54:28][INFO] Had tickets: oui 
+[2026-05-26 08:54:28][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-26 08:54:28][INFO] Solde contrat AVANT recrédit: 12 
+[2026-05-26 08:54:28][INFO] Tickets à recréditer: 8 
+[2026-05-26 08:54:28][INFO] Solde contrat APRÈS recrédit: 20 
+[2026-05-26 08:54:28][INFO] Recrédit de 8 tickets effectué pour le contrat 221 
+[2026-05-26 08:54:28][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-05-26 08:54:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 08:54:37][INFO] Technicien 39 mis à jour pour l'intervention 330 
+[2026-05-26 08:54:37][INFO] Technicien 41 mis à jour pour l'intervention 330 
+[2026-05-26 08:54:37][INFO] Technicien 5 mis à jour pour l'intervention 330 
+[2026-05-26 08:54:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 08:54:46][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-26 08:54:46][INFO] Tickets à déduire: 7.5 
+[2026-05-26 08:54:46][INFO] Contrat ID: 221 
+[2026-05-26 08:54:46][INFO] Solde contrat AVANT déduction: 20 
+[2026-05-26 08:54:46][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-26 08:54:46][INFO] Tickets à déduire: 7.5 
+[2026-05-26 08:54:46][INFO] Solde AVANT déduction: 20 
+[2026-05-26 08:54:46][INFO] Solde APRÈS déduction: 12 
+[2026-05-26 08:54:46][INFO] Déduction de 7.5 tickets réussie 
+[2026-05-26 08:54:46][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 12 
+[2026-05-26 08:55:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 08:55:52][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-26 08:55:52][INFO] Tickets à recréditer: 8 
+[2026-05-26 08:55:52][INFO] Contrat ID: 221 
+[2026-05-26 08:55:52][INFO] Had tickets: oui 
+[2026-05-26 08:55:52][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-26 08:55:52][INFO] Solde contrat AVANT recrédit: 12 
+[2026-05-26 08:55:52][INFO] Tickets à recréditer: 8 
+[2026-05-26 08:55:52][INFO] Solde contrat APRÈS recrédit: 20 
+[2026-05-26 08:55:52][INFO] Recrédit de 8 tickets effectué pour le contrat 221 
+[2026-05-26 08:55:52][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-05-26 08:56:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 08:56:56][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-26 08:56:56][INFO] Tickets à déduire: 7.5 
+[2026-05-26 08:56:56][INFO] Contrat ID: 221 
+[2026-05-26 08:56:56][INFO] Solde contrat AVANT déduction: 20 
+[2026-05-26 08:56:56][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-26 08:56:56][INFO] Tickets à déduire: 7.5 
+[2026-05-26 08:56:56][INFO] Solde AVANT déduction: 20 
+[2026-05-26 08:56:56][INFO] Solde APRÈS déduction: 12 
+[2026-05-26 08:56:56][INFO] Déduction de 7.5 tickets réussie 
+[2026-05-26 08:56:56][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 12 
+[2026-05-26 08:58:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 08:58:09][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-26 08:58:09][INFO] Tickets à recréditer: 8 
+[2026-05-26 08:58:09][INFO] Contrat ID: 221 
+[2026-05-26 08:58:09][INFO] Had tickets: oui 
+[2026-05-26 08:58:09][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-26 08:58:09][INFO] Solde contrat AVANT recrédit: 12 
+[2026-05-26 08:58:09][INFO] Tickets à recréditer: 8 
+[2026-05-26 08:58:09][INFO] Solde contrat APRÈS recrédit: 20 
+[2026-05-26 08:58:09][INFO] Recrédit de 8 tickets effectué pour le contrat 221 
+[2026-05-26 08:58:09][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-05-26 08:58:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 08:58:16][INFO] Technicien 39 mis à jour pour l'intervention 330 
+[2026-05-26 08:58:16][INFO] Technicien 41 mis à jour pour l'intervention 330 
+[2026-05-26 08:58:16][INFO] Technicien 5 mis à jour pour l'intervention 330 
+[2026-05-26 08:58:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 08:58:23][INFO] Technicien 39 supprimé de l'intervention 330 
+[2026-05-26 09:00:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 09:00:18][INFO] Technicien 41 mis à jour pour l'intervention 330 
+[2026-05-26 09:00:18][INFO] Technicien 5 mis à jour pour l'intervention 330 
+[2026-05-26 09:00:18][INFO] Technicien 39 ajouté à l'intervention 330 
+[2026-05-26 09:00:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 09:00:26][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-05-26 09:00:26][INFO] Tickets à déduire: 6.5 
+[2026-05-26 09:00:26][INFO] Contrat ID: 221 
+[2026-05-26 09:00:26][INFO] Solde contrat AVANT déduction: 20 
+[2026-05-26 09:00:26][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-05-26 09:00:26][INFO] Tickets à déduire: 6.5 
+[2026-05-26 09:00:26][INFO] Solde AVANT déduction: 20 
+[2026-05-26 09:00:26][INFO] Solde APRÈS déduction: 14 
+[2026-05-26 09:00:26][INFO] Déduction de 6.5 tickets réussie 
+[2026-05-26 09:00:26][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 14 
+[2026-05-26 09:08:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 3752eec275cb4500974e... 
+[2026-05-26 09:08:25][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-05-26 09:08:25][INFO] Tickets à recréditer: 7 
+[2026-05-26 09:08:25][INFO] Contrat ID: 221 
+[2026-05-26 09:08:25][INFO] Had tickets: oui 
+[2026-05-26 09:08:25][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-05-26 09:08:25][INFO] Solde contrat AVANT recrédit: 14 
+[2026-05-26 09:08:25][INFO] Tickets à recréditer: 7 
+[2026-05-26 09:08:25][INFO] Solde contrat APRÈS recrédit: 21 
+[2026-05-26 09:08:25][INFO] Recrédit de 7 tickets effectué pour le contrat 221 
+[2026-05-26 09:08:25][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
