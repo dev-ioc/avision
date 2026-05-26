@@ -208,7 +208,6 @@
       console.error("Element contractDetailsContent non trouvé");
       return;
     }
-
     modalContent.innerHTML =
       '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Chargement des détails du contrat...</p></div>';
 

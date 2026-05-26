@@ -1772,9 +1772,36 @@ class InterventionController
      */
     public function getContractInfo($contractId)
     {
+        if (
+            empty($_SERVER['HTTP_X_REQUESTED_WITH']) ||
+            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest'
+        ) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Requête invalide']);
+            exit;
+        }
+
+        // === DIAGNOSTIC TEMPORAIRE ===
+        $debugFile = __DIR__ . '/../../../logs/contract_debug.log';
+
+        // 1. Démarrer la capture
+        ob_start();
+
+        // 2. Vérifier si des erreurs sont déjà dans le buffer
+        $preBuffer = ob_get_contents();
+        if (!empty($preBuffer)) {
+            file_put_contents($debugFile, date('Y-m-d H:i:s') . " - PRE-BUFFER: " . substr($preBuffer, 0, 500) . "\n", FILE_APPEND);
+        }
+        // =============================
+
         // Nettoyage total
-        while (ob_get_level())
+        while (ob_get_level() > 0) {
             ob_end_clean();
+        }
+
+        // Désactiver l'affichage des erreurs
+        ini_set('display_errors', 0);
+        error_reporting(E_ALL); // Log mais n'affiche pas
 
         header('Content-Type: application/json; charset=utf-8');
 
@@ -1790,6 +1817,11 @@ class InterventionController
             }
 
             $contractId = (int) $contractId;
+
+            // Vérifier la connexion DB
+            if (!$this->db) {
+                throw new Exception('Connexion base de données indisponible');
+            }
 
             $sql = "SELECT c.id, c.name, c.start_date, c.end_date, 
                        c.tickets_remaining, c.isticketcontract, c.comment,
@@ -1807,9 +1839,26 @@ class InterventionController
                 throw new Exception("Contrat non trouvé");
             }
 
-            echo json_encode($contract, JSON_UNESCAPED_UNICODE);
+            // === DIAGNOSTIC - Vérifier qu'aucune sortie n'a été émise ===
+            $capturedOutput = ob_get_clean();
+            if (!empty($capturedOutput)) {
+                file_put_contents($debugFile, date('Y-m-d H:i:s') . " - CAPTURED OUTPUT: " . substr($capturedOutput, 0, 500) . "\n", FILE_APPEND);
+            }
+            // ===========================================================
+
+            $json = json_encode($contract, JSON_UNESCAPED_UNICODE);
+
+            if ($json === false) {
+                throw new Exception('Erreur encodage JSON: ' . json_last_error_msg());
+            }
+
+            echo $json;
 
         } catch (Exception $e) {
+            // Log l'erreur
+            error_log("getContractInfo error: " . $e->getMessage());
+            file_put_contents($debugFile, date('Y-m-d H:i:s') . " - ERROR: " . $e->getMessage() . "\n", FILE_APPEND);
+
             http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
         }
