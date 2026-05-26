@@ -1414,9 +1414,8 @@ $closeReason = [];
 	window.BASE_URL = '<?= addslashes(BASE_URL) ?>';
 </script>
 
-<script src="<?= BASE_URL ?>assets/js/pages/interventions.js"
+<script src="<?= BASE_URL ?>assets/js/pages/interventions.js?v=<?= time() ?>"
 	onerror="console.error('ERREUR: interventions.js introuvable.');"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script>
 	/* ── PDF / Image viewers ─────────────────────────────────────────────────── */
