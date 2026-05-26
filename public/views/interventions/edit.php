@@ -1172,36 +1172,46 @@ function openAttachmentModal() {
     }
 </style>
 <script>
-    // Script pour gérer la case à cocher préventive et la priorité
-    document.addEventListener('DOMContentLoaded', function() {
-        const isPreventiveCheckbox = document.getElementById('is_preventive');
-        const prioritySelect = document.getElementById('priority_id');
-        
-        if (isPreventiveCheckbox && prioritySelect) {
-            // Fonction pour mettre à jour la priorité
-            function updatePriority() {
-                if (isPreventiveCheckbox.checked) {
-                    // Si préventive, sélectionner la priorité préventive (ID 5)
-                    for (let i = 0; i < prioritySelect.options.length; i++) {
-                        if (prioritySelect.options[i].text.toLowerCase().includes('préventif') || 
-                            prioritySelect.options[i].text.toLowerCase().includes('preventive')) {
-                            prioritySelect.options[i].selected = true;
-                            break;
-                        }
-                    }
-                    prioritySelect.disabled = true;
-                } else {
-                    prioritySelect.disabled = false;
+// Script pour gérer la case à cocher préventive et la priorité
+document.addEventListener('DOMContentLoaded', function() {
+    const isPreventiveCheckbox = document.getElementById('is_preventive');
+    const prioritySelect = document.getElementById('priority_id');
+    
+    if (isPreventiveCheckbox && prioritySelect) {
+        // Fonction pour mettre à jour la priorité
+        function updatePriority() {
+            if (isPreventiveCheckbox.checked) {
+                // Si préventive, on peut toujours modifier la priorité
+                // On ne bloque plus la sélection
+                prioritySelect.disabled = false;
+                // Optionnel: ajouter un message d'information
+                const helpText = document.querySelector('#priority_id + small');
+                if (helpText) {
+                    helpText.innerHTML = '<i class="bi bi-info-circle me-1"></i>La priorité peut être modifiée même pour les interventions préventives.';
                 }
+            } else {
+                prioritySelect.disabled = false;
             }
-            
-            // Écouter le changement de la case à cocher
-            isPreventiveCheckbox.addEventListener('change', updatePriority);
-            
-            // Appliquer au chargement
-            updatePriority();
         }
-    });
+        
+        // Écouter le changement de la case à cocher
+        isPreventiveCheckbox.addEventListener('change', updatePriority);
+        
+        // Appliquer au chargement
+        updatePriority();
+        
+        // Ajouter une option pour créer des interventions préventives automatiquement
+        // lors de la création de contrats de maintenance
+        const autoCreatePreventiveBtn = document.getElementById('autoCreatePreventiveBtn');
+        if (autoCreatePreventiveBtn) {
+            autoCreatePreventiveBtn.addEventListener('click', function() {
+                // Logique pour créer automatiquement des interventions préventives
+                isPreventiveCheckbox.checked = true;
+                updatePriority();
+            });
+        }
+    }
+});
 </script>
 
 <!-- Scripts pour le chargement dynamique des sites, bâtiments et salles -->

@@ -99,7 +99,6 @@ class InterventionController
         // Par défaut, retourner vers les curatives
         return BASE_URL . 'interventions/curatives';
     }
-
     /**
      * Affiche la liste des interventions
      */
@@ -118,38 +117,21 @@ class InterventionController
             'search' => $_GET['search'] ?? null
         ];
 
-        // Récupérer les priorités pour identifier les préventives
-        $sql = "SELECT id, name, color, created_at FROM intervention_priorities ORDER BY id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-        $priorities = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Identifier la priorité préventive
-        $preventivePriorityId = null;
-        foreach ($priorities as $priority) {
-            if (stripos($priority['name'], 'préventif') !== false || stripos($priority['name'], 'preventive') !== false) {
-                $preventivePriorityId = $priority['id'];
-                break;
-            }
-        }
-
-        // Déterminer l'onglet actif (par défaut: non-préventives)
+        // Déterminer l'onglet actif
         $activeTab = $_GET['tab'] ?? 'non-preventive';
 
-        // Récupérer les interventions selon l'onglet actif
+        // Récupérer les interventions selon l'onglet actif en utilisant le champ is_preventive
         $interventions = [];
-        if ($activeTab === 'preventive' && $preventivePriorityId) {
+        if ($activeTab === 'preventive') {
             // Onglet préventives
-            $filters['priority_id'] = $preventivePriorityId;
+            $filters['is_preventive'] = 1;
             $interventions = $this->interventionModel->getAll($filters);
         } elseif ($activeTab === 'all') {
             // Onglet toutes
             $interventions = $this->interventionModel->getAll($filters);
         } else {
-            // Onglet non-préventives (par défaut)
-            if ($preventivePriorityId) {
-                $filters['exclude_priority_ids'] = [$preventivePriorityId];
-            }
+            // Onglet non-préventives (curatives)
+            $filters['is_preventive'] = 0;
             $interventions = $this->interventionModel->getAll($filters);
         }
 
@@ -166,40 +148,23 @@ class InterventionController
         // Récupérer les statistiques globales par onglet (sans filtres)
         $statsByTab = [];
 
-        // Statistiques globales pour non-préventives (sans filtres)
-        if ($preventivePriorityId) {
-            $globalNonPreventiveFilters = ['exclude_priority_ids' => [$preventivePriorityId]];
-        } else {
-            $globalNonPreventiveFilters = [];
-        }
-        $statsByTab['non-preventive'] = $this->interventionModel->getStats($globalNonPreventiveFilters);
+        // Statistiques globales pour non-préventives
+        $statsByTab['non-preventive'] = $this->interventionModel->getStats(['is_preventive' => 0]);
 
-        // Statistiques globales pour préventives (sans filtres)
-        if ($preventivePriorityId) {
-            $globalPreventiveFilters = ['priority_id' => $preventivePriorityId];
-            $statsByTab['preventive'] = $this->interventionModel->getStats($globalPreventiveFilters);
-        }
+        // Statistiques globales pour préventives
+        $statsByTab['preventive'] = $this->interventionModel->getStats(['is_preventive' => 1]);
 
-        // Statistiques globales pour toutes (sans filtres)
+        // Statistiques globales pour toutes
         $statsByTab['all'] = $this->interventionModel->getStats([]);
 
         // Récupérer les statistiques par statut pour les filtres rapides (selon l'onglet actif)
         $statsByStatus = [];
-        if ($activeTab === 'preventive' && $preventivePriorityId) {
-            // Statistiques pour l'onglet préventives
-            $preventiveFilters = $filters;
-            $preventiveFilters['priority_id'] = $preventivePriorityId;
-            $statsByStatus = $this->interventionModel->getStatsByStatus($preventiveFilters);
+        if ($activeTab === 'preventive') {
+            $statsByStatus = $this->interventionModel->getStatsByStatus(['is_preventive' => 1]);
         } elseif ($activeTab === 'all') {
-            // Statistiques pour l'onglet toutes
-            $statsByStatus = $this->interventionModel->getStatsByStatus($filters);
+            $statsByStatus = $this->interventionModel->getStatsByStatus([]);
         } else {
-            // Statistiques pour l'onglet non-préventives
-            $nonPreventiveFilters = $filters;
-            if ($preventivePriorityId) {
-                $nonPreventiveFilters['exclude_priority_ids'] = [$preventivePriorityId];
-            }
-            $statsByStatus = $this->interventionModel->getStatsByStatus($nonPreventiveFilters);
+            $statsByStatus = $this->interventionModel->getStatsByStatus(['is_preventive' => 0]);
         }
 
         // Vérifier la permission de gestion des interventions
@@ -208,16 +173,11 @@ class InterventionController
         // Charger la vue
         require_once __DIR__ . '/../views/interventions/index.php';
     }
-
     /**
      * Affiche la liste des interventions curatives
      */
     public function curatives()
     {
-        ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
-        error_reporting(E_ALL);
-
         // Vérifier les permissions
         $this->checkAccess();
 
@@ -230,76 +190,28 @@ class InterventionController
             'status_id' => $_GET['status_id'] ?? null,
             'priority_id' => $_GET['priority_id'] ?? null,
             'search' => $_GET['search'] ?? null,
-            'is_preventive' => 0
+            'is_preventive' => 0  // Utiliser le champ is_preventive
         ];
 
-        // Récupérer les priorités pour identifier les préventives
-        $sql = "SELECT id, name, color, created_at FROM intervention_priorities ORDER BY id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-        $priorities = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Identifier la priorité préventive
-        $preventivePriorityId = null;
-        foreach ($priorities as $priority) {
-            if (stripos($priority['name'], 'préventif') !== false || stripos($priority['name'], 'preventive') !== false) {
-                $preventivePriorityId = $priority['id'];
-                break;
-            }
-        }
-
-        // Fixer le type d'intervention aux curatives (non-préventives)
-        $activeTab = 'non-preventive';
-
         // Récupérer les interventions curatives
-        $interventions = [];
-        if ($preventivePriorityId) {
-            $filters['exclude_priority_ids'] = [$preventivePriorityId];
-        }
         $interventions = $this->interventionModel->getAll($filters);
 
         // Récupérer les données pour les filtres
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
-        $buildings = !empty($filters['site_id'])
-            ? $this->buildingModel->getBuildingsBySiteId($filters['site_id'])
-            : [];
-
-        $rooms = !empty($filters['building_id'])
-            ? $this->roomModel->getRoomsByBuildingId($filters['building_id'])
-            : [];
-        // $technicians = $this->userModel->getTechnicians();
+        $buildings = !empty($filters['site_id']) ? $this->buildingModel->getBuildingsBySiteId($filters['site_id']) : [];
+        $rooms = !empty($filters['building_id']) ? $this->roomModel->getRoomsByBuildingId($filters['building_id']) : [];
 
         // Récupérer les statuts
         $statuses = $this->getAllStatuses();
 
-        // Récupérer les statistiques globales (sans filtres)
-        $statsByTab = [];
+        // Statistiques
+        $statsByTab = [
+            'non-preventive' => $this->interventionModel->getStats(['is_preventive' => 0]),
+            'preventive' => $this->interventionModel->getStats(['is_preventive' => 1])
+        ];
 
-        // Statistiques globales pour non-préventives (sans filtres)
-        if ($preventivePriorityId) {
-            $globalNonPreventiveFilters = ['exclude_priority_ids' => [$preventivePriorityId]];
-        } else {
-            $globalNonPreventiveFilters = [];
-        }
-        $statsByTab['non-preventive'] = $this->interventionModel->getStats($globalNonPreventiveFilters);
-
-        // Statistiques globales pour préventives (sans filtres) - pour affichage dans le menu
-        if ($preventivePriorityId) {
-            $globalPreventiveFilters = ['priority_id' => $preventivePriorityId];
-            $statsByTab['preventive'] = $this->interventionModel->getStats($globalPreventiveFilters);
-        }
-
-        // Récupérer les statistiques par statut pour les filtres rapides
-        $statsByStatus = [];
-        $nonPreventiveFilters = $filters;
-        if ($preventivePriorityId) {
-            $nonPreventiveFilters['exclude_priority_ids'] = [$preventivePriorityId];
-        }
-        $statsByStatus = $this->interventionModel->getStatsByStatus($nonPreventiveFilters);
-
-        // Vérifier la permission de gestion des interventions
-        // $canManageInterventions = $this->checkPermission('technicien', 'manage_interventions');
+        $statsByStatus = $this->interventionModel->getStatsByStatus(['is_preventive' => 0]);
 
         // Charger la vue
         require_once __DIR__ . '/../views/interventions/index.php';
@@ -310,7 +222,6 @@ class InterventionController
      */
     public function preventives()
     {
-
         // Vérifier les permissions
         $this->checkAccess();
 
@@ -322,36 +233,10 @@ class InterventionController
             'status_id' => $_GET['status_id'] ?? null,
             'priority_id' => $_GET['priority_id'] ?? null,
             'search' => $_GET['search'] ?? null,
-            'is_preventive' => 1
+            'is_preventive' => 1  // Utiliser le champ is_preventive
         ];
 
-        // Récupérer les priorités pour identifier les préventives
-        $sql = "SELECT id, name, color, created_at FROM intervention_priorities ORDER BY id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-        $priorities = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Identifier la priorité préventive
-        $preventivePriorityId = null;
-        foreach ($priorities as $priority) {
-            if (stripos($priority['name'], 'préventif') !== false || stripos($priority['name'], 'preventive') !== false) {
-                $preventivePriorityId = $priority['id'];
-                break;
-            }
-        }
-
-        // Vérifier si les interventions préventives existent
-        if (!$preventivePriorityId) {
-            $_SESSION['error'] = "Aucune priorité préventive configurée.";
-            header('Location: ' . BASE_URL . 'interventions/curatives');
-            exit;
-        }
-
-        // Fixer le type d'intervention aux préventives
-        $activeTab = 'preventive';
-
         // Récupérer les interventions préventives
-        $filters['priority_id'] = $preventivePriorityId;
         $interventions = $this->interventionModel->getAll($filters);
 
         // Récupérer les données pour les filtres
@@ -359,33 +244,17 @@ class InterventionController
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
         $buildings = !empty($filters['site_id']) ? $this->buildingModel->getBuildingsBySiteId($filters['site_id']) : [];
         $rooms = !empty($filters['building_id']) ? $this->roomModel->getRoomsByBuildingId($filters['building_id']) : [];
-        // $technicians = $this->userModel->getTechnicians();
+
         // Récupérer les statuts
         $statuses = $this->getAllStatuses();
 
-        // Récupérer les statistiques globales (sans filtres)
-        $statsByTab = [];
+        // Statistiques
+        $statsByTab = [
+            'non-preventive' => $this->interventionModel->getStats(['is_preventive' => 0]),
+            'preventive' => $this->interventionModel->getStats(['is_preventive' => 1])
+        ];
 
-        // Statistiques globales pour non-préventives (sans filtres) - pour affichage dans le menu
-        if ($preventivePriorityId) {
-            $globalNonPreventiveFilters = ['exclude_priority_ids' => [$preventivePriorityId]];
-        } else {
-            $globalNonPreventiveFilters = [];
-        }
-        $statsByTab['non-preventive'] = $this->interventionModel->getStats($globalNonPreventiveFilters);
-
-        // Statistiques globales pour préventives (sans filtres)
-        $globalPreventiveFilters = ['priority_id' => $preventivePriorityId];
-        $statsByTab['preventive'] = $this->interventionModel->getStats($globalPreventiveFilters);
-
-        // Récupérer les statistiques par statut pour les filtres rapides
-        $statsByStatus = [];
-        $preventiveFilters = $filters;
-        $preventiveFilters['priority_id'] = $preventivePriorityId;
-        $statsByStatus = $this->interventionModel->getStatsByStatus($preventiveFilters);
-
-        // Vérifier la permission de gestion des interventions
-        // $canManageInterventions = $this->checkPermission('technicien', 'manage_interventions');
+        $statsByStatus = $this->interventionModel->getStatsByStatus(['is_preventive' => 1]);
 
         // Charger la vue
         require_once __DIR__ . '/../views/interventions/index.php';
@@ -453,7 +322,7 @@ class InterventionController
         $priorities = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Identifier la priorité préventive
-        $preventivePriorityId = null;
+        // $preventivePriorityId = null;
         foreach ($priorities as $priority) {
             if (stripos($priority['name'], 'préventif') !== false || stripos($priority['name'], 'preventive') !== false) {
                 $preventivePriorityId = $priority['id'];
