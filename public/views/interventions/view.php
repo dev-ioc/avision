@@ -1740,7 +1740,6 @@ $closeReason = [];
 						keyboard: true
 					});
 					modal.show();
-					loadContractDetails(contractId);
 
 					// Nettoyer après fermeture
 					modalElement.addEventListener('hidden.bs.modal', function onHidden() {
