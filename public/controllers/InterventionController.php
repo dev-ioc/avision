@@ -1772,55 +1772,44 @@ class InterventionController
      */
     public function getContractInfo($contractId)
     {
-        ob_start();
-
-        if (
-            empty($_SERVER['HTTP_X_REQUESTED_WITH']) ||
-            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest'
-        ) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Requête invalide']);
-            exit;
-        }
-
-        // === DIAGNOSTIC TEMPORAIRE ===
-        $debugFile = __DIR__ . '/../../../logs/contract_debug.log';
-
-        // 1. Démarrer la capture
-        ob_start();
-
-        // 2. Vérifier si des erreurs sont déjà dans le buffer
-        $preBuffer = ob_get_contents();
-        if (!empty($preBuffer)) {
-            file_put_contents($debugFile, date('Y-m-d H:i:s') . " - PRE-BUFFER: " . substr($preBuffer, 0, 500) . "\n", FILE_APPEND);
-        }
-        // =============================
-
-        // Nettoyage total
+        // Nettoyer tous les buffers existants
         while (ob_get_level() > 0) {
             ob_end_clean();
         }
 
+        // Démarrer un buffer propre
+        ob_start();
+
+        // Vérifier que c'est une requête AJAX
+        if (
+            empty($_SERVER['HTTP_X_REQUESTED_WITH']) ||
+            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest'
+        ) {
+            ob_clean();
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Requête invalide']);
+            exit;
+        }
+
         // Désactiver l'affichage des erreurs
         ini_set('display_errors', 0);
-        error_reporting(E_ALL); // Log mais n'affiche pas
+        error_reporting(E_ALL);
 
         header('Content-Type: application/json; charset=utf-8');
+        header('Cache-Control: no-cache, must-revalidate');
 
         try {
+            // Démarrer la session si nécessaire
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
 
             if (!isset($_SESSION['user'])) {
-                http_response_code(401);
-                echo json_encode(['error' => 'Non authentifié']);
-                exit;
+                throw new Exception('Non authentifié');
             }
 
             $contractId = (int) $contractId;
 
-            // Vérifier la connexion DB
             if (!$this->db) {
                 throw new Exception('Connexion base de données indisponible');
             }
@@ -1841,12 +1830,8 @@ class InterventionController
                 throw new Exception("Contrat non trouvé");
             }
 
-            // === DIAGNOSTIC - Vérifier qu'aucune sortie n'a été émise ===
-            $capturedOutput = ob_get_clean();
-            if (!empty($capturedOutput)) {
-                file_put_contents($debugFile, date('Y-m-d H:i:s') . " - CAPTURED OUTPUT: " . substr($capturedOutput, 0, 500) . "\n", FILE_APPEND);
-            }
-            // ===========================================================
+            // Nettoyer le buffer avant d'envoyer la réponse
+            ob_clean();
 
             $json = json_encode($contract, JSON_UNESCAPED_UNICODE);
 
@@ -1857,17 +1842,13 @@ class InterventionController
             echo $json;
 
         } catch (Exception $e) {
-            // Log l'erreur
-            error_log("getContractInfo error: " . $e->getMessage());
-            file_put_contents($debugFile, date('Y-m-d H:i:s') . " - ERROR: " . $e->getMessage() . "\n", FILE_APPEND);
+            // Nettoyer le buffer en cas d'erreur
+            ob_clean();
 
             http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
         }
-        $debug = ob_get_clean();
-        if (!empty($debug)) {
-            error_log("=== getContractInfo DEBUG ===\n" . $debug);
-        }
+
         exit;
     }
     /**

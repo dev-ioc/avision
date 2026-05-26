@@ -208,6 +208,7 @@
       console.error("Element contractDetailsContent non trouvé");
       return;
     }
+
     modalContent.innerHTML =
       '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Chargement des détails du contrat...</p></div>';
 
@@ -227,17 +228,23 @@
       credentials: "include",
     })
       .then(function (response) {
-        var contentType = response.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-          throw new Error(
-            "Le serveur n'a pas retourné du JSON. Réponse reçue: " +
-              contentType,
-          );
-        }
-        if (!response.ok) {
-          throw new Error("HTTP " + response.status);
-        }
-        return response.json();
+        // Lire d'abord comme TEXTE pour éviter les erreurs de parsing
+        return response.text().then(function (text) {
+          console.log("=== RÉPONSE BRUTE (premiers caractères) ===");
+          console.log(text.substring(0, 200));
+
+          // Vérifier si c'est du HTML
+          if (text.trim().startsWith("<")) {
+            throw new Error("Le serveur a retourné du HTML au lieu de JSON");
+          }
+
+          // Parser le JSON
+          try {
+            return JSON.parse(text);
+          } catch (e) {
+            throw new Error("Erreur de parsing JSON: " + e.message);
+          }
+        });
       })
       .then(function (data) {
         if (!data || typeof data !== "object") {
@@ -252,7 +259,6 @@
           return;
         }
 
-        // RENDER DIRECTEMENT ICI - sans appeler renderContractDetails
         var startDate = data.start_date
           ? new Date(data.start_date).toLocaleDateString("fr-FR")
           : "Non définie";
@@ -322,6 +328,13 @@
           '<i class="bi bi-arrow-repeat me-1"></i>Fermer et réessayer</button>' +
           "</div>";
       });
+  }
+
+  function escapeHtml2(text) {
+    if (!text) return "";
+    var div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
   }
 
   function closeContractModalAndRefresh() {
