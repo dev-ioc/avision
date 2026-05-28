@@ -1050,7 +1050,7 @@ $allData = [];
       document.getElementById('addAttachmentModal').setAttribute('data-materiel-id', materielId);
       modal.show();
     }
-      class DragDropUploader {
+    class DragDropUploader {
       constructor(materielId) {
         this.materielId = materielId;
         this.files = [];
@@ -1069,7 +1069,7 @@ $allData = [];
         this.filesOptionsList = document.getElementById('filesOptionsList');
         this.init();
       }
-       async init() {
+      async init() {
         try {
           const res = await fetch('<?= BASE_URL ?>settings/getAllowedExtensions');
           const data = await res.json();
@@ -1212,8 +1212,7 @@ $allData = [];
       return match ? parseInt(match[1]) * (units[match[2]?.toUpperCase()] || 1) : 0;
     }
 
-    // ── DragDropUploader ──────────────────────────────────────────────────────────
-    // (classe déjà définie dans DragDropUploader.js — ne pas redéclarer ici)
+
     let uploader;
     document.getElementById('addAttachmentModal').addEventListener('shown.bs.modal', function () {
       const id = this.getAttribute('data-materiel-id');
