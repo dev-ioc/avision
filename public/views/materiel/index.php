@@ -1050,6 +1050,162 @@ $allData = [];
       document.getElementById('addAttachmentModal').setAttribute('data-materiel-id', materielId);
       modal.show();
     }
+      class DragDropUploader {
+      constructor(materielId) {
+        this.materielId = materielId;
+        this.files = [];
+        this.allowedExtensions = [];
+        this.maxSize = parsePhpSize('<?php echo ini_get("upload_max_filesize"); ?>');
+        this.dropZone = document.getElementById('dropZone');
+        this.fileInput = document.getElementById('fileInput');
+        this.fileList = document.getElementById('fileList');
+        this.stats = document.getElementById('stats');
+        this.validCount = document.getElementById('validCount');
+        this.invalidCount = document.getElementById('invalidCount');
+        this.progressFill = document.getElementById('progressFill');
+        this.uploadBtn = document.getElementById('uploadValidBtn');
+        this.clearBtn = document.getElementById('clearAllBtn');
+        this.filesOptions = document.getElementById('filesOptions');
+        this.filesOptionsList = document.getElementById('filesOptionsList');
+        this.init();
+      }
+       async init() {
+        try {
+          const res = await fetch('<?= BASE_URL ?>settings/getAllowedExtensions');
+          const data = await res.json();
+          this.allowedExtensions = data.extensions || [];
+        } catch (e) { console.error(e); }
+        this.setupEvents();
+      }
+
+      setupEvents() {
+        this.dropZone.addEventListener('dragover', e => { e.preventDefault(); this.dropZone.classList.add('dragover'); });
+        this.dropZone.addEventListener('dragleave', e => { e.preventDefault(); this.dropZone.classList.remove('dragover'); });
+        this.dropZone.addEventListener('drop', e => { e.preventDefault(); this.dropZone.classList.remove('dragover'); this.handleFiles(Array.from(e.dataTransfer.files)); });
+        this.dropZone.addEventListener('click', () => this.fileInput.click());
+        this.fileInput.addEventListener('change', e => this.handleFiles(Array.from(e.target.files)));
+        this.uploadBtn.addEventListener('click', () => this.upload());
+        this.clearBtn.addEventListener('click', () => this.clearAll());
+      }
+
+      handleFiles(newFiles) {
+        this.files.push(...this.validateFiles(newFiles));
+        this.render();
+      }
+
+      validateFiles(files) {
+        return files.map(f => {
+          const ext = f.name.split('.').pop().toLowerCase();
+          const validExt = this.allowedExtensions.includes(ext);
+          const validSize = f.size <= this.maxSize;
+          let error = null;
+          if (!validSize) error = `Trop volumineux (${this.formatFileSize(f.size)}). Max: ${this.formatFileSize(this.maxSize)}`;
+          else if (!validExt) error = 'Format non accepté';
+          return { file: f, isValid: validExt && validSize, error };
+        });
+      }
+
+      render() {
+        this.fileList.innerHTML = '';
+        this.files.forEach((f, i) => {
+          const div = document.createElement('div');
+          div.className = `file-item ${f.isValid ? 'valid' : 'invalid'}`;
+          div.innerHTML = `<span class="file-name">${f.file.name}</span>
+        <span class="file-size">${this.formatFileSize(f.file.size)}</span>
+        ${f.error ? `<span class="error-message">${f.error}</span>` : ''}
+        <button class="remove-file btn btn-sm btn-link" onclick="uploader.removeFile(${i})">×</button>`;
+          this.fileList.appendChild(div);
+        });
+        this.updateStats();
+        this.updateOptions();
+      }
+
+      updateOptions() {
+        const valid = this.files.filter(f => f.isValid);
+        if (valid.length) {
+          this.filesOptions.style.display = 'block';
+          this.filesOptionsList.innerHTML = '';
+          valid.forEach((f, i) => {
+            const div = document.createElement('div');
+            div.className = 'file-options mb-2 p-2 border rounded';
+            div.innerHTML = `<div class="row align-items-center">
+          <div class="col-md-8"><strong>${f.file.name}</strong><input type="text" class="form-control form-control-sm mt-1" name="desc_${i}" placeholder="Description"></div>
+          <div class="col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" name="hide_${i}" value="1" id="hide_${i}"><label for="hide_${i}"><i class="bi bi-eye-slash me-1"></i>Masquer client</label></div></div>
+        </div>`;
+            this.filesOptionsList.appendChild(div);
+          });
+        } else this.filesOptions.style.display = 'none';
+      }
+
+      updateStats() {
+        const valid = this.files.filter(f => f.isValid).length;
+        const invalid = this.files.length - valid;
+        this.validCount.textContent = valid;
+        this.invalidCount.textContent = invalid;
+        if (this.files.length) {
+          this.stats.style.display = 'block';
+          this.uploadBtn.style.display = 'inline-block';
+          this.clearBtn.style.display = 'inline-block';
+          this.progressFill.style.width = (valid / this.files.length * 100) + '%';
+        } else {
+          this.stats.style.display = 'none';
+          this.uploadBtn.style.display = 'none';
+          this.clearBtn.style.display = 'none';
+        }
+      }
+
+      removeFile(index) {
+        this.files.splice(index, 1);
+        this.render();
+      }
+
+      clearAll() {
+        this.files = [];
+        this.render();
+        this.fileInput.value = '';
+      }
+
+      formatFileSize(bytes) {
+        if (!bytes) return '0 Bytes';
+        const k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+      }
+
+      async upload() {
+        const valid = this.files.filter(f => f.isValid);
+        if (!valid.length) return alert('Aucun fichier valide');
+        const fd = new FormData();
+        fd.append('materiel_id', this.materielId);
+        valid.forEach((f, i) => {
+          fd.append(`files[${i}]`, f.file);
+          const desc = document.querySelector(`input[name="desc_${i}"]`);
+          const hide = document.querySelector(`input[name="hide_${i}"]`);
+          if (desc?.value) fd.append(`descriptions[${i}]`, desc.value);
+          if (hide?.checked) fd.append(`masque_client[${i}]`, '1');
+        });
+        this.uploadBtn.disabled = true;
+        this.uploadBtn.innerHTML = '<i class="bi bi-arrow-clockwise spin me-1"></i>Upload...';
+        try {
+          const res = await fetch('<?= BASE_URL ?>materiel/uploadAttachment', {
+            method: 'POST',
+            headers: { 'X-CSRF-Token': '<?= csrf_token() ?>' },
+            body: fd
+          });
+          const result = await res.json();
+          if (result.success) {
+            alert('Upload réussi !');
+            bootstrap.Modal.getInstance(document.getElementById('addAttachmentModal')).hide();
+            location.reload();
+          } else alert('Erreur: ' + (result.error || 'Inconnue'));
+        } catch (e) { console.error(e); alert('Erreur réseau'); }
+        finally {
+          this.uploadBtn.disabled = false;
+          this.uploadBtn.innerHTML = '<i class="bi bi-upload me-1"></i>Uploader';
+        }
+      }
+    }
+
     function parsePhpSize(size) {
       const units = { K: 1024, M: 1048576, G: 1073741824 };
       const match = String(size).match(/^(\d+)([KMG])?$/i);
