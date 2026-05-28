@@ -711,17 +711,19 @@ $allData = [];
       width: 100px;
     }
   </style>
+
   <script>
     const baseUrl = '<?= BASE_URL ?>';
     let currentSearchTerm = '';
     let hotInstances = {};
-    // Fonction pour afficher les toasts
+
+    // ── showToast ────────────────────────────────────────────────────────────────
     function showToast(message, type) {
       const existingToasts = document.querySelectorAll('.custom-toast');
       existingToasts.forEach(toast => toast.remove());
 
       const toastDiv = document.createElement('div');
-      toastDiv.className = `custom-toast position-fixed top-0 end-0 m-3`;
+      toastDiv.className = 'custom-toast position-fixed top-0 end-0 m-3';
       toastDiv.style.zIndex = '9999';
       toastDiv.style.minWidth = '300px';
       toastDiv.style.maxWidth = '400px';
@@ -731,7 +733,6 @@ $allData = [];
         danger: { bg: '#f8d7da', border: '#dc3545', icon: '#dc3545' },
         info: { bg: '#d1ecf1', border: '#17a2b8', icon: '#17a2b8' }
       };
-
       const color = colors[type] || colors.info;
 
       toastDiv.style.backgroundColor = color.bg;
@@ -741,46 +742,42 @@ $allData = [];
       toastDiv.style.padding = '12px 16px';
 
       toastDiv.innerHTML = `
-        <div class="d-flex align-items-center">
-            <div class="me-3" style="color: ${color.icon}">
-                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : type === 'danger' ? 'bi-x-circle-fill' : 'bi-info-circle-fill'} fs-4"></i>
-            </div>
-            <div class="flex-grow-1" style="font-size: 14px;">
-                <strong>${type === 'success' ? 'Succès' : type === 'danger' ? 'Erreur' : 'Information'}</strong>
-                <div class="mt-1">${message}</div>
-            </div>
-            <button type="button" class="btn-close ms-2" style="font-size: 12px;" onclick="this.closest('.custom-toast').remove()"></button>
+      <div class="d-flex align-items-center">
+        <div class="me-3" style="color:${color.icon}">
+          <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : type === 'danger' ? 'bi-x-circle-fill' : 'bi-info-circle-fill'} fs-4"></i>
         </div>
-    `;
+        <div class="flex-grow-1" style="font-size:14px;">
+          <strong>${type === 'success' ? 'Succès' : type === 'danger' ? 'Erreur' : 'Information'}</strong>
+          <div class="mt-1">${message}</div>
+        </div>
+        <button type="button" class="btn-close ms-2" style="font-size:12px;"
+                onclick="this.closest('.custom-toast').remove()"></button>
+      </div>`;
 
       document.body.appendChild(toastDiv);
+
+      const duration = type === 'danger' ? 7000 : 4000;
       setTimeout(() => {
         if (toastDiv.parentNode) {
           toastDiv.style.opacity = '0';
           toastDiv.style.transition = 'opacity 0.3s ease';
           setTimeout(() => toastDiv.remove(), 300);
         }
-      }, 4000);
-    }
-
+      }, duration);
+    }  // ← fermeture showToast
     function addNewRowToTable(tableId, locationName, salleId) {
       const hot = hotInstances[tableId];
-      if (!hot) {
-        console.error('Tableau non trouvé:', tableId);
-        return;
-      }
+      if (!hot) { console.error('Tableau non trouvé:', tableId); return; }
 
-      const data = hot.getSourceData();
+      const existingData = hot.getSourceData();
+      const data = existingData.map(row => row.map(cell =>
+        (cell && typeof cell === 'object') ? { ...cell } : cell
+      ));
+
       const colCount = <?= count($allColumns) ?>;
       const newRow = Array(colCount).fill('');
-
-      // Col 0 : Actions - STOCKER LE salleId ICI
-      newRow[0] = { type: 'add_button', salle_id: salleId };  // <-- salle_id stocké
-
-      // Col 1 : Équipement
+      newRow[0] = { type: 'add_button', salle_id: salleId };
       newRow[1] = { id: null, marque: '', modele: '' };
-
-      // Col 8 : Pièces jointes
       newRow[8] = { count: 0, id: null, name: '' };
 
       data.push(newRow);
@@ -790,9 +787,11 @@ $allData = [];
       hot.scrollViewportTo(newRowIndex, 2);
       hot.selectCell(newRowIndex, 2);
 
-      console.log(`Nouvelle ligne ajoutée avec salle_id: ${salleId}`);
+      console.log(`Nouvelle ligne ajoutée avec salle_id: ${salleId}`, data[newRowIndex][1]);
       showToast('Nouvelle ligne ajoutée. Remplissez les informations puis sauvegardez.', 'info');
     }
+
+    // ── submitFilters ────────────────────────────────────────────────────────────
     function submitFilters() {
       const clientId = document.getElementById('client_id').value;
       const siteId = document.getElementById('site_id').value;
@@ -801,16 +800,15 @@ $allData = [];
 
       let url = '<?= BASE_URL ?>materiel?';
       const params = [];
-
       if (clientId) params.push('client_id=' + clientId);
       if (siteId) params.push('site_id=' + siteId);
       if (buildingId) params.push('building_id=' + buildingId);
       if (salleId) params.push('salle_id=' + salleId);
 
-      url += params.join('&');
-      window.location.href = url;
+      window.location.href = url + params.join('&');
     }
 
+    // ── updateSitesAndSubmit ──────────────────────────────────────────────────────
     function updateSitesAndSubmit() {
       const clientId = document.getElementById('client_id').value;
       if (clientId) {
@@ -819,14 +817,11 @@ $allData = [];
           .then(data => {
             const siteSelect = document.getElementById('site_id');
             siteSelect.innerHTML = '<option value="">Tous les sites</option>';
-            if (data && Array.isArray(data)) {
-              data.forEach(site => {
-                const option = document.createElement('option');
-                option.value = site.id;
-                option.textContent = site.name;
-                siteSelect.appendChild(option);
-              });
-            }
+            if (Array.isArray(data)) data.forEach(site => {
+              const o = document.createElement('option');
+              o.value = site.id; o.textContent = site.name;
+              siteSelect.appendChild(o);
+            });
             document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
             document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
             submitFilters();
@@ -840,24 +835,21 @@ $allData = [];
       }
     }
 
+    // ── updateBuildingsAndSubmit ──────────────────────────────────────────────────
     function updateBuildingsAndSubmit() {
       const clientId = document.getElementById('client_id').value;
       const siteId = document.getElementById('site_id').value;
-
       if (siteId && clientId) {
         fetch('<?= BASE_URL ?>materiel/get_buildings?site_id=' + siteId)
           .then(res => res.json())
           .then(data => {
             const buildingSelect = document.getElementById('building_id');
             buildingSelect.innerHTML = '<option value="">Tous les bâtiments</option>';
-            if (data && Array.isArray(data)) {
-              data.forEach(building => {
-                const option = document.createElement('option');
-                option.value = building.id;
-                option.textContent = building.name;
-                buildingSelect.appendChild(option);
-              });
-            }
+            if (Array.isArray(data)) data.forEach(b => {
+              const o = document.createElement('option');
+              o.value = b.id; o.textContent = b.name;
+              buildingSelect.appendChild(o);
+            });
             document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
             submitFilters();
           })
@@ -869,178 +861,118 @@ $allData = [];
       }
     }
 
+    // ── updateRoomsAndSubmit ──────────────────────────────────────────────────────
     function updateRoomsAndSubmit() {
       const clientId = document.getElementById('client_id').value;
       const siteId = document.getElementById('site_id').value;
       const buildingId = document.getElementById('building_id').value;
 
+      const loadRooms = (url) => fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          const roomSelect = document.getElementById('salle_id');
+          roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
+          if (Array.isArray(data)) data.forEach(r => {
+            const o = document.createElement('option');
+            o.value = r.id; o.textContent = r.name;
+            roomSelect.appendChild(o);
+          });
+          submitFilters();
+        })
+        .catch(err => console.error('Erreur chargement salles:', err));
+
       if (buildingId && siteId && clientId) {
-        fetch('<?= BASE_URL ?>materiel/get_rooms_by_building?building_id=' + buildingId)
-          .then(res => res.json())
-          .then(data => {
-            const roomSelect = document.getElementById('salle_id');
-            roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
-            if (data && Array.isArray(data)) {
-              data.forEach(room => {
-                const option = document.createElement('option');
-                option.value = room.id;
-                option.textContent = room.name;
-                roomSelect.appendChild(option);
-              });
-            }
-            submitFilters();
-          })
-          .catch(err => console.error('Erreur chargement salles (par bâtiment):', err));
-      } else if (siteId && clientId && !buildingId) {
-        fetch('<?= BASE_URL ?>materiel/get_rooms_by_site?site_id=' + siteId)
-          .then(res => res.json())
-          .then(data => {
-            const roomSelect = document.getElementById('salle_id');
-            roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
-            if (data && Array.isArray(data)) {
-              data.forEach(room => {
-                const option = document.createElement('option');
-                option.value = room.id;
-                option.textContent = room.name;
-                roomSelect.appendChild(option);
-              });
-            }
-            submitFilters();
-          })
-          .catch(err => console.error('Erreur chargement salles (par site):', err));
+        loadRooms('<?= BASE_URL ?>materiel/get_rooms_by_building?building_id=' + buildingId);
+      } else if (siteId && clientId) {
+        loadRooms('<?= BASE_URL ?>materiel/get_rooms_by_site?site_id=' + siteId);
       } else {
         document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
         submitFilters();
       }
     }
 
+    // ── applyGlobalSearch ────────────────────────────────────────────────────────
     function applyGlobalSearch() {
       const searchTerm = document.getElementById('globalSearch').value.toLowerCase();
       currentSearchTerm = searchTerm;
-
-      const clearBtn = document.getElementById('clearGlobalSearch');
-      clearBtn.style.display = searchTerm.length > 0 ? 'inline-block' : 'none';
+      document.getElementById('clearGlobalSearch').style.display = searchTerm ? 'inline-block' : 'none';
 
       Object.keys(hotInstances).forEach(tableId => {
         const hot = hotInstances[tableId];
         if (!hot) return;
-
         const data = hot.getData();
-        const totalRows = data.length;
-
-        for (let i = 0; i < totalRows; i++) {
-          let rowMatches = false;
-          const rowData = data[i];
-
-          for (let j = 0; j < rowData.length; j++) {
+        for (let i = 0; i < data.length; i++) {
+          let matches = false;
+          for (let j = 0; j < data[i].length; j++) {
             if (j === 7) continue;
-            const cellValue = rowData[j];
-            if (cellValue && typeof cellValue === 'object') continue;
-            if (cellValue && cellValue.toString().toLowerCase().includes(searchTerm)) {
-              rowMatches = true;
-              break;
-            }
+            const v = data[i][j];
+            if (v && typeof v !== 'object' && v.toString().toLowerCase().includes(searchTerm)) { matches = true; break; }
           }
-
-          const visualRowIndex = hot.toVisualRow(i);
-          const rowElement = hot.getCell(visualRowIndex, 0);
-          if (rowElement) {
-            const tr = rowElement.parentNode;
-            if (tr) {
-              tr.style.display = (!searchTerm || rowMatches) ? '' : 'none';
-            }
-          }
+          const el = hot.getCell(hot.toVisualRow(i), 0);
+          if (el && el.parentNode) el.parentNode.style.display = (!searchTerm || matches) ? '' : 'none';
         }
-
         hot.render();
       });
-
       updateAccordionsVisibility(searchTerm);
     }
 
+    // ── updateAccordionsVisibility ───────────────────────────────────────────────
     function updateAccordionsVisibility(searchTerm) {
-      if (!searchTerm || searchTerm.trim().length === 0) {
-        document.querySelectorAll('.accordion-item').forEach(item => item.style.display = '');
-        return;
-      }
-
-      document.querySelectorAll('.accordion-item').forEach(accordionItem => {
-        const collapseDiv = accordionItem.querySelector('.accordion-collapse');
-        if (!collapseDiv) return;
-
-        const tableId = collapseDiv.id.replace('collapse_', 'excelTable-');
-        const hot = hotInstances[tableId];
-        let hasVisibleRow = false;
-
+      if (!searchTerm) { document.querySelectorAll('.accordion-item').forEach(i => i.style.display = ''); return; }
+      document.querySelectorAll('.accordion-item').forEach(item => {
+        const collapse = item.querySelector('.accordion-collapse');
+        if (!collapse) return;
+        const hot = hotInstances[collapse.id.replace('collapse_', 'excelTable-')];
+        let found = false;
         if (hot) {
           const data = hot.getData();
-          for (let i = 0; i < data.length; i++) {
-            let rowMatches = false;
+          outer: for (let i = 0; i < data.length; i++)
             for (let j = 0; j < data[i].length; j++) {
               if (j === 7) continue;
-              const cellValue = data[i][j];
-              if (cellValue && typeof cellValue !== 'object' && cellValue.toString().toLowerCase().includes(searchTerm)) {
-                rowMatches = true;
-                break;
-              }
+              const v = data[i][j];
+              if (v && typeof v !== 'object' && v.toString().toLowerCase().includes(searchTerm)) { found = true; break outer; }
             }
-            if (rowMatches) {
-              hasVisibleRow = true;
-              break;
-            }
-          }
         }
-
-        accordionItem.style.display = hasVisibleRow ? '' : 'none';
+        item.style.display = found ? '' : 'none';
       });
     }
 
     function openAllAccordions() {
-      document.querySelectorAll('.accordion-collapse').forEach(collapse => {
-        if (!collapse.classList.contains('show')) {
-          new bootstrap.Collapse(collapse, { toggle: false }).show();
-        }
+      document.querySelectorAll('.accordion-collapse').forEach(c => {
+        if (!c.classList.contains('show')) new bootstrap.Collapse(c, { toggle: false }).show();
       });
     }
-
     function closeAllAccordions() {
-      document.querySelectorAll('.accordion-collapse.show').forEach(collapse => {
-        bootstrap.Collapse.getInstance(collapse)?.hide();
-      });
+      document.querySelectorAll('.accordion-collapse.show').forEach(c => bootstrap.Collapse.getInstance(c)?.hide());
     }
 
+    // ── column visibility ────────────────────────────────────────────────────────
     function saveColumnVisibility() {
       const state = {};
-      document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
-        state[parseInt(cb.dataset.col)] = cb.checked;
-      });
+      document.querySelectorAll('.global-colvis-checkbox').forEach(cb => { state[parseInt(cb.dataset.col)] = cb.checked; });
       localStorage.setItem('materiel_columns_visibility', JSON.stringify(state));
     }
-
     function restoreColumnVisibility() {
       const saved = localStorage.getItem('materiel_columns_visibility');
-      if (saved) {
-        try {
-          const state = JSON.parse(saved);
-          document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
-            const col = parseInt(cb.dataset.col);
-            if (state.hasOwnProperty(col)) cb.checked = state[col];
-          });
-          return state;
-        } catch (e) { console.error(e); }
-      }
-      return null;
+      if (!saved) return null;
+      try {
+        const state = JSON.parse(saved);
+        document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
+          const col = parseInt(cb.dataset.col);
+          if (state.hasOwnProperty(col)) cb.checked = state[col];
+        });
+        return state;
+      } catch (e) { console.error(e); return null; }
     }
-
     function applyColumnVisibility(colIndex, isVisible) {
       Object.values(hotInstances).forEach(hot => {
-        const plugin = hot.getPlugin('hiddenColumns');
-        if (isVisible) plugin.showColumn(colIndex);
-        else plugin.hideColumn(colIndex);
+        const p = hot.getPlugin('hiddenColumns');
+        isVisible ? p.showColumn(colIndex) : p.hideColumn(colIndex);
         hot.render();
       });
     }
 
+    // ── attachments ──────────────────────────────────────────────────────────────
     function openAttachmentsModal(materielId, materielName) {
       const modal = new bootstrap.Modal(document.getElementById('attachmentsModal'));
       document.getElementById('attachmentsModalLabel').textContent = `Pièces jointes - ${materielName}`;
@@ -1050,7 +982,6 @@ $allData = [];
       modal.show();
       loadAttachments(materielId, content);
     }
-
     function loadAttachments(materielId, container) {
       fetch('<?= BASE_URL ?>materiel/getAttachments/' + materielId)
         .then(res => res.json())
@@ -1058,12 +989,11 @@ $allData = [];
           if (data.success && data.attachments) renderAttachments(data.attachments, container, materielId);
           else container.innerHTML = `<div class="alert alert-danger">${data.error || 'Erreur de chargement'}</div>`;
         })
-        .catch(err => { console.error(err); container.innerHTML = '<div class="alert alert-danger">Erreur de chargement</div>'; });
+        .catch(() => { container.innerHTML = '<div class="alert alert-danger">Erreur de chargement</div>'; });
     }
-
     function renderAttachments(attachments, container, materielId) {
       let html = '<div class="mb-3">';
-      if (attachments.length === 0) {
+      if (!attachments.length) {
         html += '<div class="text-center py-4"><i class="bi bi-inbox fs-1 text-muted"></i><p class="mt-3">Aucune pièce jointe</p></div>';
       } else {
         attachments.sort((a, b) => new Date(b.date_creation) - new Date(a.date_creation));
@@ -1072,238 +1002,62 @@ $allData = [];
           const isPdf = att.type_fichier?.toLowerCase() === 'pdf';
           const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(att.type_fichier?.toLowerCase());
           const size = formatFileSize(att.taille_fichier || 0);
-          const date = att.date_creation
-            ? new Date(att.date_creation).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
-            : '-';
+          const date = att.date_creation ? new Date(att.date_creation).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-';
           html += `<div class="list-group-item ${att.masque_client == 1 ? 'bg-light-warning' : ''}">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="flex-grow-1">
-                            <div class="d-flex align-items-center mb-1">
-                                ${att.masque_client == 1 ? '<i class="bi bi-eye-slash text-warning me-2"></i>' : ''}
-                                <strong>${escapeHtml(att.nom_fichier)}</strong>
-                            </div>
-                            ${att.commentaire ? `<small class="text-muted d-block">${escapeHtml(att.commentaire)}</small>` : ''}
-                            <small class="text-muted">${size} • ${date}${att.created_by_name ? ' • ' + escapeHtml(att.created_by_name) : ''}</small>
-                        </div>
-                        <div class="ms-3">
-                            ${isPdf || isImage ? `<button class="btn btn-sm btn-outline-info me-1" onclick="previewAttachment(${att.id},'${escapeHtml(att.nom_fichier)}','${att.type_fichier}')"><i class="bi bi-eye"></i></button>` : ''}
-                            <a href="<?= BASE_URL ?>materiel/download/${att.id}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-download"></i></a>
-                            <a href="<?= BASE_URL ?>materiel/toggleAttachmentVisibility/${materielId}/${att.id}" class="btn btn-sm btn-outline-warning me-1"><i class="bi ${att.masque_client == 1 ? 'bi-eye' : 'bi-eye-slash'}"></i></a>
-                            <a href="<?= BASE_URL ?>materiel/deleteAttachment/${materielId}/${att.id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer ?')"><i class="bi bi-trash"></i></a>
-                        </div>
-                    </div>
-                </div>`;
+          <div class="d-flex justify-content-between align-items-start">
+            <div class="flex-grow-1">
+              <div class="d-flex align-items-center mb-1">
+                ${att.masque_client == 1 ? '<i class="bi bi-eye-slash text-warning me-2"></i>' : ''}
+                <strong>${escapeHtml(att.nom_fichier)}</strong>
+              </div>
+              ${att.commentaire ? `<small class="text-muted d-block">${escapeHtml(att.commentaire)}</small>` : ''}
+              <small class="text-muted">${size} • ${date}${att.created_by_name ? ' • ' + escapeHtml(att.created_by_name) : ''}</small>
+            </div>
+            <div class="ms-3">
+              ${isPdf || isImage ? `<button class="btn btn-sm btn-outline-info me-1" onclick="previewAttachment(${att.id},'${escapeHtml(att.nom_fichier)}','${att.type_fichier}')"><i class="bi bi-eye"></i></button>` : ''}
+              <a href="<?= BASE_URL ?>materiel/download/${att.id}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-download"></i></a>
+              <a href="<?= BASE_URL ?>materiel/toggleAttachmentVisibility/${materielId}/${att.id}" class="btn btn-sm btn-outline-warning me-1"><i class="bi ${att.masque_client == 1 ? 'bi-eye' : 'bi-eye-slash'}"></i></a>
+              <a href="<?= BASE_URL ?>materiel/deleteAttachment/${materielId}/${att.id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer ?')"><i class="bi bi-trash"></i></a>
+            </div>
+          </div>
+        </div>`;
         });
         html += '</div>';
       }
-      html += '</div><div class="d-flex justify-content-end"><button class="btn btn-primary" onclick="openAddAttachmentModal(' + materielId + ')"><i class="bi bi-plus me-1"></i>Ajouter</button></div>';
+      html += `</div><div class="d-flex justify-content-end"><button class="btn btn-primary" onclick="openAddAttachmentModal(${materielId})"><i class="bi bi-plus me-1"></i>Ajouter</button></div>`;
       container.innerHTML = html;
     }
-
     function previewAttachment(id, name, type) {
       const modal = new bootstrap.Modal(document.getElementById('previewAttachmentModal'));
       document.getElementById('previewAttachmentModalLabel').textContent = name;
       const body = document.getElementById('previewAttachmentModalBody');
       const ext = type?.toLowerCase() || '';
-      if (ext === 'pdf') {
-        body.innerHTML = `<iframe src="<?= BASE_URL ?>materiel/preview/${id}" width="100%" height="600px" frameborder="0"></iframe>`;
-      } else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) {
-        body.innerHTML = `<img src="<?= BASE_URL ?>materiel/preview/${id}" class="img-fluid">`;
-      } else {
-        body.innerHTML = `<div class="alert alert-info">Prévisualisation non disponible. <a href="<?= BASE_URL ?>materiel/download/${id}" target="_blank">Télécharger</a></div>`;
-      }
+      if (ext === 'pdf') body.innerHTML = `<iframe src="<?= BASE_URL ?>materiel/preview/${id}" width="100%" height="600px" frameborder="0"></iframe>`;
+      else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) body.innerHTML = `<img src="<?= BASE_URL ?>materiel/preview/${id}" class="img-fluid">`;
+      else body.innerHTML = `<div class="alert alert-info">Prévisualisation non disponible. <a href="<?= BASE_URL ?>materiel/download/${id}" target="_blank">Télécharger</a></div>`;
       modal.show();
     }
-
     function formatFileSize(bytes) {
       if (!bytes) return '0 Bytes';
-      const k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      const k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'], i = Math.floor(Math.log(bytes) / Math.log(k));
       return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
-
     function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
+      const d = document.createElement('div'); d.textContent = text; return d.innerHTML;
     }
-
     function openAddAttachmentModal(materielId) {
       const modal = new bootstrap.Modal(document.getElementById('addAttachmentModal'));
       document.getElementById('addAttachmentModal').setAttribute('data-materiel-id', materielId);
       modal.show();
     }
-
-    class DragDropUploader {
-      constructor(materielId) {
-        this.materielId = materielId;
-        this.files = [];
-        this.allowedExtensions = [];
-        this.maxSize = parsePhpSize('<?php echo ini_get("upload_max_filesize"); ?>');
-        this.dropZone = document.getElementById('dropZone');
-        this.fileInput = document.getElementById('fileInput');
-        this.fileList = document.getElementById('fileList');
-        this.stats = document.getElementById('stats');
-        this.validCount = document.getElementById('validCount');
-        this.invalidCount = document.getElementById('invalidCount');
-        this.progressFill = document.getElementById('progressFill');
-        this.uploadBtn = document.getElementById('uploadValidBtn');
-        this.clearBtn = document.getElementById('clearAllBtn');
-        this.filesOptions = document.getElementById('filesOptions');
-        this.filesOptionsList = document.getElementById('filesOptionsList');
-        this.init();
-      }
-
-      async init() {
-        try {
-          const res = await fetch('<?= BASE_URL ?>settings/getAllowedExtensions');
-          const data = await res.json();
-          this.allowedExtensions = data.extensions || [];
-        } catch (e) { console.error(e); }
-        this.setupEvents();
-      }
-
-      setupEvents() {
-        this.dropZone.addEventListener('dragover', e => { e.preventDefault(); this.dropZone.classList.add('dragover'); });
-        this.dropZone.addEventListener('dragleave', e => { e.preventDefault(); this.dropZone.classList.remove('dragover'); });
-        this.dropZone.addEventListener('drop', e => { e.preventDefault(); this.dropZone.classList.remove('dragover'); this.handleFiles(Array.from(e.dataTransfer.files)); });
-        this.dropZone.addEventListener('click', () => this.fileInput.click());
-        this.fileInput.addEventListener('change', e => this.handleFiles(Array.from(e.target.files)));
-        this.uploadBtn.addEventListener('click', () => this.upload());
-        this.clearBtn.addEventListener('click', () => this.clearAll());
-      }
-
-      handleFiles(newFiles) {
-        this.files.push(...this.validateFiles(newFiles));
-        this.render();
-      }
-
-      validateFiles(files) {
-        return files.map(f => {
-          const ext = f.name.split('.').pop().toLowerCase();
-          const validExt = this.allowedExtensions.includes(ext);
-          const validSize = f.size <= this.maxSize;
-          let error = null;
-          if (!validSize) error = `Trop volumineux (${this.formatFileSize(f.size)}). Max: ${this.formatFileSize(this.maxSize)}`;
-          else if (!validExt) error = 'Format non accepté';
-          return { file: f, isValid: validExt && validSize, error };
-        });
-      }
-
-      render() {
-        this.fileList.innerHTML = '';
-        this.files.forEach((f, i) => {
-          const div = document.createElement('div');
-          div.className = `file-item ${f.isValid ? 'valid' : 'invalid'}`;
-          div.innerHTML = `<span class="file-name">${f.file.name}</span>
-                    <span class="file-size">${this.formatFileSize(f.file.size)}</span>
-                    ${f.error ? `<span class="error-message">${f.error}</span>` : ''}
-                    <button class="remove-file btn btn-sm btn-link" onclick="uploader.removeFile(${i})">×</button>`;
-          this.fileList.appendChild(div);
-        });
-        this.updateStats();
-        this.updateOptions();
-      }
-
-      updateOptions() {
-        const valid = this.files.filter(f => f.isValid);
-        if (valid.length) {
-          this.filesOptions.style.display = 'block';
-          this.filesOptionsList.innerHTML = '';
-          valid.forEach((f, i) => {
-            const div = document.createElement('div');
-            div.className = 'file-options mb-2 p-2 border rounded';
-            div.innerHTML = `<div class="row align-items-center">
-                        <div class="col-md-8"><strong>${f.file.name}</strong><input type="text" class="form-control form-control-sm mt-1" name="desc_${i}" placeholder="Description"></div>
-                        <div class="col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" name="hide_${i}" value="1" id="hide_${i}"><label for="hide_${i}"><i class="bi bi-eye-slash me-1"></i>Masquer client</label></div></div>
-                    </div>`;
-            this.filesOptionsList.appendChild(div);
-          });
-        } else {
-          this.filesOptions.style.display = 'none';
-        }
-      }
-
-      updateStats() {
-        const valid = this.files.filter(f => f.isValid).length;
-        const invalid = this.files.length - valid;
-        this.validCount.textContent = valid;
-        this.invalidCount.textContent = invalid;
-        if (this.files.length) {
-          this.stats.style.display = 'block';
-          this.uploadBtn.style.display = 'inline-block';
-          this.clearBtn.style.display = 'inline-block';
-          this.progressFill.style.width = (valid / this.files.length * 100) + '%';
-        } else {
-          this.stats.style.display = 'none';
-          this.uploadBtn.style.display = 'none';
-          this.clearBtn.style.display = 'none';
-        }
-      }
-
-      removeFile(index) {
-        this.files.splice(index, 1);
-        this.render();
-      }
-
-      clearAll() {
-        this.files = [];
-        this.render();
-        this.fileInput.value = '';
-      }
-
-      formatFileSize(bytes) {
-        if (!bytes) return '0 Bytes';
-        const k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-      }
-
-      async upload() {
-        const valid = this.files.filter(f => f.isValid);
-        if (!valid.length) return alert('Aucun fichier valide');
-        const fd = new FormData();
-        fd.append('materiel_id', this.materielId);
-        valid.forEach((f, i) => {
-          fd.append(`files[${i}]`, f.file);
-          const desc = document.querySelector(`input[name="desc_${i}"]`);
-          const hide = document.querySelector(`input[name="hide_${i}"]`);
-          if (desc?.value) fd.append(`descriptions[${i}]`, desc.value);
-          if (hide?.checked) fd.append(`masque_client[${i}]`, '1');
-        });
-        this.uploadBtn.disabled = true;
-        this.uploadBtn.innerHTML = '<i class="bi bi-arrow-clockwise spin me-1"></i>Upload...';
-        try {
-          const res = await fetch('<?= BASE_URL ?>materiel/uploadAttachment', {
-            method: 'POST',
-            headers: { 'X-CSRF-Token': '<?= csrf_token() ?>' },
-            body: fd
-          });
-          const result = await res.json();
-          if (result.success) {
-            alert('Upload réussi !');
-            bootstrap.Modal.getInstance(document.getElementById('addAttachmentModal')).hide();
-            location.reload();
-          } else {
-            alert('Erreur: ' + (result.error || 'Inconnue'));
-          }
-        } catch (e) {
-          console.error(e);
-          alert('Erreur réseau');
-        } finally {
-          this.uploadBtn.disabled = false;
-          this.uploadBtn.innerHTML = '<i class="bi bi-upload me-1"></i>Uploader';
-        }
-      }
-    }
-
     function parsePhpSize(size) {
       const units = { K: 1024, M: 1048576, G: 1073741824 };
       const match = String(size).match(/^(\d+)([KMG])?$/i);
-      if (!match) return 0;
-      return parseInt(match[1]) * (units[match[2]?.toUpperCase()] || 1);
+      return match ? parseInt(match[1]) * (units[match[2]?.toUpperCase()] || 1) : 0;
     }
 
+    // ── DragDropUploader ──────────────────────────────────────────────────────────
+    // (classe déjà définie dans DragDropUploader.js — ne pas redéclarer ici)
     let uploader;
     document.getElementById('addAttachmentModal').addEventListener('shown.bs.modal', function () {
       const id = this.getAttribute('data-materiel-id');
@@ -1313,7 +1067,7 @@ $allData = [];
       if (uploader) uploader.clearAll();
     });
 
-
+    // ── DOMContentLoaded ──────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', function () {
 
       <?php if (!empty($filters['client_id']) && !empty($materiel_organise)): ?>
@@ -1322,6 +1076,7 @@ $allData = [];
             <?php foreach ($buildings as $building_nom => $salles): ?>
               <?php foreach ($salles as $salle_nom => $materiels):
                 $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
+                $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
                 ?>
                   (function () {
                     const container = document.getElementById('excelTable-<?= $salle_id ?>');
@@ -1331,27 +1086,17 @@ $allData = [];
                       $rowData = [];
                       foreach ($allColumns as $col) {
                         if ($col['field'] === 'actions') {
-                          // Colonne Actions - ajouter un marqueur pour le renderer
                           $rowData[] = ['type' => 'add_button', 'salle_id' => $m['salle_id'] ?? null];
                         } elseif ($col['field'] === 'equipement') {
-                          $rowData[] = [
-                            'id' => $m['id'],
-                            'marque' => $m['marque'] ?? '',
-                            'modele' => $m['modele'] ?? ''
-                          ];
+                          $rowData[] = ['id' => $m['id'], 'marque' => $m['marque'] ?? '', 'modele' => $m['modele'] ?? ''];
                         } elseif ($col['field'] === 'pieces_jointes') {
-                          $rowData[] = [
-                            'count' => $pieces_jointes_count[$m['id']] ?? 0,
-                            'id' => $m['id'],
-                            'name' => ($m['marque'] ?? '') . ' ' . ($m['modele'] ?? '')
-                          ];
+                          $rowData[] = ['count' => $pieces_jointes_count[$m['id']] ?? 0, 'id' => $m['id'], 'name' => ($m['marque'] ?? '') . ' ' . ($m['modele'] ?? '')];
                         } else {
                           $rowData[] = $m[$col['field']] ?? '';
                         }
                       }
                       return $rowData;
                     }, $materiels)); ?>;
-
 
                     const hot = new Handsontable(container, {
                       data: data,
@@ -1363,16 +1108,14 @@ $allData = [];
                       height: 'auto',
                       cells: function (row, col) {
                         const header = this.colHeaders[col];
+
                         if (header === 'Actions') {
                           return {
                             renderer: function (instance, td, row, col, prop, value) {
                               const salleId = value?.salle_id || <?= json_encode($filters['salle_id'] ?? null) ?>;
-                              td.innerHTML = `
-                        <button type="button" class="btn btn-sm btn-success w-100" 
-                                onclick="addNewRowToTable('excelTable-<?= $salle_id ?>', '<?= addslashes($locationString) ?>', ${salleId})">
-                            <i class="bi bi-plus-circle me-1"></i> Ajouter
-                        </button>
-                    `;
+                              td.innerHTML = `<button type="button" class="btn btn-sm btn-success w-100"
+                  onclick="addNewRowToTable('excelTable-<?= $salle_id ?>','<?= addslashes($locationString) ?>',${salleId})">
+                  <i class="bi bi-plus-circle me-1"></i> Ajouter</button>`;
                               td.style.textAlign = 'center';
                               td.style.verticalAlign = 'middle';
                               td.style.backgroundColor = '#f8f9fa';
@@ -1380,22 +1123,16 @@ $allData = [];
                             }
                           };
                         }
+
                         if (header === 'Équipement') {
                           return {
                             renderer: function (instance, td, row, col, prop, value) {
                               td.innerHTML = '';
-
-                              // Cas objet (ligne existante ou déjà initialisée)
                               if (value && typeof value === 'object') {
-                                const materielId = value.id || null;
-                                const marque = escapeHtml(value.marque || '');
-                                const modele = escapeHtml(value.modele || '');
-
-                                if (materielId) {
+                                if (value.id) {
                                   const urlParams = new URLSearchParams(window.location.search);
                                   const link = document.createElement('a');
-                                  link.href = '<?= BASE_URL ?>materiel/view/' + materielId
-                                    + (urlParams.toString() ? '?' + urlParams.toString() : '');
+                                  link.href = '<?= BASE_URL ?>materiel/view/' + value.id + (urlParams.toString() ? '?' + urlParams : '');
                                   link.className = 'text-decoration-none fw-bold text-primary';
                                   link.onclick = e => e.stopPropagation();
                                   link.textContent = value.marque || '';
@@ -1406,7 +1143,6 @@ $allData = [];
                                   td.appendChild(document.createElement('br'));
                                   td.appendChild(small);
                                 } else {
-                                  // Nouvelle ligne : afficher les valeurs texte directement
                                   const span = document.createElement('span');
                                   span.className = 'fw-bold text-primary';
                                   span.textContent = value.marque || '';
@@ -1417,13 +1153,10 @@ $allData = [];
                                   td.appendChild(small);
                                 }
                               } else {
-                                // Fallback : valeur string brute (saisie directe)
                                 td.textContent = value || '';
                               }
-
                               td.style.cursor = 'default';
                             },
-                            // ← Indique à Handsontable de ne pas écraser l'objet avec la valeur brute
                             editor: false
                           };
                         }
@@ -1434,7 +1167,10 @@ $allData = [];
                               const count = value?.count ?? 0;
                               const id = value?.id;
                               const name = value?.name ?? '';
-                              td.innerHTML = `<button class="btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}" onclick="openAttachmentsModal(${id}, '${name.replace(/'/g, "\\'")}')"><i class="bi bi-paperclip"></i><span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'} ms-1">${count}</span></button>`;
+                              td.innerHTML = `<button class="btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}"
+                  onclick="openAttachmentsModal(${id},'${name.replace(/'/g, "\\'")}')">
+                  <i class="bi bi-paperclip"></i>
+                  <span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'} ms-1">${count}</span></button>`;
                     td.style.textAlign = 'center';
                   }
                 };
@@ -1443,32 +1179,20 @@ $allData = [];
               return {};
             },
             afterChange: function (changes, source) {
-              if (!changes || source === 'loadData') return;
-
-              changes.forEach(([row, col, oldVal, newVal]) => {
+              if (!changes || source === 'loadData' || source === 'equipSync') return;
+              changes.forEach(([row, col, , newVal]) => {
                 const colHeader = this.getColHeader(col);
-
-                // Si on édite Marque ou Modèle directement dans une cellule texte,
-                // on reconstruit l'objet Équipement (col index 1)
-                if (colHeader === 'Équipement') return;
-
-                // Synchroniser marque/modele dans l'objet Équipement de la ligne
-                const equipCol = 1; // index de la colonne Équipement
-                let equipVal = this.getDataAtCell(row, equipCol);
-
-                if (!equipVal || typeof equipVal !== 'object') {
-                  equipVal = { id: null, marque: '', modele: '' };
-                }
-
-                // Si l'utilisateur édite col "Marque" ou "Modèle" séparément (colonnes cachées)
-                if (colHeader === 'Marque') {
-                  equipVal = { ...equipVal, marque: newVal || '' };
-                  this.setDataAtCell(row, equipCol, equipVal, 'equipSync');
-                }
-                if (colHeader === 'Modèle') {
-                  equipVal = { ...equipVal, modele: newVal || '' };
-                }
-                this.setDataAtCell(row, equipCol, equipVal, 'equipSync');
+                if (colHeader !== 'Marque' && colHeader !== 'Modèle') return;
+                const equipCol = 1;
+                const ev = this.getDataAtCell(row, equipCol);
+                const newEq = {
+                  id: (ev && typeof ev === 'object') ? (ev.id ?? null) : null,
+                  marque: (ev && typeof ev === 'object') ? (ev.marque || '') : '',
+                  modele: (ev && typeof ev === 'object') ? (ev.modele || '') : '',
+                };
+                if (colHeader === 'Marque') newEq.marque = newVal || '';
+                if (colHeader === 'Modèle') newEq.modele = newVal || '';
+                this.setDataAtCell(row, equipCol, newEq, 'equipSync');
               });
             }
           });
@@ -1499,48 +1223,41 @@ $allData = [];
           const col = parseInt(this.dataset.col);
           const visible = this.checked;
           Object.values(hotInstances).forEach(hot => {
-            const plugin = hot.getPlugin('hiddenColumns');
-            if (visible) plugin.showColumn(col);
-            else plugin.hideColumn(col);
+            const p = hot.getPlugin('hiddenColumns');
+            visible ? p.showColumn(col) : p.hideColumn(col);
             hot.render();
           });
           saveColumnVisibility();
         });
       });
-    });
+    }); // ← fermeture DOMContentLoaded
   </script>
+
   <script>
+
     window.saveAllTablesData = function () {
       let totalUpdated = 0;
       let totalCreated = 0;
       let totalErrors = 0;
       const savePromises = [];
+      const errorDetails = [];
+      const missingFieldsErrors = [];
 
       Object.keys(hotInstances).forEach(tableId => {
         const hot = hotInstances[tableId];
         if (!hot) return;
 
         const allData = hot.getSourceData();
+
         const filters = <?= json_encode($filters ?? []) ?>;
-
-        // Priorité: filtre salle_id ou salle_id de la première ligne
         let globalSalleId = filters.salle_id || null;
-
-        // Si pas de salle_id dans les filtres, essayer de le récupérer depuis la première ligne
-        if (!globalSalleId && allData.length > 0) {
-          const firstRow = allData[0];
-          if (firstRow[0] && firstRow[0].salle_id) {
-            globalSalleId = firstRow[0].salle_id;
-          }
+        if (!globalSalleId && allData.length > 0 && allData[0][0]?.salle_id) {
+          globalSalleId = allData[0][0].salle_id;
         }
-
         if (!globalSalleId) {
-          console.warn(`Table ${tableId}: pas de salle_id trouvé, sauvegarde ignorée`);
-          showToast(`Impossible de sauvegarder: salle non identifiée`, 'danger');
+          showToast('Impossible de sauvegarder : salle non identifiée', 'danger');
           return;
         }
-
-        // Séparer les lignes existantes (avec ID) et nouvelles (sans ID)
         const existingRows = allData.filter(row => {
           const eq = row[1];
           return eq && typeof eq === 'object' && eq.id;
@@ -1548,176 +1265,223 @@ $allData = [];
 
         const newRows = allData.filter(row => {
           const eq = row[1];
-          return eq && typeof eq === 'object' && !eq.id && (eq.marque || eq.modele);
+          return eq && typeof eq === 'object' && !eq.id;
         });
 
-        console.log(`Table ${tableId}: ${existingRows.length} à mettre à jour, ${newRows.length} à créer`);
-        console.log(`Salle ID utilisé: ${globalSalleId}`);
-
-        // 1. MISE À JOUR des lignes existantes
         if (existingRows.length > 0) {
           const formattedData = existingRows.map(row => ({
             id: parseInt(row[1].id),
-            marque: row[1].marque || null,
-            modele: row[1].modele || null,
-            type_materiel: row[2] || null,
-            numero_serie: row[3] || null,
-            version_firmware: row[4] || null,
-            adresse_ip: row[5] || null,
-            adresse_mac: row[6] || null,
-            date_fin_maintenance: row[7] || null,
-            reference: row[9] || null,
-            usage_materiel: row[10] || null,
-            ancien_firmware: row[13] || null,
-            masque: row[14] || null,
-            passerelle: row[15] || null,
-            login: row[16] || null,
-            password: row[17] || null,
-            ip_primaire: row[19] || null,
-            mac_primaire: row[20] || null,
-            ip_secondaire: row[21] || null,
-            mac_secondaire: row[22] || null,
-            stream_aes67_recu: row[23] || null,
-            stream_aes67_transmis: row[24] || null,
-            ssid: row[25] || null,
-            type_cryptage: row[26] || null,
-            password_wifi: row[27] || null,
-            libelle_pa_salle: row[28] || null,
-            numero_port_switch: row[29] || null,
-            vlan: row[30] || null,
-            date_fin_garantie: row[31] || null,
-            date_derniere_inter: row[32] || null,
-            commentaire: row[33] || null,
+            marque: row[1].marque || null, modele: row[1].modele || null,
+            type_materiel: row[2] || null, numero_serie: row[3] || null,
+            version_firmware: row[4] || null, adresse_ip: row[5] || null,
+            adresse_mac: row[6] || null, date_fin_maintenance: row[7] || null,
+            reference: row[9] || null, usage_materiel: row[10] || null,
+            ancien_firmware: row[13] || null, masque: row[14] || null,
+            passerelle: row[15] || null, login: row[16] || null,
+            password: row[17] || null, ip_primaire: row[19] || null,
+            mac_primaire: row[20] || null, ip_secondaire: row[21] || null,
+            mac_secondaire: row[22] || null, stream_aes67_recu: row[23] || null,
+            stream_aes67_transmis: row[24] || null, ssid: row[25] || null,
+            type_cryptage: row[26] || null, password_wifi: row[27] || null,
+            libelle_pa_salle: row[28] || null, numero_port_switch: row[29] || null,
+            vlan: row[30] || null, date_fin_garantie: row[31] || null,
+            date_derniere_inter: row[32] || null, commentaire: row[33] || null,
             url_github: row[34] || null
           }));
 
-          const updatePromise = fetch('<?= BASE_URL ?>views/excel/excel_save.php', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-Token': '<?= csrf_token() ?>'
-            },
-            body: JSON.stringify({
-              table_id: tableId,
-              salle_id: globalSalleId,
-              data: formattedData
+          savePromises.push(
+            fetch('<?= BASE_URL ?>views/excel/excel_save.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': '<?= csrf_token() ?>' },
+              body: JSON.stringify({ table_id: tableId, salle_id: globalSalleId, data: formattedData })
             })
-          })
-            .then(response => response.json())
-            .then(result => {
-              if (result.status === 'success' || result.status === 'partial') {
-                totalUpdated += result.updated || 0;
-                console.log(`${tableId}: ${result.message}`);
-              } else {
+              .then(r => r.json())
+              .then(result => {
+                if (result.status === 'success' || result.status === 'partial') {
+                  totalUpdated += result.updated || 0;
+                } else {
+                  totalErrors++;
+                  errorDetails.push(`Mise à jour échouée pour ${result.updated || 0} équipements`);
+                }
+              })
+              .catch((error) => {
                 totalErrors++;
-                console.error(`${tableId}:`, result.message);
-              }
-            })
-            .catch(error => {
-              totalErrors++;
-              console.error(`${tableId} (update):`, error);
-            });
-
-          savePromises.push(updatePromise);
+                errorDetails.push(`Erreur réseau lors de la mise à jour`);
+              })
+          );
         }
-
-        // 2. CRÉATION des nouvelles lignes
         for (let idx = 0; idx < newRows.length; idx++) {
           const row = newRows[idx];
           const eq = row[1];
+          if (!eq.marque || eq.marque.trim() === '' || !eq.modele || eq.modele.trim() === '') {
+            const manquants = [];
+            if (!eq.marque || eq.marque.trim() === '') manquants.push('Marque');
+            if (!eq.modele || eq.modele.trim() === '') manquants.push('Modèle');
 
-          console.log(`Traitement nouvelle ligne ${idx + 1}:`, { marque: eq?.marque, modele: eq?.modele, salleId: globalSalleId });
-
-          if (!eq.marque || !eq.modele) {
-            console.warn(`Nouvelle ligne ${idx + 1}: marque et modèle obligatoires`);
+            missingFieldsErrors.push(`• Équipement sans ${manquants.join(' et ')}`);
             totalErrors++;
             continue;
           }
 
-          const formData = new FormData();
-          formData.append('salle_id', globalSalleId);
-          formData.append('marque', eq.marque || '');
-          formData.append('modele', eq.modele || '');
-          formData.append('type_materiel', row[2] || '');
-          formData.append('numero_serie', row[3] || '');
-          formData.append('version_firmware', row[4] || '');
-          formData.append('adresse_ip', row[5] || '');
-          formData.append('adresse_mac', row[6] || '');
-          formData.append('date_fin_maintenance', row[7] || '');
-          formData.append('reference', row[9] || '');
-          formData.append('usage_materiel', row[10] || '');
-          formData.append('ancien_firmware', row[13] || '');
-          formData.append('masque', row[14] || '');
-          formData.append('passerelle', row[15] || '');
-          formData.append('login', row[16] || '');
-          formData.append('password', row[17] || '');
-          formData.append('ip_primaire', row[19] || '');
-          formData.append('mac_primaire', row[20] || '');
-          formData.append('ip_secondaire', row[21] || '');
-          formData.append('mac_secondaire', row[22] || '');
-          formData.append('stream_aes67_recu', row[23] || '');
-          formData.append('stream_aes67_transmis', row[24] || '');
-          formData.append('ssid', row[25] || '');
-          formData.append('type_cryptage', row[26] || '');
-          formData.append('password_wifi', row[27] || '');
-          formData.append('libelle_pa_salle', row[28] || '');
-          formData.append('numero_port_switch', row[29] || '');
-          formData.append('vlan', row[30] || '');
-          formData.append('date_fin_garantie', row[31] || '');
-          formData.append('date_derniere_inter', row[32] || '');
-          formData.append('commentaire', row[33] || '');
-          formData.append('url_github', row[34] || '');
+          const fd = new FormData();
+          fd.append('salle_id', globalSalleId);
+          fd.append('marque', eq.marque);
+          fd.append('modele', eq.modele);
+          fd.append('type_materiel', row[2] || '');
+          fd.append('numero_serie', row[3] || '');
+          fd.append('version_firmware', row[4] || '');
+          fd.append('adresse_ip', row[5] || '');
+          fd.append('adresse_mac', row[6] || '');
+          fd.append('date_fin_maintenance', row[7] || '');
+          fd.append('reference', row[9] || '');
+          fd.append('usage_materiel', row[10] || '');
+          fd.append('ancien_firmware', row[13] || '');
+          fd.append('masque', row[14] || '');
+          fd.append('passerelle', row[15] || '');
+          fd.append('login', row[16] || '');
+          fd.append('password', row[17] || '');
+          fd.append('ip_primaire', row[19] || '');
+          fd.append('mac_primaire', row[20] || '');
+          fd.append('ip_secondaire', row[21] || '');
+          fd.append('mac_secondaire', row[22] || '');
+          fd.append('stream_aes67_recu', row[23] || '');
+          fd.append('stream_aes67_transmis', row[24] || '');
+          fd.append('ssid', row[25] || '');
+          fd.append('type_cryptage', row[26] || '');
+          fd.append('password_wifi', row[27] || '');
+          fd.append('libelle_pa_salle', row[28] || '');
+          fd.append('numero_port_switch', row[29] || '');
+          fd.append('vlan', row[30] || '');
+          fd.append('date_fin_garantie', row[31] || '');
+          fd.append('date_derniere_inter', row[32] || '');
+          fd.append('commentaire', row[33] || '');
+          fd.append('url_github', row[34] || '');
 
-          if (filters.client_id) formData.append('return_client_id', filters.client_id);
-          if (filters.site_id) formData.append('return_site_id', filters.site_id);
-          if (filters.salle_id) formData.append('return_salle_id', filters.salle_id);
+          if (filters.client_id) fd.append('return_client_id', filters.client_id);
+          if (filters.site_id) fd.append('return_site_id', filters.site_id);
+          if (filters.salle_id) fd.append('return_salle_id', filters.salle_id);
 
-          const createPromise = fetch('<?= BASE_URL ?>materiel/store', {
-            method: 'POST',
-            headers: { 'X-CSRF-Token': '<?= csrf_token() ?>' },
-            body: formData
-          })
-            .then(async response => {
-              if (response.ok || response.redirected) {
-                totalCreated++;
-                console.log(`✅ Nouveau matériel créé: ${eq.marque} ${eq.modele}`);
-                return response;
-              } else {
-                const text = await response.text();
-                console.error(`❌ Échec création: HTTP ${response.status}`, text);
-                totalErrors++;
-              }
+          const marqueRef = eq.marque, modeleRef = eq.modele;
+          savePromises.push(
+            fetch('<?= BASE_URL ?>materiel/store', {
+              method: 'POST',
+              headers: { 'X-CSRF-Token': '<?= csrf_token() ?>' },
+              body: fd
             })
-            .catch(error => {
-              totalErrors++;
-              console.error(`❌ Erreur création:`, error);
-            });
-
-          savePromises.push(createPromise);
+              .then(async response => {
+                if (response.ok || response.redirected) {
+                  totalCreated++;
+                  console.log(`Créé: ${marqueRef} ${modeleRef}`);
+                } else {
+                  totalErrors++;
+                  const errorText = await response.text();
+                  errorDetails.push(`Échec création "${marqueRef} ${modeleRef}" : ${response.status} ${response.statusText}`);
+                  console.error(`HTTP ${response.status}`, errorText);
+                }
+              })
+              .catch((error) => {
+                totalErrors++;
+                errorDetails.push(`Erreur réseau pour "${marqueRef} ${modeleRef}"`);
+              })
+          );
         }
       });
 
-      if (savePromises.length === 0) {
+      if (savePromises.length === 0 && totalErrors === 0) {
         showToast('Aucune donnée à sauvegarder', 'info');
         return;
       }
 
       Promise.all(savePromises).then(() => {
-        const parts = [];
-        if (totalUpdated > 0) parts.push(`${totalUpdated} mise(s) à jour`);
-        if (totalCreated > 0) parts.push(`${totalCreated} équipement(s) créé(s)`);
-        if (totalErrors > 0) parts.push(`${totalErrors} erreur(s)`);
+        const successParts = [];
+        if (totalUpdated > 0) successParts.push(`${totalUpdated} mise(s) à jour`);
+        if (totalCreated > 0) successParts.push(`${totalCreated} équipement(s) créé(s)`);
 
-        const message = 'Sauvegarde terminée : ' + parts.join(', ');
+        const successMessage = successParts.length > 0 ? successParts.join(', ') : '';
 
-        if (totalErrors === 0) {
-          showToast(message + ' ✅', 'success');
-          if (totalCreated > 0) {
-            setTimeout(() => window.location.reload(), 2000);
+        let errorMessage = '';
+        if (totalErrors > 0) {
+          if (missingFieldsErrors.length > 0) {
+            errorMessage = `<br><br><strong>Problèmes détectés :</strong><br>`;
+            errorMessage += missingFieldsErrors.slice(0, 5).join('<br>');
+            if (missingFieldsErrors.length > 5) {
+              errorMessage += `<br><em>... et ${missingFieldsErrors.length - 5} autre(s) ligne(s) avec champs manquants</em>`;
+            }
+            errorMessage += `<br><br><strong>Solution :</strong><br>`;
+            errorMessage += `Remplissez la <strong>Marque</strong> et le <strong>Modèle</strong> pour chaque nouvel équipement avant de sauvegarder.`;
           }
-        } else {
-          showToast(message + ' ⚠️', 'danger');
+
+          if (errorDetails.length > 0 && missingFieldsErrors.length === 0) {
+            errorMessage = `<br><br><strong>Erreurs rencontrées :</strong><br>`;
+            errorMessage += errorDetails.slice(0, 3).join('<br>');
+            if (errorDetails.length > 3) {
+              errorMessage += `<br><em>... et ${errorDetails.length - 3} autre(s) erreur(s)</em>`;
+            }
+          }
         }
+        if (totalErrors === 0 && (totalUpdated > 0 || totalCreated > 0)) {
+          showToast(
+            `<strong>Sauvegarde réussie !</strong><br><br>${successMessage}<br><br>👍 Toutes les modifications ont été enregistrées.`,
+            'success'
+          );
+          if (totalCreated > 0) setTimeout(() => window.location.reload(), 2000);
+
+        } else if (totalErrors > 0 && (totalUpdated > 0 || totalCreated > 0)) {
+          showToast(
+            `<strong>Sauvegarde partielle</strong><br><br>` +
+            `${successMessage}<br>` +
+            `${totalErrors} erreur(s)` +
+            errorMessage,
+            'danger'
+          );
+          if (totalCreated > 0) setTimeout(() => window.location.reload(), 3000);
+
+        } else if (totalErrors > 0 && totalUpdated === 0 && totalCreated === 0) {
+          let mainMessage = `<strong>Sauvegarde impossible</strong><br><br>`;
+
+          if (missingFieldsErrors.length > 0) {
+            mainMessage += `${missingFieldsErrors.length} ligne(s) avec des informations manquantes.<br><br>`;
+            mainMessage += `<strong>Comment corriger :</strong><br>`;
+            mainMessage += `• Remplissez la <strong>Marque</strong> et le <strong>Modèle</strong> pour chaque nouvel équipement<br>`;
+            mainMessage += `• Utilisez le bouton <strong>"Ajouter"</strong> dans la colonne Actions pour créer une nouvelle ligne<br>`;
+            mainMessage += `• Assurez-vous que tous les champs obligatoires sont complétés avant de sauvegarder<br><br>`;
+            mainMessage += `<strong>Lignes concernées :</strong><br>`;
+            mainMessage += missingFieldsErrors.slice(0, 3).join('<br>');
+            if (missingFieldsErrors.length > 3) {
+              mainMessage += `<br><em>... et ${missingFieldsErrors.length - 3} autre(s) ligne(s)</em>`;
+            }
+          } else {
+            mainMessage += `Aucune donnée n'a pu être sauvegardée.<br><br>`;
+            mainMessage += `<strong>Vérifiez :</strong><br>`;
+            mainMessage += `• Que vous avez bien rempli tous les champs obligatoires<br>`;
+            mainMessage += `• Que votre connexion internet est stable<br>`;
+            mainMessage += `• Que vous avez les droits nécessaires<br>`;
+            if (errorDetails.length > 0) {
+              mainMessage += `<br><strong>Détails :</strong><br>`;
+              mainMessage += errorDetails.slice(0, 2).join('<br>');
+            }
+          }
+
+          showToast(mainMessage, 'danger');
+
+        } else {
+          showToast(
+            `ℹ<strong>Aucune modification détectée</strong><br><br>Aucune donnée n'a été modifiée ou ajoutée.`,
+            'info'
+          );
+        }
+      }).catch((error) => {
+        // Erreur globale
+        showToast(
+          `<strong>Erreur système</strong><br><br>` +
+          `Une erreur inattendue s'est produite lors de la sauvegarde.<br><br>` +
+          `<strong>Actions recommandées :</strong><br>` +
+          `• Rafraîchissez la page (F5)<br>` +
+          `• Vérifiez votre connexion internet<br>` +
+          `• Contactez le support si le problème persiste`,
+          'danger'
+        );
+        console.error('Erreur globale:', error);
       });
     };
   </script>
