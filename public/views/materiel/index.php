@@ -1577,7 +1577,7 @@ $allData = [];
         }
         if (totalErrors === 0 && (totalUpdated > 0 || totalCreated > 0)) {
           showToast(
-            `<strong>Sauvegarde réussie !</strong><br><br>${successMessage}<br><br>👍 Toutes les modifications ont été enregistrées.`,
+            `<strong>Sauvegarde réussie !</strong><br><br>${successMessage}<br><br>Toutes les modifications ont été enregistrées.`,
             'success'
           );
           if (totalCreated > 0) setTimeout(() => window.location.reload(), 2000);
