@@ -51222,3 +51222,780 @@ Quant à l’écran n°1, il est HS
         WHERE 1=1
      AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
 [2026-05-28 13:46:28][DEBUG] Params: {":client_id":46,":site_id":81,":building_id":13,":salle_id":370} 
+[2026-05-28 14:39:25][DEBUG] Redirection vers login - URL sauvegardée: materiel?client_id=46&site_id=81&building_id=13&salle_id=370 (Session ID: eq4me0tbvqe5cb32lv3j98dq58) 
+[2026-05-28 14:39:32][DEBUG] CSRF: Token trouvé dans la requête - Token: ada9be57fe0ceca6e533... 
+[2026-05-28 14:39:32][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-05-28 14:39:32][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-05-28 14:39:32][DEBUG] Login réussi - Session ID: eq4me0tbvqe5cb32lv3j98dq58 
+[2026-05-28 14:39:32][DEBUG] Login réussi - redirect_after_login: materiel?client_id=46&site_id=81&building_id=13&salle_id=370 
+[2026-05-28 14:39:32][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-05-28 14:39:32][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-05-28 14:39:32][DEBUG] Redirection après login vers: http://localhost/avision/public/materiel?client_id=46&site_id=81&building_id=13&salle_id=370 
+[2026-05-28 14:39:32][INFO] 81 
+[2026-05-28 14:39:32][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:39:32][DEBUG] Params: {":client_id":46,":site_id":81,":building_id":13,":salle_id":370} 
+[2026-05-28 14:39:37][INFO] 81 
+[2026-05-28 14:39:37][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:39:37][DEBUG] Params: {":client_id":46,":site_id":81,":building_id":13,":salle_id":370} 
+[2026-05-28 14:40:42][INFO] 81 
+[2026-05-28 14:40:42][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:40:42][DEBUG] Params: {":client_id":46,":site_id":81,":building_id":13,":salle_id":370} 
+[2026-05-28 14:41:36][INFO] 81 
+[2026-05-28 14:41:52][DEBUG] CSRF: Token trouvé dans la requête - Token: ada9be57fe0ceca6e533... 
+[2026-05-28 14:41:55][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:41:55][DEBUG] Params: [] 
+[2026-05-28 14:41:59][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:41:59][DEBUG] Params: {":client_id":35} 
+[2026-05-28 14:42:02][INFO] 55 
+[2026-05-28 14:42:02][INFO] 55 
+[2026-05-28 14:42:02][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:42:02][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-05-28 14:42:05][INFO] 55 
+[2026-05-28 14:42:05][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:42:05][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":11} 
+[2026-05-28 14:42:09][INFO] 109 
+[2026-05-28 14:42:09][INFO] 109 
+[2026-05-28 14:42:09][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:42:09][DEBUG] Params: {":client_id":35,":site_id":109} 
+[2026-05-28 14:42:11][INFO] 109 
+[2026-05-28 14:42:11][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:42:11][DEBUG] Params: {":client_id":35,":site_id":109,":building_id":26} 
+[2026-05-28 14:42:13][INFO] 109 
+[2026-05-28 14:42:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:42:13][DEBUG] Params: {":client_id":35,":site_id":109,":building_id":26,":salle_id":378} 
+[2026-05-28 14:42:17][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:42:17][DEBUG] Params: {":client_id":46} 
+[2026-05-28 14:42:20][INFO] 81 
+[2026-05-28 14:42:20][INFO] 81 
+[2026-05-28 14:42:20][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:42:20][DEBUG] Params: {":client_id":46,":site_id":81} 
+[2026-05-28 14:42:24][INFO] 81 
+[2026-05-28 14:42:24][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:42:24][DEBUG] Params: {":client_id":46,":site_id":81,":building_id":13} 
+[2026-05-28 14:42:26][INFO] 81 
+[2026-05-28 14:42:26][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:42:26][DEBUG] Params: {":client_id":46,":site_id":81,":building_id":13,":salle_id":370} 
+[2026-05-28 14:42:51][INFO] 81 
+[2026-05-28 14:42:51][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:42:51][DEBUG] Params: {":client_id":46,":site_id":81,":building_id":13,":salle_id":370} 
+[2026-05-28 14:43:18][INFO] 81 
+[2026-05-28 14:43:32][DEBUG] CSRF: Token trouvé dans la requête - Token: ada9be57fe0ceca6e533... 
+[2026-05-28 14:43:36][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:43:36][DEBUG] Params: [] 
+[2026-05-28 14:43:39][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:43:39][DEBUG] Params: {":client_id":46} 
+[2026-05-28 14:43:52][ERROR] Erreur lors de l'aperçu : Fichier non trouvé 
+[2026-05-28 14:43:52][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:43:52][DEBUG] Params: [] 
+[2026-05-28 14:43:55][INFO] 81 
+[2026-05-28 14:44:00][DEBUG] CSRF: Token trouvé dans la requête - Token: ada9be57fe0ceca6e533... 
+[2026-05-28 14:44:00][ERROR] Erreur lors de l'aperçu : Fichier non trouvé 
+[2026-05-28 14:44:00][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:44:00][DEBUG] Params: [] 
+[2026-05-28 14:44:09][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:44:09][DEBUG] Params: [] 
+[2026-05-28 14:44:12][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 14:44:12][DEBUG] Params: {":client_id":46} 
+[2026-05-28 16:26:55][ERROR] Erreur lors de la suppression du matériel : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'deleted_at' in 'field list' 
+[2026-05-28 16:26:55][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:26:55][DEBUG] Params: [] 
+[2026-05-28 16:26:59][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:26:59][DEBUG] Params: {":client_id":35} 
+[2026-05-28 16:31:33][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:31:33][DEBUG] Params: [] 
+[2026-05-28 16:31:37][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:31:37][DEBUG] Params: {":client_id":35} 
+[2026-05-28 16:31:48][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:31:48][DEBUG] Params: [] 
+[2026-05-28 16:31:51][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:31:51][DEBUG] Params: {":client_id":35} 
+[2026-05-28 16:32:00][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:32:00][DEBUG] Params: {":client_id":35} 
+[2026-05-28 16:32:10][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:32:10][DEBUG] Params: [] 
+[2026-05-28 16:32:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:32:13][DEBUG] Params: {":client_id":35} 
+[2026-05-28 16:32:21][INFO] 55 
+[2026-05-28 16:32:21][INFO] 109 
+[2026-05-28 16:35:46][INFO] 55 
+[2026-05-28 16:35:46][INFO] 109 
+[2026-05-28 16:35:48][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:35:48][DEBUG] Params: [] 
+[2026-05-28 16:35:51][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:35:51][DEBUG] Params: {":client_id":35} 
+[2026-05-28 16:36:04][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:36:04][DEBUG] Params: {":client_id":35} 
+[2026-05-28 16:36:16][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:36:16][DEBUG] Params: {":client_id":35} 
+[2026-05-28 16:36:27][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:36:27][DEBUG] Params: {":client_id":46} 
+[2026-05-28 16:36:35][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:36:35][DEBUG] Params: [] 
+[2026-05-28 16:36:37][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-05-28 16:36:37][DEBUG] Params: {":client_id":46} 

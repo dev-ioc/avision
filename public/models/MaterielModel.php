@@ -62,7 +62,7 @@ class MaterielModel extends BaseModel
         INNER JOIN buildings b ON r.building_id = b.id 
         INNER JOIN sites s ON b.site_id = s.id
         INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
-        WHERE 1=1
+        WHERE 1=1 AND deleted_at IS NULL
     ";
 
         // Ajouter la clause WHERE s'il y a des conditions
