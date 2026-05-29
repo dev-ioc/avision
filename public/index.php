@@ -244,14 +244,7 @@ $action = $parts[1] ?? 'index';
 $id = $parts[2] ?? null;
 
 // Vérification de l'authentification
-if ($controller === 'interventions' && $action === 'webhookSignature' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    $interventionController = new InterventionController($db);
-    $interventionController->webhookSignature();
-    exit;
-}
-
-// Vérification de l'authentification
-$public_routes = ['auth/login', 'auth/logout', 'settings/getAllowedExtensions'];
+$public_routes = ['auth/login', 'auth/logout', 'settings/getAllowedExtensions', 'interventions/webhookSignature'];
 $current_route = $controller . '/' . $action;
 
 if (!in_array($current_route, $public_routes) && !isset($_SESSION['user'])) {
