@@ -3886,46 +3886,66 @@ class InterventionController
                 custom_log("PDF généré avec succès: $pdfPath", 'INFO');
 
                 // ======================================
-                // ENVOI À YOUSIGN
-                // ======================================
+// ENVOI À YOUSIGN
+// ======================================
 
-                $clientEmail = $intervention['client_email'];
+                $clientEmail =
+                    $intervention['client_email'];
 
-                $clientFirstname = $intervention['client_firstname'];
+                $clientFirstname =
+                    $intervention['client_firstname'];
 
-                $clientLastname = $intervention['client_lastname'];
+                $clientLastname =
+                    $intervention['client_lastname'];
 
-                $webhookUrl =
-                    'https://dev.avision.videosonic.fr/public/interventions/webhookSignature';
-
-                $signatureService = new SignatureService();
+                $signatureService =
+                    new SignatureService();
 
                 $signatureResponse =
                     $signatureService->createSignatureRequest(
                         $pdfPath,
                         $clientEmail,
                         $clientFirstname,
-                        $clientLastname,
-                        $webhookUrl
+                        $clientLastname
                     );
+
+                echo '<pre>';
+
+                print_r($signatureResponse);
+
+                // DEBUG TEMPORAIRE
+                die;
+
+                // ======================================
+// SAUVEGARDE BDD
+// ======================================
+
                 if (
-                    !empty($signatureResponse['signature_request_id'])
+                    !empty(
+                    $signatureResponse['signature_request_id']
+                )
                 ) {
+
                     $sql = "
-                            INSERT INTO intervention_signatures (
-                                intervention_id,
-                                yousign_request_id,
-                                status
-                            )
-                            VALUES (
-                                :intervention_id,
-                                :yousign_request_id,
-                                'pending'
-                            )
-                        ";
-                    $stmt = $this->db->prepare($sql);
+                        INSERT INTO intervention_signatures (
+                            intervention_id,
+                            yousign_request_id,
+                            status
+                        )
+                        VALUES (
+                            :intervention_id,
+                            :yousign_request_id,
+                            'pending'
+                        )
+                    ";
+
+                    $stmt =
+                        $this->db->prepare($sql);
+
                     $stmt->execute([
-                        ':intervention_id' => $intervention['id'],
+                        ':intervention_id' =>
+                            $intervention['id'],
+
                         ':yousign_request_id' =>
                             $signatureResponse['signature_request_id']
                     ]);
