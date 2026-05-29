@@ -3889,8 +3889,8 @@ class InterventionController
                 // ENVOI À YOUSIGN
                 // ======================================
 
-                $clientEmail =
-                    $intervention['contact_email'];
+                $clientEmail = "dev_mdg@caspeo.fr";
+                // $intervention['contact_email'];
 
                 $clientFirstname =
                     $intervention['contact_first_name'];
@@ -5961,18 +5961,32 @@ class InterventionController
 
         file_put_contents(
             __DIR__ . '/../storage/yousign.log',
-            $payload . PHP_EOL,
+            date('Y-m-d H:i:s') . PHP_EOL .
+            $payload . PHP_EOL . PHP_EOL,
             FILE_APPEND
         );
 
         $data = json_decode($payload, true);
 
-        $event = $data['event_name'] ?? null;
+        $event = $data['event_name'] ?? $data['event'] ?? null;
+
+        file_put_contents(
+            __DIR__ . '/../storage/yousign.log',
+            "EVENT = " . $event . PHP_EOL,
+            FILE_APPEND
+        );
 
         if ($event === 'signature_request.done') {
-
             $requestId =
-                $data['data']['id'] ?? null;
+                $data['data']['signature_request']['id']
+                ?? $data['data']['id']
+                ?? null;
+
+            file_put_contents(
+                __DIR__ . '/../storage/yousign.log',
+                "REQUEST ID = " . $requestId . PHP_EOL,
+                FILE_APPEND
+            );
 
             if ($requestId) {
 
@@ -5981,48 +5995,50 @@ class InterventionController
                 FROM intervention_signatures
                 WHERE yousign_request_id = :id
             ";
-
                 $stmt = $this->db->prepare($sql);
+                $stmt->execute([':id' => $requestId]);
+                $signature = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                $stmt->execute([
-                    ':id' => $requestId
-                ]);
-
-                $signature = $stmt->fetch();
+                file_put_contents(
+                    __DIR__ . '/../storage/yousign.log',
+                    "SIGNATURE FOUND = " . print_r($signature, true) . PHP_EOL,
+                    FILE_APPEND
+                );
 
                 if ($signature) {
                     $update = "
                     UPDATE intervention_signatures
-                    SET status = 'signed'
+                    SET status = 'signed', updated_at = NOW()
                     WHERE id = :id
                 ";
-
-                    $stmtUpdate =
-                        $this->db->prepare($update);
-
-                    $stmtUpdate->execute([
-                        ':id' => $signature['id']
-                    ]);
+                    $stmtUpdate = $this->db->prepare($update);
+                    $stmtUpdate->execute([':id' => $signature['id']]);
                     $sqlIntervention = "
                     UPDATE interventions
-                    SET status = 'signed'
+                    SET updated_at = NOW()
                     WHERE id = :id
                 ";
-
-                    $stmtIntervention =
-                        $this->db->prepare($sqlIntervention);
-
+                    $stmtIntervention = $this->db->prepare($sqlIntervention);
                     $stmtIntervention->execute([
-                        ':id' =>
-                            $signature['intervention_id']
+                        ':id' => $signature['intervention_id']
                     ]);
+
+                    file_put_contents(
+                        __DIR__ . '/../storage/yousign.log',
+                        "UPDATE SUCCESS" . PHP_EOL,
+                        FILE_APPEND
+                    );
+                } else {
+                    file_put_contents(
+                        __DIR__ . '/../storage/yousign.log',
+                        "AUCUNE SIGNATURE TROUVÉE POUR CE REQUEST ID" . PHP_EOL,
+                        FILE_APPEND
+                    );
                 }
             }
         }
 
-        echo json_encode([
-            'success' => true
-        ]);
+        echo json_encode(['success' => true]);
     }
     public function createYousignWebhook()
     {
