@@ -350,4 +350,39 @@ class SignatureService
             'data' => json_decode($response, true)
         ];
     }
+    /**
+     * Télécharger le document signé
+     */
+    public function downloadSignedDocument($requestId, $documentId)
+    {
+        $ch = curl_init();
+
+        curl_setopt(
+            $ch,
+            CURLOPT_URL,
+            $this->apiUrl . "/signature_requests/$requestId/documents/$documentId/download"
+        );
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $this->apiKey
+        ]);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode === 200) {
+            return $response; // Contenu binaire du PDF
+        }
+        return null;
+    }
+
+    /**
+     * Récupérer les détails d'une signature request (documents inclus)
+     */
+    public function getSignatureRequestDetails($requestId)
+    {
+        return $this->request('GET', "/signature_requests/$requestId");
+    }
 }
