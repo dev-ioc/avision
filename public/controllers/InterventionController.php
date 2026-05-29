@@ -6051,9 +6051,8 @@ class InterventionController
                     }
 
                     // Récupérer le lien de signature depuis le payload
-                    $signers = $data['data']['signature_request']['signers'] ?? [];
-                    if (!empty($signers)) {
-                        $signatureUrl = $signers[0]['signature_link'] ?? null;
+                    if ($details && !empty($details['data']['signers'])) {
+                        $signatureUrl = $details['data']['signers'][0]['signature_link'] ?? null;
                     }
 
                     // Mettre à jour intervention_signatures
