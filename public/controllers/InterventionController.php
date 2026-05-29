@@ -6012,4 +6012,16 @@ class InterventionController
             'success' => true
         ]);
     }
+    public function createYousignWebhook()
+    {
+        $signatureService = new SignatureService();
+
+        $response = $signatureService->createWebhook(
+            'https://dev.avision.videosonic.fr/public/interventions/webhookSignature'
+        );
+
+        echo '<pre>';
+
+        print_r($response);
+    }
 }

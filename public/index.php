@@ -1238,6 +1238,9 @@ try {
                 case 'webhookSignature':
                     $interventionController->webhookSignature();
                     break;
+                case 'createYousignWebhook':
+                    $interventionController->createYousignWebhook();
+                    break;
             }
             break;
 

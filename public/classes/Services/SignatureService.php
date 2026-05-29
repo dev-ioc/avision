@@ -57,19 +57,15 @@ class SignatureService
         $webhookUrl
     ) {
 
-        // 1. Créer demande de signature
-
         $signatureRequest = $this->request(
             'POST',
             '/signature_requests',
             [
                 'name' => 'Signature intervention',
                 'delivery_mode' => 'email',
-                'timezone' => 'Europe/Paris',
-                'webhook_url' => $webhookUrl
+                'timezone' => 'Europe/Paris'
             ]
         );
-
         if (
             empty($signatureRequest['data']['id'])
         ) {
@@ -150,6 +146,23 @@ class SignatureService
         return $this->request(
             'GET',
             "/signature_requests/$requestId"
+        );
+    }
+    public function createWebhook($webhookUrl)
+    {
+        return $this->request(
+            'POST',
+            '/webhooks',
+            [
+                'endpoint' => $webhookUrl,
+
+                'subscriptions' => [
+                    'signature_request.done',
+                    'signature_request.expired',
+                    'signature_request.declined',
+                    'signature_request.canceled'
+                ]
+            ]
         );
     }
 }
