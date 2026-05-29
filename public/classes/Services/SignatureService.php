@@ -125,16 +125,9 @@ class SignatureService
             file_get_contents($pdfPath)
         );
 
-        $document = $this->request(
-            'POST',
-            "/signature_requests/$requestId/documents",
-            [
-                'nature' => 'signable_document',
-
-                'content' => $fileContent,
-
-                'file_name' => basename($pdfPath)
-            ]
+        $document = $this->uploadDocument(
+            $requestId,
+            $pdfPath
         );
 
         if (
@@ -295,5 +288,65 @@ class SignatureService
                 ]
             ]
         );
+    }
+    public function uploadDocument(
+        $requestId,
+        $pdfPath
+    ) {
+
+        $ch = curl_init();
+
+        curl_setopt(
+            $ch,
+            CURLOPT_URL,
+            $this->apiUrl .
+            "/signature_requests/$requestId/documents"
+        );
+
+        curl_setopt(
+            $ch,
+            CURLOPT_RETURNTRANSFER,
+            true
+        );
+
+        curl_setopt(
+            $ch,
+            CURLOPT_POST,
+            true
+        );
+
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            [
+                'Authorization: Bearer ' . $this->apiKey
+            ]
+        );
+
+        curl_setopt(
+            $ch,
+            CURLOPT_POSTFIELDS,
+            [
+                'nature' =>
+                    'signable_document',
+
+                'file' =>
+                    new CURLFile($pdfPath)
+            ]
+        );
+
+        $response = curl_exec($ch);
+
+        $httpCode = curl_getinfo(
+            $ch,
+            CURLINFO_HTTP_CODE
+        );
+
+        curl_close($ch);
+
+        return [
+            'status' => $httpCode,
+            'data' => json_decode($response, true)
+        ];
     }
 }

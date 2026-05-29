@@ -122,6 +122,7 @@ class InterventionModel extends BaseModel
             ct.name as contract_type_name,
             cont.first_name as contact_first_name,
             cont.last_name as contact_last_name,
+            cont.email as contact_email,
             cont.phone1 as contact_phone,
             i.is_preventive
             FROM " . $this->table . " i

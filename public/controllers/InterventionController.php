@@ -3890,13 +3890,13 @@ class InterventionController
 // ======================================
 
                 $clientEmail =
-                    $intervention['client_email'];
+                    $intervention['contact_email'];
 
                 $clientFirstname =
-                    $intervention['client_firstname'];
+                    $intervention['contact_first_name'];
 
                 $clientLastname =
-                    $intervention['client_lastname'];
+                    $intervention['contact_last_name'];
 
                 $signatureService =
                     new SignatureService();
