@@ -1235,6 +1235,9 @@ try {
                         echo json_encode(['error' => 'ID manquant']);
                     }
                     break;
+                case 'webhookSignature':
+                    $interventionController->webhookSignature();
+                    break;
             }
             break;
 

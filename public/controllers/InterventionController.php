@@ -5,6 +5,7 @@
 require_once __DIR__ . '/../classes/Services/AttachmentService.php';
 
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
+require_once __DIR__ . '/../../public/classes/Services/SignatureService.php';
 
 class InterventionController
 {
@@ -3881,7 +3882,54 @@ class InterventionController
             // Générer le PDF
             try {
                 $pdfPath = $this->generateBonInterventionPdf($intervention, $selectedComments, $selectedAttachments, $technicians);
+
                 custom_log("PDF généré avec succès: $pdfPath", 'INFO');
+
+                // ======================================
+                // ENVOI À YOUSIGN
+                // ======================================
+
+                $clientEmail = $intervention['client_email'];
+
+                $clientFirstname = $intervention['client_firstname'];
+
+                $clientLastname = $intervention['client_lastname'];
+
+                $webhookUrl =
+                    'https://dev.avision.videosonic.fr/public/interventions/webhookSignature';
+
+                $signatureService = new SignatureService();
+
+                $signatureResponse =
+                    $signatureService->createSignatureRequest(
+                        $pdfPath,
+                        $clientEmail,
+                        $clientFirstname,
+                        $clientLastname,
+                        $webhookUrl
+                    );
+                if (
+                    !empty($signatureResponse['signature_request_id'])
+                ) {
+                    $sql = "
+                            INSERT INTO intervention_signatures (
+                                intervention_id,
+                                yousign_request_id,
+                                status
+                            )
+                            VALUES (
+                                :intervention_id,
+                                :yousign_request_id,
+                                'pending'
+                            )
+                        ";
+                    $stmt = $this->db->prepare($sql);
+                    $stmt->execute([
+                        ':intervention_id' => $intervention['id'],
+                        ':yousign_request_id' =>
+                            $signatureResponse['signature_request_id']
+                    ]);
+                }
             } catch (Exception $e) {
                 custom_log("Erreur lors de la génération du PDF: " . $e->getMessage(), 'ERROR');
                 $_SESSION['error'] = 'Erreur lors de la génération du PDF: ' . $e->getMessage();
@@ -5870,5 +5918,98 @@ class InterventionController
                 : 'Non spécifiée',
             'has_dates' => $hasDates
         ];
+    }
+    public function sendToSignature($interventionId)
+    {
+        $pdfPath = __DIR__ .
+            "/../uploads/interventions/{$interventionId}.pdf";
+
+        $webhookUrl =
+            'https://dev.avision.videosonic.fr/public/interventions/webhookSignature';
+
+        $signatureService = new SignatureService();
+
+        $response = $signatureService->createSignatureRequest(
+            $pdfPath,
+            'kekedap543@mtupu.com',
+            'Jean',
+            'Dupont',
+            $webhookUrl
+        );
+
+        echo '<pre>';
+
+        print_r($response);
+    }
+    public function webhookSignature()
+    {
+        header('Content-Type: application/json');
+
+        $payload = file_get_contents('php://input');
+
+        file_put_contents(
+            __DIR__ . '/../storage/yousign.log',
+            $payload . PHP_EOL,
+            FILE_APPEND
+        );
+
+        $data = json_decode($payload, true);
+
+        $event = $data['event_name'] ?? null;
+
+        if ($event === 'signature_request.done') {
+
+            $requestId =
+                $data['data']['id'] ?? null;
+
+            if ($requestId) {
+
+                $sql = "
+                SELECT *
+                FROM intervention_signatures
+                WHERE yousign_request_id = :id
+            ";
+
+                $stmt = $this->db->prepare($sql);
+
+                $stmt->execute([
+                    ':id' => $requestId
+                ]);
+
+                $signature = $stmt->fetch();
+
+                if ($signature) {
+                    $update = "
+                    UPDATE intervention_signatures
+                    SET status = 'signed'
+                    WHERE id = :id
+                ";
+
+                    $stmtUpdate =
+                        $this->db->prepare($update);
+
+                    $stmtUpdate->execute([
+                        ':id' => $signature['id']
+                    ]);
+                    $sqlIntervention = "
+                    UPDATE interventions
+                    SET status = 'signed'
+                    WHERE id = :id
+                ";
+
+                    $stmtIntervention =
+                        $this->db->prepare($sqlIntervention);
+
+                    $stmtIntervention->execute([
+                        ':id' =>
+                            $signature['intervention_id']
+                    ]);
+                }
+            }
+        }
+
+        echo json_encode([
+            'success' => true
+        ]);
     }
 }
