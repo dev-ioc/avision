@@ -5977,6 +5977,7 @@ class InterventionController
         );
 
         if ($event === 'signature_request.done') {
+
             $requestId =
                 $data['data']['signature_request']['id']
                 ?? $data['data']['id']
@@ -5990,11 +5991,8 @@ class InterventionController
 
             if ($requestId) {
 
-                $sql = "
-                SELECT *
-                FROM intervention_signatures
-                WHERE yousign_request_id = :id
-            ";
+                $sql = "SELECT * FROM intervention_signatures
+                    WHERE yousign_request_id = :id";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([':id' => $requestId]);
                 $signature = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -6006,32 +6004,37 @@ class InterventionController
                 );
 
                 if ($signature) {
-                    $update = "
-                    UPDATE intervention_signatures
-                    SET status = 'signed', updated_at = NOW()
-                    WHERE id = :id
-                ";
-                    $stmtUpdate = $this->db->prepare($update);
-                    $stmtUpdate->execute([':id' => $signature['id']]);
-                    $sqlIntervention = "
-                    UPDATE interventions
-                    SET updated_at = NOW()
-                    WHERE id = :id
-                ";
-                    $stmtIntervention = $this->db->prepare($sqlIntervention);
-                    $stmtIntervention->execute([
-                        ':id' => $signature['intervention_id']
-                    ]);
+
+                    // ✅ Mise à jour de intervention_signatures avec $signature['id']
+                    $updateSig = "UPDATE intervention_signatures
+                              SET status = 'signed', updated_at = NOW()
+                              WHERE id = :id";
+                    $stmtSig = $this->db->prepare($updateSig);
+                    $stmtSig->execute([':id' => $signature['id']]);
 
                     file_put_contents(
                         __DIR__ . '/../storage/yousign.log',
-                        "UPDATE SUCCESS" . PHP_EOL,
+                        "UPDATE intervention_signatures id=" . $signature['id'] . " OK" . PHP_EOL,
                         FILE_APPEND
                     );
+
+                    // Optionnel : marquer l'intervention comme signée
+                    // Ajoutez une colonne is_signed TINYINT à la table interventions
+                    // si vous voulez cette info directement sur l'intervention
+                    // $updateInter = "UPDATE interventions SET is_signed = 1, updated_at = NOW() WHERE id = :id";
+                    // $stmtInter = $this->db->prepare($updateInter);
+                    // $stmtInter->execute([':id' => $signature['intervention_id']]);
+
+                    file_put_contents(
+                        __DIR__ . '/../storage/yousign.log',
+                        "UPDATE SUCCESS - intervention_id=" . $signature['intervention_id'] . PHP_EOL,
+                        FILE_APPEND
+                    );
+
                 } else {
                     file_put_contents(
                         __DIR__ . '/../storage/yousign.log',
-                        "AUCUNE SIGNATURE TROUVÉE POUR CE REQUEST ID" . PHP_EOL,
+                        "AUCUNE SIGNATURE TROUVÉE POUR REQUEST ID = " . $requestId . PHP_EOL,
                         FILE_APPEND
                     );
                 }
