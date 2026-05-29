@@ -35,7 +35,7 @@ function checkCsrfOrFail(): bool
 
     // Vérifier si la route est exemptée
     $exemptRoutes = [
-        // '/api/webhook', // Exemple de route exemptée
+        '/interventions/webhookSignature', // Exemple de route exemptée
     ];
 
     foreach ($exemptRoutes as $exemptRoute) {

@@ -5955,6 +5955,7 @@ class InterventionController
     }
     public function webhookSignature()
     {
+
         header('Content-Type: application/json');
 
         $payload = file_get_contents('php://input');
