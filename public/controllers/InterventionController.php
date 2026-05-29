@@ -3886,8 +3886,8 @@ class InterventionController
                 custom_log("PDF généré avec succès: $pdfPath", 'INFO');
 
                 // ======================================
-// ENVOI À YOUSIGN
-// ======================================
+                // ENVOI À YOUSIGN
+                // ======================================
 
                 $clientEmail =
                     $intervention['contact_email'];
@@ -3908,17 +3908,9 @@ class InterventionController
                         $clientFirstname,
                         $clientLastname
                     );
-
-                echo '<pre>';
-
-                print_r($signatureResponse);
-
-                // DEBUG TEMPORAIRE
-                die;
-
                 // ======================================
-// SAUVEGARDE BDD
-// ======================================
+                // SAUVEGARDE BDD
+                // ======================================
 
                 if (
                     !empty(

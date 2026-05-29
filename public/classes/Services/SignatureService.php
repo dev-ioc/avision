@@ -160,7 +160,10 @@ class SignatureService
                         $clientLastname,
 
                     'email' =>
-                        $clientEmail
+                        $clientEmail,
+
+                    'locale' =>
+                        'fr'
                 ],
 
                 'signature_level' =>
@@ -178,10 +181,8 @@ class SignatureService
                             'signature',
 
                         'page' => 1,
-
-                        'x' => 100,
-
-                        'y' => 500
+                        'x' => 390,
+                        'y' => 730
                     ]
                 ]
             ]
