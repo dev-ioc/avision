@@ -52044,3 +52044,246 @@ Quant à l’écran n°1, il est HS
 [2026-05-29 12:11:02][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260529_1210.pdf 
 [2026-05-29 13:06:47][DEBUG] CSRF: Token trouvé dans la requête - Token: fd7c3be02f698ba18c10... 
 [2026-05-29 13:06:52][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260529_1306.pdf 
+[2026-05-29 13:38:14][DEBUG] CSRF: Token trouvé dans la requête - Token: fd7c3be02f698ba18c10... 
+[2026-05-29 13:38:19][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260529_1338.pdf 
+[2026-05-29 13:40:45][WARNING] file_put_contents(C:\xampp\htdocs\avision\public\controllers/../storage/yousign.log): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":5962,"errno":2}
+[2026-05-29 13:40:45][WARNING] file_put_contents(C:\xampp\htdocs\avision\public\controllers/../storage/yousign.log): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":5971,"errno":2}
+[2026-05-29 13:40:45][WARNING] file_put_contents(C:\xampp\htdocs\avision\public\controllers/../storage/yousign.log): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":5984,"errno":2}
+[2026-05-29 13:40:54][WARNING] file_put_contents(C:\xampp\htdocs\avision\public\controllers/../storage/yousign.log): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":6045,"errno":2}
+[2026-05-29 13:40:54][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-05-29 13:40:54][Array] lien de signature 
+[2026-05-29 13:40:54][WARNING] file_put_contents(C:\xampp\htdocs\avision\public\controllers/../storage/yousign.log): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":6073,"errno":2}
+[2026-05-29 13:46:59][DEBUG] CSRF: Token trouvé dans la requête - Token: fd7c3be02f698ba18c10... 
+[2026-05-29 13:47:05][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260529_1346.pdf 
+[2026-05-29 13:59:24][WARNING] file_put_contents(C:\xampp\htdocs\avision\public\controllers/../storage/yousign.log): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":5962,"errno":2}
+[2026-05-29 13:59:24][WARNING] file_put_contents(C:\xampp\htdocs\avision\public\controllers/../storage/yousign.log): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":5971,"errno":2}
+[2026-05-29 13:59:24][WARNING] file_put_contents(C:\xampp\htdocs\avision\public\controllers/../storage/yousign.log): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":5984,"errno":2}
+[2026-05-29 13:59:29][WARNING] file_put_contents(C:\xampp\htdocs\avision\public\controllers/../storage/yousign.log): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":6045,"errno":2}
+[2026-05-29 13:59:29][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-05-29 13:59:29][Array] lien de signature 
+[2026-05-29 13:59:29][WARNING] file_put_contents(C:\xampp\htdocs\avision\public\controllers/../storage/yousign.log): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":6073,"errno":2}
+[2026-05-29 14:01:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-05-29 14:01:14][Array] lien de signature 
+[2026-05-29 14:02:53][INFO] lien de signature : [{"id":"00c3bfa0-e632-48b9-8a3b-54cdb5141917","status":"signed","delivery_mode":null,"custom_text":{"request_subject":null,"request_body":null,"reminder_subject":null,"reminder_body":null}}] 
+[2026-05-29 14:04:56][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-05-29 14:04:56][Array] data  "DEBUG"
+[2026-05-29 14:05:01][INFO] lien de signature : [{"id":"00c3bfa0-e632-48b9-8a3b-54cdb5141917","status":"signed","delivery_mode":null,"custom_text":{"request_subject":null,"request_body":null,"reminder_subject":null,"reminder_body":null}}] 
+[2026-05-29 14:05:12][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-05-29 14:05:12][DEBUG] Array 
+[2026-05-29 14:05:17][INFO] lien de signature : [{"id":"00c3bfa0-e632-48b9-8a3b-54cdb5141917","status":"signed","delivery_mode":null,"custom_text":{"request_subject":null,"request_body":null,"reminder_subject":null,"reminder_body":null}}] 
+[2026-05-29 14:05:56][DEBUG] {
+    "event_name": "signature_request.done",
+    "event_time": "2026-05-29T13:00:00+00:00",
+    "data": {
+        "signature_request": {
+            "id": "fa857588-3ae5-4029-8b0b-2aa797b94583"
+        }
+    }
+} 
+[2026-05-29 14:06:00][INFO] lien de signature : [{"id":"00c3bfa0-e632-48b9-8a3b-54cdb5141917","status":"signed","delivery_mode":null,"custom_text":{"request_subject":null,"request_body":null,"reminder_subject":null,"reminder_body":null}}] 
+[2026-06-01 08:20:33][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: 1i2demofjbk0pq1p2ggbv2ossr) 
+[2026-06-01 08:20:37][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 08:20:38][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-01 08:20:38][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-01 08:20:38][DEBUG] Login réussi - Session ID: 1i2demofjbk0pq1p2ggbv2ossr 
+[2026-06-01 08:20:38][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-06-01 08:20:38][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-01 08:20:38][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-06-01 08:20:38][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-06-01 08:26:03][ERROR] Erreur : SQLSTATE[HY000]: General error: 1194 Table 'contracts' is marked as crashed and should be repaired {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ClientModel.php","line":80}
+[2026-06-01 08:28:43][ERROR] Erreur : SQLSTATE[HY000]: General error: 1194 Table 'contracts' is marked as crashed and should be repaired {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ClientModel.php","line":80}
+[2026-06-01 08:28:50][ERROR] Erreur : SQLSTATE[HY000]: General error: 1194 Table 'contracts' is marked as crashed and should be repaired {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ClientModel.php","line":80}
+[2026-06-01 08:30:43][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 08:30:43][DEBUG] Params: [] 
+[2026-06-01 08:30:46][ERROR] Erreur : SQLSTATE[HY000]: General error: 1194 Table 'contracts' is marked as crashed and should be repaired {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ClientModel.php","line":80}
+[2026-06-01 08:33:51][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 08:33:51][DEBUG] Params: [] 
+[2026-06-01 08:33:56][ERROR] Erreur : SQLSTATE[HY000]: General error: 1194 Table 'contracts' is marked as crashed and should be repaired {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ClientModel.php","line":80}
+[2026-06-01 08:35:29][ERROR] Erreur : SQLSTATE[HY000]: General error: 1194 Table 'contracts' is marked as crashed and should be repaired {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ClientModel.php","line":80}
+[2026-06-01 08:35:31][ERROR] Erreur : SQLSTATE[HY000]: General error: 1194 Table 'contracts' is marked as crashed and should be repaired {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ClientModel.php","line":80}
+[2026-06-01 08:36:22][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 08:36:27][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_0836.pdf 
+[2026-06-01 08:52:33][DEBUG] {
+    "event_name": "signature_request.done",
+    "event_time": "2026-06-01 08:29:50",
+    "data": {
+        "signature_request": {
+            "id": "ad0cfa5e-7025-414b-88bd-40aefc8b7910"
+        }
+    }
+} 
+[2026-06-01 08:52:55][DEBUG] {
+    "event_name": "signature_request.done",
+    "event_time": "2026-06-01T13:00:00+00:00",
+    "data": {
+        "signature_request": {
+            "id": "ad0cfa5e-7025-414b-88bd-40aefc8b7910"
+        }
+    }
+} 
+[2026-06-01 08:54:09][DEBUG] {
+    "event_name": "signature_request.done",
+    "event_time": "2026-06-01T13:00:00+00:00",
+    "data": {
+        "signature_request": {
+            "id": "a95d6347-9e0a-4848-9552-1387ed1c7946"
+        }
+    }
+} 
+[2026-06-01 08:54:13][INFO] lien de signature : [{"id":"2e9a2fee-5b59-4f06-83a5-2dd57f120a38","status":"signed","delivery_mode":null,"custom_text":{"request_subject":null,"request_body":null,"reminder_subject":null,"reminder_body":null}}] 
+[2026-06-01 10:17:00][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:17:05][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1017.pdf 
+[2026-06-01 10:23:55][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:24:00][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1023.pdf 
+[2026-06-01 10:24:10][DEBUG] {"id":"a5a14b5bdf0a4664bb6a3dc16ac0df07d57bcf44"} 
+[2026-06-01 10:24:10][DEBUG] {"status":400,"data":{"errors":[{"code":65536,"message":"From must be a valid email."}]}} 
+[2026-06-01 10:28:06][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:28:11][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1028.pdf 
+[2026-06-01 10:28:22][DEBUG] {"id":"3a62d593c51a46e0ba63965eedff432c9c28c6d1"} 
+[2026-06-01 10:28:22][DEBUG] {"status":400,"data":{"errors":[{"code":65582,"message":"User is not document owner"}]}} 
+[2026-06-01 10:29:01][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:29:07][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1029.pdf 
+[2026-06-01 10:29:17][DEBUG] {"id":"c9aea174a30a41258616b5fc77552a1825fb40d7"} 
+[2026-06-01 10:29:17][DEBUG] {"status":400,"data":{"errors":[{"code":65582,"message":"Upgrade your subscription plan to personalize invite subject and message."}]}} 
+[2026-06-01 10:31:01][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:31:06][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1031.pdf 
+[2026-06-01 10:31:15][DEBUG] {"id":"71c8ca547a974004ae7d55ee660e56a3534a56ba"} 
+[2026-06-01 10:31:15][DEBUG] {"status":0,"data":null} 
+[2026-06-01 10:32:19][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:32:25][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1032.pdf 
+[2026-06-01 10:32:36][ERROR] SIGNNOW CURL ERROR:  
+[2026-06-01 10:32:36][DEBUG] {"id":"d8220c311ceb4f9d8973fffd40860a1ea5380190"} 
+[2026-06-01 10:32:36][DEBUG] {"status":0,"data":null} 
+[2026-06-01 10:33:50][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:33:56][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1033.pdf 
+[2026-06-01 10:34:06][DEBUG] SIGNNOW RESPONSE = {"errors":[{"code":65594,"message":"Cannot send a field invite: This document does not contain fields."}]} 
+[2026-06-01 10:34:06][ERROR] SIGNNOW ERROR =  
+[2026-06-01 10:34:06][DEBUG] {"id":"801b7088e6e140bd8365bedc562305b9037fb347"} 
+[2026-06-01 10:34:06][DEBUG] {"status":400,"data":{"errors":[{"code":65594,"message":"Cannot send a field invite: This document does not contain fields."}]}} 
+[2026-06-01 10:36:46][DEBUG] Redirection vers login - URL sauvegardée: interventions/generateBon/330 (Session ID: lseura44od3o2ttaeej423vot8) 
+[2026-06-01 10:37:16][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:37:22][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1037.pdf 
+[2026-06-01 10:37:32][DEBUG] SIGNNOW RESPONSE = {"errors":[{"code":65582,"message":"Upgrade your subscription plan to personalize invite subject and message."}]} 
+[2026-06-01 10:37:32][ERROR] SIGNNOW ERROR =  
+[2026-06-01 10:37:32][DEBUG] {"id":"cee947bd9e464bc8aac3876ba40a61296003238f"} 
+[2026-06-01 10:37:32][DEBUG] {"status":400,"data":{"errors":[{"code":65582,"message":"Upgrade your subscription plan to personalize invite subject and message."}]}} 
+[2026-06-01 10:42:21][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:42:27][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1042.pdf 
+[2026-06-01 10:42:38][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-01 10:42:38][ERROR] SIGNNOW ERROR =  
+[2026-06-01 10:42:38][DEBUG] {"id":"26bb6dd05fa3492ba9bc1357a66d8f228c488020"} 
+[2026-06-01 10:42:38][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-01 10:46:49][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:46:54][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1046.pdf 
+[2026-06-01 10:47:04][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-01 10:47:04][ERROR] SIGNNOW ERROR =  
+[2026-06-01 10:47:04][DEBUG] {"id":"fae1a6cb2b81448a8c6723ee11473d04ddf5ae40"} 
+[2026-06-01 10:47:04][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-01 10:48:24][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:48:30][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1048.pdf 
+[2026-06-01 10:48:41][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-01 10:48:41][ERROR] SIGNNOW ERROR =  
+[2026-06-01 10:48:41][DEBUG] {"id":"771e976b1fb94a05b2f2a6c092695bb0722c2e61"} 
+[2026-06-01 10:48:41][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-01 10:50:02][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:50:07][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1050.pdf 
+[2026-06-01 10:50:19][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-01 10:50:19][ERROR] SIGNNOW ERROR =  
+[2026-06-01 10:50:19][DEBUG] {"id":"c9a8fa282adb486d959c6e558606f00499463a9c"} 
+[2026-06-01 10:50:19][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-01 10:51:23][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:51:29][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1051.pdf 
+[2026-06-01 10:51:41][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-01 10:51:41][ERROR] SIGNNOW ERROR =  
+[2026-06-01 10:51:41][DEBUG] {"id":"b641a6c15bb0491cb8ff53f70c716094171eb9ab"} 
+[2026-06-01 10:51:41][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-01 10:52:46][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:52:51][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1052.pdf 
+[2026-06-01 10:53:03][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-01 10:53:03][ERROR] SIGNNOW ERROR =  
+[2026-06-01 10:53:03][DEBUG] {"id":"d030abfe7a224bff80db75625614ca8428a98e42"} 
+[2026-06-01 10:53:03][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-01 10:54:20][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:54:26][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1054.pdf 
+[2026-06-01 10:54:36][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-01 10:54:36][ERROR] SIGNNOW ERROR =  
+[2026-06-01 10:54:36][DEBUG] {"id":"32801094510b4adeae4bf90113967a6e86804ed2"} 
+[2026-06-01 10:54:36][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-01 10:55:45][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:55:50][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1055.pdf 
+[2026-06-01 10:56:01][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-01 10:56:01][ERROR] SIGNNOW ERROR =  
+[2026-06-01 10:56:01][DEBUG] {"id":"178b0c8de8b848f6a109786044ca8c68f2711fd7"} 
+[2026-06-01 10:56:01][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-01 10:57:09][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:57:14][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1057.pdf 
+[2026-06-01 10:57:25][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-01 10:57:25][ERROR] SIGNNOW ERROR =  
+[2026-06-01 10:57:25][DEBUG] {"id":"2288c455fe584353b9a28219b91ad0097473f89e"} 
+[2026-06-01 10:57:25][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-01 10:58:28][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 10:58:34][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1058.pdf 
+[2026-06-01 10:58:45][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-01 10:58:45][ERROR] SIGNNOW ERROR =  
+[2026-06-01 10:58:45][DEBUG] {"id":"bba3b305bc3a4a238691a944bed0b459cd52b5e5"} 
+[2026-06-01 10:58:45][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-01 11:03:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 11:03:50][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1103.pdf 
+[2026-06-01 11:04:01][DEBUG] SIGNNOW RESPONSE = {"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]} 
+[2026-06-01 11:04:01][ERROR] SIGNNOW ERROR =  
+[2026-06-01 11:04:01][DEBUG] {"id":"84112442780448c5bd2974bf6902ebe6efb8494a"} 
+[2026-06-01 11:04:01][DEBUG] {"status":400,"data":{"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]}} 
+[2026-06-01 11:04:48][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 11:04:54][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1104.pdf 
+[2026-06-01 11:05:04][DEBUG] SIGNNOW RESPONSE = {"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]} 
+[2026-06-01 11:05:04][ERROR] SIGNNOW ERROR =  
+[2026-06-01 11:05:04][DEBUG] {"id":"1f06505040cc4a59b4b6f367e49ed008bbc2b8c4"} 
+[2026-06-01 11:05:04][DEBUG] {"status":400,"data":{"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]}} 
+[2026-06-01 11:09:45][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 11:09:51][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1109.pdf 
+[2026-06-01 11:10:01][DEBUG] SIGNNOW RESPONSE = {"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]} 
+[2026-06-01 11:10:01][ERROR] SIGNNOW ERROR =  
+[2026-06-01 11:10:01][DEBUG] {"id":"564601bbe4424730a738b92ed20551fa1bd8772a"} 
+[2026-06-01 11:10:01][DEBUG] {"status":400,"data":{"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]}} 
+[2026-06-01 11:22:43][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 11:22:49][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260601_1122.pdf 
+[2026-06-01 11:22:58][DEBUG] SIGNNOW RESPONSE = {"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]} 
+[2026-06-01 11:22:58][ERROR] SIGNNOW ERROR =  
+[2026-06-01 11:22:58][DEBUG] {"id":"fd2e9a145d5343809f52bd0b4dde4aec46215cf2"} 
+[2026-06-01 11:22:58][DEBUG] {"status":400,"data":{"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]}} 

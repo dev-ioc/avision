@@ -3919,16 +3919,16 @@ class InterventionController
                 ) {
 
                     $sql = "
-                        INSERT INTO intervention_signatures (
-                            intervention_id,
-                            yousign_request_id,
-                            status
-                        )
-                        VALUES (
-                            :intervention_id,
-                            :yousign_request_id,
-                            'pending'
-                        )
+                       INSERT INTO intervention_signatures (
+                        intervention_id,
+                        signnow_document_id,
+                        status
+                    )
+                    VALUES (
+                        :intervention_id,
+                        :document_id,
+                        'pending'
+                    )
                     ";
 
                     $stmt =
@@ -5933,24 +5933,34 @@ class InterventionController
     }
     public function sendToSignature($interventionId)
     {
-        $pdfPath = __DIR__ .
+        $pdfPath =
+            __DIR__ .
             "/../uploads/interventions/{$interventionId}.pdf";
 
-        $webhookUrl =
-            'https://dev.avision.videosonic.fr/public/interventions/webhookSignature';
+        $intervention =
+            $this->interventionModel->getById($interventionId);
 
-        $signatureService = new SignatureService();
+        $clientEmail =
+            $intervention['contact_email'];
 
-        $response = $signatureService->createSignatureRequest(
-            $pdfPath,
-            'dev_mdg@caspeo.fr',
-            'Jean',
-            'Dupont',
-            $webhookUrl
-        );
+        $clientFirstname =
+            $intervention['contact_first_name'];
+
+        $clientLastname =
+            $intervention['contact_last_name'];
+
+        $signatureService =
+            new SignatureService();
+
+        $response =
+            $signatureService->createSignatureRequest(
+                $pdfPath,
+                $clientEmail,
+                $clientFirstname,
+                $clientLastname
+            );
 
         echo '<pre>';
-
         print_r($response);
     }
     public function webhookSignature()
@@ -5966,7 +5976,12 @@ class InterventionController
         );
 
         $data = json_decode($payload, true);
-        $event = $data['event_name'] ?? $data['event'] ?? null;
+        custom_log(json_encode($data, JSON_PRETTY_PRINT), 'DEBUG');
+        $event =
+            $data['event'] ?? null;
+
+        $documentId =
+            $data['document_id'] ?? null;
 
         file_put_contents(
             __DIR__ . '/../storage/yousign.log',
@@ -5974,7 +5989,7 @@ class InterventionController
             FILE_APPEND
         );
 
-        if ($event === 'signature_request.done') {
+        if ($event === 'document.complete') {
 
             $requestId =
                 $data['data']['signature_request']['id']
@@ -5997,17 +6012,20 @@ class InterventionController
                 if ($signature) {
 
                     $signatureService = new SignatureService();
-
+                    $documentId = $requestId;
                     // Récupérer les détails pour obtenir le document_id
-                    $details = $signatureService->getSignatureRequestDetails($requestId);
-                    $documentId = $details['data']['documents'][0]['id'] ?? null;
+                    // $details = $signatureService->getSignatureRequestDetails($requestId);
+                    // $documentId = $details['data']['documents'][0]['id'] ?? null;
 
                     $signedFilePath = null;
                     $signatureUrl = null;
 
                     // Télécharger et sauvegarder le PDF signé
                     if ($documentId) {
-                        $pdfContent = $signatureService->downloadSignedDocument($requestId, $documentId);
+                        $pdfContent =
+                            $signatureService->downloadSignedDocument(
+                                $documentId
+                            );
 
                         if ($pdfContent) {
                             $interventionId = $signature['intervention_id'];
@@ -6050,10 +6068,14 @@ class InterventionController
                         }
                     }
 
-                    // Récupérer le lien de signature depuis le payload
-                    if ($details && !empty($details['data']['signers'])) {
-                        $signatureUrl = $details['data']['signers'][0]['signature_link'] ?? null;
-                    }
+                    // // Récupérer le lien de signature depuis le payload
+                    // if ($details && !empty($details['data']['signers'])) {
+                    //     custom_log(
+                    //         "lien de signature : " .
+                    //         json_encode($details['data']['signers'])
+                    //     );
+                    //     $signatureUrl = $details['data']['signers'][0]['signature_link'] ?? null;
+                    // }
 
                     // Mettre à jour intervention_signatures
                     $updateSig = "UPDATE intervention_signatures
@@ -6087,7 +6109,7 @@ class InterventionController
 
         echo json_encode(['success' => true]);
     }
-    public function createYousignWebhook()
+    public function createSignNowWebhook()
     {
         $signatureService = new SignatureService();
 
@@ -6096,7 +6118,6 @@ class InterventionController
         );
 
         echo '<pre>';
-
         print_r($response);
     }
 }
