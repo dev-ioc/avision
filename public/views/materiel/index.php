@@ -74,9 +74,9 @@ foreach ($materiel_list as $materiel) {
 
 // Définir toutes les colonnes disponibles avec leurs configurations
 $allColumns = [
-  // ['label' => 'Actions', 'field' => 'actions', 'default' => true],
-  ['label' => 'Équipement', 'field' => 'equipement', 'default' => true],
-  ['label' => 'Type', 'field' => 'type_nom', 'default' => true],
+  ['label' => 'Marque', 'field' => 'marque', 'default' => true],
+  ['label' => 'Modèle', 'field' => 'modele', 'default' => true],
+  ['label' => 'Type', 'field' => 'type_materiel', 'default' => true],
   ['label' => 'S/N', 'field' => 'numero_serie', 'default' => true],
   ['label' => 'Firmware', 'field' => 'version_firmware', 'default' => true],
   ['label' => 'IP', 'field' => 'adresse_ip', 'default' => true],
@@ -85,8 +85,6 @@ $allColumns = [
   ['label' => 'Pièces jointes', 'field' => 'pieces_jointes', 'default' => true],
   ['label' => 'Référence', 'field' => 'reference', 'default' => false],
   ['label' => 'Usage', 'field' => 'usage_materiel', 'default' => false],
-  ['label' => 'Marque', 'field' => 'marque', 'default' => false],
-  ['label' => 'Modèle', 'field' => 'modele', 'default' => false],
   ['label' => 'Ancien Firmware', 'field' => 'ancien_firmware', 'default' => false],
   ['label' => 'Masque', 'field' => 'masque', 'default' => false],
   ['label' => 'Passerelle', 'field' => 'passerelle', 'default' => false],
@@ -122,7 +120,11 @@ foreach ($allColumns as $i => $col) {
 // Headers
 $colHeaders = array_map(fn($c) => $c['label'], $allColumns);
 
-$allData = [];
+// Calcul des index pour JavaScript
+$marqueIndex = array_search('marque', array_column($allColumns, 'field'));
+$modeleIndex = array_search('modele', array_column($allColumns, 'field'));
+$idIndex = array_search('id', array_column($allColumns, 'field'));
+$piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, 'field'));
 ?>
 
 <!DOCTYPE html>
@@ -604,6 +606,12 @@ $allData = [];
       text-align: center;
     }
 
+    .handsontable td:nth-child(2) {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      font-weight: normal;
+    }
+
     .handsontable td {
       background-color: #ffffff;
       border-bottom: 1px solid #dee2e6;
@@ -641,7 +649,7 @@ $allData = [];
     }
 
     /* Style pour la colonne Pièces jointes (toujours à la dernière position après rendu) */
-    .handsontable td:nth-child(8) {
+    .handsontable td:nth-child(7) {
       background-color: #f8f9fa !important;
       text-align: center;
     }
@@ -723,6 +731,12 @@ $allData = [];
     let currentSearchTerm = '';
     let hotInstances = {};
 
+    // Index des colonnes
+    const MARQUE_INDEX = <?= $marqueIndex ?>;
+    const MODELE_INDEX = <?= $modeleIndex ?>;
+    const ID_INDEX = <?= $idIndex ?>;
+    const PIECES_JOINTES_INDEX = <?= $piecesJointesIndex ?>;
+
     // ── showToast ────────────────────────────────────────────────────────────────
     function showToast(message, type) {
       const existingToasts = document.querySelectorAll('.custom-toast');
@@ -770,12 +784,12 @@ $allData = [];
           setTimeout(() => toastDiv.remove(), 300);
         }
       }, duration);
-    }  // ← fermeture showToast
+    }
+
     function addNewRowToTable(tableId, locationName, salleId) {
       const hot = hotInstances[tableId];
       if (!hot) { console.error('Tableau non trouvé:', tableId); return; }
 
-      // ← Stocker le salle_id directement sur l'instance HOT
       hot.__salleId = salleId;
 
       const existingData = hot.getSourceData();
@@ -785,15 +799,14 @@ $allData = [];
 
       const colCount = <?= count($allColumns) ?>;
       const newRow = Array(colCount).fill('');
-      newRow[0] = { id: null, marque: '', modele: '' };
-      newRow[7] = { count: 0, id: null, name: '' };
+      newRow[PIECES_JOINTES_INDEX] = { count: 0, id: null, name: '' };
 
       data.push(newRow);
       hot.loadData(data);
 
       const newRowIndex = data.length - 1;
-      hot.scrollViewportTo(newRowIndex, 1);
-      hot.selectCell(newRowIndex, 1);
+      hot.scrollViewportTo(newRowIndex, 0);
+      hot.selectCell(newRowIndex, 0);
 
       showToast('Nouvelle ligne ajoutée. Remplissez les informations puis sauvegardez.', 'info');
     }
@@ -911,7 +924,7 @@ $allData = [];
         for (let i = 0; i < data.length; i++) {
           let matches = false;
           for (let j = 0; j < data[i].length; j++) {
-            if (j === 7) continue;
+            if (j === PIECES_JOINTES_INDEX) continue;
             const v = data[i][j];
             if (v && typeof v !== 'object' && v.toString().toLowerCase().includes(searchTerm)) { matches = true; break; }
           }
@@ -935,7 +948,7 @@ $allData = [];
           const data = hot.getData();
           outer: for (let i = 0; i < data.length; i++)
             for (let j = 0; j < data[i].length; j++) {
-              if (j === 7) continue;
+              if (j === PIECES_JOINTES_INDEX) continue;
               const v = data[i][j];
               if (v && typeof v !== 'object' && v.toString().toLowerCase().includes(searchTerm)) { found = true; break outer; }
             }
@@ -1219,7 +1232,6 @@ $allData = [];
       return match ? parseInt(match[1]) * (units[match[2]?.toUpperCase()] || 1) : 0;
     }
 
-
     let uploader;
     document.getElementById('addAttachmentModal').addEventListener('shown.bs.modal', function () {
       const id = this.getAttribute('data-materiel-id');
@@ -1247,9 +1259,7 @@ $allData = [];
                     const data = <?= json_encode(array_map(function ($m) use ($allColumns, $pieces_jointes_count) {
                       $rowData = [];
                       foreach ($allColumns as $col) {
-                        if ($col['field'] === 'equipement') {
-                          $rowData[] = ['id' => $m['id'], 'marque' => $m['marque'] ?? '', 'modele' => $m['modele'] ?? ''];
-                        } elseif ($col['field'] === 'pieces_jointes') {
+                        if ($col['field'] === 'pieces_jointes') {
                           $rowData[] = ['count' => $pieces_jointes_count[$m['id']] ?? 0, 'id' => $m['id'], 'name' => ($m['marque'] ?? '') . ' ' . ($m['modele'] ?? '')];
                         } else {
                           $rowData[] = $m[$col['field']] ?? '';
@@ -1267,8 +1277,6 @@ $allData = [];
                           if (!saved) return <?= json_encode($hiddenColumns) ?>;
                           try {
                             const state = JSON.parse(saved);
-                            const defaults = <?= json_encode($hiddenColumns) ?>;
-                            const allCols = <?= json_encode(array_keys($allColumns)) ?>;
                             return Object.keys(state)
                               .map(k => parseInt(k))
                               .filter(k => state[k] === false);
@@ -1283,44 +1291,44 @@ $allData = [];
                       cells: function (row, col) {
                         const header = this.colHeaders[col];
 
-
-                        if (header === 'Équipement') {
+                        if (header === 'Marque') {
                           return {
                             renderer: function (instance, td, row, col, prop, value) {
+                              const id = instance.getDataAtCell(row, ID_INDEX);
                               td.innerHTML = '';
-                              if (value && typeof value === 'object') {
-                                if (value.id) {
-                                  const urlParams = new URLSearchParams(window.location.search);
-                                  const link = document.createElement('a');
-                                  link.href = '<?= BASE_URL ?>materiel/view/' + value.id + (urlParams.toString() ? '?' + urlParams : '');
-                                  link.className = 'text-decoration-none fw-bold text-primary';
-                                  link.onclick = e => e.stopPropagation();
-                                  link.textContent = value.marque || '';
-                                  const small = document.createElement('small');
-                                  small.className = 'text-muted';
-                                  small.textContent = value.modele || '';
-                                  td.appendChild(link);
-                                  td.appendChild(document.createElement('br'));
-                                  td.appendChild(small);
-                                } else {
-                                  const span = document.createElement('span');
-                                  span.className = 'fw-bold text-primary';
-                                  span.textContent = value.marque || '';
-                                  const small = document.createElement('small');
-                                  small.className = 'text-muted d-block';
-                                  small.textContent = value.modele || '';
-                                  td.appendChild(span);
-                                  td.appendChild(small);
-                                }
+                              if (id) {
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const link = document.createElement('a');
+                                link.href = '<?= BASE_URL ?>materiel/view/' + id + (urlParams.toString() ? '?' + urlParams : '');
+                                link.className = 'text-decoration-none fw-bold text-primary';
+                                link.onclick = e => e.stopPropagation();
+                                link.textContent = value || '';
+                                td.appendChild(link);
                               } else {
-                                td.textContent = value || '';
+                                const span = document.createElement('span');
+                                span.className = 'fw-bold text-primary';
+                                span.textContent = value || '';
+                                td.appendChild(span);
                               }
                               td.style.cursor = 'default';
                             },
-                            editor: false
+                            editor: 'text'
                           };
                         }
 
+                        if (header === 'Modèle') {
+                          return {
+                            renderer: function (instance, td, row, col, prop, value) {
+                              // Forcer la couleur noire avec !important via style
+                              td.style.color = '#000000';
+                              td.style.fontWeight = 'normal';
+                              td.style.backgroundColor = '#f3e1b5'; // Garder la même couleur de fond que les autres cellules
+                              td.textContent = value || '';
+                              td.style.cursor = 'default';
+                            },
+                            editor: 'text'
+                          };
+                        }
                         if (header === 'Pièces jointes') {
                           return {
                             renderer: function (instance, td, row, col, prop, value) {
@@ -1337,23 +1345,6 @@ $allData = [];
               }
 
               return {};
-            },
-            afterChange: function (changes, source) {
-              if (!changes || source === 'loadData' || source === 'equipSync') return;
-              changes.forEach(([row, col, , newVal]) => {
-                const colHeader = this.getColHeader(col);
-                if (colHeader !== 'Marque' && colHeader !== 'Modèle') return;
-                const equipCol = 0;
-                const ev = this.getDataAtCell(row, equipCol);
-                const newEq = {
-                  id: (ev && typeof ev === 'object') ? (ev.id ?? null) : null,
-                  marque: (ev && typeof ev === 'object') ? (ev.marque || '') : '',
-                  modele: (ev && typeof ev === 'object') ? (ev.modele || '') : '',
-                };
-                if (colHeader === 'Marque') newEq.marque = newVal || '';
-                if (colHeader === 'Modèle') newEq.modele = newVal || '';
-                this.setDataAtCell(row, equipCol, newEq, 'equipSync');
-              });
             }
           });
           hot.__salleId = <?= $materiels[0]['salle_id'] ?? 'null' ?>;
@@ -1364,6 +1355,7 @@ $allData = [];
       <?php endforeach; ?>
       <?php endforeach; ?>
       <?php endif; ?>
+
       const saved = restoreColumnVisibility();
       if (saved) {
         setTimeout(() => {
@@ -1393,10 +1385,7 @@ $allData = [];
           saveColumnVisibility();
         });
       });
-    }); // ← fermeture DOMContentLoaded
-  </script>
-
-  <script>
+    });
 
     window.saveAllTablesData = function () {
       let totalUpdated = 0;
@@ -1411,16 +1400,12 @@ $allData = [];
         if (!hot) return;
 
         const allData = hot.getSourceData();
-
         const filters = <?= json_encode($filters ?? []) ?>;
         let globalSalleId = hot.__salleId || filters.salle_id || null;
 
-        // Fallback : chercher dans les données existantes (lignes avec id)
         if (!globalSalleId && allData.length > 0) {
           for (const row of allData) {
-            const eq = row[0];
-            if (eq && typeof eq === 'object' && eq.id) {
-              // Pour les lignes existantes, on a le salle_id via filters
+            if (row[ID_INDEX]) {
               globalSalleId = filters.salle_id || null;
               break;
             }
@@ -1431,53 +1416,37 @@ $allData = [];
           showToast('Impossible de sauvegarder : salle non identifiée. Filtrez par salle d\'abord.', 'danger');
           return;
         }
-        const existingRows = allData.filter(row => {
-          const eq = row[0];
-          return eq && typeof eq === 'object' && eq.id;
-        });
 
-        const newRows = allData.filter(row => {
-          const eq = row[0];
-          return eq && typeof eq === 'object' && !eq.id;
-        });
+        // Séparer les lignes existantes et nouvelles
+        const existingRows = [];
+        const newRows = [];
 
+        for (let i = 0; i < allData.length; i++) {
+          const row = allData[i];
+          if (row[ID_INDEX] && row[ID_INDEX] !== '' && row[ID_INDEX] !== null) {
+            existingRows.push({ row: row, originalIndex: i });
+          } else {
+            newRows.push({ row: row, originalIndex: i });
+          }
+        }
+
+        // Traitement des mises à jour (lignes existantes)
         if (existingRows.length > 0) {
-          const formattedData = existingRows.map(row => ({
-            id: parseInt(row[0].id),
-            marque: row[0].marque || null, modele: row[0].modele || null,
-            type_materiel: row[1] || null,   // Type = index 1
-            numero_serie: row[2] || null,    // S/N = index 2
-            version_firmware: row[3] || null,
-            adresse_ip: row[4] || null,
-            adresse_mac: row[5] || null,
-            date_fin_maintenance: row[6] || null,
-            // row[7] = Pièces jointes, on saute
-            reference: row[8] || null,
-            usage_materiel: row[9] || null,
-            // row[10] = Marque (caché), row[11] = Modèle (caché)
-            ancien_firmware: row[12] || null,
-            masque: row[13] || null,
-            passerelle: row[14] || null,
-            login: row[15] || null,
-            password: row[16] || null,
-            // row[17] = ID Matériel
-            ip_primaire: row[18] || null,
-            mac_primaire: row[19] || null,
-            ip_secondaire: row[20] || null,
-            mac_secondaire: row[21] || null,
-            stream_aes67_recu: row[22] || null,
-            stream_aes67_transmis: row[23] || null,
-            ssid: row[24] || null,
-            type_cryptage: row[25] || null,
-            password_wifi: row[26] || null,
-            libelle_pa_salle: row[27] || null,
-            numero_port_switch: row[28] || null,
-            vlan: row[29] || null,
-            date_fin_garantie: row[30] || null,
-            date_derniere_inter: row[31] || null,
-            commentaire: row[32] || null,
-            url_github: row[33] || null
-          }));
+          const formattedData = existingRows.map(item => {
+            const row = item.row;
+            const obj = {};
+
+            // Inclure l'ID pour la mise à jour
+            obj['id'] = row[ID_INDEX];
+
+            <?php foreach ($allColumns as $col): ?>
+            <?php if ($col['field'] === 'pieces_jointes')
+              continue; ?>
+            obj['<?= $col['field'] ?>'] = row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || null;
+            <?php endforeach; ?>
+
+            return obj;
+          });
 
           savePromises.push(
             fetch('<?= BASE_URL ?>views/excel/excel_save.php', {
@@ -1489,6 +1458,9 @@ $allData = [];
               .then(result => {
                 if (result.status === 'success' || result.status === 'partial') {
                   totalUpdated += result.updated || 0;
+                  if (result.errors && result.errors.length > 0) {
+                    errorDetails.push(...result.errors);
+                  }
                 } else if (result.updated > 0) {
                   totalUpdated += result.updated || 0;
                 } else {
@@ -1502,13 +1474,17 @@ $allData = [];
               })
           );
         }
+
+        // Traitement des créations (nouvelles lignes)
         for (let idx = 0; idx < newRows.length; idx++) {
-          const row = newRows[idx];
-          const eq = row[0];
-          if (!eq.marque || eq.marque.trim() === '' || !eq.modele || eq.modele.trim() === '') {
+          const row = newRows[idx].row;
+          const marque = row[MARQUE_INDEX];
+          const modele = row[MODELE_INDEX];
+
+          if (!marque || marque.trim() === '' || !modele || modele.trim() === '') {
             const manquants = [];
-            if (!eq.marque || eq.marque.trim() === '') manquants.push('Marque');
-            if (!eq.modele || eq.modele.trim() === '') manquants.push('Modèle');
+            if (!marque || marque.trim() === '') manquants.push('Marque');
+            if (!modele || modele.trim() === '') manquants.push('Modèle');
 
             missingFieldsErrors.push(`• Équipement sans ${manquants.join(' et ')}`);
             totalErrors++;
@@ -1517,46 +1493,18 @@ $allData = [];
 
           const fd = new FormData();
           fd.append('salle_id', globalSalleId);
-          fd.append('marque', eq.marque);
-          fd.append('modele', eq.modele);
-          fd.append('type_materiel', row[1] || '');   // était row[2]
-          fd.append('numero_serie', row[2] || '');    // était row[3]
-          fd.append('version_firmware', row[3] || '');
-          fd.append('adresse_ip', row[4] || '');
-          fd.append('adresse_mac', row[5] || '');
-          fd.append('date_fin_maintenance', row[6] || '');
-          // row[7] = Pièces jointes, on saute
-          fd.append('reference', row[8] || '');
-          fd.append('usage_materiel', row[9] || '');
-          // row[10]=Marque, row[11]=Modèle (cachés)
-          fd.append('ancien_firmware', row[12] || '');
-          fd.append('masque', row[13] || '');
-          fd.append('passerelle', row[14] || '');
-          fd.append('login', row[15] || '');
-          fd.append('password', row[16] || '');
-          // row[17] = ID Matériel
-          fd.append('ip_primaire', row[18] || '');
-          fd.append('mac_primaire', row[19] || '');
-          fd.append('ip_secondaire', row[20] || '');
-          fd.append('mac_secondaire', row[21] || '');
-          fd.append('stream_aes67_recu', row[22] || '');
-          fd.append('stream_aes67_transmis', row[23] || '');
-          fd.append('ssid', row[24] || '');
-          fd.append('type_cryptage', row[25] || '');
-          fd.append('password_wifi', row[26] || '');
-          fd.append('libelle_pa_salle', row[27] || '');
-          fd.append('numero_port_switch', row[28] || '');
-          fd.append('vlan', row[29] || '');
-          fd.append('date_fin_garantie', row[30] || '');
-          fd.append('date_derniere_inter', row[31] || '');
-          fd.append('commentaire', row[32] || '');
-          fd.append('url_github', row[33] || '');
+
+          <?php foreach ($allColumns as $col): ?>
+          <?php if ($col['field'] === 'pieces_jointes')
+            continue; ?>
+          fd.append('<?= $col['field'] ?>', row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || '');
+          <?php endforeach; ?>
 
           if (filters.client_id) fd.append('return_client_id', filters.client_id);
           if (filters.site_id) fd.append('return_site_id', filters.site_id);
           if (filters.salle_id) fd.append('return_salle_id', filters.salle_id);
 
-          const marqueRef = eq.marque, modeleRef = eq.modele;
+          const marqueRef = marque, modeleRef = modele;
           savePromises.push(
             fetch('<?= BASE_URL ?>materiel/store', {
               method: 'POST',
@@ -1566,11 +1514,10 @@ $allData = [];
               .then(async response => {
                 if (response.status >= 200 && response.status < 400) {
                   totalCreated++;
-                  console.log(`Créé: ${marqueRef} ${modeleRef}`);
                 } else {
                   totalErrors++;
                   const errorText = await response.text();
-                  errorDetails.push(`Échec création "${marqueRef} ${modeleRef}" : ${response.status} ${response.statusText}`);
+                  errorDetails.push(`Échec création "${marqueRef} ${modeleRef}" : ${response.status}`);
                   console.error(`HTTP ${response.status}`, errorText);
                 }
               })
@@ -1614,6 +1561,7 @@ $allData = [];
             }
           }
         }
+
         if (totalErrors === 0 && (totalUpdated > 0 || totalCreated > 0)) {
           showToast(
             `<strong>Sauvegarde réussie !</strong><br><br>${successMessage}<br><br>Toutes les modifications ont été enregistrées.`,
@@ -1638,7 +1586,7 @@ $allData = [];
             mainMessage += `${missingFieldsErrors.length} ligne(s) avec des informations manquantes.<br><br>`;
             mainMessage += `<strong>Comment corriger :</strong><br>`;
             mainMessage += `• Remplissez la <strong>Marque</strong> et le <strong>Modèle</strong> pour chaque nouvel équipement<br>`;
-            mainMessage += `• Utilisez le bouton <strong>"Ajouter"</strong> dans la colonne Actions pour créer une nouvelle ligne<br>`;
+            mainMessage += `• Utilisez le bouton <strong>"Ajouter"</strong> pour créer une nouvelle ligne<br>`;
             mainMessage += `• Assurez-vous que tous les champs obligatoires sont complétés avant de sauvegarder<br><br>`;
             mainMessage += `<strong>Lignes concernées :</strong><br>`;
             mainMessage += missingFieldsErrors.slice(0, 3).join('<br>');
@@ -1666,7 +1614,6 @@ $allData = [];
           );
         }
       }).catch((error) => {
-        // Erreur globale
         showToast(
           `<strong>Erreur système</strong><br><br>` +
           `Une erreur inattendue s'est produite lors de la sauvegarde.<br><br>` +

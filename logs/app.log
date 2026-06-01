@@ -53511,3 +53511,3314 @@ Quant à l’écran n°1, il est HS
         WHERE 1=1 AND deleted_at IS NULL
      AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
 [2026-06-01 13:32:33][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:42:27][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:42:27][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:43:42][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:43:42][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:44:44][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:44:44][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:46:49][DEBUG] Redirection vers login - URL sauvegardée: materiel?client_id=35 (Session ID: ohknlpo4iiv8ug1uu9e24asneh) 
+[2026-06-01 13:50:33][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:50:33][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:55:08][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:55:08][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:55:33][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:55:33][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:56:34][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:56:34][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:57:51][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:57:51][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:04:18][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:04:18][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:05:37][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:05:37][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:07:24][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:07:24][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:08:06][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:08:06][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:10:30][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:10:30][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:13:02][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:13:02][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:16:37][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:16:37][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:17:20][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:17:20][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:18:04][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:18:04][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:20:45][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:20:45][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:22:27][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:22:27][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:22:43][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:22:43][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:23:43][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:23:43][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:25:07][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:25:07][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:27:21][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:27:21][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:27:52][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:27:52][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:28:41][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:28:41][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:35:38][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:35:38][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:36:17][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 14:36:17][INFO] === STORE CALLED FROM EXCEL === 
+[2026-06-01 14:36:17][INFO] POST data: Array
+(
+    [salle_id] => 376
+    [type_materiel] => rzrzr
+    [marque] => zerzr
+    [modele] => zrr
+    [numero_serie] => rezr
+    [version_firmware] => zer
+    [adresse_ip] => zerr
+    [adresse_mac] => zer
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => [object Object]
+    [return_client_id] => 35
+)
+ 
+[2026-06-01 14:36:17][INFO] FILES: Array
+(
+)
+ 
+[2026-06-01 14:36:17][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-06-01 14:36:17][INFO] Données complètes reçues: 
+[2026-06-01 14:36:17][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-06-01 14:36:17][INFO] Array 
+[2026-06-01 14:36:17][INFO] INSERTION MATERIEL - Salle: 376 | Type: rzrzr | Modèle: zrr | Marque: zerzr | N° Série: rezr | MAC: zer | IP: zerr 
+[2026-06-01 14:36:17][INFO] JSON DATA: {
+    "timestamp": "2026-06-01 14:36:17",
+    "user": "admin",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "376",
+        "type_materiel": "rzrzr",
+        "modele": "zrr",
+        "marque": "zerzr",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "rezr",
+        "version_firmware": "zer",
+        "ancien_firmware": "",
+        "url_github": "[object Object]",
+        "adresse_mac": "zer",
+        "adresse_ip": "zerr",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-06-01 14:36:17][INFO] Champs remplis (9/33): salle_id, type_materiel, modele, marque, numero_serie, version_firmware, url_github, adresse_mac, adresse_ip 
+[2026-06-01 14:36:17][INFO] === FIN DES DONNEES === 
+[2026-06-01 14:36:17][INFO] MATERIEL CREE AVEC SUCCES - ID: 2749 
+[2026-06-01 14:36:19][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:36:19][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:38:37][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 14:38:37][DEBUG] AttachmentService::normalizeFilesArray - Tableau de fichiers détecté, count: 1 
+[2026-06-01 14:38:37][DEBUG] AttachmentService::upload - Type: materiel, EntityId: 2715, Files count: 1, UploadDir: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/materiel/2715 
+[2026-06-01 14:38:37][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\php7BF.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/materiel/2715/1780317517_coursUML_compressed_1.pdf 
+[2026-06-01 14:38:37][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/materiel/2715/1780317517_coursUML_compressed_1.pdf 
+[2026-06-01 14:38:37][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML_compressed (1).pdf (ID: 443) 
+[2026-06-01 14:38:39][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:38:39][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:41:35][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:41:35][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:45:41][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:45:41][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:45:51][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:45:51][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:48:20][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:48:20][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:48:37][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:48:37][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:48:51][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 14:48:51][INFO] === STORE CALLED FROM EXCEL === 
+[2026-06-01 14:48:51][INFO] POST data: Array
+(
+    [salle_id] => 376
+    [marque] => dfsfege
+    [modele] => ergegeg
+    [type_nom] => egegeg
+    [numero_serie] => egeger
+    [version_firmware] => regege
+    [adresse_ip] => 
+    [adresse_mac] => 
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [id] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 35
+)
+ 
+[2026-06-01 14:48:51][INFO] FILES: Array
+(
+)
+ 
+[2026-06-01 14:48:51][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-06-01 14:48:51][INFO] Données complètes reçues: 
+[2026-06-01 14:48:51][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-06-01 14:48:51][INFO] Array 
+[2026-06-01 14:48:51][INFO] INSERTION MATERIEL - Salle: 376 | Type: N/A | Modèle: ergegeg | Marque: dfsfege | N° Série: egeger | MAC:  | IP:  
+[2026-06-01 14:48:51][INFO] JSON DATA: {
+    "timestamp": "2026-06-01 14:48:51",
+    "user": "admin",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "376",
+        "type_materiel": null,
+        "modele": "ergegeg",
+        "marque": "dfsfege",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "egeger",
+        "version_firmware": "regege",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "",
+        "adresse_ip": "",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-06-01 14:48:51][INFO] Champs remplis (5/33): salle_id, modele, marque, numero_serie, version_firmware 
+[2026-06-01 14:48:51][INFO] === FIN DES DONNEES === 
+[2026-06-01 14:48:51][INFO] MATERIEL CREE AVEC SUCCES - ID: 2750 
+[2026-06-01 14:48:53][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:48:53][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:50:46][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:50:46][DEBUG] Params: {":client_id":35} 
+[2026-06-01 14:50:53][INFO] 55 
+[2026-06-01 14:50:57][INFO] 55 
+[2026-06-01 14:50:57][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:50:57][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 14:51:20][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 14:51:20][INFO] === STORE CALLED FROM EXCEL === 
+[2026-06-01 14:51:20][INFO] POST data: Array
+(
+    [salle_id] => 376
+    [marque] => auerquigzqg
+    [modele] => rege
+    [type_nom] => ergezg
+    [numero_serie] => ehehh
+    [version_firmware] => ehehe
+    [adresse_ip] => eheh
+    [adresse_mac] => 
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [id] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 35
+    [return_site_id] => 55
+    [return_salle_id] => 376
+)
+ 
+[2026-06-01 14:51:20][INFO] FILES: Array
+(
+)
+ 
+[2026-06-01 14:51:20][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-06-01 14:51:20][INFO] Données complètes reçues: 
+[2026-06-01 14:51:20][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-06-01 14:51:20][INFO] Array 
+[2026-06-01 14:51:20][INFO] INSERTION MATERIEL - Salle: 376 | Type: N/A | Modèle: rege | Marque: auerquigzqg | N° Série: ehehh | MAC:  | IP: eheh 
+[2026-06-01 14:51:20][INFO] JSON DATA: {
+    "timestamp": "2026-06-01 14:51:20",
+    "user": "admin",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "376",
+        "type_materiel": null,
+        "modele": "rege",
+        "marque": "auerquigzqg",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "ehehh",
+        "version_firmware": "ehehe",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "",
+        "adresse_ip": "eheh",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-06-01 14:51:20][INFO] Champs remplis (6/33): salle_id, modele, marque, numero_serie, version_firmware, adresse_ip 
+[2026-06-01 14:51:20][INFO] === FIN DES DONNEES === 
+[2026-06-01 14:51:20][INFO] MATERIEL CREE AVEC SUCCES - ID: 2751 
+[2026-06-01 14:51:22][INFO] 55 
+[2026-06-01 14:51:22][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:51:22][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 14:51:30][INFO] 55 
+[2026-06-01 14:51:43][INFO] 55 
+[2026-06-01 14:51:43][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:51:43][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 14:52:08][INFO] 55 
+[2026-06-01 14:52:23][INFO] 55 
+[2026-06-01 14:52:23][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:52:23][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 14:53:11][INFO] 55 
+[2026-06-01 14:53:11][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:53:11][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 14:54:24][INFO] 55 
+[2026-06-01 14:54:24][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:54:24][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 14:54:38][INFO] 55 
+[2026-06-01 14:54:38][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:54:38][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 14:54:47][INFO] 55 
+[2026-06-01 14:54:47][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:54:47][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 14:58:49][INFO] 55 
+[2026-06-01 14:58:49][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:58:49][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 14:59:20][INFO] 55 
+[2026-06-01 14:59:20][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:59:20][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 14:59:45][INFO] 55 
+[2026-06-01 14:59:45][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 14:59:45][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 15:00:05][INFO] 55 
+[2026-06-01 15:00:05][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:00:05][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 15:00:16][INFO] 55 
+[2026-06-01 15:00:16][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:00:16][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 15:00:36][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:00:36][INFO] === STORE CALLED FROM EXCEL === 
+[2026-06-01 15:00:36][INFO] POST data: Array
+(
+    [salle_id] => 376
+    [marque] => sfqsf
+    [modele] => sfsqf
+    [type_nom] => sfs
+    [numero_serie] => sfs
+    [version_firmware] => sfs
+    [adresse_ip] => 
+    [adresse_mac] => 
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [id] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 35
+    [return_site_id] => 55
+    [return_salle_id] => 376
+)
+ 
+[2026-06-01 15:00:36][INFO] FILES: Array
+(
+)
+ 
+[2026-06-01 15:00:36][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-06-01 15:00:36][INFO] Données complètes reçues: 
+[2026-06-01 15:00:36][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-06-01 15:00:36][INFO] Array 
+[2026-06-01 15:00:36][INFO] INSERTION MATERIEL - Salle: 376 | Type: N/A | Modèle: sfsqf | Marque: sfqsf | N° Série: sfs | MAC:  | IP:  
+[2026-06-01 15:00:36][INFO] JSON DATA: {
+    "timestamp": "2026-06-01 15:00:36",
+    "user": "admin",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "376",
+        "type_materiel": null,
+        "modele": "sfsqf",
+        "marque": "sfqsf",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "sfs",
+        "version_firmware": "sfs",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "",
+        "adresse_ip": "",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-06-01 15:00:36][INFO] Champs remplis (5/33): salle_id, modele, marque, numero_serie, version_firmware 
+[2026-06-01 15:00:36][INFO] === FIN DES DONNEES === 
+[2026-06-01 15:00:36][INFO] MATERIEL CREE AVEC SUCCES - ID: 2752 
+[2026-06-01 15:00:39][INFO] 55 
+[2026-06-01 15:00:39][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:00:39][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 15:04:01][INFO] 55 
+[2026-06-01 15:04:01][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:04:01][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 15:04:07][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:07][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:07][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:07][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:07][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:07][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:07][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:07][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:08][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:08][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:08][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:08][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:09][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:09][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:09][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:09][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:09][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:09][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:09][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:09][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:09][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:09][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:10][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:10][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:14][INFO] 55 
+[2026-06-01 15:04:14][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:04:14][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 15:04:26][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:26][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:26][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:26][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:26][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:26][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:26][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:26][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:26][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:27][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:27][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:27][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:04:31][INFO] 55 
+[2026-06-01 15:04:31][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:04:31][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 15:06:43][INFO] 55 
+[2026-06-01 15:06:43][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:06:43][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 15:08:06][INFO] 55 
+[2026-06-01 15:08:06][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:08:06][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 15:09:51][INFO] 55 
+[2026-06-01 15:09:51][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:09:51][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 15:10:02][INFO] 55 
+[2026-06-01 15:10:02][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:10:02][DEBUG] Params: {":client_id":35,":site_id":55,":building_id":2,":salle_id":376} 
+[2026-06-01 15:10:25][INFO] 55 
+[2026-06-01 15:10:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:10:33][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:10:33][DEBUG] Params: [] 
+[2026-06-01 15:10:36][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:10:36][DEBUG] Params: {":client_id":35} 
+[2026-06-01 15:10:58][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:10:58][DEBUG] Params: {":client_id":35} 
+[2026-06-01 15:12:54][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:12:54][DEBUG] Params: {":client_id":35} 
+[2026-06-01 15:13:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:13][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:13][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:13][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:13][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:13][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:13][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:13][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:13][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:13][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:13][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:13][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:13][INFO] 55 
+[2026-06-01 15:13:13][INFO] 55 
+[2026-06-01 15:13:13][INFO] 55 
+[2026-06-01 15:13:13][INFO] 55 
+[2026-06-01 15:13:14][INFO] 55 
+[2026-06-01 15:13:14][INFO] 55 
+[2026-06-01 15:13:14][INFO] 55 
+[2026-06-01 15:13:14][INFO] 55 
+[2026-06-01 15:13:14][INFO] 55 
+[2026-06-01 15:13:14][INFO] 55 
+[2026-06-01 15:13:14][INFO] 109 
+[2026-06-01 15:13:14][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:14][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:14][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:14][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:14][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:14][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:14][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:14][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:14][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:14][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:14][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:14][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:14][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:14][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:14][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:14][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:14][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:15][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:15][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:15][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:15][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:15][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:15][INFO] 109 
+[2026-06-01 15:13:15][INFO] 55 
+[2026-06-01 15:13:15][INFO] 109 
+[2026-06-01 15:13:15][INFO] 55 
+[2026-06-01 15:13:15][INFO] 109 
+[2026-06-01 15:13:15][INFO] 109 
+[2026-06-01 15:13:15][INFO] 109 
+[2026-06-01 15:13:15][INFO] 109 
+[2026-06-01 15:13:15][INFO] 109 
+[2026-06-01 15:13:15][INFO] 109 
+[2026-06-01 15:13:15][INFO] 109 
+[2026-06-01 15:13:15][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:15][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:15][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:15][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:15][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:15][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:16][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:16][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:16][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:16][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:16][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:16][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:16][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:16][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:16][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:16][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:16][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:16][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:16][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:16][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:16][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:16][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:16][INFO] 109 
+[2026-06-01 15:13:16][INFO] 109 
+[2026-06-01 15:13:16][INFO] 109 
+[2026-06-01 15:13:16][INFO] 109 
+[2026-06-01 15:13:16][INFO] 109 
+[2026-06-01 15:13:16][INFO] 109 
+[2026-06-01 15:13:16][INFO] 109 
+[2026-06-01 15:13:17][INFO] 109 
+[2026-06-01 15:13:17][INFO] 109 
+[2026-06-01 15:13:17][INFO] 109 
+[2026-06-01 15:13:17][INFO] 109 
+[2026-06-01 15:13:17][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:17][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:17][INFO] 109 
+[2026-06-01 15:13:20][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:13:20][DEBUG] Params: {":client_id":35} 
+[2026-06-01 15:13:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:30][INFO] 55 
+[2026-06-01 15:13:30][INFO] 55 
+[2026-06-01 15:13:30][INFO] 55 
+[2026-06-01 15:13:30][INFO] 55 
+[2026-06-01 15:13:30][INFO] 55 
+[2026-06-01 15:13:31][INFO] 55 
+[2026-06-01 15:13:31][INFO] 55 
+[2026-06-01 15:13:31][INFO] 55 
+[2026-06-01 15:13:31][INFO] 55 
+[2026-06-01 15:13:31][INFO] 55 
+[2026-06-01 15:13:31][INFO] 109 
+[2026-06-01 15:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:32][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:32][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:32][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:32][INFO] 109 
+[2026-06-01 15:13:32][INFO] 55 
+[2026-06-01 15:13:32][INFO] 109 
+[2026-06-01 15:13:32][INFO] 55 
+[2026-06-01 15:13:32][INFO] 109 
+[2026-06-01 15:13:32][INFO] 109 
+[2026-06-01 15:13:32][INFO] 109 
+[2026-06-01 15:13:32][INFO] 109 
+[2026-06-01 15:13:32][INFO] 109 
+[2026-06-01 15:13:32][INFO] 109 
+[2026-06-01 15:13:32][INFO] 109 
+[2026-06-01 15:13:32][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:32][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:32][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:33][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:33][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:33][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:33][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:33][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:33][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:33][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:33][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:33][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:33][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:33][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:33][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:33][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:33][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:33][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:33][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:33][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:33][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:33][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:33][INFO] 109 
+[2026-06-01 15:13:33][INFO] 109 
+[2026-06-01 15:13:33][INFO] 109 
+[2026-06-01 15:13:33][INFO] 109 
+[2026-06-01 15:13:33][INFO] 109 
+[2026-06-01 15:13:33][INFO] 109 
+[2026-06-01 15:13:33][INFO] 109 
+[2026-06-01 15:13:34][INFO] 109 
+[2026-06-01 15:13:34][INFO] 109 
+[2026-06-01 15:13:34][INFO] 109 
+[2026-06-01 15:13:34][INFO] 109 
+[2026-06-01 15:13:34][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:34][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:34][INFO] 109 
+[2026-06-01 15:13:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:53][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:53][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:53][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:53][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:53][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:53][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:53][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:53][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:53][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:53][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:53][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:53][INFO] 55 
+[2026-06-01 15:13:53][INFO] 55 
+[2026-06-01 15:13:53][INFO] 55 
+[2026-06-01 15:13:53][INFO] 55 
+[2026-06-01 15:13:53][INFO] 55 
+[2026-06-01 15:13:54][INFO] 55 
+[2026-06-01 15:13:54][INFO] 55 
+[2026-06-01 15:13:54][INFO] 55 
+[2026-06-01 15:13:54][INFO] 55 
+[2026-06-01 15:13:54][INFO] 55 
+[2026-06-01 15:13:54][INFO] 109 
+[2026-06-01 15:13:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:54][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:54][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:54][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:54][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:54][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:54][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:54][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:54][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:54][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:54][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:54][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:55][INFO] 109 
+[2026-06-01 15:13:55][INFO] 55 
+[2026-06-01 15:13:55][INFO] 109 
+[2026-06-01 15:13:55][INFO] 55 
+[2026-06-01 15:13:55][INFO] 109 
+[2026-06-01 15:13:55][INFO] 109 
+[2026-06-01 15:13:55][INFO] 109 
+[2026-06-01 15:13:55][INFO] 109 
+[2026-06-01 15:13:55][INFO] 109 
+[2026-06-01 15:13:55][INFO] 109 
+[2026-06-01 15:13:55][INFO] 109 
+[2026-06-01 15:13:55][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:55][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:55][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:55][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:55][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:55][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:55][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:55][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:55][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:56][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:56][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:56][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:56][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:56][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:56][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:56][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:56][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:56][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:56][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:56][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:56][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:56][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:56][INFO] 109 
+[2026-06-01 15:13:56][INFO] 109 
+[2026-06-01 15:13:56][INFO] 109 
+[2026-06-01 15:13:56][INFO] 109 
+[2026-06-01 15:13:56][INFO] 109 
+[2026-06-01 15:13:56][INFO] 109 
+[2026-06-01 15:13:56][INFO] 109 
+[2026-06-01 15:13:56][INFO] 109 
+[2026-06-01 15:13:56][INFO] 109 
+[2026-06-01 15:13:57][INFO] 109 
+[2026-06-01 15:13:57][INFO] 109 
+[2026-06-01 15:13:57][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:13:57][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:13:57][INFO] 109 
+[2026-06-01 15:14:00][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:14:00][DEBUG] Params: {":client_id":35} 
+[2026-06-01 15:14:36][INFO] 55 
+[2026-06-01 15:14:36][INFO] 55 
+[2026-06-01 15:14:36][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:14:36][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:14:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:14:44][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:14:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:14:44][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:14:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:14:44][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:14:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:14:44][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:14:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:14:44][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:14:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:14:44][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:14:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:14:44][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:14:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:14:44][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:14:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:14:44][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:14:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:14:44][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:14:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:14:44][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:14:44][INFO] 55 
+[2026-06-01 15:14:44][INFO] 55 
+[2026-06-01 15:14:44][INFO] 55 
+[2026-06-01 15:14:44][INFO] 55 
+[2026-06-01 15:14:45][INFO] 55 
+[2026-06-01 15:14:45][INFO] 55 
+[2026-06-01 15:14:45][INFO] 55 
+[2026-06-01 15:14:45][INFO] 55 
+[2026-06-01 15:14:45][INFO] 55 
+[2026-06-01 15:14:45][INFO] 55 
+[2026-06-01 15:14:45][INFO] 55 
+[2026-06-01 15:14:45][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:14:45][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:14:45][INFO] 55 
+[2026-06-01 15:15:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:15:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:15:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:15:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:15:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:15:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:15:30][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:15:30][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:15:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:15:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:15:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:15:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:15:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:15:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:15:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:15:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:15:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:15:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:15:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:15:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:15:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:15:31][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:15:31][INFO] 55 
+[2026-06-01 15:15:31][INFO] 55 
+[2026-06-01 15:15:31][INFO] 55 
+[2026-06-01 15:15:31][INFO] 55 
+[2026-06-01 15:15:31][INFO] 55 
+[2026-06-01 15:15:31][INFO] 55 
+[2026-06-01 15:15:31][INFO] 55 
+[2026-06-01 15:15:31][INFO] 55 
+[2026-06-01 15:15:31][INFO] 55 
+[2026-06-01 15:15:31][INFO] 55 
+[2026-06-01 15:15:32][INFO] 55 
+[2026-06-01 15:15:32][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:15:32][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:15:32][INFO] 55 
+[2026-06-01 15:15:34][INFO] 55 
+[2026-06-01 15:15:34][INFO] 55 
+[2026-06-01 15:15:34][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:15:34][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:16:14][INFO] 55 
+[2026-06-01 15:16:14][INFO] 55 
+[2026-06-01 15:16:14][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:16:14][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:16:19][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:16:19][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:16:19][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:16:19][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:16:19][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:16:20][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:16:20][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:16:20][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:16:20][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:16:20][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:16:20][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:16:20][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:16:20][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:16:20][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:16:20][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:16:20][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:16:20][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:16:20][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:16:20][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:16:20][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:16:20][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:16:20][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:16:20][INFO] 55 
+[2026-06-01 15:16:20][INFO] 55 
+[2026-06-01 15:16:20][INFO] 55 
+[2026-06-01 15:16:20][INFO] 55 
+[2026-06-01 15:16:20][INFO] 55 
+[2026-06-01 15:16:20][INFO] 55 
+[2026-06-01 15:16:20][INFO] 55 
+[2026-06-01 15:16:20][INFO] 55 
+[2026-06-01 15:16:21][INFO] 55 
+[2026-06-01 15:16:21][INFO] 55 
+[2026-06-01 15:16:21][INFO] 55 
+[2026-06-01 15:16:21][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:16:21][ERROR] Erreur lors de la modification du matériel : Les champs salle, modèle et marque sont obligatoires 
+[2026-06-01 15:16:21][INFO] 55 
+[2026-06-01 15:16:24][INFO] 55 
+[2026-06-01 15:16:24][INFO] 55 
+[2026-06-01 15:16:24][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:16:24][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:20:07][INFO] 55 
+[2026-06-01 15:20:07][INFO] 55 
+[2026-06-01 15:20:07][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:07][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:20:12][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:20:12][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:20:12][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:20:12][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:20:12][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:20:12][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:20:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:20:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:20:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:20:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:20:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:20:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:13][DEBUG] Params: [] 
+[2026-06-01 15:20:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:13][DEBUG] Params: [] 
+[2026-06-01 15:20:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:13][DEBUG] Params: [] 
+[2026-06-01 15:20:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:13][DEBUG] Params: [] 
+[2026-06-01 15:20:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:13][DEBUG] Params: [] 
+[2026-06-01 15:20:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:13][DEBUG] Params: [] 
+[2026-06-01 15:20:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:13][DEBUG] Params: [] 
+[2026-06-01 15:20:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:13][DEBUG] Params: [] 
+[2026-06-01 15:20:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:13][DEBUG] Params: [] 
+[2026-06-01 15:20:14][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:14][DEBUG] Params: [] 
+[2026-06-01 15:20:14][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:14][DEBUG] Params: [] 
+[2026-06-01 15:20:14][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:20:14][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:14][DEBUG] Params: [] 
+[2026-06-01 15:20:16][INFO] 55 
+[2026-06-01 15:20:16][INFO] 55 
+[2026-06-01 15:20:16][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:16][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:20:48][INFO] 55 
+[2026-06-01 15:20:48][INFO] 55 
+[2026-06-01 15:20:48][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:48][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:20:58][INFO] 55 
+[2026-06-01 15:20:58][INFO] 55 
+[2026-06-01 15:20:58][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:20:58][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:23:29][INFO] 55 
+[2026-06-01 15:23:29][INFO] 55 
+[2026-06-01 15:23:29][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:23:29][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:23:39][INFO] 55 
+[2026-06-01 15:23:39][INFO] 55 
+[2026-06-01 15:23:39][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:23:39][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:24:02][INFO] 55 
+[2026-06-01 15:24:02][INFO] 55 
+[2026-06-01 15:24:02][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:24:02][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:24:10][INFO] 55 
+[2026-06-01 15:24:10][INFO] 55 
+[2026-06-01 15:24:10][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:24:10][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:24:20][INFO] 55 
+[2026-06-01 15:24:20][INFO] 55 
+[2026-06-01 15:24:20][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:24:20][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:25:26][INFO] 55 
+[2026-06-01 15:25:26][INFO] 55 
+[2026-06-01 15:25:26][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:25:26][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:25:35][INFO] 55 
+[2026-06-01 15:25:35][INFO] 55 
+[2026-06-01 15:25:35][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:25:35][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:27:42][INFO] 55 
+[2026-06-01 15:27:42][INFO] 55 
+[2026-06-01 15:27:42][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:27:42][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:28:20][INFO] 55 
+[2026-06-01 15:28:20][INFO] 55 
+[2026-06-01 15:28:20][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:28:20][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:28:35][INFO] 55 
+[2026-06-01 15:28:35][INFO] 55 
+[2026-06-01 15:28:35][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:28:35][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:30:33][INFO] 55 
+[2026-06-01 15:30:33][INFO] 55 
+[2026-06-01 15:30:33][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:30:33][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:30:50][INFO] 55 
+[2026-06-01 15:30:50][INFO] 55 
+[2026-06-01 15:30:50][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:30:50][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:31:43][INFO] 55 
+[2026-06-01 15:31:43][INFO] 55 
+[2026-06-01 15:31:43][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:31:43][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:34:35][INFO] 55 
+[2026-06-01 15:34:35][INFO] 55 
+[2026-06-01 15:34:35][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:34:35][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:36:18][INFO] 55 
+[2026-06-01 15:36:18][INFO] 55 
+[2026-06-01 15:36:18][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:36:18][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:36:54][INFO] 55 
+[2026-06-01 15:36:54][INFO] 55 
+[2026-06-01 15:36:54][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:36:54][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:37:31][INFO] 55 
+[2026-06-01 15:37:31][INFO] 55 
+[2026-06-01 15:37:31][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:37:31][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:38:59][INFO] 55 
+[2026-06-01 15:38:59][INFO] 55 
+[2026-06-01 15:38:59][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:38:59][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:39:28][INFO] 55 
+[2026-06-01 15:39:28][INFO] 55 
+[2026-06-01 15:39:28][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:39:28][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:39:49][INFO] 55 
+[2026-06-01 15:39:49][INFO] 55 
+[2026-06-01 15:39:49][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:39:49][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:39:58][DEBUG] Redirection vers login - URL sauvegardée: materiel?client_id=35&site_id=55 (Session ID: pgnk3733u9ho2cfj1nnn1etuva) 
+[2026-06-01 15:40:00][DEBUG] CSRF: Token trouvé dans la requête - Token: bba560c79666b211a4ee... 
+[2026-06-01 15:40:00][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-01 15:40:00][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-01 15:40:00][DEBUG] Login réussi - Session ID: pgnk3733u9ho2cfj1nnn1etuva 
+[2026-06-01 15:40:00][DEBUG] Login réussi - redirect_after_login: materiel?client_id=35&site_id=55 
+[2026-06-01 15:40:00][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-01 15:40:00][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-06-01 15:40:00][DEBUG] Redirection après login vers: http://localhost/avision/public/materiel?client_id=35&site_id=55 
+[2026-06-01 15:40:00][INFO] 55 
+[2026-06-01 15:40:00][INFO] 55 
+[2026-06-01 15:40:00][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:40:00][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:40:14][INFO] 55 
+[2026-06-01 15:40:14][INFO] 55 
+[2026-06-01 15:40:14][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:40:14][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:40:45][INFO] 55 
+[2026-06-01 15:40:45][INFO] 55 
+[2026-06-01 15:40:45][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:40:45][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:43:03][INFO] 55 
+[2026-06-01 15:43:03][INFO] 55 
+[2026-06-01 15:43:03][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:43:03][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:43:42][INFO] 55 
+[2026-06-01 15:43:42][INFO] 55 
+[2026-06-01 15:43:42][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:43:42][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:44:01][INFO] 55 
+[2026-06-01 15:44:01][INFO] 55 
+[2026-06-01 15:44:01][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:44:01][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:44:31][INFO] 55 
+[2026-06-01 15:44:31][INFO] 55 
+[2026-06-01 15:44:31][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:44:31][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:44:47][INFO] 55 
+[2026-06-01 15:44:47][INFO] 55 
+[2026-06-01 15:44:47][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:44:47][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:45:03][INFO] 55 
+[2026-06-01 15:45:03][INFO] 55 
+[2026-06-01 15:45:03][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:45:03][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:45:29][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 15:45:29][INFO] === STORE CALLED FROM EXCEL === 
+[2026-06-01 15:45:29][INFO] POST data: Array
+(
+    [salle_id] => 376
+    [marque] => fsdd
+    [modele] => dhfh
+    [type_materiel] => fghdfh
+    [numero_serie] => fhhdf
+    [version_firmware] => fghfdh
+    [adresse_ip] => fhfdhf
+    [adresse_mac] => 
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [id] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 35
+    [return_site_id] => 55
+)
+ 
+[2026-06-01 15:45:29][INFO] FILES: Array
+(
+)
+ 
+[2026-06-01 15:45:29][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-06-01 15:45:29][INFO] Données complètes reçues: 
+[2026-06-01 15:45:29][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-06-01 15:45:29][INFO] Array 
+[2026-06-01 15:45:29][INFO] INSERTION MATERIEL - Salle: 376 | Type: fghdfh | Modèle: dhfh | Marque: fsdd | N° Série: fhhdf | MAC:  | IP: fhfdhf 
+[2026-06-01 15:45:29][INFO] JSON DATA: {
+    "timestamp": "2026-06-01 15:45:29",
+    "user": "admin",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "376",
+        "type_materiel": "fghdfh",
+        "modele": "dhfh",
+        "marque": "fsdd",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "fhhdf",
+        "version_firmware": "fghfdh",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "",
+        "adresse_ip": "fhfdhf",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-06-01 15:45:29][INFO] Champs remplis (7/33): salle_id, type_materiel, modele, marque, numero_serie, version_firmware, adresse_ip 
+[2026-06-01 15:45:29][INFO] === FIN DES DONNEES === 
+[2026-06-01 15:45:29][INFO] MATERIEL CREE AVEC SUCCES - ID: 2753 
+[2026-06-01 15:45:31][INFO] 55 
+[2026-06-01 15:45:31][INFO] 55 
+[2026-06-01 15:45:31][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:45:31][DEBUG] Params: {":client_id":35,":site_id":55} 
+[2026-06-01 15:45:49][INFO] 55 
+[2026-06-01 15:45:49][INFO] 55 
+[2026-06-01 15:45:49][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 15:45:49][DEBUG] Params: {":client_id":35,":site_id":55} 
