@@ -20,6 +20,7 @@ class ClientController
     private $roomModel;
     private $contactModel;
     private $interventionModel;
+    private $materielModel;
 
     public function __construct()
     {
@@ -32,6 +33,7 @@ class ClientController
         $this->roomModel = new RoomModel($this->db);
         $this->contactModel = new ContactModel($this->db);
         $this->interventionModel = new InterventionModel($this->db);
+        $this->materielModel = new MaterielModel($this->db);
     }
 
     /**
@@ -85,12 +87,18 @@ class ClientController
             exit;
         }
 
+        $materielCount = $this->getMaterielCountByClientId($id);
+
+        // Récupérer le matériel du client
+        $materielList = $this->getMaterielByClientId($id);
+
         // Récupérer les statistiques du client
         $stats = [
             'site_count' => $this->siteModel->getSiteCountByClientId($id),
             'building_count' => count($this->buildingModel->getBuildingsByClientId($id)),
             'room_count' => $this->roomModel->getRoomCountByClientId($id),
-            'contract_count' => $this->contractModel->getContractCountByClientId($id)
+            'contract_count' => $this->contractModel->getContractCountByClientId($id),
+            'materiel_count' => $materielCount
         ];
 
         // Récupérer les sites du client avec leurs bâtiments et salles
@@ -114,32 +122,80 @@ class ClientController
             $sites[$key]['rooms_count'] = $siteRoomsCount;
             $totalRoomsCount += $siteRoomsCount;
 
-            // Pour les salles directement liées au site (ancienne méthode, pour compatibilité)
-            // Note: Les salles ne devraient pas être directement liées aux sites dans la nouvelle hiérarchie
-            $sites[$key]['rooms'] = []; // Laisser vide car les salles sont maintenant sous les bâtiments
+            $sites[$key]['rooms'] = [];
         }
 
-        // Récupérer tous les bâtiments du client (pour l'affichage global si besoin)
+        // Récupérer tous les bâtiments du client
         $allBuildings = $this->buildingModel->getBuildingsByClientId($id);
 
         foreach ($allBuildings as $key => $building) {
             $allBuildings[$key]['rooms'] = $this->roomModel->getRoomsByBuildingId($building['id']);
         }
 
-        // Récupérer les contrats du client (actifs et inactifs)
+        // Récupérer les contrats du client
         $contracts = $this->contractModel->getContractsByClientId($id, null, null, true);
 
         // Récupérer les contacts du client
         $contacts = $this->contactModel->getContactsByClientId($id);
 
-        // Récupérer les interventions groupées par contrat et par type
+        // Récupérer les interventions groupées
         $interventionsGrouped = $this->interventionModel->getInterventionsByClientGrouped($id);
 
-        // Mettre à jour les statistiques avec le vrai compteur de salles
+        // Mettre à jour les statistiques
         $stats['room_count'] = $totalRoomsCount;
 
-        // Charger la vue avec les données structurées
+        // Charger la vue
         require_once VIEWS_PATH . '/client/view.php';
+    }
+
+    /**
+     * Compte le nombre de matériel pour un client
+     */
+    private function getMaterielCountByClientId($clientId)
+    {
+        $query = "SELECT COUNT(*) as count 
+              FROM materiel m
+              INNER JOIN rooms r ON m.salle_id = r.id
+              INNER JOIN buildings b ON r.building_id = b.id
+              WHERE b.client_id = :client_id 
+              AND m.deleted_at IS NULL";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':client_id', $clientId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? (int) $result['count'] : 0;
+    }
+
+    /**
+     * Récupère la liste du matériel pour un client
+     */
+    private function getMaterielByClientId($clientId)
+    {
+        $query = "SELECT 
+                m.*,
+                r.name as salle_nom,
+                r.id as salle_id,
+                b.name as building_nom,
+                b.id as building_id,
+                s.name as site_nom,
+                s.id as site_id,
+                c.name as client_nom
+              FROM materiel m
+              INNER JOIN rooms r ON m.salle_id = r.id
+              INNER JOIN buildings b ON r.building_id = b.id
+              INNER JOIN sites s ON b.site_id = s.id
+              INNER JOIN clients c ON s.client_id = c.id
+              WHERE c.id = :client_id 
+              AND m.deleted_at IS NULL
+              ORDER BY s.name, b.name, r.name, m.marque, m.modele";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':client_id', $clientId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     /**
      * Affiche le formulaire d'édition d'un client
