@@ -52287,3 +52287,1227 @@ Quant à l’écran n°1, il est HS
 [2026-06-01 11:22:58][ERROR] SIGNNOW ERROR =  
 [2026-06-01 11:22:58][DEBUG] {"id":"fd2e9a145d5343809f52bd0b4dde4aec46215cf2"} 
 [2026-06-01 11:22:58][DEBUG] {"status":400,"data":{"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]}} 
+[2026-06-01 12:35:30][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 12:35:30][DEBUG] Params: [] 
+[2026-06-01 12:35:34][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 12:35:34][DEBUG] Params: {":client_id":35} 
+[2026-06-01 12:37:05][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 12:37:05][DEBUG] Params: {":client_id":35} 
+[2026-06-01 12:40:09][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 12:40:09][DEBUG] Params: {":client_id":35} 
+[2026-06-01 12:41:56][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 12:41:56][DEBUG] Params: {":client_id":35} 
+[2026-06-01 12:44:12][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 12:44:12][DEBUG] Params: {":client_id":35} 
+[2026-06-01 12:46:56][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 12:46:56][DEBUG] Params: {":client_id":35} 
+[2026-06-01 12:48:57][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 12:48:57][DEBUG] Params: {":client_id":35} 
+[2026-06-01 12:51:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 12:51:13][DEBUG] Params: {":client_id":35} 
+[2026-06-01 12:54:40][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 12:54:40][DEBUG] Params: {":client_id":35} 
+[2026-06-01 12:55:12][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 12:55:12][INFO] === STORE CALLED FROM EXCEL === 
+[2026-06-01 12:55:12][INFO] POST data: Array
+(
+    [salle_id] => 376
+    [marque] => TEST
+    [modele] => TEST
+    [type_materiel] => TEST
+    [numero_serie] => TEST
+    [version_firmware] => TEST
+    [adresse_ip] => TETST
+    [adresse_mac] => TEST
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 35
+)
+ 
+[2026-06-01 12:55:12][INFO] FILES: Array
+(
+)
+ 
+[2026-06-01 12:55:12][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-06-01 12:55:12][INFO] Données complètes reçues: 
+[2026-06-01 12:55:12][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-06-01 12:55:12][INFO] Array 
+[2026-06-01 12:55:12][INFO] INSERTION MATERIEL - Salle: 376 | Type: TEST | Modèle: TEST | Marque: TEST | N° Série: TEST | MAC: TEST | IP: TETST 
+[2026-06-01 12:55:12][INFO] JSON DATA: {
+    "timestamp": "2026-06-01 12:55:12",
+    "user": "admin",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "376",
+        "type_materiel": "TEST",
+        "modele": "TEST",
+        "marque": "TEST",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "TEST",
+        "version_firmware": "TEST",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "TEST",
+        "adresse_ip": "TETST",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-06-01 12:55:12][INFO] Champs remplis (8/33): salle_id, type_materiel, modele, marque, numero_serie, version_firmware, adresse_mac, adresse_ip 
+[2026-06-01 12:55:12][INFO] === FIN DES DONNEES === 
+[2026-06-01 12:55:12][INFO] MATERIEL CREE AVEC SUCCES - ID: 2742 
+[2026-06-01 12:55:15][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 12:55:15][DEBUG] Params: {":client_id":35} 
+[2026-06-01 12:57:33][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 12:57:33][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:02:17][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:02:17][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:06:57][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:06:57][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:09:52][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:09:52][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:12:40][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:12:40][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:13:01][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 13:13:01][INFO] === STORE CALLED FROM EXCEL === 
+[2026-06-01 13:13:01][INFO] POST data: Array
+(
+    [salle_id] => 376
+    [marque] => SFSFF
+    [modele] => RZRZZT
+    [type_materiel] => TEST
+    [numero_serie] => TEST
+    [version_firmware] => TEST
+    [adresse_ip] => TEST
+    [adresse_mac] => 
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 35
+)
+ 
+[2026-06-01 13:13:01][INFO] FILES: Array
+(
+)
+ 
+[2026-06-01 13:13:01][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-06-01 13:13:01][INFO] Données complètes reçues: 
+[2026-06-01 13:13:01][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-06-01 13:13:01][INFO] Array 
+[2026-06-01 13:13:01][INFO] INSERTION MATERIEL - Salle: 376 | Type: TEST | Modèle: RZRZZT | Marque: SFSFF | N° Série: TEST | MAC:  | IP: TEST 
+[2026-06-01 13:13:01][INFO] JSON DATA: {
+    "timestamp": "2026-06-01 13:13:01",
+    "user": "admin",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "376",
+        "type_materiel": "TEST",
+        "modele": "RZRZZT",
+        "marque": "SFSFF",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "TEST",
+        "version_firmware": "TEST",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "",
+        "adresse_ip": "TEST",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-06-01 13:13:01][INFO] Champs remplis (7/33): salle_id, type_materiel, modele, marque, numero_serie, version_firmware, adresse_ip 
+[2026-06-01 13:13:01][INFO] === FIN DES DONNEES === 
+[2026-06-01 13:13:01][INFO] MATERIEL CREE AVEC SUCCES - ID: 2743 
+[2026-06-01 13:13:03][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:13:03][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:13:28][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 13:13:28][INFO] === STORE CALLED FROM EXCEL === 
+[2026-06-01 13:13:28][INFO] POST data: Array
+(
+    [salle_id] => 376
+    [marque] => ZTZTZ
+    [modele] => ZTZTZT
+    [type_materiel] => DFZZT
+    [numero_serie] => ZETZTZ
+    [version_firmware] => ZTZT
+    [adresse_ip] => ZTZTZ
+    [adresse_mac] => ZTZT
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 35
+)
+ 
+[2026-06-01 13:13:28][INFO] FILES: Array
+(
+)
+ 
+[2026-06-01 13:13:28][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-06-01 13:13:28][INFO] Données complètes reçues: 
+[2026-06-01 13:13:28][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-06-01 13:13:28][INFO] Array 
+[2026-06-01 13:13:28][INFO] INSERTION MATERIEL - Salle: 376 | Type: DFZZT | Modèle: ZTZTZT | Marque: ZTZTZ | N° Série: ZETZTZ | MAC: ZTZT | IP: ZTZTZ 
+[2026-06-01 13:13:28][INFO] JSON DATA: {
+    "timestamp": "2026-06-01 13:13:28",
+    "user": "admin",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "376",
+        "type_materiel": "DFZZT",
+        "modele": "ZTZTZT",
+        "marque": "ZTZTZ",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "ZETZTZ",
+        "version_firmware": "ZTZT",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "ZTZT",
+        "adresse_ip": "ZTZTZ",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-06-01 13:13:28][INFO] Champs remplis (8/33): salle_id, type_materiel, modele, marque, numero_serie, version_firmware, adresse_mac, adresse_ip 
+[2026-06-01 13:13:28][INFO] === FIN DES DONNEES === 
+[2026-06-01 13:13:28][INFO] MATERIEL CREE AVEC SUCCES - ID: 2744 
+[2026-06-01 13:13:30][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:13:30][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:15:00][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:15:00][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:15:23][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 13:15:23][INFO] === STORE CALLED FROM EXCEL === 
+[2026-06-01 13:15:23][INFO] POST data: Array
+(
+    [salle_id] => 376
+    [marque] => ertet
+    [modele] => ertete
+    [type_materiel] => ergee
+    [numero_serie] => trete
+    [version_firmware] => ertete
+    [adresse_ip] => eetet
+    [adresse_mac] => erte
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 35
+)
+ 
+[2026-06-01 13:15:23][INFO] FILES: Array
+(
+)
+ 
+[2026-06-01 13:15:23][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-06-01 13:15:23][INFO] Données complètes reçues: 
+[2026-06-01 13:15:23][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-06-01 13:15:23][INFO] Array 
+[2026-06-01 13:15:23][INFO] INSERTION MATERIEL - Salle: 376 | Type: ergee | Modèle: ertete | Marque: ertet | N° Série: trete | MAC: erte | IP: eetet 
+[2026-06-01 13:15:23][INFO] JSON DATA: {
+    "timestamp": "2026-06-01 13:15:23",
+    "user": "admin",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "376",
+        "type_materiel": "ergee",
+        "modele": "ertete",
+        "marque": "ertet",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "trete",
+        "version_firmware": "ertete",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "erte",
+        "adresse_ip": "eetet",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-06-01 13:15:23][INFO] Champs remplis (8/33): salle_id, type_materiel, modele, marque, numero_serie, version_firmware, adresse_mac, adresse_ip 
+[2026-06-01 13:15:23][INFO] === FIN DES DONNEES === 
+[2026-06-01 13:15:23][INFO] MATERIEL CREE AVEC SUCCES - ID: 2745 
+[2026-06-01 13:15:25][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:15:25][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:18:38][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:18:38][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:19:01][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 13:19:02][INFO] === STORE CALLED FROM EXCEL === 
+[2026-06-01 13:19:02][INFO] POST data: Array
+(
+    [salle_id] => 376
+    [marque] => ertet
+    [modele] => etet
+    [type_materiel] => zzt
+    [numero_serie] => atat
+    [version_firmware] => tta
+    [adresse_ip] => etret
+    [adresse_mac] => ertete
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 35
+)
+ 
+[2026-06-01 13:19:02][INFO] FILES: Array
+(
+)
+ 
+[2026-06-01 13:19:02][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-06-01 13:19:02][INFO] Données complètes reçues: 
+[2026-06-01 13:19:02][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-06-01 13:19:02][INFO] Array 
+[2026-06-01 13:19:02][INFO] INSERTION MATERIEL - Salle: 376 | Type: zzt | Modèle: etet | Marque: ertet | N° Série: atat | MAC: ertete | IP: etret 
+[2026-06-01 13:19:02][INFO] JSON DATA: {
+    "timestamp": "2026-06-01 13:19:02",
+    "user": "admin",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "376",
+        "type_materiel": "zzt",
+        "modele": "etet",
+        "marque": "ertet",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "atat",
+        "version_firmware": "tta",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "ertete",
+        "adresse_ip": "etret",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-06-01 13:19:02][INFO] Champs remplis (8/33): salle_id, type_materiel, modele, marque, numero_serie, version_firmware, adresse_mac, adresse_ip 
+[2026-06-01 13:19:02][INFO] === FIN DES DONNEES === 
+[2026-06-01 13:19:02][INFO] MATERIEL CREE AVEC SUCCES - ID: 2746 
+[2026-06-01 13:19:04][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:19:04][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:22:39][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:22:39][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:23:16][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 13:23:16][INFO] === STORE CALLED FROM EXCEL === 
+[2026-06-01 13:23:16][INFO] POST data: Array
+(
+    [salle_id] => 376
+    [marque] => etzt
+    [modele] => etzetz
+    [type_materiel] => eteztezt
+    [numero_serie] => zeteztz
+    [version_firmware] => ztztzt
+    [adresse_ip] => ezteztzet
+    [adresse_mac] => ret
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 35
+)
+ 
+[2026-06-01 13:23:16][INFO] FILES: Array
+(
+)
+ 
+[2026-06-01 13:23:16][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-06-01 13:23:16][INFO] Données complètes reçues: 
+[2026-06-01 13:23:16][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-06-01 13:23:16][INFO] Array 
+[2026-06-01 13:23:16][INFO] INSERTION MATERIEL - Salle: 376 | Type: eteztezt | Modèle: etzetz | Marque: etzt | N° Série: zeteztz | MAC: ret | IP: ezteztzet 
+[2026-06-01 13:23:16][INFO] JSON DATA: {
+    "timestamp": "2026-06-01 13:23:16",
+    "user": "admin",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "376",
+        "type_materiel": "eteztezt",
+        "modele": "etzetz",
+        "marque": "etzt",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "zeteztz",
+        "version_firmware": "ztztzt",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "ret",
+        "adresse_ip": "ezteztzet",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-06-01 13:23:16][INFO] Champs remplis (8/33): salle_id, type_materiel, modele, marque, numero_serie, version_firmware, adresse_mac, adresse_ip 
+[2026-06-01 13:23:16][INFO] === FIN DES DONNEES === 
+[2026-06-01 13:23:16][INFO] MATERIEL CREE AVEC SUCCES - ID: 2747 
+[2026-06-01 13:23:19][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:23:19][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:25:02][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:25:02][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:25:34][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:25:34][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:30:40][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:30:40][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:32:08][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:32:08][DEBUG] Params: {":client_id":35} 
+[2026-06-01 13:32:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ffb2f4070813b4716c38... 
+[2026-06-01 13:32:31][INFO] === STORE CALLED FROM EXCEL === 
+[2026-06-01 13:32:31][INFO] POST data: Array
+(
+    [salle_id] => 376
+    [marque] => ettet
+    [modele] => etetetz
+    [type_materiel] => zetzt
+    [numero_serie] => etetze
+    [version_firmware] => ertezte
+    [adresse_ip] => ertet
+    [adresse_mac] => ertet
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 35
+)
+ 
+[2026-06-01 13:32:31][INFO] FILES: Array
+(
+)
+ 
+[2026-06-01 13:32:31][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-06-01 13:32:31][INFO] Données complètes reçues: 
+[2026-06-01 13:32:31][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-06-01 13:32:31][INFO] Array 
+[2026-06-01 13:32:31][INFO] INSERTION MATERIEL - Salle: 376 | Type: zetzt | Modèle: etetetz | Marque: ettet | N° Série: etetze | MAC: ertet | IP: ertet 
+[2026-06-01 13:32:31][INFO] JSON DATA: {
+    "timestamp": "2026-06-01 13:32:31",
+    "user": "admin",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "376",
+        "type_materiel": "zetzt",
+        "modele": "etetetz",
+        "marque": "ettet",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "etetze",
+        "version_firmware": "ertezte",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "ertet",
+        "adresse_ip": "ertet",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-06-01 13:32:31][INFO] Champs remplis (8/33): salle_id, type_materiel, modele, marque, numero_serie, version_firmware, adresse_mac, adresse_ip 
+[2026-06-01 13:32:31][INFO] === FIN DES DONNEES === 
+[2026-06-01 13:32:31][INFO] MATERIEL CREE AVEC SUCCES - ID: 2748 
+[2026-06-01 13:32:33][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-01 13:32:33][DEBUG] Params: {":client_id":35} 

@@ -1,0 +1,4924 @@
+[2026-06-01 12:55:12] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Input reçu
+Array
+(
+    [raw_length] => 748
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Input reçu
+Array
+(
+    [raw_length] => 14637
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Traitement ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Mise à jour réussie ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] Réponse
+Array
+(
+    [status] => success
+    [message] => 22 ligne(s) mise(s) à jour
+    [updated] => 22
+    [total_rows] => 22
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 12:55:12] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:01] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:01] Input reçu
+Array
+(
+    [raw_length] => 1397
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:01] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:01] Traitement ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:01] Mise à jour réussie ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:01] Traitement ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:01] Mise à jour réussie ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:01] Réponse
+Array
+(
+    [status] => success
+    [message] => 2 ligne(s) mise(s) à jour
+    [updated] => 2
+    [total_rows] => 2
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:01] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] Input reçu
+Array
+(
+    [raw_length] => 2046
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] Traitement ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] Mise à jour réussie ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] Traitement ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] Mise à jour réussie ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] Traitement ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] Mise à jour réussie ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] Réponse
+Array
+(
+    [status] => success
+    [message] => 3 ligne(s) mise(s) à jour
+    [updated] => 3
+    [total_rows] => 3
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:13:28] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] Input reçu
+Array
+(
+    [raw_length] => 2701
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] Traitement ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] Mise à jour réussie ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] Traitement ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] Mise à jour réussie ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] Traitement ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] Mise à jour réussie ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] Traitement ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] Mise à jour réussie ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] Réponse
+Array
+(
+    [status] => success
+    [message] => 4 ligne(s) mise(s) à jour
+    [updated] => 4
+    [total_rows] => 4
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:15:23] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] Input reçu
+Array
+(
+    [raw_length] => 3357
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] Traitement ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] Mise à jour réussie ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] Traitement ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] Mise à jour réussie ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] Traitement ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] Mise à jour réussie ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] Traitement ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] Mise à jour réussie ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] Traitement ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] Mise à jour réussie ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] Réponse
+Array
+(
+    [status] => success
+    [message] => 5 ligne(s) mise(s) à jour
+    [updated] => 5
+    [total_rows] => 5
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:19:01] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Input reçu
+Array
+(
+    [raw_length] => 4013
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2746
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2746
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Réponse
+Array
+(
+    [status] => success
+    [message] => 6 ligne(s) mise(s) à jour
+    [updated] => 6
+    [total_rows] => 6
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Input reçu
+Array
+(
+    [raw_length] => 14637
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Traitement ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Mise à jour réussie ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] Réponse
+Array
+(
+    [status] => success
+    [message] => 22 ligne(s) mise(s) à jour
+    [updated] => 22
+    [total_rows] => 22
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:22:46] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Input reçu
+Array
+(
+    [raw_length] => 4016
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Traitement ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, adresse_mac = :adresse_mac, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :adresse_mac
+            [5] => :commentaire
+            [6] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Mise à jour réussie ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Traitement ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Mise à jour réussie ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Traitement ID: 2746
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Mise à jour réussie ID: 2746
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Traitement ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Mise à jour réussie ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Traitement ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Mise à jour réussie ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Traitement ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Mise à jour réussie ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Réponse
+Array
+(
+    [status] => success
+    [message] => 6 ligne(s) mise(s) à jour
+    [updated] => 6
+    [total_rows] => 6
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Input reçu
+Array
+(
+    [raw_length] => 14637
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Traitement ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Mise à jour réussie ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Traitement ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Mise à jour réussie ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Traitement ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Mise à jour réussie ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Traitement ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:16] Mise à jour réussie ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Traitement ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Mise à jour réussie ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] Réponse
+Array
+(
+    [status] => success
+    [message] => 22 ligne(s) mise(s) à jour
+    [updated] => 22
+    [total_rows] => 22
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:17] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Input reçu
+Array
+(
+    [raw_length] => 4679
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Traitement ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, adresse_mac = :adresse_mac, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :adresse_mac
+            [5] => :commentaire
+            [6] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Mise à jour réussie ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Traitement ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Mise à jour réussie ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Traitement ID: 2746
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Mise à jour réussie ID: 2746
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Traitement ID: 2747
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Mise à jour réussie ID: 2747
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Traitement ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Mise à jour réussie ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Traitement ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Mise à jour réussie ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Traitement ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Mise à jour réussie ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Réponse
+Array
+(
+    [status] => success
+    [message] => 7 ligne(s) mise(s) à jour
+    [updated] => 7
+    [total_rows] => 7
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Input reçu
+Array
+(
+    [raw_length] => 14637
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Traitement ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Mise à jour réussie ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Traitement ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Mise à jour réussie ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Traitement ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Mise à jour réussie ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] Traitement ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:35] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Traitement ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Mise à jour réussie ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] Réponse
+Array
+(
+    [status] => success
+    [message] => 22 ligne(s) mise(s) à jour
+    [updated] => 22
+    [total_rows] => 22
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:23:36] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Input reçu
+Array
+(
+    [raw_length] => 4679
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, adresse_mac = :adresse_mac, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :adresse_mac
+            [5] => :commentaire
+            [6] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2746
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2746
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2747
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2747
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Réponse
+Array
+(
+    [status] => success
+    [message] => 7 ligne(s) mise(s) à jour
+    [updated] => 7
+    [total_rows] => 7
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Input reçu
+Array
+(
+    [raw_length] => 14637
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Traitement ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Mise à jour réussie ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] Réponse
+Array
+(
+    [status] => success
+    [message] => 22 ligne(s) mise(s) à jour
+    [updated] => 22
+    [total_rows] => 22
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:17] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Input reçu
+Array
+(
+    [raw_length] => 4686
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :commentaire
+            [8] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2746
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2746
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2747
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2747
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Réponse
+Array
+(
+    [status] => success
+    [message] => 7 ligne(s) mise(s) à jour
+    [updated] => 7
+    [total_rows] => 7
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Input reçu
+Array
+(
+    [raw_length] => 14637
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Traitement ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Mise à jour réussie ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] Réponse
+Array
+(
+    [status] => success
+    [message] => 22 ligne(s) mise(s) à jour
+    [updated] => 22
+    [total_rows] => 22
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:25:30] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Input reçu
+Array
+(
+    [raw_length] => 4686
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :commentaire
+            [8] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2736
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2745
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2746
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2746
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2747
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2747
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2743
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2742
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2744
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Réponse
+Array
+(
+    [status] => success
+    [message] => 7 ligne(s) mise(s) à jour
+    [updated] => 7
+    [total_rows] => 7
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] === FIN ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Input reçu
+Array
+(
+    [raw_length] => 14637
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2733
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2722
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2725
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2729
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2726
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2728
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2732
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2735
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2714
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2717
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2715
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2718
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2716
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2719
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2720
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2721
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2731
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2727
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2723
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2724
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2730
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Traitement ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, commentaire = :commentaire WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :commentaire
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Mise à jour réussie ID: 2734
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] Réponse
+Array
+(
+    [status] => success
+    [message] => 22 ligne(s) mise(s) à jour
+    [updated] => 22
+    [total_rows] => 22
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-06-01 13:32:31] === FIN ===
+--------------------------------------------------------------------------------

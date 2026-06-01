@@ -74,7 +74,7 @@ foreach ($materiel_list as $materiel) {
 
 // Définir toutes les colonnes disponibles avec leurs configurations
 $allColumns = [
-  ['label' => 'Actions', 'field' => 'actions', 'default' => true],
+  // ['label' => 'Actions', 'field' => 'actions', 'default' => true],
   ['label' => 'Équipement', 'field' => 'equipement', 'default' => true],
   ['label' => 'Type', 'field' => 'type_nom', 'default' => true],
   ['label' => 'S/N', 'field' => 'numero_serie', 'default' => true],
@@ -477,6 +477,12 @@ $allData = [];
                         <div id="collapse_<?= $salle_id ?>" class="accordion-collapse collapse"
                           data-bs-parent="#accordionContainer">
                           <div class="accordion-body p-0">
+                            <div class="d-flex justify-content-end p-2 border-bottom bg-light">
+                              <button type="button" class="btn btn-sm btn-success"
+                                onclick="addNewRowToTable('excelTable-<?= $salle_id ?>', '<?= addslashes($locationString) ?>', <?= $materiels[0]['salle_id'] ?? 'null' ?>)">
+                                <i class="bi bi-plus-circle me-1"></i>Ajouter un équipement
+                              </button>
+                            </div>
                             <div class="table-wrapper">
                               <div id="excelTable-<?= $salle_id ?>"></div>
                             </div>
@@ -769,6 +775,9 @@ $allData = [];
       const hot = hotInstances[tableId];
       if (!hot) { console.error('Tableau non trouvé:', tableId); return; }
 
+      // ← Stocker le salle_id directement sur l'instance HOT
+      hot.__salleId = salleId;
+
       const existingData = hot.getSourceData();
       const data = existingData.map(row => row.map(cell =>
         (cell && typeof cell === 'object') ? { ...cell } : cell
@@ -776,18 +785,16 @@ $allData = [];
 
       const colCount = <?= count($allColumns) ?>;
       const newRow = Array(colCount).fill('');
-      newRow[0] = { type: 'add_button', salle_id: salleId };
-      newRow[1] = { id: null, marque: '', modele: '' };
-      newRow[8] = { count: 0, id: null, name: '' };
+      newRow[0] = { id: null, marque: '', modele: '' };
+      newRow[7] = { count: 0, id: null, name: '' };
 
       data.push(newRow);
       hot.loadData(data);
 
       const newRowIndex = data.length - 1;
-      hot.scrollViewportTo(newRowIndex, 2);
-      hot.selectCell(newRowIndex, 2);
+      hot.scrollViewportTo(newRowIndex, 1);
+      hot.selectCell(newRowIndex, 1);
 
-      console.log(`Nouvelle ligne ajoutée avec salle_id: ${salleId}`, data[newRowIndex][1]);
       showToast('Nouvelle ligne ajoutée. Remplissez les informations puis sauvegardez.', 'info');
     }
 
@@ -1240,9 +1247,7 @@ $allData = [];
                     const data = <?= json_encode(array_map(function ($m) use ($allColumns, $pieces_jointes_count) {
                       $rowData = [];
                       foreach ($allColumns as $col) {
-                        if ($col['field'] === 'actions') {
-                          $rowData[] = ['type' => 'add_button', 'salle_id' => $m['salle_id'] ?? null];
-                        } elseif ($col['field'] === 'equipement') {
+                        if ($col['field'] === 'equipement') {
                           $rowData[] = ['id' => $m['id'], 'marque' => $m['marque'] ?? '', 'modele' => $m['modele'] ?? ''];
                         } elseif ($col['field'] === 'pieces_jointes') {
                           $rowData[] = ['count' => $pieces_jointes_count[$m['id']] ?? 0, 'id' => $m['id'], 'name' => ($m['marque'] ?? '') . ' ' . ($m['modele'] ?? '')];
@@ -1256,7 +1261,21 @@ $allData = [];
                     const hot = new Handsontable(container, {
                       data: data,
                       colHeaders: <?= json_encode($colHeaders) ?>,
-                      hiddenColumns: { columns: <?= json_encode($hiddenColumns) ?>, indicators: true },
+                      hiddenColumns: {
+                        columns: (function () {
+                          const saved = localStorage.getItem('materiel_columns_visibility');
+                          if (!saved) return <?= json_encode($hiddenColumns) ?>;
+                          try {
+                            const state = JSON.parse(saved);
+                            const defaults = <?= json_encode($hiddenColumns) ?>;
+                            const allCols = <?= json_encode(array_keys($allColumns)) ?>;
+                            return Object.keys(state)
+                              .map(k => parseInt(k))
+                              .filter(k => state[k] === false);
+                          } catch (e) { return <?= json_encode($hiddenColumns) ?>; }
+                        })(),
+                        indicators: true
+                      },
                       rowHeaders: false,
                       licenseKey: 'non-commercial-and-evaluation',
                       stretchH: 'all',
@@ -1264,20 +1283,6 @@ $allData = [];
                       cells: function (row, col) {
                         const header = this.colHeaders[col];
 
-                        if (header === 'Actions') {
-                          return {
-                            renderer: function (instance, td, row, col, prop, value) {
-                              const salleId = value?.salle_id || <?= json_encode($filters['salle_id'] ?? null) ?>;
-                              td.innerHTML = `<button type="button" class="btn btn-sm btn-success w-100"
-                  onclick="addNewRowToTable('excelTable-<?= $salle_id ?>','<?= addslashes($locationString) ?>',${salleId})">
-                  <i class="bi bi-plus-circle me-1"></i> Ajouter</button>`;
-                              td.style.textAlign = 'center';
-                              td.style.verticalAlign = 'middle';
-                              td.style.backgroundColor = '#f8f9fa';
-                              return td;
-                            }
-                          };
-                        }
 
                         if (header === 'Équipement') {
                           return {
@@ -1338,7 +1343,7 @@ $allData = [];
               changes.forEach(([row, col, , newVal]) => {
                 const colHeader = this.getColHeader(col);
                 if (colHeader !== 'Marque' && colHeader !== 'Modèle') return;
-                const equipCol = 1;
+                const equipCol = 0;
                 const ev = this.getDataAtCell(row, equipCol);
                 const newEq = {
                   id: (ev && typeof ev === 'object') ? (ev.id ?? null) : null,
@@ -1351,7 +1356,7 @@ $allData = [];
               });
             }
           });
-
+          hot.__salleId = <?= $materiels[0]['salle_id'] ?? 'null' ?>;
           hotInstances['excelTable-<?= $salle_id ?>'] = hot;
         })();
       <?php endforeach; ?>
@@ -1359,9 +1364,12 @@ $allData = [];
       <?php endforeach; ?>
       <?php endforeach; ?>
       <?php endif; ?>
-
       const saved = restoreColumnVisibility();
-      if (saved) Object.keys(saved).forEach(col => applyColumnVisibility(parseInt(col), saved[col]));
+      if (saved) {
+        setTimeout(() => {
+          Object.keys(saved).forEach(col => applyColumnVisibility(parseInt(col), saved[col] === true || saved[col] === 'true'));
+        }, 100);
+      }
 
       const searchInput = document.getElementById('globalSearch');
       const clearBtn = document.getElementById('clearGlobalSearch');
@@ -1405,43 +1413,70 @@ $allData = [];
         const allData = hot.getSourceData();
 
         const filters = <?= json_encode($filters ?? []) ?>;
-        let globalSalleId = filters.salle_id || null;
-        if (!globalSalleId && allData.length > 0 && allData[0][0]?.salle_id) {
-          globalSalleId = allData[0][0].salle_id;
+        let globalSalleId = hot.__salleId || filters.salle_id || null;
+
+        // Fallback : chercher dans les données existantes (lignes avec id)
+        if (!globalSalleId && allData.length > 0) {
+          for (const row of allData) {
+            const eq = row[0];
+            if (eq && typeof eq === 'object' && eq.id) {
+              // Pour les lignes existantes, on a le salle_id via filters
+              globalSalleId = filters.salle_id || null;
+              break;
+            }
+          }
         }
+
         if (!globalSalleId) {
-          showToast('Impossible de sauvegarder : salle non identifiée', 'danger');
+          showToast('Impossible de sauvegarder : salle non identifiée. Filtrez par salle d\'abord.', 'danger');
           return;
         }
         const existingRows = allData.filter(row => {
-          const eq = row[1];
+          const eq = row[0];
           return eq && typeof eq === 'object' && eq.id;
         });
 
         const newRows = allData.filter(row => {
-          const eq = row[1];
+          const eq = row[0];
           return eq && typeof eq === 'object' && !eq.id;
         });
 
         if (existingRows.length > 0) {
           const formattedData = existingRows.map(row => ({
-            id: parseInt(row[1].id),
-            marque: row[1].marque || null, modele: row[1].modele || null,
-            type_materiel: row[2] || null, numero_serie: row[3] || null,
-            version_firmware: row[4] || null, adresse_ip: row[5] || null,
-            adresse_mac: row[6] || null, date_fin_maintenance: row[7] || null,
-            reference: row[9] || null, usage_materiel: row[10] || null,
-            ancien_firmware: row[13] || null, masque: row[14] || null,
-            passerelle: row[15] || null, login: row[16] || null,
-            password: row[17] || null, ip_primaire: row[19] || null,
-            mac_primaire: row[20] || null, ip_secondaire: row[21] || null,
-            mac_secondaire: row[22] || null, stream_aes67_recu: row[23] || null,
-            stream_aes67_transmis: row[24] || null, ssid: row[25] || null,
-            type_cryptage: row[26] || null, password_wifi: row[27] || null,
-            libelle_pa_salle: row[28] || null, numero_port_switch: row[29] || null,
-            vlan: row[30] || null, date_fin_garantie: row[31] || null,
-            date_derniere_inter: row[32] || null, commentaire: row[33] || null,
-            url_github: row[34] || null
+            id: parseInt(row[0].id),
+            marque: row[0].marque || null, modele: row[0].modele || null,
+            type_materiel: row[1] || null,   // Type = index 1
+            numero_serie: row[2] || null,    // S/N = index 2
+            version_firmware: row[3] || null,
+            adresse_ip: row[4] || null,
+            adresse_mac: row[5] || null,
+            date_fin_maintenance: row[6] || null,
+            // row[7] = Pièces jointes, on saute
+            reference: row[8] || null,
+            usage_materiel: row[9] || null,
+            // row[10] = Marque (caché), row[11] = Modèle (caché)
+            ancien_firmware: row[12] || null,
+            masque: row[13] || null,
+            passerelle: row[14] || null,
+            login: row[15] || null,
+            password: row[16] || null,
+            // row[17] = ID Matériel
+            ip_primaire: row[18] || null,
+            mac_primaire: row[19] || null,
+            ip_secondaire: row[20] || null,
+            mac_secondaire: row[21] || null,
+            stream_aes67_recu: row[22] || null,
+            stream_aes67_transmis: row[23] || null,
+            ssid: row[24] || null,
+            type_cryptage: row[25] || null,
+            password_wifi: row[26] || null,
+            libelle_pa_salle: row[27] || null,
+            numero_port_switch: row[28] || null,
+            vlan: row[29] || null,
+            date_fin_garantie: row[30] || null,
+            date_derniere_inter: row[31] || null,
+            commentaire: row[32] || null,
+            url_github: row[33] || null
           }));
 
           savePromises.push(
@@ -1454,9 +1489,11 @@ $allData = [];
               .then(result => {
                 if (result.status === 'success' || result.status === 'partial') {
                   totalUpdated += result.updated || 0;
+                } else if (result.updated > 0) {
+                  totalUpdated += result.updated || 0;
                 } else {
                   totalErrors++;
-                  errorDetails.push(`Mise à jour échouée pour ${result.updated || 0} équipements`);
+                  errorDetails.push(`Mise à jour échouée`);
                 }
               })
               .catch((error) => {
@@ -1467,7 +1504,7 @@ $allData = [];
         }
         for (let idx = 0; idx < newRows.length; idx++) {
           const row = newRows[idx];
-          const eq = row[1];
+          const eq = row[0];
           if (!eq.marque || eq.marque.trim() === '' || !eq.modele || eq.modele.trim() === '') {
             const manquants = [];
             if (!eq.marque || eq.marque.trim() === '') manquants.push('Marque');
@@ -1482,35 +1519,38 @@ $allData = [];
           fd.append('salle_id', globalSalleId);
           fd.append('marque', eq.marque);
           fd.append('modele', eq.modele);
-          fd.append('type_materiel', row[2] || '');
-          fd.append('numero_serie', row[3] || '');
-          fd.append('version_firmware', row[4] || '');
-          fd.append('adresse_ip', row[5] || '');
-          fd.append('adresse_mac', row[6] || '');
-          fd.append('date_fin_maintenance', row[7] || '');
-          fd.append('reference', row[9] || '');
-          fd.append('usage_materiel', row[10] || '');
-          fd.append('ancien_firmware', row[13] || '');
-          fd.append('masque', row[14] || '');
-          fd.append('passerelle', row[15] || '');
-          fd.append('login', row[16] || '');
-          fd.append('password', row[17] || '');
-          fd.append('ip_primaire', row[19] || '');
-          fd.append('mac_primaire', row[20] || '');
-          fd.append('ip_secondaire', row[21] || '');
-          fd.append('mac_secondaire', row[22] || '');
-          fd.append('stream_aes67_recu', row[23] || '');
-          fd.append('stream_aes67_transmis', row[24] || '');
-          fd.append('ssid', row[25] || '');
-          fd.append('type_cryptage', row[26] || '');
-          fd.append('password_wifi', row[27] || '');
-          fd.append('libelle_pa_salle', row[28] || '');
-          fd.append('numero_port_switch', row[29] || '');
-          fd.append('vlan', row[30] || '');
-          fd.append('date_fin_garantie', row[31] || '');
-          fd.append('date_derniere_inter', row[32] || '');
-          fd.append('commentaire', row[33] || '');
-          fd.append('url_github', row[34] || '');
+          fd.append('type_materiel', row[1] || '');   // était row[2]
+          fd.append('numero_serie', row[2] || '');    // était row[3]
+          fd.append('version_firmware', row[3] || '');
+          fd.append('adresse_ip', row[4] || '');
+          fd.append('adresse_mac', row[5] || '');
+          fd.append('date_fin_maintenance', row[6] || '');
+          // row[7] = Pièces jointes, on saute
+          fd.append('reference', row[8] || '');
+          fd.append('usage_materiel', row[9] || '');
+          // row[10]=Marque, row[11]=Modèle (cachés)
+          fd.append('ancien_firmware', row[12] || '');
+          fd.append('masque', row[13] || '');
+          fd.append('passerelle', row[14] || '');
+          fd.append('login', row[15] || '');
+          fd.append('password', row[16] || '');
+          // row[17] = ID Matériel
+          fd.append('ip_primaire', row[18] || '');
+          fd.append('mac_primaire', row[19] || '');
+          fd.append('ip_secondaire', row[20] || '');
+          fd.append('mac_secondaire', row[21] || '');
+          fd.append('stream_aes67_recu', row[22] || '');
+          fd.append('stream_aes67_transmis', row[23] || '');
+          fd.append('ssid', row[24] || '');
+          fd.append('type_cryptage', row[25] || '');
+          fd.append('password_wifi', row[26] || '');
+          fd.append('libelle_pa_salle', row[27] || '');
+          fd.append('numero_port_switch', row[28] || '');
+          fd.append('vlan', row[29] || '');
+          fd.append('date_fin_garantie', row[30] || '');
+          fd.append('date_derniere_inter', row[31] || '');
+          fd.append('commentaire', row[32] || '');
+          fd.append('url_github', row[33] || '');
 
           if (filters.client_id) fd.append('return_client_id', filters.client_id);
           if (filters.site_id) fd.append('return_site_id', filters.site_id);
@@ -1524,7 +1564,7 @@ $allData = [];
               body: fd
             })
               .then(async response => {
-                if (response.ok || response.redirected) {
+                if (response.status >= 200 && response.status < 400) {
                   totalCreated++;
                   console.log(`Créé: ${marqueRef} ${modeleRef}`);
                 } else {
