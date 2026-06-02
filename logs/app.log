@@ -56965,3 +56965,46 @@ Quant à l’écran n°1, il est HS
 [2026-06-01 16:28:41][INFO] 109 
 [2026-06-01 16:29:55][INFO] 55 
 [2026-06-01 16:29:55][INFO] 109 
+[2026-06-02 07:11:32][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: i42p0cf27lla02hc6ahdftl2q2) 
+[2026-06-02 07:11:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 65fbbc5e9ffe52a075a9... 
+[2026-06-02 07:11:36][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-02 07:11:36][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-02 07:11:36][DEBUG] Login réussi - Session ID: i42p0cf27lla02hc6ahdftl2q2 
+[2026-06-02 07:11:36][DEBUG] Login réussi - redirect_after_login: dashboard 
+[2026-06-02 07:11:36][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-02 07:11:36][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-06-02 07:11:36][DEBUG] Redirection après login vers: http://localhost/avision/public/dashboard 
+[2026-06-02 07:15:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 65fbbc5e9ffe52a075a9... 
+[2026-06-02 07:15:32][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_0715.pdf 
+[2026-06-02 07:15:45][DEBUG] SIGNNOW RESPONSE = {"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]} 
+[2026-06-02 07:15:45][ERROR] SIGNNOW ERROR =  
+[2026-06-02 07:15:45][DEBUG] {"id":"9705b1c36ebd4d4887e7f6342b654a9b6dfc77b7"} 
+[2026-06-02 07:15:45][DEBUG] {"status":400,"data":{"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]}} 
+[2026-06-02 07:23:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 65fbbc5e9ffe52a075a9... 
+[2026-06-02 07:23:37][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_0723.pdf 
+[2026-06-02 07:23:39][WARNING] Undefined array key "access_token" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\Services\\SignatureService.php","line":51,"errno":2}
+[2026-06-02 07:23:42][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\Services\\SignatureService.php","line":91,"errno":2}
+[2026-06-02 07:23:44][DEBUG] SIGNNOW RESPONSE = {"404":"Unable to find a route to match the URI: document\/invite"} 
+[2026-06-02 07:23:44][ERROR] SIGNNOW ERROR =  
+[2026-06-02 07:23:44][DEBUG] {"error":"invalid_token","code":1537} 
+[2026-06-02 07:23:44][DEBUG] {"status":404,"data":{"404":"Unable to find a route to match the URI: document\/invite"}} 
+[2026-06-02 07:25:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 65fbbc5e9ffe52a075a9... 
+[2026-06-02 07:25:53][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_0725.pdf 
+[2026-06-02 07:25:54][WARNING] Undefined array key "access_token" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\Services\\SignatureService.php","line":51,"errno":2}
+[2026-06-02 07:25:58][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\Services\\SignatureService.php","line":91,"errno":2}
+[2026-06-02 07:26:00][DEBUG] SIGNNOW RESPONSE = {"404":"Unable to find a route to match the URI: document\/invite"} 
+[2026-06-02 07:26:00][ERROR] SIGNNOW ERROR =  
+[2026-06-02 07:26:00][DEBUG] {"error":"invalid_token","code":1537} 
+[2026-06-02 07:26:00][DEBUG] {"status":404,"data":{"404":"Unable to find a route to match the URI: document\/invite"}} 
+[2026-06-02 07:31:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 65fbbc5e9ffe52a075a9... 
+[2026-06-02 07:32:03][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_0731.pdf 
+[2026-06-02 07:32:15][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-02 07:32:15][ERROR] SIGNNOW ERROR =  
+[2026-06-02 07:32:15][DEBUG] {"id":"fdc3ff41e357471486057e0b15ec5ddd8bbf5164"} 
+[2026-06-02 07:32:15][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-02 07:37:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 65fbbc5e9ffe52a075a9... 
+[2026-06-02 07:37:42][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_0737.pdf 
+[2026-06-02 07:37:53][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-02 07:37:53][ERROR] SIGNNOW ERROR =  
+[2026-06-02 07:37:53][DEBUG] {"id":"f600ce9478c940e4bd7a26049db1f48f30d6b5e8"} 
+[2026-06-02 07:37:53][DEBUG] {"status":200,"data":{"status":"success"}} 

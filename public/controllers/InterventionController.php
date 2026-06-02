@@ -3912,34 +3912,26 @@ class InterventionController
                 // SAUVEGARDE BDD
                 // ======================================
 
-                if (
-                    !empty(
-                    $signatureResponse['signature_request_id']
-                )
-                ) {
+                if (!empty($signatureResponse['document_id'])) {
 
                     $sql = "
-                       INSERT INTO intervention_signatures (
-                        intervention_id,
-                        signnow_document_id,
-                        status
-                    )
-                    VALUES (
-                        :intervention_id,
-                        :document_id,
-                        'pending'
-                    )
-                    ";
+                            INSERT INTO intervention_signatures (
+                                intervention_id,
+                                signnow_document_id,
+                                status
+                            )
+                            VALUES (
+                                :intervention_id,
+                                :document_id,
+                                'pending'
+                            )
+                        ";
 
-                    $stmt =
-                        $this->db->prepare($sql);
+                    $stmt = $this->db->prepare($sql);
 
                     $stmt->execute([
-                        ':intervention_id' =>
-                            $intervention['id'],
-
-                        ':yousign_request_id' =>
-                            $signatureResponse['signature_request_id']
+                        ':intervention_id' => $intervention['id'],
+                        ':document_id' => $signatureResponse['document_id']
                     ]);
                 }
             } catch (Exception $e) {
