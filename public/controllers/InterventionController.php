@@ -3889,8 +3889,8 @@ class InterventionController
                 // ENVOI À YOUSIGN
                 // ======================================
 
-                $clientEmail = "dev_mdg@caspeo.fr";
-                // $intervention['contact_email'];
+                $clientEmail =
+                    $intervention['contact_email'];
 
                 $clientFirstname =
                     $intervention['contact_first_name'];
