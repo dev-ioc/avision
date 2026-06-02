@@ -787,8 +787,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <thead>
                                         <tr>
                                             <!-- <th>Site</th>
-                                            <th>Bâtiment</th>
-                                            <th>Salle</th> -->
+                                            <th>Bâtiment</th> -->
+                                            <th>Salle</th>
                                             <th>Marque</th>
                                             <th>Modèle</th>
                                             <th>Type</th>
@@ -806,10 +806,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 </td>
                                                 <td>
                                                     <?php echo htmlspecialchars($item['building_nom'] ?? '-'); ?>
-                                                </td>
+                                                </td> -->
                                                 <td>
                                                     <?php echo htmlspecialchars($item['salle_nom'] ?? '-'); ?>
-                                                </td> -->
+                                                </td>
                                                 <td><a href="<?php echo BASE_URL; ?>materiel/view/<?php echo $item['id']; ?>?return_to=client&client_id=<?php echo $client['id']; ?>"
                                                         class="text-decoration-none fw-bold">
                                                         <?php echo htmlspecialchars($item['marque'] ?? '-'); ?>

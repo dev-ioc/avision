@@ -1,684 +1,1465 @@
 <?php
+
 /**
- * Classe pour la génération du bon d'intervention en PDF
+ * BON D'INTERVENTION PDF
+ * Version conforme aux maquettes client
+ * TCPDF Required
  */
+
 class InterventionPDF extends TCPDF
 {
-    // Constantes pour la configuration du PDF
-    const PDF_PAGE_ORIENTATION = 'P'; // P = Portrait, L = Landscape
-    const PDF_UNIT = 'mm';
-    const PDF_PAGE_FORMAT = 'A4';
-    const PDF_CREATOR = 'VideoSonic Support';
-    const PDF_MARGIN_LEFT = 15;
-    const PDF_MARGIN_TOP = 15;
-    const PDF_MARGIN_RIGHT = 15;
-    const PDF_MARGIN_BOTTOM = 15;
-    const PDF_FONT_NAME_MAIN = 'helvetica';
-    const PDF_FONT_SIZE_MAIN = 9;
-    const PDF_FONT_NAME_DATA = 'helvetica';
-    const PDF_FONT_SIZE_DATA = 8;
-    const PDF_FONT_MONOSPACED = 'courier';
-    const PDF_IMAGE_SCALE_RATIO = 1.25;
-    const HEAD_MAGNIFICATION = 1.1;
-    const K_CELL_HEIGHT_RATIO = 1.25;
-    const K_TITLE_MAGNIFICATION = 1.3;
-    const K_SMALL_RATIO = 2 / 3;
+    private $mainColor = [58, 89, 99];
+    private $headerText = [42, 74, 92];
+    private $border = [210, 210, 210];
+    private $light = [247, 247, 247];
 
-    // Couleurs
-    private $primaryColor = array(0, 123, 255); // Bleu
-    private $secondaryColor = array(108, 117, 125); // Gris
-    private $borderColor = array(200, 200, 200); // Gris clair
-
-    /**
-     * Constructeur
-     */
     public function __construct()
     {
         parent::__construct(
-            self::PDF_PAGE_ORIENTATION,
-            self::PDF_UNIT,
-            self::PDF_PAGE_FORMAT,
+            'P',
+            'mm',
+            'A4',
             true,
             'UTF-8',
             false
         );
 
-        // Configuration de base
-        $this->SetCreator(self::PDF_CREATOR);
-        $this->SetAuthor('VideoSonic Support');
+        $this->SetCreator('AVision');
+        $this->SetAuthor('VIDEOSONIC');
+
         $this->setPrintHeader(false);
         $this->setPrintFooter(false);
-        $this->SetMargins(
-            self::PDF_MARGIN_LEFT,
-            self::PDF_MARGIN_TOP,
-            self::PDF_MARGIN_RIGHT
+
+        $this->SetMargins(10, 10, 10);
+        $this->SetAutoPageBreak(true, 12);
+
+        $this->SetFont('helvetica', '', 9);
+
+        $this->SetLineWidth(0.2);
+
+        $this->SetDrawColor(
+            $this->border[0],
+            $this->border[1],
+            $this->border[2]
         );
-        $this->SetAutoPageBreak(true, self::PDF_MARGIN_BOTTOM);
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', self::PDF_FONT_SIZE_MAIN);
     }
 
     /**
-     * Génère le bon d'intervention
-     * @param array $intervention Les données de l'intervention
-     * @param array $solutions Les solutions apportées
-     * @return string Le chemin du fichier PDF généré
+     * =========================================================
+     * GENERATION COMPLETE
+     * =========================================================
      */
-    public function generate($intervention, $solutions)
-    {
-        // Ajouter une page
+    public function generateBonIntervention(
+        $intervention,
+        $comments = [],
+        $attachments = [],
+        $technicians = [],
+        $equipment = [],
+        $replacedParts = []
+    ) {
+
+        // =====================================================
+        // PAGE 1
+        // =====================================================
+
         $this->AddPage();
 
-        // En-tête
-        $this->addHeader();
+        $this->renderHeader($intervention);
 
-        // Titre du document
-        $this->addTitle($intervention);
+        $this->Ln(2);
 
-        // Informations de l'intervention
-        $this->addInterventionInfo($intervention);
+        $this->renderIdentification($intervention, $technicians);
 
-        // Description
-        $this->addDescription($intervention);
+        $this->Ln(3);
 
-        // Solutions
-        if (!empty($solutions)) {
-            $this->addSolutions($solutions);
-        }
+        $this->renderClient($intervention);
 
-        // Signatures
-        $this->addSignatures();
+        $this->Ln(3);
 
-        // Pied de page
-        $this->addFooter();
+        $this->renderEquipment($equipment);
+
+        $this->Ln(3);
+
+        // SECTION 4 avec affichage complet sans découpage
+        $this->renderDetails($intervention, $comments);
+
+        $this->Ln(3);
+
+        // SECTION 5
+        $this->renderParts($replacedParts);
+
+        // =====================================================
+        // PAGE 2
+        // =====================================================
+
+        $this->AddPage();
+
+        // Header nouvelle page
+        $this->renderHeader($intervention);
+
+        $this->Ln(15);
+
+        // Tableau prêt matériel séparé avec bordures complètes
+        $this->renderLoanEquipment();
+
+        $this->Ln(5);
+
+        // Section 6
+        $this->renderClosure($intervention, $attachments);
+
+        $this->Ln(2);
+
+        $this->renderFooter();
 
         return $this;
     }
 
     /**
-     * Génère le bon d'intervention avec les éléments sélectionnés
-     * @param array $intervention Les données de l'intervention
-     * @param array $comments Les commentaires sélectionnés
-     * @param array $attachments Les pièces jointes sélectionnées
-     * @param array $technicians Les techniciens assignés (ajouté)
-     * @return string Le chemin du fichier PDF généré
+     * =========================================================
+     * HEADER
+     * =========================================================
      */
-    public function generateBonIntervention($intervention, $comments, $attachments, $technicians = [])
+    private function renderHeader($intervention)
     {
-        $this->AddPage();
-        $this->addHeader();
-        $this->addTitle($intervention);
+        $width = 190;
 
-        // Passer les techniciens à addInterventionInfo
-        $this->addInterventionInfo($intervention, $technicians);
+        $this->SetFillColor(
+            $this->mainColor[0],
+            $this->mainColor[1],
+            $this->mainColor[2]
+        );
 
-        $this->addDeclarantIntervenant($intervention, $technicians);
-        $this->addContractClientInfo($intervention);
-        $this->addDurationAndTicketsInfo($intervention, $technicians);
-        $this->addDescription($intervention);
+        $this->Rect(10, 10, $width, 26, 'F');
+
+        // Titre
+        $this->SetTextColor(255, 255, 255);
+
+        $this->SetXY(14, 14);
+
+        $this->SetFont('helvetica', 'B', 20);
+
+        $this->Cell(90, 8, "BON D'INTERVENTION");
+
+        // Sous titre
+        $this->SetXY(14, 23);
+
+        $this->SetFont('helvetica', 'I', 10);
+
+        $this->SetTextColor(255, 204, 0);
+
+        $this->Cell(
+            90,
+            5,
+            'Généré par AVision  •  VIDEOSONIC'
+        );
+
+        // Bloc droite
+        $this->SetTextColor(255, 255, 255);
+
+        $this->SetXY(135, 14);
+
+        $this->SetFont('helvetica', '', 10);
+
+        $ticket = $intervention['reference'] ?? '';
+
+        $this->Cell(
+            55,
+            5,
+            'N° Ticket : ' . $ticket,
+            0,
+            1,
+            'R'
+        );
+
+        $this->SetX(135);
+
+        $this->SetFont('helvetica', 'B', 11);
+
+        $this->SetTextColor(255, 204, 0);
+
+        $this->Cell(
+            55,
+            5,
+            'Version du bon : V',
+            0,
+            1,
+            'R'
+        );
+
+        $this->SetTextColor(255, 255, 255);
+
+        $created = !empty($intervention['created_at'])
+            ? date('d/m/Y', strtotime($intervention['created_at']))
+            : '__/__/____';
+
+        $this->SetX(135);
+
+        $this->SetFont('helvetica', '', 10);
+
+        $this->Cell(
+            55,
+            5,
+            'Date de création : ' . $created,
+            0,
+            1,
+            'R'
+        );
+
+        $this->SetY(37);
+    }
+
+    /**
+     * =========================================================
+     * TITRE SECTION
+     * =========================================================
+     */
+    private function sectionTitle($title)
+    {
+        $this->SetFillColor(
+            $this->mainColor[0],
+            $this->mainColor[1],
+            $this->mainColor[2]
+        );
+
+        $this->SetTextColor(255, 255, 255);
+
+        $this->SetFont('helvetica', 'B', 11);
+
+        $this->Cell(190, 7, $title, 1, 1, 'L', true);
+
+        $this->SetTextColor(0, 0, 0);
+    }
+
+    /**
+     * =========================================================
+     * CELLULE ENTETE
+     * =========================================================
+     */
+    private function headCell($w, $text, $h = 7)
+    {
+        $this->SetFillColor(233, 238, 241);
+
+        $this->SetTextColor(
+            $this->headerText[0],
+            $this->headerText[1],
+            $this->headerText[2]
+        );
+
+        $this->SetFont('helvetica', 'B', 8.5);
+
+        $this->Cell(
+            $w,
+            $h,
+            $text,
+            1,
+            0,
+            'L',
+            true
+        );
+
+        $this->SetTextColor(0, 0, 0);
+    }
+
+    /**
+     * =========================================================
+     * CELLULE NORMALE
+     * =========================================================
+     */
+    private function bodyCell($w, $text = '', $h = 7)
+    {
+        $this->SetFont('helvetica', '', 9);
+
+        $this->Cell(
+            $w,
+            $h,
+            $text,
+            1,
+            0,
+            'L'
+        );
+    }
+
+    /**
+     * =========================================================
+     * SECTION 1
+     * =========================================================
+     */
+    private function renderIdentification($intervention, $technicians)
+    {
+        $this->sectionTitle('1. IDENTIFICATION DU TICKET');
+
+        $w1 = 95;
+        $w2 = 95;
+
+        // ligne 1
+        $this->headCell($w1, 'Référence ticket interne');
+        $this->headCell($w2, 'Réf. client');
+        $this->Ln();
+
+        $this->bodyCell($w1, $intervention['reference'] ?? '');
+        $this->bodyCell($w2, $intervention['ref_client'] ?? '');
+        $this->Ln();
+
+        // ligne 2
+        $this->headCell($w1, 'Date / Heure création');
+        $this->headCell($w2, 'Date / Heure intervention prévue');
+        $this->Ln();
+
+        $created = !empty($intervention['created_at'])
+            ? date('d/m/Y H:i', strtotime($intervention['created_at']))
+            : '';
+
+        $planned = !empty($intervention['planned_date'])
+            ? date('d/m/Y H:i', strtotime($intervention['planned_date']))
+            : '';
+
+        $this->bodyCell($w1, $created);
+        $this->bodyCell($w2, $planned);
+        $this->Ln();
+
+        // ligne 3
+        $this->headCell($w1, 'Nom du déclarant');
+        $this->headCell($w2, "Nom de l'intervenant");
+        $this->Ln();
+
+        $intervenants = '';
+
+        if (!empty($technicians)) {
+            $intervenants = implode(
+                ', ',
+                array_column($technicians, 'full_name')
+            );
+        }
+
+        $this->bodyCell(
+            $w1,
+            $intervention['demande_par'] ?? ''
+        );
+
+        $this->bodyCell($w2, $intervenants);
+
+        $this->Ln();
+
+        // urgence
+        $this->headCell(45, "Niveau d'urgence");
+
+        // Cellule principale
+        $this->Cell(145, 8, '', 1, 0);
+
+        $urgence = $intervention['urgence'] ?? '';
+
+        $y = $this->GetY();
+        $x = 55;
+        // =========================
+// Critique
+// =========================
+
+        $boxY = $y + 2;
+        $textY = $y + 1;
+
+        $criticalBoxX = $x + 5;
+
+        $this->Rect($criticalBoxX, $boxY, 4, 4);
+
+        if ($urgence === 'critical') {
+            $this->Line($criticalBoxX, $boxY, $criticalBoxX + 4, $boxY + 4);
+            $this->Line($criticalBoxX + 4, $boxY, $criticalBoxX, $boxY + 4);
+        }
+
+        $this->SetXY($criticalBoxX + 6, $textY);
+
+        $this->Cell(22, 5, 'Critique', 0, 0);
+
+        // =========================
+// Normal
+// =========================
+
+        $normalBoxX = $x + 38;
+
+        $this->Rect($normalBoxX, $boxY, 4, 4);
+
+        if ($urgence === 'normal') {
+            $this->Line($normalBoxX, $boxY, $normalBoxX + 4, $boxY + 4);
+            $this->Line($normalBoxX + 4, $boxY, $normalBoxX, $boxY + 4);
+        }
+
+        $this->SetXY($normalBoxX + 6, $textY);
+
+        $this->Cell(20, 5, 'Normal', 0, 0);
+
+        // =========================
+// Planifié
+// =========================
+
+        $plannedBoxX = $x + 68;
+
+        $this->Rect($plannedBoxX, $boxY, 4, 4);
+
+        if ($urgence === 'planned') {
+            $this->Line($plannedBoxX, $boxY, $plannedBoxX + 4, $boxY + 4);
+            $this->Line($plannedBoxX + 4, $boxY, $plannedBoxX, $boxY + 4);
+        }
+
+        $this->SetXY($plannedBoxX + 6, $textY);
+
+        $this->Cell(
+            55,
+            5,
+            'Planifié / Maintenance préventive',
+            0,
+            0
+        );
+
+        $this->Ln();
+    }
+
+    /**
+     * =========================================================
+     * SECTION 2
+     * =========================================================
+     */
+    private function renderClient($intervention)
+    {
+        $this->sectionTitle('2. CLIENT & LOCALISATION');
+
+        $w = 47.5;
+
+        // ligne 1
+        $this->headCell($w, 'N° de contrat');
+        $this->headCell($w, 'Type de contrat');
+        $this->headCell($w, 'Date fin contrat');
+        $this->headCell($w, 'Statut contrat');
+        $this->Ln();
+
+        $endDate = !empty($intervention['contract_end_date'])
+            ? date('d/m/Y', strtotime($intervention['contract_end_date']))
+            : '';
+
+        $this->bodyCell($w, $intervention['contract_name'] ?? '');
+        $this->bodyCell($w, $intervention['contract_type_name'] ?? '');
+        $this->bodyCell($w, $endDate);
+        $this->bodyCell($w, $intervention['contract_status'] ?? '');
+
+        $this->Ln();
+
+        // client/contact
+        $this->headCell(95, 'Nom du client');
+        $this->headCell(95, 'Nom du contact');
+        $this->Ln();
+
+        $contact = trim(
+            ($intervention['contact_first_name'] ?? '') .
+            ' ' .
+            ($intervention['contact_last_name'] ?? '')
+        );
+
+        $this->bodyCell(95, $intervention['client_name'] ?? '');
+        $this->bodyCell(95, $contact);
+
+        $this->Ln();
+
+        // adresse
+        $this->headCell(95, 'Adresse');
+        $this->headCell(95, 'Téléphone du contact');
+        $this->Ln();
+
+        $address = trim(
+            ($intervention['site_address'] ?? '') .
+            ' ' .
+            ($intervention['site_postal_code'] ?? '') .
+            ' ' .
+            ($intervention['site_city'] ?? '')
+        );
+
+        $y = $this->GetY();
+
+        $this->MultiCell(
+            95,
+            12,
+            $address,
+            1,
+            'L',
+            false,
+            0
+        );
+
+        $this->Cell(
+            95,
+            12,
+            $intervention['contact_phone'] ?? '',
+            1,
+            1
+        );
+
+        // batiment
+        $this->headCell($w, 'Bâtiment');
+        $this->headCell($w, 'Étage');
+        $this->headCell(95, 'Salle / Espace');
+        $this->Ln();
+
+        $y = $this->GetY();
+
+        $this->Cell(
+            $w,
+            22,
+            $intervention['building_name'] ?? '',
+            1,
+            0
+        );
+
+        $this->Cell(
+            $w,
+            22,
+            $intervention['floor_level'] ?? '',
+            1,
+            0
+        );
+
+        // bloc salle
+        $x = $this->GetX();
+
+        $this->Cell(95, 22, '', 1, 0);
+
+        // salle
+        $this->SetXY($x + 2, $y + 2);
+
+        $this->Cell(
+            50,
+            5,
+            $intervention['room_name'] ?? '',
+            0
+        );
+
+        // ligne avision
+        $this->SetXY($x + 2, $y + 16);
+
+        $this->SetFont('helvetica', 'I', 8);
+
+        $this->Cell(40, 4, 'AVision', 0);
+
+        // QR
+        $style = [
+            'border' => 0,
+            'padding' => 0
+        ];
+
+        $this->write2DBarcode(
+            $intervention['avision_ref'] ?? 'AVision',
+            'QRCODE,L',
+            $x + 58,
+            $y + 4,
+            13,
+            13,
+            $style,
+            'N'
+        );
+
+        $this->SetXY($x + 72, $y + 12);
+
+        $this->SetFont('helvetica', 'I', 7);
+
+        $this->Cell(18, 4, 'Fiche salle', 0);
+
+        $this->Ln(22);
+    }
+
+    /**
+     * =========================================================
+     * SECTION 3
+     * =========================================================
+     */
+    private function renderEquipment($equipment)
+    {
+        $this->sectionTitle('3. ÉQUIPEMENTS CONCERNÉS');
+
+        $w = 47.5;
+
+        // =========================
+        // EN-TÊTES
+        // =========================
+
+        $this->headCell($w, 'Désignation équipement');
+        $this->headCell($w, 'Réf. interne AVision');
+        $this->headCell($w, 'N° de série');
+        $this->headCell($w, 'Marque / Modèle');
+
+        $this->Ln();
+
+        // =========================
+        // DONNÉES
+        // =========================
+
+        if (!empty($equipment) && is_array($equipment)) {
+
+            foreach ($equipment as $eq) {
+
+                $brand = trim($eq['brand'] ?? '');
+                $model = trim($eq['model'] ?? '');
+
+                // Éviter " / " vide
+                $brandModel = trim(
+                    $brand .
+                    (!empty($brand) && !empty($model) ? ' / ' : '') .
+                    $model
+                );
+
+                $this->bodyCell(
+                    $w,
+                    $eq['designation'] ?? ''
+                );
+
+                $this->bodyCell(
+                    $w,
+                    $eq['ref_avision'] ?? ''
+                );
+
+                $this->bodyCell(
+                    $w,
+                    $eq['serial_number'] ?? ''
+                );
+
+                $this->bodyCell(
+                    $w,
+                    $brandModel
+                );
+
+                $this->Ln();
+            }
+
+        } else {
+
+            // =========================
+            // LIGNES VIDES
+            // =========================
+
+            for ($i = 0; $i < 3; $i++) {
+
+                $this->Cell($w, 14, '', 1, 0);
+                $this->Cell($w, 14, '', 1, 0);
+                $this->Cell($w, 14, '', 1, 0);
+                $this->Cell($w, 14, '', 1, 1);
+            }
+        }
+    }
+    /**
+     * =========================================================
+     * SECTION 4 (COMPLÈTE SANS DÉCOUPAGE)
+     * =========================================================
+     */
+    private function renderDetails($intervention, $comments)
+    {
+        $this->sectionTitle("4. DÉTAIL DE L'INTERVENTION");
+
+        // =====================================================
+// NATURE
+// =====================================================
+
+        $this->headCell(45, 'Nature');
+
+        $this->Cell(145, 9, '', 1, 0);
+
+        $natureY = $this->GetY();
+
+        // Boolean : true = distancielle / false = sur site
+        $isRemote = (bool) ($intervention['is_remote'] ?? false);
+
+        $surSite = !$isRemote;
+        $distancielle = $isRemote;
+
+        // Position verticale commune
+        $boxY = $natureY + 2;
+        $textY = $natureY + 1;
+
+        // =====================================================
+// SUR SITE
+// =====================================================
+
+        $surSiteBoxX = 58;
+
+        $this->Rect($surSiteBoxX, $boxY, 4, 4);
+
+        if ($surSite) {
+
+            $this->Line(
+                $surSiteBoxX,
+                $boxY,
+                $surSiteBoxX + 4,
+                $boxY + 4
+            );
+
+            $this->Line(
+                $surSiteBoxX + 4,
+                $boxY,
+                $surSiteBoxX,
+                $boxY + 4
+            );
+        }
+
+        $this->SetXY($surSiteBoxX + 6, $textY);
+
+        $this->Cell(22, 5, 'Sur site');
+
+        // =====================================================
+// DISTANCIELLE
+// =====================================================
+
+        $remoteBoxX = 90;
+
+        $this->Rect($remoteBoxX, $boxY, 4, 4);
+
+        if ($distancielle) {
+
+            $this->Line(
+                $remoteBoxX,
+                $boxY,
+                $remoteBoxX + 4,
+                $boxY + 4
+            );
+
+            $this->Line(
+                $remoteBoxX + 4,
+                $boxY,
+                $remoteBoxX,
+                $boxY + 4
+            );
+        }
+
+        $this->SetXY($remoteBoxX + 6, $textY);
+
+        $this->Cell(30, 5, 'Distancielle');
+
+        // margin-bottom
+        $this->Ln(12);
+
+        // =====================================================
+        // HORAIRES
+        // =====================================================
+
+        $w = 47.5;
+
+        $this->headCell($w, 'Heure début intervention');
+        $this->headCell($w, 'Heure fin intervention');
+        $this->headCell($w, 'Total en tickets');
+        $this->headCell($w, 'Tickets restant');
+
+        $this->Ln();
+
+        // Valeurs
+        $startTime =
+            !empty($intervention['planned_date'])
+            ? $intervention['planned_date']
+            : '';
+
+        $endTime =
+            !empty($intervention['end_date'])
+            ? $intervention['end_date']
+            : '';
+
+        $ticketsUsed =
+            $intervention['tickets_used'] ?? '0';
+
+        $ticketsRemaining =
+            $intervention['tickets_remaining'] ?? '0';
+
+        // Heure début
+        $this->Cell(
+            $w,
+            10,
+            $startTime,
+            1,
+            0,
+            'C'
+        );
+
+        // Heure fin
+        $this->Cell(
+            $w,
+            10,
+            $endTime,
+            1,
+            0,
+            'C'
+        );
+
+        // Total tickets
+        $this->Cell(
+            $w,
+            10,
+            $ticketsUsed,
+            1,
+            0,
+            'C'
+        );
+
+        // Tickets restant
+        $this->Cell(
+            $w,
+            10,
+            $ticketsRemaining,
+            1,
+            1,
+            'C'
+        );
+
+        // =====================================================
+        // DESCRIPTION
+        // =====================================================
+
+        $this->Cell(190, 35, '', 1);
+
+        $y = $this->GetY();
+
+        $this->SetXY(13, $y + 2);
+
+        $this->SetFont('helvetica', 'B', 10);
+
+        $this->Cell(
+            60,
+            5,
+            'Description du problème :',
+            0
+        );
+
+        $this->SetXY(13, $y + 10);
+
+        $this->SetFont('helvetica', '', 9);
+
+        $this->MultiCell(
+            180,
+            5,
+            $intervention['description'] ?? '',
+            0,
+            'L'
+        );
+
+        $this->Ln();
+
+        // =====================================================
+        // COMMENTAIRES
+        // =====================================================
+
+        $this->Cell(190, 40, '', 1);
+
+        $y = $this->GetY();
+
+        $this->SetXY(13, $y + 2);
+
+        $this->SetFont('helvetica', 'B', 10);
+
+        $this->Cell(
+            80,
+            5,
+            'Solution apportée / Commentaires :',
+            0
+        );
+
+        $commentText = '';
 
         if (!empty($comments)) {
-            $this->addSolutionsAndObservations($comments);
+
+            foreach ($comments as $comment) {
+
+                $commentText .=
+                    ($comment['comment'] ?? '') .
+                    "\n";
+            }
         }
 
-        if (!empty($attachments)) {
-            $this->addSelectedImages($attachments);
-        }
+        $this->SetXY(13, $y + 10);
 
-        $this->addSignatures();
-        $this->addFooter();
+        $this->SetFont('helvetica', '', 9);
 
-        return $this;
+        $this->MultiCell(
+            180,
+            5,
+            trim($commentText),
+            0,
+            'L'
+        );
+
+        $this->Ln();
     }
-    private function addTechniciansSection($technicians)
+
+    /**
+     * =========================================================
+     * SECTION 5
+     * PIÈCES REMPLACÉES
+     * =========================================================
+     */
+    private function renderParts($replacedParts)
     {
-        if (empty($technicians)) {
-            return;
-        }
+        // =====================================================
+        // TITRE SECTION
+        // =====================================================
 
-        $this->SetFillColor($this->borderColor[0], $this->borderColor[1], $this->borderColor[2]);
-        $this->SetDrawColor($this->borderColor[0], $this->borderColor[1], $this->borderColor[2]);
+        $this->sectionTitle(
+            '5. PIÈCES REMPLACÉES & MATÉRIEL PRÊTÉ'
+        );
 
-        $pageWidth = $this->GetPageWidth();
-        $availableWidth = $pageWidth - self::PDF_MARGIN_LEFT - self::PDF_MARGIN_RIGHT;
+        // =====================================================
+        // TABLEAU PIÈCES REMPLACÉES
+        // =====================================================
 
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 7);
-        $this->Cell($availableWidth, 5, 'Intervenants', 1, 1, 'L', true);
+        $this->headCell(95, 'Désignation pièce');
+        $this->headCell(47.5, 'Référence');
+        $this->headCell(47.5, 'Qté');
 
-        // En-tête du tableau
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 6);
-        $this->Cell(70, 5, 'Nom', 1, 0, 'L', true);
-        $this->Cell(30, 5, 'Durée', 1, 0, 'L', true);
-        $this->Cell(30, 5, 'Déplacement', 1, 0, 'L', true);
-        $this->Cell(30, 5, 'Qualifié', 1, 1, 'L', true);
+        $this->Ln();
 
-        // Contenu
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 6);
-        foreach ($technicians as $tech) {
-            // Convertir minutes en heures décimales
-            $minutes = (float) ($tech['temps_passe'] ?? 0);
-            $hours = $minutes / 60;
+        if (!empty($replacedParts)) {
 
-            if ($minutes > 0) {
-                $duration = number_format($hours, 2, ',', ' ') . ' h';
-            } else {
-                $duration = 'Non défini';
+            foreach ($replacedParts as $part) {
+
+                $this->bodyCell(
+                    95,
+                    $part['designation'] ?? '',
+                    12
+                );
+
+                $this->bodyCell(
+                    47.5,
+                    $part['reference'] ?? '',
+                    12
+                );
+
+                $this->bodyCell(
+                    47.5,
+                    $part['quantity'] ?? '',
+                    12
+                );
+
+                $this->Ln();
             }
 
-            $deplacement = ($tech['deplacement'] ?? 0) ? 'Oui' : 'Non';
-            $qualified = ($tech['is_qualified'] ?? 0) ? 'Oui' : 'Non';
+        } else {
 
-            $this->Cell(70, 5, $tech['full_name'], 1, 0, 'L');
-            $this->Cell(30, 5, $duration, 1, 0, 'L');
-            $this->Cell(30, 5, $deplacement, 1, 0, 'L');
-            $this->Cell(30, 5, $qualified, 1, 1, 'L');
-        }
+            // Deux lignes vides comme la maquette
+            for ($i = 0; $i < 2; $i++) {
 
-        $this->Ln(3);
-    }
-    /**
-     * Ajoute l'en-tête du document
-     */
-    private function addHeader()
-    {
-        // Calculer les positions pour centrer les logos
-        $pageWidth = $this->GetPageWidth();
-        $logoWidth = 30; // Taille des logos
-        $spacing = 40; // Espacement entre les logos (2cm)
-        $totalWidth = (2 * $logoWidth) + $spacing;
-        $startX = ($pageWidth - $totalWidth) / 2; // Position de départ pour centrer
-
-        // Logo VideoSonic
-        $logoVSPath = __DIR__ . '/../assets/img/logo_vs.png';
-        if (file_exists($logoVSPath)) {
-            $this->Image($logoVSPath, $startX, 10, $logoWidth); // Logo VideoSonic à gauche
-        }
-
-        // Logo AVision
-        $logoAVisionPath = __DIR__ . '/../assets/img/logo_avision.png';
-        if (file_exists($logoAVisionPath)) {
-            $this->Image($logoAVisionPath, $startX + $logoWidth + $spacing, 10, $logoWidth); // Logo AVision à droite
+                $this->Cell(95, 12, '', 1, 0);
+                $this->Cell(47.5, 12, '', 1, 0);
+                $this->Cell(47.5, 12, '', 1, 1);
+            }
         }
     }
 
     /**
-     * Ajoute le titre du document
+     * =========================================================
+     * TABLEAU INTERMÉDIAIRE + PRÊT DE MATÉRIEL
+     * =========================================================
      */
-    private function addTitle($intervention)
+    private function renderLoanEquipment()
     {
-        $this->Ln(15); // Réduit l'espacement après les logos
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 12); // Police plus petite
-        $this->Cell(0, 6, 'Bon d\'intervention', 0, 1, 'C');
-        $this->Ln(3); // Réduit l'espacement après le titre
+        // Collé juste sous le header
+        $startY = 36;
+
+        // =====================================================
+        // TABLEAU INTERMÉDIAIRE VIDE
+        // 2 LIGNES × 3 COLONNES
+        // =====================================================
+
+        $col1 = 95;
+        $col2 = 47.5;
+        $col3 = 47.5;
+
+        $rowHeight = 12;
+
+        // Bordures
+        $this->SetDrawColor(
+            $this->border[0],
+            $this->border[1],
+            $this->border[2]
+        );
+
+        // =========================
+        // LIGNE 1
+        // =========================
+
+        $this->Rect(
+            10,
+            $startY,
+            $col1,
+            $rowHeight
+        );
+
+        $this->Rect(
+            10 + $col1,
+            $startY,
+            $col2,
+            $rowHeight
+        );
+
+        $this->Rect(
+            10 + $col1 + $col2,
+            $startY,
+            $col3,
+            $rowHeight
+        );
+
+        // =========================
+        // LIGNE 2
+        // =========================
+
+        $this->Rect(
+            10,
+            $startY + $rowHeight,
+            $col1,
+            $rowHeight
+        );
+
+        $this->Rect(
+            10 + $col1,
+            $startY + $rowHeight,
+            $col2,
+            $rowHeight
+        );
+
+        $this->Rect(
+            10 + $col1 + $col2,
+            $startY + $rowHeight,
+            $col3,
+            $rowHeight
+        );
+
+        // =====================================================
+        // TABLEAU PRÊT DE MATÉRIEL
+        // =====================================================
+
+        $loanY = $startY + ($rowHeight * 2);
+
+        // Fond beige principal
+        $this->SetFillColor(248, 243, 226);
+
+        // Cadre principal
+        $this->Rect(10, $loanY, 190, 22, 'FD');
+
+        // Bordure principale
+        $this->Rect(10, $loanY, 190, 22, 'D');
+
+        // =====================================================
+        // COLONNE 1
+        // =====================================================
+
+        $this->Rect(10, $loanY, 45, 22, 'FD');
+        $this->Rect(10, $loanY, 45, 22, 'D');
+
+        $this->SetXY(12, $loanY + 4);
+
+        $this->SetFont('helvetica', 'B', 9);
+
+        $this->SetTextColor(
+            $this->headerText[0],
+            $this->headerText[1],
+            $this->headerText[2]
+        );
+
+        $this->Cell(
+            35,
+            5,
+            'Prêt de matériel',
+            0,
+            0,
+            'L'
+        );
+
+        // =====================================================
+        // COLONNE 2
+        // =====================================================
+
+        $this->Rect(55, $loanY, 42, 22, 'FD');
+        $this->Rect(55, $loanY, 42, 22, 'D');
+
+        $this->SetFont('helvetica', '', 9);
+        $this->SetTextColor(0, 0, 0);
+
+        // Case Oui
+        $this->Rect(60, $loanY + 5, 4, 4);
+        $this->SetXY(66, $loanY + 4);
+        $this->Cell(12, 5, 'Oui', 0, 0);
+
+        // Case Non
+        $this->Rect(78, $loanY + 5, 4, 4);
+        $this->SetXY(84, $loanY + 4);
+        $this->Cell(12, 5, 'Non', 0, 0);
+        // =====================================================
+        // COLONNE 3
+        // =====================================================
+
+        $this->Rect(97, $loanY, 103, 22, 'FD');
+        $this->Rect(97, $loanY, 103, 22, 'D');
+
+        $this->SetXY(100, $loanY + 3);
+
+        $this->SetFont('helvetica', '', 9);
+
+        $this->Cell(
+            90,
+            5,
+            'Désignation / N° série du matériel prêté :',
+            0,
+            0,
+            'L'
+        );
+
+        // Ligne d'écriture
+        $this->SetDrawColor(150, 150, 150);
+
+        $this->Line(
+            103,
+            $loanY + 16,
+            190,
+            $loanY + 16
+        );
+
+        // Restaurer couleur bordure
+        $this->SetDrawColor(
+            $this->border[0],
+            $this->border[1],
+            $this->border[2]
+        );
+
+        // Position suivante
+        $this->SetY($loanY + 28);
+    }
+    /**
+     * =========================================================
+     * SECTION 6 — CLÔTURE & SIGNATURES
+     * Conforme à la maquette client
+     * =========================================================
+     */
+    private function renderClosure($intervention, $attachments)
+    {
+        $this->sectionTitle('6. CLÔTURE & SIGNATURES');
+
+        // =====================================================
+        // BLOC RETOUR + PHOTOS
+        // =====================================================
+
+        $topY = $this->GetY();
+
+        // Cadres principaux
+        $this->Rect(10, $topY, 95, 22);
+        $this->Rect(105, $topY, 95, 22);
+
+        // -------------------------
+        // RETOUR NECESSAIRE
+        // -------------------------
+
+        $this->SetXY(14, $topY + 4);
+
+        $this->SetFont('helvetica', 'B', 9);
+
+        $this->Cell(50, 5, 'Retour nécessaire', 0, 1);
+
+        $this->SetFont('helvetica', '', 9);
+
+        // Oui
+        $this->Rect(14, $topY + 11, 4, 4);
+
+        $this->SetXY(20, $topY + 10);
+
+        $this->Cell(
+            70,
+            5,
+            'Oui – Motif : __________________'
+        );
+
+        // Non
+        $this->Rect(14, $topY + 17, 4, 4);
+
+        $this->SetXY(20, $topY + 16);
+
+        $this->Cell(
+            80,
+            5,
+            'Non – Intervention clôturée'
+        );
+
+        // -------------------------
+        // PHOTOS JOINTES
+        // -------------------------
+        $this->SetXY(109, $topY + 4);
+
+        $this->SetFont('helvetica', 'B', 9);
+
+        $this->Cell(45, 5, 'Photos jointes', 0, 1);
+
+        $this->SetFont('helvetica', '', 9);
+
+        // Oui
+        $this->Rect(109, $topY + 11, 4, 4);
+
+        $this->SetXY(115, $topY + 10);
+
+        $this->Cell(
+            45,
+            5,
+            'Oui – Nb : _____'
+        );
+
+        // Non
+        $this->Rect(162, $topY + 11, 4, 4);
+
+        $this->SetXY(168, $topY + 10);
+
+        $this->Cell(
+            20,
+            5,
+            'Non'
+        );
+
+        // =====================================================
+        // BLOC SIGNATURES
+        // =====================================================
+
+        $signY = $topY + 22;
+
+        // Cadres signatures
+        $this->Rect(10, $signY, 95, 52);
+        $this->Rect(105, $signY, 95, 52);
+
+        // Fond beige client
+        $this->SetFillColor(248, 243, 226);
+
+        $this->Rect(105, $signY, 95, 52, 'F');
+
+        // Reborde après fill
+        $this->Rect(105, $signY, 95, 52);
+
+        // -------------------------
+        // SIGNATURE TECHNICIEN
+        // -------------------------
+
+        $this->SetXY(14, $signY + 4);
+
+        $this->SetFont('helvetica', 'B', 9);
+
+        $this->SetTextColor(42, 74, 92);
+
+        $this->Cell(60, 5, 'Signature technicien');
+
+        // Nom
+        $this->SetXY(14, $signY + 11);
+
+        $this->SetFont('helvetica', '', 9);
+
+        $this->SetTextColor(0, 0, 0);
+
+        $this->Cell(58, 5, 'Nom : ____________________');
+
+        $this->Cell(
+            28,
+            5,
+            'Date :'
+        );
+
+        // Date ligne
+        $this->SetXY(14, $signY + 17);
+
+        $this->Cell(
+            45,
+            5,
+            '____ /____ /______'
+        );
+
+        // -------------------------
+        // SIGNATURE CLIENT
+        // -------------------------
+
+        $this->SetXY(109, $signY + 4);
+
+        $this->SetFont('helvetica', 'B', 9);
+
+        $this->SetTextColor(42, 74, 92);
+
+        $this->Cell(70, 5, 'Bon pour accord client');
+
+        // Nom
+        $this->SetXY(109, $signY + 11);
+
+        $this->SetFont('helvetica', '', 9);
+
+        $this->SetTextColor(0, 0, 0);
+
+        $this->Cell(
+            60,
+            5,
+            'Nom : ____________________'
+        );
+
+        $this->Cell(
+            25,
+            5,
+            'Date :'
+        );
+
+        // Date
+        $this->SetXY(109, $signY + 17);
+
+        $this->Cell(
+            45,
+            5,
+            '____ /____ /______'
+        );
+
+        // Mention vérification
+        $this->SetXY(111, $signY + 31);
+
+        $this->SetFont('helvetica', 'I', 8);
+
+        $this->Cell(
+            70,
+            4,
+            '☐ Sous réserve de vérification'
+        );
+
+        // Mention légale
+        $this->SetXY(111, $signY + 36);
+
+        $this->SetTextColor(120, 120, 120);
+
+        $this->Cell(
+            80,
+            4,
+            'La signature vaut acceptation des travaux réalisés.'
+        );
+
+        // =====================================================
+        // BAS : QR + INFOS
+        // =====================================================
+
+        $bottomY = $signY + 52;
+
+        // Bloc gauche
+        $this->Rect(10, $bottomY, 95, 26);
+
+        // Bloc droite bleu clair
+        $this->SetFillColor(236, 242, 244);
+
+        $this->Rect(105, $bottomY, 95, 26, 'F');
+
+        $this->Rect(105, $bottomY, 95, 26);
+
+        // QR CODE
+        $style = [
+            'border' => 0,
+            'padding' => 0,
+            'fgcolor' => [70, 90, 100],
+            'bgcolor' => false
+        ];
+
+        $this->write2DBarcode(
+            'AVision Ticket',
+            'QRCODE,L',
+            18,
+            $bottomY + 4,
+            12,
+            12,
+            $style,
+            'N'
+        );
+
+        // Texte QR
+        $this->SetXY(34, $bottomY + 16);
+
+        $this->SetFont('helvetica', 'I', 8);
+
+        $this->SetTextColor(70, 70, 70);
+
+        $this->Cell(
+            60,
+            4,
+            'Accès à la fiche ticket AVision (lecture client)'
+        );
+
+        // Texte droite
+        $this->SetXY(111, $bottomY + 4);
+
+        $this->SetFont('helvetica', 'I', 7);
+
+        $this->SetTextColor(60, 80, 95);
+
+        $this->Cell(
+            80,
+            4,
+            'Bon généré par AVision Pro – Document confidentiel VIDEOSONIC'
+        );
+
+        $this->SetXY(111, $bottomY + 10);
+
+        $this->Cell(
+            80,
+            4,
+            'Généré le : ___/___/_____  à ___h___  –  Version V___'
+        );
+
+        // Position finale
+        $this->SetY($bottomY + 28);
     }
 
     /**
-     * Ajoute les informations de l'intervention
+     * =========================================================
+     * FOOTER CONFORME À LA MAQUETTE CLIENT
+     * =========================================================
      */
-    private function addInterventionInfo($intervention, $technicians = [])
+    private function renderFooter()
     {
-        $this->SetFillColor($this->borderColor[0], $this->borderColor[1], $this->borderColor[2]);
-        $this->SetDrawColor($this->borderColor[0], $this->borderColor[1], $this->borderColor[2]);
+        // Position fixe en bas
+        $this->SetY(-16);
 
-        $pageWidth = $this->GetPageWidth();
-        $availableWidth = $pageWidth - self::PDF_MARGIN_LEFT - self::PDF_MARGIN_RIGHT;
-        $columnWidth = $availableWidth / 2;
+        // Couleur ligne
+        $this->SetDrawColor(170, 170, 170);
 
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 7);
+        // Ligne horizontale
+        $this->Line(
+            13,
+            $this->GetY(),
+            197,
+            $this->GetY()
+        );
+
+        // Petit espace
+        $this->Ln(1.5);
+
+        // Style texte footer
+        $this->SetFont('helvetica', '', 7);
+
+        $this->SetTextColor(55, 55, 55);
 
         // Première ligne
-        $this->Cell($columnWidth, 5, 'Référence ticket interne', 1, 0, 'L', true);
-        $this->Cell($columnWidth, 5, 'Date et heure de création ticket', 1, 1, 'L', true);
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7);
-        $this->Cell($columnWidth, 5, $intervention['reference'] ?? '', 1, 0, 'L');
-        $createdDate = !empty($intervention['created_at']) ? date('d/m/Y H:i', strtotime($intervention['created_at'])) : 'Non spécifiée';
-        $this->Cell($columnWidth, 5, $createdDate, 1, 1, 'L');
+        $footerLine1 =
+            "VIDEOSONIC | 326 rue Henri Becquerel Porte B2 – Parc d'activités des Portes de l'Oise – 60230 CHAMBLY";
+
+        $this->Cell(
+            0,
+            3,
+            $footerLine1,
+            0,
+            1,
+            'C'
+        );
 
         // Deuxième ligne
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 7);
-        $this->Cell($columnWidth, 5, 'Référence client', 1, 0, 'L', true);
-        $this->Cell($columnWidth, 5, 'Date et heure prévisionnelle de l\'intervention', 1, 1, 'L', true);
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7);
-        $this->Cell($columnWidth, 5, $intervention['ref_client'] ?? 'Non spécifiée', 1, 0, 'L');
+        $footerLine2 =
+            "Tél : 01 75 01 60 40 | info@videosonic.fr | www.videosonic.fr | SARL 100 000€ – RCS COMPIÈGNE 437 689 185 – APE 4778C";
 
-        // Calculer la date prévisionnelle à partir des techniciens
-        $plannedDateTime = 'Non spécifiée';
-        if (!empty($technicians)) {
-            foreach ($technicians as $tech) {
-                if (!empty($tech['start_time'])) {
-                    $plannedDateTime = date('d/m/Y H:i', strtotime($tech['start_time']));
-                    break;
-                }
-            }
-        }
-
-        $this->Cell($columnWidth, 5, $plannedDateTime, 1, 1, 'L');
-
-        $this->Ln(3);
+        $this->Cell(
+            0,
+            3,
+            $footerLine2,
+            0,
+            1,
+            'C'
+        );
     }
 
     /**
-     * Ajoute les informations du déclarant et des intervenants
-     * @param array $intervention Les données de l'intervention
-     * @param array $technicians Les techniciens assignés
+     * =========================================================
+     * FOOTER TCPDF AUTO
+     * =========================================================
      */
-    private function addDeclarantIntervenant($intervention, $technicians = [])
+    public function Footer()
     {
-        $this->SetFillColor($this->borderColor[0], $this->borderColor[1], $this->borderColor[2]);
-        $this->SetDrawColor($this->borderColor[0], $this->borderColor[1], $this->borderColor[2]);
-
-        // Calculer la largeur disponible
-        $pageWidth = $this->GetPageWidth();
-        $availableWidth = $pageWidth - self::PDF_MARGIN_LEFT - self::PDF_MARGIN_RIGHT;
-        $columnWidth = $availableWidth / 2;
-
-        // Ligne 1: Déclarant (sur toute la largeur si pas de technicien, sinon 2 colonnes)
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 7);
-
-        // Déterminer le nom du déclarant
-        $declarantName = !empty($intervention['demande_par']) ? $intervention['demande_par'] : 'Non renseigné';
-
-        if (empty($technicians)) {
-            // Pas de techniciens: une seule colonne pour le déclarant
-            $this->Cell($availableWidth, 5, 'Nom du déclarant', 1, 0, 'L', true);
-            $this->Cell(0, 5, '', 1, 1, 'L', true); // Colonne vide pour l'intervenant
-            $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7);
-            $this->Cell($availableWidth, 5, $declarantName, 1, 0, 'L');
-            $this->Cell(0, 5, '', 1, 1, 'L');
-        } else {
-            // Avec techniciens: 2 colonnes
-            $this->Cell($columnWidth, 5, 'Nom du déclarant', 1, 0, 'L', true);
-            $this->Cell($columnWidth, 5, 'Intervenant(s)', 1, 1, 'L', true);
-            $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7);
-            $this->Cell($columnWidth, 5, $declarantName, 1, 0, 'L');
-
-            // Afficher la liste des intervenants
-            $intervenantsText = '';
-            foreach ($technicians as $index => $tech) {
-                $intervenantsText .= $tech['full_name'];
-                // if ($tech['deplacement'] ?? 0) {
-                //     $intervenantsText .= ' (Dépl.)';
-                // }
-                // if ($tech['is_qualified'] ?? 0) {
-                //     $intervenantsText .= ' (Qual.)';
-                // }
-                if ($index < count($technicians) - 1) {
-                    $intervenantsText .= "\n";
-                }
-            }
-            $this->MultiCell($columnWidth, 5, $intervenantsText, 1, 'L', false, 1);
-        }
-
-        $this->Ln(3);
-    }
-
-    /**
-     * Ajoute les informations du contrat et du client
-     */
-    private function addContractClientInfo($intervention)
-    {
-
-        $this->SetFillColor($this->borderColor[0], $this->borderColor[1], $this->borderColor[2]);
-        $this->SetDrawColor($this->borderColor[0], $this->borderColor[1], $this->borderColor[2]);
-
-        // Calculer la largeur disponible
-        $pageWidth = $this->GetPageWidth();
-        $availableWidth = $pageWidth - self::PDF_MARGIN_LEFT - self::PDF_MARGIN_RIGHT;
-        $columnWidth = $availableWidth / 2;
-
-        // Créer le tableau sur 4 lignes et 2 colonnes
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 7); // Police plus petite
-
-        // Ligne 1
-        $this->Cell($columnWidth, 5, 'Numéro de contrat', 1, 0, 'L', true);
-        $this->Cell($columnWidth, 5, 'Type de contrat', 1, 1, 'L', true);
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7); // Police plus petite
-        $this->Cell($columnWidth, 5, $intervention['contract_name'] ?? 'Non spécifié', 1, 0, 'L');
-        // Type de contrat
-        $contractType = 'Non spécifié';
-        if (!empty($intervention['contract_type_name'])) {
-            $contractType = $intervention['contract_type_name'];
-        } elseif (!empty($intervention['contract_type_id'])) {
-            // Si on a l'ID mais pas le nom, c'est que la jointure a échoué
-            $contractType = 'Type ID: ' . $intervention['contract_type_id'];
-        }
-        $this->Cell($columnWidth, 5, $contractType, 1, 1, 'L');
-
-        // Ligne 2
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 7); // Police plus petite
-        $this->Cell($columnWidth, 5, 'Nom du client', 1, 0, 'L', true);
-        $this->Cell($columnWidth, 5, 'Nom du contact', 1, 1, 'L', true);
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7); // Police plus petite
-        $this->Cell($columnWidth, 5, $intervention['client_name'] ?? 'Non spécifié', 1, 0, 'L');
-        $contactName = '';
-        if (!empty($intervention['contact_first_name']) && !empty($intervention['contact_last_name'])) {
-            $contactName = $intervention['contact_first_name'] . ' ' . $intervention['contact_last_name'];
-        }
-        $this->Cell($columnWidth, 5, $contactName ?: 'Non spécifié', 1, 1, 'L');
-
-        // Ligne 3
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 7); // Police plus petite
-        $this->Cell($columnWidth, 5, 'Adresse', 1, 0, 'L', true);
-        $this->Cell($columnWidth, 5, 'Nom du site', 1, 1, 'L', true);
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7); // Police plus petite
-
-        // Construire l'adresse complète
-        $addressParts = [];
-        if (!empty($intervention['site_address'])) {
-            $addressParts[] = $intervention['site_address'];
-        }
-        if (!empty($intervention['site_postal_code'])) {
-            $addressParts[] = $intervention['site_postal_code'];
-        }
-        if (!empty($intervention['site_city'])) {
-            $addressParts[] = $intervention['site_city'];
-        }
-        $fullAddress = !empty($addressParts) ? implode(', ', $addressParts) : 'Non spécifiée';
-
-        $this->Cell($columnWidth, 5, $fullAddress, 1, 0, 'L');
-        $this->Cell($columnWidth, 5, $intervention['site_name'] ?? 'Non spécifié', 1, 1, 'L');
-
-        // Ligne 4
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 7); // Police plus petite
-        $this->Cell($columnWidth, 5, 'Nom de la salle', 1, 0, 'L', true);
-        $this->Cell($columnWidth, 5, 'Numéro du contact', 1, 1, 'L', true);
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7); // Police plus petite
-        $this->Cell($columnWidth, 5, $intervention['room_name'] ?? 'Non spécifiée', 1, 0, 'L');
-        $this->Cell($columnWidth, 5, $intervention['contact_phone'] ?? 'Non spécifié', 1, 1, 'L');
-
-        $this->Ln(3); // Réduit l'espace après le tableau
-    }
-
-    /**
-     * Ajoute les informations de durée et d'estimation des tickets
-     */
-    private function addDurationAndTicketsInfo($intervention, $technicians = [])
-    {
-        $this->SetFillColor($this->borderColor[0], $this->borderColor[1], $this->borderColor[2]);
-        $this->SetDrawColor($this->borderColor[0], $this->borderColor[1], $this->borderColor[2]);
-
-        // Calculer la largeur disponible
-        $pageWidth = $this->GetPageWidth();
-        $availableWidth = $pageWidth - self::PDF_MARGIN_LEFT - self::PDF_MARGIN_RIGHT;
-        $columnWidth = $availableWidth / 3;
-
-        // Créer le tableau sur 1 ligne et 3 colonnes
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 7);
-
-        // Ligne unique
-        $this->Cell($columnWidth, 5, 'Durée de l\'intervention', 1, 0, 'L', true);
-        $this->Cell($columnWidth, 5, 'Estimation de l\'intervention ticket', 1, 0, 'L', true);
-        $this->Cell($columnWidth, 5, 'Estimation de tickets restants', 1, 1, 'L', true);
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7);
-
-        // Calculer la durée totale à partir des techniciens
-        $totalDuration = 0;
-        if (!empty($technicians)) {
-            foreach ($technicians as $tech) {
-                $totalDuration += (float) ($tech['temps_passe'] ?? 0);
-            }
-        }
-        $totalHours = $totalDuration / 60;
-
-        // Durée de l'intervention
-        if ($totalHours > 0) {
-            $duration = number_format($totalHours, 2, ',', ' ') . ' h';
-        } elseif (!empty($intervention['duration'])) {
-            $duration = number_format($intervention['duration'], 2, ',', ' ') . ' h';
-        } else {
-            $duration = 'Non spécifiée';
-        }
-
-        // Vérifier si c'est un contrat de type ticket
-        $isTicketContract = !empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id']);
-
-        // Estimation de l'intervention ticket
-        $ticketsUsed = '--';
-        if ($isTicketContract && !empty($intervention['tickets_used'])) {
-            $ticketsUsed = $intervention['tickets_used'];
-        }
-
-        // Estimation de tickets restants
-        $ticketsRemaining = '--';
-        if ($isTicketContract && isset($intervention['tickets_remaining'])) {
-            $ticketsRemaining = $intervention['tickets_remaining'];
-        }
-
-        $this->Cell($columnWidth, 5, $duration, 1, 0, 'L');
-        $this->Cell($columnWidth, 5, $ticketsUsed, 1, 0, 'L');
-        $this->Cell($columnWidth, 5, $ticketsRemaining, 1, 1, 'L');
-
-        $this->Ln(3);
-    }
-    /**
-     * Ajoute la description de l'intervention
-     */
-    private function addDescription($intervention)
-    {
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 7); // Police plus petite
-        $this->Cell(0, 5, 'Description :', 0, 1);
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7); // Police plus petite
-        $this->MultiCell(0, 5, $intervention['description'], 0, 'L');
-        $this->Ln(2);
-    }
-
-    /**
-     * Ajoute les solutions apportées
-     */
-    private function addSolutions($solutions)
-    {
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 8);
-        $this->Cell(0, 7, 'Solution apportée :', 0, 1);
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 8);
-        foreach ($solutions as $solution) {
-            $this->MultiCell(0, 7, $solution['comment'], 0, 'L');
-            $this->Ln(2);
-        }
-    }
-
-    /**
-     * Ajoute la section des signatures
-     */
-    private function addSignatures()
-    {
-        // Calculer la position Y pour les signatures (5cm du bas de la page)
-        $this->SetY(-50);
-
-        // Lignes de signature avec bordure en bas
-        $this->SetDrawColor($this->borderColor[0], $this->borderColor[1], $this->borderColor[2]);
-
-        // Calculer les largeurs pour centrer les colonnes
-        $pageWidth = $this->GetPageWidth();
-        $columnWidth = 60; // Largeur de chaque colonne
-        $margin = ($pageWidth - (2 * $columnWidth)) / 3; // Marge entre les colonnes
-
-        // Première colonne (technicien)
-        $this->SetX($margin);
-        $this->Cell($columnWidth, 7, 'Signature du technicien', 'B', 0, 'C');
-
-        // Deuxième colonne (client)
-        $this->SetX($margin * 2 + $columnWidth);
-        $this->Cell($columnWidth, 7, 'Signature du client', 'B', 1, 'C');
-    }
-
-    /**
-     * Ajoute le pied de page
-     */
-    private function addFooter()
-    {
-        $this->SetY(-20); // Positionne le footer plus bas (2cm du bas)
-        $this->SetFont(self::PDF_FONT_NAME_MAIN, 'I', 8);
-        $this->SetTextColor($this->secondaryColor[0], $this->secondaryColor[1], $this->secondaryColor[2]);
-
-        // Calculer les largeurs
-        $pageWidth = $this->GetPageWidth();
-        $textWidth = 120; // Largeur pour le texte
-        $pageNumWidth = 30; // Largeur pour le numéro de page
-
-        // Calculer la position X pour centrer le texte
-        $textX = ($pageWidth - $textWidth) / 2;
-
-        // Positionner le curseur pour le texte centré
-        $this->SetX($textX);
-        $this->Cell($textWidth, 5, 'VideoSonic - Document généré le ' . date('d/m/Y H:i'), 0, 0, 'C');
-
-        // Numéro de page à droite
-        $this->SetX($pageWidth - $pageNumWidth - 15); // 15mm de marge droite
-        $this->Cell($pageNumWidth, 5, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, 1, 'R');
-    }
-
-    /**
-     * Ajoute les solutions et observations sélectionnées
-     */
-    private function addSolutionsAndObservations($comments)
-    {
-        // Séparer les solutions et les observations
-        $solutions = [];
-        $observations = [];
-
-        foreach ($comments as $comment) {
-            if (!empty($comment['is_solution'])) {
-                $solutions[] = $comment;
-            } else {
-                $observations[] = $comment;
-            }
-        }
-
-        // Afficher les observations
-        if (!empty($observations)) {
-            $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 7); // Police plus petite
-            $this->Cell(0, 5, 'Observations :', 0, 1);
-            $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7); // Police plus petite
-
-            foreach ($observations as $index => $observation) {
-                $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 6); // Police encore plus petite pour les détails
-                $dateFormatted = date('d/m/Y H:i', strtotime($observation['created_at']));
-                $userName = $observation['created_by_name'] ?? 'Utilisateur inconnu';
-                $this->Cell(0, 4, $dateFormatted . ' par ' . $userName, 0, 1);
-                $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7); // Police plus petite
-                $this->MultiCell(0, 4, $observation['comment'], 0, 'L');
-                $this->Ln(1);
-            }
-            $this->Ln(2);
-        }
-
-        // Afficher les solutions
-        if (!empty($solutions)) {
-            $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 7); // Police plus petite
-            $this->Cell(0, 5, 'Solutions :', 0, 1);
-            $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7); // Police plus petite
-
-            foreach ($solutions as $index => $solution) {
-                $this->SetFont(self::PDF_FONT_NAME_MAIN, 'B', 6); // Police encore plus petite pour les détails
-                $dateFormatted = date('d/m/Y H:i', strtotime($solution['created_at']));
-                $userName = $solution['created_by_name'] ?? 'Utilisateur inconnu';
-                $this->Cell(0, 4, $dateFormatted . ' par ' . $userName, 0, 1);
-                $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7); // Police plus petite
-                $this->MultiCell(0, 4, $solution['comment'], 0, 'L');
-                $this->Ln(1);
-            }
-            $this->Ln(2);
-        }
-    }
-
-    /**
-     * Ajoute les images sélectionnées
-     */
-    private function addSelectedImages($attachments)
-    {
-        $imageCount = 0;
-        $hasImages = false;
-
-        // D'abord, compter les images disponibles
-        foreach ($attachments as $attachment) {
-            // Vérifier si c'est une image
-            $extension = strtolower(pathinfo($attachment['nom_fichier'], PATHINFO_EXTENSION));
-            $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'];
-
-            if (in_array($extension, $imageExtensions)) {
-                $imagePath = __DIR__ . '/../' . $attachment['chemin_fichier'];
-
-                if (file_exists($imagePath)) {
-                    $hasImages = true;
-                    break; // On a trouvé au moins une image, on peut afficher la section
-                }
-            }
-        }
-
-        // Ne pas afficher la section s'il n'y a pas d'images
-        if (!$hasImages) {
-            return;
-        }
-
-        // Calculer la largeur disponible pour 2 colonnes
-        $pageWidth = $this->GetPageWidth();
-        $availableWidth = $pageWidth - self::PDF_MARGIN_LEFT - self::PDF_MARGIN_RIGHT;
-        $columnWidth = $availableWidth / 2;
-        $imageWidth = $columnWidth - 5; // 5mm de marge entre les colonnes
-        $imageHeight = 40; // Hauteur fixe pour les images
-
-        $currentColumn = 0; // 0 = gauche, 1 = droite
-        $startY = $this->GetY();
-
-        foreach ($attachments as $attachment) {
-            // Vérifier si c'est une image
-            $extension = strtolower(pathinfo($attachment['nom_fichier'], PATHINFO_EXTENSION));
-            $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'];
-
-            if (in_array($extension, $imageExtensions)) {
-                $imagePath = __DIR__ . '/../' . $attachment['chemin_fichier'];
-
-                if (file_exists($imagePath)) {
-                    // Vérifier si on a assez de place pour l'image
-                    $currentY = $this->GetY();
-                    $pageHeight = $this->GetPageHeight();
-                    $marginBottom = self::PDF_MARGIN_BOTTOM + 20; // Marge + footer
-
-                    if ($currentY > $pageHeight - $marginBottom - $imageHeight - 15) { // 15mm pour le texte sous l'image
-                        $this->AddPage();
-                        $currentColumn = 0; // Reset à la colonne gauche
-                        $startY = $this->GetY();
-                    }
-
-                    // Calculer la position X selon la colonne
-                    $xPosition = self::PDF_MARGIN_LEFT + ($currentColumn * $columnWidth);
-
-                    // Ajouter l'image
-                    try {
-                        $this->Image($imagePath, $xPosition, $this->GetY(), $imageWidth, $imageHeight);
-
-                        // Ajouter le nom personnalisé sous l'image
-                        $this->SetXY($xPosition, $this->GetY() + $imageHeight + 2);
-                        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 6); // Police très petite
-                        $imageName = $attachment['nom_personnalise'] ?? $attachment['nom_fichier'];
-                        // Tronquer le nom si trop long
-                        if (strlen($imageName) > 25) {
-                            $imageName = substr($imageName, 0, 22) . '...';
-                        }
-                        $this->Cell($imageWidth, 4, $imageName, 0, 0, 'C');
-
-                        // Passer à la colonne suivante
-                        $currentColumn = ($currentColumn + 1) % 2;
-
-                        // Si on revient à la colonne gauche, descendre d'une ligne
-                        if ($currentColumn == 0) {
-                            $this->SetXY(self::PDF_MARGIN_LEFT, $this->GetY() + 15); // 15mm d'espacement vertical
-                        } else {
-                            // Rester à la même hauteur pour la colonne droite
-                            $this->SetXY(self::PDF_MARGIN_LEFT + $columnWidth, $startY);
-                        }
-
-                        $imageCount++;
-                    } catch (Exception $e) {
-                        $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7);
-                        $this->Cell(0, 5, 'Erreur lors du chargement de l\'image: ' . ($attachment['nom_personnalise'] ?? $attachment['nom_fichier']), 0, 1);
-                    }
-                } else {
-                    $this->SetFont(self::PDF_FONT_NAME_MAIN, '', 7);
-                    $this->Cell(0, 5, 'Fichier non trouvé: ' . ($attachment['nom_personnalise'] ?? $attachment['nom_fichier']), 0, 1);
-                }
-            }
-        }
-
-        $this->Ln(3);
+        $this->renderFooter();
     }
 }

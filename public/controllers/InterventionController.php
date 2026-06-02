@@ -22,6 +22,7 @@ class InterventionController
     private $contactModel;
     private $durationModel;
     private $mailService;
+    private $materielModel;
 
     // Constantes pour la configuration du PDF
     const PDF_PAGE_ORIENTATION = 'P'; // P = Portrait, L = Landscape
@@ -58,6 +59,7 @@ class InterventionController
         require_once __DIR__ . '/../models/DurationModel.php';
         require_once __DIR__ . '/../classes/MailService.php';
         require_once __DIR__ . '/../models/BuildingModel.php';
+        require_once __DIR__ . '/../models/MaterielModel.php';
 
         $this->interventionModel = new InterventionModel($db);
         $this->clientModel = new ClientModel($db);
@@ -69,6 +71,7 @@ class InterventionController
         $this->durationModel = new DurationModel($db);
         $this->mailService = new MailService($db);
         $this->buildingModel = new BuildingModel($db);
+        $this->materielModel = new MaterielModel($db);
 
         // Charger le fichier d'autoload de TCPDF
         require_once __DIR__ . '/../vendor/TCPDF-6.6.2/tcpdf.php';
@@ -3861,30 +3864,167 @@ class InterventionController
                 exit;
             }
 
-            // Récupérer les commentaires sélectionnés pour le bon
-            $selectedComments = $this->getCommentsForBon($interventionId);
+            // =====================================================
+            // RÉCUPÉRER LES DONNÉES MANQUANTES
+            // =====================================================
 
-            // Récupérer les pièces jointes sélectionnées pour le bon
-            $selectedAttachments = $this->getAttachmentsForBon($interventionId);
-
-            // Récupérer les techniciens assignés à l'intervention
-            $technicians = $this->getInterventionTechnicians($interventionId);
-
-            // Récupérer les informations du contrat si disponible
+            // 1. Récupérer les informations du contrat
             if (!empty($intervention['contract_id'])) {
-                $contract = $this->contractModel->getContractById($intervention['contract_id']);
-                if ($contract) {
-                    $intervention['contract_type_name'] = $contract['contract_type_name'] ?? '';
-                    $intervention['tickets_remaining'] = $contract['tickets_remaining'] ?? 0;
+
+                $contract = $this->contractModel->getContractById(
+                    $intervention['contract_id']
+                );
+
+                if (!empty($contract)) {
+
+                    $intervention['tickets_remaining'] =
+                        $contract['tickets_remaining'] ?? 0;
+
+                    $intervention['contract_end_date'] =
+                        $contract['end_date'] ?? null;
+
+                    $intervention['contract_status'] =
+                        (($contract['status']) === "actif")
+                        ? 'Actif'
+                        : 'Inactif';
+                }
+            }
+            // 2. Récupérer les informations du client
+            if (!empty($intervention['client_id'])) {
+                $client = $this->clientModel->getClientById($intervention['client_id']);
+                if ($client) {
+                    $intervention['client_name'] = $client['name'] ?? '';
+                    $intervention['client_email'] = $client['email'] ?? '';
                 }
             }
 
+            // 3. Récupérer les informations du contact
+            if (!empty($intervention['contact_client'])) {
+                $contact = $this->contactModel->getContactByEmail($intervention['contact_client']);
+                if ($contact) {
+                    $intervention['contact_first_name'] = $contact['first_name'] ?? '';
+                    $intervention['contact_last_name'] = $contact['last_name'] ?? '';
+                    $intervention['contact_phone'] = $contact['phone1'] ?? '';
+                    $intervention['contact_email'] = $contact['email'] ?? '';
+                }
+            }
+
+            // 4. Récupérer les informations du site
+            if (!empty($intervention['site_id'])) {
+                $site = $this->siteModel->getSiteById($intervention['site_id']);
+                if ($site) {
+                    $intervention['site_name'] = $site['name'] ?? '';
+                    $intervention['site_address'] = $site['address'] ?? '';
+                    $intervention['site_postal_code'] = $site['postal_code'] ?? '';
+                    $intervention['site_city'] = $site['city'] ?? '';
+                    $intervention['site_email'] = $site['email'] ?? '';
+                }
+            }
+
+            // 5. Récupérer les informations du bâtiment
+            if (!empty($intervention['building_id'])) {
+                $building = $this->buildingModel->getBuildingById($intervention['building_id']);
+                if ($building) {
+                    $intervention['building_name'] = $building['name'] ?? '';
+                    $intervention['floor_level'] = $building['floor_level'] ?? '';
+                }
+            }
+
+            // 6. Récupérer les informations de la salle
+            if (!empty($intervention['room_id'])) {
+                $room = $this->roomModel->getRoomById($intervention['room_id']);
+                if ($room) {
+                    $intervention['room_name'] = $room['name'] ?? '';
+                    $intervention['avision_ref'] = $room['avision_ref'] ?? '';
+                }
+            }
+
+            // 7. Récupérer la date planifiée (premier technicien)
+            $dateRange = $this->getInterventionDateRange($interventionId);
+            $intervention['planned_date'] = $dateRange['start'];
+            $intervention['end_date'] = $dateRange['end'];
+
+            // 8. Récupérer le niveau d'urgence
+            if (!empty($intervention['priority_id'])) {
+
+                $sql = "SELECT name FROM intervention_priorities WHERE id = ?";
+
+                $stmt = $this->db->prepare($sql);
+
+                $stmt->execute([$intervention['priority_id']]);
+
+                $priority = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                $priorityName = strtolower(
+                    trim($priority['name'] ?? '')
+                );
+
+                if (
+                    strpos($priorityName, 'urgente') !== false ||
+                    strpos($priorityName, 'haute') !== false
+                ) {
+
+                    $intervention['urgence'] = 'critical';
+
+                } elseif (
+                    strpos($priorityName, 'normale') !== false
+                ) {
+
+                    $intervention['urgence'] = 'normal';
+
+                } elseif (
+                    strpos($priorityName, 'préventif') !== false ||
+                    strpos($priorityName, 'preventif') !== false
+                ) {
+
+                    $intervention['urgence'] = 'planned';
+
+                } elseif (
+                    strpos($priorityName, 'basse') !== false
+                ) {
+
+                    $intervention['urgence'] = 'low';
+
+                } else {
+
+                    $intervention['urgence'] = 'normal';
+                }
+
+            } else {
+
+                $intervention['urgence'] = 'normal';
+            }
+            // 9. Récupérer les commentaires sélectionnés
+            $selectedComments = $this->getComments($interventionId);
+
+            // 10. Récupérer les pièces jointes sélectionnées
+            $selectedAttachments = $this->getAttachmentsForBon($interventionId);
+
+            // 11. Récupérer les techniciens assignés
+            $technicians = $this->getInterventionTechnicians($interventionId);
+
+            // 12. Récupérer les équipements (à implémenter selon votre structure)
+            $equipment = [];
+
+            // if (!empty($intervention['client_id'])) {
+            //     $equipment = $this->materielModel->getByClientId(
+            //         $intervention['client_id']
+            //     );
+            // }
+
+            // 13. Récupérer les pièces remplacées (à implémenter selon votre structure)
+            $replacedParts = []; // À remplir avec vos données
+
             // Générer le PDF
             try {
-                $pdfPath = $this->generateBonInterventionPdf($intervention, $selectedComments, $selectedAttachments, $technicians);
-
-                custom_log("PDF généré avec succès: $pdfPath", 'INFO');
-
+                $pdfPath = $this->generateBonInterventionPdf(
+                    $intervention,
+                    $selectedComments,
+                    $selectedAttachments,
+                    $technicians,
+                    $equipment,
+                    $replacedParts
+                );
                 // ======================================
                 // ENVOI À YOUSIGN
                 // ======================================
@@ -3941,6 +4081,7 @@ class InterventionController
                 exit;
             }
 
+
             // Lire et afficher le PDF
             if (file_exists($pdfPath)) {
                 $filename = basename($pdfPath);
@@ -3951,15 +4092,12 @@ class InterventionController
                 readfile($pdfPath);
                 exit;
             } else {
-                custom_log("Fichier PDF non trouvé: $pdfPath", 'ERROR');
-                $_SESSION['error'] = 'Fichier PDF non trouvé: ' . $pdfPath;
-                header('Location: ' . BASE_URL . 'interventions/generateBon/' . $interventionId);
-                exit;
+                throw new Exception('Fichier PDF non trouvé');
             }
 
         } catch (Exception $e) {
-            custom_log("Erreur lors de la génération du PDF du bon d'intervention : " . $e->getMessage(), 'ERROR');
-            $_SESSION['error'] = 'Erreur lors de la génération du PDF';
+            custom_log("Erreur lors de la génération du PDF : " . $e->getMessage(), 'ERROR');
+            $_SESSION['error'] = 'Erreur lors de la génération du PDF : ' . $e->getMessage();
             header('Location: ' . BASE_URL . 'interventions/generateBon/' . $interventionId);
             exit;
         }
@@ -3971,9 +4109,11 @@ class InterventionController
      * @param array $comments Commentaires sélectionnés
      * @param array $attachments Pièces jointes sélectionnées
      * @param array $technicians Techniciens assignés
+     * @param array $equipment Équipements concernés (optionnel)
+     * @param array $replacedParts Pièces remplacées (optionnel)
      * @return string Chemin du fichier PDF généré
      */
-    private function generateBonInterventionPdf($intervention, $comments, $attachments, $technicians = [])
+    private function generateBonInterventionPdf($intervention, $comments, $attachments, $technicians = [], $equipment = [], $replacedParts = [])
     {
         // Créer le dossier de stockage s'il n'existe pas
         $uploadDir = __DIR__ . '/../../uploads/interventions/' . $intervention['id'];
@@ -3990,7 +4130,7 @@ class InterventionController
 
         // Créer et générer le PDF avec les éléments sélectionnés
         $pdf = new InterventionPDF();
-        $pdf->generateBonIntervention($intervention, $comments, $attachments, $technicians);
+        $pdf->generateBonIntervention($intervention, $comments, $attachments, $technicians, $equipment, $replacedParts);
         $pdf->Output($filePath, 'F');
 
         // Ajouter le PDF comme pièce jointe
@@ -4009,10 +4149,10 @@ class InterventionController
 
         // Enregistrer l'action dans l'historique
         $sql = "INSERT INTO intervention_history (
-                intervention_id, field_name, old_value, new_value, changed_by, description
-            ) VALUES (
-                :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
-            )";
+            intervention_id, field_name, old_value, new_value, changed_by, description
+        ) VALUES (
+            :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
+        )";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
             ':intervention_id' => $intervention['id'],
@@ -4099,7 +4239,10 @@ class InterventionController
             $dateRange = $this->getInterventionDateRange($interventionId);
             $intervention['planned_date'] = $dateRange['start'];
             $intervention['date_range'] = $dateRange;
-
+            $intervention['is_remote'] =
+                !empty($dateRange['deplacement'])
+                ? false
+                : true;
             // Récupérer les informations du contrat
             if (!empty($intervention['contract_id'])) {
                 $contract = $this->contractModel->getContractById($intervention['contract_id']);
@@ -5896,30 +6039,51 @@ class InterventionController
 
         return 'Non spécifiée';
     }
-
     /**
      * Récupère la date de début la plus ancienne et la date de fin la plus récente
      * @param int $interventionId ID de l'intervention
-     * @return array ['start' => string, 'end' => string, 'has_dates' => bool]
+     * @return array
      */
     public function getInterventionDateRange($interventionId)
     {
         $sql = "SELECT 
-                MIN(start_time) as earliest_start,
-                MAX(end_time) as latest_end
-            FROM intervention_techniciens 
-            WHERE intervention_id = :intervention_id";
+        start_time AS earliest_start,
+        end_time AS latest_end,
+        deplacement AS earliest_departure
+    FROM intervention_techniciens 
+    WHERE intervention_id = :intervention_id";
+
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([':intervention_id' => $interventionId]);
+
+        $stmt->execute([
+            ':intervention_id' => $interventionId
+        ]);
+
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $hasDates = (!empty($result['earliest_start']) && $result['earliest_start'] != '0000-00-00 00:00:00');
+        $hasDates = (
+            !empty($result['earliest_start']) &&
+            $result['earliest_start'] != '0000-00-00 00:00:00'
+        );
+
+        $hasDeparture = (
+            !empty($result['earliest_departure'])
+        );
 
         return [
-            'start' => $hasDates ? date('d/m/Y H:i', strtotime($result['earliest_start'])) : 'Non spécifiée',
-            'end' => (!empty($result['latest_end']) && $result['latest_end'] != '0000-00-00 00:00:00')
-                ? date('d/m/Y H:i', strtotime($result['latest_end']))
-                : 'Non spécifiée',
+            'deplacement' => $hasDeparture,
+
+            'start' => $hasDates
+                ? $result['earliest_start']
+                : null,
+
+            'end' => (
+                !empty($result['latest_end']) &&
+                $result['latest_end'] != '0000-00-00 00:00:00'
+            )
+                ? $result['latest_end']
+                : null,
+
             'has_dates' => $hasDates
         ];
     }

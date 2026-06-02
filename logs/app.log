@@ -57008,3 +57008,250 @@ Quant à l’écran n°1, il est HS
 [2026-06-02 07:37:53][ERROR] SIGNNOW ERROR =  
 [2026-06-02 07:37:53][DEBUG] {"id":"f600ce9478c940e4bd7a26049db1f48f30d6b5e8"} 
 [2026-06-02 07:37:53][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-02 09:13:52][DEBUG] Redirection vers login - URL sauvegardée: interventions/generateBon/330 (Session ID: j69857h1ijifsc0qlic16op094) 
+[2026-06-02 09:13:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 09:13:56][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-02 09:13:56][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-02 09:13:56][DEBUG] Login réussi - Session ID: j69857h1ijifsc0qlic16op094 
+[2026-06-02 09:13:56][DEBUG] Login réussi - redirect_after_login: interventions/generateBon/330 
+[2026-06-02 09:13:56][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-02 09:13:56][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-06-02 09:13:56][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/generateBon/330 
+[2026-06-02 09:14:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 09:14:07][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_0914.pdf 
+[2026-06-02 09:14:16][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-02 09:14:16][ERROR] SIGNNOW ERROR =  
+[2026-06-02 09:14:16][DEBUG] {"id":"34f825a2015a4288a57ad074ef45805fe9cd3fba"} 
+[2026-06-02 09:14:16][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-02 09:14:25][DEBUG] Redirection vers login - URL sauvegardée: materiel?client_id=35 (Session ID: dslsusfhfe7m65nr5pm17j2c6j) 
+[2026-06-02 09:21:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 09:21:47][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_0921.pdf 
+[2026-06-02 09:21:54][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-02 09:21:54][ERROR] SIGNNOW ERROR =  
+[2026-06-02 09:21:54][DEBUG] {"id":"8c8c33d9464c4b43ac5b2bcfd57bad98fbf84461"} 
+[2026-06-02 09:21:54][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-02 09:34:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 09:34:31][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_0934.pdf 
+[2026-06-02 09:41:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 09:41:43][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_0941.pdf 
+[2026-06-02 09:45:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 09:45:31][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_0945.pdf 
+[2026-06-02 09:51:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 09:51:12][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_0951.pdf 
+[2026-06-02 09:53:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 09:53:04][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_0953.pdf 
+[2026-06-02 09:57:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 09:57:44][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_0957.pdf 
+[2026-06-02 10:01:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:01:08][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1001.pdf 
+[2026-06-02 10:07:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:07:28][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1007.pdf 
+[2026-06-02 10:11:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:11:28][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1011.pdf 
+[2026-06-02 10:15:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:15:48][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1015.pdf 
+[2026-06-02 10:18:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:18:21][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1018.pdf 
+[2026-06-02 10:23:29][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:23:29][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1023.pdf 
+[2026-06-02 10:28:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:28:18][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1028.pdf 
+[2026-06-02 10:32:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:32:52][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1032.pdf 
+[2026-06-02 10:37:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:37:13][ERROR] Call to undefined method InterventionPDF::getDrawColor() {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":760,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php(103): InterventionPDF->renderLoanEquipment()\n#1 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(3993): InterventionPDF->generateBonIntervention(Array, Array, Array, Array)\n#2 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(3884): InterventionController->generateBonInterventionPdf(Array, Array, Array, Array)\n#3 C:\\xampp\\htdocs\\avision\\public\\index.php(985): InterventionController->generateBonPdf('330')\n#4 {main}","type":"Error"}
+[2026-06-02 10:37:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:37:54][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1037.pdf 
+[2026-06-02 10:38:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:38:56][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1038.pdf 
+[2026-06-02 10:40:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:40:16][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1040.pdf 
+[2026-06-02 10:43:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:43:06][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1043.pdf 
+[2026-06-02 10:48:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:48:18][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1048.pdf 
+[2026-06-02 10:48:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:48:38][ERROR] Call to undefined method InterventionPDF::getDrawColor() {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":760,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php(103): InterventionPDF->renderLoanEquipment()\n#1 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(3993): InterventionPDF->generateBonIntervention(Array, Array, Array, Array)\n#2 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(3884): InterventionController->generateBonInterventionPdf(Array, Array, Array, Array)\n#3 C:\\xampp\\htdocs\\avision\\public\\index.php(985): InterventionController->generateBonPdf('330')\n#4 {main}","type":"Error"}
+[2026-06-02 10:48:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:48:52][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1048.pdf 
+[2026-06-02 10:52:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:52:50][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1052.pdf 
+[2026-06-02 10:55:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:55:35][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1055.pdf 
+[2026-06-02 10:59:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 10:59:45][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1059.pdf 
+[2026-06-02 12:02:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 12:02:50][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1202.pdf 
+[2026-06-02 12:04:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 12:04:28][INFO] PDF généré avec succès: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/330/BI_#VS4626-2572_20260602_1204.pdf 
+[2026-06-02 12:11:29][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 12:15:06][DEBUG] Tentative d'aperçu contrat pour l'ID: 355 
+[2026-06-02 12:15:06][DEBUG] Pièce jointe trouvée: {"id":355,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779086037_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 1 tickets - ajout 1 ticket","date_creation":"2026-05-18 09:33:57","masque_client":0,"type_id":null,"created_by":1} 
+[2026-06-02 12:15:06][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779086037_avenant_coursUML_compressed__1_.pdf 
+[2026-06-02 12:15:06][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-06-02 12:15:07][DEBUG] Type MIME détecté: application/pdf 
+[2026-06-02 12:15:07][DEBUG] Tentative d'aperçu contrat pour l'ID: 354 
+[2026-06-02 12:15:07][DEBUG] Pièce jointe trouvée: {"id":354,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779085766_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 3 tickets - test","date_creation":"2026-05-18 09:29:26","masque_client":0,"type_id":null,"created_by":1} 
+[2026-06-02 12:15:07][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779085766_avenant_coursUML_compressed__1_.pdf 
+[2026-06-02 12:15:07][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-06-02 12:15:07][DEBUG] Type MIME détecté: application/pdf 
+[2026-06-02 12:15:36][INFO] 81 
+[2026-06-02 12:15:36][INFO] 110 
+[2026-06-02 12:18:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 12:20:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 12:21:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 12:22:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 12:23:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 12:57:17][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 12:57:37][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:00:13][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:02:06][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:03:55][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3953,"errno":2}
+[2026-06-02 13:11:58][ERROR] Erreur lors de la génération du PDF : SQLSTATE[HY093]: Invalid parameter number 
+[2026-06-02 13:12:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 13:12:10][ERROR] Erreur lors de la génération du PDF : SQLSTATE[HY093]: Invalid parameter number 
+[2026-06-02 13:12:15][DEBUG] Redirection vers login - URL sauvegardée: interventions/generateBon/330 (Session ID: r7dqa8eulse9hm1gvndkgbnmmq) 
+[2026-06-02 13:12:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 13:12:20][ERROR] Erreur lors de la génération du PDF : SQLSTATE[HY093]: Invalid parameter number 
+[2026-06-02 13:13:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 13:13:20][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:14:34][ERROR] Too few arguments to function ContactModel::getContactById(), 1 passed in C:\xampp\htdocs\avision\public\controllers\InterventionController.php on line 3900 and exactly 2 expected {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContactModel.php","line":29,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(3900): ContactModel->getContactById('dev_mdg@caspeo....')\n#1 C:\\xampp\\htdocs\\avision\\public\\index.php(985): InterventionController->generateBonPdf('330')\n#2 {main}","type":"ArgumentCountError"}
+[2026-06-02 13:15:51][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:16:37][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:17:06][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:18:05][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:18:20][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:19:59][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:20:31][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:20:56][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:21:05][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:21:35][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:21:47][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:22:07][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:22:16][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:22:31][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:23:55][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:25:37][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:25:51][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:26:15][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:26:44][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:27:26][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:28:32][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:28:49][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:29:13][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:29:24][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:29:52][WARNING] Undefined array key "start_time" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":3941,"errno":2}
+[2026-06-02 13:44:33][INFO] 81 
+[2026-06-02 13:44:33][INFO] 110 
+[2026-06-02 13:51:54][ERROR] Erreur lors de la génération du PDF : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'designation' in 'field list' 
+[2026-06-02 13:51:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 13:51:59][ERROR] Erreur lors de la génération du PDF : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'designation' in 'field list' 
+[2026-06-02 14:21:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 14:21:43][ERROR] Erreur lors de la génération du PDF : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'designation' in 'field list' 
+[2026-06-02 14:22:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 14:22:54][ERROR] Erreur lors de la génération du PDF : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'client_id' in 'where clause' 
+[2026-06-02 14:23:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 14:23:17][ERROR] Erreur lors de la génération du PDF : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'client_id' in 'where clause' 
+[2026-06-02 14:24:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 14:24:30][ERROR] Erreur lors de la génération du PDF : SQLSTATE[HY093]: Invalid parameter number 
+[2026-06-02 14:24:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 14:44:30][ERROR] Erreur lors de la génération du PDF : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'departure_time' in 'field list' 
+[2026-06-02 14:44:30][ERROR] Erreur lors de l'affichage de la génération du bon d'intervention : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'departure_time' in 'field list' 
+[2026-06-02 14:44:37][ERROR] Erreur lors de l'affichage de la génération du bon d'intervention : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'departure_time' in 'field list' 
+[2026-06-02 14:49:03][ERROR] Erreur lors de l'affichage de la génération du bon d'intervention : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM intervention_techniciens 
+        WHERE intervention_id = ?' at line 5 
+[2026-06-02 14:50:05][ERROR] Erreur lors de l'affichage de la génération du bon d'intervention : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM intervention_techniciens 
+        WHERE intervention_id = ?' at line 5 
+[2026-06-02 14:51:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 14:57:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 14:57:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 15:50:58][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-02 15:50:58][DEBUG] Params: [] 
+[2026-06-02 15:51:03][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-02 15:51:03][DEBUG] Params: {":client_id":35} 
+[2026-06-02 15:51:09][INFO] 55 
+[2026-06-02 15:51:09][INFO] 109 
+[2026-06-02 16:06:34][INFO] 55 
+[2026-06-02 16:06:34][INFO] 109 
+[2026-06-02 16:06:46][INFO] 55 
+[2026-06-02 16:06:46][INFO] 109 
+[2026-06-02 16:07:23][INFO] 55 
+[2026-06-02 16:07:23][INFO] 109 
+[2026-06-02 16:13:17][INFO] 55 
+[2026-06-02 16:13:17][INFO] 109 
+[2026-06-02 16:13:18][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-02 16:13:18][DEBUG] Params: [] 
+[2026-06-02 16:13:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 16:13:44][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-02 16:13:44][ERROR] SIGNNOW ERROR =  
+[2026-06-02 16:13:44][DEBUG] {"id":"8a9f5c5719f846b1bb06abfa2bc5effb71b3e4a4"} 
+[2026-06-02 16:13:44][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-02 16:17:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 16:18:14][DEBUG] SIGNNOW RESPONSE = {"status":"success"} 
+[2026-06-02 16:18:14][ERROR] SIGNNOW ERROR =  
+[2026-06-02 16:18:14][DEBUG] {"id":"48cc4891a3bb41f3850d7cd1f327bfec1eaf3dfb"} 
+[2026-06-02 16:18:14][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-02 16:29:40][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 16:29:48][DEBUG] SIGNNOW RESPONSE = {"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]} 
+[2026-06-02 16:29:48][ERROR] SIGNNOW ERROR =  
+[2026-06-02 16:29:48][DEBUG] {"id":"06734ad0eeaa4745a03f396c2c510f67e2f26cbd"} 
+[2026-06-02 16:29:48][DEBUG] {"status":400,"data":{"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]}} 
+[2026-06-02 16:30:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 81be87df6d9c27634478... 
+[2026-06-02 16:30:21][DEBUG] SIGNNOW RESPONSE = {"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]} 
+[2026-06-02 16:30:21][ERROR] SIGNNOW ERROR =  
+[2026-06-02 16:30:21][DEBUG] {"id":"0a3f3ccce280431fad817e9681f88acce4e2f69d"} 
+[2026-06-02 16:30:21][DEBUG] {"status":400,"data":{"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]}} 

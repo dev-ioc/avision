@@ -977,5 +977,18 @@ class MaterielModel extends BaseModel
         return $visibilites;
     }
 
+    public function getByClientId($clientId)
+    {
+        $sql = "SELECT *
+            FROM materiel
+            WHERE deleted_at IS NULL";
 
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':client_id' => $clientId
+        ]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

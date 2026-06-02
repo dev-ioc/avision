@@ -152,17 +152,20 @@ class SignatureService
         $fields = [
             'fields' => [
                 [
-                    'x' => 380,
-                    'y' => 730,
-                    'width' => 100,
-                    'height' => 30,
-                    'page_number' => 0,
+                    'x' => 320,
+                    'y' => 560, // juste sous le texte légal
+
+                    'width' => 170,
+                    'height' => 55,
+
+                    'page_number' => 1,
                     'type' => 'signature',
                     'role' => 'Signer 1',
                     'required' => true
                 ]
             ]
         ];
+        ;
 
         curl_setopt(
             $ch,
