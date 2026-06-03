@@ -6129,92 +6129,173 @@ class InterventionController
 
         file_put_contents(
             __DIR__ . '/../storage/signnow.log',
-            date('Y-m-d H:i:s') . PHP_EOL . $payload . PHP_EOL . PHP_EOL,
+            date('Y-m-d H:i:s') . PHP_EOL .
+            $payload . PHP_EOL . PHP_EOL,
             FILE_APPEND
         );
 
         $data = json_decode($payload, true);
 
-        // Structure payload SignNow (différent de YouSign)
-        $event = $data['event'] ?? null;
-        $documentId = $data['document_id'] ?? null;
+        // =====================================================
+        // SIGNNOW PAYLOAD
+        // =====================================================
+
+        $event =
+            $data['meta']['event'] ?? null;
+
+        $documentId =
+            $data['content']['documentId'] ?? null;
 
         file_put_contents(
             __DIR__ . '/../storage/signnow.log',
-            "EVENT = " . $event . " | DOC_ID = " . $documentId . PHP_EOL,
+            "EVENT = " . $event .
+            " | DOC_ID = " . $documentId .
+            PHP_EOL,
             FILE_APPEND
         );
 
-        if ($event === 'document.completed' && $documentId) {
+        // =====================================================
+        // DOCUMENT SIGNÉ
+        // =====================================================
 
-            // Chercher en base avec le document_id SignNow
-            $sql = "SELECT * FROM intervention_signatures 
-                 WHERE signnow_document_id = :id";
+        if (
+            $event === 'document.complete'
+            && !empty($documentId)
+        ) {
+
+            $sql = "
+            SELECT *
+            FROM intervention_signatures
+            WHERE signnow_document_id = :id
+        ";
+
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([':id' => $documentId]);
-            $signature = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $stmt->execute([
+                ':id' => $documentId
+            ]);
+
+            $signature =
+                $stmt->fetch(PDO::FETCH_ASSOC);
+
+            file_put_contents(
+                __DIR__ . '/../storage/signnow.log',
+                "SIGNATURE FOUND = " .
+                json_encode($signature) .
+                PHP_EOL,
+                FILE_APPEND
+            );
 
             if ($signature) {
-                $signatureService = new SignatureService();
 
-                // Télécharger le PDF signé
-                $pdfContent = $signatureService->downloadSignedDocument($documentId);
+                $signatureService =
+                    new SignatureService();
+
+                // Télécharger PDF signé
+                $pdfContent =
+                    $signatureService
+                        ->downloadSignedDocument($documentId);
 
                 if ($pdfContent) {
-                    $interventionId = $signature['intervention_id'];
-                    $uploadDir = __DIR__ . '/../../uploads/interventions/' . $interventionId;
+
+                    $interventionId =
+                        $signature['intervention_id'];
+
+                    $uploadDir =
+                        __DIR__ .
+                        '/../../uploads/interventions/' .
+                        $interventionId;
 
                     if (!file_exists($uploadDir)) {
                         mkdir($uploadDir, 0777, true);
                     }
 
-                    $fileName = 'BI_signed_' . $interventionId . '_' . date('Ymd_His') . '.pdf';
-                    $filePath = $uploadDir . '/' . $fileName;
-                    file_put_contents($filePath, $pdfContent);
+                    $fileName =
+                        'BI_signed_' .
+                        $interventionId .
+                        '_' .
+                        date('Ymd_His') .
+                        '.pdf';
 
-                    $signedFilePath = 'uploads/interventions/' . $interventionId . '/' . $fileName;
+                    $filePath =
+                        $uploadDir . '/' . $fileName;
 
-                    // Ajouter pièce jointe en base
+                    file_put_contents(
+                        $filePath,
+                        $pdfContent
+                    );
+
+                    $signedFilePath =
+                        'uploads/interventions/' .
+                        $interventionId .
+                        '/' .
+                        $fileName;
+
+                    // =====================================================
+                    // AJOUT PIÈCE JOINTE
+                    // =====================================================
+
                     $dataPj = [
                         'nom_fichier' => $fileName,
-                        'nom_personnalise' => 'Bon_intervention_signé_' . date('Ymd'),
-                        'chemin_fichier' => $signedFilePath,
+                        'nom_personnalise' =>
+                            'Bon_intervention_signé_' .
+                            date('Ymd'),
+                        'chemin_fichier' =>
+                            $signedFilePath,
                         'type_fichier' => 'pdf',
-                        'taille_fichier' => strlen($pdfContent),
-                        'commentaire' => 'Bon d\'intervention signé via SignNow',
+                        'taille_fichier' =>
+                            strlen($pdfContent),
+                        'commentaire' =>
+                            'Bon signé via SignNow',
                         'masque_client' => 0,
                         'created_by' => 1
                     ];
 
-                    $this->interventionModel->addPieceJointeWithType(
-                        $interventionId,
-                        $dataPj,
-                        'bi'
+                    $this->interventionModel
+                        ->addPieceJointeWithType(
+                            $interventionId,
+                            $dataPj,
+                            'bi'
+                        );
+
+                    // =====================================================
+                    // UPDATE STATUS
+                    // =====================================================
+
+                    $updateSig = "
+                    UPDATE intervention_signatures
+                    SET
+                        status = 'signed',
+                        signed_file_path = :path,
+                        updated_at = NOW()
+                    WHERE id = :id
+                ";
+
+                    $stmtSig =
+                        $this->db->prepare($updateSig);
+
+                    $stmtSig->execute([
+                        ':path' => $signedFilePath,
+                        ':id' => $signature['id']
+                    ]);
+
+                    file_put_contents(
+                        __DIR__ . '/../storage/signnow.log',
+                        "UPDATE SUCCESS - intervention_id="
+                        . $interventionId .
+                        PHP_EOL,
+                        FILE_APPEND
                     );
                 }
-
-                // Mettre à jour le statut
-                $updateSig = "UPDATE intervention_signatures
-                          SET status = 'signed',
-                              signed_file_path = :path,
-                              updated_at = NOW()
-                          WHERE id = :id";
-                $stmtSig = $this->db->prepare($updateSig);
-                $stmtSig->execute([
-                    ':path' => $signedFilePath ?? null,
-                    ':id' => $signature['id']
-                ]);
-
-                file_put_contents(
-                    __DIR__ . '/../storage/signnow.log',
-                    "UPDATE SUCCESS - intervention_id=" . $signature['intervention_id'] . PHP_EOL,
-                    FILE_APPEND
-                );
             }
         }
 
         http_response_code(200);
-        echo json_encode(['success' => true]);
+
+        echo json_encode([
+            'success' => true
+        ]);
+
         exit;
     }
     // Dans InterventionController.php

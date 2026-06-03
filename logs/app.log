@@ -58512,3 +58512,7 @@ Quant à l’écran n°1, il est HS
 [2026-06-03 14:50:12][ERROR] SIGNNOW INVITE ERROR =  
 [2026-06-03 14:50:12][DEBUG] {"id":"5709b3e2070b4ad79f50cd3dd9bf75f730f3c0fa"} 
 [2026-06-03 14:50:12][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 15:00:19][DEBUG] CSRF: Token manquant dans la requête - URI: /avision/public/interventions/createSignNowWebhook 
+[2026-06-03 15:00:19][SECURITY] Tentative de requête CSRF bloquée - IP: ::1 - URI: /avision/public/interventions/createSignNowWebhook 
+[2026-06-03 15:00:19][DEBUG] POST data: [] 
+[2026-06-03 15:00:19][DEBUG] Session token: "7dee115a7900e24d3eed45ff8732d8ef4793d2b17f4afa251f222f37ea23c3ce" 
