@@ -58476,3 +58476,4 @@ Quant à l’écran n°1, il est HS
 [2026-06-03 13:54:21][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/createSignNowWebhook 
 [2026-06-03 13:54:22][ERROR] AUTH FAILED: {"error":"invalid_client"} 
 [2026-06-03 13:54:22][ERROR] Erreur : SignNow auth failed: {"error":"invalid_client"} {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\Services\\SignatureService.php","line":48}
+[2026-06-03 14:12:07][DEBUG] Redirection vers login - URL sauvegardée: interventions/createSignNowWebhook (Session ID: q32umm2gor7980bbhg3sk2g7n6) 

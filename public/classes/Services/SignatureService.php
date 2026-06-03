@@ -16,7 +16,6 @@ class SignatureService
     private function authenticate($config)
     {
         $ch = curl_init();
-
         curl_setopt($ch, CURLOPT_URL, 'https://api.signnow.com/oauth2/token');
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -25,24 +24,13 @@ class SignatureService
             'username' => $config['username'],
             'password' => $config['password']
         ]));
-
-        // Utiliser le Basic Authorization Token directement depuis le dashboard
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Authorization: Basic ' . $config['basic_token']
         ]);
-
         $response = curl_exec($ch);
-        $curlError = curl_error($ch);
         curl_close($ch);
-
         $data = json_decode($response, true);
-
-        if (empty($data['access_token'])) {
-            custom_log('AUTH FAILED: ' . json_encode($data) . ' | CURL: ' . $curlError, 'ERROR');
-            return null;
-        }
-
-        return $data['access_token'];
+        return $data['access_token'] ?? null;
     }
     public function uploadDocument($pdfPath)
     {
