@@ -724,6 +724,11 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
     .handsontable col:first-child {
       width: 100px;
     }
+
+    .handsontable td.htInvalid {
+      background-color: #ffe0e0 !important;
+      border: 1px solid #dc3545 !important;
+    }
   </style>
 
   <script>
@@ -736,7 +741,37 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
     const MODELE_INDEX = <?= $modeleIndex ?>;
     const ID_INDEX = <?= $idIndex ?>;
     const PIECES_JOINTES_INDEX = <?= $piecesJointesIndex ?>;
+    const FIELD_VALIDATORS = {
+      adresse_ip: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'IP', example: '192.168.1.1' },
+      ip_primaire: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'IP Primaire', example: '192.168.1.1' },
+      ip_secondaire: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'IP Secondaire', example: '192.168.1.1' },
+      passerelle: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'Passerelle', example: '172.24.158.230' },
+      masque: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'Masque', example: '255.255.255.0' },
+      adresse_mac: { regex: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/, label: 'MAC', example: '00:0E:DD:FA:65:88' },
+      mac_primaire: { regex: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/, label: 'MAC Primaire', example: '00:0E:DD:FA:65:88' },
+      mac_secondaire: { regex: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/, label: 'MAC Secondaire', example: '00:0E:DD:FA:65:88' },
+      version_firmware: { regex: /^\d+(\.\d+)+$/, label: 'Firmware', example: '10.0.8' },
+      ancien_firmware: { regex: /^\d+(\.\d+)+$/, label: 'Ancien Firmware', example: '10.0.8' },
+      date_fin_maintenance: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Expiration', example: '2026-12-31' },
+      date_fin_garantie: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Date Garantie', example: '2026-12-31' },
+      date_derniere_inter: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Dernière Inter', example: '2026-12-31' },
+    };
 
+    const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
+
+    function validateRow(row, rowIndex) {
+      const errors = [];
+      allColumnFields.forEach((field, colIndex) => {
+        const rule = FIELD_VALIDATORS[field];
+        if (!rule) return;
+        const value = row[colIndex];
+        if (!value || value === '') return; // vide = ignoré
+        if (!rule.regex.test(value)) {
+          errors.push(`Ligne ${rowIndex + 1} — <strong>${rule.label}</strong> : "<em>${value}</em>" invalide (ex: ${rule.example})`);
+        }
+      });
+      return errors;
+    }
     // ── showToast ────────────────────────────────────────────────────────────────
     function showToast(message, type) {
       const existingToasts = document.querySelectorAll('.custom-toast');
@@ -933,9 +968,9 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
         }
         hot.render();
       });
+
       updateAccordionsVisibility(searchTerm);
     }
-
     // ── updateAccordionsVisibility ───────────────────────────────────────────────
     function updateAccordionsVisibility(searchTerm) {
       if (!searchTerm) { document.querySelectorAll('.accordion-item').forEach(i => i.style.display = ''); return; }
@@ -1268,18 +1303,106 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
                       return $rowData;
                     }, $materiels)); ?>;
 
+                    const COLUMN_FORMATS = {
+                      'date_fin_maintenance': { type: 'date', dateFormat: 'YYYY-MM-DD' },
+                      'date_fin_garantie': { type: 'date', dateFormat: 'YYYY-MM-DD' },
+                      'date_derniere_inter': { type: 'date', dateFormat: 'YYYY-MM-DD' },
+                      'adresse_ip': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
+                      'ip_primaire': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
+                      'ip_secondaire': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
+                      'passerelle': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
+                      'masque': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
+                      'adresse_mac': { validator: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/ },
+                      'mac_primaire': { validator: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/ },
+                      'mac_secondaire': { validator: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/ },
+                      'version_firmware': { validator: /^\d+(\.\d+)+$/ },
+                      'ancien_firmware': { validator: /^\d+(\.\d+)+$/ },
+                    };
+
+                    const COLUMN_PLACEHOLDERS = {
+                      'date_fin_maintenance': 'YYYY-MM-DD',
+                      'date_fin_garantie': 'YYYY-MM-DD',
+                      'date_derniere_inter': 'YYYY-MM-DD',
+                      'adresse_ip': '192.168.1.1',
+                      'ip_primaire': '192.168.1.1',
+                      'ip_secondaire': '192.168.1.1',
+                      'passerelle': '172.24.158.230',
+                      'masque': '255.255.255.0',
+                      'adresse_mac': '00:0E:DD:FA:65:88',
+                      'mac_primaire': '00:0E:DD:FA:65:88',
+                      'mac_secondaire': '00:0E:DD:FA:65:88',
+                      'version_firmware': '10.0.8',
+                      'ancien_firmware': '10.0.8',
+                    };
+
+                    // ← accolade fermante APRÈS le return, pas avant allColumnFields
+                    function makePlaceholderRenderer(placeholder) {
+                      return function (instance, td, row, col, prop, value, cellProperties) {
+                        Handsontable.renderers.TextRenderer.apply(this, arguments);
+                        if (!value || value === '') {
+                          td.innerHTML = `<span style="color:#adb5bd;font-style:italic;pointer-events:none;">${placeholder}</span>`;
+                        }
+                      };
+                    }  // ← fin de makePlaceholderRenderer
+
+                    const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
+
+                    const columns = allColumnFields.map(field => {
+                      const fmt = COLUMN_FORMATS[field];
+                      const ph = COLUMN_PLACEHOLDERS[field];
+
+                      if (!fmt) {
+                        if (!ph) return { type: 'text' };
+                        return { type: 'text', renderer: makePlaceholderRenderer(ph) };
+                      }
+
+                      if (fmt.type === 'date') {
+                        return {
+                          type: 'date',
+                          dateFormat: fmt.dateFormat,
+                          correctFormat: true,
+                          defaultDate: '',
+                          renderer: makePlaceholderRenderer(ph || 'YYYY-MM-DD'),
+                          datePickerConfig: {
+                            firstDay: 1,
+                            showWeekNumber: true,
+                            i18n: {
+                              previousMonth: 'Mois préc.',
+                              nextMonth: 'Mois suiv.',
+                              months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                              weekdays: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                              weekdaysShort: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa']
+                            }
+                          }
+                        };
+                      }
+
+                      if (fmt.validator) {
+                        return {
+                          type: 'text',
+                          renderer: makePlaceholderRenderer(ph),
+                          validator: function (value, callback) {
+                            if (!value || value === '') return callback(true);
+                            callback(fmt.validator.test(value));
+                          },
+                          allowInvalid: true
+                        };
+                      }
+
+                      return { type: 'text' };
+                    });
+
                     const hot = new Handsontable(container, {
                       data: data,
                       colHeaders: <?= json_encode($colHeaders) ?>,
+                      columns: columns,
                       hiddenColumns: {
                         columns: (function () {
                           const saved = localStorage.getItem('materiel_columns_visibility');
                           if (!saved) return <?= json_encode($hiddenColumns) ?>;
                           try {
                             const state = JSON.parse(saved);
-                            return Object.keys(state)
-                              .map(k => parseInt(k))
-                              .filter(k => state[k] === false);
+                            return Object.keys(state).map(k => parseInt(k)).filter(k => state[k] === false);
                           } catch (e) { return <?= json_encode($hiddenColumns) ?>; }
                         })(),
                         indicators: true
@@ -1319,16 +1442,16 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
                         if (header === 'Modèle') {
                           return {
                             renderer: function (instance, td, row, col, prop, value) {
-                              // Forcer la couleur noire avec !important via style
                               td.style.color = '#000000';
                               td.style.fontWeight = 'normal';
-                              td.style.backgroundColor = '#f3e1b5'; // Garder la même couleur de fond que les autres cellules
+                              td.style.backgroundColor = '#f3e1b5';
                               td.textContent = value || '';
                               td.style.cursor = 'default';
                             },
                             editor: 'text'
                           };
                         }
+
                         if (header === 'Pièces jointes') {
                           return {
                             renderer: function (instance, td, row, col, prop, value) {
@@ -1336,9 +1459,10 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
                               const id = value?.id;
                               const name = value?.name ?? '';
                               td.innerHTML = `<button class="btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}"
-                  onclick="openAttachmentsModal(${id},'${name.replace(/'/g, "\\'")}')">
-                  <i class="bi bi-paperclip"></i>
-                  <span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'} ms-1">${count}</span></button>`;
+              onclick="openAttachmentsModal(${id},'${name.replace(/'/g, "\\'")}')">
+              <i class="bi bi-paperclip"></i>
+              <span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'} ms-1">${count}</span>
+            </button>`;
                     td.style.textAlign = 'center';
                   }
                 };
@@ -1347,6 +1471,7 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
               return {};
             }
           });
+
           hot.__salleId = <?= $materiels[0]['salle_id'] ?? 'null' ?>;
           hotInstances['excelTable-<?= $salle_id ?>'] = hot;
         })();
@@ -1394,7 +1519,30 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       const savePromises = [];
       const errorDetails = [];
       const missingFieldsErrors = [];
+      // ── Validation globale AVANT tout envoi ──────────────────────────────
+      const allValidationErrors = [];
+      Object.keys(hotInstances).forEach(tableId => {
+        const hot = hotInstances[tableId];
+        if (!hot) return;
+        hot.getSourceData().forEach((row, i) => {
+          // Ignorer les lignes totalement vides
+          if (!row[MARQUE_INDEX] && !row[MODELE_INDEX]) return;
+          allValidationErrors.push(...validateRow(row, i));
+        });
+      });
 
+      if (allValidationErrors.length > 0) {
+        showToast(
+          `<strong>Format invalide — sauvegarde annulée</strong><br><br>` +
+          `Corrigez les champs suivants avant de sauvegarder :<br><br>` +
+          allValidationErrors.slice(0, 6).join('<br>') +
+          (allValidationErrors.length > 6
+            ? `<br><em>... et ${allValidationErrors.length - 6} autre(s) erreur(s)</em>`
+            : ''),
+          'danger'
+        );
+        return; // ← bloque tout, rien n'est envoyé
+      }
       Object.keys(hotInstances).forEach(tableId => {
         const hot = hotInstances[tableId];
         if (!hot) return;
@@ -1627,6 +1775,7 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       });
     };
   </script>
+
   <style>
     @keyframes spin {
       from {
