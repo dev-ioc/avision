@@ -4016,6 +4016,7 @@ class InterventionController
             $replacedParts = []; // À remplir avec vos données
 
             // Générer le PDF
+            // Générer le PDF
             try {
                 $pdfPath = $this->generateBonInterventionPdf(
                     $intervention,
@@ -4030,7 +4031,7 @@ class InterventionController
                 // ======================================
 
                 $clientEmail =
-                    $intervention['contact_email'];
+                    $intervention['contact_client'];
 
                 $clientFirstname =
                     $intervention['contact_first_name'];
@@ -4080,8 +4081,6 @@ class InterventionController
                 header('Location: ' . BASE_URL . 'interventions/generateBon/' . $interventionId);
                 exit;
             }
-
-
             // Lire et afficher le PDF
             if (file_exists($pdfPath)) {
                 $filename = basename($pdfPath);
@@ -4165,22 +4164,22 @@ class InterventionController
 
         return $filePath;
     }
-    /**
-     * Récupère les commentaires sélectionnés pour le bon d'intervention
-     */
-    private function getCommentsForBon($interventionId)
-    {
-        $sql = "SELECT c.*, 
-                CONCAT(u.first_name, ' ', u.last_name) as created_by_name
-                FROM intervention_comments c
-                LEFT JOIN users u ON c.created_by = u.id
-                WHERE c.intervention_id = ? AND c.pour_bon_intervention = 1
-                ORDER BY c.is_solution DESC, c.created_at ASC";
+    // /**
+    //  * Récupère les commentaires sélectionnés pour le bon d'intervention
+    //  */
+    // private function getCommentsForBon($interventionId)
+    // {
+    //     $sql = "SELECT c.*, 
+    //             CONCAT(u.first_name, ' ', u.last_name) as created_by_name
+    //             FROM intervention_comments c
+    //             LEFT JOIN users u ON c.created_by = u.id
+    //             WHERE c.intervention_id = ? AND c.pour_bon_intervention = 1
+    //             ORDER BY c.is_solution DESC, c.created_at ASC";
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$interventionId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    //     $stmt = $this->db->prepare($sql);
+    //     $stmt->execute([$interventionId]);
+    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // }
 
     /**
      * Récupère les pièces jointes sélectionnées pour le bon d'intervention
@@ -6107,6 +6106,9 @@ class InterventionController
 
         $signatureService =
             new SignatureService();
+        custom_log('CONTACT EMAIL = ' . ($intervention['contact_email'] ?? 'NULL'), 'DEBUG');
+        custom_log('CONTACT FIRSTNAME = ' . ($intervention['contact_first_name'] ?? 'NULL'), 'DEBUG');
+        custom_log('CONTACT LASTNAME = ' . ($intervention['contact_last_name'] ?? 'NULL'), 'DEBUG');
 
         $response =
             $signatureService->createSignatureRequest(

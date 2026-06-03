@@ -58492,3 +58492,23 @@ Quant à l’écran n°1, il est HS
 [2026-06-03 14:28:34][DEBUG] DEBUG - update() - data['status_id']: 1 
 [2026-06-03 14:28:34][DEBUG] DEBUG - update() - intervention['status_id']: 1 
 [2026-06-03 14:28:34][DEBUG] DEBUG - update() - isSaveBeforeClose: FAUX 
+[2026-06-03 14:36:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 14:36:58][ERROR] SIGNNOW INVITE ERROR - Email vide ou null 
+[2026-06-03 14:36:58][DEBUG] {"id":"430f49b803104d729b34b41a52c4f39ccc4c7345"} 
+[2026-06-03 14:36:58][DEBUG] {"status":400,"data":{"error":"Email du signataire manquant"}} 
+[2026-06-03 14:48:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 14:48:57][ERROR] SIGNNOW INVITE ERROR - Email vide ou null 
+[2026-06-03 14:48:57][DEBUG] {"id":"8727f7a6bb82445e9d13d09251b6b6bc7314c7f6"} 
+[2026-06-03 14:48:57][DEBUG] {"status":400,"data":{"error":"Email du signataire manquant"}} 
+[2026-06-03 14:49:57][DEBUG] SIGNNOW INVITE BODY = {"document_id":"69e39a8a229b4055a91d6483f80688a601e2b617","to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","first_name":null,"last_name":null}],"from":"dev_mdg@caspeo.fr"} 
+[2026-06-03 14:49:59][DEBUG] SIGNNOW INVITE RESPONSE = {"status":"success"} 
+[2026-06-03 14:49:59][ERROR] SIGNNOW INVITE ERROR =  
+[2026-06-03 14:49:59][DEBUG] {"id":"69e39a8a229b4055a91d6483f80688a601e2b617"} 
+[2026-06-03 14:49:59][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 14:49:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 14:50:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 14:50:10][DEBUG] SIGNNOW INVITE BODY = {"document_id":"5709b3e2070b4ad79f50cd3dd9bf75f730f3c0fa","to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","first_name":null,"last_name":null}],"from":"dev_mdg@caspeo.fr"} 
+[2026-06-03 14:50:12][DEBUG] SIGNNOW INVITE RESPONSE = {"status":"success"} 
+[2026-06-03 14:50:12][ERROR] SIGNNOW INVITE ERROR =  
+[2026-06-03 14:50:12][DEBUG] {"id":"5709b3e2070b4ad79f50cd3dd9bf75f730f3c0fa"} 
+[2026-06-03 14:50:12][DEBUG] {"status":200,"data":{"status":"success"}} 
