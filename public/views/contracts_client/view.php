@@ -45,7 +45,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     <?php if (isset($_SESSION['error'])): ?>
         <div class="alert alert-danger">
-            <?php 
+            <?php
             echo $_SESSION['error'];
             unset($_SESSION['error']);
             ?>
@@ -54,13 +54,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success">
-            <?php 
+            <?php
             echo $_SESSION['success'];
             unset($_SESSION['success']);
             ?>
         </div>
     <?php endif; ?>
-    
+
     <?php if ($contract): ?>
         <div class="card mb-4">
             <div class="card-header py-2">
@@ -136,23 +136,24 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <td><?= formatDateFrench($contract['end_date']) ?></td>
                             </tr>
                             <?php if (isContractTicketById($contract['id'])): ?>
-                            <tr>
-                                <th>Tickets totaux:</th>
-                                <td><?= $contract['tickets_number'] ?></td>
-                            </tr>
-                            <tr>
-                                <th>Tickets restants:</th>
-                                <td>
-                                    <span class="badge bg-<?= $contract['tickets_remaining'] > 3 ? 'success' : 'danger'; ?>">
-                                        <?= $contract['tickets_remaining'] ?>
-                                    </span>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <th>Tickets totaux:</th>
+                                    <td><?= $contract['tickets_number'] ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Tickets restants:</th>
+                                    <td>
+                                        <span
+                                            class="badge bg-<?= $contract['tickets_remaining'] > 3 ? 'success' : 'danger'; ?>">
+                                            <?= $contract['tickets_remaining'] ?>
+                                        </span>
+                                    </td>
+                                </tr>
                             <?php else: ?>
-                            <tr>
-                                <th>Tickets:</th>
-                                <td><span class="text-muted">Pas de tickets</span></td>
-                            </tr>
+                                <tr>
+                                    <th>Tickets:</th>
+                                    <td><span class="text-muted">Pas de tickets</span></td>
+                                </tr>
                             <?php endif; ?>
 
                         </table>
@@ -184,15 +185,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <small class="text-muted d-block"><?= h($att['commentaire']) ?></small>
                                         <?php endif; ?>
                                         <small class="text-muted">
-                                            <?= number_format(($att['taille_fichier'] ?? 0) / 1024, 1) ?> KB • 
+                                            <?= number_format(($att['taille_fichier'] ?? 0) / 1024, 1) ?> KB •
                                             <?= date('d/m/Y H:i', strtotime($att['date_creation'])) ?>
                                         </small>
                                     </div>
                                     <div class="ms-3">
-                                        <a href="<?= BASE_URL; ?>contracts_client/download?attachment_id=<?= $att['id'] ?>" 
-                                           target="_blank" 
-                                           class="btn btn-sm btn-outline-primary" 
-                                           title="Télécharger">
+                                        <a href="<?= BASE_URL; ?>contracts_client/download?attachment_id=<?= $att['id'] ?>"
+                                            target="_blank" class="btn btn-sm btn-outline-primary" title="Télécharger">
                                             <i class="bi bi-download me-1"></i>
                                         </a>
                                     </div>
@@ -228,7 +227,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <th>Technicien</th>
                                     <th>Durée</th>
                                     <?php if (isContractTicketById($contract['id'])): ?>
-                                    <th>Tickets utilisés</th>
+                                        <th>Tickets utilisés</th>
                                     <?php endif; ?>
                                     <th>Statut</th>
                                     <th>Actions</th>
@@ -237,29 +236,67 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <tbody>
                                 <?php foreach ($interventions as $intervention): ?>
                                     <tr>
-                                        <td><?= h($intervention['reference'] ?? '') ?></td>
-                                        <td><?= h($intervention['title'] ?? '') ?></td>
-                                        <td><?= !empty($intervention['date_planif']) ? date('d/m/Y', strtotime($intervention['date_planif'])) : date('d/m/Y', strtotime($intervention['created_at'])) ?></td>
                                         <td>
-                                            <?php if (!empty($intervention['technician_first_name']) || !empty($intervention['technician_last_name'])): ?>
-                                                <?= h($intervention['technician_first_name'] ?? '') ?> <?= h($intervention['technician_last_name'] ?? '') ?>
+                                            <a href="<?= BASE_URL ?>interventions_client/view/<?= $intervention['id'] ?>"
+                                                class="text-primary text-decoration-none">
+                                                <?= h($intervention['reference'] ?? '') ?>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <?= h($intervention['title'] ?? '') ?>
+                                        </td>
+                                        <td>
+                                            <?= !empty($intervention['date_planif']) ? date('d/m/Y', strtotime($intervention['date_planif'])) : date('d/m/Y', strtotime($intervention['created_at'])) ?>
+                                        </td>
+                                        <td>
+                                            <?php if (!empty($intervention['technicians_names']) && $intervention['technicians_names'] != 'Non assigné'): ?>
+                                                <?php
+                                                $techs = explode(', ', $intervention['technicians_names']);
+                                                foreach ($techs as $tech): ?>
+                                                    <div class="mb-1">
+                                                        <span>-</span>
+                                                        <?= h($tech) ?>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                                <small class="text-muted">
+                                                    <i class="bi bi-people me-1"></i>
+                                                    <?= count($techs) ?> technicien(s)
+                                                </small>
                                             <?php else: ?>
-                                                <span class="text-muted">Non attribué</span>
+                                                <span class="text-muted">Non assigné</span>
                                             <?php endif; ?>
                                         </td>
-                                        <td><?= h($intervention['duration'] ?? '0') ?>h</td>
+                                        <td>
+                                            <?php if ($intervention['total_duration_minutes'] > 0): ?>
+                                                <span class="badge bg-primary">
+                                                    <i class="bi bi-clock me-1"></i>
+                                                    <?= $intervention['duration_display'] ?>
+                                                </span>
+                                                <br>
+                                                <small class="text-muted">
+                                                    <?= $intervention['total_duration_minutes'] ?> min
+                                                </small>
+                                            <?php else: ?>
+                                                <span class="text-muted">-</span>
+                                            <?php endif; ?>
+                                        </td>
                                         <?php if (isContractTicketById($contract['id'])): ?>
-                                        <td><?= h($intervention['tickets_used'] ?? '0') ?></td>
+                                            <td>
+                                                <span class="badge bg-info">
+                                                    <?= $intervention['tickets_used'] ?? 0 ?>
+                                                </span>
+                                            </td>
                                         <?php endif; ?>
                                         <td>
-                                            <span class="badge" style="background-color: <?= h($intervention['status_color'] ?? '') ?>">
-                                                <?= h($intervention['status_name'] ?? '') ?>
+                                            <span class="badge"
+                                                style="background-color: <?= h($intervention['status_color'] ?? '#6c757d') ?>">
+                                                <?= h($intervention['status_name'] ?? 'Inconnu') ?>
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="<?= BASE_URL ?>interventions_client/view/<?= $intervention['id']; ?>" 
-                                               class="btn btn-sm btn-outline-info" title="Voir">
-                                                <i class="bi bi-info-circle me-1"></i>
+                                            <a href="<?= BASE_URL ?>interventions_client/view/<?= $intervention['id']; ?>"
+                                                class="btn btn-sm btn-outline-info" title="Voir">
+                                                <i class="bi bi-eye me-1"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -286,4 +323,4 @@ include_once __DIR__ . '/../../includes/navbar.php';
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';
-?> 
+?>

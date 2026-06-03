@@ -8,13 +8,12 @@ class ContractModel extends BaseModel
         parent::__construct($db);
         $this->table = 'contracts';
     }
-
     public function getContractsByClientId($clientId, $siteId = null, $roomId = null, $includeInactive = false)
     {
         $sql = "SELECT c.*, ct.name as contract_type_name
-                FROM contracts c 
-                LEFT JOIN contract_types ct ON c.contract_type_id = ct.id 
-                WHERE c.client_id = :client_id";
+            FROM contracts c 
+            LEFT JOIN contract_types ct ON c.contract_type_id = ct.id 
+            WHERE c.client_id = :client_id";
 
         if (!$includeInactive) {
             $sql .= " AND c.status = 'actif'";
@@ -22,10 +21,6 @@ class ContractModel extends BaseModel
 
         $params = [':client_id' => $clientId];
 
-        // Si on a des filtres de site/salle, on doit inclure :
-        // 1. Les contrats "hors contrat" (contract_type_id IS NULL)
-        // 2. Les contrats associés à la salle/site spécifique
-        // 3. Les contrats généraux du client (sans restriction de salle)
         if ($roomId || $siteId) {
             $sql .= " AND (";
 
@@ -35,27 +30,29 @@ class ContractModel extends BaseModel
             // Contrats associés à la salle spécifique
             if ($roomId) {
                 $sql .= " OR EXISTS (
-                    SELECT 1 FROM contract_rooms cr1 
-                    WHERE cr1.contract_id = c.id AND cr1.room_id = :room_id
-                )";
+                SELECT 1 FROM contract_rooms cr1 
+                JOIN rooms r ON cr1.room_id = r.id
+                WHERE cr1.contract_id = c.id AND r.id = :room_id
+            )";
                 $params[':room_id'] = $roomId;
             }
 
-            // Contrats associés au site spécifique
+            // Contrats associés au bâtiment spécifique
             if ($siteId) {
                 $sql .= " OR EXISTS (
-                    SELECT 1 FROM contract_rooms cr2 
-                    JOIN rooms r ON cr2.room_id = r.id 
-                    WHERE cr2.contract_id = c.id AND r.building_id = :building_id
-                )";
-                $params[':building_id'] = $siteId;
+                SELECT 1 FROM contract_rooms cr2 
+                JOIN rooms r ON cr2.room_id = r.id
+                JOIN buildings b ON r.building_id = b.id
+                WHERE cr2.contract_id = c.id AND b.site_id = :site_id
+            )";
+                $params[':site_id'] = $siteId;
             }
 
-            // Contrats généraux du client (sans restriction de salle)
+            // Contrats généraux du client
             $sql .= " OR NOT EXISTS (
-                SELECT 1 FROM contract_rooms cr3 
-                WHERE cr3.contract_id = c.id
-            )";
+            SELECT 1 FROM contract_rooms cr3 
+            WHERE cr3.contract_id = c.id
+        )";
 
             $sql .= ")";
         }
@@ -64,19 +61,7 @@ class ContractModel extends BaseModel
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
-        $contracts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Ne garder que les contrats dont l'ID est numérique (vrais contrats)
-        $contracts = array_filter($contracts, function ($contract) {
-            return is_numeric($contract['id']);
-        });
-
-        // Pour chaque contrat, récupérer les salles associées
-        foreach ($contracts as &$contract) {
-            $contract['rooms'] = $this->getContractRooms($contract['id']);
-        }
-
-        return array_values($contracts);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getContractCountByClientId($clientId)
@@ -433,23 +418,20 @@ class ContractModel extends BaseModel
         return $contracts;
     }
 
-    /**
-     * Récupère les salles associées à un contrat
-     */
     public function getContractRooms($contractId)
     {
-        $sql = "SELECT r.id as room_id, r.name as room_name, s.name as site_name
-                FROM contract_rooms cr
-                JOIN rooms r ON cr.room_id = r.id
-                JOIN sites s ON r.building_id = s.id
-                WHERE cr.contract_id = :contract_id
-                ORDER BY s.name, r.name";
+        $sql = "SELECT r.id as room_id, r.name as room_name, s.name as site_name, b.name as building_name
+            FROM contract_rooms cr
+            JOIN rooms r ON cr.room_id = r.id
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE cr.contract_id = :contract_id
+            ORDER BY s.name, b.name, r.name";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':contract_id' => $contractId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
     /**
      * Supprime un contrat
      * 
@@ -483,23 +465,27 @@ class ContractModel extends BaseModel
             throw $e;
         }
     }
-
-    /**
-     * Récupère toutes les salles d'un client avec leurs sites associés
-     */
     public function getRoomsForClient($clientId)
     {
-        $sql = "SELECT r.id, r.name, s.name as site_name
-                FROM rooms r
-                JOIN sites s ON r.building_id = s.id
-                WHERE s.client_id = :client_id
-                ORDER BY s.name, r.name";
+        $sql = "SELECT 
+                r.id, 
+                r.name, 
+                r.building_id,
+                s.id as site_id,
+                s.client_id,
+                s.name as site_name, 
+                b.id as building_id,
+                b.name as building_name
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.client_id = :client_id
+            ORDER BY s.name, b.name, r.name";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
     /**
      * Récupère le contrat associé à une salle spécifique
      */

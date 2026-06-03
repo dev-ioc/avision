@@ -269,6 +269,43 @@ class MaterielController
                 'date_derniere_inter' => !empty($_POST['date_derniere_inter']) ? $_POST['date_derniere_inter'] : null,
                 'commentaire' => $_POST['commentaire'] ?? null
             ];
+            custom_log("=== STORE CALLED FROM EXCEL ===", "INFO");
+            custom_log("POST data: " . print_r($_POST, true), "INFO");
+            custom_log("FILES: " . print_r($_FILES, true), "INFO");
+            // ========== LOG AVANT INSERTION ==========
+            // Log 1: Affichage structuré dans le fichier de log
+            custom_log("=== NOUVEAU MATERIEL A INSERER ===", "INFO");
+            custom_log("Données complètes reçues:", "INFO");
+            custom_log($data, "INFO");
+
+            // Log 2: Affichage formaté pour meilleure lisibilité
+            $logMessage = "INSERTION MATERIEL - ";
+            $logMessage .= "Salle: " . ($data['salle_id'] ?? 'N/A') . " | ";
+            $logMessage .= "Type: " . ($data['type_materiel'] ?? 'N/A') . " | ";
+            $logMessage .= "Modèle: " . ($data['modele'] ?? 'N/A') . " | ";
+            $logMessage .= "Marque: " . ($data['marque'] ?? 'N/A') . " | ";
+            $logMessage .= "N° Série: " . ($data['numero_serie'] ?? 'N/A') . " | ";
+            $logMessage .= "MAC: " . ($data['adresse_mac'] ?? 'N/A') . " | ";
+            $logMessage .= "IP: " . ($data['adresse_ip'] ?? 'N/A');
+            custom_log($logMessage, "INFO");
+
+            // Log 3: Sauvegarde JSON pour archivage
+            $jsonLog = [
+                'timestamp' => date('Y-m-d H:i:s'),
+                'user' => $_SESSION['user']['username'] ?? 'unknown',
+                'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+                'action' => 'MATERIEL_CREATION',
+                'data' => $data
+            ];
+            custom_log("JSON DATA: " . json_encode($jsonLog, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE), "INFO");
+
+            // Log 4: Résumé des champs non vides
+            $nonEmptyFields = array_filter($data, function ($value) {
+                return !empty($value);
+            });
+            custom_log("Champs remplis (" . count($nonEmptyFields) . "/" . count($data) . "): " . implode(', ', array_keys($nonEmptyFields)), "INFO");
+            custom_log("=== FIN DES DONNEES ===", "INFO");
+            // ========== FIN LOG ==========
 
             // Validation
             if (empty($data['salle_id']) || empty($data['modele']) || empty($data['marque'])) {
@@ -277,17 +314,20 @@ class MaterielController
 
             $materielId = $this->materielModel->createMateriel($data);
 
+            // Log après insertion
+            custom_log("MATERIEL CREE AVEC SUCCES - ID: " . $materielId, "INFO");
+
             // Sauvegarder la visibilité des champs
             if ($materielId) {
                 // Récupérer le contrat de la salle pour appliquer les règles par défaut
                 $contractId = null;
                 if ($data['salle_id']) {
                     $sql = "SELECT c.id as contract_id 
-                            FROM contracts c 
-                            INNER JOIN contract_rooms cr ON c.id = cr.contract_id 
-                            WHERE cr.room_id = :room_id 
-                            ORDER BY c.created_at DESC 
-                            LIMIT 1";
+                        FROM contracts c 
+                        INNER JOIN contract_rooms cr ON c.id = cr.contract_id 
+                        WHERE cr.room_id = :room_id 
+                        ORDER BY c.created_at DESC 
+                        LIMIT 1";
 
                     $stmt = $this->db->prepare($sql);
                     $stmt->execute([':room_id' => $data['salle_id']]);
@@ -338,6 +378,9 @@ class MaterielController
 
         } catch (Exception $e) {
             custom_log("Erreur lors de la création du matériel : " . $e->getMessage(), 'ERROR');
+            custom_log("Données qui ont causé l'erreur: ", "ERROR");
+            custom_log($data ?? [], "ERROR");
+
             $_SESSION['error'] = "Erreur lors de la création du matériel : " . $e->getMessage();
 
             // Construire l'URL de redirection avec les filtres
@@ -1606,14 +1649,55 @@ class MaterielController
         // Récupérer le matériel de cette salle
         $filters = ['salle_id' => $salleId];
         $materiel_list = $this->materielModel->getAllMateriel($filters);
+        $visibilites_champs = [];
+        $pieces_jointes_count = [];
 
         // Récupérer les informations de visibilité des champs
-        $visibilites_champs = [];
         if (!empty($materiel_list)) {
+            // Ajouter les informations de bâtiment pour chaque matériel
+            foreach ($materiel_list as $key => $materiel) {
+                if (!empty($materiel['salle_id'])) {
+                    // Récupérer la salle avec son bâtiment
+                    $room = $this->roomModel->getRoomById($materiel['salle_id']);
+                    if ($room) {
+                        $materiel_list[$key]['salle_nom'] = $room['name'];
+                        $materiel_list[$key]['building_id'] = $room['building_id'] ?? null;
+
+                        // Récupérer le bâtiment
+                        if (!empty($room['building_id'])) {
+                            $building = $this->buildingModel->getBuildingById($room['building_id']);
+                            if ($building) {
+                                $materiel_list[$key]['building_nom'] = $building['name'];
+                                $materiel_list[$key]['site_id'] = $building['site_id'] ?? null;
+
+                                // Récupérer le site
+                                if (!empty($building['site_id'])) {
+                                    $site = $this->siteModel->getSiteById($building['site_id']);
+                                    if ($site) {
+                                        $materiel_list[$key]['site_nom'] = $site['name'];
+                                        $materiel_list[$key]['client_id'] = $site['client_id'] ?? null;
+
+                                        // Récupérer le client
+                                        if (!empty($site['client_id'])) {
+                                            $client = $this->clientModel->getClientById($site['client_id']);
+                                            if ($client) {
+                                                $materiel_list[$key]['client_nom'] = $client['name'];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             $materiel_ids = array_column($materiel_list, 'id');
             $visibilites_champs = $this->materielModel->getVisibiliteChampsForMateriels($materiel_ids);
+            foreach ($materiel_ids as $materiel_id) {
+                $pieces_jointes_count[$materiel_id] = $this->materielModel->getPiecesJointesCount($materiel_id);
+            }
         }
-
         $pageTitle = "Matériel - " . ($building ? $building['name'] . ' - ' : '') . $salle['name'];
         require_once VIEWS_PATH . '/materiel/salle.php';
     }

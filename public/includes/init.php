@@ -27,7 +27,8 @@ ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Paris');
 
 // Fonction de log personnalisée
-function custom_log($message, $level = 'INFO', $context = []) {
+function custom_log($message, $level = 'INFO', $context = [])
+{
     $log_file = LOGS_PATH . '/app.log';
     $date = date('Y-m-d H:i:s');
     $context_str = !empty($context) ? json_encode($context) : '';
@@ -39,7 +40,8 @@ function custom_log($message, $level = 'INFO', $context = []) {
  * Log dédié aux mails (config SMTP, envois, erreurs connexion).
  * Écrit dans logs/mail.log pour faciliter le diagnostic.
  */
-function custom_log_mail($message, $level = 'INFO', $context = []) {
+function custom_log_mail($message, $level = 'INFO', $context = [])
+{
     $log_file = LOGS_PATH . '/mail.log';
     $date = date('Y-m-d H:i:s');
     $context_str = !empty($context) ? json_encode($context) : '';
@@ -66,4 +68,4 @@ $config = Config::getInstance();
 
 // Définition des constantes de configuration
 define('BASE_URL', $config->getBaseUrl());
-define('SITE_NAME', $config->getSiteName()); 
+define('SITE_NAME', $config->getSiteName());

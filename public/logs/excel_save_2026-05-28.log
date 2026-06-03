@@ -1,0 +1,3232 @@
+[2026-05-28 07:25:29] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:25:29] Input reçu
+Array
+(
+    [raw_length] => 899
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:25:29] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 07:25:29] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:25:29] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:25:29] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:25:29] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:25:29] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:31:34] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:31:34] Input reçu
+Array
+(
+    [raw_length] => 899
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:31:34] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 07:31:34] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:31:34] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:31:34] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:31:34] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:31:34] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:36:47] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:36:47] Input reçu
+Array
+(
+    [raw_length] => 899
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:36:47] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 07:36:47] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:36:47] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:36:47] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:36:47] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:36:47] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:39:16] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:39:16] Input reçu
+Array
+(
+    [raw_length] => 899
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:39:16] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 07:39:16] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:39:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:39:16] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:39:16] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:39:16] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:41:21] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:41:21] Input reçu
+Array
+(
+    [raw_length] => 1587
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:41:21] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 07:41:21] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:41:21] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:41:21] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:41:21] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 07:41:21] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:41:21] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 07:41:21] Réponse
+Array
+(
+    [status] => success
+    [message] => 2 ligne(s) mise(s) à jour
+    [updated] => 2
+    [total_rows] => 2
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:41:21] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] Input reçu
+Array
+(
+    [raw_length] => 2254
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] Réponse
+Array
+(
+    [status] => success
+    [message] => 3 ligne(s) mise(s) à jour
+    [updated] => 3
+    [total_rows] => 3
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:37] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] Input reçu
+Array
+(
+    [raw_length] => 2254
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] Réponse
+Array
+(
+    [status] => success
+    [message] => 3 ligne(s) mise(s) à jour
+    [updated] => 3
+    [total_rows] => 3
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:51:45] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] Input reçu
+Array
+(
+    [raw_length] => 2254
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] Réponse
+Array
+(
+    [status] => success
+    [message] => 3 ligne(s) mise(s) à jour
+    [updated] => 3
+    [total_rows] => 3
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 07:52:15] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] Input reçu
+Array
+(
+    [raw_length] => 2254
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] Réponse
+Array
+(
+    [status] => success
+    [message] => 3 ligne(s) mise(s) à jour
+    [updated] => 3
+    [total_rows] => 3
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:01:56] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] Input reçu
+Array
+(
+    [raw_length] => 2254
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] Réponse
+Array
+(
+    [status] => success
+    [message] => 3 ligne(s) mise(s) à jour
+    [updated] => 3
+    [total_rows] => 3
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:15] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] Input reçu
+Array
+(
+    [raw_length] => 2254
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] Réponse
+Array
+(
+    [status] => success
+    [message] => 3 ligne(s) mise(s) à jour
+    [updated] => 3
+    [total_rows] => 3
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:02:44] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] Input reçu
+Array
+(
+    [raw_length] => 2254
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] Réponse
+Array
+(
+    [status] => success
+    [message] => 3 ligne(s) mise(s) à jour
+    [updated] => 3
+    [total_rows] => 3
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:03:00] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] Input reçu
+Array
+(
+    [raw_length] => 2254
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] Réponse
+Array
+(
+    [status] => success
+    [message] => 3 ligne(s) mise(s) à jour
+    [updated] => 3
+    [total_rows] => 3
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:01] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] Input reçu
+Array
+(
+    [raw_length] => 2254
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] Réponse
+Array
+(
+    [status] => success
+    [message] => 3 ligne(s) mise(s) à jour
+    [updated] => 3
+    [total_rows] => 3
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:10:13] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] Input reçu
+Array
+(
+    [raw_length] => 2254
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] Réponse
+Array
+(
+    [status] => success
+    [message] => 3 ligne(s) mise(s) à jour
+    [updated] => 3
+    [total_rows] => 3
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:12:16] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] Input reçu
+Array
+(
+    [raw_length] => 2920
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] Traitement ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] Mise à jour réussie ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] Réponse
+Array
+(
+    [status] => success
+    [message] => 4 ligne(s) mise(s) à jour
+    [updated] => 4
+    [total_rows] => 4
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:01] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] Input reçu
+Array
+(
+    [raw_length] => 2920
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] Traitement ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] Mise à jour réussie ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] Réponse
+Array
+(
+    [status] => success
+    [message] => 4 ligne(s) mise(s) à jour
+    [updated] => 4
+    [total_rows] => 4
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:13:09] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] Input reçu
+Array
+(
+    [raw_length] => 2920
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] Traitement ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] Mise à jour réussie ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] Réponse
+Array
+(
+    [status] => success
+    [message] => 4 ligne(s) mise(s) à jour
+    [updated] => 4
+    [total_rows] => 4
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:15:32] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] Input reçu
+Array
+(
+    [raw_length] => 2920
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] Traitement ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] Mise à jour réussie ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] Réponse
+Array
+(
+    [status] => success
+    [message] => 4 ligne(s) mise(s) à jour
+    [updated] => 4
+    [total_rows] => 4
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:16:14] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] Input reçu
+Array
+(
+    [raw_length] => 2920
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] Traitement ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] Mise à jour réussie ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] Réponse
+Array
+(
+    [status] => success
+    [message] => 4 ligne(s) mise(s) à jour
+    [updated] => 4
+    [total_rows] => 4
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:41:50] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] Input reçu
+Array
+(
+    [raw_length] => 2920
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] Traitement ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] Mise à jour réussie ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] Réponse
+Array
+(
+    [status] => success
+    [message] => 4 ligne(s) mise(s) à jour
+    [updated] => 4
+    [total_rows] => 4
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:42:59] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] Input reçu
+Array
+(
+    [raw_length] => 2920
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] Traitement ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] Mise à jour réussie ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] Réponse
+Array
+(
+    [status] => success
+    [message] => 4 ligne(s) mise(s) à jour
+    [updated] => 4
+    [total_rows] => 4
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:01] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] Input reçu
+Array
+(
+    [raw_length] => 2920
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] Traitement ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] Mise à jour réussie ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] Réponse
+Array
+(
+    [status] => success
+    [message] => 4 ligne(s) mise(s) à jour
+    [updated] => 4
+    [total_rows] => 4
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:45:24] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] Input reçu
+Array
+(
+    [raw_length] => 2920
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] Traitement ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] Mise à jour réussie ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] Réponse
+Array
+(
+    [status] => success
+    [message] => 4 ligne(s) mise(s) à jour
+    [updated] => 4
+    [total_rows] => 4
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 08:47:08] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Input reçu
+Array
+(
+    [raw_length] => 4257
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Traitement ID: 2740
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Mise à jour réussie ID: 2740
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Traitement ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Mise à jour réussie ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Traitement ID: 2741
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Mise à jour réussie ID: 2741
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] Réponse
+Array
+(
+    [status] => success
+    [message] => 6 ligne(s) mise(s) à jour
+    [updated] => 6
+    [total_rows] => 6
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 13:46:42] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Input reçu
+Array
+(
+    [raw_length] => 4257
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Traitement ID: 2740
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Mise à jour réussie ID: 2740
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Traitement ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Mise à jour réussie ID: 2739
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Traitement ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Mise à jour réussie ID: 2737
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Traitement ID: 2741
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Mise à jour réussie ID: 2741
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Traitement ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Mise à jour réussie ID: 2738
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] Réponse
+Array
+(
+    [status] => success
+    [message] => 6 ligne(s) mise(s) à jour
+    [updated] => 6
+    [total_rows] => 6
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-28 14:40:32] === FIN ===
+--------------------------------------------------------------------------------

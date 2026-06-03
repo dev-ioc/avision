@@ -1,0 +1,730 @@
+[2026-05-26 15:44:25] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-26 15:44:25] Input reçu
+Array
+(
+    [raw_length] => 916
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 15:44:25] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-26 15:44:25] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 15:44:25] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 15:44:25] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 15:44:25] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 15:44:25] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:10:34] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:10:34] Input reçu
+Array
+(
+    [raw_length] => 899
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:10:34] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-26 16:10:34] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:10:34] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:10:34] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:10:34] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:10:34] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:11:45] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:11:45] Input reçu
+Array
+(
+    [raw_length] => 899
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:11:45] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-26 16:11:45] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:11:45] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:11:45] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:11:45] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:11:45] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:15] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:15] Input reçu
+Array
+(
+    [raw_length] => 900
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:15] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:15] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:15] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:15] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:15] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:15] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:44] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:44] Input reçu
+Array
+(
+    [raw_length] => 900
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:44] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:44] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:44] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:44] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:44] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:23:44] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:31:05] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:31:05] Input reçu
+Array
+(
+    [raw_length] => 899
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:31:05] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-26 16:31:05] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:31:05] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:31:05] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:31:05] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:31:05] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:06] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:06] Input reçu
+Array
+(
+    [raw_length] => 899
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:06] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:06] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:06] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:06] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:06] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:06] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:37] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:37] Input reçu
+Array
+(
+    [raw_length] => 899
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:37] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:37] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:37] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:37] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:37] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:34:37] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:36:03] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:36:03] Input reçu
+Array
+(
+    [raw_length] => 899
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:36:03] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-26 16:36:03] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:36:03] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:36:03] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:36:03] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:36:03] === FIN ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:37:59] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-05-26 16:37:59] Input reçu
+Array
+(
+    [raw_length] => 899
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:37:59] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-05-26 16:37:59] Traitement ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:37:59] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, reference = :reference, ancien_firmware = :ancien_firmware, masque = :masque, passerelle = :passerelle, login = :login, password = :password, ip_primaire = :ip_primaire, mac_primaire = :mac_primaire, ip_secondaire = :ip_secondaire, mac_secondaire = :mac_secondaire, stream_aes67_recu = :stream_aes67_recu, stream_aes67_transmis = :stream_aes67_transmis, ssid = :ssid, type_cryptage = :type_cryptage, password_wifi = :password_wifi, libelle_pa_salle = :libelle_pa_salle, numero_port_switch = :numero_port_switch, vlan = :vlan, date_fin_garantie = :date_fin_garantie, date_derniere_inter = :date_derniere_inter, commentaire = :commentaire, url_github = :url_github WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :reference
+            [8] => :ancien_firmware
+            [9] => :masque
+            [10] => :passerelle
+            [11] => :login
+            [12] => :password
+            [13] => :ip_primaire
+            [14] => :mac_primaire
+            [15] => :ip_secondaire
+            [16] => :mac_secondaire
+            [17] => :stream_aes67_recu
+            [18] => :stream_aes67_transmis
+            [19] => :ssid
+            [20] => :type_cryptage
+            [21] => :password_wifi
+            [22] => :libelle_pa_salle
+            [23] => :numero_port_switch
+            [24] => :vlan
+            [25] => :date_fin_garantie
+            [26] => :date_derniere_inter
+            [27] => :commentaire
+            [28] => :url_github
+            [29] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:37:59] Mise à jour réussie ID: 2712
+--------------------------------------------------------------------------------
+[2026-05-26 16:37:59] Réponse
+Array
+(
+    [status] => success
+    [message] => 1 ligne(s) mise(s) à jour
+    [updated] => 1
+    [total_rows] => 1
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-05-26 16:37:59] === FIN ===
+--------------------------------------------------------------------------------

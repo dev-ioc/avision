@@ -64,12 +64,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary">
                 <i class="bi bi-arrow-left me-1"></i> Retour
             </a>
-            <?php if (canModifyInterventions()): ?>
-                <button type="button" id="flashInterventionBtn" class="btn btn-success" data-bs-toggle="modal"
-                    data-bs-target="#flashInterventionModal">
-                    <i class="bi bi-lightning-charge me-1"></i> Flash Intervention
-                </button>
-            <?php endif; ?>
             <button type="button" id="createButton" class="btn btn-primary">
                 <i class="bi bi-plus-lg me-1"></i> Créer l'intervention
             </button>
@@ -153,11 +147,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
+                                
                                     <button type="button" class="btn btn-outline-secondary btn-sm"
                                         id="quickCreateClientBtn" title="Créer un nouveau client">
                                         <i class="bi bi-plus"></i>
                                     </button>
                                 </div>
+                                    <small id="clientError" class="text-danger d-none">Le client est obligatoire.</small>
                             </div>
 
                             <!-- Site -->
@@ -590,54 +586,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 <button type="button" class="btn btn-primary" id="confirmNotifyBtn">
                     <i class="bi bi-check-lg me-1"></i>Créer l'intervention
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modale Flash Intervention -->
-<div class="modal fade" id="flashInterventionModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white mb-3">
-                <h5 class="modal-title mb-3"><i class="bi bi-lightning-charge me-2"></i>Flash Intervention</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle me-2"></i>
-                    Création rapide d'une intervention de type <strong>Assistance téléphonique</strong> (30 min)
-                </div>
-                <form id="flashInterventionForm">
-                    <?= csrf_field() ?>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Client *</label>
-                        <select class="form-select" id="flash_client_id" name="client_id" required>
-                            <option value="">Sélectionner un client</option>
-                            <?php foreach ($clients as $client): ?>
-                                <option value="<?= $client['id'] ?>"><?= htmlspecialchars($client['name'] ?? '') ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <div class="invalid-feedback">Veuillez sélectionner un client</div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Sujet (optionnel)</label>
-                        <input type="text" class="form-control" id="flash_title" name="title" placeholder="Ex: Problème de connexion">
-                        <small class="text-muted">Laissez vide pour un titre automatique</small>
-                    </div>
-                    <div class="alert alert-warning">
-                        <i class="bi bi-exclamation-triangle me-2"></i>
-                        <strong>Note :</strong> L'intervention sera créée comme <strong>incomplète</strong>.<br>
-                        Vous devrez compléter le lieu, le sujet et la description après création.
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-success" id="confirmFlashBtn">
-                    <span class="spinner-border spinner-border-sm d-none" id="flashSpinner"></span>
-                    <i class="bi bi-lightning-charge me-1"></i> Créer l'intervention flash
                 </button>
             </div>
         </div>
@@ -1378,8 +1326,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 <!-- Validation JavaScript pour le formulaire d'intervention -->
 <script>
+       // Validation JavaScript pour le formulaire d'intervention
     document.addEventListener('DOMContentLoaded', function () {
-        // Validation des champs
+        // Sélection des champs
+        const titleInput = document.getElementById('title');
+        const titleError = document.getElementById('titleError');
+        const clientInput = document.getElementById('client_id');
+        const clientError = document.getElementById('clientError');
         const typeInput = document.getElementById('type_id');
         const typeError = document.getElementById('typeError');
         const contractInput = document.getElementById('contract_id');
@@ -1390,75 +1343,112 @@ include_once __DIR__ . '/../../includes/navbar.php';
         const prioriError = document.getElementById('prioriError');
         const form = document.getElementById('interventionForm');
 
+        // Fonctions de validation
         function validateType() {
-            if (typeInput.value === '') {
+            const isValid = typeInput.value !== '';
+            if (!isValid) {
                 typeError.classList.remove('d-none');
                 typeInput.classList.add('is-invalid');
-                return false;
             } else {
                 typeError.classList.add('d-none');
                 typeInput.classList.remove('is-invalid');
-                return true;
             }
+            return isValid;
         }
 
         function validateContract() {
-            if (contractInput.value === '') {
+            const isValid = contractInput.value !== '';
+            if (!isValid) {
                 contractError.classList.remove('d-none');
                 contractInput.classList.add('is-invalid');
-                return false;
             } else {
                 contractError.classList.add('d-none');
                 contractInput.classList.remove('is-invalid');
-                return true;
             }
+            return isValid;
         }
 
         function validateStatus() {
-            if (statutInput.value === '') {
+            const isValid = statutInput.value !== '';
+            if (!isValid) {
                 statutError.classList.remove('d-none');
                 statutInput.classList.add('is-invalid');
-                return false;
             } else {
                 statutError.classList.add('d-none');
                 statutInput.classList.remove('is-invalid');
-                return true;
             }
+            return isValid;
         }
 
         function validatePriority() {
-            if (prioriInput.value === '') {
+            const isValid = prioriInput.value !== '';
+            if (!isValid) {
                 prioriError.classList.remove('d-none');
                 prioriInput.classList.add('is-invalid');
-                return false;
             } else {
                 prioriError.classList.add('d-none');
                 prioriInput.classList.remove('is-invalid');
-                return true;
             }
+            return isValid;
         }
 
-        // Initial validation
+        function validateTitle() {
+            const isValid = titleInput.value.trim() !== '';
+            if (!isValid) {
+                titleError.classList.remove('d-none');
+                titleInput.classList.add('is-invalid');
+            } else {
+                titleError.classList.add('d-none');
+                titleInput.classList.remove('is-invalid');
+            }
+            return isValid;
+        }
+
+        function validateClient() {
+            const isValid = clientInput.value !== '';
+            if (!isValid) {
+                clientError.classList.remove('d-none');
+                clientInput.classList.add('is-invalid');
+            } else {
+                clientError.classList.add('d-none');
+                clientInput.classList.remove('is-invalid');
+            }
+            return isValid;
+        }
+
+        // Validation initiale (cache les erreurs par défaut)
         validateType();
         validateContract();
         validateStatus();
         validatePriority();
+        validateTitle();
+        validateClient();
 
-        // Event listeners
+        // Écouteurs d'événements
         typeInput.addEventListener('change', validateType);
         contractInput.addEventListener('change', validateContract);
         statutInput.addEventListener('change', validateStatus);
         prioriInput.addEventListener('change', validatePriority);
+        titleInput.addEventListener('input', validateTitle); // 'input' réagit plus rapidement
+        clientInput.addEventListener('change', validateClient);
 
-        // Form submission
+        // Validation lors de la soumission du formulaire
         form.addEventListener('submit', function (e) {
-            let isValid = true;
-            if (!validateType()) isValid = false;
-            if (!validateContract()) isValid = false;
-            if (!validateStatus()) isValid = false;
-            if (!validatePriority()) isValid = false;
+            const isValid = validateType() && 
+                           validateContract() && 
+                           validateStatus() && 
+                           validatePriority() && 
+                           validateTitle() && 
+                           validateClient();
+            
             if (!isValid) {
                 e.preventDefault();
+                // Optionnel : faire défiler jusqu'au premier champ invalide
+                const firstInvalid = document.querySelector('.is-invalid');
+                if (firstInvalid) {
+                    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstInvalid.focus();
+                }
             }
         });
     });

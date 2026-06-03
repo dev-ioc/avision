@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../includes/functions.php';
 /**
  * Vue du tableau de bord
  * Affiche les statistiques et les informations importantes
@@ -20,24 +21,71 @@ $ticketsValue = $financialData['ticketsValue'] ?? 0;
 $contractsValue = $financialData['contractsValue'] ?? 0;
 $tarifTicket = $financialData['tarifTicket'] ?? 90.0;
 
+$pageTitle = "Nouvelle intervention";
+
+if (!canModifyInterventions()) {
+    $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour créer une intervention.";
+    header('Location: ' . BASE_URL . 'interventions');
+    exit;
+}
+
+setPageVariables('Nouvelle Intervention', 'interventions');
+$currentPage = 'interventions';
+
+$selectedClientId = $_GET['client_id'] ?? null;
+$selectedClient = null;
+if ($selectedClientId) {
+    if (isset($clients) && is_array($clients)) {
+        foreach ($clients as $c) {
+            if (isset($c['id']) && $c['id'] == $selectedClientId) {
+                $selectedClient = $c;
+                break;
+            }
+        }
+    }
+    if (!$selectedClient) {
+        require_once __DIR__ . '/../../models/ClientModel.php';
+        global $db;
+        $clientModel = new ClientModel($db);
+        $selectedClient = $clientModel->getClientById($selectedClientId);
+    }
+}
+
+$GLOBALS['customBreadcrumbs'] = generateInterventionAddBreadcrumbs($selectedClient);
 // Inclure le header qui contient le menu latéral
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
 
+
+
 ?>
 
 <div class="container-fluid flex-grow-1 container-p-y">
-    <h4 class="py-4 mb-6">Tableau de bord</h4>
+    <div class="d-flex justify-content-between align-items-center">
+        <h4 class="py-4 mb-6">Tableau de bord</h4>
+        <?php if (canModifyInterventions()): ?>
+            <div class="py-4 mb-6">
+                <button type="button" id="flashInterventionBtn" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#flashInterventionModal">
+                    <i class="bi bi-lightning-charge me-1"></i> Flash Intervention
+                </button>
+            </div>
+        <?php endif; ?>
+    </div>
 
-    <!-- Card des montants financiers -->
+    <!-- Card des montants financiers - COLLAPSIBLE ET FERMÉ PAR DÉFAUT -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card">
-                <div class="card-header text-dark">
-                    <i class="bi bi-currency-euro me-1"></i> Aperçu financier des contrats actifs
+                <div class="card-header text-dark d-flex justify-content-between align-items-center"
+                    style="cursor: pointer;" onclick="toggleFinancialCard()">
+                    <div>
+                        <i class="bi bi-currency-euro me-1"></i> Aperçu financier des contrats actifs
+                    </div>
+                    <i class="bi bi-chevron-down" id="financialCardIcon"></i>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="financialCardBody" style="display: none;">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="d-flex align-items-center">
@@ -114,7 +162,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
         <div class="col-md-6">
             <div class="card h-100">
                 <div class="card-header text-dark">
-                    <i class="bi bi-calendar-check me-1"></i> Prochaines interventions planifiées
+                    <i class="bi bi-clock-history me-1"></i> Dernières interventions
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -124,7 +172,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <th>N° Inter</th>
                                     <th>Client</th>
                                     <th>Techniciens</th>
-                                    <th>Date planifiée</th>
+                                    <th>Date création</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -151,21 +199,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 ?>
                                             </td>
                                             <td>
-                                                <?php
-                                                $datePlanif = $intervention['date_planif'];
-                                                $heurePlanif = $intervention['heure_planif'];
-                                                echo formatDate($datePlanif);
-                                                if ($heurePlanif) {
-                                                    echo ' ' . $heurePlanif;
-                                                }
-                                                ?>
+                                                <?php echo formatDate($intervention['created_at'] ?? date('Y-m-d')); ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
                                         <td colspan="4" class="text-center text-muted">
-                                            Aucune intervention planifiée
+                                            Aucune intervention récente
                                         </td>
                                     </tr>
                                 <?php endif; ?>
@@ -210,7 +251,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         </td>
                                         <td>
                                             <?php
-                                            if ($contract['site_names']) {
+                                            if (isset($contract['site_names']) && !empty($contract['site_names'])) {
                                                 echo h($contract['site_names']);
                                             } else {
                                                 echo "Client";
@@ -261,7 +302,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         </td>
                                         <td>
                                             <?php
-                                            if ($contract['site_names']) {
+                                            if (isset($contract['site_names']) && !empty($contract['site_names'])) {
                                                 echo h($contract['site_names']);
                                             } else {
                                                 echo "Client";
@@ -447,10 +488,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 <?php echo h($room['room_name']); ?>
                                             </td>
                                             <td data-label="Contact principal"
-                                                data-sort-value="<?php echo h(strtolower($room['contact_name'] ?: 'aucun contact')); ?>">
+                                                data-sort-value="<?php echo h(strtolower($room['contact_name'] ?? 'aucun contact')); ?>">
                                                 <?php
-                                                if ($room['contact_name']) {
-                                                    echo h($room['contact_name']);
+                                                $contactName = $room['contact_name'] ?? null;
+                                                if (!empty($contactName)) {
+                                                    echo h($contactName);
                                                 } else {
                                                     echo '<span class="text-muted">Aucun contact</span>';
                                                 }
@@ -482,12 +524,78 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
         </div>
     </div>
-</div>
 
-</div>
+    <!-- Modale Flash Intervention -->
+    <div class="modal fade" id="flashInterventionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white mb-3">
+                    <h5 class="modal-title mb-3"><i class="bi bi-lightning-charge me-2"></i>Flash Intervention</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Création rapide d'une intervention de type <strong>Assistance téléphonique</strong> (30 min)
+                    </div>
+                    <form id="flashInterventionForm">
+                        <?= csrf_field() ?>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Client *</label>
+                            <select class="form-select" id="flash_client_id" name="client_id" required>
+                                <option value="">Sélectionner un client</option>
+                                <?php foreach ($clients as $client): ?>
+                                    <option value="<?= $client['id'] ?>">
+                                        <?= htmlspecialchars($client['name'] ?? '') ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div class="invalid-feedback">Veuillez sélectionner un client</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Sujet (optionnel)</label>
+                            <input type="text" class="form-control" id="flash_title" name="title"
+                                placeholder="Ex: Problème de connexion">
+                            <small class="text-muted">Laissez vide pour un titre automatique</small>
+                        </div>
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            <strong>Note :</strong> L'intervention sera créée comme <strong>incomplète</strong>.<br>
+                            Vous devrez compléter le lieu, le sujet et la description après création.
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-success" id="confirmFlashBtn">
+                        <span class="spinner-border spinner-border-sm d-none" id="flashSpinner"></span>
+                        <i class="bi bi-lightning-charge me-1"></i> Créer l'intervention flash
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<!-- Script pour les graphiques camembert -->
+</div> <!-- ← CE DIV FERME LE CONTAINER ICI, À LA FIN DE TOUT LE CONTENU -->
+
+<!-- Script pour les graphiques camembert et la fonction toggle -->
 <script>
+    // Fonction pour basculer l'affichage de la carte financière
+    function toggleFinancialCard() {
+        const body = document.getElementById('financialCardBody');
+        const icon = document.getElementById('financialCardIcon');
+
+        if (body.style.display === 'none' || body.style.display === '') {
+            body.style.display = 'block';
+            icon.classList.remove('bi-chevron-down');
+            icon.classList.add('bi-chevron-up');
+        } else {
+            body.style.display = 'none';
+            icon.classList.remove('bi-chevron-up');
+            icon.classList.add('bi-chevron-down');
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         // Couleurs par défaut si les couleurs de la base de données ne sont pas définies
         const defaultColors = [
@@ -714,8 +822,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             // Gestionnaire d'événements pour les en-têtes triables
             table.querySelectorAll('th.sortable').forEach((header, index) => {
                 header.addEventListener('click', function () {
-                    const sortType = this.getAttribute('data-sort');
-
                     // Réinitialiser tous les en-têtes de cette table
                     table.querySelectorAll('th.sortable').forEach(th => {
                         th.classList.remove('sort-asc', 'sort-desc');
@@ -744,6 +850,123 @@ include_once __DIR__ . '/../../includes/navbar.php';
         initSortableTable('newInterventionsTable');
         initSortableTable('roomsWithoutContractTable');
     });
+
+    // Script pour la Flash Intervention
+    document.addEventListener('DOMContentLoaded', function () {
+        const flashBtn = document.getElementById('confirmFlashBtn');
+        const flashClient = document.getElementById('flash_client_id');
+        const flashSpinner = document.getElementById('flashSpinner');
+
+        if (flashBtn) {
+            flashBtn.addEventListener('click', function () {
+                const clientId = flashClient.value;
+                if (!clientId) {
+                    flashClient.classList.add('is-invalid');
+                    flashClient.focus();
+                    return;
+                }
+                flashClient.classList.remove('is-invalid');
+                flashSpinner.classList.remove('d-none');
+                flashBtn.disabled = true;
+
+                const formData = new URLSearchParams();
+                formData.append('client_id', clientId);
+                formData.append('title', document.getElementById('flash_title').value);
+                formData.append('csrf_token', '<?= csrf_token() ?>');
+
+                fetch('<?= BASE_URL ?>interventions/flash', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-Token': '<?= csrf_token() ?>'
+                    },
+                    body: formData
+                })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Créer un overlay semi-transparent
+                            const overlay = document.createElement('div');
+                            overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    `;
+
+                            // Créer la carte de succès
+                            const successCard = document.createElement('div');
+                            successCard.style.cssText = `
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        text-align: center;
+        min-width: 400px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        animation: slideIn 0.3s ease-out;
+    `;
+
+                            successCard.innerHTML = `
+        <style>
+            @keyframes slideIn {
+                from {
+                    transform: translateY(-50px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes progress {
+                0% { width: 0%; }
+                100% { width: 100%; }
+            }
+        </style>
+        <div style="background: #d4edda; border-radius: 12px; padding: 5px; margin-bottom: 20px;">
+            <i class="bi bi-check-circle-fill" style="font-size: 64px; color: #28a745; display: block;"></i>
+        </div>
+        <h3 style="color: #155724; margin-bottom: 10px;">Succès !</h3>
+        <p style="font-size: 16px; color: #155724; margin-bottom: 20px;">
+            L'intervention rapide a été créée avec succès.
+        </p>
+        <div style="height: 4px; background: #e9ecef; border-radius: 2px; overflow: hidden; margin: 20px 0;">
+            <div style="width: 100%; height: 100%; background: #28a745; animation: progress 2s linear;"></div>
+        </div>
+    `;
+
+                            overlay.appendChild(successCard);
+                            document.body.appendChild(overlay);
+
+                            // Désactiver le bouton
+                            flashBtn.disabled = true;
+
+                            // Fermer la modale
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('flashInterventionModal'));
+                            if (modal) modal.hide();
+
+                            // Redirection après 2 secondes
+                            setTimeout(function () {
+                                window.location.href = '<?= BASE_URL ?>dashboard';
+                            }, 2000);
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Erreur:', err);
+                        alert('Une erreur est survenue lors de la création flash');
+                        flashSpinner.classList.add('d-none');
+                        flashBtn.disabled = false;
+                    });
+            });
+        }
+    });
 </script>
 
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
@@ -767,18 +990,24 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     .sortable.sort-asc .sort-icon::before {
         content: "\F12C";
-        /* bi-arrow-up */
         opacity: 1;
     }
 
     .sortable.sort-desc .sort-icon::before {
         content: "\F12F";
-        /* bi-arrow-down */
         opacity: 1;
     }
 
     .sortable.sort-asc,
     .sortable.sort-desc {
         background-color: rgba(0, 123, 255, 0.1);
+    }
+
+    .card-header {
+        transition: background-color 0.2s ease;
+    }
+
+    .card-header:hover {
+        background-color: rgba(0, 0, 0, 0.02);
     }
 </style>

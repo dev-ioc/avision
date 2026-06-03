@@ -200,7 +200,6 @@ class MaterielClientController
     {
         $this->checkClientPermission('client_view_materiel', "Vous n'avez pas les permissions pour accéder au matériel.");
 
-        // Récupérer les localisations autorisées de l'utilisateur
         $userLocations = getUserLocations();
 
         try {
@@ -213,6 +212,15 @@ class MaterielClientController
                 exit;
             }
 
+            // DEBUG: Vérifier directement en SQL
+            $sql_check = "SELECT COUNT(*) as count FROM pieces_jointes pj 
+                      INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id 
+                      WHERE lpj.type_liaison = 'materiel' AND lpj.entite_id = ? AND pj.masque_client = 0";
+            $stmt_check = $this->db->prepare($sql_check);
+            $stmt_check->execute([$id]);
+            $direct_count = $stmt_check->fetch(PDO::FETCH_ASSOC);
+            custom_log("VIEW - Direct SQL count for materiel $id: " . ($direct_count['count'] ?? 0), 'DEBUG');
+
             // Récupérer les informations de visibilité des champs
             $visibilites_champs = [];
             $visibilites = $this->model->getVisibiliteChampsForMateriels([$id]);
@@ -222,6 +230,7 @@ class MaterielClientController
 
             // Récupérer les pièces jointes
             $attachments = $this->model->getPiecesJointesWithAccess($id, $userLocations);
+            custom_log("VIEW - Attachments from model: " . count($attachments), 'DEBUG');
 
         } catch (Exception $e) {
             custom_log("Erreur lors de la récupération du matériel client : " . $e->getMessage(), 'ERROR');
@@ -235,7 +244,6 @@ class MaterielClientController
 
         require_once __DIR__ . '/../views/materiel_client/view.php';
     }
-
     /**
      * Récupère les sites selon les localisations autorisées (AJAX)
      */
@@ -312,21 +320,38 @@ class MaterielClientController
 
     /**
      * Télécharge une pièce jointe (client)
-     * Utilise AttachmentService pour centraliser la logique
      */
     public function download($attachmentId)
     {
         $this->checkClientPermission('client_view_materiel');
 
+        if (!$attachmentId) {
+            $_SESSION['error'] = "ID de pièce jointe manquant";
+            header('Location: ' . BASE_URL . 'materiel_client');
+            exit;
+        }
+
+        $attachmentId = (int) $attachmentId;
+
         try {
             $userLocations = getUserLocations();
 
-            // Vérifier que la pièce jointe appartient à un matériel accessible
-            $attachmentService = new AttachmentService($this->db);
-            $attachmentData = $attachmentService->getAttachmentById($attachmentId);
+            // Récupérer les informations de la pièce jointe
+            $sql = "SELECT pj.*, lpj.type_liaison, lpj.entite_id 
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                WHERE pj.id = ?";
 
-            if (!$attachmentData || $attachmentData['type_liaison'] !== AttachmentService::TYPE_MATERIEL) {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$attachmentId]);
+            $attachmentData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$attachmentData) {
                 throw new Exception('Pièce jointe non trouvée.');
+            }
+
+            if ($attachmentData['type_liaison'] !== 'materiel') {
+                throw new Exception('Type de pièce jointe non supporté.');
             }
 
             // Vérifier l'accès au matériel
@@ -335,18 +360,85 @@ class MaterielClientController
                 throw new Exception('Vous n\'êtes pas autorisé à accéder à cette pièce jointe.');
             }
 
-            // Utiliser AttachmentService pour gérer le téléchargement
-            $attachmentService->download($attachmentId, true);
+            // CORRECTION : Construire le chemin absolu correctement
+            // Remplacer les antislashs par des slashes et nettoyer le chemin
+            $relativePath = str_replace('\\', '/', $attachmentData['chemin_fichier']);
+            $relativePath = ltrim($relativePath, '/');
+
+            // Chemin absolu depuis la racine du projet
+            $filePath = __DIR__ . '/../../' . $relativePath;
+
+            // Normaliser le chemin (remplacer \ par /)
+            $filePath = str_replace('\\', '/', $filePath);
+
+            // Alternative: utiliser le chemin absolu du projet
+            // $filePath = $_SERVER['DOCUMENT_ROOT'] . '/avision/public/' . $relativePath;
+
+            custom_log("Relative path: " . $relativePath, 'DEBUG');
+            custom_log("Full file path: " . $filePath, 'DEBUG');
+            custom_log("File exists: " . (file_exists($filePath) ? 'YES' : 'NO'), 'DEBUG');
+
+            if (!file_exists($filePath)) {
+                // Essayer un autre chemin
+                $altPath = $_SERVER['DOCUMENT_ROOT'] . '/avision/public/' . $relativePath;
+                custom_log("Alternative path: " . $altPath, 'DEBUG');
+                custom_log("Alternative exists: " . (file_exists($altPath) ? 'YES' : 'NO'), 'DEBUG');
+
+                if (file_exists($altPath)) {
+                    $filePath = $altPath;
+                } else {
+                    throw new Exception('Le fichier n\'existe pas sur le serveur. Chemin recherché: ' . $filePath);
+                }
+            }
+
+            // Nom du fichier
+            $fileName = !empty($attachmentData['nom_personnalise'])
+                ? $attachmentData['nom_personnalise']
+                : $attachmentData['nom_fichier'];
+
+            $fileName = preg_replace('/[^a-zA-Z0-9._-]/', '_', $fileName);
+
+            // Type MIME
+            $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+            $mimeTypes = [
+                'pdf' => 'application/pdf',
+                'jpg' => 'image/jpeg',
+                'jpeg' => 'image/jpeg',
+                'png' => 'image/png',
+                'gif' => 'image/gif',
+                'txt' => 'text/plain',
+                'doc' => 'application/msword',
+                'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'xls' => 'application/vnd.ms-excel',
+                'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'zip' => 'application/zip',
+            ];
+            $mimeType = $mimeTypes[$extension] ?? 'application/octet-stream';
+
+            // Nettoyer les buffers
+            if (ob_get_level()) {
+                ob_end_clean();
+            }
+
+            // Headers pour forcer le téléchargement
+            header('Content-Type: ' . $mimeType);
+            header('Content-Disposition: attachment; filename="' . $fileName . '"');
+            header('Content-Length: ' . filesize($filePath));
+            header('Cache-Control: private, max-age=0, must-revalidate');
+            header('Pragma: public');
+            header('Expires: 0');
+
+            // Envoyer le fichier
+            readfile($filePath);
+            exit;
 
         } catch (Exception $e) {
-            custom_log("Erreur lors du téléchargement de la pièce jointe (client matériel) : " . $e->getMessage(), 'ERROR');
+            custom_log("ERROR in download: " . $e->getMessage(), 'ERROR');
             $_SESSION['error'] = "Erreur lors du téléchargement : " . $e->getMessage();
-            $materielId = $attachmentData['entite_id'] ?? 0;
-            header('Location: ' . BASE_URL . 'materiel_client/view/' . $materielId);
+            header('Location: ' . BASE_URL . 'materiel_client/view/' . ($attachmentData['entite_id'] ?? 0));
             exit;
         }
     }
-
     /**
      * Aperçu d'une pièce jointe (client)
      * Utilise AttachmentService pour centraliser la logique
@@ -383,4 +475,75 @@ class MaterielClientController
             exit;
         }
     }
+    /**
+     * Récupère un bâtiment par son ID avec vérification d'accès (API)
+     */
+    public function getBuildingByIdWithAccess()
+    {
+        // Définir le header JSON
+        header('Content-Type: application/json');
+
+        try {
+            // Vérifier si l'utilisateur est connecté
+            if (!isset($_SESSION['user'])) {
+                http_response_code(401);
+                echo json_encode(['success' => false, 'error' => 'Non authentifié']);
+                return;
+            }
+
+            // Récupérer l'ID du bâtiment depuis l'URL ou les paramètres
+            $buildingId = null;
+
+            // Vérifier dans l'URL (ex: /materiel_client/getBuildingByIdWithAccess/123)
+            global $parts;
+            if (isset($parts[3]) && is_numeric($parts[3])) {
+                $buildingId = (int) $parts[3];
+            }
+            // Vérifier dans les paramètres GET
+            elseif (isset($_GET['id']) && is_numeric($_GET['id'])) {
+                $buildingId = (int) $_GET['id'];
+            }
+            // Vérifier dans les paramètres POST
+            elseif (isset($_POST['building_id']) && is_numeric($_POST['building_id'])) {
+                $buildingId = (int) $_POST['building_id'];
+            }
+
+            if (!$buildingId) {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'error' => 'ID du bâtiment manquant']);
+                return;
+            }
+
+            // Récupérer les localisations autorisées
+            $userLocations = getUserLocations();
+
+            if (empty($userLocations)) {
+                http_response_code(403);
+                echo json_encode(['success' => false, 'error' => 'Aucune localisation autorisée']);
+                return;
+            }
+
+            // Instancier le modèle
+            $config = Config::getInstance();
+            $db = $config->getDb();
+            $materielClientModel = new MaterielClientModel($db);
+
+            // Récupérer le bâtiment avec vérification d'accès
+            $building = $materielClientModel->getBuildingByIdWithAccess($buildingId, $userLocations);
+
+            if (!$building) {
+                http_response_code(404);
+                echo json_encode(['success' => false, 'error' => 'Bâtiment non trouvé ou accès non autorisé']);
+                return;
+            }
+
+            echo json_encode(['success' => true, 'building' => $building]);
+
+        } catch (Exception $e) {
+            custom_log("Erreur dans getBuildingByIdWithAccess: " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur serveur: ' . $e->getMessage()]);
+        }
+    }
+
 }

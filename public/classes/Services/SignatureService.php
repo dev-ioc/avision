@@ -35,6 +35,7 @@ class SignatureService
         $response = curl_exec($ch);
         $curlError = curl_error($ch);
         curl_close($ch);
+
         // Afficher le résultat brut pour debug
         echo '<pre>AUTH RESPONSE: ' . $response . '</pre>';
         echo '<pre>CURL ERROR: ' . $curlError . '</pre>';

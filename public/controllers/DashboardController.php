@@ -16,9 +16,6 @@ class DashboardController
             exit;
         }
 
-        // Récupérer les informations de l'utilisateur
-        $userInfo = $_SESSION['user'];
-
         // Utiliser les fonctions helper pour déterminer le type d'utilisateur
         if (isClient()) {
             $this->clientDashboard();
@@ -30,6 +27,7 @@ class DashboardController
     /**
      * Dashboard pour le personnel (admin, technicien)
      */
+
     private function staffDashboard()
     {
         // Vérifier que l'utilisateur est staff (sécurité)
@@ -37,20 +35,6 @@ class DashboardController
             $_SESSION['error'] = 'Accès non autorisé. Vous devez être membre du personnel pour accéder à cette page.';
             header('Location: ' . BASE_URL . 'auth/logout');
             exit;
-        }
-
-        // Récupérer les permissions de l'utilisateur
-        $permissions = [];
-
-        // Si les permissions sont dans la session
-        if (isset($_SESSION['user']['permissions'])) {
-            // Si les permissions sont stockées avec la structure 'rights'
-            if (isset($_SESSION['user']['permissions']['rights'])) {
-                $permissions = $_SESSION['user']['permissions']['rights'];
-            } else {
-                // Sinon, utiliser directement les permissions
-                $permissions = $_SESSION['user']['permissions'];
-            }
         }
 
         // Récupération de l'instance de la base de données
@@ -69,6 +53,9 @@ class DashboardController
             $plannedInterventions = $this->getPlannedInterventions($db);
             $roomsWithoutContract = $this->getRoomsWithoutContract($db);
             $financialData = $this->getFinancialData($db);
+
+            // AJOUT : Récupérer la liste des clients pour le modal Flash Intervention
+            $clients = $this->getAllClients($db);
 
             // Préparer les données pour les graphiques camembert
             $pieChartLabelsNonPreventive = [];
@@ -109,15 +96,27 @@ class DashboardController
             $pieChartLabelsPreventive = [];
             $pieChartSeriesPreventive = [];
             $pieChartColorsPreventive = [];
+            $clients = []; // AJOUT : Initialiser $clients vide en cas d'erreur
 
             // Log de l'erreur
             custom_log("Erreur lors du chargement des statistiques du dashboard : " . $e->getMessage(), 'ERROR');
         }
 
-        // Inclure la vue du dashboard staff
+        // AJOUT : Passer $clients à la vue via des variables globales ou inclure le fichier avec les données
+        // La vue dashboard/staff.php a besoin de $clients
         require_once VIEWS_PATH . '/dashboard/staff.php';
     }
-
+    /**
+     * Récupère la liste de tous les clients
+     */
+    private function getAllClients($db)
+    {
+        // Supprimer "WHERE deleted_at IS NULL" car cette colonne n'existe pas
+        $sql = "SELECT id, name FROM clients ORDER BY name ASC";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     /**
      * Dashboard pour les clients
      */
@@ -153,7 +152,6 @@ class DashboardController
 
         try {
             // Récupérer les informations du client
-            custom_log("DEBUG - Dashboard client - Début, client_id: $clientId", 'DEBUG');
             $stmt = $db->prepare("
                 SELECT id, name, city, email, phone, status, address, postal_code, 
                        comment, created_at, updated_at
@@ -162,7 +160,6 @@ class DashboardController
             ");
             $stmt->execute(['client_id' => $clientId]);
             $client = $stmt->fetch(PDO::FETCH_ASSOC);
-            custom_log("DEBUG - Dashboard client - Client récupéré: " . ($client ? 'OUI' : 'NON'), 'DEBUG');
 
             if (!$client) {
                 $_SESSION['error'] = "Client non trouvé";
@@ -171,7 +168,6 @@ class DashboardController
             }
 
             // Récupérer TOUS les sites du client
-            custom_log("DEBUG - Dashboard client - Récupération des sites...", 'DEBUG');
             $stmt = $db->prepare("
                 SELECT s.id, s.name, s.client_id, s.status, s.address, s.city, s.postal_code, 
                        s.phone, s.email, s.comment, 
@@ -182,10 +178,8 @@ class DashboardController
             ");
             $stmt->execute(['client_id' => $clientId]);
             $allSites = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            custom_log("DEBUG - Dashboard client - Sites récupérés: " . count($allSites), 'DEBUG');
 
             // Pour chaque site, récupérer tous ses bâtiments
-            custom_log("DEBUG - Dashboard client - Récupération des bâtiments...", 'DEBUG');
             foreach ($allSites as &$site) {
                 $stmt = $db->prepare("
                     SELECT b.id, b.name, b.site_id, b.status, b.comment, 
@@ -196,7 +190,6 @@ class DashboardController
                 ");
                 $stmt->execute(['site_id' => $site['id']]);
                 $site['buildings'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                custom_log("DEBUG - Dashboard client - Bâtiments récupérés pour site {$site['id']}: " . count($site['buildings']), 'DEBUG');
 
                 // Pour chaque bâtiment, récupérer toutes ses salles
                 foreach ($site['buildings'] as &$building) {
@@ -209,39 +202,23 @@ class DashboardController
                     ");
                     $stmt->execute(['building_id' => $building['id']]);
                     $building['rooms'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    custom_log("DEBUG - Dashboard client - Salles récupérées pour bâtiment {$building['id']}: " . count($building['rooms']), 'DEBUG');
                 }
             }
 
-            custom_log("DEBUG - Dashboard client - Nombre de sites après array_values: " . count($allSites), 'DEBUG');
-            custom_log("DEBUG - Dashboard client - userLocations: " . json_encode($userLocations), 'DEBUG');
-
             // Marquer les sites, bâtiments et salles autorisés
-            custom_log("DEBUG - Dashboard client - Avant markAuthorizedLocations - Nombre de sites: " . count($allSites), 'DEBUG');
             $sitesWithAccess = $this->markAuthorizedLocations($allSites, $userLocations);
-            custom_log("DEBUG - Dashboard client - Après markAuthorizedLocations - Nombre de sites: " . count($sitesWithAccess), 'DEBUG');
 
             // Récupérer les contrats ticket du client
             $ticketContracts = $this->getTicketContracts($db, $clientId);
 
-            // Debug des permissions de l'utilisateur
-            $this->debugUserPermissions();
-
             // Récupérer les interventions ouvertes si l'utilisateur a la permission
             $openInterventions = [];
             if (hasPermission('client_view_interventions')) {
-                custom_log("DEBUG - Utilisateur a la permission client_view_interventions", 'DEBUG');
                 $openInterventions = $this->getOpenInterventions($db, $clientId, $userLocations);
-                custom_log("DEBUG - Nombre d'interventions ouvertes trouvées : " . count($openInterventions), 'DEBUG');
-            } else {
-                custom_log("DEBUG - Utilisateur n'a PAS la permission client_view_interventions", 'DEBUG');
             }
 
         } catch (Exception $e) {
             custom_log("Erreur lors du chargement du dashboard client : " . $e->getMessage(), 'ERROR');
-            custom_log("DEBUG - Stack trace : " . $e->getTraceAsString(), 'ERROR');
-            custom_log("DEBUG - Fichier : " . $e->getFile() . " - Ligne : " . $e->getLine(), 'ERROR');
-            $_SESSION['error'] = "Une erreur est survenue lors du chargement des données";
             $sitesWithAccess = [];
             $ticketContracts = [];
             $openInterventions = [];
@@ -253,9 +230,6 @@ class DashboardController
 
     /**
      * Marque les sites, bâtiments et salles autorisés pour l'utilisateur
-     * @param array $sites Tous les sites du client
-     * @param array $userLocations Les localisations autorisées de l'utilisateur
-     * @return array Les sites avec les informations d'accès
      */
     private function markAuthorizedLocations($sites, $userLocations)
     {
@@ -266,9 +240,7 @@ class DashboardController
             $siteData['authorized'] = false;
             $siteData['buildings_authorized'] = [];
 
-            // Vérifier si l'utilisateur a accès au site entier
             foreach ($userLocations as $location) {
-                // Conversion explicite en entiers pour éviter les problèmes de type
                 $locClientId = (int) $location['client_id'];
                 $locSiteId = $location['site_id'] !== null ? (int) $location['site_id'] : null;
                 $locBuildingId = $location['building_id'] !== null ? (int) $location['building_id'] : null;
@@ -280,7 +252,6 @@ class DashboardController
                     // Accès au client entier
                     if ($locSiteId === null && $locBuildingId === null && $locRoomId === null) {
                         $siteData['authorized'] = true;
-                        // Tous les bâtiments et salles sont autorisés
                         foreach ($site['buildings'] as $building) {
                             $siteData['buildings_authorized'][(int) $building['id']] = true;
                             foreach ($building['rooms'] as $room) {
@@ -292,7 +263,6 @@ class DashboardController
                     // Accès au site entier
                     elseif ($locSiteId === $siteId && $locBuildingId === null && $locRoomId === null) {
                         $siteData['authorized'] = true;
-                        // Tous les bâtiments et salles du site sont autorisés
                         foreach ($site['buildings'] as $building) {
                             $siteData['buildings_authorized'][(int) $building['id']] = true;
                             foreach ($building['rooms'] as $room) {
@@ -304,10 +274,7 @@ class DashboardController
                     // Accès à des bâtiments spécifiques
                     elseif ($locSiteId === $siteId && $locBuildingId !== null && $locRoomId === null) {
                         $siteData['buildings_authorized'][$locBuildingId] = true;
-                        // Si l'utilisateur a accès à au moins un bâtiment du site, le site est autorisé
                         $siteData['authorized'] = true;
-
-                        // Marquer toutes les salles de ce bâtiment comme autorisées
                         foreach ($site['buildings'] as &$building) {
                             if ((int) $building['id'] === $locBuildingId) {
                                 foreach ($building['rooms'] as $room) {
@@ -319,9 +286,7 @@ class DashboardController
                     // Accès à des salles spécifiques
                     elseif ($locSiteId === $siteId && $locBuildingId !== null && $locRoomId !== null) {
                         $siteData['buildings_authorized']['rooms'][$locRoomId] = true;
-                        // Marquer le bâtiment comme autorisé
                         $siteData['buildings_authorized'][$locBuildingId] = true;
-                        // Si l'utilisateur a accès à au moins une salle du site, le site est autorisé
                         $siteData['authorized'] = true;
                     }
                 }
@@ -330,7 +295,9 @@ class DashboardController
             // Marquer les bâtiments et salles individuels
             foreach ($siteData['buildings'] as $buildingIndex => $building) {
                 $buildingId = (int) $building['id'];
-                $buildingData['authorized'] = isset($siteData['buildings_authorized'][$buildingId]) && $siteData['buildings_authorized'][$buildingId] === true;
+                $siteData['buildings'][$buildingIndex]['authorized'] =
+                    isset($siteData['buildings_authorized'][$buildingId]) &&
+                    $siteData['buildings_authorized'][$buildingId] === true;
 
                 foreach ($building['rooms'] as $roomIndex => $room) {
                     $roomId = (int) $room['id'];
@@ -338,8 +305,6 @@ class DashboardController
                         isset($siteData['buildings_authorized']['rooms'][$roomId]) &&
                         $siteData['buildings_authorized']['rooms'][$roomId] === true;
                 }
-
-                $siteData['buildings'][$buildingIndex]['authorized'] = $buildingData['authorized'];
             }
 
             $sitesWithAccess[] = $siteData;
@@ -349,19 +314,14 @@ class DashboardController
     }
 
     /**
-     * Récupère les contrats ticket du client avec leurs informations
-     * @param PDO $db Connexion à la base de données
-     * @param int $clientId ID du client
-     * @return array Liste des contrats ticket
+     * Récupère les contrats ticket du client
      */
     private function getTicketContracts($db, $clientId)
     {
         try {
-            // Récupérer les contrats avec tickets
             $stmt = $db->prepare("
-                SELECT c.id, c.client_id, c.contract_type_id, c.access_level_id, c.name, c.start_date, c.end_date, 
-                       c.tickets_number, c.tickets_remaining, c.comment, c.status, c.reminder_enabled, c.reminder_days, 
-                       c.num_facture, c.tarif, c.indice, c.renouvellement_tacite, c.created_at, c.updated_at, 
+                SELECT c.id, c.name, c.start_date, c.end_date, 
+                       c.tickets_number, c.tickets_remaining, c.tarif,
                        ct.name as contract_type_name
                 FROM contracts c
                 LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
@@ -371,17 +331,7 @@ class DashboardController
                 ORDER BY c.end_date ASC
             ");
             $stmt->execute(['client_id' => $clientId]);
-            $contracts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            // Pour chaque contrat, récupérer la date du dernier achat
-            foreach ($contracts as &$contract) {
-                $contract['last_purchase_date'] = $this->getLastTicketPurchaseDate($db, $contract['id']);
-
-                // Debug : afficher l'historique complet pour ce contrat
-                $this->debugContractHistory($db, $contract['id']);
-            }
-
-            return $contracts;
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             custom_log("Erreur lors de la récupération des contrats ticket : " . $e->getMessage(), 'ERROR');
             return [];
@@ -389,71 +339,11 @@ class DashboardController
     }
 
     /**
-     * Récupère la date du dernier achat de tickets pour un contrat
-     * @param PDO $db Connexion à la base de données
-     * @param int $contractId ID du contrat
-     * @return string|null Date du dernier achat ou null
-     */
-    private function getLastTicketPurchaseDate($db, $contractId)
-    {
-        try {
-            // D'abord, récupérer toutes les entrées liées aux tickets pour debug
-            $debugStmt = $db->prepare("
-                SELECT field_name, description, created_at
-                FROM contract_history
-                WHERE contract_id = :contract_id 
-                AND (
-                    field_name LIKE '%tickets%' 
-                    OR field_name LIKE '%Tickets%'
-                    OR description LIKE '%tickets%'
-                    OR description LIKE '%Tickets%'
-                )
-                ORDER BY created_at DESC
-                LIMIT 10
-            ");
-            $debugStmt->execute(['contract_id' => $contractId]);
-            $debugResults = $debugStmt->fetchAll(PDO::FETCH_ASSOC);
-
-            // Log pour debug
-            custom_log("DEBUG - Historique tickets pour contrat $contractId : " . json_encode($debugResults), 'DEBUG');
-
-            // Maintenant chercher spécifiquement les ajouts
-            $stmt = $db->prepare("
-                SELECT created_at
-                FROM contract_history
-                WHERE contract_id = :contract_id 
-                AND (
-                    (field_name = 'Tickets initiaux' AND description LIKE '%Ajout de%tickets initiaux%')
-                    OR (field_name = 'Tickets restants' AND description LIKE '%Ajout de%tickets restants%')
-                    OR (field_name = 'Nombre de tickets' AND description LIKE '%Tickets initiaux définis%')
-                    OR (description LIKE '%Ajout de%tickets%' AND description NOT LIKE '%Déduction%')
-                )
-                ORDER BY created_at DESC
-                LIMIT 1
-            ");
-            $stmt->execute(['contract_id' => $contractId]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            return $result ? $result['created_at'] : null;
-        } catch (Exception $e) {
-            custom_log("Erreur lors de la récupération de la date du dernier achat : " . $e->getMessage(), 'ERROR');
-            return null;
-        }
-    }
-
-    /**
      * Récupère les interventions ouvertes du client
-     * @param PDO $db Connexion à la base de données
-     * @param int $clientId ID du client
-     * @param array $userLocations Localisations autorisées de l'utilisateur
-     * @return array Liste des interventions ouvertes
      */
     private function getOpenInterventions($db, $clientId, $userLocations)
     {
         try {
-            custom_log("DEBUG - getOpenInterventions appelée pour client_id: $clientId", 'DEBUG');
-
-            // Récupérer les interventions ouvertes (modifié pour prendre en compte les bâtiments)
             $stmt = $db->prepare("
                 SELECT i.*, 
                        s.name as site_name,
@@ -464,7 +354,7 @@ class DashboardController
                        it.name as type_name,
                        ip.name as priority_name,
                        ip.color as priority_color,
-                       GROUP_CONCAT(CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') as technicians_names
+                       GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') as technicians_names
                 FROM interventions i
                 LEFT JOIN sites s ON i.site_id = s.id
                 LEFT JOIN buildings b ON i.building_id = b.id
@@ -473,129 +363,18 @@ class DashboardController
                 LEFT JOIN intervention_types it ON i.type_id = it.id
                 LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
                 LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
-                LEFT JOIN users u ON itech.technician_id = u.id
+                LEFT JOIN users u ON itech.technicien_id = u.id
                 WHERE i.client_id = :client_id 
                 AND its.name NOT IN ('Fermé', 'Annulé', 'Terminé')
-                GROUP BY i.id, s.name, b.name, r.name, its.name, its.color, it.name, ip.name, ip.color
+                GROUP BY i.id
                 ORDER BY i.created_at DESC
                 LIMIT 10
             ");
             $stmt->execute(['client_id' => $clientId]);
-            $interventions = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            custom_log("DEBUG - Interventions trouvées avant filtrage : " . count($interventions), 'DEBUG');
-
-            // Filtrer selon les autorisations de l'utilisateur
-            $authorizedInterventions = [];
-            foreach ($interventions as $intervention) {
-                if ($this->isInterventionAuthorized($intervention, $userLocations)) {
-                    $authorizedInterventions[] = $intervention;
-                }
-            }
-
-            custom_log("DEBUG - Interventions autorisées après filtrage : " . count($authorizedInterventions), 'DEBUG');
-
-            return $authorizedInterventions;
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             custom_log("Erreur lors de la récupération des interventions ouvertes : " . $e->getMessage(), 'ERROR');
             return [];
-        }
-    }
-
-    /**
-     * Vérifie si une intervention est autorisée pour l'utilisateur
-     * @param array $intervention Données de l'intervention
-     * @param array $userLocations Localisations autorisées de l'utilisateur
-     * @return bool true si autorisée
-     */
-    private function isInterventionAuthorized($intervention, $userLocations)
-    {
-        foreach ($userLocations as $location) {
-            $locClientId = (int) $location['client_id'];
-            $locSiteId = $location['site_id'] !== null ? (int) $location['site_id'] : null;
-            $locBuildingId = $location['building_id'] !== null ? (int) $location['building_id'] : null;
-            $locRoomId = $location['room_id'] !== null ? (int) $location['room_id'] : null;
-
-            // Accès au client entier
-            if ($locSiteId === null && $locBuildingId === null && $locRoomId === null) {
-                custom_log("DEBUG - Intervention autorisée (accès client complet) : " . ($intervention['id'] ?? 'N/A'), 'DEBUG');
-                return true;
-            }
-
-            $interventionSiteId = !empty($intervention['site_id']) ? (int) $intervention['site_id'] : null;
-            $interventionBuildingId = !empty($intervention['building_id']) ? (int) $intervention['building_id'] : null;
-            $interventionRoomId = !empty($intervention['room_id']) ? (int) $intervention['room_id'] : null;
-
-            // Accès au site entier
-            if ($locSiteId === $interventionSiteId && $locBuildingId === null && $locRoomId === null && $interventionSiteId !== null) {
-                custom_log("DEBUG - Intervention autorisée (accès site entier) : " . ($intervention['id'] ?? 'N/A'), 'DEBUG');
-                return true;
-            }
-
-            // Accès au bâtiment entier
-            if ($locSiteId === $interventionSiteId && $locBuildingId === $interventionBuildingId && $locRoomId === null && $interventionBuildingId !== null) {
-                custom_log("DEBUG - Intervention autorisée (accès bâtiment entier) : " . ($intervention['id'] ?? 'N/A'), 'DEBUG');
-                return true;
-            }
-
-            // Accès à la salle spécifique
-            if ($locSiteId === $interventionSiteId && $locBuildingId === $interventionBuildingId && $locRoomId === $interventionRoomId && $interventionRoomId !== null) {
-                custom_log("DEBUG - Intervention autorisée (accès salle spécifique) : " . ($intervention['id'] ?? 'N/A'), 'DEBUG');
-                return true;
-            }
-        }
-
-        custom_log("DEBUG - Intervention NON autorisée : " . ($intervention['id'] ?? 'N/A') . " - site_id: " . ($intervention['site_id'] ?? 'null') . " - building_id: " . ($intervention['building_id'] ?? 'null') . " - room_id: " . ($intervention['room_id'] ?? 'null'), 'DEBUG');
-        return false;
-    }
-
-    /**
-     * Méthode de debug pour afficher l'historique complet d'un contrat
-     * @param PDO $db Connexion à la base de données
-     * @param int $contractId ID du contrat
-     */
-    private function debugContractHistory($db, $contractId)
-    {
-        try {
-            $stmt = $db->prepare("
-                SELECT field_name, description, created_at, old_value, new_value
-                FROM contract_history
-                WHERE contract_id = :contract_id 
-                ORDER BY created_at DESC
-                LIMIT 20
-            ");
-            $stmt->execute(['contract_id' => $contractId]);
-            $history = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            custom_log("DEBUG - Historique complet pour contrat $contractId : " . json_encode($history), 'DEBUG');
-        } catch (Exception $e) {
-            custom_log("Erreur lors du debug de l'historique : " . $e->getMessage(), 'ERROR');
-        }
-    }
-
-    /**
-     * Méthode de debug pour afficher les permissions de l'utilisateur
-     */
-    private function debugUserPermissions()
-    {
-        try {
-            $user = $_SESSION['user'] ?? null;
-            if ($user) {
-                custom_log("DEBUG - Utilisateur connecté : " . json_encode([
-                    'id' => $user['id'] ?? 'N/A',
-                    'user_type' => $user['user_type'] ?? 'N/A',
-                    'client_id' => $user['client_id'] ?? 'N/A',
-                    'permissions' => $user['permissions'] ?? 'N/A'
-                ]), 'DEBUG');
-
-                // Test de la permission spécifique
-                $hasPermission = hasPermission('client_view_interventions');
-                custom_log("DEBUG - hasPermission('client_view_interventions') = " . ($hasPermission ? 'true' : 'false'), 'DEBUG');
-            } else {
-                custom_log("DEBUG - Aucun utilisateur connecté", 'DEBUG');
-            }
-        } catch (Exception $e) {
-            custom_log("Erreur lors du debug des permissions : " . $e->getMessage(), 'ERROR');
         }
     }
 
@@ -673,25 +452,13 @@ class DashboardController
     private function getExpiringContracts($db)
     {
         $query = "
-            SELECT c.id, c.name, c.client_id, c.contract_type_id, c.access_level_id, c.start_date, c.end_date, 
-                   c.status, c.tickets_number, c.tickets_remaining, c.tarif, 
-                   c.created_at, c.updated_at, cl.name as client_name,
-                   GROUP_CONCAT(DISTINCT s.name SEPARATOR ', ') as site_names
+            SELECT c.id, c.name, c.client_id, c.end_date, c.status, 
+                   c.tickets_number, c.tickets_remaining, cl.name as client_name
             FROM contracts c
             JOIN clients cl ON c.client_id = cl.id
-            LEFT JOIN contract_rooms cr ON c.id = cr.contract_id
-            LEFT JOIN rooms r ON cr.room_id = r.id
-            LEFT JOIN buildings b ON r.building_id = b.id
-            LEFT JOIN sites s ON b.site_id = s.id AND s.status = 1
             WHERE c.status = 'actif'
             AND c.contract_type_id IS NOT NULL
-            AND (
-                (c.end_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY))
-                OR (c.end_date < CURDATE())
-            )
-            GROUP BY c.id, c.name, c.client_id, c.contract_type_id, c.access_level_id, c.start_date, c.end_date, 
-                     c.status, c.tickets_number, c.tickets_remaining, c.tarif, 
-                     c.created_at, c.updated_at, cl.name
+            AND c.end_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
             ORDER BY c.end_date ASC
         ";
         return $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
@@ -703,36 +470,26 @@ class DashboardController
     private function getLowTicketsContracts($db)
     {
         $query = "
-            SELECT c.id, c.name, c.client_id, c.contract_type_id, c.access_level_id, c.start_date, c.end_date, 
-                   c.status, c.tickets_number, c.tickets_remaining, c.tarif, 
-                   c.created_at, c.updated_at, cl.name as client_name,
-                   GROUP_CONCAT(DISTINCT s.name SEPARATOR ', ') as site_names
+            SELECT c.id, c.name, c.client_id, c.end_date, c.status, 
+                   c.tickets_number, c.tickets_remaining, cl.name as client_name
             FROM contracts c
             JOIN clients cl ON c.client_id = cl.id
-            LEFT JOIN contract_rooms cr ON c.id = cr.contract_id
-            LEFT JOIN rooms r ON cr.room_id = r.id
-            LEFT JOIN buildings b ON r.building_id = b.id
-            LEFT JOIN sites s ON b.site_id = s.id AND s.status = 1
             WHERE c.status = 'actif'
             AND c.tickets_remaining < 5
             AND c.tickets_number > 0
             AND c.contract_type_id IS NOT NULL
-            GROUP BY c.id, c.name, c.client_id, c.contract_type_id, c.access_level_id, c.start_date, c.end_date, 
-                     c.status, c.tickets_number, c.tickets_remaining, c.tarif, 
-                     c.created_at, c.updated_at, cl.name
             ORDER BY c.tickets_remaining ASC
         ";
         return $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
-     * Récupère les interventions avec statut "Nouveau" (hors préventives)
+     * Récupère les interventions avec statut "Nouveau"
      */
     private function getNewInterventions($db)
     {
         $query = "
-            SELECT i.id, i.reference, i.title, i.client_id, i.site_id, i.building_id, i.room_id, 
-                   i.status_id, i.priority_id, i.type_id, i.description, i.created_at, i.updated_at,
+            SELECT i.id, i.reference, i.title, i.client_id, i.created_at,
                    c.name as client_name, s.name as site_name, b.name as building_name, r.name as room_name,
                    p.name as priority, p.color as color, t.name as type,
                    GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') as technicians_names
@@ -745,12 +502,10 @@ class DashboardController
             JOIN intervention_types t ON i.type_id = t.id
             JOIN intervention_statuses st ON i.status_id = st.id
             LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
-            LEFT JOIN users u ON itech.technician_id = u.id
+            LEFT JOIN users u ON itech.technicien_id = u.id
             WHERE st.name = 'Nouveau'
             AND p.name != 'Préventif'
-            GROUP BY i.id, i.reference, i.title, i.client_id, i.site_id, i.building_id, i.room_id, 
-                     i.status_id, i.priority_id, i.type_id, i.description, i.created_at, i.updated_at,
-                     c.name, s.name, b.name, r.name, p.name, p.color, t.name
+            GROUP BY i.id
             ORDER BY i.created_at DESC
         ";
         return $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
@@ -762,18 +517,14 @@ class DashboardController
     private function getPlannedInterventions($db)
     {
         $query = "
-            SELECT i.id, i.reference, i.title, c.name as client_name, 
-                   i.date_planif, i.heure_planif,
+            SELECT i.id, i.reference, i.title, c.name as client_name,
                    GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') as technicians_names
             FROM interventions i
             JOIN clients c ON i.client_id = c.id
             LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
-            LEFT JOIN users u ON itech.technician_id = u.id
-            WHERE i.date_planif IS NOT NULL 
-            AND i.date_planif >= CURDATE()
+            LEFT JOIN users u ON itech.technicien_id = u.id
             AND i.status_id NOT IN (6, 7)
-            GROUP BY i.id, i.reference, i.title, c.name, i.date_planif, i.heure_planif
-            ORDER BY i.date_planif ASC, i.heure_planif ASC
+            GROUP BY i.id
             LIMIT 5
         ";
         return $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
@@ -786,15 +537,12 @@ class DashboardController
     {
         $query = "
             SELECT r.id, r.name as room_name, r.comment, r.status,
-                   c.name as client_name, s.name as site_name, b.name as building_name,
-                   CONCAT(cont.first_name, ' ', cont.last_name) as contact_name
+                   c.name as client_name, s.name as site_name, b.name as building_name
             FROM rooms r
             JOIN buildings b ON r.building_id = b.id
             JOIN sites s ON b.site_id = s.id
             JOIN clients c ON s.client_id = c.id
-            LEFT JOIN contacts cont ON r.main_contact_id = cont.id
             LEFT JOIN contract_rooms cr ON r.id = cr.room_id
-            LEFT JOIN contracts co ON cr.contract_id = co.id AND co.status = 'actif'
             WHERE r.status = 1
             AND cr.contract_id IS NULL
             ORDER BY c.name, s.name, b.name, r.name
@@ -803,15 +551,13 @@ class DashboardController
     }
 
     /**
-     * Récupère les données financières (valeur des tickets et contrats)
+     * Récupère les données financières
      */
     private function getFinancialData($db)
     {
-        // 1. Récupérer le tarif d'un ticket depuis les settings
         $tarifTicket = $db->query("SELECT setting_value FROM settings WHERE setting_key = 'tarif_ticket'")->fetchColumn();
         $tarifTicket = $tarifTicket ? (float) $tarifTicket : 90.0;
 
-        // 2. Calculer la valeur des tickets restants
         $stmt = $db->prepare("
             SELECT COALESCE(SUM(tickets_remaining * :tarif_ticket), 0) as total_value
             FROM contracts 
@@ -822,7 +568,6 @@ class DashboardController
         $stmt->execute([':tarif_ticket' => $tarifTicket]);
         $ticketsValue = $stmt->fetchColumn();
 
-        // 3. Calculer la somme des montants des contrats actifs
         $contractsValue = $db->query("
             SELECT COALESCE(SUM(CAST(tarif AS DECIMAL(10,2))), 0) as total_value
             FROM contracts 

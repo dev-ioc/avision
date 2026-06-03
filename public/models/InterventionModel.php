@@ -68,10 +68,9 @@ class InterventionModel extends BaseModel
 
         // Filtre par type d'intervention (préventive/curative)
         if (isset($filters['is_preventive'])) {
-            $sql .= " AND i.is_preventive = ?";
-            $params[] = $filters['is_preventive'];
+            $sql .= " AND i.is_preventive = :is_preventive";
+            $params[':is_preventive'] = $filters['is_preventive'];
         }
-
         if (!empty($filters['search'])) {
             $sql .= " AND (i.title LIKE ? OR c.name LIKE ? OR s.name LIKE ? OR r.name LIKE ? OR i.reference LIKE ?)";
             $searchTerm = '%' . $filters['search'] . '%';
@@ -123,6 +122,7 @@ class InterventionModel extends BaseModel
             ct.name as contract_type_name,
             cont.first_name as contact_first_name,
             cont.last_name as contact_last_name,
+            cont.email as contact_email,
             cont.phone1 as contact_phone,
             i.is_preventive
             FROM " . $this->table . " i

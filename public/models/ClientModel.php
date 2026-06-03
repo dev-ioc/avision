@@ -89,7 +89,28 @@ class ClientModel extends BaseModel
     {
         return $this->find($id);
     }
+    /**
+     * Compte le nombre de matériel pour un client
+     * 
+     * @param int $clientId ID du client
+     * @return int Nombre de matériel
+     */
+    public function getCountByClientId($clientId)
+    {
+        $query = "SELECT COUNT(*) as count 
+              FROM materiel m
+              INNER JOIN rooms r ON m.salle_id = r.id
+              INNER JOIN buildings b ON r.building_id = b.id
+              WHERE b.client_id = :client_id 
+              AND m.deleted_at IS NULL";
 
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':client_id', $clientId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? (int) $result['count'] : 0;
+    }
     public function updateClient($id, $data)
     {
         $query = "UPDATE clients SET 

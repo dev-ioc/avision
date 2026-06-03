@@ -1,13 +1,16 @@
 <?php
 require_once __DIR__ . '/../classes/Models/BaseModel.php';
 
-class ContactModel extends BaseModel {
-    public function __construct($db) {
+class ContactModel extends BaseModel
+{
+    public function __construct($db)
+    {
         parent::__construct($db);
         $this->table = 'contacts';
     }
 
-    public function getContactsByClientId($clientId) {
+    public function getContactsByClientId($clientId)
+    {
         $query = "SELECT 
                     c.*,
                     u.username as user_username,
@@ -23,7 +26,8 @@ class ContactModel extends BaseModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getContactById($id) {
+    public function getContactById($id)
+    {
         $query = "SELECT 
                     c.*,
                     u.username as user_username,
@@ -32,15 +36,35 @@ class ContactModel extends BaseModel {
                 FROM contacts c
                 LEFT JOIN users u ON c.user_id = u.id
                 LEFT JOIN clients cl ON c.client_id = cl.id
-                WHERE c.id = :id";
+                WHERE c.id = :id OR c.email = :email";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function getContactByEmail($email)
+    {
+        $query = "SELECT 
+                c.*,
+                u.username as user_username,
+                u.email as user_email,
+                cl.name as client_name
+            FROM contacts c
+            LEFT JOIN users u ON c.user_id = u.id
+            LEFT JOIN clients cl ON c.client_id = cl.id
+            WHERE c.email = :email";
 
-    public function getContactsBySiteId($siteId) {
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function getContactsBySiteId($siteId)
+    {
         $query = "SELECT 
                     c.*,
                     u.username as user_username,
@@ -57,7 +81,8 @@ class ContactModel extends BaseModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getContactsByRoomId($roomId) {
+    public function getContactsByRoomId($roomId)
+    {
         $query = "SELECT 
                     c.*,
                     u.username as user_username,
@@ -74,7 +99,8 @@ class ContactModel extends BaseModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAllContacts() {
+    public function getAllContacts()
+    {
         $query = "SELECT 
                     c.*,
                     u.username as user_username,
@@ -91,7 +117,8 @@ class ContactModel extends BaseModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function createContact($data) {
+    public function createContact($data)
+    {
         $query = "INSERT INTO contacts (
                     client_id,
                     first_name,
@@ -135,7 +162,8 @@ class ContactModel extends BaseModel {
         return $stmt->execute();
     }
 
-    public function updateContact($id, $data) {
+    public function updateContact($id, $data)
+    {
         try {
             $query = "UPDATE contacts SET 
                         first_name = :first_name,
@@ -165,7 +193,8 @@ class ContactModel extends BaseModel {
         }
     }
 
-    public function deleteContact($id) {
+    public function deleteContact($id)
+    {
         try {
             $this->db->beginTransaction();
 
@@ -190,4 +219,4 @@ class ContactModel extends BaseModel {
             return false;
         }
     }
-} 
+}

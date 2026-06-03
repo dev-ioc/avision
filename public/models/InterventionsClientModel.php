@@ -628,12 +628,10 @@ class InterventionsClientModel extends BaseModel
 
             $sql = "INSERT INTO interventions (
                         reference, title, description, demande_par, client_id, site_id, building_id, room_id, 
-                        contract_id, type_id, status_id, priority_id, duration, 
-                        date_planif, heure_planif, technicien_id, ref_client, contact_client, created_at
+                        contract_id, type_id, status_id, priority_id, duration,  ref_client, contact_client, created_at
                     ) VALUES (
                         :reference, :title, :description, :demande_par, :client_id, :site_id, :building_id, :room_id,
-                        :contract_id, :type_id, :status_id, :priority_id, :duration,
-                        :date_planif, :heure_planif, :technicien_id, :ref_client, :contact_client, NOW()
+                        :contract_id, :type_id, :status_id, :priority_id, :duration, :ref_client, :contact_client, NOW()
                     )";
 
             $stmt = $this->db->prepare($sql);
@@ -651,9 +649,6 @@ class InterventionsClientModel extends BaseModel
                 ':status_id' => $data['status_id'],
                 ':priority_id' => $data['priority_id'],
                 ':duration' => $data['duration'] ?? 0,
-                ':date_planif' => $data['date_planif'] ?? null,
-                ':heure_planif' => $data['heure_planif'] ?? null,
-                ':technicien_id' => $data['technicien_id'] ?? null,
                 ':ref_client' => $data['ref_client'] ?? null,
                 ':contact_client' => $data['contact_client'] ?? null
             ]);

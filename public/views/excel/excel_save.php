@@ -174,6 +174,10 @@ try {
                 $updateFields[] = "date_fin_garantie = :date_fin_garantie";
                 $params[':date_fin_garantie'] = formatDateForDb($row['date_fin_garantie']);
             }
+            if (!empty($row['date_fin_maintenance'])) {
+                $updateFields[] = "date_fin_maintenance = :date_fin_maintenance";
+                $params[':date_fin_maintenance'] = formatDateForDb($row['date_fin_maintenance']);
+            }
             if (!empty($row['date_derniere_inter'])) {
                 $updateFields[] = "date_derniere_inter = :date_derniere_inter";
                 $params[':date_derniere_inter'] = formatDateForDb($row['date_derniere_inter']);

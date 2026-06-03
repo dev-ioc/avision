@@ -139,41 +139,81 @@ class ContractsClientModel extends BaseModel
     }
 
     /**
-     * Récupère les interventions liées à un contrat selon les localisations autorisées
+     * Récupère les interventions d'un contrat selon les localisations autorisées
      * @param int $contractId ID du contrat
      * @param array $userLocations Les localisations autorisées de l'utilisateur
-     * @return array Liste des interventions
+     * @return array Liste des interventions avec techniciens et durées
      */
     public function getInterventionsByContractAndLocations($contractId, $userLocations)
     {
-        $locationWhere = buildLocationWhereClause($userLocations, 'i.client_id', 'i.site_id', 'i.building_id', 'i.room_id');
+        // Construire la clause WHERE pour les localisations
+        $locationWhere = buildLocationWhereClause($userLocations, 'c.id', 's.id', 'b.id', 'r.id');
 
-        $sql = "SELECT i.*, 
-                c.name as client_name,
-                s.name as site_name,
-                b.name as building_name,
-                r.name as room_name,
-                its.name as status_name,
-                its.color as status_color,
-                it.name as type_name,
-                ip.name as priority_name,
-                ip.color as priority_color
-                FROM interventions i
-                LEFT JOIN clients c ON i.client_id = c.id
-                LEFT JOIN sites s ON i.site_id = s.id
-                LEFT JOIN buildings b ON i.building_id = b.id
-                LEFT JOIN rooms r ON i.room_id = r.id
-                LEFT JOIN intervention_statuses its ON i.status_id = its.id
-                LEFT JOIN intervention_types it ON i.type_id = it.id
-                LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
-                WHERE i.contract_id = ? AND {$locationWhere}
-                ORDER BY i.created_at DESC";
+        $sql = "
+        SELECT 
+            i.*,
+            ist.name as status_name,
+            ist.color as status_color,
+            it.name as type_name,
+            ip.name as priority_name,
+            ip.color as priority_color,
+            -- Calcul de la durée totale de l'intervention (somme des temps passés par technicien)
+            COALESCE(SUM(it_tech.temps_passe), 0) as total_duration_minutes,
+            -- Informations du client
+            c.name as client_name,
+            -- Informations du site
+            s.name as site_name,
+            -- Informations du bâtiment
+            b.name as building_name,
+            -- Informations de la salle
+            r.name as room_name,
+            -- Récupérer les techniciens sous forme groupée
+            GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') as technicians_names,
+            GROUP_CONCAT(DISTINCT it_tech.temps_passe SEPARATOR ', ') as technicians_durations,
+            -- Tickets utilisés
+            i.tickets_used
+        FROM interventions i
+        INNER JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        INNER JOIN intervention_statuses ist ON i.status_id = ist.id
+        INNER JOIN intervention_types it ON i.type_id = it.id
+        INNER JOIN intervention_priorities ip ON i.priority_id = ip.id
+        LEFT JOIN intervention_techniciens it_tech ON i.id = it_tech.intervention_id
+        LEFT JOIN users u ON it_tech.technicien_id = u.id
+        WHERE i.contract_id = ? 
+        AND {$locationWhere}
+        GROUP BY i.id
+        ORDER BY i.created_at DESC
+    ";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$contractId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+        $interventions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // Traitement post-récupération pour formater les durées
+        foreach ($interventions as &$intervention) {
+            // Calculer la durée en heures
+            $totalMinutes = (int) ($intervention['total_duration_minutes'] ?? 0);
+            $hours = floor($totalMinutes / 60);
+            $minutes = $totalMinutes % 60;
+            $intervention['duration_display'] = $hours . 'h' . ($minutes > 0 ? $minutes : '');
+            $intervention['duration_hours'] = round($totalMinutes / 60, 2);
+
+            // S'assurer que technicians_names est défini
+            if (empty($intervention['technicians_names'])) {
+                $intervention['technicians_names'] = 'Non assigné';
+            }
+
+            // S'assurer que tickets_used est défini
+            if (!isset($intervention['tickets_used']) || $intervention['tickets_used'] === null) {
+                $intervention['tickets_used'] = 0;
+            }
+        }
+
+        return $interventions;
+    }
     /**
      * Récupère les clients selon les localisations autorisées
      * @param array $userLocations Les localisations autorisées de l'utilisateur

@@ -48,30 +48,35 @@ if (isset($materielModel)) {
   $stats = $materielModel->getStats();
 }
 
-// Organiser le matériel par client/site/salle
+// Organiser le matériel par client -> site -> bâtiment -> salle
 $materiel_organise = [];
 foreach ($materiel_list as $materiel) {
-  $client_id = $materiel['client_nom'] ?? 'Sans client';
-  $site_id = $materiel['site_nom'] ?? 'Sans site';
-  $salle_id = $materiel['salle_nom'] ?? 'Sans salle';
+  $client_nom = $materiel['client_nom'] ?? 'Sans client';
+  $site_nom = $materiel['site_nom'] ?? 'Sans site';
+  $building_nom = $materiel['building_nom'] ?? 'Sans bâtiment';
+  $salle_nom = $materiel['salle_nom'] ?? 'Sans salle';
 
-  if (!isset($materiel_organise[$client_id])) {
-    $materiel_organise[$client_id] = [];
+  if (!isset($materiel_organise[$client_nom])) {
+    $materiel_organise[$client_nom] = [];
   }
-  if (!isset($materiel_organise[$client_id][$site_id])) {
-    $materiel_organise[$client_id][$site_id] = [];
+  if (!isset($materiel_organise[$client_nom][$site_nom])) {
+    $materiel_organise[$client_nom][$site_nom] = [];
   }
-  if (!isset($materiel_organise[$client_id][$site_id][$salle_id])) {
-    $materiel_organise[$client_id][$site_id][$salle_id] = [];
+  if (!isset($materiel_organise[$client_nom][$site_nom][$building_nom])) {
+    $materiel_organise[$client_nom][$site_nom][$building_nom] = [];
+  }
+  if (!isset($materiel_organise[$client_nom][$site_nom][$building_nom][$salle_nom])) {
+    $materiel_organise[$client_nom][$site_nom][$building_nom][$salle_nom] = [];
   }
 
-  $materiel_organise[$client_id][$site_id][$salle_id][] = $materiel;
+  $materiel_organise[$client_nom][$site_nom][$building_nom][$salle_nom][] = $materiel;
 }
 
 // Définir toutes les colonnes disponibles avec leurs configurations
 $allColumns = [
-  ['label' => 'Équipement', 'field' => 'equipement', 'default' => true],
-  ['label' => 'Type', 'field' => 'type_nom', 'default' => true],
+  ['label' => 'Marque', 'field' => 'marque', 'default' => true],
+  ['label' => 'Modèle', 'field' => 'modele', 'default' => true],
+  ['label' => 'Type', 'field' => 'type_materiel', 'default' => true],
   ['label' => 'S/N', 'field' => 'numero_serie', 'default' => true],
   ['label' => 'Firmware', 'field' => 'version_firmware', 'default' => true],
   ['label' => 'IP', 'field' => 'adresse_ip', 'default' => true],
@@ -80,8 +85,6 @@ $allColumns = [
   ['label' => 'Pièces jointes', 'field' => 'pieces_jointes', 'default' => true],
   ['label' => 'Référence', 'field' => 'reference', 'default' => false],
   ['label' => 'Usage', 'field' => 'usage_materiel', 'default' => false],
-  ['label' => 'Marque', 'field' => 'marque', 'default' => false],
-  ['label' => 'Modèle', 'field' => 'modele', 'default' => false],
   ['label' => 'Ancien Firmware', 'field' => 'ancien_firmware', 'default' => false],
   ['label' => 'Masque', 'field' => 'masque', 'default' => false],
   ['label' => 'Passerelle', 'field' => 'passerelle', 'default' => false],
@@ -117,7 +120,11 @@ foreach ($allColumns as $i => $col) {
 // Headers
 $colHeaders = array_map(fn($c) => $c['label'], $allColumns);
 
-$allData = [];
+// Calcul des index pour JavaScript
+$marqueIndex = array_search('marque', array_column($allColumns, 'field'));
+$modeleIndex = array_search('modele', array_column($allColumns, 'field'));
+$idIndex = array_search('id', array_column($allColumns, 'field'));
+$piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, 'field'));
 ?>
 
 <!DOCTYPE html>
@@ -281,13 +288,13 @@ $allData = [];
               <select class="form-select bg-body text-body" id="client_id" name="client_id"
                 onchange="updateSitesAndSubmit()">
                 <option value="">Tous les clients</option>
-                    <?php if (isset($clients) && is_array($clients)): ?>
-                      <?php foreach ($clients as $client): ?>
+                <?php if (isset($clients) && is_array($clients)): ?>
+                  <?php foreach ($clients as $client): ?>
                     <option value="<?= $client['id'] ?>" <?= ($filters['client_id'] ?? '') == $client['id'] ? 'selected' : '' ?>>
-                          <?= h($client['name']) ?>
+                      <?= h($client['name']) ?>
                     </option>
-                      <?php endforeach; ?>
-                    <?php endif; ?>
+                  <?php endforeach; ?>
+                <?php endif; ?>
               </select>
             </div>
             <div class="col-md-2">
@@ -295,13 +302,13 @@ $allData = [];
               <select class="form-select bg-body text-body" id="site_id" name="site_id"
                 onchange="updateBuildingsAndSubmit()">
                 <option value="">Tous les sites</option>
-                    <?php if (isset($sites) && is_array($sites)): ?>
-                      <?php foreach ($sites as $site): ?>
+                <?php if (isset($sites) && is_array($sites)): ?>
+                  <?php foreach ($sites as $site): ?>
                     <option value="<?= $site['id'] ?>" <?= ($filters['site_id'] ?? '') == $site['id'] ? 'selected' : '' ?>>
-                          <?= h($site['name']) ?>
+                      <?= h($site['name']) ?>
                     </option>
-                      <?php endforeach; ?>
-                    <?php endif; ?>
+                  <?php endforeach; ?>
+                <?php endif; ?>
               </select>
             </div>
             <div class="col-md-2">
@@ -309,13 +316,13 @@ $allData = [];
               <select class="form-select bg-body text-body" id="building_id" name="building_id"
                 onchange="updateRoomsAndSubmit()">
                 <option value="">Tous les bâtiments</option>
-                    <?php if (isset($buildings) && is_array($buildings)): ?>
-                      <?php foreach ($buildings as $building): ?>
+                <?php if (isset($buildings) && is_array($buildings)): ?>
+                  <?php foreach ($buildings as $building): ?>
                     <option value="<?= $building['id'] ?>" <?= ($filters['building_id'] ?? '') == $building['id'] ? 'selected' : '' ?>>
-                          <?= h($building['name']) ?>
+                      <?= h($building['name']) ?>
                     </option>
-                      <?php endforeach; ?>
-                    <?php endif; ?>
+                  <?php endforeach; ?>
+                <?php endif; ?>
               </select>
             </div>
             <div class="col-md-2">
@@ -323,13 +330,13 @@ $allData = [];
               <select class="form-select bg-body text-body" id="salle_id" name="salle_id"
                 onchange="document.getElementById('filterForm').submit();">
                 <option value="">Toutes les salles</option>
-                    <?php if (isset($salles) && is_array($salles)): ?>
-                      <?php foreach ($salles as $salle): ?>
+                <?php if (isset($salles) && is_array($salles)): ?>
+                  <?php foreach ($salles as $salle): ?>
                     <option value="<?= $salle['id'] ?>" <?= ($filters['salle_id'] ?? '') == $salle['id'] ? 'selected' : '' ?>>
-                          <?= h($salle['name']) ?>
+                      <?= h($salle['name']) ?>
                     </option>
-                      <?php endforeach; ?>
-                    <?php endif; ?>
+                  <?php endforeach; ?>
+                <?php endif; ?>
               </select>
             </div>
             <div class="col-md-4 d-flex justify-content-end">
@@ -438,44 +445,54 @@ $allData = [];
                 <i class="bi bi-building text-primary me-2"></i>
                 <?= h($client_nom) ?>
               </h5>
-
               <button type="button" class="btn btn-sm btn-outline-primary" onclick="saveAllTablesData()">
                 <i class="bi bi-save-all me-1"></i>
                 Sauvegarder toutes les modifications
               </button>
             </div>
             <div class="card-body p-0">
-              <?php foreach ($sites as $site_nom => $salles): ?>
-                <?php foreach ($salles as $salle_nom => $materiels):
-                  $salle_id = 'salle_' . md5($client_nom . $site_nom . $salle_nom);
-                  $accordion_id = 'accordion_' . $salle_id;
-                  ?>
-                  <div class="accordion mb-3" id="<?= $accordion_id ?>">
-                    <div class="accordion-item">
-                      <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                          data-bs-target="#collapse_<?= $salle_id ?>">
-                          <div class="d-flex justify-content-between w-100 me-3">
-                            <span><i class="bi bi-door-open me-2 text-info"></i><strong>
-                                <?= h($salle_nom) ?>
-                              </strong></span>
-                            <span class="badge bg-secondary ms-3">
-                              <?= count($materiels) ?> équipement(s)
-                            </span>
-
-                          </div>
-                        </button>
-                      </h2>
-                      <div id="collapse_<?= $salle_id ?>" class="accordion-collapse collapse"
-                        data-bs-parent="#accordionContainer">
-                        <div class="accordion-body p-0">
-                          <div class="table-wrapper">
-                            <div id="excelTable-<?= $salle_id ?>"></div>
+              <?php foreach ($sites as $site_nom => $buildings): ?>
+                <?php foreach ($buildings as $building_nom => $salles): ?>
+                  <?php foreach ($salles as $salle_nom => $materiels):
+                    $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
+                    $accordion_id = 'accordion_' . $salle_id;
+                    $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
+                    ?>
+                    <div class="accordion mb-3" id="<?= $accordion_id ?>">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse_<?= $salle_id ?>">
+                            <div class="d-flex justify-content-between w-100 me-3 align-items-center">
+                              <span>
+                                <i class="bi bi-door-open me-2 text-info"></i>
+                                <strong>
+                                  <?= $locationString ?>
+                                </strong>
+                              </span>
+                              <span class="badge bg-secondary ms-3">
+                                <?= count($materiels) ?> équipement(s)
+                              </span>
+                            </div>
+                          </button>
+                        </h2>
+                        <div id="collapse_<?= $salle_id ?>" class="accordion-collapse collapse"
+                          data-bs-parent="#accordionContainer">
+                          <div class="accordion-body p-0">
+                            <div class="d-flex justify-content-end p-2 border-bottom bg-light">
+                              <button type="button" class="btn btn-sm btn-success"
+                                onclick="addNewRowToTable('excelTable-<?= $salle_id ?>', '<?= addslashes($locationString) ?>', <?= $materiels[0]['salle_id'] ?? 'null' ?>)">
+                                <i class="bi bi-plus-circle me-1"></i>Ajouter un équipement
+                              </button>
+                            </div>
+                            <div class="table-wrapper">
+                              <div id="excelTable-<?= $salle_id ?>"></div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  <?php endforeach; ?>
                 <?php endforeach; ?>
               <?php endforeach; ?>
             </div>
@@ -564,7 +581,6 @@ $allData = [];
       </div>
     </div>
   </div>
-
   <style>
     body {
       background: #f4f6f9;
@@ -590,6 +606,12 @@ $allData = [];
       text-align: center;
     }
 
+    .handsontable td:nth-child(2) {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      font-weight: normal;
+    }
+
     .handsontable td {
       background-color: #ffffff;
       border-bottom: 1px solid #dee2e6;
@@ -607,6 +629,15 @@ $allData = [];
 
     /* Style pour la colonne Équipement (toujours à l'index 0 après rendu) */
     .handsontable td:first-child {
+      background-color: #f8f9fa !important;
+      text-align: center;
+      vertical-align: middle;
+      width: 100px;
+      min-width: 100px;
+    }
+
+    /* Style pour la colonne Équipement (deuxième colonne) */
+    .handsontable td:nth-child(2) {
       background-color: #ffffff !important;
       color: #0d6efd !important;
       font-weight: 600;
@@ -618,7 +649,7 @@ $allData = [];
     }
 
     /* Style pour la colonne Pièces jointes (toujours à la dernière position après rendu) */
-    .handsontable td:nth-child(8) {
+    .handsontable td:nth-child(7) {
       background-color: #f8f9fa !important;
       text-align: center;
     }
@@ -673,6 +704,31 @@ $allData = [];
     .file-item.invalid {
       background-color: var(--bs-danger-bg-subtle);
     }
+
+    /* Style pour la colonne Actions */
+    .handsontable td:first-child {
+      background-color: #f8f9fa !important;
+      text-align: center;
+      vertical-align: middle;
+      width: 100px;
+      min-width: 100px;
+    }
+
+    .handsontable td:first-child button {
+      white-space: nowrap;
+      font-size: 12px;
+      padding: 4px 8px;
+    }
+
+    /* Ajuster la largeur de la colonne Actions */
+    .handsontable col:first-child {
+      width: 100px;
+    }
+
+    .handsontable td.htInvalid {
+      background-color: #ffe0e0 !important;
+      border: 1px solid #dc3545 !important;
+    }
   </style>
 
   <script>
@@ -680,275 +736,298 @@ $allData = [];
     let currentSearchTerm = '';
     let hotInstances = {};
 
-   function submitFilters() {
-        const clientId = document.getElementById('client_id').value;
-        const siteId = document.getElementById('site_id').value;
-        const buildingId = document.getElementById('building_id').value;
-        const salleId = document.getElementById('salle_id').value;
-        
-        let url = '<?= BASE_URL ?>materiel?';
-        const params = [];
-        
-        if (clientId) params.push('client_id=' + clientId);
-        if (siteId) params.push('site_id=' + siteId);
-        if (buildingId) params.push('building_id=' + buildingId);
-        if (salleId) params.push('salle_id=' + salleId);
-        
-        url += params.join('&');
-        window.location.href = url;
+    // Index des colonnes
+    const MARQUE_INDEX = <?= $marqueIndex ?>;
+    const MODELE_INDEX = <?= $modeleIndex ?>;
+    const ID_INDEX = <?= $idIndex ?>;
+    const PIECES_JOINTES_INDEX = <?= $piecesJointesIndex ?>;
+    const FIELD_VALIDATORS = {
+      adresse_ip: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'IP', example: '192.168.1.1' },
+      ip_primaire: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'IP Primaire', example: '192.168.1.1' },
+      ip_secondaire: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'IP Secondaire', example: '192.168.1.1' },
+      passerelle: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'Passerelle', example: '172.24.158.230' },
+      masque: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'Masque', example: '255.255.255.0' },
+      adresse_mac: { regex: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/, label: 'MAC', example: '00:0E:DD:FA:65:88' },
+      mac_primaire: { regex: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/, label: 'MAC Primaire', example: '00:0E:DD:FA:65:88' },
+      mac_secondaire: { regex: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/, label: 'MAC Secondaire', example: '00:0E:DD:FA:65:88' },
+      version_firmware: { regex: /^\d+(\.\d+)+$/, label: 'Firmware', example: '10.0.8' },
+      ancien_firmware: { regex: /^\d+(\.\d+)+$/, label: 'Ancien Firmware', example: '10.0.8' },
+      date_fin_maintenance: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Expiration', example: '2026-12-31' },
+      date_fin_garantie: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Date Garantie', example: '2026-12-31' },
+      date_derniere_inter: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Dernière Inter', example: '2026-12-31' },
+    };
+
+    const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
+
+    function validateRow(row, rowIndex) {
+      const errors = [];
+      allColumnFields.forEach((field, colIndex) => {
+        const rule = FIELD_VALIDATORS[field];
+        if (!rule) return;
+        const value = row[colIndex];
+        if (!value || value === '') return; // vide = ignoré
+        if (!rule.regex.test(value)) {
+          errors.push(`Ligne ${rowIndex + 1} — <strong>${rule.label}</strong> : "<em>${value}</em>" invalide (ex: ${rule.example})`);
+        }
+      });
+      return errors;
+    }
+    // ── showToast ────────────────────────────────────────────────────────────────
+    function showToast(message, type) {
+      const existingToasts = document.querySelectorAll('.custom-toast');
+      existingToasts.forEach(toast => toast.remove());
+
+      const toastDiv = document.createElement('div');
+      toastDiv.className = 'custom-toast position-fixed top-0 end-0 m-3';
+      toastDiv.style.zIndex = '9999';
+      toastDiv.style.minWidth = '300px';
+      toastDiv.style.maxWidth = '400px';
+
+      const colors = {
+        success: { bg: '#d4edda', border: '#28a745', icon: '#28a745' },
+        danger: { bg: '#f8d7da', border: '#dc3545', icon: '#dc3545' },
+        info: { bg: '#d1ecf1', border: '#17a2b8', icon: '#17a2b8' }
+      };
+      const color = colors[type] || colors.info;
+
+      toastDiv.style.backgroundColor = color.bg;
+      toastDiv.style.borderLeft = `4px solid ${color.border}`;
+      toastDiv.style.borderRadius = '8px';
+      toastDiv.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+      toastDiv.style.padding = '12px 16px';
+
+      toastDiv.innerHTML = `
+      <div class="d-flex align-items-center">
+        <div class="me-3" style="color:${color.icon}">
+          <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : type === 'danger' ? 'bi-x-circle-fill' : 'bi-info-circle-fill'} fs-4"></i>
+        </div>
+        <div class="flex-grow-1" style="font-size:14px;">
+          <strong>${type === 'success' ? 'Succès' : type === 'danger' ? 'Erreur' : 'Information'}</strong>
+          <div class="mt-1">${message}</div>
+        </div>
+        <button type="button" class="btn-close ms-2" style="font-size:12px;"
+                onclick="this.closest('.custom-toast').remove()"></button>
+      </div>`;
+
+      document.body.appendChild(toastDiv);
+
+      const duration = type === 'danger' ? 7000 : 4000;
+      setTimeout(() => {
+        if (toastDiv.parentNode) {
+          toastDiv.style.opacity = '0';
+          toastDiv.style.transition = 'opacity 0.3s ease';
+          setTimeout(() => toastDiv.remove(), 300);
+        }
+      }, duration);
     }
 
+    function addNewRowToTable(tableId, locationName, salleId) {
+      const hot = hotInstances[tableId];
+      if (!hot) { console.error('Tableau non trouvé:', tableId); return; }
+
+      hot.__salleId = salleId;
+
+      const existingData = hot.getSourceData();
+      const data = existingData.map(row => row.map(cell =>
+        (cell && typeof cell === 'object') ? { ...cell } : cell
+      ));
+
+      const colCount = <?= count($allColumns) ?>;
+      const newRow = Array(colCount).fill('');
+      newRow[PIECES_JOINTES_INDEX] = { count: 0, id: null, name: '' };
+
+      data.push(newRow);
+      hot.loadData(data);
+
+      const newRowIndex = data.length - 1;
+      hot.scrollViewportTo(newRowIndex, 0);
+      hot.selectCell(newRowIndex, 0);
+
+      showToast('Nouvelle ligne ajoutée. Remplissez les informations puis sauvegardez.', 'info');
+    }
+
+    // ── submitFilters ────────────────────────────────────────────────────────────
+    function submitFilters() {
+      const clientId = document.getElementById('client_id').value;
+      const siteId = document.getElementById('site_id').value;
+      const buildingId = document.getElementById('building_id').value;
+      const salleId = document.getElementById('salle_id').value;
+
+      let url = '<?= BASE_URL ?>materiel?';
+      const params = [];
+      if (clientId) params.push('client_id=' + clientId);
+      if (siteId) params.push('site_id=' + siteId);
+      if (buildingId) params.push('building_id=' + buildingId);
+      if (salleId) params.push('salle_id=' + salleId);
+
+      window.location.href = url + params.join('&');
+    }
+
+    // ── updateSitesAndSubmit ──────────────────────────────────────────────────────
     function updateSitesAndSubmit() {
-        const clientId = document.getElementById('client_id').value;
-        if (clientId) {
-            fetch('<?= BASE_URL ?>materiel/get_sites?client_id=' + clientId)
-                .then(res => res.json())
-                .then(data => {
-                    const siteSelect = document.getElementById('site_id');
-                    siteSelect.innerHTML = '<option value="">Tous les sites</option>';
-                    if (data && Array.isArray(data)) {
-                        data.forEach(site => {
-                            const option = document.createElement('option');
-                            option.value = site.id;
-                            option.textContent = site.name;
-                            siteSelect.appendChild(option);
-                        });
-                    }
-                    // Réinitialiser les filtres dépendants
-                    document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
-                    document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-                    // Soumettre avec le nouveau client
-                    submitFilters();
-                })
-                .catch(err => console.error('Erreur chargement sites:', err));
-        } else {
-            // Réinitialiser tous les filtres
-            document.getElementById('site_id').innerHTML = '<option value="">Tous les sites</option>';
+      const clientId = document.getElementById('client_id').value;
+      if (clientId) {
+        fetch('<?= BASE_URL ?>materiel/get_sites?client_id=' + clientId)
+          .then(res => res.json())
+          .then(data => {
+            const siteSelect = document.getElementById('site_id');
+            siteSelect.innerHTML = '<option value="">Tous les sites</option>';
+            if (Array.isArray(data)) data.forEach(site => {
+              const o = document.createElement('option');
+              o.value = site.id; o.textContent = site.name;
+              siteSelect.appendChild(o);
+            });
             document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
             document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
             submitFilters();
-        }
+          })
+          .catch(err => console.error('Erreur chargement sites:', err));
+      } else {
+        document.getElementById('site_id').innerHTML = '<option value="">Tous les sites</option>';
+        document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
+        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
+        submitFilters();
+      }
     }
 
+    // ── updateBuildingsAndSubmit ──────────────────────────────────────────────────
     function updateBuildingsAndSubmit() {
-        const clientId = document.getElementById('client_id').value;
-        const siteId = document.getElementById('site_id').value;
-        
-        if (siteId && clientId) {
-            const url = '<?= BASE_URL ?>materiel/get_buildings?site_id=' + siteId;
-            
-            fetch(url)
-                .then(res => res.json())
-                .then(data => {
-                    const buildingSelect = document.getElementById('building_id');
-                    buildingSelect.innerHTML = '<option value="">Tous les bâtiments</option>';
-                    
-                    if (data && Array.isArray(data)) {
-                        data.forEach(building => {
-                            const option = document.createElement('option');
-                            option.value = building.id;
-                            option.textContent = building.name;
-                            buildingSelect.appendChild(option);
-                        });
-                    }
-                    
-                    // Réinitialiser le select des salles
-                    document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-                    
-                    // Soumettre avec tous les filtres actuels
-                    submitFilters();
-                })
-                .catch(err => console.error('Erreur chargement bâtiments:', err));
-        } else {
-            document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
+      const clientId = document.getElementById('client_id').value;
+      const siteId = document.getElementById('site_id').value;
+      if (siteId && clientId) {
+        fetch('<?= BASE_URL ?>materiel/get_buildings?site_id=' + siteId)
+          .then(res => res.json())
+          .then(data => {
+            const buildingSelect = document.getElementById('building_id');
+            buildingSelect.innerHTML = '<option value="">Tous les bâtiments</option>';
+            if (Array.isArray(data)) data.forEach(b => {
+              const o = document.createElement('option');
+              o.value = b.id; o.textContent = b.name;
+              buildingSelect.appendChild(o);
+            });
             document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
             submitFilters();
-        }
+          })
+          .catch(err => console.error('Erreur chargement bâtiments:', err));
+      } else {
+        document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
+        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
+        submitFilters();
+      }
     }
 
+    // ── updateRoomsAndSubmit ──────────────────────────────────────────────────────
     function updateRoomsAndSubmit() {
-        const clientId = document.getElementById('client_id').value;
-        const siteId = document.getElementById('site_id').value;
-        const buildingId = document.getElementById('building_id').value;
-        
-        if (buildingId && siteId && clientId) {
-            // Charger les salles du bâtiment
-            const url = '<?= BASE_URL ?>materiel/get_rooms_by_building?building_id=' + buildingId;
-            
-            fetch(url)
-                .then(res => res.json())
-                .then(data => {
-                    const roomSelect = document.getElementById('salle_id');
-                    roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
-                    
-                    if (data && Array.isArray(data)) {
-                        data.forEach(room => {
-                            const option = document.createElement('option');
-                            option.value = room.id;
-                            option.textContent = room.name;
-                            roomSelect.appendChild(option);
-                        });
-                    }
-                    
-                    submitFilters();
-                })
-                .catch(err => console.error('Erreur chargement salles (par bâtiment):', err));
-        } else if (siteId && clientId && !buildingId) {
-            // Si pas de bâtiment mais un site, charger les salles du site
-            const url = '<?= BASE_URL ?>materiel/get_rooms_by_site?site_id=' + siteId;
-            
-            fetch(url)
-                .then(res => res.json())
-                .then(data => {
-                    const roomSelect = document.getElementById('salle_id');
-                    roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
-                    
-                    if (data && Array.isArray(data)) {
-                        data.forEach(room => {
-                            const option = document.createElement('option');
-                            option.value = room.id;
-                            option.textContent = room.name;
-                            roomSelect.appendChild(option);
-                        });
-                    }
-                    
-                    submitFilters();
-                })
-                .catch(err => console.error('Erreur chargement salles (par site):', err));
-        } else {
-            document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-            submitFilters();
-        }
+      const clientId = document.getElementById('client_id').value;
+      const siteId = document.getElementById('site_id').value;
+      const buildingId = document.getElementById('building_id').value;
+
+      const loadRooms = (url) => fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          const roomSelect = document.getElementById('salle_id');
+          roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
+          if (Array.isArray(data)) data.forEach(r => {
+            const o = document.createElement('option');
+            o.value = r.id; o.textContent = r.name;
+            roomSelect.appendChild(o);
+          });
+          submitFilters();
+        })
+        .catch(err => console.error('Erreur chargement salles:', err));
+
+      if (buildingId && siteId && clientId) {
+        loadRooms('<?= BASE_URL ?>materiel/get_rooms_by_building?building_id=' + buildingId);
+      } else if (siteId && clientId) {
+        loadRooms('<?= BASE_URL ?>materiel/get_rooms_by_site?site_id=' + siteId);
+      } else {
+        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
+        submitFilters();
+      }
     }
+
+    // ── applyGlobalSearch ────────────────────────────────────────────────────────
     function applyGlobalSearch() {
       const searchTerm = document.getElementById('globalSearch').value.toLowerCase();
       currentSearchTerm = searchTerm;
+      document.getElementById('clearGlobalSearch').style.display = searchTerm ? 'inline-block' : 'none';
 
-      const clearBtn = document.getElementById('clearGlobalSearch');
-      clearBtn.style.display = searchTerm.length > 0 ? 'inline-block' : 'none';
-
-      // Parcourir toutes les instances Handsontable
       Object.keys(hotInstances).forEach(tableId => {
         const hot = hotInstances[tableId];
         if (!hot) return;
-
         const data = hot.getData();
-        const totalRows = data.length;
-
-        for (let i = 0; i < totalRows; i++) {
-          let rowMatches = false;
-          const rowData = data[i];
-
-          for (let j = 0; j < rowData.length; j++) {
-            // Ignorer la colonne pièces jointes (index 7)
-            if (j === 7) continue;
-            const cellValue = rowData[j];
-            if (cellValue && typeof cellValue === 'object') continue;
-            if (cellValue && cellValue.toString().toLowerCase().includes(searchTerm)) {
-              rowMatches = true;
-              break;
-            }
+        for (let i = 0; i < data.length; i++) {
+          let matches = false;
+          for (let j = 0; j < data[i].length; j++) {
+            if (j === PIECES_JOINTES_INDEX) continue;
+            const v = data[i][j];
+            if (v && typeof v !== 'object' && v.toString().toLowerCase().includes(searchTerm)) { matches = true; break; }
           }
-
-          const visualRowIndex = hot.toVisualRow(i);
-          const rowElement = hot.getCell(visualRowIndex, 0);
-          if (rowElement) {
-            const tr = rowElement.parentNode;
-            if (tr) {
-              tr.style.display = (!searchTerm || rowMatches) ? '' : 'none';
-            }
-          }
+          const el = hot.getCell(hot.toVisualRow(i), 0);
+          if (el && el.parentNode) el.parentNode.style.display = (!searchTerm || matches) ? '' : 'none';
         }
-
         hot.render();
       });
 
       updateAccordionsVisibility(searchTerm);
     }
-
+    // ── updateAccordionsVisibility ───────────────────────────────────────────────
     function updateAccordionsVisibility(searchTerm) {
-      if (!searchTerm || searchTerm.trim().length === 0) {
-        document.querySelectorAll('.accordion-item').forEach(item => item.style.display = '');
-        return;
-      }
-
-      document.querySelectorAll('.accordion-item').forEach(accordionItem => {
-        const collapseDiv = accordionItem.querySelector('.accordion-collapse');
-        if (!collapseDiv) return;
-
-        const tableId = collapseDiv.id.replace('collapse_', 'excelTable-');
-        const hot = hotInstances[tableId];
-        let hasVisibleRow = false;
-
+      if (!searchTerm) { document.querySelectorAll('.accordion-item').forEach(i => i.style.display = ''); return; }
+      document.querySelectorAll('.accordion-item').forEach(item => {
+        const collapse = item.querySelector('.accordion-collapse');
+        if (!collapse) return;
+        const hot = hotInstances[collapse.id.replace('collapse_', 'excelTable-')];
+        let found = false;
         if (hot) {
           const data = hot.getData();
-          for (let i = 0; i < data.length; i++) {
-            let rowMatches = false;
+          outer: for (let i = 0; i < data.length; i++)
             for (let j = 0; j < data[i].length; j++) {
-              if (j === 7) continue;
-              const cellValue = data[i][j];
-              if (cellValue && typeof cellValue !== 'object' && cellValue.toString().toLowerCase().includes(searchTerm)) {
-                rowMatches = true;
-                break;
-              }
+              if (j === PIECES_JOINTES_INDEX) continue;
+              const v = data[i][j];
+              if (v && typeof v !== 'object' && v.toString().toLowerCase().includes(searchTerm)) { found = true; break outer; }
             }
-            if (rowMatches) {
-              hasVisibleRow = true;
-              break;
-            }
-          }
         }
-
-        accordionItem.style.display = hasVisibleRow ? '' : 'none';
+        item.style.display = found ? '' : 'none';
       });
     }
 
     function openAllAccordions() {
-      document.querySelectorAll('.accordion-collapse').forEach(collapse => {
-        if (!collapse.classList.contains('show')) {
-          new bootstrap.Collapse(collapse, { toggle: false }).show();
-        }
+      document.querySelectorAll('.accordion-collapse').forEach(c => {
+        if (!c.classList.contains('show')) new bootstrap.Collapse(c, { toggle: false }).show();
       });
     }
-
     function closeAllAccordions() {
-      document.querySelectorAll('.accordion-collapse.show').forEach(collapse => {
-        bootstrap.Collapse.getInstance(collapse)?.hide();
-      });
+      document.querySelectorAll('.accordion-collapse.show').forEach(c => bootstrap.Collapse.getInstance(c)?.hide());
     }
 
+    // ── column visibility ────────────────────────────────────────────────────────
     function saveColumnVisibility() {
       const state = {};
-      document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
-        state[parseInt(cb.dataset.col)] = cb.checked;
-      });
+      document.querySelectorAll('.global-colvis-checkbox').forEach(cb => { state[parseInt(cb.dataset.col)] = cb.checked; });
       localStorage.setItem('materiel_columns_visibility', JSON.stringify(state));
     }
-
     function restoreColumnVisibility() {
       const saved = localStorage.getItem('materiel_columns_visibility');
-      if (saved) {
-        try {
-          const state = JSON.parse(saved);
-          document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
-            const col = parseInt(cb.dataset.col);
-            if (state.hasOwnProperty(col)) cb.checked = state[col];
-          });
-          return state;
-        } catch (e) { console.error(e); }
-      }
-      return null;
+      if (!saved) return null;
+      try {
+        const state = JSON.parse(saved);
+        document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
+          const col = parseInt(cb.dataset.col);
+          if (state.hasOwnProperty(col)) cb.checked = state[col];
+        });
+        return state;
+      } catch (e) { console.error(e); return null; }
     }
-
     function applyColumnVisibility(colIndex, isVisible) {
       Object.values(hotInstances).forEach(hot => {
-        const plugin = hot.getPlugin('hiddenColumns');
-        if (isVisible) plugin.showColumn(colIndex);
-        else plugin.hideColumn(colIndex);
+        const p = hot.getPlugin('hiddenColumns');
+        isVisible ? p.showColumn(colIndex) : p.hideColumn(colIndex);
         hot.render();
       });
     }
 
+    // ── attachments ──────────────────────────────────────────────────────────────
     function openAttachmentsModal(materielId, materielName) {
       const modal = new bootstrap.Modal(document.getElementById('attachmentsModal'));
       document.getElementById('attachmentsModalLabel').textContent = `Pièces jointes - ${materielName}`;
@@ -958,7 +1037,6 @@ $allData = [];
       modal.show();
       loadAttachments(materielId, content);
     }
-
     function loadAttachments(materielId, container) {
       fetch('<?= BASE_URL ?>materiel/getAttachments/' + materielId)
         .then(res => res.json())
@@ -966,13 +1044,13 @@ $allData = [];
           if (data.success && data.attachments) renderAttachments(data.attachments, container, materielId);
           else container.innerHTML = `<div class="alert alert-danger">${data.error || 'Erreur de chargement'}</div>`;
         })
-        .catch(err => { console.error(err); container.innerHTML = '<div class="alert alert-danger">Erreur de chargement</div>'; });
+        .catch(() => { container.innerHTML = '<div class="alert alert-danger">Erreur de chargement</div>'; });
     }
-
     function renderAttachments(attachments, container, materielId) {
       let html = '<div class="mb-3">';
-      if (attachments.length === 0) html += '<div class="text-center py-4"><i class="bi bi-inbox fs-1 text-muted"></i><p class="mt-3">Aucune pièce jointe</p></div>';
-      else {
+      if (!attachments.length) {
+        html += '<div class="text-center py-4"><i class="bi bi-inbox fs-1 text-muted"></i><p class="mt-3">Aucune pièce jointe</p></div>';
+      } else {
         attachments.sort((a, b) => new Date(b.date_creation) - new Date(a.date_creation));
         html += '<div class="list-group">';
         attachments.forEach(att => {
@@ -981,27 +1059,29 @@ $allData = [];
           const size = formatFileSize(att.taille_fichier || 0);
           const date = att.date_creation ? new Date(att.date_creation).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-';
           html += `<div class="list-group-item ${att.masque_client == 1 ? 'bg-light-warning' : ''}">
-        <div class="d-flex justify-content-between align-items-start">
-          <div class="flex-grow-1">
-            <div class="d-flex align-items-center mb-1">${att.masque_client == 1 ? '<i class="bi bi-eye-slash text-warning me-2"></i>' : ''}<strong>${escapeHtml(att.nom_fichier)}</strong></div>
-            ${att.commentaire ? `<small class="text-muted d-block">${escapeHtml(att.commentaire)}</small>` : ''}
-            <small class="text-muted">${size} • ${date}${att.created_by_name ? ' • ' + escapeHtml(att.created_by_name) : ''}</small>
+          <div class="d-flex justify-content-between align-items-start">
+            <div class="flex-grow-1">
+              <div class="d-flex align-items-center mb-1">
+                ${att.masque_client == 1 ? '<i class="bi bi-eye-slash text-warning me-2"></i>' : ''}
+                <strong>${escapeHtml(att.nom_fichier)}</strong>
+              </div>
+              ${att.commentaire ? `<small class="text-muted d-block">${escapeHtml(att.commentaire)}</small>` : ''}
+              <small class="text-muted">${size} • ${date}${att.created_by_name ? ' • ' + escapeHtml(att.created_by_name) : ''}</small>
+            </div>
+            <div class="ms-3">
+              ${isPdf || isImage ? `<button class="btn btn-sm btn-outline-info me-1" onclick="previewAttachment(${att.id},'${escapeHtml(att.nom_fichier)}','${att.type_fichier}')"><i class="bi bi-eye"></i></button>` : ''}
+              <a href="<?= BASE_URL ?>materiel/download/${att.id}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-download"></i></a>
+              <a href="<?= BASE_URL ?>materiel/toggleAttachmentVisibility/${materielId}/${att.id}" class="btn btn-sm btn-outline-warning me-1"><i class="bi ${att.masque_client == 1 ? 'bi-eye' : 'bi-eye-slash'}"></i></a>
+              <a href="<?= BASE_URL ?>materiel/deleteAttachment/${materielId}/${att.id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer ?')"><i class="bi bi-trash"></i></a>
+            </div>
           </div>
-          <div class="ms-3">
-            ${isPdf || isImage ? `<button class="btn btn-sm btn-outline-info me-1" onclick="previewAttachment(${att.id},'${escapeHtml(att.nom_fichier)}','${att.type_fichier}')"><i class="bi bi-eye"></i></button>` : ''}
-            <a href="<?= BASE_URL ?>materiel/download/${att.id}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-download"></i></a>
-            <a href="<?= BASE_URL ?>materiel/toggleAttachmentVisibility/${materielId}/${att.id}" class="btn btn-sm btn-outline-warning me-1"><i class="bi ${att.masque_client == 1 ? 'bi-eye' : 'bi-eye-slash'}"></i></a>
-            <a href="<?= BASE_URL ?>materiel/deleteAttachment/${materielId}/${att.id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer ?')"><i class="bi bi-trash"></i></a>
-          </div>
-        </div>
-      </div>`;
+        </div>`;
         });
         html += '</div>';
       }
-      html += '</div><div class="d-flex justify-content-end"><button class="btn btn-primary" onclick="openAddAttachmentModal(' + materielId + ')"><i class="bi bi-plus me-1"></i>Ajouter</button></div>';
+      html += `</div><div class="d-flex justify-content-end"><button class="btn btn-primary" onclick="openAddAttachmentModal(${materielId})"><i class="bi bi-plus me-1"></i>Ajouter</button></div>`;
       container.innerHTML = html;
     }
-
     function previewAttachment(id, name, type) {
       const modal = new bootstrap.Modal(document.getElementById('previewAttachmentModal'));
       document.getElementById('previewAttachmentModalLabel').textContent = name;
@@ -1012,26 +1092,19 @@ $allData = [];
       else body.innerHTML = `<div class="alert alert-info">Prévisualisation non disponible. <a href="<?= BASE_URL ?>materiel/download/${id}" target="_blank">Télécharger</a></div>`;
       modal.show();
     }
-
     function formatFileSize(bytes) {
       if (!bytes) return '0 Bytes';
-      const k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      const k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'], i = Math.floor(Math.log(bytes) / Math.log(k));
       return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
-
     function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
+      const d = document.createElement('div'); d.textContent = text; return d.innerHTML;
     }
-
     function openAddAttachmentModal(materielId) {
       const modal = new bootstrap.Modal(document.getElementById('addAttachmentModal'));
       document.getElementById('addAttachmentModal').setAttribute('data-materiel-id', materielId);
       modal.show();
     }
-
     class DragDropUploader {
       constructor(materielId) {
         this.materielId = materielId;
@@ -1051,7 +1124,6 @@ $allData = [];
         this.filesOptionsList = document.getElementById('filesOptionsList');
         this.init();
       }
-
       async init() {
         try {
           const res = await fetch('<?= BASE_URL ?>settings/getAllowedExtensions');
@@ -1192,8 +1264,7 @@ $allData = [];
     function parsePhpSize(size) {
       const units = { K: 1024, M: 1048576, G: 1073741824 };
       const match = String(size).match(/^(\d+)([KMG])?$/i);
-      if (!match) return 0;
-      return parseInt(match[1]) * (units[match[2]?.toUpperCase()] || 1);
+      return match ? parseInt(match[1]) * (units[match[2]?.toUpperCase()] || 1) : 0;
     }
 
     let uploader;
@@ -1205,83 +1276,217 @@ $allData = [];
       if (uploader) uploader.clearAll();
     });
 
+    // ── DOMContentLoaded ──────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', function () {
+
       <?php if (!empty($filters['client_id']) && !empty($materiel_organise)): ?>
         <?php foreach ($materiel_organise as $client_nom => $sites): ?>
-          <?php foreach ($sites as $site_nom => $salles): ?>
-            <?php foreach ($salles as $salle_nom => $materiels):
-              $salle_id = 'salle_' . md5($client_nom . $site_nom . $salle_nom);
-              ?>
-                (function () {
-                  const container = document.getElementById('excelTable-<?= $salle_id ?>');
-                  const data = <?= json_encode(array_map(function ($m) use ($allColumns, $pieces_jointes_count) {
-                    return array_map(function ($col) use ($m, $pieces_jointes_count) {
-                      if ($col['field'] === 'equipement')
-                        return ($m['marque'] ?? '') . "\n" . ($m['modele'] ?? '');
-                      if ($col['field'] === 'pieces_jointes')
-                        return ['count' => $pieces_jointes_count[$m['id']] ?? 0, 'id' => $m['id'], 'name' => ($m['marque'] ?? '') . ' ' . ($m['modele'] ?? '')];
-                      return $m[$col['field']] ?? '';
-                    }, $allColumns);
-                  }, $materiels)); ?>;
-                  const colWidthsConfig = <?= json_encode(array_map(function ($col) {
-                    switch ($col['field']) {
-                      case 'equipement':
-                        return 220;
-                      case 'pieces_jointes':
-                        return 120;
-                      case 'commentaire':
-                        return 250;
-                      case 'adresse_ip':
-                        return 140;
-                      case 'adresse_mac':
-                        return 140;
-                      default:
-                        return 120;
-                    }
-                  }, $allColumns)); ?>;
-                  const hot = new Handsontable(container, {
-                    data: data,
-                    colHeaders: <?= json_encode($colHeaders) ?>,
-                    colWidths: colWidthsConfig,
-                    minColumnWidth: 80,
-                    hiddenColumns: { columns: <?= json_encode($hiddenColumns) ?>, indicators: true },
-                    rowHeaders: false,
-                    licenseKey: 'non-commercial-and-evaluation',
-                    stretchH: 'all',
-                    height: 300,
-                    cells: function (row, col) {
-                      const header = this.colHeaders[col];
-                      if (header === 'Équipement') {
+          <?php foreach ($sites as $site_nom => $buildings): ?>
+            <?php foreach ($buildings as $building_nom => $salles): ?>
+              <?php foreach ($salles as $salle_nom => $materiels):
+                $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
+                $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
+                ?>
+                  (function () {
+                    const container = document.getElementById('excelTable-<?= $salle_id ?>');
+                    if (!container) return;
+
+                    const data = <?= json_encode(array_map(function ($m) use ($allColumns, $pieces_jointes_count) {
+                      $rowData = [];
+                      foreach ($allColumns as $col) {
+                        if ($col['field'] === 'pieces_jointes') {
+                          $rowData[] = ['count' => $pieces_jointes_count[$m['id']] ?? 0, 'id' => $m['id'], 'name' => ($m['marque'] ?? '') . ' ' . ($m['modele'] ?? '')];
+                        } else {
+                          $rowData[] = $m[$col['field']] ?? '';
+                        }
+                      }
+                      return $rowData;
+                    }, $materiels)); ?>;
+
+                    const COLUMN_FORMATS = {
+                      'date_fin_maintenance': { type: 'date', dateFormat: 'YYYY-MM-DD' },
+                      'date_fin_garantie': { type: 'date', dateFormat: 'YYYY-MM-DD' },
+                      'date_derniere_inter': { type: 'date', dateFormat: 'YYYY-MM-DD' },
+                      'adresse_ip': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
+                      'ip_primaire': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
+                      'ip_secondaire': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
+                      'passerelle': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
+                      'masque': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
+                      'adresse_mac': { validator: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/ },
+                      'mac_primaire': { validator: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/ },
+                      'mac_secondaire': { validator: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/ },
+                      'version_firmware': { validator: /^\d+(\.\d+)+$/ },
+                      'ancien_firmware': { validator: /^\d+(\.\d+)+$/ },
+                    };
+
+                    const COLUMN_PLACEHOLDERS = {
+                      'date_fin_maintenance': 'YYYY-MM-DD',
+                      'date_fin_garantie': 'YYYY-MM-DD',
+                      'date_derniere_inter': 'YYYY-MM-DD',
+                      'adresse_ip': '192.168.1.1',
+                      'ip_primaire': '192.168.1.1',
+                      'ip_secondaire': '192.168.1.1',
+                      'passerelle': '172.24.158.230',
+                      'masque': '255.255.255.0',
+                      'adresse_mac': '00:0E:DD:FA:65:88',
+                      'mac_primaire': '00:0E:DD:FA:65:88',
+                      'mac_secondaire': '00:0E:DD:FA:65:88',
+                      'version_firmware': '10.0.8',
+                      'ancien_firmware': '10.0.8',
+                    };
+
+                    // ← accolade fermante APRÈS le return, pas avant allColumnFields
+                    function makePlaceholderRenderer(placeholder) {
+                      return function (instance, td, row, col, prop, value, cellProperties) {
+                        Handsontable.renderers.TextRenderer.apply(this, arguments);
+                        if (!value || value === '') {
+                          td.innerHTML = `<span style="color:#adb5bd;font-style:italic;pointer-events:none;">${placeholder}</span>`;
+                        }
+                      };
+                    }  // ← fin de makePlaceholderRenderer
+
+                    const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
+
+                    const columns = allColumnFields.map(field => {
+                      const fmt = COLUMN_FORMATS[field];
+                      const ph = COLUMN_PLACEHOLDERS[field];
+
+                      if (!fmt) {
+                        if (!ph) return { type: 'text' };
+                        return { type: 'text', renderer: makePlaceholderRenderer(ph) };
+                      }
+
+                      if (fmt.type === 'date') {
                         return {
-                          renderer: function (instance, td, row, col, prop, value) {
-                            const parts = (value || '').split('\n');
-                            td.innerHTML = parts[0] + '<br><small>' + (parts[1] || '') + '</small>';
+                          type: 'date',
+                          dateFormat: fmt.dateFormat,
+                          correctFormat: true,
+                          defaultDate: '',
+                          renderer: makePlaceholderRenderer(ph || 'YYYY-MM-DD'),
+                          datePickerConfig: {
+                            firstDay: 1,
+                            showWeekNumber: true,
+                            i18n: {
+                              previousMonth: 'Mois préc.',
+                              nextMonth: 'Mois suiv.',
+                              months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                              weekdays: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                              weekdaysShort: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa']
+                            }
                           }
                         };
                       }
-                      if (header === 'Pièces jointes') {
+
+                      if (fmt.validator) {
                         return {
-                          renderer: function (instance, td, row, col, prop, value) {
-                            const count = value?.count ?? 0;
-                            const id = value?.id;
-                            const name = value?.name ?? '';
-                            td.innerHTML = `<button class="flex gap-4 btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}" onclick="openAttachmentsModal(${id}, '${name.replace(/'/g, "\\'")}')"><i class="bi bi-paperclip"></i><span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'}">${count}</span></button>`;
+                          type: 'text',
+                          renderer: makePlaceholderRenderer(ph),
+                          validator: function (value, callback) {
+                            if (!value || value === '') return callback(true);
+                            callback(fmt.validator.test(value));
+                          },
+                          allowInvalid: true
+                        };
+                      }
+
+                      return { type: 'text' };
+                    });
+
+                    const hot = new Handsontable(container, {
+                      data: data,
+                      colHeaders: <?= json_encode($colHeaders) ?>,
+                      columns: columns,
+                      hiddenColumns: {
+                        columns: (function () {
+                          const saved = localStorage.getItem('materiel_columns_visibility');
+                          if (!saved) return <?= json_encode($hiddenColumns) ?>;
+                          try {
+                            const state = JSON.parse(saved);
+                            return Object.keys(state).map(k => parseInt(k)).filter(k => state[k] === false);
+                          } catch (e) { return <?= json_encode($hiddenColumns) ?>; }
+                        })(),
+                        indicators: true
+                      },
+                      rowHeaders: false,
+                      licenseKey: 'non-commercial-and-evaluation',
+                      stretchH: 'all',
+                      height: 'auto',
+                      cells: function (row, col) {
+                        const header = this.colHeaders[col];
+
+                        if (header === 'Marque') {
+                          return {
+                            renderer: function (instance, td, row, col, prop, value) {
+                              const id = instance.getDataAtCell(row, ID_INDEX);
+                              td.innerHTML = '';
+                              if (id) {
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const link = document.createElement('a');
+                                link.href = '<?= BASE_URL ?>materiel/view/' + id + (urlParams.toString() ? '?' + urlParams : '');
+                                link.className = 'text-decoration-none fw-bold text-primary';
+                                link.onclick = e => e.stopPropagation();
+                                link.textContent = value || '';
+                                td.appendChild(link);
+                              } else {
+                                const span = document.createElement('span');
+                                span.className = 'fw-bold text-primary';
+                                span.textContent = value || '';
+                                td.appendChild(span);
+                              }
+                              td.style.cursor = 'default';
+                            },
+                            editor: 'text'
+                          };
+                        }
+
+                        if (header === 'Modèle') {
+                          return {
+                            renderer: function (instance, td, row, col, prop, value) {
+                              td.style.color = '#000000';
+                              td.style.fontWeight = 'normal';
+                              td.style.backgroundColor = '#f3e1b5';
+                              td.textContent = value || '';
+                              td.style.cursor = 'default';
+                            },
+                            editor: 'text'
+                          };
+                        }
+
+                        if (header === 'Pièces jointes') {
+                          return {
+                            renderer: function (instance, td, row, col, prop, value) {
+                              const count = value?.count ?? 0;
+                              const id = value?.id;
+                              const name = value?.name ?? '';
+                              td.innerHTML = `<button class="btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}"
+              onclick="openAttachmentsModal(${id},'${name.replace(/'/g, "\\'")}')">
+              <i class="bi bi-paperclip"></i>
+              <span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'} ms-1">${count}</span>
+            </button>`;
                     td.style.textAlign = 'center';
                   }
                 };
               }
+
               return {};
             }
           });
+
+          hot.__salleId = <?= $materiels[0]['salle_id'] ?? 'null' ?>;
           hotInstances['excelTable-<?= $salle_id ?>'] = hot;
         })();
+      <?php endforeach; ?>
       <?php endforeach; ?>
       <?php endforeach; ?>
       <?php endforeach; ?>
       <?php endif; ?>
 
       const saved = restoreColumnVisibility();
-      if (saved) Object.keys(saved).forEach(col => applyColumnVisibility(parseInt(col), saved[col]));
+      if (saved) {
+        setTimeout(() => {
+          Object.keys(saved).forEach(col => applyColumnVisibility(parseInt(col), saved[col] === true || saved[col] === 'true'));
+        }, 100);
+      }
 
       const searchInput = document.getElementById('globalSearch');
       const clearBtn = document.getElementById('clearGlobalSearch');
@@ -1298,120 +1503,279 @@ $allData = [];
           const col = parseInt(this.dataset.col);
           const visible = this.checked;
           Object.values(hotInstances).forEach(hot => {
-            const plugin = hot.getPlugin('hiddenColumns');
-            if (visible) plugin.showColumn(col);
-            else plugin.hideColumn(col);
+            const p = hot.getPlugin('hiddenColumns');
+            visible ? p.showColumn(col) : p.hideColumn(col);
             hot.render();
           });
           saveColumnVisibility();
         });
       });
     });
-  </script>
-  <script>
+
     window.saveAllTablesData = function () {
-      let totalSaved = 0;
+      let totalUpdated = 0;
+      let totalCreated = 0;
       let totalErrors = 0;
       const savePromises = [];
+      const errorDetails = [];
+      const missingFieldsErrors = [];
+      // ── Validation globale AVANT tout envoi ──────────────────────────────
+      const allValidationErrors = [];
+      Object.keys(hotInstances).forEach(tableId => {
+        const hot = hotInstances[tableId];
+        if (!hot) return;
+        hot.getSourceData().forEach((row, i) => {
+          // Ignorer les lignes totalement vides
+          if (!row[MARQUE_INDEX] && !row[MODELE_INDEX]) return;
+          allValidationErrors.push(...validateRow(row, i));
+        });
+      });
 
+      if (allValidationErrors.length > 0) {
+        showToast(
+          `<strong>Format invalide — sauvegarde annulée</strong><br><br>` +
+          `Corrigez les champs suivants avant de sauvegarder :<br><br>` +
+          allValidationErrors.slice(0, 6).join('<br>') +
+          (allValidationErrors.length > 6
+            ? `<br><em>... et ${allValidationErrors.length - 6} autre(s) erreur(s)</em>`
+            : ''),
+          'danger'
+        );
+        return; // ← bloque tout, rien n'est envoyé
+      }
       Object.keys(hotInstances).forEach(tableId => {
         const hot = hotInstances[tableId];
         if (!hot) return;
 
         const allData = hot.getSourceData();
+        const filters = <?= json_encode($filters ?? []) ?>;
+        let globalSalleId = hot.__salleId || filters.salle_id || null;
 
-        const formattedData = allData
-          .filter(row => row[17] && row[17] !== '')
-          .map(row => ({
-            id: parseInt(row[17]),
-            type_materiel: row[1] || null,
-            numero_serie: row[2] || null,
-            version_firmware: row[3] || null,
-            adresse_ip: row[4] || null,
-            adresse_mac: row[5] || null,
-            date_fin_maintenance: row[6] || null,
-            reference: row[8] || null,
-            usage_materiel: row[9] || null,
-            marque: row[10] || null,
-            modele: row[11] || null,
-            ancien_firmware: row[12] || null,
-            masque: row[13] || null,
-            passerelle: row[14] || null,
-            login: row[15] || null,
-            password: row[16] || null,
-            ip_primaire: row[18] || null,
-            mac_primaire: row[19] || null,
-            ip_secondaire: row[20] || null,
-            mac_secondaire: row[21] || null,
-            stream_aes67_recu: row[22] || null,
-            stream_aes67_transmis: row[23] || null,
-            ssid: row[24] || null,
-            type_cryptage: row[25] || null,
-            password_wifi: row[26] || null,
-            libelle_pa_salle: row[27] || null,
-            numero_port_switch: row[28] || null,
-            vlan: row[29] || null,
-            date_fin_garantie: row[30] || null,
-            date_derniere_inter: row[31] || null,
-            commentaire: row[32] || null,
-            url_github: row[33] || null
-          }));
+        if (!globalSalleId && allData.length > 0) {
+          for (const row of allData) {
+            if (row[ID_INDEX]) {
+              globalSalleId = filters.salle_id || null;
+              break;
+            }
+          }
+        }
 
-        if (formattedData.length === 0) {
-          console.log(`${tableId}: aucune donnée valide à sauvegarder`);
+        if (!globalSalleId) {
+          showToast('Impossible de sauvegarder : salle non identifiée. Filtrez par salle d\'abord.', 'danger');
           return;
         }
 
-        const filters = <?= json_encode($filters ?? []) ?>;
+        // Séparer les lignes existantes et nouvelles
+        const existingRows = [];
+        const newRows = [];
 
-        const promise = fetch('<?= BASE_URL ?>views/excel/excel_save.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-Token': '<?= csrf_token() ?>'
-          },
-          body: JSON.stringify({
-            table_id: tableId,
-            salle_id: filters.salle_id,
-            data: formattedData
-          })
-        })
-          .then(response => response.json())
-          .then(result => {
-            if (result.status === 'success' || result.status === 'partial') {
-              totalSaved++;
-              console.log(`${tableId}: ${result.message}`);
-              if (result.errors && result.errors.length > 0) {
-                console.warn(`${tableId} Erreurs:`, result.errors);
-              }
-            } else {
-              totalErrors++;
-              console.error(`${tableId}:`, result.message);
-            }
-          })
-          .catch(error => {
-            totalErrors++;
-            console.error(`${tableId}:`, error);
+        for (let i = 0; i < allData.length; i++) {
+          const row = allData[i];
+          if (row[ID_INDEX] && row[ID_INDEX] !== '' && row[ID_INDEX] !== null) {
+            existingRows.push({ row: row, originalIndex: i });
+          } else {
+            newRows.push({ row: row, originalIndex: i });
+          }
+        }
+
+        // Traitement des mises à jour (lignes existantes)
+        if (existingRows.length > 0) {
+          const formattedData = existingRows.map(item => {
+            const row = item.row;
+            const obj = {};
+
+            // Inclure l'ID pour la mise à jour
+            obj['id'] = row[ID_INDEX];
+
+            <?php foreach ($allColumns as $col): ?>
+            <?php if ($col['field'] === 'pieces_jointes')
+              continue; ?>
+            obj['<?= $col['field'] ?>'] = row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || null;
+            <?php endforeach; ?>
+
+            return obj;
           });
 
-        savePromises.push(promise);
+          savePromises.push(
+            fetch('<?= BASE_URL ?>views/excel/excel_save.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': '<?= csrf_token() ?>' },
+              body: JSON.stringify({ table_id: tableId, salle_id: globalSalleId, data: formattedData })
+            })
+              .then(r => r.json())
+              .then(result => {
+                if (result.status === 'success' || result.status === 'partial') {
+                  totalUpdated += result.updated || 0;
+                  if (result.errors && result.errors.length > 0) {
+                    errorDetails.push(...result.errors);
+                  }
+                } else if (result.updated > 0) {
+                  totalUpdated += result.updated || 0;
+                } else {
+                  totalErrors++;
+                  errorDetails.push(`Mise à jour échouée`);
+                }
+              })
+              .catch((error) => {
+                totalErrors++;
+                errorDetails.push(`Erreur réseau lors de la mise à jour`);
+              })
+          );
+        }
+
+        // Traitement des créations (nouvelles lignes)
+        for (let idx = 0; idx < newRows.length; idx++) {
+          const row = newRows[idx].row;
+          const marque = row[MARQUE_INDEX];
+          const modele = row[MODELE_INDEX];
+
+          if (!marque || marque.trim() === '' || !modele || modele.trim() === '') {
+            const manquants = [];
+            if (!marque || marque.trim() === '') manquants.push('Marque');
+            if (!modele || modele.trim() === '') manquants.push('Modèle');
+
+            missingFieldsErrors.push(`• Équipement sans ${manquants.join(' et ')}`);
+            totalErrors++;
+            continue;
+          }
+
+          const fd = new FormData();
+          fd.append('salle_id', globalSalleId);
+
+          <?php foreach ($allColumns as $col): ?>
+          <?php if ($col['field'] === 'pieces_jointes')
+            continue; ?>
+          fd.append('<?= $col['field'] ?>', row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || '');
+          <?php endforeach; ?>
+
+          if (filters.client_id) fd.append('return_client_id', filters.client_id);
+          if (filters.site_id) fd.append('return_site_id', filters.site_id);
+          if (filters.salle_id) fd.append('return_salle_id', filters.salle_id);
+
+          const marqueRef = marque, modeleRef = modele;
+          savePromises.push(
+            fetch('<?= BASE_URL ?>materiel/store', {
+              method: 'POST',
+              headers: { 'X-CSRF-Token': '<?= csrf_token() ?>' },
+              body: fd
+            })
+              .then(async response => {
+                if (response.status >= 200 && response.status < 400) {
+                  totalCreated++;
+                } else {
+                  totalErrors++;
+                  const errorText = await response.text();
+                  errorDetails.push(`Échec création "${marqueRef} ${modeleRef}" : ${response.status}`);
+                  console.error(`HTTP ${response.status}`, errorText);
+                }
+              })
+              .catch((error) => {
+                totalErrors++;
+                errorDetails.push(`Erreur réseau pour "${marqueRef} ${modeleRef}"`);
+              })
+          );
+        }
       });
 
-      if (savePromises.length === 0) {
-        alert('Aucune donnée à sauvegarder');
+      if (savePromises.length === 0 && totalErrors === 0) {
+        showToast('Aucune donnée à sauvegarder', 'info');
         return;
       }
 
       Promise.all(savePromises).then(() => {
-        const message = `Sauvegarde terminée : ${totalSaved} tableau(x), ${totalErrors} erreur(s)`;
-        if (totalErrors === 0) {
-          alert(message + '\n\nToutes les modifications ont été sauvegardées avec succès!');
-        } else {
-          alert(message + '\n\n Certaines lignes n\'ont pas pu être sauvegardées. Vérifiez la console.');
+        const successParts = [];
+        if (totalUpdated > 0) successParts.push(`${totalUpdated} mise(s) à jour`);
+        if (totalCreated > 0) successParts.push(`${totalCreated} équipement(s) créé(s)`);
+
+        const successMessage = successParts.length > 0 ? successParts.join(', ') : '';
+
+        let errorMessage = '';
+        if (totalErrors > 0) {
+          if (missingFieldsErrors.length > 0) {
+            errorMessage = `<br><br><strong>Problèmes détectés :</strong><br>`;
+            errorMessage += missingFieldsErrors.slice(0, 5).join('<br>');
+            if (missingFieldsErrors.length > 5) {
+              errorMessage += `<br><em>... et ${missingFieldsErrors.length - 5} autre(s) ligne(s) avec champs manquants</em>`;
+            }
+            errorMessage += `<br><br><strong>Solution :</strong><br>`;
+            errorMessage += `Remplissez la <strong>Marque</strong> et le <strong>Modèle</strong> pour chaque nouvel équipement avant de sauvegarder.`;
+          }
+
+          if (errorDetails.length > 0 && missingFieldsErrors.length === 0) {
+            errorMessage = `<br><br><strong>Erreurs rencontrées :</strong><br>`;
+            errorMessage += errorDetails.slice(0, 3).join('<br>');
+            if (errorDetails.length > 3) {
+              errorMessage += `<br><em>... et ${errorDetails.length - 3} autre(s) erreur(s)</em>`;
+            }
+          }
         }
+
+        if (totalErrors === 0 && (totalUpdated > 0 || totalCreated > 0)) {
+          showToast(
+            `<strong>Sauvegarde réussie !</strong><br><br>${successMessage}<br><br>Toutes les modifications ont été enregistrées.`,
+            'success'
+          );
+          if (totalCreated > 0) setTimeout(() => window.location.reload(), 2000);
+
+        } else if (totalErrors > 0 && (totalUpdated > 0 || totalCreated > 0)) {
+          showToast(
+            `<strong>Sauvegarde partielle</strong><br><br>` +
+            `${successMessage}<br>` +
+            `${totalErrors} erreur(s)` +
+            errorMessage,
+            'danger'
+          );
+          if (totalCreated > 0) setTimeout(() => window.location.reload(), 3000);
+
+        } else if (totalErrors > 0 && totalUpdated === 0 && totalCreated === 0) {
+          let mainMessage = `<strong>Sauvegarde impossible</strong><br><br>`;
+
+          if (missingFieldsErrors.length > 0) {
+            mainMessage += `${missingFieldsErrors.length} ligne(s) avec des informations manquantes.<br><br>`;
+            mainMessage += `<strong>Comment corriger :</strong><br>`;
+            mainMessage += `• Remplissez la <strong>Marque</strong> et le <strong>Modèle</strong> pour chaque nouvel équipement<br>`;
+            mainMessage += `• Utilisez le bouton <strong>"Ajouter"</strong> pour créer une nouvelle ligne<br>`;
+            mainMessage += `• Assurez-vous que tous les champs obligatoires sont complétés avant de sauvegarder<br><br>`;
+            mainMessage += `<strong>Lignes concernées :</strong><br>`;
+            mainMessage += missingFieldsErrors.slice(0, 3).join('<br>');
+            if (missingFieldsErrors.length > 3) {
+              mainMessage += `<br><em>... et ${missingFieldsErrors.length - 3} autre(s) ligne(s)</em>`;
+            }
+          } else {
+            mainMessage += `Aucune donnée n'a pu être sauvegardée.<br><br>`;
+            mainMessage += `<strong>Vérifiez :</strong><br>`;
+            mainMessage += `• Que vous avez bien rempli tous les champs obligatoires<br>`;
+            mainMessage += `• Que votre connexion internet est stable<br>`;
+            mainMessage += `• Que vous avez les droits nécessaires<br>`;
+            if (errorDetails.length > 0) {
+              mainMessage += `<br><strong>Détails :</strong><br>`;
+              mainMessage += errorDetails.slice(0, 2).join('<br>');
+            }
+          }
+
+          showToast(mainMessage, 'danger');
+
+        } else {
+          showToast(
+            `ℹ<strong>Aucune modification détectée</strong><br><br>Aucune donnée n'a été modifiée ou ajoutée.`,
+            'info'
+          );
+        }
+      }).catch((error) => {
+        showToast(
+          `<strong>Erreur système</strong><br><br>` +
+          `Une erreur inattendue s'est produite lors de la sauvegarde.<br><br>` +
+          `<strong>Actions recommandées :</strong><br>` +
+          `• Rafraîchissez la page (F5)<br>` +
+          `• Vérifiez votre connexion internet<br>` +
+          `• Contactez le support si le problème persiste`,
+          'danger'
+        );
+        console.error('Erreur globale:', error);
       });
     };
   </script>
+
   <style>
     @keyframes spin {
       from {

@@ -160,11 +160,8 @@ require_once __DIR__ . '/includes/init.php';
 require_once __DIR__ . '/includes/middleware/csrf.php';
 
 // Application du middleware CSRF pour les requêtes modifiantes
-try {
-    csrfMiddleware();
-} catch (Exception $e) {
-    // Le middleware gère déjà les erreurs et les redirections
-    exit;
+if (function_exists('checkCsrfOrFail')) {
+    checkCsrfOrFail();
 }
 
 // Chargement des modèles
@@ -247,7 +244,7 @@ $action = $parts[1] ?? 'index';
 $id = $parts[2] ?? null;
 
 // Vérification de l'authentification
-$public_routes = ['auth/login', 'auth/logout', 'settings/getAllowedExtensions'];
+$public_routes = ['auth/login', 'auth/logout', 'settings/getAllowedExtensions', 'interventions/webhookSignature'];
 $current_route = $controller . '/' . $action;
 
 if (!in_array($current_route, $public_routes) && !isset($_SESSION['user'])) {
@@ -1158,13 +1155,7 @@ try {
                     }
                     break;
                 case 'getContractInfo':
-                    if ($id) {
-                        $interventionController->getContractInfo($id);
-                    } else {
-                        header('Content-Type: application/json');
-                        echo json_encode(['error' => 'ID contrat manquant']);
-                        exit;
-                    }
+                    $interventionController->getContractInfo($id);
                     break;
                 case 'sendTechnicianEmail':
                     $interventionController->sendTechnicianEmail();
@@ -1226,7 +1217,33 @@ try {
                         exit;
                     }
                     break;
-
+                case 'reopen':
+                    if ($id) {
+                        $interventionController->reopen($id);
+                    } else {
+                        header('Location: ' . BASE_URL . 'interventions');
+                    }
+                    break;
+                case 'removeTechnician':
+                    $interventionController->removeTechnician();
+                    break;
+                case 'getReopenDetails':
+                    if ($id) {
+                        $interventionController->getReopenDetails($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['error' => 'ID manquant']);
+                    }
+                    break;
+                case 'webhookSignature':
+                    $interventionController->webhookSignature();
+                    break;
+                // case 'createYousignWebhook':
+                //     $interventionController->createYousignWebhook();
+                //     break;
+                case 'createSignNowWebhook':
+                    $interventionController->createSignNowWebhook();
+                    break;
             }
             break;
 
@@ -1313,6 +1330,12 @@ try {
                     } else {
                         header('Location: ' . BASE_URL . 'interventions_client');
                     }
+                    break;
+                case 'ajaxGetBuildings':
+                    $interventionsClientController->ajaxGetBuildings();
+                    break;
+                case 'ajaxGetRooms':
+                    $interventionsClientController->ajaxGetRooms();
                     break;
                 case 'get_rooms':
                     // Vérifier que l'utilisateur est connecté et est un client
@@ -1634,6 +1657,16 @@ try {
                     break;
                 case 'get_rooms':
                     $materielClientController->get_rooms();
+                    break;
+                case 'get_buildings':  // AJOUTER CETTE LIGNE
+                    $materielClientController->get_buildings();
+                    break;
+                case 'get_building_by_id':  // AJOUTER CETTE LIGNE
+                case 'getBuildingByIdWithAccess':
+                    $materielClientController->getBuildingByIdWithAccess();
+                    break;
+                case 'get_rooms_by_building':
+                    $materielClientController->get_rooms_by_building();
                     break;
                 case 'download':
                     if ($id) {

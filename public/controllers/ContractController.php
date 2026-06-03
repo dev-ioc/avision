@@ -901,26 +901,27 @@ class ContractController
                 exit;
             }
 
-            // Récupérer les interventions associées - CORRIGÉ (plus de LEFT JOIN sur users)
+            // Récupérer les interventions associées
             $sql_interventions = "SELECT i.*, 
-                ist.name as status_name,
-                ist.color as status_color
-                FROM interventions i
-                LEFT JOIN intervention_statuses ist ON i.status_id = ist.id
-                WHERE i.contract_id = ?
-                ORDER BY COALESCE(i.created_at) DESC";
+            ist.name as status_name,
+            ist.color as status_color
+            FROM interventions i
+            LEFT JOIN intervention_statuses ist ON i.status_id = ist.id
+            WHERE i.contract_id = ?
+            ORDER BY COALESCE(i.created_at) DESC";
 
             $stmt_interventions = $this->db->prepare($sql_interventions);
             $stmt_interventions->execute([$id]);
             $interventions = $stmt_interventions->fetchAll(PDO::FETCH_ASSOC);
 
-            // Pour chaque intervention, récupérer les techniciens assignés
+            // Pour chaque intervention, récupérer les techniciens assignés, la durée totale et les tickets
             require_once __DIR__ . '/../models/UserModel.php';
             $userModel = new UserModel($this->db);
 
             foreach ($interventions as &$intervention) {
-                // Récupérer les techniciens assignés à cette intervention
-                $sql_technicians = "SELECT u.id, u.first_name, u.last_name, u.email
+                // Récupérer les techniciens assignés à cette intervention et la durée totale
+                $sql_technicians = "SELECT u.id, u.first_name, u.last_name, u.email,
+                                       it.temps_passe, it.is_qualified, it.deplacement
                                 FROM intervention_techniciens it
                                 JOIN users u ON it.technicien_id = u.id
                                 WHERE it.intervention_id = ?";
@@ -930,10 +931,29 @@ class ContractController
 
                 // Construire le nom des techniciens pour l'affichage
                 $technician_names = [];
+                $total_duration_minutes = 0;
+
                 foreach ($technicians as $tech) {
                     $technician_names[] = $tech['first_name'] . ' ' . $tech['last_name'];
+                    // Additionner les durées de chaque technicien
+                    if (!empty($tech['temps_passe'])) {
+                        $total_duration_minutes += (int) $tech['temps_passe'];
+                    }
                 }
+
                 $intervention['technician_name'] = !empty($technician_names) ? implode(', ', $technician_names) : 'Non assigné';
+
+                // Convertir la durée totale en heures et minutes pour l'affichage
+                $total_hours = floor($total_duration_minutes / 60);
+                $total_minutes = $total_duration_minutes % 60;
+                $intervention['total_duration_display'] = $total_hours . 'h' . ($total_minutes > 0 ? $total_minutes : '');
+                $intervention['total_duration_minutes'] = $total_duration_minutes;
+                $intervention['total_duration_hours'] = round($total_duration_minutes / 60, 2);
+
+                // Calculer les tickets utilisés en temps réel pour les interventions fermées
+                if ((int) $intervention['status_id'] === 6) {
+                    $intervention['tickets_used'] = $this->calculateRealTicketsUsed($intervention['id']);
+                }
             }
 
             // Récupérer les pièces jointes
@@ -1112,21 +1132,24 @@ class ContractController
         header('Location: ' . BASE_URL . 'contracts');
         exit;
     }
-
-    /**
-     * Endpoint AJAX pour charger les salles d'un client avec HTML formaté
-     */
     public function load_client_rooms()
     {
-        $this->checkAccess();
+        // Vérification de session en mode JSON
+        if (!isset($_SESSION['user'])) {
+            header('Content-Type: application/json');
+            http_response_code(401);
+            echo json_encode(['error' => 'Session expirée', 'session_expired' => true]);
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Content-Type: application/json');
+            http_response_code(405);
+            echo json_encode(['error' => 'Méthode non autorisée']);
+            return;
+        }
 
         try {
-            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-                http_response_code(405);
-                echo json_encode(['error' => 'Méthode non autorisée']);
-                return;
-            }
-
             $clientId = $_POST['client_id'] ?? null;
             $contractId = $_POST['contract_id'] ?? null;
 
@@ -1136,80 +1159,81 @@ class ContractController
                 return;
             }
 
-            // Récupérer les salles du client
             $rooms = $this->contractModel->getRoomsForClient($clientId);
 
-            // Récupérer les salles déjà associées au contrat (si en mode édition)
-            $selectedRooms = [];
+            // Salles déjà sélectionnées (mode édition)
+            $selectedRoomIds = [];
             if ($contractId && is_numeric($contractId)) {
                 $contract = $this->contractModel->getContractById($contractId);
                 if ($contract) {
-                    $selectedRooms = $this->contractModel->getContractRooms($contractId);
+                    $contractRooms = $this->contractModel->getContractRooms($contractId);
+                    $selectedRoomIds = array_column($contractRooms, 'room_id');
                 }
             }
 
-            // Grouper les salles par site
-            $sites = [];
+            // Grouper : site > bâtiment > salle
+            $tree = [];
             foreach ($rooms as $room) {
-                $siteName = $room['site_name'] ?? 'Site inconnu';
-                if (!isset($sites[$siteName])) {
-                    $sites[$siteName] = [];
-                }
-                $sites[$siteName][] = $room;
+                $siteKey = $room['site_id'] . '|' . $room['site_name'];
+                $buildingKey = $room['building_id'] . '|' . $room['building_name'];
+                $tree[$siteKey][$buildingKey][] = $room;
             }
 
-            // Générer le HTML
             ob_start();
-            if (!empty($sites)) {
-                foreach ($sites as $siteName => $siteRooms) {
+            if (!empty($tree)) {
+                foreach ($tree as $siteKey => $buildings) {
+                    [, $siteName] = explode('|', $siteKey, 2);
                     echo '<div class="mb-3">';
-                    echo '<div class="d-flex align-items-center mb-2">';
-                    echo '<i class="fas fa-building text-primary me-2"></i>';
+                    echo '<div class="d-flex align-items-center mb-1">';
+                    echo '<i class="bi bi-geo-alt-fill text-primary me-2"></i>';
                     echo '<strong class="text-primary">' . h($siteName) . '</strong>';
                     echo '</div>';
-                    echo '<div class="ms-4">';
 
-                    foreach ($siteRooms as $room) {
-                        $roomId = $room['id'];
-                        $isChecked = in_array($roomId, array_column($selectedRooms, 'room_id'));
-
-                        echo '<div class="form-check mb-1">';
-                        echo '<input class="form-check-input" type="checkbox" ';
-                        echo 'id="room_' . $roomId . '" name="rooms[]" ';
-                        echo 'value="' . $roomId . '"';
-                        if ($isChecked) {
-                            echo ' checked';
-                        }
-                        echo '>';
-                        echo '<label class="form-check-label" for="room_' . $roomId . '">';
-                        echo '<i class="fas fa-door-open text-muted me-1"></i>';
-                        echo h($room['name']);
-                        echo '</label>';
+                    foreach ($buildings as $buildingKey => $bRooms) {
+                        [, $buildingName] = explode('|', $buildingKey, 2);
+                        echo '<div class="ms-3 mb-2">';
+                        echo '<div class="d-flex align-items-center mb-1">';
+                        echo '<i class="bi bi-building text-secondary me-2"></i>';
+                        echo '<span class="text-secondary fw-semibold">' . h($buildingName) . '</span>';
                         echo '</div>';
-                    }
+                        echo '<div class="ms-3">';
 
-                    echo '</div>';
-                    echo '</div>';
+                        foreach ($bRooms as $room) {
+                            $roomId = $room['id'];
+                            $isChecked = in_array($roomId, $selectedRoomIds);
+                            echo '<div class="form-check mb-1">';
+                            echo '<input class="form-check-input" type="checkbox" ';
+                            echo 'id="room_' . $roomId . '" name="rooms[]" value="' . $roomId . '"';
+                            if ($isChecked)
+                                echo ' checked';
+                            echo '>';
+                            echo '<label class="form-check-label" for="room_' . $roomId . '">';
+                            echo '<i class="bi bi-door-open text-muted me-1"></i>';
+                            echo h($room['name']);
+                            echo '</label>';
+                            echo '</div>';
+                        }
+
+                        echo '</div></div>'; // ms-3 + building div
+                    }
+                    echo '</div>'; // site div
                 }
             } else {
                 echo '<div class="text-center text-muted">';
-                echo '<i class="fas fa-info-circle"></i>';
-                echo ' Aucune salle disponible pour ce client';
+                echo '<i class="bi bi-info-circle me-1"></i> Aucune salle disponible pour ce client';
                 echo '</div>';
             }
-
             $html = ob_get_clean();
 
             header('Content-Type: application/json');
             echo json_encode(['html' => $html]);
 
         } catch (Exception $e) {
-            custom_log("Erreur dans ContractController::load_client_rooms : " . $e->getMessage(), 'ERROR');
+            custom_log("Erreur dans load_client_rooms : " . $e->getMessage(), 'ERROR');
             http_response_code(500);
             echo json_encode(['error' => 'Erreur lors du chargement des salles']);
         }
     }
-
     /**
      * Ajoute une pièce jointe à un contrat
      */
@@ -1765,7 +1789,72 @@ class ContractController
         header('Location: ' . BASE_URL . 'contracts/view/' . $contractId);
         exit;
     }
+    /**
+     * Calcule le nombre réel de tickets utilisés pour une intervention
+     * @param int $interventionId
+     * @return float
+     */
+    private function calculateRealTicketsUsed($interventionId)
+    {
+        // Récupérer l'intervention
+        $sql = "SELECT type_id FROM interventions WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$interventionId]);
+        $intervention = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if (!$intervention) {
+            return 0;
+        }
+
+        // Récupérer le type d'intervention pour savoir si c'est à distance
+        $sql = "SELECT requires_travel FROM intervention_types WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$intervention['type_id']]);
+        $type = $stmt->fetch(PDO::FETCH_ASSOC);
+        $isRemote = empty($type['requires_travel']) || (int) $type['requires_travel'] === 0;
+
+        // Récupérer les techniciens assignés
+        $sql = "SELECT temps_passe, is_qualified, deplacement FROM intervention_techniciens WHERE intervention_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$interventionId]);
+        $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($technicians)) {
+            return 0;
+        }
+
+        $totalTickets = 0.0;
+        foreach ($technicians as $tech) {
+            $minutes = (float) ($tech['temps_passe'] ?? 0);
+            $isQualified = (int) ($tech['is_qualified'] ?? 0) === 1;
+            $hasTravel = (int) ($tech['deplacement'] ?? 0) === 1;
+            $hours = $minutes / 60.0;
+
+            $raw = 0.0;
+
+            // Déplacement : +1 ticket
+            if ($hasTravel) {
+                $raw += 1.0;
+            }
+
+            // Main d'œuvre : 1h = 1 ticket
+            $raw += $hours;
+
+            // Technicien qualifié : première heure compte double
+            if ($isQualified && $hours >= 1.0) {
+                $raw += 1.0;
+            }
+
+            // Arrondi selon le type
+            if ($isRemote) {
+                $totalTickets += round($raw * 2) / 2;
+            } else {
+                $totalTickets += ceil($raw);
+            }
+        }
+
+        return $totalTickets;
+    }
     /**
      * Vérifie les droits de renouvellement de contrat
      */
