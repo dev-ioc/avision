@@ -166,67 +166,48 @@ class SignatureService
             'data' => json_decode($response, true)
         ];
     }
-    public function inviteSigner(
-        $documentId,
-        $email,
-        $firstname,
-        $lastname
-    ) {
+    public function inviteSigner($documentId, $email, $firstname, $lastname)
+    {
+        // Vérifier que l'email n'est pas vide avant d'envoyer
+        if (empty($email)) {
+            custom_log('SIGNNOW INVITE ERROR - Email vide ou null', 'ERROR');
+            return ['status' => 400, 'data' => ['error' => 'Email du signataire manquant']];
+        }
 
         $ch = curl_init();
 
-        curl_setopt(
-            $ch,
-            CURLOPT_URL,
-            $this->apiUrl .
-            "/document/$documentId/invite"
-        );
-
+        curl_setopt($ch, CURLOPT_URL, $this->apiUrl . "/document/$documentId/invite");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
-
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Authorization: Bearer ' . $this->token,
             'Content-Type: application/json'
         ]);
 
         $body = [
-
             'document_id' => $documentId,
-
             'to' => [
                 [
-                    'email' => $email,
-                    'role' => 'Signer 1'
+                    'email' => $email,      // ← email obligatoire
+                    'role' => 'Signer 1',
+                    'first_name' => $firstname,  // ← recommandé
+                    'last_name' => $lastname    // ← recommandé
                 ]
             ],
-
             'from' => 'dev_mdg@caspeo.fr'
         ];
 
-        curl_setopt(
-            $ch,
-            CURLOPT_POSTFIELDS,
-            json_encode($body)
-        );
+        custom_log('SIGNNOW INVITE BODY = ' . json_encode($body), 'DEBUG');
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
 
         $response = curl_exec($ch);
-
         $error = curl_error($ch);
-
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        custom_log(
-            'SIGNNOW RESPONSE = ' . $response,
-            'DEBUG'
-        );
-
-        custom_log(
-            'SIGNNOW ERROR = ' . $error,
-            'ERROR'
-        );
-
         curl_close($ch);
+
+        custom_log('SIGNNOW INVITE RESPONSE = ' . $response, 'DEBUG');
+        custom_log('SIGNNOW INVITE ERROR = ' . $error, 'ERROR');
 
         return [
             'status' => $httpCode,
