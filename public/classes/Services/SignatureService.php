@@ -17,38 +17,32 @@ class SignatureService
     {
         $ch = curl_init();
 
-        curl_setopt(
-            $ch,
-            CURLOPT_URL,
-            'https://api.signnow.com/oauth2/token'
-        );
-
+        curl_setopt($ch, CURLOPT_URL, $config['signature_api_url'] . '/oauth2/token');
         curl_setopt($ch, CURLOPT_POST, true);
-
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // ← désactiver vérif SSL en dev
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
             'grant_type' => 'password',
             'username' => $config['username'],
             'password' => $config['password']
         ]));
-
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: Basic ' .
-            base64_encode(
-                $config['client_id'] .
-                ':' .
-                $config['client_secret']
+            'Authorization: Basic ' . base64_encode(
+                $config['client_id'] . ':' . $config['client_secret']
             )
         ]);
 
         $response = curl_exec($ch);
-
+        $curlError = curl_error($ch);
         curl_close($ch);
+
+        // Afficher le résultat brut pour debug
+        echo '<pre>AUTH RESPONSE: ' . $response . '</pre>';
+        echo '<pre>CURL ERROR: ' . $curlError . '</pre>';
 
         $data = json_decode($response, true);
 
-        return $data['access_token'];
+        return $data['access_token'] ?? null;
     }
     public function uploadDocument($pdfPath)
     {

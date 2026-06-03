@@ -6126,145 +6126,96 @@ class InterventionController
         $payload = file_get_contents('php://input');
 
         file_put_contents(
-            __DIR__ . '/../storage/yousign.log',
+            __DIR__ . '/../storage/signnow.log',
             date('Y-m-d H:i:s') . PHP_EOL . $payload . PHP_EOL . PHP_EOL,
             FILE_APPEND
         );
 
         $data = json_decode($payload, true);
-        custom_log(json_encode($data, JSON_PRETTY_PRINT), 'DEBUG');
-        $event =
-            $data['event'] ?? null;
 
-        $documentId =
-            $data['document_id'] ?? null;
+        // Structure payload SignNow (différent de YouSign)
+        $event = $data['event'] ?? null;
+        $documentId = $data['document_id'] ?? null;
 
         file_put_contents(
-            __DIR__ . '/../storage/yousign.log',
-            "EVENT = " . $event . PHP_EOL,
+            __DIR__ . '/../storage/signnow.log',
+            "EVENT = " . $event . " | DOC_ID = " . $documentId . PHP_EOL,
             FILE_APPEND
         );
 
-        if ($event === 'document.complete') {
+        if ($event === 'document.completed' && $documentId) {
 
-            $requestId =
-                $data['data']['signature_request']['id']
-                ?? $data['data']['id']
-                ?? null;
+            // Chercher en base avec le document_id SignNow
+            $sql = "SELECT * FROM intervention_signatures 
+                 WHERE signnow_document_id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([':id' => $documentId]);
+            $signature = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            file_put_contents(
-                __DIR__ . '/../storage/yousign.log',
-                "REQUEST ID = " . $requestId . PHP_EOL,
-                FILE_APPEND
-            );
+            if ($signature) {
+                $signatureService = new SignatureService();
 
-            if ($requestId) {
+                // Télécharger le PDF signé
+                $pdfContent = $signatureService->downloadSignedDocument($documentId);
 
-                $sql = "SELECT * FROM intervention_signatures WHERE yousign_request_id = :id";
-                $stmt = $this->db->prepare($sql);
-                $stmt->execute([':id' => $requestId]);
-                $signature = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($pdfContent) {
+                    $interventionId = $signature['intervention_id'];
+                    $uploadDir = __DIR__ . '/../../uploads/interventions/' . $interventionId;
 
-                if ($signature) {
-
-                    $signatureService = new SignatureService();
-                    $documentId = $requestId;
-                    // Récupérer les détails pour obtenir le document_id
-                    // $details = $signatureService->getSignatureRequestDetails($requestId);
-                    // $documentId = $details['data']['documents'][0]['id'] ?? null;
-
-                    $signedFilePath = null;
-                    $signatureUrl = null;
-
-                    // Télécharger et sauvegarder le PDF signé
-                    if ($documentId) {
-                        $pdfContent =
-                            $signatureService->downloadSignedDocument(
-                                $documentId
-                            );
-
-                        if ($pdfContent) {
-                            $interventionId = $signature['intervention_id'];
-                            $uploadDir = __DIR__ . '/../../uploads/interventions/' . $interventionId;
-
-                            if (!file_exists($uploadDir)) {
-                                mkdir($uploadDir, 0777, true);
-                            }
-
-                            $fileName = 'BI_signed_' . $interventionId . '_' . date('Ymd_His') . '.pdf';
-                            $filePath = $uploadDir . '/' . $fileName;
-
-                            file_put_contents($filePath, $pdfContent);
-
-                            $signedFilePath = 'uploads/interventions/' . $interventionId . '/' . $fileName;
-
-                            // Ajouter comme pièce jointe en base
-                            $dataPj = [
-                                'nom_fichier' => $fileName,
-                                'nom_personnalise' => 'Bon_intervention_signé_' . date('Ymd'),
-                                'chemin_fichier' => $signedFilePath,
-                                'type_fichier' => 'pdf',
-                                'taille_fichier' => strlen($pdfContent),
-                                'commentaire' => 'Bon d\'intervention signé électroniquement via Yousign',
-                                'masque_client' => 0,
-                                'created_by' => 1
-                            ];
-
-                            $this->interventionModel->addPieceJointeWithType(
-                                $interventionId,
-                                $dataPj,
-                                'bi'
-                            );
-
-                            file_put_contents(
-                                __DIR__ . '/../storage/yousign.log',
-                                "PDF SIGNÉ SAUVEGARDÉ = " . $filePath . PHP_EOL,
-                                FILE_APPEND
-                            );
-                        }
+                    if (!file_exists($uploadDir)) {
+                        mkdir($uploadDir, 0777, true);
                     }
 
-                    // // Récupérer le lien de signature depuis le payload
-                    // if ($details && !empty($details['data']['signers'])) {
-                    //     custom_log(
-                    //         "lien de signature : " .
-                    //         json_encode($details['data']['signers'])
-                    //     );
-                    //     $signatureUrl = $details['data']['signers'][0]['signature_link'] ?? null;
-                    // }
+                    $fileName = 'BI_signed_' . $interventionId . '_' . date('Ymd_His') . '.pdf';
+                    $filePath = $uploadDir . '/' . $fileName;
+                    file_put_contents($filePath, $pdfContent);
 
-                    // Mettre à jour intervention_signatures
-                    $updateSig = "UPDATE intervention_signatures
-                              SET status = 'signed',
-                                  signed_file_path = :path,
-                                  signature_url = :url,
-                                  updated_at = NOW()
-                              WHERE id = :id";
-                    $stmtSig = $this->db->prepare($updateSig);
-                    $stmtSig->execute([
-                        ':path' => $signedFilePath,
-                        ':url' => $signatureUrl,
-                        ':id' => $signature['id']
-                    ]);
+                    $signedFilePath = 'uploads/interventions/' . $interventionId . '/' . $fileName;
 
-                    file_put_contents(
-                        __DIR__ . '/../storage/yousign.log',
-                        "UPDATE SUCCESS - intervention_id=" . $signature['intervention_id'] . PHP_EOL,
-                        FILE_APPEND
-                    );
+                    // Ajouter pièce jointe en base
+                    $dataPj = [
+                        'nom_fichier' => $fileName,
+                        'nom_personnalise' => 'Bon_intervention_signé_' . date('Ymd'),
+                        'chemin_fichier' => $signedFilePath,
+                        'type_fichier' => 'pdf',
+                        'taille_fichier' => strlen($pdfContent),
+                        'commentaire' => 'Bon d\'intervention signé via SignNow',
+                        'masque_client' => 0,
+                        'created_by' => 1
+                    ];
 
-                } else {
-                    file_put_contents(
-                        __DIR__ . '/../storage/yousign.log',
-                        "AUCUNE SIGNATURE TROUVÉE POUR REQUEST ID = " . $requestId . PHP_EOL,
-                        FILE_APPEND
+                    $this->interventionModel->addPieceJointeWithType(
+                        $interventionId,
+                        $dataPj,
+                        'bi'
                     );
                 }
+
+                // Mettre à jour le statut
+                $updateSig = "UPDATE intervention_signatures
+                          SET status = 'signed',
+                              signed_file_path = :path,
+                              updated_at = NOW()
+                          WHERE id = :id";
+                $stmtSig = $this->db->prepare($updateSig);
+                $stmtSig->execute([
+                    ':path' => $signedFilePath ?? null,
+                    ':id' => $signature['id']
+                ]);
+
+                file_put_contents(
+                    __DIR__ . '/../storage/signnow.log',
+                    "UPDATE SUCCESS - intervention_id=" . $signature['intervention_id'] . PHP_EOL,
+                    FILE_APPEND
+                );
             }
         }
 
+        http_response_code(200);
         echo json_encode(['success' => true]);
+        exit;
     }
+    // Dans InterventionController.php
     public function createSignNowWebhook()
     {
         $signatureService = new SignatureService();
@@ -6275,5 +6226,6 @@ class InterventionController
 
         echo '<pre>';
         print_r($response);
+        echo '</pre>';
     }
 }
