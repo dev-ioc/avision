@@ -134,13 +134,13 @@ class SignatureService
         $fields = [
             'fields' => [
                 [
-                    'x' => 300,
-                    'y' => 1370, // juste sous le texte légal
+                    'x' => 350,
+                    'y' => 465, // juste sous le texte légal
 
                     'width' => 100,
                     'height' => 20,
 
-                    'page_number' => 1,
+                    'page_number' => 2,
                     'type' => 'signature',
                     'role' => 'Signer 1',
                     'required' => true

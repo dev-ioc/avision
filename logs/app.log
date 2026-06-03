@@ -58563,3 +58563,69 @@ Quant à l’écran n°1, il est HS
 [2026-06-03 15:43:58][ERROR] SIGNNOW INVITE ERROR =  
 [2026-06-03 15:43:58][DEBUG] {"id":"e689ae5a5d4f45709ae55d73f8d577870586c3a8"} 
 [2026-06-03 15:43:58][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 15:47:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 15:47:57][DEBUG] SIGNNOW INVITE BODY = {"document_id":"6c7289ad0f1d4cf98d203b52a3a69821293daa24","to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","first_name":null,"last_name":null}],"from":"dev_mdg@caspeo.fr"} 
+[2026-06-03 15:47:58][DEBUG] SIGNNOW INVITE RESPONSE = {"status":"success"} 
+[2026-06-03 15:47:58][ERROR] SIGNNOW INVITE ERROR =  
+[2026-06-03 15:47:58][DEBUG] {"id":"6c7289ad0f1d4cf98d203b52a3a69821293daa24"} 
+[2026-06-03 15:47:58][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 15:49:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 15:49:35][DEBUG] SIGNNOW INVITE BODY = {"document_id":"71f2707d6e294186bc35c49fe15847316941c1ed","to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","first_name":null,"last_name":null}],"from":"dev_mdg@caspeo.fr"} 
+[2026-06-03 15:49:37][DEBUG] SIGNNOW INVITE RESPONSE = {"status":"success"} 
+[2026-06-03 15:49:37][ERROR] SIGNNOW INVITE ERROR =  
+[2026-06-03 15:49:37][DEBUG] {"id":"71f2707d6e294186bc35c49fe15847316941c1ed"} 
+[2026-06-03 15:49:37][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 15:49:46][DEBUG] Redirection vers login - URL sauvegardée: interventions/generateBon/330 (Session ID: clu1j6vdmmh4houpvmmn191651) 
+[2026-06-03 15:50:29][DEBUG] SIGNNOW INVITE BODY = {"document_id":"c8a2604cfa1545a48daf2dd417c3b503093321be","to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","first_name":null,"last_name":null}],"from":"dev_mdg@caspeo.fr"} 
+[2026-06-03 15:50:31][DEBUG] SIGNNOW INVITE RESPONSE = {"status":"success"} 
+[2026-06-03 15:50:31][ERROR] SIGNNOW INVITE ERROR =  
+[2026-06-03 15:50:31][DEBUG] {"id":"c8a2604cfa1545a48daf2dd417c3b503093321be"} 
+[2026-06-03 15:50:31][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 15:50:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 15:50:38][DEBUG] SIGNNOW INVITE BODY = {"document_id":"e5751aed95d444e6b35541ca64dee7fb6b2070b8","to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","first_name":null,"last_name":null}],"from":"dev_mdg@caspeo.fr"} 
+[2026-06-03 15:50:39][DEBUG] SIGNNOW INVITE RESPONSE = {"status":"success"} 
+[2026-06-03 15:50:39][ERROR] SIGNNOW INVITE ERROR =  
+[2026-06-03 15:50:39][DEBUG] {"id":"e5751aed95d444e6b35541ca64dee7fb6b2070b8"} 
+[2026-06-03 15:50:39][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 15:51:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 15:51:44][DEBUG] SIGNNOW INVITE BODY = {"document_id":"62ca35b893ce44f88252677f6aef4034c5a1f411","to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","first_name":null,"last_name":null}],"from":"dev_mdg@caspeo.fr"} 
+[2026-06-03 15:51:45][DEBUG] SIGNNOW INVITE RESPONSE = {"status":"success"} 
+[2026-06-03 15:51:45][ERROR] SIGNNOW INVITE ERROR =  
+[2026-06-03 15:51:45][DEBUG] {"id":"62ca35b893ce44f88252677f6aef4034c5a1f411"} 
+[2026-06-03 15:51:45][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 15:52:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 15:52:42][DEBUG] SIGNNOW INVITE BODY = {"document_id":"430d830593214cb4be874597d64987fd07cb5bb2","to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","first_name":null,"last_name":null}],"from":"dev_mdg@caspeo.fr"} 
+[2026-06-03 15:52:44][DEBUG] SIGNNOW INVITE RESPONSE = {"status":"success"} 
+[2026-06-03 15:52:44][ERROR] SIGNNOW INVITE ERROR =  
+[2026-06-03 15:52:44][DEBUG] {"id":"430d830593214cb4be874597d64987fd07cb5bb2"} 
+[2026-06-03 15:52:44][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 15:53:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 15:53:34][DEBUG] SIGNNOW INVITE BODY = {"document_id":"672c302c89734168b44d277c16f2ec9f36ae166a","to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","first_name":null,"last_name":null}],"from":"dev_mdg@caspeo.fr"} 
+[2026-06-03 15:53:35][DEBUG] SIGNNOW INVITE RESPONSE = {"status":"success"} 
+[2026-06-03 15:53:35][ERROR] SIGNNOW INVITE ERROR =  
+[2026-06-03 15:53:35][DEBUG] {"id":"672c302c89734168b44d277c16f2ec9f36ae166a"} 
+[2026-06-03 15:53:35][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 15:54:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 15:54:42][DEBUG] SIGNNOW INVITE BODY = {"document_id":"c9b8996ad3214ff7b79ce98c7da5dbab984958f0","to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","first_name":null,"last_name":null}],"from":"dev_mdg@caspeo.fr"} 
+[2026-06-03 15:54:44][DEBUG] SIGNNOW INVITE RESPONSE = {"status":"success"} 
+[2026-06-03 15:54:44][ERROR] SIGNNOW INVITE ERROR =  
+[2026-06-03 15:54:44][DEBUG] {"id":"c9b8996ad3214ff7b79ce98c7da5dbab984958f0"} 
+[2026-06-03 15:54:44][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 15:55:29][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 15:55:36][DEBUG] SIGNNOW INVITE BODY = {"document_id":"1edbfef0a36f419c8825d7cd3a91fa936f1de614","to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","first_name":null,"last_name":null}],"from":"dev_mdg@caspeo.fr"} 
+[2026-06-03 15:55:38][DEBUG] SIGNNOW INVITE RESPONSE = {"status":"success"} 
+[2026-06-03 15:55:38][ERROR] SIGNNOW INVITE ERROR =  
+[2026-06-03 15:55:38][DEBUG] {"id":"1edbfef0a36f419c8825d7cd3a91fa936f1de614"} 
+[2026-06-03 15:55:38][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 15:56:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 15:56:17][DEBUG] SIGNNOW INVITE BODY = {"document_id":"f9b0f7bc5e1140b7b2b8a51be20e863bc513f752","to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","first_name":null,"last_name":null}],"from":"dev_mdg@caspeo.fr"} 
+[2026-06-03 15:56:19][DEBUG] SIGNNOW INVITE RESPONSE = {"status":"success"} 
+[2026-06-03 15:56:19][ERROR] SIGNNOW INVITE ERROR =  
+[2026-06-03 15:56:19][DEBUG] {"id":"f9b0f7bc5e1140b7b2b8a51be20e863bc513f752"} 
+[2026-06-03 15:56:19][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 15:57:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 15:57:50][DEBUG] SIGNNOW INVITE BODY = {"document_id":"6d98abc0e2334392882144af2bafaf3f1430f4ae","to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","first_name":null,"last_name":null}],"from":"dev_mdg@caspeo.fr"} 
+[2026-06-03 15:57:52][DEBUG] SIGNNOW INVITE RESPONSE = {"status":"success"} 
+[2026-06-03 15:57:52][ERROR] SIGNNOW INVITE ERROR =  
+[2026-06-03 15:57:52][DEBUG] {"id":"6d98abc0e2334392882144af2bafaf3f1430f4ae"} 
+[2026-06-03 15:57:52][DEBUG] {"status":200,"data":{"status":"success"}} 
