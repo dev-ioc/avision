@@ -3095,33 +3095,33 @@ class InterventionController
             custom_log("Contrat ID: " . ($intervention['contract_id'] ?? 'aucun'), 'INFO');
 
             // ── VÉRIFICATION DU SOLDE CONTRAT AVANT DÉDUCTION ──────────────────────
-            if ($ticketsUsed > 0 && !empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
-                // Récupérer le solde actuel du contrat
-                $stmtCheck = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = ?");
-                $stmtCheck->execute([$intervention['contract_id']]);
-                $currentRemaining = (float) $stmtCheck->fetchColumn();
+            // if ($ticketsUsed > 0 && !empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
+            //     // Récupérer le solde actuel du contrat
+            //     $stmtCheck = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = ?");
+            //     $stmtCheck->execute([$intervention['contract_id']]);
+            //     $currentRemaining = (float) $stmtCheck->fetchColumn();
 
-                custom_log("Solde contrat AVANT déduction: $currentRemaining", 'INFO');
+            //     custom_log("Solde contrat AVANT déduction: $currentRemaining", 'INFO');
 
-                // Vérifier si le solde est suffisant
-                if ($currentRemaining < $ticketsUsed) {
-                    // Solde insuffisant
-                    $errorMsg = "Solde de tickets insuffisant sur le contrat. Solde actuel: $currentRemaining, Tickets à déduire: $ticketsUsed";
-                    custom_log($errorMsg, 'ERROR');
+            //     // Vérifier si le solde est suffisant
+            //     // if ($currentRemaining < $ticketsUsed) {
+            //     //     // Solde insuffisant
+            //     //     $errorMsg = "Solde de tickets insuffisant sur le contrat. Solde actuel: $currentRemaining, Tickets à déduire: $ticketsUsed";
+            //     //     custom_log($errorMsg, 'ERROR');
 
-                    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-                        header('Content-Type: application/json');
-                        echo json_encode([
-                            'success' => false,
-                            'error' => $errorMsg . ". Veuillez ajuster le nombre de tickets ou ajouter des tickets au contrat."
-                        ]);
-                        exit;
-                    }
-                    $_SESSION['error'] = $errorMsg;
-                    header('Location: ' . BASE_URL . 'interventions/view/' . $id);
-                    exit;
-                }
-            }
+            //     //     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+            //     //         header('Content-Type: application/json');
+            //     //         echo json_encode([
+            //     //             'success' => false,
+            //     //             'error' => $errorMsg . ". Veuillez ajuster le nombre de tickets ou ajouter des tickets au contrat."
+            //     //         ]);
+            //     //         exit;
+            //     //     }
+            //     //     $_SESSION['error'] = $errorMsg;
+            //     //     header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+            //     //     exit;
+            //     // }
+            // }
 
             $closedAt = date('Y-m-d H:i:s');
 

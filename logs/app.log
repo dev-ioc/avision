@@ -57255,3 +57255,80 @@ Quant à l’écran n°1, il est HS
 [2026-06-02 16:30:21][ERROR] SIGNNOW ERROR =  
 [2026-06-02 16:30:21][DEBUG] {"id":"0a3f3ccce280431fad817e9681f88acce4e2f69d"} 
 [2026-06-02 16:30:21][DEBUG] {"status":400,"data":{"errors":[{"code":65639,"message":"Daily invite limit exceeded"}]}} 
+[2026-06-03 07:25:56][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: kps4v578b5b2nv9gtfk899itmi) 
+[2026-06-03 07:25:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 1687f15ab3a7a116d1fa... 
+[2026-06-03 07:25:59][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-03 07:25:59][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-03 07:25:59][DEBUG] Login réussi - Session ID: kps4v578b5b2nv9gtfk899itmi 
+[2026-06-03 07:25:59][DEBUG] Login réussi - redirect_after_login: dashboard 
+[2026-06-03 07:25:59][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-03 07:25:59][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-06-03 07:25:59][DEBUG] Redirection après login vers: http://localhost/avision/public/dashboard 
+[2026-06-03 07:38:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 1687f15ab3a7a116d1fa... 
+[2026-06-03 07:38:00][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-06-03 07:38:00][INFO] Tickets à déduire: 22 
+[2026-06-03 07:38:00][INFO] Contrat ID: 221 
+[2026-06-03 07:38:00][INFO] Solde contrat AVANT déduction: 21 
+[2026-06-03 07:38:00][ERROR] Solde de tickets insuffisant sur le contrat. Solde actuel: 21, Tickets à déduire: 22 
+[2026-06-03 07:40:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 1687f15ab3a7a116d1fa... 
+[2026-06-03 07:40:25][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-06-03 07:40:25][INFO] Tickets à déduire: 22 
+[2026-06-03 07:40:25][INFO] Contrat ID: 221 
+[2026-06-03 07:40:25][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-06-03 07:40:25][INFO] Tickets à déduire: 22 
+[2026-06-03 07:40:25][INFO] Solde AVANT déduction: 21 
+[2026-06-03 07:40:25][INFO] Solde APRÈS déduction: -1 
+[2026-06-03 07:40:25][INFO] Déduction de 22 tickets réussie 
+[2026-06-03 07:40:25][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: -1 
+[2026-06-03 07:40:25][WARNING] ⚠️ ATTENTION: Solde contrat négatif: -1 
+[2026-06-03 07:43:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 1687f15ab3a7a116d1fa... 
+[2026-06-03 07:43:49][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-06-03 07:43:49][INFO] Tickets à recréditer: 22 
+[2026-06-03 07:43:49][INFO] Contrat ID: 221 
+[2026-06-03 07:43:49][INFO] Had tickets: oui 
+[2026-06-03 07:43:49][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-06-03 07:43:49][INFO] Solde contrat AVANT recrédit: -1 
+[2026-06-03 07:43:49][INFO] Tickets à recréditer: 22 
+[2026-06-03 07:43:49][INFO] Solde contrat APRÈS recrédit: 21 
+[2026-06-03 07:43:49][INFO] Recrédit de 22 tickets effectué pour le contrat 221 
+[2026-06-03 07:43:49][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-06-03 07:45:28][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-03 07:45:28][DEBUG] Params: [] 
+[2026-06-03 07:45:30][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-03 07:45:30][DEBUG] Params: {":client_id":35} 

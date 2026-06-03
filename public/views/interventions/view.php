@@ -1658,14 +1658,8 @@ $closeReason = [];
 				function checkSolde() {
 					var value = parseFloat(ticketsInput.value) || 0;
 					var newRemaining = currentRemaining - value;
-					if (newRemaining < 0) {
-						document.getElementById('ticketsWarning').style.display = 'block';
-						document.getElementById('ticketsWarningText').innerHTML = 'Attention : Le solde deviendrait négatif (' + newRemaining.toFixed(2) + '). Veuillez réduire le nombre de tickets à ' + currentRemaining.toFixed(2) + ' maximum.';
-						document.getElementById('fermetureConfirmer').disabled = true;
-					} else {
-						document.getElementById('ticketsWarning').style.display = 'none';
-						document.getElementById('fermetureConfirmer').disabled = false;
-					}
+					document.getElementById('ticketsWarning').style.display = 'none';
+					document.getElementById('fermetureConfirmer').disabled = false;
 				}
 				ticketsInput.addEventListener('input', checkSolde);
 				ticketsInput.addEventListener('change', checkSolde);
@@ -1681,12 +1675,12 @@ $closeReason = [];
 					alert('Token CSRF manquant. Rechargez la page et réessayez.');
 					return;
 				}
-				if (data.contract && tickets > data.contract.tickets_remaining) {
-					alert('Erreur : Le nombre de tickets à déduire (' + tickets + ') dépasse le solde disponible (' + data.contract.tickets_remaining + ').');
-					document.getElementById('fermetureConfirmer').disabled = false;
-					document.getElementById('fermetureConfirmer').innerHTML = '<i class="bi bi-lock me-1"></i>Confirmer la fermeture';
-					return;
-				}
+				// if (data.contract && tickets > data.contract.tickets_remaining) {
+				// 	alert('Erreur : Le nombre de tickets à déduire (' + tickets + ') dépasse le solde disponible (' + data.contract.tickets_remaining + ').');
+				// 	document.getElementById('fermetureConfirmer').disabled = false;
+				// 	document.getElementById('fermetureConfirmer').innerHTML = '<i class="bi bi-lock me-1"></i>Confirmer la fermeture';
+				// 	return;
+				// }
 
 				document.getElementById('fermetureConfirmer').disabled = true;
 				document.getElementById('fermetureConfirmer').innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Fermeture…';
