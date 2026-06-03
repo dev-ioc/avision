@@ -58629,3 +58629,13 @@ Quant à l’écran n°1, il est HS
 [2026-06-03 15:57:52][ERROR] SIGNNOW INVITE ERROR =  
 [2026-06-03 15:57:52][DEBUG] {"id":"6d98abc0e2334392882144af2bafaf3f1430f4ae"} 
 [2026-06-03 15:57:52][DEBUG] {"status":200,"data":{"status":"success"}} 
+[2026-06-03 16:15:35][WARNING] Undefined variable $clientContacts {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\generate_bon.php","line":749,"errno":2}
+[2026-06-03 16:15:35][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\generate_bon.php","line":749,"errno":2}
+[2026-06-03 16:22:03][WARNING] Undefined variable $clientContacts {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\generate_bon.php","line":749,"errno":2}
+[2026-06-03 16:22:03][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\generate_bon.php","line":749,"errno":2}
+[2026-06-03 16:30:11][WARNING] Undefined variable $clientContacts {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\generate_bon.php","line":749,"errno":2}
+[2026-06-03 16:30:11][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\generate_bon.php","line":749,"errno":2}
+[2026-06-03 16:39:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 16:39:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 16:42:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 
+[2026-06-03 16:42:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 0263284c392b63050f60... 

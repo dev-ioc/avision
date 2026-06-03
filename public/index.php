@@ -1238,9 +1238,24 @@ try {
                 case 'webhookSignature':
                     $interventionController->webhookSignature();
                     break;
-                // case 'createYousignWebhook':
-                //     $interventionController->createYousignWebhook();
-                //     break;
+                case 'sendForSignature':
+                    if ($id) {
+
+                        $interventionController
+                            ->sendForSignature($id);
+
+                    } else {
+
+                        header('Content-Type: application/json');
+
+                        echo json_encode([
+                            'success' => false,
+                            'message' => 'ID manquant'
+                        ]);
+
+                        exit;
+                    }
+                    break;
                 case 'createSignNowWebhook':
                     $interventionController->createSignNowWebhook();
                     break;

@@ -440,6 +440,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 d'intervention</p>
                         </div>
                         <div>
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                data-bs-target="#signatureModal">
+                                <i class="bi bi-pen"></i>
+                                Envoyer pour signature
+                            </button>
                             <button type="button" class="btn btn-outline-secondary me-2" onclick="saveSelection()">
                                 <i class="bi bi-save me-1"></i> Sauvegarder la sélection
                             </button>
@@ -717,5 +722,117 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </style>
 
 </div> <!-- Fin du container-fluid -->
+<!-- Modal Signature -->
+<div class="modal fade" id="signatureModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Choisir le signataire
+                </h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <form id="signatureForm">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Téléphone du signataire
+                        </label>
+
+                        <input type="text" class="form-control" name="contact_phone" placeholder="032 12 345 67"
+                            value="<?= h($intervention['contact_phone'] ?? '') ?>" required>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Annuler
+                </button>
+
+                <button type="button" class="btn btn-success" onclick="sendForSignature()">
+                    Envoyer
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+
+    const interventionId = <?= (int) $intervention['id']; ?>;
+
+    function sendForSignature() {
+
+        const phone = document.querySelector(
+            'input[name="contact_phone"]'
+        ).value;
+
+        fetch(
+            BASE_URL + 'interventions/sendForSignature/' + interventionId,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': '<?= csrf_token() ?>'
+                },
+                body: JSON.stringify({
+                    contact_phone: phone
+                })
+            }
+        )
+            .then(async res => {
+
+                const text = await res.text();
+
+                console.log(text);
+
+                return JSON.parse(text);
+            })
+            .then(data => {
+
+                if (data.success) {
+
+                    showAlert(
+                        'Demande de signature envoyée',
+                        'success'
+                    );
+
+                    bootstrap.Modal
+                        .getInstance(
+                            document.getElementById('signatureModal')
+                        )
+                        .hide();
+
+                } else {
+
+                    showAlert(
+                        data.message,
+                        'danger'
+                    );
+                }
+            })
+            .catch(error => {
+
+                console.error(error);
+
+                showAlert(
+                    'Erreur serveur',
+                    'danger'
+                );
+            });
+    }
+
+</script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

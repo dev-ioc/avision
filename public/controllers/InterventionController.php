@@ -4026,55 +4026,55 @@ class InterventionController
                     $equipment,
                     $replacedParts
                 );
-                // ======================================
-                // ENVOI À YOUSIGN
-                // ======================================
+                // // ======================================
+                // // ENVOI À YOUSIGN
+                // // ======================================
 
-                $clientEmail =
-                    $intervention['contact_client'];
+                // $clientEmail =
+                //     $intervention['contact_client'];
 
-                $clientFirstname =
-                    $intervention['contact_first_name'];
+                // $clientFirstname =
+                //     $intervention['contact_first_name'];
 
-                $clientLastname =
-                    $intervention['contact_last_name'];
+                // $clientLastname =
+                //     $intervention['contact_last_name'];
 
-                $signatureService =
-                    new SignatureService();
+                // $signatureService =
+                //     new SignatureService();
 
-                $signatureResponse =
-                    $signatureService->createSignatureRequest(
-                        $pdfPath,
-                        $clientEmail,
-                        $clientFirstname,
-                        $clientLastname
-                    );
-                // ======================================
-                // SAUVEGARDE BDD
-                // ======================================
+                // $signatureResponse =
+                //     $signatureService->createSignatureRequest(
+                //         $pdfPath,
+                //         $clientEmail,
+                //         $clientFirstname,
+                //         $clientLastname
+                //     );
+                // // ======================================
+                // // SAUVEGARDE BDD
+                // // ======================================
 
-                if (!empty($signatureResponse['document_id'])) {
+                // if (!empty($signatureResponse['document_id'])) {
 
-                    $sql = "
-                            INSERT INTO intervention_signatures (
-                                intervention_id,
-                                signnow_document_id,
-                                status
-                            )
-                            VALUES (
-                                :intervention_id,
-                                :document_id,
-                                'pending'
-                            )
-                        ";
+                //     $sql = "
+                //             INSERT INTO intervention_signatures (
+                //                 intervention_id,
+                //                 signnow_document_id,
+                //                 status
+                //             )
+                //             VALUES (
+                //                 :intervention_id,
+                //                 :document_id,
+                //                 'pending'
+                //             )
+                //         ";
 
-                    $stmt = $this->db->prepare($sql);
+                //     $stmt = $this->db->prepare($sql);
 
-                    $stmt->execute([
-                        ':intervention_id' => $intervention['id'],
-                        ':document_id' => $signatureResponse['document_id']
-                    ]);
-                }
+                //     $stmt->execute([
+                //         ':intervention_id' => $intervention['id'],
+                //         ':document_id' => $signatureResponse['document_id']
+                //     ]);
+                // }
             } catch (Exception $e) {
                 custom_log("Erreur lors de la génération du PDF: " . $e->getMessage(), 'ERROR');
                 $_SESSION['error'] = 'Erreur lors de la génération du PDF: ' . $e->getMessage();
@@ -6103,19 +6103,18 @@ class InterventionController
 
         $clientLastname =
             $intervention['contact_last_name'];
+        $clientPhone = $intervention['contact_phone'];
 
         $signatureService =
             new SignatureService();
-        custom_log('CONTACT EMAIL = ' . ($intervention['contact_email'] ?? 'NULL'), 'DEBUG');
-        custom_log('CONTACT FIRSTNAME = ' . ($intervention['contact_first_name'] ?? 'NULL'), 'DEBUG');
-        custom_log('CONTACT LASTNAME = ' . ($intervention['contact_last_name'] ?? 'NULL'), 'DEBUG');
 
         $response =
             $signatureService->createSignatureRequest(
                 $pdfPath,
                 $clientEmail,
                 $clientFirstname,
-                $clientLastname
+                $clientLastname,
+                $clientPhone
             );
 
         echo '<pre>';
@@ -6309,5 +6308,142 @@ class InterventionController
         echo '<pre>';
         print_r($response);
         echo '</pre>';
+    }
+    public function sendForSignature($interventionId)
+    {
+        header('Content-Type: application/json');
+
+        try {
+
+            $data = json_decode(
+                file_get_contents("php://input"),
+                true
+            );
+
+            $contactPhone =
+                $data['contact_phone'] ?? null;
+
+            if (!$contactPhone) {
+
+                throw new Exception(
+                    'Téléphone manquant'
+                );
+            }
+
+            // =====================================================
+            // INTERVENTION
+            // =====================================================
+
+            $sql = "
+            SELECT *
+            FROM interventions
+            WHERE id = ?
+            LIMIT 1
+        ";
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->execute([$interventionId]);
+
+            $intervention =
+                $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$intervention) {
+
+                throw new Exception(
+                    'Intervention introuvable'
+                );
+            }
+
+            // =====================================================
+            // DERNIER BI
+            // =====================================================
+
+            $sql = "
+            SELECT *
+            FROM intervention_pieces_jointes
+            WHERE intervention_id = ?
+            AND type = 'bi'
+            ORDER BY id DESC
+            LIMIT 1
+        ";
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->execute([$interventionId]);
+
+            $pj = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$pj) {
+
+                throw new Exception(
+                    'Aucun BI trouvé'
+                );
+            }
+
+            $pdfPath =
+                ROOT_PATH . '/' .
+                $pj['chemin_fichier'];
+
+            // =====================================================
+            // SIGNNOW
+            // =====================================================
+
+            $signatureService =
+                new SignatureService();
+
+            $response =
+                $signatureService
+                    ->createSignatureRequest(
+                        $pdfPath,
+                        $intervention['contact_client'] ?? '',
+                        $intervention['client_name'] ?? 'Client',
+                        '',
+                        $contactPhone
+                    );
+
+            // =====================================================
+            // SAVE BDD
+            // =====================================================
+
+            if (!empty($response['document_id'])) {
+
+                $sql = "
+                INSERT INTO intervention_signatures (
+                    intervention_id,
+                    signnow_document_id,
+                    status
+                )
+                VALUES (
+                    :intervention_id,
+                    :document_id,
+                    'pending'
+                )
+            ";
+
+                $stmt =
+                    $this->db->prepare($sql);
+
+                $stmt->execute([
+                    ':intervention_id' => $interventionId,
+                    ':document_id' => $response['document_id']
+                ]);
+            }
+
+            echo json_encode([
+                'success' => true
+            ]);
+
+        } catch (Throwable $e) {
+
+            http_response_code(500);
+
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+
+        exit;
     }
 }

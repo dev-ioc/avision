@@ -64,7 +64,8 @@ class SignatureService
         $pdfPath,
         $email,
         $firstname,
-        $lastname
+        $lastname,
+        $phone
     ) {
 
         // Upload document
@@ -80,7 +81,8 @@ class SignatureService
             $documentId,
             $email,
             $firstname,
-            $lastname
+            $lastname,
+            $phone
         );
         custom_log(json_encode($document), 'DEBUG');
         custom_log(json_encode($invite), 'DEBUG');
@@ -166,7 +168,7 @@ class SignatureService
             'data' => json_decode($response, true)
         ];
     }
-    public function inviteSigner($documentId, $email, $firstname, $lastname)
+    public function inviteSigner($documentId, $email, $firstname, $lastname, $phone)
     {
         // Vérifier que l'email n'est pas vide avant d'envoyer
         if (empty($email)) {
@@ -191,7 +193,8 @@ class SignatureService
                     'email' => $email,      // ← email obligatoire
                     'role' => 'Signer 1',
                     'first_name' => $firstname,  // ← recommandé
-                    'last_name' => $lastname    // ← recommandé
+                    'last_name' => $lastname,   // ← recommandé
+                    'phone' => $phone
                 ]
             ],
             'from' => 'dev_mdg@caspeo.fr'
