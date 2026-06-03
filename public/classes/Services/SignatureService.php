@@ -201,7 +201,7 @@ class SignatureService
                 ]
             ],
 
-            'from' => 'karijatsilefilaza@gmail.com'
+            'from' => 'dev_mdg@caspeo.fr'
         ];
 
         curl_setopt(
