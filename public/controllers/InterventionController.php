@@ -6306,7 +6306,6 @@ class InterventionController
         $response = $signatureService->createWebhook(
             'https://dev.avision.videosonic.fr/public/interventions/webhookSignature'
         );
-
         echo '<pre>';
         print_r($response);
         echo '</pre>';
