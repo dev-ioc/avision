@@ -760,18 +760,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </label>
                         </div>
 
-                        <!-- Autre contact du client
-                        <div class="form-check border rounded p-3 mb-2">
-                            <input class="form-check-input" type="radio" name="signerChoice" id="signerOther"
-                                value="other">
-                            <label class="form-check-label w-100" for="signerOther">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="bi bi-people-fill text-secondary"></i>
-                                    <span class="fw-semibold">Autre contact du client</span>
-                                </div>
-                            </label>
-                        </div> -->
-
                         <!-- Select contacts -->
                         <div id="otherContactWrapper" style="display:none;" class="ms-4 mt-2">
                             <select class="form-select" id="otherContactSelect">
