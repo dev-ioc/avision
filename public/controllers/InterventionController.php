@@ -6311,139 +6311,144 @@ class InterventionController
     }
     public function sendForSignature($interventionId)
     {
-        header('Content-Type: application/json');
+        // Nettoyer tous les buffers de sortie
+        header('Content-Type: application/json; charset=UTF-8');
+        header('Cache-Control: no-cache, must-revalidate');
+        header('X-Content-Type-Options: nosniff');
 
+        // Si vous êtes en développement, ajouter CORS
+        if ($_SERVER['SERVER_NAME'] === 'localhost') {
+            header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN'] ?? 'http://localhost');
+            header('Access-Control-Allow-Credentials: true');
+            header('Access-Control-Allow-Methods: POST, OPTIONS');
+            header('Access-Control-Allow-Headers: Content-Type, X-CSRF-Token');
+        }
+
+        // Gérer la requête OPTIONS (preflight CORS)
+        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+            exit(0);
+        }
         try {
+            // Vérifier la session
+            if (!isset($_SESSION['user'])) {
+                throw new Exception('Session expirée, veuillez vous reconnecter');
+            }
 
-            $data = json_decode(
-                file_get_contents("php://input"),
-                true
-            );
+            // Valider CSRF
+            if (!CSRF::validateRequest()) {
+                throw new Exception('Token de sécurité invalide. Veuillez rafraîchir la page et réessayer.');
+            }
 
-            $contactPhone =
-                $data['contact_phone'] ?? null;
+            // Lire et décoder les données
+            $rawInput = file_get_contents("php://input");
+            if (empty($rawInput)) {
+                throw new Exception('Aucune donnée reçue');
+            }
 
+            $data = json_decode($rawInput, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception('Format de données invalide : ' . json_last_error_msg());
+            }
+
+            $contactEmail = $data['contact_email'] ?? null;
+            $contactPhone = $data['contact_phone'] ?? null;
+            $contactFirstname = $data['contact_firstname'] ?? 'Contact';
+            $contactLastname = $data['contact_lastname'] ?? '';
+
+            // Valider les champs requis
             if (!$contactPhone) {
-
-                throw new Exception(
-                    'Téléphone manquant'
-                );
+                throw new Exception('Le numéro de téléphone du signataire est requis');
+            }
+            if (!$contactEmail) {
+                throw new Exception('L\'adresse email du signataire est requise');
+            }
+            if (!filter_var($contactEmail, FILTER_VALIDATE_EMAIL)) {
+                throw new Exception('L\'adresse email n\'est pas valide');
             }
 
-            // =====================================================
-            // INTERVENTION
-            // =====================================================
-
-            $sql = "
-            SELECT *
-            FROM interventions
-            WHERE id = ?
-            LIMIT 1
-        ";
-
-            $stmt = $this->db->prepare($sql);
-
-            $stmt->execute([$interventionId]);
-
-            $intervention =
-                $stmt->fetch(PDO::FETCH_ASSOC);
-
+            // Récupérer l'intervention
+            $intervention = $this->interventionModel->getById($interventionId);
             if (!$intervention) {
-
-                throw new Exception(
-                    'Intervention introuvable'
-                );
+                throw new Exception('Intervention introuvable');
             }
 
-            // =====================================================
-            // DERNIER BI
-            // =====================================================
-
-            $sql = "
-            SELECT *
-            FROM intervention_pieces_jointes
-            WHERE intervention_id = ?
-            AND type = 'bi'
-            ORDER BY id DESC
-            LIMIT 1
-        ";
+            // Récupérer le dernier BI généré
+            $sql = "SELECT pj.*, lpj.type_liaison
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                WHERE lpj.type_liaison = 'bi' AND lpj.entite_id = ?
+                ORDER BY pj.date_creation DESC LIMIT 1";
 
             $stmt = $this->db->prepare($sql);
-
             $stmt->execute([$interventionId]);
-
             $pj = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$pj) {
-
-                throw new Exception(
-                    'Aucun BI trouvé'
-                );
+                throw new Exception('Aucun bon d\'intervention trouvé. Veuillez d\'abord générer le BI.');
             }
 
-            $pdfPath =
-                ROOT_PATH . '/' .
-                $pj['chemin_fichier'];
-
-            // =====================================================
-            // SIGNNOW
-            // =====================================================
-
-            $signatureService =
-                new SignatureService();
-
-            $response =
-                $signatureService
-                    ->createSignatureRequest(
-                        $pdfPath,
-                        $intervention['contact_client'] ?? '',
-                        $intervention['client_name'] ?? 'Client',
-                        '',
-                        $contactPhone
-                    );
-
-            // =====================================================
-            // SAVE BDD
-            // =====================================================
-
-            if (!empty($response['document_id'])) {
-
-                $sql = "
-                INSERT INTO intervention_signatures (
-                    intervention_id,
-                    signnow_document_id,
-                    status
-                )
-                VALUES (
-                    :intervention_id,
-                    :document_id,
-                    'pending'
-                )
-            ";
-
-                $stmt =
-                    $this->db->prepare($sql);
-
-                $stmt->execute([
-                    ':intervention_id' => $interventionId,
-                    ':document_id' => $response['document_id']
-                ]);
+            $pdfPath = __DIR__ . '/../../' . $pj['chemin_fichier'];
+            if (!file_exists($pdfPath)) {
+                throw new Exception('Fichier PDF introuvable sur le serveur');
             }
 
-            echo json_encode([
-                'success' => true
+            // Appel SignNow
+            $signatureService = new SignatureService();
+            $response = $signatureService->createSignatureRequest(
+                $pdfPath,
+                $contactEmail,
+                $contactFirstname,
+                $contactLastname,
+                $contactPhone
+            );
+
+            if (empty($response['document_id'])) {
+                throw new Exception('Erreur lors de la création de la demande de signature');
+            }
+
+            // Sauvegarder en BDD
+            $sql = "INSERT INTO intervention_signatures
+                (intervention_id, signnow_document_id, status, signer_email,
+                 signer_firstname, signer_lastname, signer_phone, created_at)
+                VALUES (:intervention_id, :document_id, 'pending', :email,
+                        :firstname, :lastname, :phone, NOW())
+                ON DUPLICATE KEY UPDATE
+                signnow_document_id = VALUES(signnow_document_id),
+                status = 'pending',
+                updated_at = NOW()";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':intervention_id' => $interventionId,
+                ':document_id' => $response['document_id'],
+                ':email' => $contactEmail,
+                ':firstname' => $contactFirstname,
+                ':lastname' => $contactLastname,
+                ':phone' => $contactPhone,
             ]);
 
-        } catch (Throwable $e) {
+            // Historique
+            $this->insertHistory(
+                $interventionId,
+                'Signature',
+                '',
+                $contactEmail,
+                "Demande de signature envoyée à {$contactFirstname} {$contactLastname}"
+            );
 
-            http_response_code(500);
+            echo json_encode([
+                'success' => true,
+                'document_id' => $response['document_id'],
+                'message' => 'Demande de signature envoyée avec succès'
+            ]);
 
+        } catch (Exception $e) {
+            error_log('sendForSignature error: ' . $e->getMessage());
             echo json_encode([
                 'success' => false,
                 'message' => $e->getMessage()
             ]);
         }
-
         exit;
     }
 }

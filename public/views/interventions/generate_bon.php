@@ -724,115 +724,316 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </div> <!-- Fin du container-fluid -->
 <!-- Modal Signature -->
 <div class="modal fade" id="signatureModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h5 class="modal-title">
-                    Choisir le signataire
+                    <i class="bi bi-pen me-2"></i>Envoyer pour signature
                 </h5>
-
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
             <div class="modal-body">
+                <!-- Chargement -->
+                <div id="signerLoading" class="text-center py-3">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="mt-2 text-muted">Chargement des contacts...</p>
+                </div>
 
-                <form id="signatureForm">
+                <!-- Choix du signataire -->
+                <div id="signerForm" style="display:none;">
+                    <?= csrf_field() ?>
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Signataire</label>
 
-                    <div class="mb-3">
+                        <!-- Contact principal de l'intervention -->
+                        <div class="form-check border rounded p-3 mb-2" id="optionPrincipal">
+                            <input class="form-check-input" type="radio" name="signerChoice" id="signerPrincipal"
+                                value="principal" checked>
+                            <label class="form-check-label w-100" for="signerPrincipal">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-person-fill text-primary"></i>
+                                    <div>
+                                        <div class="fw-semibold" id="principalName">—</div>
+                                        <small class="text-muted" id="principalEmail">—</small>
+                                    </div>
+                                    <span class="badge bg-primary ms-auto">Contact intervention</span>
+                                </div>
+                            </label>
+                        </div>
 
-                        <label class="form-label">
-                            Téléphone du signataire
-                        </label>
+                        <!-- Autre contact du client -->
+                        <div class="form-check border rounded p-3 mb-2">
+                            <input class="form-check-input" type="radio" name="signerChoice" id="signerOther"
+                                value="other">
+                            <label class="form-check-label w-100" for="signerOther">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-people-fill text-secondary"></i>
+                                    <span class="fw-semibold">Autre contact du client</span>
+                                </div>
+                            </label>
+                        </div>
 
-                        <input type="text" class="form-control" name="contact_phone" placeholder="032 12 345 67"
-                            value="<?= h($intervention['contact_phone'] ?? '') ?>" required>
+                        <!-- Select contacts -->
+                        <div id="otherContactWrapper" style="display:none;" class="ms-4 mt-2">
+                            <select class="form-select" id="otherContactSelect">
+                                <option value="">— Sélectionner un contact —</option>
+                            </select>
+                        </div>
 
+                        <!-- Signataire manuel -->
+                        <div class="form-check border rounded p-3 mb-2">
+                            <input class="form-check-input" type="radio" name="signerChoice" id="signerManual"
+                                value="manual">
+                            <label class="form-check-label w-100" for="signerManual">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-pencil-fill text-warning"></i>
+                                    <span class="fw-semibold">Saisir manuellement</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Champs manuels -->
+                        <div id="manualFields" style="display:none;" class="ms-4 mt-2">
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="manualFirstname" placeholder="Prénom">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="manualLastname" placeholder="Nom">
+                                </div>
+                                <div class="col-12">
+                                    <input type="email" class="form-control" id="manualEmail" placeholder="Email *"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                </form>
+                    <!-- Téléphone pour SMS OTP -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Téléphone pour vérification SMS
+                            <span class="text-muted fw-normal">(optionnel mais recommandé)</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-phone"></i></span>
+                            <input type="text" class="form-control" id="signerPhone" placeholder="+261 32 12 345 67">
+                        </div>
+                        <div class="form-text">
+                            Si renseigné, SignNow enverra un code SMS au signataire pour authentification.
+                        </div>
+                    </div>
+
+                    <!-- Récap -->
+                    <div class="alert alert-info d-none" id="signerRecap">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <span id="signerRecapText"></span>
+                    </div>
+                </div>
 
             </div>
-
             <div class="modal-footer">
-
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Annuler
                 </button>
-
-                <button type="button" class="btn btn-success" onclick="sendForSignature()">
-                    Envoyer
+                <button type="button" class="btn btn-success" id="btnSendSignature" disabled>
+                    <i class="bi bi-send me-1"></i> Envoyer la demande
                 </button>
-
             </div>
-
         </div>
     </div>
 </div>
+
 <script>
+    const interventionId = <?= (int) $intervention['id'] ?>;
+    const clientId = <?= (int) ($intervention['client_id'] ?? 0) ?>;
 
-    const interventionId = <?= (int) $intervention['id']; ?>;
+    const principalContact = {
+        firstname: <?= json_encode($intervention['contact_first_name'] ?? '') ?>,
+        lastname: <?= json_encode($intervention['contact_last_name'] ?? '') ?>,
+        email: <?= json_encode($intervention['contact_client'] ?? '') ?>,
+        phone: <?= json_encode($intervention['contact_phone'] ?? '') ?>,
+    };
 
-    function sendForSignature() {
+    let allContacts = [];
 
-        const phone = document.querySelector(
-            'input[name="contact_phone"]'
-        ).value;
+    document.getElementById('signatureModal')
+        .addEventListener('show.bs.modal', () => { loadSignerData(); });
 
-        fetch(
-            BASE_URL + 'interventions/sendForSignature/' + interventionId,
-            {
+    async function loadSignerData() {
+        document.getElementById('signerLoading').style.display = '';
+        document.getElementById('signerForm').style.display = 'none';
+        document.getElementById('btnSendSignature').disabled = true;
+
+        const pName = [principalContact.firstname, principalContact.lastname]
+            .filter(Boolean).join(' ') || '(non défini)';
+        document.getElementById('principalName').textContent = pName;
+        document.getElementById('principalEmail').textContent = principalContact.email || '(email manquant)';
+        document.getElementById('signerPhone').value = principalContact.phone || '';
+
+        if (!principalContact.email) {
+            document.getElementById('signerPrincipal').disabled = true;
+            document.getElementById('signerOther').checked = true;
+        }
+
+        try {
+            const res = await fetch(`${BASE_URL}interventions/getContacts/${clientId}`);
+            const data = await res.json();
+            allContacts = Array.isArray(data) ? data : [];
+        } catch (e) { allContacts = []; }
+
+        const select = document.getElementById('otherContactSelect');
+        select.innerHTML = '<option value="">— Sélectionner un contact —</option>';
+        allContacts.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.textContent = `${c.first_name} ${c.last_name}`.trim() + ` — ${c.email || 'sans email'}`;
+            opt.dataset.email = c.email || '';
+            opt.dataset.firstname = c.first_name || '';
+            opt.dataset.lastname = c.last_name || '';
+            select.appendChild(opt);
+        });
+
+        document.getElementById('signerLoading').style.display = 'none';
+        document.getElementById('signerForm').style.display = '';
+        refreshRecap();
+    }
+
+    document.querySelectorAll('input[name="signerChoice"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            document.getElementById('otherContactWrapper').style.display =
+                radio.value === 'other' ? '' : 'none';
+            document.getElementById('manualFields').style.display =
+                radio.value === 'manual' ? '' : 'none';
+            refreshRecap();
+        });
+    });
+
+    document.getElementById('otherContactSelect').addEventListener('change', refreshRecap);
+    document.getElementById('signerPhone').addEventListener('input', refreshRecap);
+    ['manualFirstname', 'manualLastname', 'manualEmail'].forEach(id => {
+        document.getElementById(id).addEventListener('input', refreshRecap);
+    });
+
+    function getSelectedSigner() {
+        const choice = document.querySelector('input[name="signerChoice"]:checked')?.value;
+        if (choice === 'principal') {
+            return {
+                email: principalContact.email, firstname: principalContact.firstname,
+                lastname: principalContact.lastname, phone: document.getElementById('signerPhone').value.trim(),
+            };
+        }
+        if (choice === 'other') {
+            const sel = document.getElementById('otherContactSelect');
+            const opt = sel.options[sel.selectedIndex];
+            if (!opt || !opt.value) return null;
+            return {
+                email: opt.dataset.email, firstname: opt.dataset.firstname,
+                lastname: opt.dataset.lastname, phone: document.getElementById('signerPhone').value.trim()
+            };
+        }
+        if (choice === 'manual') {
+            const email = document.getElementById('manualEmail').value.trim();
+            if (!email) return null;
+            return {
+                email, firstname: document.getElementById('manualFirstname').value.trim(),
+                lastname: document.getElementById('manualLastname').value.trim(),
+                phone: document.getElementById('signerPhone').value.trim()
+            };
+        }
+        return null;
+    }
+
+    function refreshRecap() {
+        const signer = getSelectedSigner();
+        const recap = document.getElementById('signerRecap');
+        const btn = document.getElementById('btnSendSignature');
+        if (!signer || !signer.email) {
+            recap.classList.add('d-none'); btn.disabled = true; return;
+        }
+        const name = [signer.firstname, signer.lastname].filter(Boolean).join(' ') || signer.email;
+        const sms = signer.phone ? ` — SMS: ${signer.phone}` : '';
+        document.getElementById('signerRecapText').textContent = `Envoi à : ${name} <${signer.email}>${sms}`;
+        recap.classList.remove('d-none');
+        btn.disabled = false;
+    }
+
+    document.getElementById('btnSendSignature').addEventListener('click', sendForSignature);
+
+    async function sendForSignature() {
+        const signer = getSelectedSigner();
+        if (!signer || !signer.email) {
+            showAlert('Veuillez sélectionner un signataire valide', 'warning');
+            return;
+        }
+
+        const btn = document.getElementById('btnSendSignature');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Envoi en cours...';
+
+        try {
+            await saveSelection();
+
+            // Vérifier que le token CSRF existe
+            if (!AppConfig.csrfToken) {
+                throw new Error('Token CSRF manquant. Veuillez rafraîchir la page.');
+            }
+
+            console.log('Envoi de la requête avec token:', AppConfig.csrfToken.substring(0, 20) + '...');
+
+            const response = await fetch(`${AppConfig.baseUrl}interventions/sendForSignature/${interventionId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-Token': '<?= csrf_token() ?>'
+                    'X-CSRF-Token': AppConfig.csrfToken,
+                    'Accept': 'application/json'  // ← Important pour indiquer qu'on attend du JSON
                 },
                 body: JSON.stringify({
-                    contact_phone: phone
+                    contact_email: signer.email,
+                    contact_phone: signer.phone,
+                    contact_firstname: signer.firstname,
+                    contact_lastname: signer.lastname,
                 })
-            }
-        )
-            .then(async res => {
-
-                const text = await res.text();
-
-                console.log(text);
-
-                return JSON.parse(text);
-            })
-            .then(data => {
-
-                if (data.success) {
-
-                    showAlert(
-                        'Demande de signature envoyée',
-                        'success'
-                    );
-
-                    bootstrap.Modal
-                        .getInstance(
-                            document.getElementById('signatureModal')
-                        )
-                        .hide();
-
-                } else {
-
-                    showAlert(
-                        data.message,
-                        'danger'
-                    );
-                }
-            })
-            .catch(error => {
-
-                console.error(error);
-
-                showAlert(
-                    'Erreur serveur',
-                    'danger'
-                );
             });
-    }
 
+            // Vérifier le status HTTP
+            if (!response.ok) {
+                const text = await response.text();
+                console.error('HTTP Error:', response.status, text.substring(0, 200));
+
+                if (response.status === 403) {
+                    throw new Error('Token CSRF invalide. Veuillez rafraîchir la page.');
+                } else if (response.status === 419) {
+                    throw new Error('Session expirée. Veuillez rafraîchir la page.');
+                } else {
+                    throw new Error(`Erreur serveur (${response.status})`);
+                }
+            }
+
+            // Lire la réponse comme JSON
+            const data = await response.json();
+
+            console.log('Réponse serveur:', data);
+
+            if (data.success) {
+                showAlert('Demande de signature envoyée avec succès', 'success');
+                const modal = bootstrap.Modal.getInstance(document.getElementById('signatureModal'));
+                if (modal) modal.hide();
+
+                // Optionnel : recharger la page ou rafraîchir les données
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            } else {
+                throw new Error(data.message || 'Erreur inconnue');
+            }
+        } catch (error) {
+            console.error('Erreur détaillée:', error);
+            showAlert('Erreur : ' + error.message, 'danger');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bi bi-send me-1"></i> Envoyer la demande';
+        }
+    }
 </script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
