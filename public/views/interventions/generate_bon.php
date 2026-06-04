@@ -744,7 +744,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     <?= csrf_field() ?>
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Signataire</label>
-
                         <!-- Contact principal de l'intervention -->
                         <div class="form-check border rounded p-3 mb-2" id="optionPrincipal">
                             <input class="form-check-input" type="radio" name="signerChoice" id="signerPrincipal"
