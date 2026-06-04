@@ -4026,55 +4026,7 @@ class InterventionController
                     $equipment,
                     $replacedParts
                 );
-                // // ======================================
-                // // ENVOI À YOUSIGN
-                // // ======================================
 
-                // $clientEmail =
-                //     $intervention['contact_client'];
-
-                // $clientFirstname =
-                //     $intervention['contact_first_name'];
-
-                // $clientLastname =
-                //     $intervention['contact_last_name'];
-
-                // $signatureService =
-                //     new SignatureService();
-
-                // $signatureResponse =
-                //     $signatureService->createSignatureRequest(
-                //         $pdfPath,
-                //         $clientEmail,
-                //         $clientFirstname,
-                //         $clientLastname
-                //     );
-                // // ======================================
-                // // SAUVEGARDE BDD
-                // // ======================================
-
-                // if (!empty($signatureResponse['document_id'])) {
-
-                //     $sql = "
-                //             INSERT INTO intervention_signatures (
-                //                 intervention_id,
-                //                 signnow_document_id,
-                //                 status
-                //             )
-                //             VALUES (
-                //                 :intervention_id,
-                //                 :document_id,
-                //                 'pending'
-                //             )
-                //         ";
-
-                //     $stmt = $this->db->prepare($sql);
-
-                //     $stmt->execute([
-                //         ':intervention_id' => $intervention['id'],
-                //         ':document_id' => $signatureResponse['document_id']
-                //     ]);
-                // }
             } catch (Exception $e) {
                 custom_log("Erreur lors de la génération du PDF: " . $e->getMessage(), 'ERROR');
                 $_SESSION['error'] = 'Erreur lors de la génération du PDF: ' . $e->getMessage();
