@@ -623,7 +623,6 @@ function loadSitesForMateriel(clientId, siteSelectId) {
             }
         })
         .catch(error => {
-            console.error('Erreur lors du chargement des sites:', error);
             siteSelect.innerHTML = '<option value="">Erreur de chargement</option>';
         });
 }
@@ -655,7 +654,6 @@ function loadBuildingsForMateriel(siteId, buildingSelectId) {
             }
         })
         .catch(error => {
-            console.error('Erreur lors du chargement des bâtiments:', error);
             buildingSelect.innerHTML = '<option value="">Erreur de chargement</option>';
         });
 }
@@ -687,7 +685,6 @@ function loadRoomsForMaterielByBuilding(buildingId, roomSelectId) {
             }
         })
         .catch(error => {
-            console.error('Erreur lors du chargement des salles:', error);
             roomSelect.innerHTML = '<option value="">Erreur de chargement</option>';
         });
 }

@@ -780,7 +780,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     if (callback) callback();
                 })
                 .catch(err => {
-                    console.error('Erreur chargement bâtiments:', err);
                     targetSelect.innerHTML = '<option value="">Erreur de chargement</option>';
                     targetSelect.disabled = false;
                     if (callback) callback();
@@ -813,7 +812,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     if (callback) callback();
                 })
                 .catch(err => {
-                    console.error('Erreur chargement salles:', err);
                     targetSelect.innerHTML = '<option value="">Erreur de chargement</option>';
                     targetSelect.disabled = false;
                     if (callback) callback();
@@ -1313,7 +1311,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         }
                     })
                     .catch(err => {
-                        console.error('Erreur:', err);
                         alert('Une erreur est survenue lors de la création flash');
                         flashSpinner.classList.add('d-none');
                         flashBtn.disabled = false;

@@ -508,7 +508,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 }
             })
             .catch(error => {
-                console.error('Erreur:', error);
                 showAlert('Erreur lors de la sauvegarde', 'danger');
                 throw error;
             });
@@ -961,8 +960,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 throw new Error('Token CSRF manquant. Veuillez rafraîchir la page.');
             }
 
-            console.log('Envoi de la requête avec token:', AppConfig.csrfToken.substring(0, 20) + '...');
-
             const response = await fetch(`${AppConfig.baseUrl}interventions/sendForSignature/${interventionId}`, {
                 method: 'POST',
                 headers: {
@@ -981,7 +978,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             // Vérifier le status HTTP
             if (!response.ok) {
                 const text = await response.text();
-                console.error('HTTP Error:', response.status, text.substring(0, 200));
 
                 if (response.status === 403) {
                     throw new Error('Token CSRF invalide. Veuillez rafraîchir la page.');
@@ -994,8 +990,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
             // Lire la réponse comme JSON
             const data = await response.json();
-
-            console.log('Réponse serveur:', data);
 
             if (data.success) {
                 showAlert('Demande de signature envoyée avec succès', 'success');
@@ -1010,7 +1004,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 throw new Error(data.message || 'Erreur inconnue');
             }
         } catch (error) {
-            console.error('Erreur détaillée:', error);
             showAlert('Erreur : ' + error.message, 'danger');
         } finally {
             btn.disabled = false;

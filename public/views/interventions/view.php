@@ -1900,7 +1900,7 @@ $closeReason = [];
 				html += '</div>';
 				container.innerHTML = html;
 			})
-			.catch(function (e) { console.error(e); container.innerHTML = '<div class="text-center py-3 text-danger">Erreur de chargement</div>'; });
+			.catch(function (e) { container.innerHTML = '<div class="text-center py-3 text-danger">Erreur de chargement</div>'; });
 	}
 
 	function removeTechnicianFromPage(technicianId) {
@@ -1921,7 +1921,7 @@ $closeReason = [];
 				if (result.success) { loadTechniciansInPage(); alert(result.message); }
 				else { alert('Erreur: ' + (result.error || 'Suppression impossible')); loadTechniciansInPage(); }
 			})
-			.catch(function (error) { console.error(error); alert('Erreur réseau'); loadTechniciansInPage(); });
+			.catch(function (error) { alert('Erreur réseau'); loadTechniciansInPage(); });
 	}
 
 	function openTechModal(id) {
@@ -2302,7 +2302,6 @@ $closeReason = [];
 			}
 
 		} catch (error) {
-			console.error(error);
 			showAlert('Erreur : ' + error.message, 'danger');
 		} finally {
 			btn.disabled = false;

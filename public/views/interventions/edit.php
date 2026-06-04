@@ -943,7 +943,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .catch(error => {
-            console.error('Erreur:', error);
+            
             alert('Erreur lors de l\'upload des fichiers');
             uploadValidBtn.disabled = false;
             uploadValidBtn.innerHTML = '<i class="bi bi-upload me-1"></i> Uploader les fichiers valides';
@@ -1270,7 +1270,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (callback) callback();
             })
             .catch(error => {
-                console.error('Erreur lors du chargement des sites:', error);
                 siteSelect.innerHTML = '<option value="">Erreur de chargement</option>';
                 if (callback) callback();
             });
@@ -1318,7 +1317,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (callback) callback();
             })
             .catch(error => {
-                console.error('Erreur lors du chargement des bâtiments:', error);
                 buildingSelect.innerHTML = '<option value="">Erreur de chargement</option>';
                 if (callback) callback();
             });
@@ -1366,7 +1364,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (callback) callback();
             })
             .catch(error => {
-                console.error('Erreur lors du chargement des salles:', error);
                 roomSelect.innerHTML = '<option value="">Erreur de chargement</option>';
                 if (callback) callback();
             });
@@ -1425,7 +1422,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             .catch(error => {
-                console.error('Erreur lors du chargement des contrats:', error);
                 contractSelect.innerHTML = '<option value="">Erreur de chargement</option>';
             });
     }
@@ -1465,7 +1461,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             .catch(error => {
-                console.error('Erreur lors du chargement des contacts:', error);
                 contactSelect.innerHTML = '<option value="">Erreur de chargement</option>';
             });
     }

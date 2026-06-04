@@ -823,7 +823,7 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
 
     function addNewRowToTable(tableId, locationName, salleId) {
       const hot = hotInstances[tableId];
-      if (!hot) { console.error('Tableau non trouvé:', tableId); return; }
+      if (!hot) { return; }
 
       hot.__salleId = salleId;
 
@@ -1017,7 +1017,7 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
           if (state.hasOwnProperty(col)) cb.checked = state[col];
         });
         return state;
-      } catch (e) { console.error(e); return null; }
+      } catch (e) { return null; }
     }
     function applyColumnVisibility(colIndex, isVisible) {
       Object.values(hotInstances).forEach(hot => {
@@ -1253,7 +1253,7 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
             bootstrap.Modal.getInstance(document.getElementById('addAttachmentModal')).hide();
             location.reload();
           } else alert('Erreur: ' + (result.error || 'Inconnue'));
-        } catch (e) { console.error(e); alert('Erreur réseau'); }
+        } catch (e) { alert('Erreur réseau'); }
         finally {
           this.uploadBtn.disabled = false;
           this.uploadBtn.innerHTML = '<i class="bi bi-upload me-1"></i>Uploader';
@@ -1666,7 +1666,6 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
                   totalErrors++;
                   const errorText = await response.text();
                   errorDetails.push(`Échec création "${marqueRef} ${modeleRef}" : ${response.status}`);
-                  console.error(`HTTP ${response.status}`, errorText);
                 }
               })
               .catch((error) => {
@@ -1771,7 +1770,6 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
           `• Contactez le support si le problème persiste`,
           'danger'
         );
-        console.error('Erreur globale:', error);
       });
     };
   </script>
