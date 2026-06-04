@@ -440,11 +440,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 d'intervention</p>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                            <!-- <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                 data-bs-target="#signatureModal">
                                 <i class="bi bi-pen"></i>
                                 Envoyer pour signature
-                            </button>
+                            </button> -->
                             <button type="button" class="btn btn-outline-secondary me-2" onclick="saveSelection()">
                                 <i class="bi bi-save me-1"></i> Sauvegarder la sélection
                             </button>
