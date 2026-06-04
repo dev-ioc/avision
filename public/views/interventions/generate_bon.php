@@ -760,7 +760,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </label>
                         </div>
 
-                        <!-- Autre contact du client -->
+                        <!-- Autre contact du client
                         <div class="form-check border rounded p-3 mb-2">
                             <input class="form-check-input" type="radio" name="signerChoice" id="signerOther"
                                 value="other">
@@ -770,7 +770,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <span class="fw-semibold">Autre contact du client</span>
                                 </div>
                             </label>
-                        </div>
+                        </div> -->
 
                         <!-- Select contacts -->
                         <div id="otherContactWrapper" style="display:none;" class="ms-4 mt-2">
