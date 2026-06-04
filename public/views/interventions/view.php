@@ -579,6 +579,14 @@ $closeReason = [];
 											</small>
 										</div>
 										<div>
+											<?php if ($isBI && canModifyInterventions()): ?>
+												<button type="button" class="btn btn-sm btn-outline-success btn-action"
+													data-bs-toggle="modal" data-bs-target="#signatureModal"
+													onclick="openSignatureModal(<?= $attachment['id'] ?>)"
+													title="Envoyer pour signature">
+													<i class="bi bi-pen"></i>
+												</button>
+											<?php endif; ?>
 											<?php if ($isPdf): ?>
 												<button type="button" class="btn btn-sm btn-outline-info btn-action"
 													onclick="openPdfViewer(<?= $attachment['id'] ?>, '<?= addslashes($attachment['nom_personnalise'] ?? $attachment['nom_fichier']) ?>')"
@@ -1309,6 +1317,109 @@ $closeReason = [];
 		</div>
 	</div>
 </div>
+<!-- Modal Signature -->
+<div class="modal fade" id="signatureModal" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">
+					<i class="bi bi-pen me-2"></i>Envoyer pour signature
+				</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<!-- Choix du signataire -->
+				<div id="signerForm">
+					<?= csrf_field() ?>
+					<div class="mb-4">
+						<label class="form-label fw-semibold">Signataire</label>
+						<!-- Contact principal de l'intervention -->
+						<div class="form-check border rounded p-3 mb-2" id="optionPrincipal">
+							<input class="form-check-input" type="radio" name="signerChoice" id="signerPrincipal"
+								value="principal" checked>
+							<label class="form-check-label w-100" for="signerPrincipal">
+								<div class="d-flex align-items-center gap-2">
+									<i class="bi bi-person-fill text-primary"></i>
+									<div>
+										<div class="fw-semibold" id="principalName">—</div>
+										<small class="text-muted" id="principalEmail">—</small>
+									</div>
+									<span class="badge bg-primary ms-auto">Contact intervention</span>
+								</div>
+							</label>
+						</div>
+
+						<!-- Select contacts -->
+						<div id="otherContactWrapper" style="display:none;" class="ms-4 mt-2">
+							<select class="form-select" id="otherContactSelect">
+								<option value="">— Sélectionner un contact —</option>
+							</select>
+						</div>
+
+						<!-- Signataire manuel -->
+						<div class="form-check border rounded p-3 mb-2">
+							<input class="form-check-input" type="radio" name="signerChoice" id="signerManual"
+								value="manual">
+							<label class="form-check-label w-100" for="signerManual">
+								<div class="d-flex align-items-center gap-2">
+									<i class="bi bi-pencil-fill text-warning"></i>
+									<span class="fw-semibold">Saisir manuellement</span>
+								</div>
+							</label>
+						</div>
+
+						<!-- Champs manuels -->
+						<div id="manualFields" style="display:none;" class="ms-4 mt-2">
+							<div class="row g-2">
+								<div class="col-md-6">
+									<input type="text" class="form-control" id="manualFirstname" placeholder="Prénom">
+								</div>
+								<div class="col-md-6">
+									<input type="text" class="form-control" id="manualLastname" placeholder="Nom">
+								</div>
+								<div class="col-12">
+									<input type="email" class="form-control" id="manualEmail" placeholder="Email *"
+										required>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Téléphone pour SMS OTP -->
+					<div class="mb-3">
+						<label class="form-label fw-semibold">
+							Téléphone pour vérification SMS
+							<span class="text-muted fw-normal">(optionnel mais recommandé)</span>
+						</label>
+						<div class="input-group">
+							<span class="input-group-text"><i class="bi bi-phone"></i></span>
+							<input type="text" class="form-control" id="signerPhone" placeholder="+261 32 12 345 67">
+						</div>
+						<div class="form-text">
+							Si renseigné, SignNow enverra un code SMS au signataire pour authentification.
+						</div>
+					</div>
+
+					<!-- Récap -->
+					<div class="alert alert-info d-none" id="signerRecap">
+						<i class="bi bi-info-circle me-2"></i>
+						<span id="signerRecapText"></span>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+					Annuler
+				</button>
+				<button type="button" class="btn btn-success" id="btnSendSignature" disabled>
+					<i class="bi bi-send me-1"></i> Envoyer la demande
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <style>
 	.drop-zone {
 		border: 2px dashed var(--bs-border-color);
@@ -2030,4 +2141,311 @@ $closeReason = [];
 	document.getElementById('start_time')?.addEventListener('change', calculateDurationFromDates);
 	document.getElementById('end_time')?.addEventListener('change', calculateDurationFromDates);
 </script>
+<script>
+	const interventionId = <?= (int) $intervention['id'] ?>;
+	const principalContact = {
+		firstname: <?= json_encode($intervention['contact_first_name'] ?? '') ?>,
+		lastname: <?= json_encode($intervention['contact_last_name'] ?? '') ?>,
+		email: <?= json_encode($intervention['contact_client'] ?? '') ?>,
+		phone: <?= json_encode($intervention['contact_phone'] ?? '') ?>,
+	};
+
+	// Ajouter cette ligne
+	window.interventionIdForSignature = interventionId;
+	let selectedAttachmentId = null;
+	let signatureModal = null;
+
+	// Nettoyer les modales orphelines
+	function cleanupModals() {
+		// Supprimer les backdrops orphelins
+		const backdrops = document.querySelectorAll('.modal-backdrop');
+		backdrops.forEach(function (backdrop) {
+			backdrop.remove();
+		});
+		// Restaurer la classe body
+		document.body.classList.remove('modal-open');
+		document.body.style.overflow = '';
+		document.body.style.position = '';
+		document.body.style.paddingRight = '';
+	}
+
+	function openSignatureModal(attachmentId) {
+		// Nettoyer les modales existantes avant d'ouvrir
+		cleanupModals();
+
+		selectedAttachmentId = attachmentId;
+
+		const pName = [
+			principalContact.firstname,
+			principalContact.lastname
+		].filter(Boolean).join(' ') || '(non défini)';
+
+		document.getElementById('principalName').textContent = pName;
+
+		document.getElementById('principalEmail').textContent =
+			principalContact.email || '(email manquant)';
+
+		document.getElementById('signerPhone').value =
+			principalContact.phone || '';
+
+		refreshRecap();
+
+		// Créer une nouvelle instance de la modale
+		const modalElement = document.getElementById('signatureModal');
+
+		// Supprimer les anciennes instances
+		if (signatureModal) {
+			signatureModal.dispose();
+		}
+
+		signatureModal = new bootstrap.Modal(modalElement, {
+			backdrop: true,
+			keyboard: true
+		});
+
+		// Nettoyer après fermeture
+		modalElement.addEventListener('hidden.bs.modal', function onHidden() {
+			modalElement.removeEventListener('hidden.bs.modal', onHidden);
+			cleanupModals();
+			// Restaurer le scroll
+			document.body.style.overflow = '';
+			document.body.style.position = '';
+			document.body.style.paddingRight = '';
+		});
+
+		signatureModal.show();
+	}
+
+	function getSelectedSigner() {
+		return {
+			email: principalContact.email,
+			firstname: principalContact.firstname,
+			lastname: principalContact.lastname,
+			phone: document.getElementById('signerPhone').value.trim(),
+		};
+	}
+
+	function refreshRecap() {
+		const signer = getSelectedSigner();
+		const recap = document.getElementById('signerRecap');
+		const btn = document.getElementById('btnSendSignature');
+
+		if (!signer.email) {
+			recap.classList.add('d-none');
+			btn.disabled = true;
+			return;
+		}
+
+		const name = [
+			signer.firstname,
+			signer.lastname
+		].filter(Boolean).join(' ') || signer.email;
+
+		const sms = signer.phone ? ` — SMS: ${signer.phone}` : '';
+
+		document.getElementById('signerRecapText').textContent =
+			`Envoi à : ${name} <${signer.email}>${sms}`;
+
+		recap.classList.remove('d-none');
+		btn.disabled = false;
+	}
+
+	document.getElementById('signerPhone')
+		.addEventListener('input', refreshRecap);
+
+	document.getElementById('btnSendSignature')
+		.addEventListener('click', sendForSignature);
+
+	async function sendForSignature() {
+		const signer = getSelectedSigner();
+
+		if (!signer.email) {
+			showAlert('Aucun email défini pour le contact', 'warning');
+			return;
+		}
+
+		const btn = document.getElementById('btnSendSignature');
+
+		btn.disabled = true;
+		btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Envoi en cours...';
+
+		try {
+			const response = await fetch(
+				`${AppConfig.baseUrl}interventions/sendForSignature/${selectedAttachmentId}`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRF-Token': AppConfig.csrfToken,
+						'Accept': 'application/json'
+					},
+					body: JSON.stringify({
+						contact_email: signer.email,
+						contact_phone: signer.phone,
+						contact_firstname: signer.firstname,
+						contact_lastname: signer.lastname,
+					})
+				}
+			);
+
+			const data = await response.json();
+
+			if (data.success) {
+				showAlert('Demande de signature envoyée avec succès', 'success');
+				if (signatureModal) {
+					signatureModal.hide();
+				}
+				// Nettoyer après fermeture
+				setTimeout(cleanupModals, 300);
+			} else {
+				throw new Error(data.message || 'Erreur inconnue');
+			}
+
+		} catch (error) {
+			console.error(error);
+			showAlert('Erreur : ' + error.message, 'danger');
+		} finally {
+			btn.disabled = false;
+			btn.innerHTML = '<i class="bi bi-send me-1"></i> Envoyer la demande';
+		}
+	}
+
+	// Fonction pour afficher les alertes stylisées
+	function showAlert(message, type) {
+		// Supprimer les alertes existantes pour éviter les doublons
+		const existingAlerts = document.querySelectorAll('.custom-alert-floating');
+		existingAlerts.forEach(alert => alert.remove());
+
+		const alertDiv = document.createElement('div');
+		alertDiv.className = `custom-alert-floating alert alert-${type} alert-dismissible fade show`;
+
+		// Icônes selon le type
+		const icons = {
+			success: '<i class="bi bi-check-circle-fill me-2"></i>',
+			danger: '<i class="bi bi-exclamation-triangle-fill me-2"></i>',
+			warning: '<i class="bi bi-exclamation-circle-fill me-2"></i>',
+			info: '<i class="bi bi-info-circle-fill me-2"></i>'
+		};
+
+		alertDiv.innerHTML = `
+			<div class="d-flex align-items-center">
+				<div class="flex-shrink-0">
+					${icons[type] || icons.info}
+				</div>
+				<div class="flex-grow-1 ms-2">
+					<strong>${type === 'success' ? 'Succès !' : type === 'danger' ? 'Erreur !' : 'Information'}</strong>
+					<div class="small mt-1">${message}</div>
+				</div>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		`;
+
+		// Styles CSS inline
+		alertDiv.style.position = 'fixed';
+		alertDiv.style.top = '20px';
+		alertDiv.style.right = '20px';
+		alertDiv.style.minWidth = '320px';
+		alertDiv.style.maxWidth = '450px';
+		alertDiv.style.zIndex = '9999';
+		alertDiv.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+		alertDiv.style.borderRadius = '8px';
+		alertDiv.style.borderLeft = `4px solid ${type === 'success' ? '#28a745' : type === 'danger' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#17a2b8'}`;
+		alertDiv.style.animation = 'slideInRight 0.3s ease-out';
+
+		// Ajouter l'animation CSS si elle n'existe pas
+		if (!document.querySelector('#alert-styles')) {
+			const style = document.createElement('style');
+			style.id = 'alert-styles';
+			style.textContent = `
+				@keyframes slideInRight {
+					from {
+						transform: translateX(100%);
+						opacity: 0;
+					}
+					to {
+						transform: translateX(0);
+						opacity: 1;
+					}
+				}
+				@keyframes slideOutRight {
+					from {
+						transform: translateX(0);
+						opacity: 1;
+					}
+					to {
+						transform: translateX(100%);
+						opacity: 0;
+					}
+				}
+				.custom-alert-floating {
+					cursor: pointer;
+					transition: all 0.3s ease;
+				}
+				.custom-alert-floating:hover {
+					transform: translateY(-2px);
+					box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+				}
+			`;
+			document.head.appendChild(style);
+		}
+
+		document.body.appendChild(alertDiv);
+
+		// Barre de progression
+		const progressBar = document.createElement('div');
+		progressBar.style.position = 'absolute';
+		progressBar.style.bottom = '0';
+		progressBar.style.left = '0';
+		progressBar.style.height = '3px';
+		progressBar.style.backgroundColor = type === 'success' ? '#28a745' : type === 'danger' ? '#dc3545' : '#ffc107';
+		progressBar.style.width = '100%';
+		progressBar.style.borderRadius = '0 0 8px 8px';
+		progressBar.style.transition = 'width 4s linear';
+		alertDiv.appendChild(progressBar);
+
+		// Animer la barre de progression
+		setTimeout(() => {
+			progressBar.style.width = '0%';
+		}, 100);
+
+		// Fermeture automatique après 4 secondes
+		setTimeout(() => {
+			if (alertDiv.parentNode) {
+				alertDiv.style.animation = 'slideOutRight 0.3s ease-out forwards';
+				setTimeout(() => {
+					if (alertDiv.parentNode) {
+						alertDiv.remove();
+					}
+				}, 300);
+			}
+		}, 4000);
+
+		// Fermeture au clic
+		alertDiv.addEventListener('click', function (e) {
+			if (!e.target.closest('.btn-close')) {
+				alertDiv.style.animation = 'slideOutRight 0.3s ease-out forwards';
+				setTimeout(() => {
+					if (alertDiv.parentNode) {
+						alertDiv.remove();
+					}
+				}, 300);
+			}
+		});
+	}
+
+	// Nettoyage global au chargement de la page
+	document.addEventListener('DOMContentLoaded', function () {
+		cleanupModals();
+	});
+	document.querySelectorAll('input[name="signerChoice"]').forEach(radio => {
+		radio.addEventListener('change', () => {
+			document.getElementById('otherContactWrapper').style.display =
+				radio.value === 'other' ? '' : 'none';
+			document.getElementById('manualFields').style.display =
+				radio.value === 'manual' ? '' : 'none';
+			refreshRecap();
+		});
+	});
+</script>
+
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

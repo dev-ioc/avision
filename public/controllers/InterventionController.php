@@ -4026,7 +4026,55 @@ class InterventionController
                     $equipment,
                     $replacedParts
                 );
+                // // ======================================
+                // // ENVOI À YOUSIGN
+                // // ======================================
 
+                // $clientEmail =
+                //     $intervention['contact_client'];
+
+                // $clientFirstname =
+                //     $intervention['contact_first_name'];
+
+                // $clientLastname =
+                //     $intervention['contact_last_name'];
+
+                // $signatureService =
+                //     new SignatureService();
+
+                // $signatureResponse =
+                //     $signatureService->createSignatureRequest(
+                //         $pdfPath,
+                //         $clientEmail,
+                //         $clientFirstname,
+                //         $clientLastname
+                //     );
+                // // ======================================
+                // // SAUVEGARDE BDD
+                // // ======================================
+
+                // if (!empty($signatureResponse['document_id'])) {
+
+                //     $sql = "
+                //             INSERT INTO intervention_signatures (
+                //                 intervention_id,
+                //                 signnow_document_id,
+                //                 status
+                //             )
+                //             VALUES (
+                //                 :intervention_id,
+                //                 :document_id,
+                //                 'pending'
+                //             )
+                //         ";
+
+                //     $stmt = $this->db->prepare($sql);
+
+                //     $stmt->execute([
+                //         ':intervention_id' => $intervention['id'],
+                //         ':document_id' => $signatureResponse['document_id']
+                //     ]);
+                // }
             } catch (Exception $e) {
                 custom_log("Erreur lors de la génération du PDF: " . $e->getMessage(), 'ERROR');
                 $_SESSION['error'] = 'Erreur lors de la génération du PDF: ' . $e->getMessage();
@@ -6261,25 +6309,25 @@ class InterventionController
         print_r($response);
         echo '</pre>';
     }
-    public function sendForSignature($interventionId)
+    public function sendForSignature($attachmentId)
     {
         // Nettoyer tous les buffers de sortie
         header('Content-Type: application/json; charset=UTF-8');
         header('Cache-Control: no-cache, must-revalidate');
         header('X-Content-Type-Options: nosniff');
 
-        // Si vous êtes en développement, ajouter CORS
+        // CORS pour développement
         if ($_SERVER['SERVER_NAME'] === 'localhost') {
-            header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN'] ?? 'http://localhost');
+            header('Access-Control-Allow-Origin: ' . ($_SERVER['HTTP_ORIGIN'] ?? 'http://localhost'));
             header('Access-Control-Allow-Credentials: true');
             header('Access-Control-Allow-Methods: POST, OPTIONS');
             header('Access-Control-Allow-Headers: Content-Type, X-CSRF-Token');
         }
 
-        // Gérer la requête OPTIONS (preflight CORS)
         if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
             exit(0);
         }
+
         try {
             // Vérifier la session
             if (!isset($_SESSION['user'])) {
@@ -6288,7 +6336,7 @@ class InterventionController
 
             // Valider CSRF
             if (!CSRF::validateRequest()) {
-                throw new Exception('Token de sécurité invalide. Veuillez rafraîchir la page et réessayer.');
+                throw new Exception('Token de sécurité invalide');
             }
 
             // Lire et décoder les données
@@ -6299,7 +6347,7 @@ class InterventionController
 
             $data = json_decode($rawInput, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new Exception('Format de données invalide : ' . json_last_error_msg());
+                throw new Exception('Format de données invalide');
             }
 
             $contactEmail = $data['contact_email'] ?? null;
@@ -6318,30 +6366,31 @@ class InterventionController
                 throw new Exception('L\'adresse email n\'est pas valide');
             }
 
-            // Récupérer l'intervention
-            $intervention = $this->interventionModel->getById($interventionId);
-            if (!$intervention) {
-                throw new Exception('Intervention introuvable');
-            }
-
-            // Récupérer le dernier BI généré
-            $sql = "SELECT pj.*, lpj.type_liaison
+            // Récupérer la pièce jointe (BI) spécifique par son ID
+            $sql = "SELECT pj.*, lpj.entite_id as intervention_id
                 FROM pieces_jointes pj
                 INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-                WHERE lpj.type_liaison = 'bi' AND lpj.entite_id = ?
-                ORDER BY pj.date_creation DESC LIMIT 1";
+                WHERE pj.id = ? AND lpj.type_liaison = 'bi'";
 
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$interventionId]);
+            $stmt->execute([$attachmentId]);
             $pj = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$pj) {
-                throw new Exception('Aucun bon d\'intervention trouvé. Veuillez d\'abord générer le BI.');
+                throw new Exception('Bon d\'intervention introuvable');
             }
 
+            $interventionId = $pj['intervention_id'];
             $pdfPath = __DIR__ . '/../../' . $pj['chemin_fichier'];
+
             if (!file_exists($pdfPath)) {
                 throw new Exception('Fichier PDF introuvable sur le serveur');
+            }
+
+            // Récupérer l'intervention pour les informations complémentaires
+            $intervention = $this->interventionModel->getById($interventionId);
+            if (!$intervention) {
+                throw new Exception('Intervention associée introuvable');
             }
 
             // Appel SignNow
@@ -6385,7 +6434,7 @@ class InterventionController
                 'Signature',
                 '',
                 $contactEmail,
-                "Demande de signature envoyée à {$contactFirstname} {$contactLastname}"
+                "Demande de signature envoyée pour le BI #{$attachmentId} à {$contactFirstname} {$contactLastname}"
             );
 
             echo json_encode([
