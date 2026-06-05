@@ -58959,3 +58959,189 @@ Quant à l’écran n°1, il est HS
 [2026-06-04 15:46:56][INFO] SIGNNOW: Invitation SMS envoyée avec succès au +33134201615 
 [2026-06-04 15:46:56][DEBUG] SIGNNOW Document: {"id":"b5d35601cebd499ea24728f5bfd05e7cb693c43a"} 
 [2026-06-04 15:46:56][DEBUG] SIGNNOW Invite: {"status":200,"data":{"status":"success"}} 
+[2026-06-05 07:46:54][DEBUG] Redirection vers login - URL sauvegardée: interventions/add (Session ID: 1eqnne63c85ejrisk0nctf30pe) 
+[2026-06-05 07:46:56][DEBUG] CSRF: Token trouvé dans la requête - Token: c80770c044005f901290... 
+[2026-06-05 07:46:56][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-05 07:46:56][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-05 07:46:56][DEBUG] Login réussi - Session ID: 1eqnne63c85ejrisk0nctf30pe 
+[2026-06-05 07:46:56][DEBUG] Login réussi - redirect_after_login: interventions/add 
+[2026-06-05 07:46:56][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-05 07:46:56][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-06-05 07:46:56][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/add 
+[2026-06-05 08:14:11][INFO] 81 
+[2026-06-05 08:14:11][INFO] 110 
+[2026-06-05 08:33:01][DEBUG] Redirection vers login - URL sauvegardée: clients/view/46 (Session ID: 5jqlk45r4fl4p5rdn1tdptmuub) 
+[2026-06-05 08:33:05][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 08:33:05][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-05 08:33:05][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-05 08:33:05][DEBUG] Login réussi - Session ID: 5jqlk45r4fl4p5rdn1tdptmuub 
+[2026-06-05 08:33:05][DEBUG] Login réussi - redirect_after_login: clients/view/46 
+[2026-06-05 08:33:05][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-05 08:33:05][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-06-05 08:33:05][DEBUG] Redirection après login vers: http://localhost/avision/public/clients/view/46 
+[2026-06-05 08:33:05][INFO] 81 
+[2026-06-05 08:33:05][INFO] 110 
+[2026-06-05 08:42:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 08:51:11][INFO] 81 
+[2026-06-05 08:51:11][INFO] 110 
+[2026-06-05 08:51:39][INFO] 81 
+[2026-06-05 08:51:39][INFO] 110 
+[2026-06-05 08:52:04][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-05 08:52:04][DEBUG] Params: [] 
+[2026-06-05 08:52:06][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-05 08:52:06][DEBUG] Params: {":client_id":46} 
+[2026-06-05 08:59:45][INFO] 81 
+[2026-06-05 08:59:45][INFO] 110 
+[2026-06-05 09:00:22][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-05 09:00:22][DEBUG] Params: {":client_id":46} 
+[2026-06-05 09:00:25][INFO] 81 
+[2026-06-05 09:00:25][INFO] 110 
+[2026-06-05 09:00:28][INFO] 81 
+[2026-06-05 09:00:28][INFO] 110 
+[2026-06-05 09:08:33][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 09:12:31][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 09:13:12][DEBUG] Redirection vers login - URL sauvegardée: interventions/generateBonPdf/330 (Session ID: kk7qh8b3n04og4rgbgkg2t9ife) 
+[2026-06-05 09:20:45][ERROR] Call to undefined method InterventionPDF::renderClient() {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":75,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4081): InterventionPDF->generateBonIntervention(Array, Array, Array, Array, Array, Array)\n#1 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4019): InterventionController->generateBonInterventionPdf(Array, Array, Array, Array, Array, Array)\n#2 C:\\xampp\\htdocs\\avision\\public\\index.php(985): InterventionController->generateBonPdf('330')\n#3 {main}","type":"Error"}
+[2026-06-05 09:36:49][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 09:38:36][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 09:41:31][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 09:41:39][INFO] 2 
+[2026-06-05 09:42:59][INFO] 29 
+[2026-06-05 09:46:03][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 09:51:34][INFO] 81 
+[2026-06-05 09:52:09][INFO] 81 
+[2026-06-05 09:52:09][INFO] 110 
+[2026-06-05 09:52:12][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-05 09:52:12][DEBUG] Params: {":client_id":46} 
+[2026-06-05 09:52:14][INFO] 81 
+[2026-06-05 09:52:14][INFO] 110 
+[2026-06-05 09:52:31][ERROR] Erreur : SQLSTATE[HY093]: Invalid parameter number {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContactModel.php","line":43}
+[2026-06-05 09:53:15][INFO] 81 
+[2026-06-05 09:53:15][INFO] 110 
+[2026-06-05 09:53:29][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 09:53:48][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 09:54:18][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 09:54:31][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 09:55:05][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 10:08:35][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 10:14:25][INFO] Creation of dynamic property InterventionPDF::$version is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":26,"errno":8192}
+[2026-06-05 10:14:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 10:14:37][INFO] Creation of dynamic property InterventionPDF::$version is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":26,"errno":8192}
+[2026-06-05 10:17:25][INFO] Creation of dynamic property InterventionPDF::$version is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":26,"errno":8192}
+[2026-06-05 10:18:48][DEBUG] Tentative d'aperçu contrat pour l'ID: 355 
+[2026-06-05 10:18:48][DEBUG] Pièce jointe trouvée: {"id":355,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779086037_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 1 tickets - ajout 1 ticket","date_creation":"2026-05-18 09:33:57","masque_client":0,"type_id":null,"created_by":1} 
+[2026-06-05 10:18:48][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779086037_avenant_coursUML_compressed__1_.pdf 
+[2026-06-05 10:18:48][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-06-05 10:18:49][DEBUG] Type MIME détecté: application/pdf 
+[2026-06-05 10:18:49][DEBUG] Tentative d'aperçu contrat pour l'ID: 354 
+[2026-06-05 10:18:49][DEBUG] Pièce jointe trouvée: {"id":354,"nom_fichier":"coursUML_compressed (1).pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/221\/1779085766_avenant_coursUML_compressed__1_.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":1248321,"commentaire":"Avenant pour ajout de 3 tickets - test","date_creation":"2026-05-18 09:29:26","masque_client":0,"type_id":null,"created_by":1} 
+[2026-06-05 10:18:49][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/221/1779085766_avenant_coursUML_compressed__1_.pdf 
+[2026-06-05 10:18:49][DEBUG] Fichier trouvé, taille: 1248321 
+[2026-06-05 10:18:49][DEBUG] Type MIME détecté: application/pdf 
+[2026-06-05 11:25:17][ERROR] Too few arguments to function InterventionPDF::renderClosure(), 2 passed in C:\xampp\htdocs\avision\public\classes\InterventionPDF.php on line 107 and exactly 3 expected {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1079,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php(107): InterventionPDF->renderClosure(Array, Array)\n#1 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4076): InterventionPDF->generateBonIntervention(Array, Array, Array, Array, Array, Array)\n#2 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4014): InterventionController->generateBonInterventionPdf(Array, Array, Array, Array, Array, Array)\n#3 C:\\xampp\\htdocs\\avision\\public\\index.php(985): InterventionController->generateBonPdf('330')\n#4 {main}","type":"ArgumentCountError"}
+[2026-06-05 11:25:50][WARNING] Undefined variable $nameTech {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1247,"errno":2}
+[2026-06-05 11:44:45][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 11:45:53][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 11:46:54][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 11:46:54][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-06-05 11:46:54][INFO] Tickets à déduire: 6.5 
+[2026-06-05 11:46:54][INFO] Contrat ID: 221 
+[2026-06-05 11:46:54][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-06-05 11:46:54][INFO] Tickets à déduire: 6.5 
+[2026-06-05 11:46:54][INFO] Solde AVANT déduction: 21 
+[2026-06-05 11:46:54][INFO] Solde APRÈS déduction: 14 
+[2026-06-05 11:46:54][INFO] Déduction de 6.5 tickets réussie 
+[2026-06-05 11:46:54][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 14 
+[2026-06-05 11:51:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 11:51:46][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-06-05 11:51:46][INFO] Tickets à recréditer: 7 
+[2026-06-05 11:51:46][INFO] Contrat ID: 221 
+[2026-06-05 11:51:46][INFO] Had tickets: oui 
+[2026-06-05 11:51:46][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-06-05 11:51:46][INFO] Solde contrat AVANT recrédit: 14 
+[2026-06-05 11:51:46][INFO] Tickets à recréditer: 7 
+[2026-06-05 11:51:46][INFO] Solde contrat APRÈS recrédit: 21 
+[2026-06-05 11:51:46][INFO] Recrédit de 7 tickets effectué pour le contrat 221 
+[2026-06-05 11:51:46][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-06-05 11:53:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d0280c55219d2eefe73f... 
+[2026-06-05 11:53:37][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-06-05 11:53:37][INFO] Tickets à déduire: 6.5 
+[2026-06-05 11:53:37][INFO] Contrat ID: 221 
+[2026-06-05 11:53:37][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-06-05 11:53:37][INFO] Tickets à déduire: 6.5 
+[2026-06-05 11:53:37][INFO] Solde AVANT déduction: 21 
+[2026-06-05 11:53:37][INFO] Solde APRÈS déduction: 14 
+[2026-06-05 11:53:37][INFO] Déduction de 6.5 tickets réussie 
+[2026-06-05 11:53:37][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 14 

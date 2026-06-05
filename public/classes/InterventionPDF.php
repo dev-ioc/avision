@@ -23,7 +23,6 @@ class InterventionPDF extends TCPDF
             'UTF-8',
             false
         );
-
         $this->SetCreator('AVision');
         $this->SetAuthor('VIDEOSONIC');
 
@@ -105,7 +104,7 @@ class InterventionPDF extends TCPDF
         $this->Ln(5);
 
         // Section 6
-        $this->renderClosure($intervention, $attachments);
+        $this->renderClosure($intervention, $technicians);
 
         $this->Ln(2);
 
@@ -180,12 +179,11 @@ class InterventionPDF extends TCPDF
         $this->Cell(
             55,
             5,
-            'Version du bon : V',
+            'Version du bon : ' . $intervention['reference'] ?? '',
             0,
             1,
             'R'
         );
-
         $this->SetTextColor(255, 255, 255);
 
         $created = !empty($intervention['created_at'])
@@ -424,7 +422,7 @@ class InterventionPDF extends TCPDF
 
         $w = 47.5;
 
-        // ligne 1
+        // ligne 1 - contrat
         $this->headCell($w, 'N° de contrat');
         $this->headCell($w, 'Type de contrat');
         $this->headCell($w, 'Date fin contrat');
@@ -439,10 +437,9 @@ class InterventionPDF extends TCPDF
         $this->bodyCell($w, $intervention['contract_type_name'] ?? '');
         $this->bodyCell($w, $endDate);
         $this->bodyCell($w, $intervention['contract_status'] ?? '');
-
         $this->Ln();
 
-        // client/contact
+        // ligne 2 - client/contact
         $this->headCell(95, 'Nom du client');
         $this->headCell(95, 'Nom du contact');
         $this->Ln();
@@ -455,10 +452,9 @@ class InterventionPDF extends TCPDF
 
         $this->bodyCell(95, $intervention['client_name'] ?? '');
         $this->bodyCell(95, $contact);
-
         $this->Ln();
 
-        // adresse
+        // ligne 3 - adresse / téléphone
         $this->headCell(95, 'Adresse');
         $this->headCell(95, 'Téléphone du contact');
         $this->Ln();
@@ -471,82 +467,41 @@ class InterventionPDF extends TCPDF
             ($intervention['site_city'] ?? '')
         );
 
-        $y = $this->GetY();
+        $this->MultiCell(95, 12, $address, 1, 'L', false, 0);
+        $this->Cell(95, 12, $intervention['contact_phone'] ?? '', 1, 1);
 
-        $this->MultiCell(
-            95,
-            12,
-            $address,
-            1,
-            'L',
-            false,
-            0
-        );
-
-        $this->Cell(
-            95,
-            12,
-            $intervention['contact_phone'] ?? '',
-            1,
-            1
-        );
-
-        // batiment
+        // ligne 4 - bâtiment / étage / salle
         $this->headCell($w, 'Bâtiment');
         $this->headCell($w, 'Étage');
         $this->headCell(95, 'Salle / Espace');
         $this->Ln();
 
         $y = $this->GetY();
+        $x = $this->GetX(); // = 10
 
-        $this->Cell(
-            $w,
-            22,
-            $intervention['building_name'] ?? '',
-            1,
-            0
-        );
+        $this->Cell($w, 22, $intervention['building_name'] ?? '', 1, 0);
+        $this->Cell($w, 22, $intervention['floor_level'] ?? '', 1, 0);
 
-        $this->Cell(
-            $w,
-            22,
-            $intervention['floor_level'] ?? '',
-            1,
-            0
-        );
-
-        // bloc salle
-        $x = $this->GetX();
-
+        // Cadre salle
+        $salleX = $this->GetX();
         $this->Cell(95, 22, '', 1, 0);
 
-        // salle
-        $this->SetXY($x + 2, $y + 2);
+        // Contenu salle
+        $this->SetXY($salleX + 2, $y + 2);
+        $this->SetFont('helvetica', '', 9);
+        $this->Cell(50, 5, $intervention['room_name'] ?? '', 0);
 
-        $this->Cell(
-            50,
-            5,
-            $intervention['room_name'] ?? '',
-            0
-        );
-
-        // ligne avision
-        $this->SetXY($x + 2, $y + 16);
-
+        // Mention AVision
+        $this->SetXY($salleX + 2, $y + 16);
         $this->SetFont('helvetica', 'I', 8);
-
         $this->Cell(40, 4, 'AVision', 0);
 
-        // QR
-        $style = [
-            'border' => 0,
-            'padding' => 0
-        ];
-
+        // QR code
+        $style = ['border' => 0, 'padding' => 0];
         $this->write2DBarcode(
             $intervention['avision_ref'] ?? 'AVision',
             'QRCODE,L',
-            $x + 58,
+            $salleX + 58,
             $y + 4,
             13,
             13,
@@ -554,10 +509,8 @@ class InterventionPDF extends TCPDF
             'N'
         );
 
-        $this->SetXY($x + 72, $y + 12);
-
+        $this->SetXY($salleX + 72, $y + 12);
         $this->SetFont('helvetica', 'I', 7);
-
         $this->Cell(18, 4, 'Fiche salle', 0);
 
         $this->Ln(22);
@@ -574,72 +527,68 @@ class InterventionPDF extends TCPDF
 
         $w = 47.5;
 
-        // =========================
-        // EN-TÊTES
-        // =========================
-
         $this->headCell($w, 'Désignation équipement');
         $this->headCell($w, 'Réf. interne AVision');
         $this->headCell($w, 'N° de série');
         $this->headCell($w, 'Marque / Modèle');
-
         $this->Ln();
 
-        // =========================
-        // DONNÉES
-        // =========================
-
         if (!empty($equipment) && is_array($equipment)) {
-
             foreach ($equipment as $eq) {
-
-                $brand = trim($eq['brand'] ?? '');
-                $model = trim($eq['model'] ?? '');
-
-                // Éviter " / " vide
+                $brand = trim($eq['marque'] ?? '');
+                $model = trim($eq['modele'] ?? '');
                 $brandModel = trim(
                     $brand .
                     (!empty($brand) && !empty($model) ? ' / ' : '') .
                     $model
                 );
 
-                $this->bodyCell(
-                    $w,
-                    $eq['designation'] ?? ''
-                );
+                $designation = $eq['designation'] ?? ($eq['modele'] ?? '');
+                $refAvision = $eq['ref_avision'] ?? ($eq['reference'] ?? '');
+                $numSerie = $eq['numero_serie'] ?? ($eq['serial_number'] ?? '');
 
-                $this->bodyCell(
-                    $w,
-                    $eq['ref_avision'] ?? ''
-                );
-
-                $this->bodyCell(
-                    $w,
-                    $eq['serial_number'] ?? ''
-                );
-
-                $this->bodyCell(
-                    $w,
-                    $brandModel
-                );
-
+                $this->bodyCellTruncated($w, $designation);
+                $this->bodyCellTruncated($w, $refAvision);
+                $this->bodyCellTruncated($w, $numSerie);
+                $this->bodyCellTruncated($w, $brandModel);
                 $this->Ln();
             }
-
         } else {
-
-            // =========================
-            // LIGNES VIDES
-            // =========================
-
             for ($i = 0; $i < 3; $i++) {
-
-                $this->Cell($w, 14, '', 1, 0);
-                $this->Cell($w, 14, '', 1, 0);
-                $this->Cell($w, 14, '', 1, 0);
-                $this->Cell($w, 14, '', 1, 1);
+                $this->Cell($w, 7, '', 1, 0);
+                $this->Cell($w, 7, '', 1, 0);
+                $this->Cell($w, 7, '', 1, 0);
+                $this->Cell($w, 7, '', 1, 1);
             }
         }
+    }
+
+    /**
+     * Cellule avec troncature automatique et réduction de police si texte long
+     */
+    private function bodyCellTruncated($w, $text = '', $h = 7)
+    {
+        // Calculer la largeur max en caractères approximatifs
+        // à 9pt helvetica, ~1 char ≈ 2mm → $w mm / 2 = nb chars max
+        $maxChars = (int) ($w / 2);
+
+        // Réduire la police si le texte est trop long
+        $fontSize = 9;
+        if (mb_strlen($text) > $maxChars) {
+            $fontSize = 7;
+            // Recalculer maxChars avec la police réduite (~1 char ≈ 1.6mm à 7pt)
+            $maxCharsSmall = (int) ($w / 1.6);
+            if (mb_strlen($text) > $maxCharsSmall) {
+                // Tronquer avec ellipse si toujours trop long
+                $text = mb_substr($text, 0, $maxCharsSmall - 3) . '...';
+            }
+        }
+
+        $this->SetFont('helvetica', '', $fontSize);
+        $this->Cell($w, $h, $text, 1, 0, 'L');
+
+        // Remettre la police par défaut
+        $this->SetFont('helvetica', '', 9);
     }
     /**
      * =========================================================
@@ -1127,7 +1076,7 @@ class InterventionPDF extends TCPDF
      * Conforme à la maquette client
      * =========================================================
      */
-    private function renderClosure($intervention, $attachments)
+    private function renderClosure($intervention, $technicians)
     {
         $this->sectionTitle('6. CLÔTURE & SIGNATURES');
 
@@ -1152,29 +1101,27 @@ class InterventionPDF extends TCPDF
         $this->Cell(50, 5, 'Retour nécessaire', 0, 1);
 
         $this->SetFont('helvetica', '', 9);
+        $needsCompletion = $intervention['needs_completion'] ?? 0;
 
         // Oui
         $this->Rect(14, $topY + 11, 4, 4);
-
+        if ($needsCompletion == 1) {
+            // Cocher la case Oui
+            $this->Line(14, $topY + 11, 18, $topY + 15);
+            $this->Line(18, $topY + 11, 14, $topY + 15);
+        }
         $this->SetXY(20, $topY + 10);
-
-        $this->Cell(
-            70,
-            5,
-            'Oui – Motif : __________________'
-        );
+        $this->Cell(70, 5, 'Oui – Motif : __________________');
 
         // Non
         $this->Rect(14, $topY + 17, 4, 4);
-
+        if ($needsCompletion == 0) {
+            // Cocher la case Non (intervention clôturée)
+            $this->Line(14, $topY + 17, 18, $topY + 21);
+            $this->Line(18, $topY + 17, 14, $topY + 21);
+        }
         $this->SetXY(20, $topY + 16);
-
-        $this->Cell(
-            80,
-            5,
-            'Non – Intervention clôturée'
-        );
-
+        $this->Cell(80, 5, 'Non – Intervention clôturée');
         // -------------------------
         // PHOTOS JOINTES
         // -------------------------
@@ -1231,76 +1178,93 @@ class InterventionPDF extends TCPDF
         // -------------------------
 
         $this->SetXY(14, $signY + 4);
-
         $this->SetFont('helvetica', 'B', 9);
-
         $this->SetTextColor(42, 74, 92);
-
         $this->Cell(60, 5, 'Signature technicien');
 
-        // Nom
-        $this->SetXY(14, $signY + 11);
+        // Récupération des noms des techniciens
+        $intervenants = '';
 
+        if (!empty($technicians)) {
+            $intervenants = implode(
+                ', ',
+                array_column($technicians, 'first_name')
+            );
+        }
         $this->SetFont('helvetica', '', 9);
-
         $this->SetTextColor(0, 0, 0);
 
-        $this->Cell(58, 5, 'Nom : ____________________');
+        // Nom du technicien (ligne 1)
+        $this->SetXY(14, $signY + 12);
+        $this->SetFont('helvetica', '', 9);
+        $this->SetTextColor(0, 0, 0);
+        $this->Cell(10, 5, "Nom : ", 0, 0, 'L');
+        $this->SetFont('helvetica', 'I', 8);
+        $this->Cell(60, 5, $intervenants, 'B', 0, 'L');
 
-        $this->Cell(
-            28,
-            5,
-            'Date :'
-        );
+        // Date (ligne 2, en dessous du nom)
+        $this->SetXY(14, $signY + 19);
+        $this->SetFont('helvetica', '', 9);
+        $this->Cell(10, 5, "Date : ", 0, 0, 'L');
 
-        // Date ligne
-        $this->SetXY(14, $signY + 17);
+        // Date ligne soulignée
+        $this->SetFont('helvetica', 'I', 7);
+        $this->SetDrawColor(0, 0, 0);
+        $day = date('d');
+        $month = date('m');
+        $year = date('Y');
+        $slash = '/';
 
-        $this->Cell(
-            45,
-            5,
-            '____ /____ /______'
-        );
-
-        // -------------------------
+        $this->Cell(4, 5, $day, 'B', 0, 'L');
+        $this->Cell(2, 5, $slash, 0, 0, 'L');
+        $this->Cell(4, 5, $month, 'B', 0, 'L');
+        $this->Cell(2, 5, $slash, 0, 0, 'L');
+        $this->Cell(6, 5, $year, 'B', 0, 'L');
         // SIGNATURE CLIENT
         // -------------------------
 
         $this->SetXY(109, $signY + 4);
-
         $this->SetFont('helvetica', 'B', 9);
-
         $this->SetTextColor(42, 74, 92);
-
         $this->Cell(70, 5, 'Bon pour accord client');
 
-        // Nom
-        $this->SetXY(109, $signY + 11);
-
+        // Nom du client (ligne 1)
+        $this->SetXY(109, $signY + 12);
         $this->SetFont('helvetica', '', 9);
-
         $this->SetTextColor(0, 0, 0);
+        $this->Cell(10, 5, "Nom : ", 0, 0, 'L');
+        $this->SetFont('helvetica', 'I', 8);
+        $clientName = $intervention['client_name'] ?? '____________________';
+        if (empty($clientName) || $clientName == '') {
+            $clientName = '____________________';
+        }
+        $this->Cell(60, 5, $clientName, 'B', 0, 'L');
 
-        $this->Cell(
-            60,
-            5,
-            'Nom : ____________________'
-        );
+        // Date (ligne 2, en dessous du nom)
+        $this->SetXY(109, $signY + 19);
+        $this->SetFont('helvetica', '', 9);
+        $this->Cell(10, 5, "Date : ", 0, 0, 'L');
 
-        $this->Cell(
-            25,
-            5,
-            'Date :'
-        );
+        // Date ligne soulignée
+        $this->SetFont('helvetica', 'I', 7);
+        $this->SetDrawColor(0, 0, 0);
 
-        // Date
-        $this->SetXY(109, $signY + 17);
+        $this->Cell(4, 5, $day, 'B', 0, 'L');
+        $this->Cell(2, 5, $slash, 0, 0, 'L');
+        $this->Cell(4, 5, $month, 'B', 0, 'L');
+        $this->Cell(2, 5, $slash, 0, 0, 'L');
+        $this->Cell(6, 5, $year, 'B', 0, 'L');
 
-        $this->Cell(
-            45,
-            5,
-            '____ /____ /______'
-        );
+        // Mention vérification
+        $this->SetXY(111, $signY + 31);
+        $this->SetFont('helvetica', 'I', 8);
+        $this->SetTextColor(0, 0, 0);
+        $this->Cell(70, 4, '☐ Sous réserve de vérification');
+
+        // Mention légale
+        $this->SetXY(111, $signY + 36);
+        $this->SetTextColor(120, 120, 120);
+        $this->Cell(80, 4, 'La signature vaut acceptation des travaux réalisés.');
 
         // Mention vérification
         $this->SetXY(111, $signY + 31);
@@ -1387,13 +1351,34 @@ class InterventionPDF extends TCPDF
 
         $this->SetXY(111, $bottomY + 10);
 
-        $this->Cell(
-            80,
-            4,
-            'Généré le : ___/___/_____  à ___h___  –  Version V___'
-        );
+        // Couleur texte noire
+        $this->SetTextColor(0, 0, 0);
 
-        // Position finale
+        $heure = date('H');
+        $minute = date('i');
+        $version = '1.0';
+
+        // "Généré le :" sans soulignement
+        $this->Cell(22, 5, 'Généré le :', 0, 0, 'L');
+
+        // Date soulignée (format JJ/MM/AAAA)
+        $this->Cell(4, 1, $day, 'B', 0, 'L');
+        $this->Cell(1.5, 1, $slash);
+        $this->Cell(4, 1, $month, 'B', 0, 'L');
+        $this->Cell(1.5, 1, $slash);
+        $this->Cell(6, 1, $year, 'B', 0, 'L');
+        // "à" sans soulignement
+        $this->Cell(4, 1, ' à ', 0, 0, 'L');
+
+        // Heure soulignée (HH)
+        $this->Cell(6, 1, $heure . " h", 'B', 0, 'L');
+        // Minute soulignée (mm)
+        $this->Cell(6, 1, $minute . "'", 'B', 0, 'L');
+        // " – Version V" sans soulignement
+        $this->Cell(15, 5, ' – Version V', 0, 0, 'L');
+
+        // Version soulignée
+        $this->Cell(10, 1, $version, 'B', 0, 'L');
         $this->SetY($bottomY + 28);
     }
 

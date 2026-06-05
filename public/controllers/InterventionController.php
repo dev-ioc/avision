@@ -22,7 +22,7 @@ class InterventionController
     private $contactModel;
     private $durationModel;
     private $mailService;
-    private $materielModel;
+    private $clientController;
 
     // Constantes pour la configuration du PDF
     const PDF_PAGE_ORIENTATION = 'P'; // P = Portrait, L = Landscape
@@ -59,7 +59,7 @@ class InterventionController
         require_once __DIR__ . '/../models/DurationModel.php';
         require_once __DIR__ . '/../classes/MailService.php';
         require_once __DIR__ . '/../models/BuildingModel.php';
-        require_once __DIR__ . '/../models/MaterielModel.php';
+        require_once __DIR__ . '/../controllers/ClientController.php';
 
         $this->interventionModel = new InterventionModel($db);
         $this->clientModel = new ClientModel($db);
@@ -71,7 +71,7 @@ class InterventionController
         $this->durationModel = new DurationModel($db);
         $this->mailService = new MailService($db);
         $this->buildingModel = new BuildingModel($db);
-        $this->materielModel = new MaterielModel($db);
+        $this->clientController = new ClientController();
 
         // Charger le fichier d'autoload de TCPDF
         require_once __DIR__ . '/../vendor/TCPDF-6.6.2/tcpdf.php';
@@ -3906,6 +3906,7 @@ class InterventionController
                     $intervention['contact_last_name'] = $contact['last_name'] ?? '';
                     $intervention['contact_phone'] = $contact['phone1'] ?? '';
                     $intervention['contact_email'] = $contact['email'] ?? '';
+
                 }
             }
 
@@ -4003,19 +4004,12 @@ class InterventionController
             // 11. Récupérer les techniciens assignés
             $technicians = $this->getInterventionTechnicians($interventionId);
 
-            // 12. Récupérer les équipements (à implémenter selon votre structure)
-            $equipment = [];
+            $materielClient = [];
+            $materielClient = $this->clientController->getMaterielByClientId($intervention['client_id']);
 
-            // if (!empty($intervention['client_id'])) {
-            //     $equipment = $this->materielModel->getByClientId(
-            //         $intervention['client_id']
-            //     );
-            // }
+            // 13. Récupérer les pièces remplacées 
+            $replacedParts = [];
 
-            // 13. Récupérer les pièces remplacées (à implémenter selon votre structure)
-            $replacedParts = []; // À remplir avec vos données
-
-            // Générer le PDF
             // Générer le PDF
             try {
                 $pdfPath = $this->generateBonInterventionPdf(
@@ -4023,58 +4017,9 @@ class InterventionController
                     $selectedComments,
                     $selectedAttachments,
                     $technicians,
-                    $equipment,
+                    $materielClient,
                     $replacedParts
                 );
-                // // ======================================
-                // // ENVOI À YOUSIGN
-                // // ======================================
-
-                // $clientEmail =
-                //     $intervention['contact_client'];
-
-                // $clientFirstname =
-                //     $intervention['contact_first_name'];
-
-                // $clientLastname =
-                //     $intervention['contact_last_name'];
-
-                // $signatureService =
-                //     new SignatureService();
-
-                // $signatureResponse =
-                //     $signatureService->createSignatureRequest(
-                //         $pdfPath,
-                //         $clientEmail,
-                //         $clientFirstname,
-                //         $clientLastname
-                //     );
-                // // ======================================
-                // // SAUVEGARDE BDD
-                // // ======================================
-
-                // if (!empty($signatureResponse['document_id'])) {
-
-                //     $sql = "
-                //             INSERT INTO intervention_signatures (
-                //                 intervention_id,
-                //                 signnow_document_id,
-                //                 status
-                //             )
-                //             VALUES (
-                //                 :intervention_id,
-                //                 :document_id,
-                //                 'pending'
-                //             )
-                //         ";
-
-                //     $stmt = $this->db->prepare($sql);
-
-                //     $stmt->execute([
-                //         ':intervention_id' => $intervention['id'],
-                //         ':document_id' => $signatureResponse['document_id']
-                //     ]);
-                // }
             } catch (Exception $e) {
                 custom_log("Erreur lors de la génération du PDF: " . $e->getMessage(), 'ERROR');
                 $_SESSION['error'] = 'Erreur lors de la génération du PDF: ' . $e->getMessage();

@@ -171,7 +171,7 @@ class ClientController
     /**
      * Récupère la liste du matériel pour un client
      */
-    private function getMaterielByClientId($clientId)
+    public function getMaterielByClientId($clientId)
     {
         $query = "SELECT 
                 m.*,
