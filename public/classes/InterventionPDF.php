@@ -51,7 +51,7 @@ class InterventionPDF extends TCPDF
     public function generateBonIntervention(
         $intervention,
         $comments = [],
-        $attachments = [],
+        $selectedAttachments = [],
         $technicians = [],
         $equipment = [],
         $replacedParts = []
@@ -99,12 +99,12 @@ class InterventionPDF extends TCPDF
         $this->Ln(15);
 
         // Tableau prêt matériel séparé avec bordures complètes
-        $this->renderLoanEquipment();
+        $this->renderLoanEquipment($equipment);
 
         $this->Ln(5);
 
         // Section 6
-        $this->renderClosure($intervention, $technicians);
+        $this->renderClosure($intervention, $technicians, $selectedAttachments);
 
         $this->Ln(2);
 
@@ -132,80 +132,80 @@ class InterventionPDF extends TCPDF
 
         // Titre
         $this->SetTextColor(255, 255, 255);
-
         $this->SetXY(14, 14);
-
         $this->SetFont('helvetica', 'B', 20);
-
         $this->Cell(90, 8, "BON D'INTERVENTION");
 
         // Sous titre
         $this->SetXY(14, 23);
-
         $this->SetFont('helvetica', 'I', 10);
-
         $this->SetTextColor(255, 204, 0);
+        $this->Cell(90, 5, 'Généré par AVision  •  VIDEOSONIC');
 
-        $this->Cell(
-            90,
-            5,
-            'Généré par AVision  •  VIDEOSONIC'
-        );
+        // =====================================================
+        // BLOC DROITE AVEC SOULIGNEMENTS
+        // =====================================================
 
-        // Bloc droite
         $this->SetTextColor(255, 255, 255);
 
-        $this->SetXY(135, 14);
-
-        $this->SetFont('helvetica', '', 10);
-
+        // N° Ticket
         $ticket = $intervention['reference'] ?? '';
-
-        $this->Cell(
-            55,
-            5,
-            'N° Ticket : ' . $ticket,
-            0,
-            1,
-            'R'
-        );
-
-        $this->SetX(135);
-
-        $this->SetFont('helvetica', 'B', 11);
-
-        $this->SetTextColor(255, 204, 0);
-
-        $this->Cell(
-            55,
-            5,
-            'Version du bon : ' . $intervention['reference'] ?? '',
-            0,
-            1,
-            'R'
-        );
-        $this->SetTextColor(255, 255, 255);
-
-        $created = !empty($intervention['created_at'])
-            ? date('d/m/Y', strtotime($intervention['created_at']))
-            : '__/__/____';
-
-        $this->SetX(135);
-
+        $this->SetXY(135, 12);
         $this->SetFont('helvetica', '', 10);
+        $this->Cell(15, 5, 'N° Ticket :', 0, 0, 'L');
+        $this->SetX(135 + 25);
+        $this->SetFont('helvetica', '', 10);
+        $this->Cell(25, 5, $ticket, 'B', 1, 'R');
 
-        $this->Cell(
-            55,
-            5,
-            'Date de création : ' . $created,
-            0,
-            1,
-            'R'
-        );
+        // Version du bon
+        $bonVersion = '#VS' . ($intervention['id'] ?? '0000') . '-' . date('ymd');
+        $this->SetX(135);
+        $this->SetFont('helvetica', 'B', 11);
+        $this->SetTextColor(255, 204, 0);
+        $this->Cell(40, 5, 'Version du bon :', 0, 0, 'L');
+        $this->SetX(135 + 33);
+        $this->SetFont('helvetica', 'B', 11);
+        $this->Cell(30, 5, $bonVersion, 'B', 1, 'R');
+
+        // Date de création
+        $this->SetTextColor(255, 255, 255);
+        $this->SetX(135);
+        $this->SetFont('helvetica', '', 9);
+        $this->Cell(25, 5, 'Date de création :', 0, 0, 'L');
+
+        // Position pour la date
+        $this->SetX(135 + 28);
+        $this->SetFont('helvetica', 'I', 7);
+        $this->SetDrawColor(255, 255, 255);  // Soulignement BLANC uniquement pour cette date
+
+        // Extraire le jour, mois et année
+        if (!empty($intervention['created_at'])) {
+            $dateObj = new DateTime($intervention['created_at']);
+            $day = $dateObj->format('d');
+            $month = $dateObj->format('m');
+            $year = $dateObj->format('Y');
+        } else {
+            $day = '__';
+            $month = '__';
+            $year = '____';
+        }
+
+        $slash = '/';
+
+        // Afficher la date avec soulignements blancs
+        $this->Cell(5, 5, $day, 'B', 0, 'L');
+        $this->Cell(2, 5, $slash, 0, 0, 'L');
+        $this->Cell(5, 5, $month, 'B', 0, 'L');
+        $this->Cell(2, 5, $slash, 0, 0, 'L');
+        $this->Cell(8, 5, $year, 'B', 0, 'L');
+
+        // Restaurer la couleur de bordure par défaut (NOIRE) pour les tableaux
+        $this->SetDrawColor($this->border[0], $this->border[1], $this->border[2]);
+
+        $this->Ln();
 
         $this->SetY(37);
     }
-
     /**
      * =========================================================
      * TITRE SECTION
@@ -841,53 +841,53 @@ class InterventionPDF extends TCPDF
         // TITRE SECTION
         // =====================================================
 
-        $this->sectionTitle(
-            '5. PIÈCES REMPLACÉES & MATÉRIEL PRÊTÉ'
-        );
+        $this->sectionTitle('5. PIÈCES REMPLACÉES & MATÉRIEL PRÊTÉ');
 
         // =====================================================
         // TABLEAU PIÈCES REMPLACÉES
         // =====================================================
 
-        $this->headCell(95, 'Désignation pièce');
-        $this->headCell(47.5, 'Référence');
-        $this->headCell(47.5, 'Qté');
+        // Définir les largeurs des colonnes
+        $w1 = 60;
+        $w2 = 40;
+        $w3 = 40;
+        $w4 = 30;
+        $w5 = 20;
+
+        $this->headCell($w1, 'Désignation / Modèle');
+        $this->headCell($w2, 'Version précédente');
+        $this->headCell($w3, 'Version installée');
+        $this->headCell($w4, 'N° série');
+        $this->headCell($w5, 'Qté');
 
         $this->Ln();
 
-        if (!empty($replacedParts)) {
-
+        if (!empty($replacedParts) && is_array($replacedParts)) {
             foreach ($replacedParts as $part) {
+                $designation = $part['designation'] ?? '-';
 
-                $this->bodyCell(
-                    95,
-                    $part['designation'] ?? '',
-                    12
-                );
+                $oldVersion = $part['old_version'] ?? '-';
 
-                $this->bodyCell(
-                    47.5,
-                    $part['reference'] ?? '',
-                    12
-                );
+                $newVersion = $part['new_version'] ?? '-';
 
-                $this->bodyCell(
-                    47.5,
-                    $part['quantity'] ?? '',
-                    12
-                );
+                $serialNumber = $part['serial_number'] ?? '-';
+                $quantity = $part['quantity'] ?? 1;
 
+                $this->bodyCell($w1, $designation, 12);
+                $this->bodyCell($w2, $oldVersion, 12);
+                $this->bodyCell($w3, $newVersion, 12);
+                $this->bodyCell($w4, $serialNumber, 12);
+                $this->bodyCell($w5, $quantity, 12);
                 $this->Ln();
             }
-
         } else {
-
-            // Deux lignes vides comme la maquette
-            for ($i = 0; $i < 2; $i++) {
-
-                $this->Cell(95, 12, '', 1, 0);
-                $this->Cell(47.5, 12, '', 1, 0);
-                $this->Cell(47.5, 12, '', 1, 1);
+            // Lignes vides
+            for ($i = 0; $i < 3; $i++) {
+                $this->Cell($w1, 12, '', 1, 0);
+                $this->Cell($w2, 12, '', 1, 0);
+                $this->Cell($w3, 12, '', 1, 0);
+                $this->Cell($w4, 12, '', 1, 0);
+                $this->Cell($w5, 12, '', 1, 1);
             }
         }
     }
@@ -897,7 +897,7 @@ class InterventionPDF extends TCPDF
      * TABLEAU INTERMÉDIAIRE + PRÊT DE MATÉRIEL
      * =========================================================
      */
-    private function renderLoanEquipment()
+    private function renderLoanEquipment($equipment)
     {
         // Collé juste sous le header
         $startY = 36;
@@ -1076,8 +1076,9 @@ class InterventionPDF extends TCPDF
      * Conforme à la maquette client
      * =========================================================
      */
-    private function renderClosure($intervention, $technicians)
+    private function renderClosure($intervention, $technicians, $selectedAttachments)
     {
+
         $this->sectionTitle('6. CLÔTURE & SIGNATURES');
 
         // =====================================================
@@ -1133,27 +1134,41 @@ class InterventionPDF extends TCPDF
 
         $this->SetFont('helvetica', '', 9);
 
-        // Oui
+        // Compter le nombre de photos jointes
+        $photosCount = count($selectedAttachments);
+        $hasPhotos = ($photosCount > 0);
+
+        // Case Oui
         $this->Rect(109, $topY + 11, 4, 4);
+        if ($hasPhotos) {
+            // Cocher la case Oui
+            $this->Line(109, $topY + 11, 113, $topY + 15);
+            $this->Line(113, $topY + 11, 109, $topY + 15);
+        }
 
         $this->SetXY(115, $topY + 10);
+        $this->Cell(17, 5, 'Oui – Nb : ', 0, 0);
 
-        $this->Cell(
-            45,
-            5,
-            'Oui – Nb : _____'
-        );
+        // Afficher le nombre avec soulignement
+        if ($hasPhotos) {
+            $this->SetDrawColor(0, 0, 0);
+            $this->Cell(5, 3, $photosCount, 'B', 0, 'L');
+        } else {
+            $this->SetDrawColor(0, 0, 0);
+            $this->SetFont('helvetica', 'I', 7);
+            $this->Cell(10, 5, '', 'B', 0, 'L');
+        }
 
-        // Non
-        $this->Rect(162, $topY + 11, 4, 4);
+        // Case Non
+        $this->Rect(153, $topY + 11, 4, 4);
+        if (!$hasPhotos) {
+            // Cocher la case Non
+            $this->Line(153, $topY + 11, 157, $topY + 15);
+            $this->Line(157, $topY + 11, 153, $topY + 15);
+        }
 
-        $this->SetXY(168, $topY + 10);
-
-        $this->Cell(
-            20,
-            5,
-            'Non'
-        );
+        $this->SetXY(145, $topY + 10);
+        $this->Cell(20, 5, 'Non', 0, 0);
 
         // =====================================================
         // BLOC SIGNATURES
@@ -1210,6 +1225,7 @@ class InterventionPDF extends TCPDF
         // Date ligne soulignée
         $this->SetFont('helvetica', 'I', 7);
         $this->SetDrawColor(0, 0, 0);
+
         $day = date('d');
         $month = date('m');
         $year = date('Y');
@@ -1220,6 +1236,9 @@ class InterventionPDF extends TCPDF
         $this->Cell(4, 5, $month, 'B', 0, 'L');
         $this->Cell(2, 5, $slash, 0, 0, 'L');
         $this->Cell(6, 5, $year, 'B', 0, 'L');
+
+        // Restaurer la couleur de bordure par défaut (NOIRE)
+        $this->SetDrawColor($this->border[0], $this->border[1], $this->border[2]);
         // SIGNATURE CLIENT
         // -------------------------
 

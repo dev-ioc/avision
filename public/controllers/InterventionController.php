@@ -4000,7 +4000,7 @@ class InterventionController
 
             // 10. Récupérer les pièces jointes sélectionnées
             $selectedAttachments = $this->getAttachmentsForBon($interventionId);
-
+            custom_log("Pièces jointes sélectionnées : " . print_r($selectedAttachments, true));
             // 11. Récupérer les techniciens assignés
             $technicians = $this->getInterventionTechnicians($interventionId);
 
@@ -4008,7 +4008,8 @@ class InterventionController
             $materielClient = $this->clientController->getMaterielByClientId($intervention['client_id']);
 
             // 13. Récupérer les pièces remplacées 
-            $replacedParts = [];
+            $materielClient = $this->clientController->getMaterielByClientId($intervention['client_id']);
+            $replacedParts = $this->getReplacedPartsFromMaterials($materielClient);
 
             // Générer le PDF
             try {
@@ -4045,6 +4046,35 @@ class InterventionController
             header('Location: ' . BASE_URL . 'interventions/generateBon/' . $interventionId);
             exit;
         }
+    }
+    /**
+     * Récupère les pièces remplacées en filtrant les matériels avec mise à jour de version
+     */
+    private function getReplacedPartsFromMaterials($materials)
+    {
+        $replacedParts = [];
+
+        foreach ($materials as $material) {
+            // Si version_firmware différent de ancien_firmware et non vide
+            if (
+                !empty($material['version_firmware']) &&
+                !empty($material['ancien_firmware']) &&
+                $material['version_firmware'] != $material['ancien_firmware']
+            ) {
+
+                $replacedParts[] = [
+                    'designation' => $material['modele'] ?? '',
+                    'reference' => $material['reference'] ?? '',
+                    'quantity' => 1,
+                    'old_version' => $material['ancien_firmware'],
+                    'new_version' => $material['version_firmware'],
+                    'serial_number' => $material['numero_serie'] ?? '',
+                    'materiel_id' => $material['id']
+                ];
+            }
+        }
+
+        return $replacedParts;
     }
     /**
      * Génère le bon d'intervention PDF avec les éléments sélectionnés
@@ -4109,22 +4139,6 @@ class InterventionController
 
         return $filePath;
     }
-    // /**
-    //  * Récupère les commentaires sélectionnés pour le bon d'intervention
-    //  */
-    // private function getCommentsForBon($interventionId)
-    // {
-    //     $sql = "SELECT c.*, 
-    //             CONCAT(u.first_name, ' ', u.last_name) as created_by_name
-    //             FROM intervention_comments c
-    //             LEFT JOIN users u ON c.created_by = u.id
-    //             WHERE c.intervention_id = ? AND c.pour_bon_intervention = 1
-    //             ORDER BY c.is_solution DESC, c.created_at ASC";
-
-    //     $stmt = $this->db->prepare($sql);
-    //     $stmt->execute([$interventionId]);
-    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // }
 
     /**
      * Récupère les pièces jointes sélectionnées pour le bon d'intervention
@@ -4132,25 +4146,25 @@ class InterventionController
     private function getAttachmentsForBon($interventionId)
     {
         $query = "
-            SELECT 
-                pj.*,
-                st.setting_value as type_nom,
-                CONCAT(u.first_name, ' ', u.last_name) as created_by_name,
-                lpj.type_liaison,
-                lpj.pour_bon_intervention
-            FROM pieces_jointes pj
-            LEFT JOIN settings st ON pj.type_id = st.id
-            LEFT JOIN users u ON pj.created_by = u.id
-            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-            WHERE (lpj.type_liaison = 'intervention' OR lpj.type_liaison = 'bi')
-            AND lpj.entite_id = :intervention_id
-            AND lpj.pour_bon_intervention = 1
-            ORDER BY pj.date_creation ASC
-        ";
+        SELECT 
+            pj.*,
+            CONCAT(u.first_name, ' ', u.last_name) as created_by_name,
+            lpj.type_liaison
+        FROM pieces_jointes pj
+        INNER JOIN liaisons_pieces_jointes lpj 
+            ON pj.id = lpj.piece_jointe_id
+        LEFT JOIN settings st ON pj.type_id = st.id
+        LEFT JOIN users u ON pj.created_by = u.id
+        WHERE lpj.entite_id = :intervention_id
+          AND lpj.type_liaison = 'intervention'
+          AND pj.type_fichier != 'pdf' 
+        ORDER BY pj.date_creation ASC
+    ";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':intervention_id', $interventionId, PDO::PARAM_INT);
         $stmt->execute();
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function generateBon($interventionId)
