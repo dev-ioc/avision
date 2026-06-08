@@ -3,6 +3,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const table = document.querySelector("#interventionsTable");
   if (!table) return;
+  table.querySelectorAll("tbody tr td[colspan]").forEach((td) => {
+    td.closest("tr").remove();
+  });
 
   // === NETTOYAGE COMPLET ===
   // 1. Supprimer toutes les configurations localStorage
