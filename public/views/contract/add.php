@@ -96,13 +96,13 @@ if (isset($client) && $client) {
         </div>
         <div class="card-body py-2">
             <form id="contractForm" action="<?php echo BASE_URL; ?>contracts/create<?php echo isset($_GET['return_to']) ? '?return_to=' . $_GET['return_to'] : ''; ?>" method="POST">
-                <?= csrf_field() ?>
+             
                 <?php if ($client): ?>
                 <input type="hidden" name="client_id" value="<?php echo $client['id']; ?>">
                     <p class="mb-3"><strong>Client :</strong> <?php echo h($client['name']); ?></p>
                 <?php else: ?>
                     <div class="mb-3">
-                        <label for="client_id_select" class="form-label">Client <span class="text-danger">*</span></label>
+            <?= csrf_field() ?>               <label for="client_id_select" class="form-label">Client <span class="text-danger">*</span></label>
                         <select class="form-control bg-body text-body" id="client_id_select" name="client_id" required>
                             <option value="">Sélectionnez un client</option>
                             <?php if ($allClientsForDropdown): ?>

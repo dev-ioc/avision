@@ -1273,6 +1273,7 @@ class ContractModel extends BaseModel
 
             // 2. Si c'est un contrat à ticket, enregistrer les tickets initiaux
             if (isset($data['tickets_number']) && isContractTicketById($data['id'])) {
+                custom_log($data['id']);
                 $ticketsNumber = $data['tickets_number'];
                 $ticketsRemaining = $data['tickets_remaining'] ?? $data['tickets_number'];
 

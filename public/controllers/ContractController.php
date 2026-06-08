@@ -288,7 +288,8 @@ class ContractController
                 $nbInterPrev = $contractType['nb_inter_prev'] ?? 0;
 
                 // Vérifier que c'est un contrat non-ticket (tickets initiaux = 0)
-                if ($nbInterPrev > 0 && $ticketsNumber == 0) {
+                // $nbInterPrev > 0 && 
+                if ($ticketsNumber == 0) {
                     // Récupérer les salles du contrat
                     $contractRooms = $this->contractModel->getContractRooms($result);
 
@@ -332,8 +333,10 @@ class ContractController
                         if ($returnTo === 'view') {
                             header('Location: ' . BASE_URL . 'clients/view/' . $clientId . '?active_tab=contracts-tab');
                         } else {
+                            custom_log('test de retour ');
                             header('Location: ' . BASE_URL . 'contracts');
                         }
+
                         exit;
                     }
                 } else {
@@ -484,9 +487,9 @@ class ContractController
             foreach ($scheduledInterventions as $index => $intervention) {
                 // Récupérer les données du formulaire pour cette intervention
                 $title = $_POST['title'][$index] ?? $intervention['title'];
-                $date = $_POST['date'][$index] ?? $intervention['date'];
-                $heure = $_POST['heure'][$index] ?? $intervention['heure'];
-                $technicianId = $_POST['technician_id'][$index] ?? null;
+                // $date = $_POST['date'][$index] ?? $intervention['date'];
+                // $heure = $_POST['heure'][$index] ?? $intervention['heure'];
+                // $technicianId = $_POST['technician_id'][$index] ?? null;
                 $typeId = $_POST['type_id'][$index] ?? 2; // Maintenance par défaut
                 $description = $_POST['description'][$index] ?? $intervention['description'];
 
@@ -501,7 +504,7 @@ class ContractController
 
                 // Si on a une room_id, récupérer le site_id correspondant
                 if ($roomId) {
-                    $roomQuery = "SELECT site_id FROM rooms WHERE id = :room_id";
+                    $roomQuery = "SELECT building_id FROM rooms WHERE id = :room_id";
                     $roomStmt = $this->db->prepare($roomQuery);
                     $roomStmt->execute([':room_id' => $roomId]);
                     $roomData = $roomStmt->fetch(PDO::FETCH_ASSOC);
@@ -515,14 +518,14 @@ class ContractController
                     'contract_id' => $contractId,
                     'site_id' => $siteId,
                     'room_id' => $roomId,
-                    'technician_id' => !empty($technicianId) ? $technicianId : null,
+                    // 'technician_id' => !empty($technicianId) ? $technicianId : null,
                     'type_id' => $typeId,
                     'status_id' => 1, // Nouveau
-                    'priority_id' => 5, // Préventif
+                    'is_preventive' => 1, // Préventif
                     'duration' => 2.0, // Durée par défaut
                     'description' => $description,
-                    'date_planif' => $date,
-                    'heure_planif' => $heure
+                    // 'date_planif' => $date,
+                    // 'heure_planif' => $heure
                 ];
 
                 custom_log("Tentative de création d'intervention: " . json_encode($interventionData), 'DEBUG');
