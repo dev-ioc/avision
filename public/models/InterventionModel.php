@@ -458,12 +458,12 @@ class InterventionModel extends BaseModel
 
             $sql = "INSERT INTO interventions (
                 reference, title, client_id, site_id, building_id, room_id, 
-                status_id, priority_id, type_id, 
+                status_id, type_id, 
                 description, demande_par, ref_client, contact_client, 
                 contract_id, is_preventive, created_at
             ) VALUES (
                 :reference, :title, :client_id, :site_id, :building_id, :room_id, 
-                :status_id, :priority_id, :type_id, 
+                :status_id, :type_id, 
                 :description, :demande_par, :ref_client, :contact_client, 
                 :contract_id, :is_preventive, NOW()
             )";

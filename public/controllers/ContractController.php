@@ -289,6 +289,7 @@ class ContractController
 
                 // Vérifier que c'est un contrat non-ticket (tickets initiaux = 0)
                 // $nbInterPrev > 0 && 
+                custom_log($nbInterPrev);
                 if ($ticketsNumber == 0) {
                     // Récupérer les salles du contrat
                     $contractRooms = $this->contractModel->getContractRooms($result);
@@ -513,19 +514,20 @@ class ContractController
 
                 // Créer l'intervention
                 $interventionData = [
+                    'reference' => $reference ?? null,
                     'title' => $title,
                     'client_id' => $clientId,
-                    'contract_id' => $contractId,
                     'site_id' => $siteId,
+                    'building_id' => null,
                     'room_id' => $roomId,
-                    // 'technician_id' => !empty($technicianId) ? $technicianId : null,
+                    'status_id' => 1,
                     'type_id' => $typeId,
-                    'status_id' => 1, // Nouveau
-                    'is_preventive' => 1, // Préventif
-                    'duration' => 2.0, // Durée par défaut
                     'description' => $description,
-                    // 'date_planif' => $date,
-                    // 'heure_planif' => $heure
+                    'demande_par' => $_SESSION['user_id'] ?? null, // IMPORTANT
+                    'ref_client' => null,
+                    'contact_client' => null,
+                    'contract_id' => $contractId,
+                    'is_preventive' => 1
                 ];
 
                 custom_log("Tentative de création d'intervention: " . json_encode($interventionData), 'DEBUG');
