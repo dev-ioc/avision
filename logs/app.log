@@ -90489,3 +90489,13 @@ Quant à l’écran n°1, il est HS
 [2026-06-08 11:09:40][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-06-08 11:09:40][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
 [2026-06-08 11:09:40][DEBUG] Redirection après login vers: http://localhost/avision/public/dashboard 
+[2026-06-08 14:44:24][DEBUG] Redirection vers login - URL sauvegardée: interventions/preventives (Session ID: 762umtqgrqft72qap9f4fme9s4) 
+[2026-06-08 14:44:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d97e99a5c2e229aaf94... 
+[2026-06-08 14:44:27][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-08 14:44:27][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-08 14:44:27][DEBUG] Login réussi - Session ID: 762umtqgrqft72qap9f4fme9s4 
+[2026-06-08 14:44:27][DEBUG] Login réussi - redirect_after_login: interventions/preventives 
+[2026-06-08 14:44:27][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-08 14:44:27][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-06-08 14:44:27][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/preventives 
+[2026-06-08 14:45:23][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.name' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":515}

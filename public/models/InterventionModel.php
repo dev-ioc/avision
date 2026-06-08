@@ -498,16 +498,18 @@ class InterventionModel extends BaseModel
     {
         $query = "
             SELECT 
-                pj.*,
-                st.setting_value as type_nom,
-                lpj.type_liaison,
-                lpj.pour_bon_intervention
-            FROM pieces_jointes pj
-            LEFT JOIN settings st ON pj.type_id = st.id
-            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-            WHERE (lpj.type_liaison = 'intervention' OR lpj.type_liaison = 'bi')
-            AND lpj.entite_id = :intervention_id
-            ORDER BY pj.date_creation DESC
+    pj.*,
+    st.setting_value as type_nom,
+    lpj.type_liaison,
+    lpj.pour_bon_intervention,
+    u.username as created_by_name
+FROM pieces_jointes pj
+LEFT JOIN settings st ON pj.type_id = st.id
+INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+LEFT JOIN users u ON u.id = pj.created_by
+WHERE (lpj.type_liaison = 'intervention' OR lpj.type_liaison = 'bi')
+AND lpj.entite_id = :intervention_id
+ORDER BY pj.date_creation DESC
         ";
 
         $stmt = $this->db->prepare($query);
