@@ -520,12 +520,10 @@ class ContractController
                         }
 
                         $techQuery = "INSERT INTO intervention_techniciens 
-                            (intervention_id, technicien_id, start_time, end_time, 
-                             temps_passe, deplacement, commentaire, is_qualified, 
+                            (intervention_id, technicien_id,
                              created_at, updated_at)
                           VALUES 
-                            (:intervention_id, :technicien_id, :start_time, Now(),
-                             NULL, 0, NULL, 0,
+                            (:intervention_id, :technicien_id,
                              NOW(), NOW())";
 
                         $techStmt = $this->db->prepare($techQuery);
