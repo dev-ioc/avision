@@ -226,9 +226,8 @@ class ContractController
                 exit;
             }
 
-            // Récupérer les données du formulaire
             $clientId = $_POST['client_id'] ?? null;
-            $rooms = $_POST['rooms'] ?? []; // Nouveau : tableau de salles
+            $rooms = $_POST['rooms'] ?? [];
             $contractTypeId = $_POST['contract_type_id'] ?? null;
             $accessLevelId = $_POST['access_level_id'] ?? null;
             $name = $_POST['name'] ?? '';
@@ -244,13 +243,10 @@ class ContractController
             $indice = $_POST['indice'] ?? null;
             $isticketcontract = isset($_POST['isticketcontract']) ? 1 : 0;
             $status = $_POST['status'] ?? 'actif';
-
-            // Valider les données
             if (empty($clientId) || empty($contractTypeId) || empty($accessLevelId) || empty($name) || empty($startDate) || empty($endDate)) {
                 $_SESSION['error'] = "Tous les champs obligatoires doivent être remplis.";
                 $_SESSION['form_data'] = $_POST;
 
-                // Gérer le retour en cas d'erreur de validation
                 $returnTo = $_GET['return_to'] ?? 'index';
                 if ($returnTo === 'view') {
                     header('Location: ' . BASE_URL . 'contracts/add/' . $clientId . '?return_to=view');
@@ -259,8 +255,6 @@ class ContractController
                 }
                 exit;
             }
-
-            // Créer le contrat
             $result = $this->contractModel->createContract([
                 'client_id' => $clientId,
                 'rooms' => $rooms,
@@ -283,30 +277,21 @@ class ContractController
             ]);
 
             if ($result) {
-                // Récupérer les informations du type de contrat pour les interventions préventives
                 $contractType = $this->contractModel->getContractTypeById($contractTypeId);
                 $nbInterPrev = $contractType['nb_inter_prev'] ?? 0;
-
-                // Vérifier que c'est un contrat non-ticket (tickets initiaux = 0)
-                // $nbInterPrev > 0 && 
-                custom_log($nbInterPrev);
-                if ($ticketsNumber == 0) {
-                    // Récupérer les salles du contrat
+                if ($nbInterPrev > 0 && $ticketsNumber == 0) {
                     $contractRooms = $this->contractModel->getContractRooms($result);
 
                     if (!empty($contractRooms)) {
-                        // Programmer les interventions préventives pour chaque salle
                         $scheduledInterventions = [];
                         foreach ($contractRooms as $room) {
                             $roomInterventions = DateUtils::schedulePreventiveInterventions(
                                 $nbInterPrev,
                                 $startDate,
                                 $endDate,
-                                '09:00', // Heure par défaut
-                                $room // Passer les informations de la salle
+                                '09:00',
+                                $room
                             );
-
-                            // Ajouter les interventions de cette salle
                             foreach ($roomInterventions as $intervention) {
                                 $intervention['room_id'] = $room['room_id'];
                                 $intervention['site_name'] = $room['site_name'];
@@ -314,8 +299,6 @@ class ContractController
                                 $scheduledInterventions[] = $intervention;
                             }
                         }
-
-                        // Stocker les interventions programmées en session pour confirmation
                         $_SESSION['scheduled_interventions'] = $scheduledInterventions;
                         $_SESSION['contract_id'] = $result;
                         $_SESSION['client_id'] = $clientId;
@@ -328,8 +311,6 @@ class ContractController
                         exit;
                     } else {
                         $_SESSION['success'] = "Le contrat a été créé avec succès. Aucune salle associée, donc pas d'interventions préventives.";
-
-                        // Gérer le retour intelligent
                         $returnTo = $_GET['return_to'] ?? 'index';
                         if ($returnTo === 'view') {
                             header('Location: ' . BASE_URL . 'clients/view/' . $clientId . '?active_tab=contracts-tab');
@@ -468,8 +449,6 @@ class ContractController
             $contractId = $_SESSION['contract_id'];
             $clientId = $_SESSION['client_id'];
             $scheduledInterventions = $_SESSION['scheduled_interventions'];
-
-            // Récupérer les données du contrat
             $contract = $this->contractModel->getContractById($contractId);
             if (!$contract) {
                 $_SESSION['error'] = "Contrat non trouvé";
@@ -486,24 +465,15 @@ class ContractController
 
             $createdCount = 0;
             foreach ($scheduledInterventions as $index => $intervention) {
-                // Récupérer les données du formulaire pour cette intervention
                 $title = $_POST['title'][$index] ?? $intervention['title'];
-                // $date = $_POST['date'][$index] ?? $intervention['date'];
-                // $heure = $_POST['heure'][$index] ?? $intervention['heure'];
-                // $technicianId = $_POST['technician_id'][$index] ?? null;
-                $typeId = $_POST['type_id'][$index] ?? 2; // Maintenance par défaut
+                $typeId = $_POST['type_id'][$index] ?? 2;
                 $description = $_POST['description'][$index] ?? $intervention['description'];
 
-                // Ajouter le commentaire additionnel s'il existe
                 if (isset($intervention['comment']) && !empty($intervention['comment'])) {
                     $description .= "\n\n" . $intervention['comment'];
                 }
-
-                // Récupérer les informations de salle si disponibles
                 $roomId = $intervention['room_id'] ?? null;
                 $siteId = null;
-
-                // Si on a une room_id, récupérer le site_id correspondant
                 if ($roomId) {
                     $roomQuery = "SELECT building_id FROM rooms WHERE id = :room_id";
                     $roomStmt = $this->db->prepare($roomQuery);
@@ -511,8 +481,6 @@ class ContractController
                     $roomData = $roomStmt->fetch(PDO::FETCH_ASSOC);
                     $siteId = $roomData['site_id'] ?? null;
                 }
-
-                // Créer l'intervention
                 $interventionData = [
                     'reference' => $reference ?? null,
                     'title' => $title,
@@ -523,7 +491,7 @@ class ContractController
                     'status_id' => 1,
                     'type_id' => $typeId,
                     'description' => $description,
-                    'demande_par' => $_SESSION['user_id'] ?? null, // IMPORTANT
+                    'demande_par' => $_SESSION['user_id'] ?? null,
                     'ref_client' => null,
                     'contact_client' => null,
                     'contract_id' => $contractId,
@@ -539,12 +507,8 @@ class ContractController
                     custom_log("Échec de création de l'intervention (index: $index)", 'ERROR');
                 }
             }
-
-            // Sauvegarder l'ID du contrat avant de nettoyer la session
             $contractId = $_SESSION['contract_id'];
             $isExistingContract = $_SESSION['is_existing_contract'] ?? false;
-
-            // Nettoyer les données de session
             unset($_SESSION['scheduled_interventions']);
             unset($_SESSION['contract_id']);
             unset($_SESSION['client_id']);
@@ -554,8 +518,6 @@ class ContractController
             unset($_SESSION['is_existing_contract']);
 
             $_SESSION['success'] = "{$createdCount} intervention(s) préventive(s) ont été créées avec succès.";
-
-            // Rediriger vers le contrat si c'était un contrat existant
             if ($isExistingContract) {
                 header('Location: ' . BASE_URL . 'contracts/view/' . $contractId);
             } else {

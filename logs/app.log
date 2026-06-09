@@ -90669,3 +90669,16 @@ Quant à l’écran n°1, il est HS
         WHERE 1=1 AND deleted_at IS NULL
      ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
 [2026-06-09 10:55:34][DEBUG] Params: [] 
+[2026-06-09 11:04:49][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 11:05:21][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 11:05:21][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractModel.php","line":1275,"errno":2}
+[2026-06-09 11:05:27][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 11:05:40][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 11:05:40][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractModel.php","line":1275,"errno":2}
+[2026-06-09 11:05:50][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 11:05:50][DEBUG] Début création des interventions préventives pour le contrat ID: 238 
+[2026-06-09 11:05:50][DEBUG] Nombre d'interventions à créer: 2 
+[2026-06-09 11:05:50][DEBUG] Tentative de création d'intervention: {"reference":null,"title":"Intervention pr\u00e9ventive 1\/2","client_id":"46","site_id":null,"building_id":null,"room_id":181,"status_id":1,"type_id":"2","description":"Intervention pr\u00e9ventive programm\u00e9e automatiquement lors de la cr\u00e9ation du contrat","demande_par":null,"ref_client":null,"contact_client":null,"contract_id":"238","is_preventive":1} 
+[2026-06-09 11:05:50][DEBUG] Intervention créée avec succès (index: 0) 
+[2026-06-09 11:05:50][DEBUG] Tentative de création d'intervention: {"reference":null,"title":"Intervention pr\u00e9ventive 2\/2","client_id":"46","site_id":null,"building_id":null,"room_id":181,"status_id":1,"type_id":"2","description":"Intervention pr\u00e9ventive programm\u00e9e automatiquement lors de la cr\u00e9ation du contrat","demande_par":null,"ref_client":null,"contact_client":null,"contract_id":"238","is_preventive":1} 
+[2026-06-09 11:05:50][DEBUG] Intervention créée avec succès (index: 1) 
