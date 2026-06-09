@@ -1985,30 +1985,82 @@ class DocumentationController
         $this->checkAccess();
 
         try {
-            // Utiliser AttachmentService pour gérer le téléchargement
+            // Vérifier que le document existe et récupérer son chemin AVANT d'appeler le service
+            $query = "SELECT pj.*, lpj.type_liaison 
+                  FROM pieces_jointes pj 
+                  LEFT JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id 
+                  WHERE pj.id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':id' => $pieceJointeId]);
+            $pieceJointe = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$pieceJointe) {
+                $_SESSION['error'] = "Document introuvable.";
+                $this->redirectToDocumentationWithFilters();
+                exit;
+            }
+
+            // Vérifier que le fichier physique existe avant d'appeler le service
+            if (!empty($pieceJointe['chemin_fichier'])) {
+                $filePath = __DIR__ . '/../../' . $pieceJointe['chemin_fichier'];
+                $filePath = str_replace('/', DIRECTORY_SEPARATOR, $filePath);
+
+                if (!file_exists($filePath)) {
+                    custom_log("Téléchargement impossible - fichier absent: " . $filePath, 'ERROR');
+                    $_SESSION['error'] = "Le fichier « " . htmlspecialchars($pieceJointe['nom_personnalise'] ?? $pieceJointe['nom_fichier']) . " » est introuvable sur le serveur. Contactez un administrateur.";
+                    $this->redirectToDocumentationWithFilters();
+                    exit;
+                }
+            }
+
+            // Fichier présent, déléguer au service
             $attachmentService = new AttachmentService($this->db);
             $attachmentService->download($pieceJointeId, true);
 
         } catch (Exception $e) {
             custom_log("Erreur lors du téléchargement de la pièce jointe : " . $e->getMessage(), 'ERROR');
             $_SESSION['error'] = "Erreur lors du téléchargement : " . $e->getMessage();
-            header('Location: ' . BASE_URL . 'documentation');
+            $this->redirectToDocumentationWithFilters();
             exit;
         }
     }
+
     /**
-     * Aperçu d'une pièce jointe de documentation
+     * Redirige vers la page documentation en conservant les filtres de session
      */
+    private function redirectToDocumentationWithFilters()
+    {
+        $redirectUrl = BASE_URL . 'documentation';
+        $params = [];
+
+        $filters = $_SESSION['documentation_filters'] ?? [
+            'client_id' => $_GET['client_id'] ?? null,
+            'site_id' => $_GET['site_id'] ?? null,
+            'salle_id' => $_GET['salle_id'] ?? null
+        ];
+
+        if (!empty($filters['client_id']))
+            $params['client_id'] = $filters['client_id'];
+        if (!empty($filters['site_id']))
+            $params['site_id'] = $filters['site_id'];
+        if (!empty($filters['salle_id']))
+            $params['salle_id'] = $filters['salle_id'];
+
+        if (!empty($params)) {
+            $redirectUrl .= '?' . http_build_query($params);
+        }
+
+        header('Location: ' . $redirectUrl);
+    }
     public function preview($attachmentId)
     {
         $this->checkAccess();
 
         try {
-            // Récupérer les informations de la pièce jointe
             $query = "SELECT pj.*, lpj.type_liaison 
-                  FROM pieces_jointes pj 
-                  LEFT JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id 
-                  WHERE pj.id = :id";
+              FROM pieces_jointes pj 
+              LEFT JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id 
+              WHERE pj.id = :id";
             $stmt = $this->db->prepare($query);
             $stmt->execute([':id' => $attachmentId]);
             $pieceJointe = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -2017,15 +2069,11 @@ class DocumentationController
                 throw new Exception("Document non trouvé");
             }
 
-            // Vérifier les permissions
             if ($pieceJointe['masque_client'] == 1 && !isStaff() && !isAdmin()) {
                 throw new Exception("Vous n'avez pas les droits pour accéder à ce document");
             }
 
-            // Construction du chemin absolu
             $filePath = __DIR__ . '/../../' . $pieceJointe['chemin_fichier'];
-
-            // Normaliser le chemin (pour Windows)
             $filePath = str_replace('/', DIRECTORY_SEPARATOR, $filePath);
 
             if (!file_exists($filePath)) {
@@ -2033,7 +2081,6 @@ class DocumentationController
                 throw new Exception("Fichier non trouvé sur le serveur");
             }
 
-            // Déterminer le type MIME
             $extension = strtolower(pathinfo($pieceJointe['nom_fichier'], PATHINFO_EXTENSION));
             $mimeTypes = [
                 'pdf' => 'application/pdf',
@@ -2046,33 +2093,42 @@ class DocumentationController
 
             $mimeType = $mimeTypes[$extension] ?? 'application/octet-stream';
 
-            // Nettoyer les buffers
             if (ob_get_level()) {
                 ob_end_clean();
             }
 
-            // Headers pour l'aperçu
             header('Content-Type: ' . $mimeType);
             header('Content-Disposition: inline; filename="' . ($pieceJointe['nom_personnalise'] ?? $pieceJointe['nom_fichier']) . '"');
             header('Cache-Control: public, max-age=3600');
             header('Content-Length: ' . filesize($filePath));
 
-            // Lire et afficher le fichier
             readfile($filePath);
             exit;
 
         } catch (Exception $e) {
             custom_log("Erreur lors de l'aperçu: " . $e->getMessage(), 'ERROR');
 
-            // Vérifier si c'est une requête AJAX
-            if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
-                header('Content-Type: application/json');
-                echo json_encode(['error' => $e->getMessage()]);
-                exit;
-            }
-
-            $_SESSION['error'] = "Erreur lors de l'aperçu : " . $e->getMessage();
-            header('Location: ' . BASE_URL . 'documentation');
+            // ✅ Toujours répondre avec une page d'erreur inline,
+            // jamais une redirection (qui se chargerait dans l'iframe)
+            http_response_code(404);
+            header('Content-Type: text/html; charset=utf-8');
+            echo '<!DOCTYPE html><html><body style="
+            font-family: sans-serif; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0;
+            background: #f8f9fa;
+        ">
+            <div style="text-align: center; color: #6c757d;">
+                <div style="font-size: 3rem;">⚠️</div>
+                <p style="font-size: 1.1rem; margin-top: 0.5rem;">
+                    Fichier introuvable sur le serveur
+                </p>
+                <small>' . htmlspecialchars($e->getMessage()) . '</small>
+            </div>
+        </body></html>';
             exit;
         }
     }
