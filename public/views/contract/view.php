@@ -1062,6 +1062,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="<?php echo BASE_URL; ?>contracts/renew/<?php echo $contract['id']; ?>" method="post">
+                               <?= csrf_field() ?>
                 <div class="modal-header">
                     <h5 class="modal-title">
                         <i class="bi bi-arrow-repeat me-2"></i> Renouveler le contrat

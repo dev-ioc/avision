@@ -90874,3 +90874,92 @@ Quant à l’écran n°1, il est HS
 [2026-06-09 14:30:47][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
 [2026-06-09 14:31:02][ERROR] Erreur : SQLSTATE[HY093]: Invalid parameter number {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContactModel.php","line":43}
 [2026-06-09 14:35:04][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 14:56:53][DEBUG] getFileData: chemin_fichier=uploads/interventions/296/Photo_31-03-2026_09_58_48.jpg 
+[2026-06-09 14:56:53][DEBUG] getFileData: filePath résolu= 
+[2026-06-09 14:56:53][ERROR] getFileData: Fichier physique introuvable: C:\xampp\htdocs\avision\public\controllers/../../uploads/interventions/296/Photo_31-03-2026_09_58_48.jpg 
+[2026-06-09 14:57:44][DEBUG] getFileData: chemin_fichier=uploads/interventions/330/BI_#VS4626-2572_20260605_1628.pdf 
+[2026-06-09 14:57:44][DEBUG] getFileData: filePath résolu=C:\xampp\htdocs\avision\uploads\interventions\330\BI_#VS4626-2572_20260605_1628.pdf 
+[2026-06-09 15:00:50][DEBUG] getFileData: chemin_fichier=uploads/interventions/330/BI_#VS4626-2572_20260605_1629.pdf 
+[2026-06-09 15:00:50][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:00:50][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\330\BI_#VS4626-2572_20260605_1629.pdf 
+[2026-06-09 15:00:50][DEBUG] getFileData: realpath=C:\xampp\htdocs\avision\uploads\interventions\330\BI_#VS4626-2572_20260605_1629.pdf 
+[2026-06-09 15:01:33][DEBUG] getFileData: chemin_fichier=uploads/interventions/296/Photo_31-03-2026_09_47_26.jpg 
+[2026-06-09 15:01:33][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:01:33][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_47_26.jpg 
+[2026-06-09 15:01:33][DEBUG] getFileData: realpath= 
+[2026-06-09 15:01:33][ERROR] getFileData: Fichier introuvable: C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_47_26.jpg 
+[2026-06-09 15:02:45][DEBUG] getFileData: chemin_fichier=uploads/interventions/200/BI_#VS1725-1184_20260109_1428.pdf 
+[2026-06-09 15:02:45][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:02:45][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\200\BI_#VS1725-1184_20260109_1428.pdf 
+[2026-06-09 15:02:45][DEBUG] getFileData: realpath=C:\xampp\htdocs\avision\uploads\interventions\200\BI_#VS1725-1184_20260109_1428.pdf 
+[2026-06-09 15:02:51][DEBUG] getFileData: chemin_fichier=uploads/interventions/200/thumbnail_IMG_6338.jpg 
+[2026-06-09 15:02:51][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:02:51][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\200\thumbnail_IMG_6338.jpg 
+[2026-06-09 15:02:51][DEBUG] getFileData: realpath=C:\xampp\htdocs\avision\uploads\interventions\200\thumbnail_IMG_6338.jpg 
+[2026-06-09 15:03:29][DEBUG] getFileData: chemin_fichier=uploads/interventions/296/Photo_31-03-2026_09_47_26.jpg 
+[2026-06-09 15:03:29][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:03:29][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_47_26.jpg 
+[2026-06-09 15:03:29][DEBUG] getFileData: realpath= 
+[2026-06-09 15:03:29][ERROR] getFileData: Fichier introuvable: C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_47_26.jpg 
+[2026-06-09 15:03:35][DEBUG] getFileData: chemin_fichier=uploads/interventions/296/Photo_31-03-2026_09_58_53.jpg 
+[2026-06-09 15:03:35][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:03:35][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_58_53.jpg 
+[2026-06-09 15:03:35][DEBUG] getFileData: realpath= 
+[2026-06-09 15:03:35][ERROR] getFileData: Fichier introuvable: C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_58_53.jpg 
+[2026-06-09 15:03:41][DEBUG] getFileData: chemin_fichier=uploads/interventions/296/Photo_31-03-2026_09_58_58.jpg 
+[2026-06-09 15:03:41][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:03:41][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_58_58.jpg 
+[2026-06-09 15:03:41][DEBUG] getFileData: realpath= 
+[2026-06-09 15:03:41][ERROR] getFileData: Fichier introuvable: C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_58_58.jpg 
+[2026-06-09 15:03:46][DEBUG] getFileData: chemin_fichier=uploads/interventions/296/Photo_31-03-2026_10_47_23.jpg 
+[2026-06-09 15:03:46][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:03:46][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_10_47_23.jpg 
+[2026-06-09 15:03:46][DEBUG] getFileData: realpath= 
+[2026-06-09 15:03:46][ERROR] getFileData: Fichier introuvable: C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_10_47_23.jpg 
+[2026-06-09 15:04:51][DEBUG] getFileData: chemin_fichier=uploads/interventions/296/Photo_31-03-2026_09_47_26.jpg 
+[2026-06-09 15:04:51][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:04:51][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_47_26.jpg 
+[2026-06-09 15:04:51][DEBUG] getFileData: realpath= 
+[2026-06-09 15:04:51][ERROR] getFileData: Fichier introuvable: C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_47_26.jpg 
+[2026-06-09 15:07:01][DEBUG] getFileData: chemin_fichier=uploads/interventions/87/BI_#VS2225-7803_20250929_1155.pdf 
+[2026-06-09 15:07:01][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:07:01][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\87\BI_#VS2225-7803_20250929_1155.pdf 
+[2026-06-09 15:07:01][DEBUG] getFileData: realpath=C:\xampp\htdocs\avision\uploads\interventions\87\BI_#VS2225-7803_20250929_1155.pdf 
+[2026-06-09 15:07:50][DEBUG] getFileData: chemin_fichier=uploads/interventions/296/Photo_31-03-2026_09_58_58.jpg 
+[2026-06-09 15:07:50][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:07:50][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_58_58.jpg 
+[2026-06-09 15:07:50][DEBUG] getFileData: realpath= 
+[2026-06-09 15:07:50][ERROR] getFileData: Fichier introuvable: C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_58_58.jpg 
+[2026-06-09 15:07:57][DEBUG] getFileData: chemin_fichier=uploads/interventions/296/Photo_31-03-2026_10_47_26.jpg 
+[2026-06-09 15:07:57][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:07:57][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_10_47_26.jpg 
+[2026-06-09 15:07:57][DEBUG] getFileData: realpath= 
+[2026-06-09 15:07:57][ERROR] getFileData: Fichier introuvable: C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_10_47_26.jpg 
+[2026-06-09 15:08:04][DEBUG] getFileData: chemin_fichier=uploads/interventions/296/Photo_31-03-2026_09_47_26.jpg 
+[2026-06-09 15:08:04][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:08:04][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_47_26.jpg 
+[2026-06-09 15:08:04][DEBUG] getFileData: realpath= 
+[2026-06-09 15:08:04][ERROR] getFileData: Fichier introuvable: C:\xampp\htdocs\avision\uploads\interventions\296\Photo_31-03-2026_09_47_26.jpg 
+[2026-06-09 15:08:13][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 15:08:13][DEBUG] AttachmentService::normalizeFilesArray - Tableau de fichiers détecté, count: 1 
+[2026-06-09 15:08:13][DEBUG] AttachmentService::upload - Type: intervention, EntityId: 296, Files count: 1, UploadDir: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/296 
+[2026-06-09 15:08:13][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\php2EF6.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/296/thumbnail_IMG_6338.jpg 
+[2026-06-09 15:08:13][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/296/thumbnail_IMG_6338.jpg 
+[2026-06-09 15:08:13][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: thumbnail_IMG_6338.jpg (ID: 486) 
+[2026-06-09 15:08:21][DEBUG] getFileData: chemin_fichier=uploads/interventions/296/thumbnail_IMG_6338.jpg 
+[2026-06-09 15:08:21][DEBUG] getFileData: basePath=C:\xampp\htdocs\avision 
+[2026-06-09 15:08:21][DEBUG] getFileData: filePath final=C:\xampp\htdocs\avision\uploads\interventions\296\thumbnail_IMG_6338.jpg 
+[2026-06-09 15:08:21][DEBUG] getFileData: realpath=C:\xampp\htdocs\avision\uploads\interventions\296\thumbnail_IMG_6338.jpg 
+[2026-06-09 16:14:30][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 16:14:31][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-06-09 16:15:22][INFO] 55 
+[2026-06-09 16:15:22][INFO] 109 
+[2026-06-09 16:33:31][DEBUG] CSRF: Token manquant dans la requête - URI: /avision/public/contracts/renew/222 
+[2026-06-09 16:33:31][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/contracts/renew/222 
+[2026-06-09 16:33:31][DEBUG] POST data: {"new_contract_name":"test contrat 12","renewal_comment":"test"} 
+[2026-06-09 16:33:31][DEBUG] Session token: "cf6e8555fa513cd2b31ae3041b401d1d65c971e4cf53e013a781c3cb2353562d" 
+[2026-06-09 16:35:58][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 16:35:58][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractModel.php","line":1275,"errno":2}
