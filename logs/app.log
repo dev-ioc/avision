@@ -90871,3 +90871,6 @@ Quant à l’écran n°1, il est HS
 [2026-06-09 13:15:43][DEBUG] Tentative de création d'intervention: {"reference":null,"title":"Intervention pr\u00e9ventive 1\/2","client_id":"46","site_id":null,"building_id":null,"room_id":371,"status_id":1,"type_id":"2","description":"Intervention pr\u00e9ventive programm\u00e9e automatiquement lors de la cr\u00e9ation du contrat","demande_par":null,"ref_client":null,"contact_client":null,"contract_id":"249","duration":2,"is_preventive":1} 
 [2026-06-09 13:15:43][DEBUG] Intervention créée avec succès (index: 0, id: 373) 
 [2026-06-09 13:15:43][ERROR] Erreur dans ContractController::createPreventiveInterventions : SQLSTATE[HY093]: Invalid parameter number: parameter was not defined 
+[2026-06-09 14:30:47][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 14:31:02][ERROR] Erreur : SQLSTATE[HY093]: Invalid parameter number {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContactModel.php","line":43}
+[2026-06-09 14:35:04][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 

@@ -29,14 +29,14 @@ class ContactModel extends BaseModel
     public function getContactById($id)
     {
         $query = "SELECT 
-                    c.*,
-                    u.username as user_username,
-                    u.email as user_email,
-                    cl.name as client_name
-                FROM contacts c
-                LEFT JOIN users u ON c.user_id = u.id
-                LEFT JOIN clients cl ON c.client_id = cl.id
-                WHERE c.id = :id OR c.email = :email";
+                c.*,
+                u.username as user_username,
+                u.email as user_email,
+                cl.name as client_name
+            FROM contacts c
+            LEFT JOIN users u ON c.user_id = u.id
+            LEFT JOIN clients cl ON c.client_id = cl.id
+            WHERE c.id = :id";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
