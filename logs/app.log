@@ -90632,3 +90632,40 @@ Quant à l’écran n°1, il est HS
 [2026-06-09 09:36:24][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
 [2026-06-09 09:36:24][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
 [2026-06-09 09:36:24][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:30:08][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:30:08][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:30:08][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:30:08][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:30:08][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:32:49][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:32:49][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:32:49][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:32:49][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:32:49][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:38:51][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:38:51][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:38:51][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:38:51][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:38:51][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:39:12][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-06-09 10:47:51][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 10:55:34][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-09 10:55:34][DEBUG] Params: [] 

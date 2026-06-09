@@ -459,23 +459,22 @@ foreach ($documentation_list as $doc) {
                                           </h5>
                                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body">
-                                          <div class="preview-container">
+                                        <div class="modal-body p-0">
+                                          <div class="preview-container" id="previewContainer<?= $doc['id'] ?>">
                                             <?php if ($fileType === 'pdf'): ?>
-                                              <iframe src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>" width="100%"
-                                                height="600px" frameborder="0">
-                                              </iframe>
+                                              <!-- Détection iOS côté JS, rendu différent -->
+                                              <div class="pdf-preview-wrapper"
+                                                data-preview-url="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>"
+                                                data-download-url="<?= BASE_URL ?>documentation/download/<?= $doc['id'] ?>"
+                                                data-filename="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>"
+                                                style="height: 75vh;">
+                                              </div>
                                             <?php elseif (in_array($fileType, ['jpg', 'jpeg', 'png', 'gif', 'webp'])): ?>
-                                              <img src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>" class="img-fluid"
-                                                alt="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>">
-                                            <?php else: ?>
-                                              <div class="alert alert-info">
-                                                <i class="bi bi-info-circle me-1"></i>
-                                                Ce type de fichier ne peut pas être prévisualisé.
-                                                <a href="<?= BASE_URL ?>documentation/download/<?= $doc['id'] ?>" class="alert-link"
-                                                  target="_blank">
-                                                  Télécharger le fichier
-                                                </a>
+                                              <div class="text-center p-3" style="max-height: 75vh; overflow: auto;">
+                                                <img src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>" class="img-fluid"
+                                                  style="max-width: 100%; cursor: zoom-in;"
+                                                  alt="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>"
+                                                  onerror="handleImageError(this, <?= $doc['id'] ?>, '<?= h($doc['nom_fichier']) ?>')">
                                               </div>
                                             <?php endif; ?>
                                           </div>
@@ -485,6 +484,12 @@ foreach ($documentation_list as $doc) {
                                             target="_blank">
                                             <i class="bi bi-download me-1"></i> Télécharger
                                           </a>
+                                               <?php if ($fileType === 'pdf'): ?>
+                                            <a href="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>"
+                                              class="btn btn-outline-secondary" target="_blank">
+                                              <i class="bi bi-arrows-fullscreen me-1"></i> Agrandir
+                                            </a>
+                                                                                  <?php endif; ?>
                                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                                         </div>
                                       </div>
@@ -727,6 +732,94 @@ foreach ($documentation_list as $doc) {
         if (span) {
           editDocumentName(span);
         }
+      });
+    });
+  });
+  // --- Initialisation des previews PDF selon l'appareil ---
+  function isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  }
+
+  function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+
+    // Initialiser les wrappers PDF
+    document.querySelectorAll('.pdf-preview-wrapper').forEach(function (wrapper) {
+      const previewUrl = wrapper.dataset.previewUrl;
+      const downloadUrl = wrapper.dataset.downloadUrl;
+      const filename = wrapper.dataset.filename;
+
+      if (isIOS()) {
+        // iOS ne supporte pas les iframes PDF — afficher un lien d'ouverture direct
+        wrapper.innerHTML = `
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; padding:2rem; text-align:center; background:#f8f9fa;">
+          <div style="font-size:3rem; margin-bottom:1rem;">📄</div>
+          <p style="font-size:1rem; color:#6c757d; margin-bottom:1.5rem;">
+            L'aperçu PDF n'est pas disponible sur iOS.<br>
+            Ouvrez le fichier dans un nouvel onglet pour le consulter.
+          </p>
+          <a href="${previewUrl}" target="_blank" class="btn btn-primary">
+            <i class="bi bi-box-arrow-up-right me-1"></i> Ouvrir le PDF
+          </a>
+          <a href="${downloadUrl}" class="btn btn-outline-secondary mt-2">
+            <i class="bi bi-download me-1"></i> Télécharger
+          </a>
+        </div>`;
+      } else {
+        // Desktop et Android : iframe standard avec toolbar PDF native (zoom inclus)
+        wrapper.innerHTML = `
+        <iframe 
+          src="${previewUrl}#toolbar=1&navpanes=0&scrollbar=1&zoom=page-fit"
+          width="100%"
+          height="100%"
+          style="min-height:75vh; border:none; display:block;"
+          title="${filename}">
+          <p>Votre navigateur ne supporte pas l'aperçu PDF. 
+            <a href="${downloadUrl}">Téléchargez le fichier</a>.
+          </p>
+        </iframe>`;
+      }
+    });
+
+    // Zoom sur les images (toggle)
+    document.querySelectorAll('.preview-container img').forEach(function (img) {
+      let zoomed = false;
+      img.addEventListener('click', function () {
+        if (zoomed) {
+          this.style.maxWidth = '100%';
+          this.style.cursor = 'zoom-in';
+          this.style.transform = '';
+          zoomed = false;
+        } else {
+          this.style.maxWidth = 'none';
+          this.style.cursor = 'zoom-out';
+          this.style.transform = 'scale(1)';
+          zoomed = true;
+        }
+      });
+    });
+
+    // ... vos listeners existants (delete, editable-name, etc.) 
+    document.querySelectorAll('.delete-document').forEach(btn => {
+      btn.addEventListener('click', function () {
+        confirmDeleteDocument(this.dataset.id, this.dataset.name);
+      });
+    });
+
+    document.querySelectorAll('.editable-name').forEach(element => {
+      element.addEventListener('dblclick', function () {
+        editDocumentName(this);
+      });
+    });
+
+    document.querySelectorAll('.edit-name-btn').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const span = this.parentElement.querySelector('.editable-name');
+        if (span) editDocumentName(span);
       });
     });
   });

@@ -58,7 +58,7 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
 <div class="container-fluid flex-grow-1 container-p-y">
 
   <!-- HEADER -->
-  <div class="d-flex bd-highlight mb-3">
+  <div class="d-flex bd-highlight mb-3 justify-content-between">
     <div class="p-2 bd-highlight">
       <h4 class="py-4 mb-6">
         <?php if ($isPreventivePage): ?>
@@ -69,8 +69,13 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
       </h4>
     </div>
 
-    <div class="ms-auto p-2 bd-highlight">
+    <div>
       <?php if (canModifyInterventions()): ?>
+        <?php if (!$isPreventivePage): ?>
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#flashInterventionModal">
+            <i class="bi bi-lightning-charge me-1"></i> Flash Intervention
+          </button>
+        <?php endif; ?>
         <a href="<?= BASE_URL ?>interventions/add" class="btn btn-primary">
           <i class="bi bi-plus me-1"></i> Ajouter une intervention
         </a>
@@ -368,5 +373,133 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
 
 <script src="<?= BASE_URL ?>assets/js/datatable-persistence.js"></script>
 <script src="<?= BASE_URL ?>assets/js/interventions-datatable.js"></script>
+<?php if (!$isPreventivePage && canModifyInterventions()): ?>
+  <!-- Modale Flash Intervention -->
+  <div class="modal fade" id="flashInterventionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white mb-3">
+          <h5 class="modal-title"><i class="bi bi-lightning-charge me-2"></i>Flash Intervention</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle me-2"></i>
+            Création rapide d'une intervention de type <strong>Assistance téléphonique</strong> (30 min)
+          </div>
+          <form id="flashInterventionForm">
+            <?= csrf_field() ?>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Client *</label>
+              <select class="form-select" id="flash_client_id" name="client_id" required>
+                <option value="">Sélectionner un client</option>
+                <?php foreach ($clients as $client): ?>
+                  <option value="<?= $client['id'] ?>">
+                    <?= htmlspecialchars($client['name'] ?? '') ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
+              <div class="invalid-feedback">Veuillez sélectionner un client</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Sujet (optionnel)</label>
+              <input type="text" class="form-control" id="flash_title" name="title"
+                placeholder="Ex: Problème de connexion">
+              <small class="text-muted">Laissez vide pour un titre automatique</small>
+            </div>
+            <div class="alert alert-warning">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              <strong>Note :</strong> L'intervention sera créée comme <strong>incomplète</strong>.<br>
+              Vous devrez compléter le lieu, le sujet et la description après création.
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-success" id="confirmFlashBtn">
+            <span class="spinner-border spinner-border-sm d-none" id="flashSpinner"></span>
+            <i class="bi bi-lightning-charge me-1"></i> Créer l'intervention flash
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const flashBtn = document.getElementById('confirmFlashBtn');
+      const flashClient = document.getElementById('flash_client_id');
+      const flashSpinner = document.getElementById('flashSpinner');
+
+      if (!flashBtn) return;
+
+      flashBtn.addEventListener('click', function () {
+        const clientId = flashClient.value;
+        if (!clientId) {
+          flashClient.classList.add('is-invalid');
+          flashClient.focus();
+          return;
+        }
+        flashClient.classList.remove('is-invalid');
+        flashSpinner.classList.remove('d-none');
+        flashBtn.disabled = true;
+
+        const formData = new URLSearchParams();
+        formData.append('client_id', clientId);
+        formData.append('title', document.getElementById('flash_title').value);
+        formData.append('csrf_token', '<?= csrf_token() ?>');
+
+        fetch('<?= BASE_URL ?>interventions/flash', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-Token': '<?= csrf_token() ?>'
+          },
+          body: formData
+        })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success) {
+              const overlay = document.createElement('div');
+              overlay.style.cssText = `
+          position:fixed; top:0; left:0; width:100%; height:100%;
+          background:rgba(0,0,0,0.5); z-index:10000;
+          display:flex; align-items:center; justify-content:center;
+        `;
+              overlay.innerHTML = `
+          <div style="background:white; border-radius:16px; padding:30px;
+                      text-align:center; min-width:400px;
+                      box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+            <div style="background:#d4edda; border-radius:12px; padding:5px; margin-bottom:20px;">
+              <i class="bi bi-check-circle-fill" style="font-size:64px; color:#28a745; display:block;"></i>
+            </div>
+            <h3 style="color:#155724; margin-bottom:10px;">Succès !</h3>
+            <p style="color:#155724; margin-bottom:20px;">
+              L'intervention rapide a été créée avec succès.
+            </p>
+          </div>
+        `;
+              document.body.appendChild(overlay);
+
+              const modal = bootstrap.Modal.getInstance(document.getElementById('flashInterventionModal'));
+              if (modal) modal.hide();
+
+              setTimeout(() => window.location.reload(), 2000);
+            } else {
+              alert(data.error || 'Une erreur est survenue');
+              flashSpinner.classList.add('d-none');
+              flashBtn.disabled = false;
+            }
+          })
+          .catch(err => {
+            console.error('Erreur:', err);
+            alert('Une erreur est survenue lors de la création flash');
+            flashSpinner.classList.add('d-none');
+            flashBtn.disabled = false;
+          });
+      });
+    });
+  </script>
+<?php endif; ?>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
