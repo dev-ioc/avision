@@ -530,7 +530,6 @@ class ContractController
                         $techResult = $techStmt->execute([
                             ':intervention_id' => $newInterventionId,
                             ':technicien_id' => $technicianId,
-                            ':start_time' => $startTime,
                         ]);
 
                         if ($techResult) {

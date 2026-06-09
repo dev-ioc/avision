@@ -90850,3 +90850,24 @@ Quant à l’écran n°1, il est HS
 [2026-06-09 12:53:55][DEBUG] Tentative de création d'intervention: {"reference":null,"title":"Intervention pr\u00e9ventive 2\/2","client_id":"46","site_id":null,"building_id":null,"room_id":372,"status_id":1,"type_id":"2","description":"Intervention pr\u00e9ventive programm\u00e9e automatiquement lors de la cr\u00e9ation du contrat","demande_par":null,"ref_client":null,"contact_client":null,"contract_id":"247","duration":2,"is_preventive":1} 
 [2026-06-09 12:53:55][DEBUG] Intervention créée avec succès (index: 1, id: 370) 
 [2026-06-09 12:53:55][DEBUG] Technicien 41 assigné à l'intervention 370 
+[2026-06-09 13:14:20][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 13:14:41][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 13:14:41][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractModel.php","line":1275,"errno":2}
+[2026-06-09 13:14:50][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 13:14:50][DEBUG] Début création des interventions préventives pour le contrat ID: 248 
+[2026-06-09 13:14:50][DEBUG] Nombre d'interventions à créer: 2 
+[2026-06-09 13:14:50][DEBUG] Tentative de création d'intervention: {"reference":null,"title":"Intervention pr\u00e9ventive 1\/2","client_id":"46","site_id":null,"building_id":null,"room_id":371,"status_id":1,"type_id":"2","description":"Intervention pr\u00e9ventive programm\u00e9e automatiquement lors de la cr\u00e9ation du contrat","demande_par":null,"ref_client":null,"contact_client":null,"contract_id":"248","duration":2,"is_preventive":1} 
+[2026-06-09 13:14:50][DEBUG] Intervention créée avec succès (index: 0, id: 371) 
+[2026-06-09 13:14:50][DEBUG] Technicien 39 assigné à l'intervention 371 
+[2026-06-09 13:14:50][DEBUG] Tentative de création d'intervention: {"reference":null,"title":"Intervention pr\u00e9ventive 2\/2","client_id":"46","site_id":null,"building_id":null,"room_id":371,"status_id":1,"type_id":"2","description":"Intervention pr\u00e9ventive programm\u00e9e automatiquement lors de la cr\u00e9ation du contrat","demande_par":null,"ref_client":null,"contact_client":null,"contract_id":"248","duration":2,"is_preventive":1} 
+[2026-06-09 13:14:50][DEBUG] Intervention créée avec succès (index: 1, id: 372) 
+[2026-06-09 13:14:50][DEBUG] Technicien 41 assigné à l'intervention 372 
+[2026-06-09 13:15:20][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 13:15:36][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 13:15:36][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractModel.php","line":1275,"errno":2}
+[2026-06-09 13:15:43][DEBUG] CSRF: Token trouvé dans la requête - Token: cf6e8555fa513cd2b31a... 
+[2026-06-09 13:15:43][DEBUG] Début création des interventions préventives pour le contrat ID: 249 
+[2026-06-09 13:15:43][DEBUG] Nombre d'interventions à créer: 2 
+[2026-06-09 13:15:43][DEBUG] Tentative de création d'intervention: {"reference":null,"title":"Intervention pr\u00e9ventive 1\/2","client_id":"46","site_id":null,"building_id":null,"room_id":371,"status_id":1,"type_id":"2","description":"Intervention pr\u00e9ventive programm\u00e9e automatiquement lors de la cr\u00e9ation du contrat","demande_par":null,"ref_client":null,"contact_client":null,"contract_id":"249","duration":2,"is_preventive":1} 
+[2026-06-09 13:15:43][DEBUG] Intervention créée avec succès (index: 0, id: 373) 
+[2026-06-09 13:15:43][ERROR] Erreur dans ContractController::createPreventiveInterventions : SQLSTATE[HY093]: Invalid parameter number: parameter was not defined 
