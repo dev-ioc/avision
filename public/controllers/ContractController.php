@@ -468,10 +468,16 @@ class ContractController
                 $title = $_POST['title'][$index] ?? $intervention['title'];
                 $typeId = $_POST['type_id'][$index] ?? 2;
                 $description = $_POST['description'][$index] ?? $intervention['description'];
+                $technicianId = isset($_POST['technician_id'][$index]) && !empty($_POST['technician_id'][$index])
+                    ? (int) $_POST['technician_id'][$index]
+                    : null;
+                $date = $_POST['date'][$index] ?? null;
+                $heure = $_POST['heure'][$index] ?? '09:00';
 
                 if (isset($intervention['comment']) && !empty($intervention['comment'])) {
                     $description .= "\n\n" . $intervention['comment'];
                 }
+
                 $roomId = $intervention['room_id'] ?? null;
                 $siteId = null;
                 if ($roomId) {
@@ -481,8 +487,9 @@ class ContractController
                     $roomData = $roomStmt->fetch(PDO::FETCH_ASSOC);
                     $siteId = $roomData['site_id'] ?? null;
                 }
+
                 $interventionData = [
-                    'reference' => $reference ?? null,
+                    'reference' => null,
                     'title' => $title,
                     'client_id' => $clientId,
                     'site_id' => $siteId,
@@ -495,14 +502,46 @@ class ContractController
                     'ref_client' => null,
                     'contact_client' => null,
                     'contract_id' => $contractId,
+                    'duration' => 2.0,
                     'is_preventive' => 1
                 ];
 
                 custom_log("Tentative de création d'intervention: " . json_encode($interventionData), 'DEBUG');
 
-                if ($interventionModel->create($interventionData)) {
+                $newInterventionId = $interventionModel->create($interventionData);
+
+                if ($newInterventionId) {
                     $createdCount++;
-                    custom_log("Intervention créée avec succès (index: $index)", 'DEBUG');
+                    custom_log("Intervention créée avec succès (index: $index, id: $newInterventionId)", 'DEBUG');
+                    if ($technicianId) {
+                        $startTime = null;
+                        if ($date && $heure) {
+                            $startTime = $date . ' ' . $heure . ':00';
+                        }
+
+                        $techQuery = "INSERT INTO intervention_techniciens 
+                            (intervention_id, technicien_id, start_time, end_time, 
+                             temps_passe, deplacement, commentaire, is_qualified, 
+                             created_at, updated_at)
+                          VALUES 
+                            (:intervention_id, :technicien_id, :start_time, Now(),
+                             NULL, 0, NULL, 0,
+                             NOW(), NOW())";
+
+                        $techStmt = $this->db->prepare($techQuery);
+                        $techResult = $techStmt->execute([
+                            ':intervention_id' => $newInterventionId,
+                            ':technicien_id' => $technicianId,
+                            ':start_time' => $startTime,
+                        ]);
+
+                        if ($techResult) {
+                            custom_log("Technicien $technicianId assigné à l'intervention $newInterventionId", 'DEBUG');
+                        } else {
+                            custom_log("Échec assignation technicien $technicianId à l'intervention $newInterventionId", 'ERROR');
+                        }
+                    }
+
                 } else {
                     custom_log("Échec de création de l'intervention (index: $index)", 'ERROR');
                 }

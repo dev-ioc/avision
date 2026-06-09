@@ -457,34 +457,39 @@ class InterventionModel extends BaseModel
             }
 
             $sql = "INSERT INTO interventions (
-                reference, title, client_id, site_id, building_id, room_id, 
-                status_id, type_id, 
-                description, demande_par, ref_client, contact_client, 
-                contract_id, is_preventive, created_at
-            ) VALUES (
-                :reference, :title, :client_id, :site_id, :building_id, :room_id, 
-                :status_id, :type_id, 
-                :description, :demande_par, :ref_client, :contact_client, 
-                :contract_id, :is_preventive, NOW()
-            )";
+            reference, title, client_id, site_id, building_id, room_id, 
+            status_id, type_id, 
+            description, demande_par, ref_client, contact_client, 
+            contract_id, is_preventive, created_at, duration
+        ) VALUES (
+            :reference, :title, :client_id, :site_id, :building_id, :room_id, 
+            :status_id, :type_id, 
+            :description, :demande_par, :ref_client, :contact_client, 
+            :contract_id, :is_preventive, NOW(), :duration
+        )";
 
             $stmt = $this->db->prepare($sql);
-            $data['reference'] = $reference;
+            $params = [
+                ':reference' => $reference,
+                ':title' => $data['title'],
+                ':client_id' => $data['client_id'],
+                ':site_id' => $data['site_id'] ?? null,
+                ':building_id' => $data['building_id'] ?? null,
+                ':room_id' => $data['room_id'] ?? null,
+                ':status_id' => $data['status_id'],
+                ':type_id' => $data['type_id'],
+                ':description' => $data['description'] ?? null,
+                ':demande_par' => $data['demande_par'] ?? null,
+                ':ref_client' => $data['ref_client'] ?? null,
+                ':contact_client' => $data['contact_client'] ?? null,
+                ':contract_id' => $data['contract_id'] ?? null,
+                ':is_preventive' => $data['is_preventive'] ?? 0,
+                'duration' => $data['duration'] ?? null
+            ];
 
-            if (!isset($data['ref_client'])) {
-                $data['ref_client'] = null;
-            }
-            if (!isset($data['contact_client'])) {
-                $data['contact_client'] = null;
-            }
-            if (!isset($data['building_id'])) {
-                $data['building_id'] = null;
-            }
-            if (!isset($data['is_preventive'])) {
-                $data['is_preventive'] = 0;
-            }
+            $result = $stmt->execute($params);
+            return $result ? $this->db->lastInsertId() : false;
 
-            return $stmt->execute($data);
         } catch (PDOException $e) {
             custom_log("Erreur lors de la création de l'intervention : " . $e->getMessage(), 'ERROR');
             return false;
