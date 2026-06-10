@@ -31,19 +31,21 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 <div class="container-fluid flex-grow-1 container-p-y">
 
-<div class="d-flex bd-highlight mb-3">
-    <div class="p-2 bd-highlight"><h4 class="py-4 mb-6">Gestion des Utilisateurs</h4></div>
+    <div class="d-flex bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+            <h4 class="py-4 mb-6">Gestion des Utilisateurs</h4>
+        </div>
 
-    <div class="ms-auto p-2 bd-highlight">
-        <a href="<?php echo BASE_URL; ?>user/add" class="btn btn-primary">
-            <i class="bi bi-plus me-1"></i> Nouvel utilisateur
-        </a>
+        <div class="ms-auto p-2 bd-highlight">
+            <a href="<?php echo BASE_URL; ?>user/add" class="btn btn-primary">
+                <i class="bi bi-plus me-1"></i> Nouvel utilisateur
+            </a>
+        </div>
     </div>
-</div>
 
     <?php if (isset($_SESSION['error'])): ?>
         <div class="alert alert-danger">
-            <?php 
+            <?php
             echo $_SESSION['error'];
             unset($_SESSION['error']);
             ?>
@@ -52,13 +54,33 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success">
-            <?php 
+            <?php
             echo $_SESSION['success'];
             unset($_SESSION['success']);
             ?>
         </div>
     <?php endif; ?>
-
+    <!-- Tabs de filtrage par type -->
+    <ul class="nav nav-tabs mb-3" id="userTypeTabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-filter="all" href="#">
+                <i class="bi bi-people me-1"></i> Tous
+                <span class="badge bg-secondary ms-1" id="count-all"></span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-filter="videosonic" href="#">
+                <i class="bi bi-building me-1"></i> VIDEOSONIC
+                <span class="badge bg-primary ms-1" id="count-videosonic"></span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-filter="client" href="#">
+                <i class="bi bi-person me-1"></i> Clients
+                <span class="badge bg-info ms-1" id="count-client"></span>
+            </a>
+        </li>
+    </ul>
     <div class="card">
         <div class="card-header py-2">
             <h5 class="card-title mb-0">Liste des utilisateurs</h5>
@@ -80,11 +102,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     <tbody>
                         <?php if (isset($users) && !empty($users)): ?>
                             <?php foreach ($users as $user): ?>
-                                <tr>
+                                <?php
+                                $userType = $user['user_type'] ?? '';
+                                $isAdmin = $user['is_admin'] ?? false;
+                                $filterGroup = ($userType === 'client') ? 'client' : 'videosonic';
+                                ?>
+                                <tr data-user-type="<?= $filterGroup ?>">
                                     <td data-label="Nom d'utilisateur">
-                                        <a href="<?php echo BASE_URL; ?>user/view/<?php echo $user['id']; ?>" 
-                                           class="text-decoration-none fw-bold" 
-                                           title="Voir l'utilisateur">
+                                        <a href="<?php echo BASE_URL; ?>user/view/<?php echo $user['id']; ?>"
+                                            class="text-decoration-none fw-bold" title="Voir l'utilisateur">
                                             <?php echo htmlspecialchars($user['username'] ?? ''); ?>
                                         </a>
                                     </td>
@@ -97,7 +123,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         $typeLabel = '';
                                         $userType = $user['user_type'] ?? '';
                                         $isAdmin = $user['is_admin'] ?? false;
-                                        
+
                                         // Déterminer le type et la couleur du badge
                                         switch ($userType) {
                                             case 'technicien':
@@ -130,14 +156,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <span class="badge bg-danger">Inactif</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td data-label="Date de création" data-order="<?php echo isset($user['created_at']) ? strtotime($user['created_at']) : 0; ?>">
+                                    <td data-label="Date de création"
+                                        data-order="<?php echo isset($user['created_at']) ? strtotime($user['created_at']) : 0; ?>">
                                         <?php echo isset($user['created_at']) ? date('d/m/Y', strtotime($user['created_at'])) : ''; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
-                                                    <?php else: ?>
-                                <?php // Laisser tbody vide. DataTables utilisera language.emptyTable ?>
-                            <?php endif; ?>
+                        <?php else: ?>
+                            <?php // Laisser tbody vide. DataTables utilisera language.emptyTable ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
@@ -151,5 +178,43 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 <!-- Page JS -->
 <script src="<?php echo BASE_URL; ?>assets/js/users-datatable.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabs = document.querySelectorAll('#userTypeTabs .nav-link');
+        const rows = document.querySelectorAll('#usersTable tbody tr');
 
-<?php include_once __DIR__ . '/../../includes/footer.php'; ?> 
+        // Calculer les compteurs
+        let counts = { all: 0, videosonic: 0, client: 0 };
+        rows.forEach(row => {
+            const type = row.dataset.userType;
+            counts.all++;
+            if (counts[type] !== undefined) counts[type]++;
+        });
+
+        document.getElementById('count-all').textContent = counts.all;
+        document.getElementById('count-videosonic').textContent = counts.videosonic;
+        document.getElementById('count-client').textContent = counts.client;
+
+        // Filtrage au clic sur un tab
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Activer le tab cliqué
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.dataset.filter;
+
+                rows.forEach(row => {
+                    if (filter === 'all' || row.dataset.userType === filter) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+</script>
+<?php include_once __DIR__ . '/../../includes/footer.php'; ?>
