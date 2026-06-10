@@ -742,21 +742,10 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
     const ID_INDEX = <?= $idIndex ?>;
     const PIECES_JOINTES_INDEX = <?= $piecesJointesIndex ?>;
     const FIELD_VALIDATORS = {
-      adresse_ip: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'IP', example: '192.168.1.1' },
-      ip_primaire: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'IP Primaire', example: '192.168.1.1' },
-      ip_secondaire: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'IP Secondaire', example: '192.168.1.1' },
-      passerelle: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'Passerelle', example: '172.24.158.230' },
-      masque: { regex: /^(\d{1,3}\.){3}\d{1,3}$/, label: 'Masque', example: '255.255.255.0' },
-      adresse_mac: { regex: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/, label: 'MAC', example: '00:0E:DD:FA:65:88' },
-      mac_primaire: { regex: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/, label: 'MAC Primaire', example: '00:0E:DD:FA:65:88' },
-      mac_secondaire: { regex: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/, label: 'MAC Secondaire', example: '00:0E:DD:FA:65:88' },
-      version_firmware: { regex: /^\d+(\.\d+)+$/, label: 'Firmware', example: '10.0.8' },
-      ancien_firmware: { regex: /^\d+(\.\d+)+$/, label: 'Ancien Firmware', example: '10.0.8' },
       date_fin_maintenance: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Expiration', example: '2026-12-31' },
       date_fin_garantie: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Date Garantie', example: '2026-12-31' },
       date_derniere_inter: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Dernière Inter', example: '2026-12-31' },
     };
-
     const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
 
     function validateRow(row, rowIndex) {
@@ -1307,18 +1296,7 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
                       'date_fin_maintenance': { type: 'date', dateFormat: 'YYYY-MM-DD' },
                       'date_fin_garantie': { type: 'date', dateFormat: 'YYYY-MM-DD' },
                       'date_derniere_inter': { type: 'date', dateFormat: 'YYYY-MM-DD' },
-                      'adresse_ip': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
-                      'ip_primaire': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
-                      'ip_secondaire': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
-                      'passerelle': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
-                      'masque': { validator: /^(\d{1,3}\.){3}\d{1,3}$/ },
-                      'adresse_mac': { validator: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/ },
-                      'mac_primaire': { validator: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/ },
-                      'mac_secondaire': { validator: /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/ },
-                      'version_firmware': { validator: /^\d+(\.\d+)+$/ },
-                      'ancien_firmware': { validator: /^\d+(\.\d+)+$/ },
                     };
-
                     const COLUMN_PLACEHOLDERS = {
                       'date_fin_maintenance': 'YYYY-MM-DD',
                       'date_fin_garantie': 'YYYY-MM-DD',
