@@ -263,7 +263,6 @@ class InterventionController
         // Charger la vue
         require_once __DIR__ . '/../views/interventions/index.php';
     }
-
     /**
      * Affiche les détails d'une intervention
      */
@@ -286,11 +285,9 @@ class InterventionController
             'site_id' => null,
             'room_id' => null,
             'client_id' => null,
-            // 'technicien_id' => null,
             'status_id' => null,
             'priority_id' => null,
             'type_id' => null,
-            // 'duration' => null,
             'description' => null,
             'title' => null
         ], $intervention);
@@ -319,6 +316,12 @@ class InterventionController
         // Récupérer l'historique
         $history = $this->getHistory($id);
 
+        // 🔴 NOUVEAU : Récupérer les techniciens assignés (pour éviter l'appel AJAX)
+        $assignedTechnicians = $this->getInterventionTechnicians($id);
+
+        // Récupérer tous les techniciens disponibles pour la modale
+        $availableTechnicians = $this->userModel->getTechnicians();
+
         // Récupérer les priorités pour identifier les préventives
         $sql = "SELECT id, name, color, created_at FROM intervention_priorities ORDER BY id";
         $stmt = $this->db->prepare($sql);
@@ -326,7 +329,6 @@ class InterventionController
         $priorities = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Identifier la priorité préventive
-        // $preventivePriorityId = null;
         foreach ($priorities as $priority) {
             if (stripos($priority['name'], 'préventif') !== false || stripos($priority['name'], 'preventive') !== false) {
                 $preventivePriorityId = $priority['id'];
@@ -2906,13 +2908,13 @@ class InterventionController
 
         // Vérifier qu'au moins un technicien est assigné
         $sql = "SELECT it.technicien_id,
-               it.temps_passe,
-               it.is_qualified,
-               it.deplacement,
-               CONCAT(u.first_name,' ',u.last_name) AS technician_name
-        FROM intervention_techniciens it
-        JOIN users u ON it.technicien_id = u.id
-        WHERE it.intervention_id = ?";
+           it.temps_passe,
+           it.is_qualified,
+           it.deplacement,
+           CONCAT(u.first_name,' ',u.last_name) AS technician_name
+    FROM intervention_techniciens it
+    JOIN users u ON it.technicien_id = u.id
+    WHERE it.intervention_id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
         $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -2952,7 +2954,7 @@ class InterventionController
             // 2. Main d'œuvre : 1h = 1 ticket
             $raw += $hours;
 
-            // Affichage de la MO (sans le détail des heures décimales inutiles)
+            // Affichage de la MO
             if ($hours == floor($hours)) {
                 $parts[] = number_format($hours, 0, '.', '') . 'h de main d\'œuvre';
             } else {
@@ -2960,18 +2962,15 @@ class InterventionController
             }
 
             // 3. Technicien qualifié : la première heure compte double
-            //    Cela signifie +1 ticket supplémentaire si la durée atteint au moins 1h
             if ($isQualified && $hours >= 1.0) {
                 $raw += 1.0;
-                $parts[] = '(+1 (prime 1ère heure qualifié))';
+                $parts[] = '(+1 prime 1ère heure qualifié)';
             }
 
             // 4. Arrondi selon le type d'intervention
             if ($isRemote) {
-                // À distance/téléphone : arrondi à la 1/2 ticket
                 $rounded = round($raw * 2) / 2;
             } else {
-                // Sur site : arrondi à l'entier supérieur
                 $rounded = (float) ceil($raw);
             }
 
@@ -2986,15 +2985,33 @@ class InterventionController
                 'has_travel' => $hasTravel,
                 'tickets_raw' => round($raw, 2),
                 'tickets_rounded' => $rounded,
-                'formula' => implode(' + ', $parts)
-                    . ' = ' . round($raw, 2)
-                    . ' → ' . $rounded
+                'formula' => implode(' + ', $parts) . ' = ' . round($raw, 2) . ' → ' . $rounded
             ];
+        }
+
+        // Déterminer si la fermeture est possible
+        $canClose = true;
+        $closeBlockReason = null;
+        $isTicketContract = false;
+        $remainingTickets = 0;
+
+        if (!empty($intervention['contract_id'])) {
+            $isTicketContract = isContractTicketById($intervention['contract_id']);
+
+            if ($isTicketContract) {
+                $contract = $this->contractModel->getContractById($intervention['contract_id']);
+                $remainingTickets = (float) ($contract['tickets_remaining'] ?? 0);
+
+                if ($remainingTickets <= 0) {
+                    $canClose = false;
+                    $closeBlockReason = 'no_tickets_remaining';
+                }
+            }
         }
 
         // Infos contrat
         $contractInfo = null;
-        if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
+        if (!empty($intervention['contract_id'])) {
             $contract = $this->contractModel->getContractById($intervention['contract_id']);
             if ($contract) {
                 $contractInfo = [
@@ -3003,8 +3020,18 @@ class InterventionController
                     'tickets_remaining' => (float) ($contract['tickets_remaining'] ?? 0),
                     'tickets_number' => (float) ($contract['tickets_number'] ?? 0),
                     'tickets_after_close' => max(0, (float) ($contract['tickets_remaining'] ?? 0) - $totalTickets),
+                    'is_ticket_contract' => (bool) ($contract['isticketcontract'] ?? false),
+                    'can_close' => $canClose,
+                    'close_block_reason' => $closeBlockReason
                 ];
             }
+        } else {
+            // Pas de contrat du tout
+            $contractInfo = [
+                'is_ticket_contract' => false,
+                'can_close' => true,
+                'close_block_reason' => 'no_contract'
+            ];
         }
 
         echo json_encode([
@@ -3014,17 +3041,19 @@ class InterventionController
                 'reference' => $intervention['reference'],
                 'title' => $intervention['title'],
                 'type_name' => $type['name'] ?? '',
-                // 'is_remote' => $isRemote,
                 'technician_count' => count($technicians),
+                'can_close' => $canClose,
+                'close_block_reason' => $closeBlockReason,
             ],
             'technicians' => $ticketsPerTech,
             'total_tickets' => $totalTickets,
             'is_remote' => $isRemote,
             'contract' => $contractInfo,
+            'can_close' => $canClose,
+            'close_block_reason' => $closeBlockReason
         ]);
         exit;
     }
-
     /**
      * Ferme une intervention.
      *
@@ -3095,34 +3124,28 @@ class InterventionController
             custom_log("Contrat ID: " . ($intervention['contract_id'] ?? 'aucun'), 'INFO');
 
             // ── VÉRIFICATION DU SOLDE CONTRAT AVANT DÉDUCTION ──────────────────────
-            // if ($ticketsUsed > 0 && !empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
-            //     // Récupérer le solde actuel du contrat
-            //     $stmtCheck = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = ?");
-            //     $stmtCheck->execute([$intervention['contract_id']]);
-            //     $currentRemaining = (float) $stmtCheck->fetchColumn();
+            if ($ticketsUsed > 0 && !empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
+                $stmtCheck = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = ?");
+                $stmtCheck->execute([$intervention['contract_id']]);
+                $currentRemaining = (float) $stmtCheck->fetchColumn();
 
-            //     custom_log("Solde contrat AVANT déduction: $currentRemaining", 'INFO');
+                custom_log("Solde contrat AVANT déduction: $currentRemaining", 'INFO');
 
-            //     // Vérifier si le solde est suffisant
-            //     // if ($currentRemaining < $ticketsUsed) {
-            //     //     // Solde insuffisant
-            //     //     $errorMsg = "Solde de tickets insuffisant sur le contrat. Solde actuel: $currentRemaining, Tickets à déduire: $ticketsUsed";
-            //     //     custom_log($errorMsg, 'ERROR');
+                if ($currentRemaining <= 0) {
+                    $this->db->rollBack();
+                    $errorMsg = "Fermeture impossible : le contrat ne dispose plus de tickets (solde actuel : {$currentRemaining}).";
+                    custom_log($errorMsg, 'WARNING');
 
-            //     //     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-            //     //         header('Content-Type: application/json');
-            //     //         echo json_encode([
-            //     //             'success' => false,
-            //     //             'error' => $errorMsg . ". Veuillez ajuster le nombre de tickets ou ajouter des tickets au contrat."
-            //     //         ]);
-            //     //         exit;
-            //     //     }
-            //     //     $_SESSION['error'] = $errorMsg;
-            //     //     header('Location: ' . BASE_URL . 'interventions/view/' . $id);
-            //     //     exit;
-            //     // }
-            // }
-
+                    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => false, 'error' => $errorMsg]);
+                        exit;
+                    }
+                    $_SESSION['error'] = $errorMsg;
+                    header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+                    exit;
+                }
+            }
             $closedAt = date('Y-m-d H:i:s');
 
             // Fermer l'intervention
@@ -3140,7 +3163,7 @@ class InterventionController
             if ($ticketsUsed > 0 && !empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
                 $this->deductTicketsFromContract($intervention['contract_id'], $ticketsUsed, $id);
             }
-
+            custom_log("isContractTicketById(" . $intervention['contract_id'] . ") = " . (isContractTicketById($intervention['contract_id']) ? 'true' : 'false'), 'INFO');
             // Vérifier le nouveau solde du contrat
             if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
                 $stmtCheck = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = ?");

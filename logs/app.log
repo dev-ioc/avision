@@ -91340,3 +91340,226 @@ Quant à l’écran n°1, il est HS
         WHERE 1=1 AND deleted_at IS NULL
      AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
 [2026-06-10 08:04:42][DEBUG] Params: {":client_id":35} 
+[2026-06-10 08:14:41][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:14:41][INFO] === FERMETURE INTERVENTION 90 === 
+[2026-06-10 08:14:41][INFO] Tickets à déduire: 1 
+[2026-06-10 08:14:41][INFO] Contrat ID: 75 
+[2026-06-10 08:18:43][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:18:43][INFO] Technicien 39 ajouté à l'intervention 90 
+[2026-06-10 08:22:29][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:22:30][INFO] === RÉOUVERTURE INTERVENTION 90 === 
+[2026-06-10 08:22:30][INFO] Tickets à recréditer: 1 
+[2026-06-10 08:22:30][INFO] Contrat ID: 75 
+[2026-06-10 08:22:30][INFO] Had tickets: non 
+[2026-06-10 08:22:30][INFO] RÉOUVERTURE RÉUSSIE - Intervention 90 
+[2026-06-10 08:22:46][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:22:46][INFO] === FERMETURE INTERVENTION 90 === 
+[2026-06-10 08:22:46][INFO] Tickets à déduire: 1 
+[2026-06-10 08:22:46][INFO] Contrat ID: 75 
+[2026-06-10 08:23:13][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:23:13][INFO] === FERMETURE INTERVENTION 90 === 
+[2026-06-10 08:23:13][INFO] Tickets à déduire: 1 
+[2026-06-10 08:23:13][INFO] Contrat ID: 75 
+[2026-06-10 08:25:55][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:25:55][INFO] === RÉOUVERTURE INTERVENTION 90 === 
+[2026-06-10 08:25:55][INFO] Tickets à recréditer: 1 
+[2026-06-10 08:25:55][INFO] Contrat ID: 75 
+[2026-06-10 08:25:55][INFO] Had tickets: non 
+[2026-06-10 08:25:55][INFO] RÉOUVERTURE RÉUSSIE - Intervention 90 
+[2026-06-10 08:25:59][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:25:59][INFO] === FERMETURE INTERVENTION 90 === 
+[2026-06-10 08:25:59][INFO] Tickets à déduire: 1 
+[2026-06-10 08:25:59][INFO] Contrat ID: 75 
+[2026-06-10 08:28:21][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:28:21][INFO] === RÉOUVERTURE INTERVENTION 90 === 
+[2026-06-10 08:28:21][INFO] Tickets à recréditer: 1 
+[2026-06-10 08:28:21][INFO] Contrat ID: 75 
+[2026-06-10 08:28:21][INFO] Had tickets: non 
+[2026-06-10 08:28:21][INFO] RÉOUVERTURE RÉUSSIE - Intervention 90 
+[2026-06-10 08:28:25][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:28:25][INFO] === FERMETURE INTERVENTION 90 === 
+[2026-06-10 08:28:25][INFO] Tickets à déduire: 1 
+[2026-06-10 08:28:25][INFO] Contrat ID: 75 
+[2026-06-10 08:30:25][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:30:25][INFO] === RÉOUVERTURE INTERVENTION 90 === 
+[2026-06-10 08:30:25][INFO] Tickets à recréditer: 1 
+[2026-06-10 08:30:25][INFO] Contrat ID: 75 
+[2026-06-10 08:30:25][INFO] Had tickets: non 
+[2026-06-10 08:30:25][INFO] RÉOUVERTURE RÉUSSIE - Intervention 90 
+[2026-06-10 08:30:29][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:30:29][INFO] === FERMETURE INTERVENTION 90 === 
+[2026-06-10 08:30:29][INFO] Tickets à déduire: 1 
+[2026-06-10 08:30:29][INFO] Contrat ID: 75 
+[2026-06-10 08:33:25][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:33:26][INFO] === RÉOUVERTURE INTERVENTION 90 === 
+[2026-06-10 08:33:26][INFO] Tickets à recréditer: 1 
+[2026-06-10 08:33:26][INFO] Contrat ID: 75 
+[2026-06-10 08:33:26][INFO] Had tickets: non 
+[2026-06-10 08:33:26][INFO] RÉOUVERTURE RÉUSSIE - Intervention 90 
+[2026-06-10 08:33:31][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:33:31][INFO] === FERMETURE INTERVENTION 90 === 
+[2026-06-10 08:33:31][INFO] Tickets à déduire: 1 
+[2026-06-10 08:33:31][INFO] Contrat ID: 75 
+[2026-06-10 08:33:31][INFO] isContractTicketById(75) = false 
+[2026-06-10 08:37:23][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:37:23][INFO] === RÉOUVERTURE INTERVENTION 90 === 
+[2026-06-10 08:37:23][INFO] Tickets à recréditer: 1 
+[2026-06-10 08:37:23][INFO] Contrat ID: 75 
+[2026-06-10 08:37:23][INFO] Had tickets: non 
+[2026-06-10 08:37:23][INFO] RÉOUVERTURE RÉUSSIE - Intervention 90 
+[2026-06-10 08:50:05][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:50:05][INFO] === FERMETURE INTERVENTION 90 === 
+[2026-06-10 08:50:05][INFO] Tickets à déduire: 0 
+[2026-06-10 08:50:05][INFO] Contrat ID: 75 
+[2026-06-10 08:50:05][INFO] isContractTicketById(75) = false 
+[2026-06-10 08:51:33][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 08:51:33][INFO] === RÉOUVERTURE INTERVENTION 90 === 
+[2026-06-10 08:51:33][INFO] Tickets à recréditer: 0 
+[2026-06-10 08:51:33][INFO] Contrat ID: 75 
+[2026-06-10 08:51:33][INFO] Had tickets: non 
+[2026-06-10 08:51:33][INFO] RÉOUVERTURE RÉUSSIE - Intervention 90 
+[2026-06-10 09:18:23][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:18:23][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-06-10 09:18:23][INFO] Tickets à déduire: 22 
+[2026-06-10 09:18:23][INFO] Contrat ID: 221 
+[2026-06-10 09:18:23][INFO] Solde contrat AVANT déduction: 21 
+[2026-06-10 09:18:23][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-06-10 09:18:23][INFO] Tickets à déduire: 22 
+[2026-06-10 09:18:23][INFO] Solde AVANT déduction: 21 
+[2026-06-10 09:18:23][INFO] Solde APRÈS déduction: -1 
+[2026-06-10 09:18:23][INFO] Déduction de 22 tickets réussie 
+[2026-06-10 09:18:23][INFO] isContractTicketById(221) = true 
+[2026-06-10 09:18:23][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: -1 
+[2026-06-10 09:18:23][WARNING] ⚠️ ATTENTION: Solde contrat négatif: -1 
+[2026-06-10 09:18:55][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:18:55][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-06-10 09:18:55][INFO] Tickets à recréditer: 22 
+[2026-06-10 09:18:55][INFO] Contrat ID: 221 
+[2026-06-10 09:18:55][INFO] Had tickets: oui 
+[2026-06-10 09:18:55][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-06-10 09:18:55][INFO] Solde contrat AVANT recrédit: -1 
+[2026-06-10 09:18:55][INFO] Tickets à recréditer: 22 
+[2026-06-10 09:18:55][INFO] Solde contrat APRÈS recrédit: 21 
+[2026-06-10 09:18:55][INFO] Recrédit de 22 tickets effectué pour le contrat 221 
+[2026-06-10 09:18:55][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-06-10 09:19:03][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:19:03][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-06-10 09:19:03][INFO] Tickets à déduire: 6.5 
+[2026-06-10 09:19:03][INFO] Contrat ID: 221 
+[2026-06-10 09:19:03][INFO] Solde contrat AVANT déduction: 21 
+[2026-06-10 09:19:03][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-06-10 09:19:03][INFO] Tickets à déduire: 6.5 
+[2026-06-10 09:19:03][INFO] Solde AVANT déduction: 21 
+[2026-06-10 09:19:03][INFO] Solde APRÈS déduction: 14 
+[2026-06-10 09:19:03][INFO] Déduction de 6.5 tickets réussie 
+[2026-06-10 09:19:03][INFO] isContractTicketById(221) = true 
+[2026-06-10 09:19:03][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 14 
+[2026-06-10 09:29:59][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:29:59][INFO] === FERMETURE INTERVENTION 90 === 
+[2026-06-10 09:29:59][INFO] Tickets à déduire: 0 
+[2026-06-10 09:29:59][INFO] Contrat ID: 75 
+[2026-06-10 09:29:59][INFO] isContractTicketById(75) = false 
+[2026-06-10 09:31:36][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:31:36][INFO] === RÉOUVERTURE INTERVENTION 90 === 
+[2026-06-10 09:31:36][INFO] Tickets à recréditer: 0 
+[2026-06-10 09:31:36][INFO] Contrat ID: 75 
+[2026-06-10 09:31:36][INFO] Had tickets: non 
+[2026-06-10 09:31:36][INFO] RÉOUVERTURE RÉUSSIE - Intervention 90 
+[2026-06-10 09:32:02][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:32:02][INFO] === FERMETURE INTERVENTION 90 === 
+[2026-06-10 09:32:02][INFO] Tickets à déduire: 0 
+[2026-06-10 09:32:02][INFO] Contrat ID: 75 
+[2026-06-10 09:32:02][INFO] isContractTicketById(75) = false 
+[2026-06-10 09:34:47][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:34:47][INFO] === RÉOUVERTURE INTERVENTION 90 === 
+[2026-06-10 09:34:47][INFO] Tickets à recréditer: 0 
+[2026-06-10 09:34:47][INFO] Contrat ID: 75 
+[2026-06-10 09:34:47][INFO] Had tickets: non 
+[2026-06-10 09:34:47][INFO] RÉOUVERTURE RÉUSSIE - Intervention 90 
+[2026-06-10 09:41:04][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:41:05][INFO] === FERMETURE INTERVENTION 90 === 
+[2026-06-10 09:41:05][INFO] Tickets à déduire: 0 
+[2026-06-10 09:41:05][INFO] Contrat ID: 75 
+[2026-06-10 09:41:05][INFO] isContractTicketById(75) = false 
+[2026-06-10 09:41:34][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:41:34][INFO] === RÉOUVERTURE INTERVENTION 90 === 
+[2026-06-10 09:41:34][INFO] Tickets à recréditer: 0 
+[2026-06-10 09:41:34][INFO] Contrat ID: 75 
+[2026-06-10 09:41:34][INFO] Had tickets: non 
+[2026-06-10 09:41:34][INFO] RÉOUVERTURE RÉUSSIE - Intervention 90 
+[2026-06-10 09:41:40][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:41:40][INFO] === FERMETURE INTERVENTION 90 === 
+[2026-06-10 09:41:40][INFO] Tickets à déduire: 0 
+[2026-06-10 09:41:40][INFO] Contrat ID: 75 
+[2026-06-10 09:41:40][INFO] isContractTicketById(75) = false 
+[2026-06-10 09:42:05][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:42:06][INFO] === RÉOUVERTURE INTERVENTION 90 === 
+[2026-06-10 09:42:06][INFO] Tickets à recréditer: 0 
+[2026-06-10 09:42:06][INFO] Contrat ID: 75 
+[2026-06-10 09:42:06][INFO] Had tickets: non 
+[2026-06-10 09:42:06][INFO] RÉOUVERTURE RÉUSSIE - Intervention 90 
+[2026-06-10 09:43:22][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:43:22][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-06-10 09:43:22][INFO] Tickets à recréditer: 7 
+[2026-06-10 09:43:22][INFO] Contrat ID: 221 
+[2026-06-10 09:43:22][INFO] Had tickets: oui 
+[2026-06-10 09:43:22][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-06-10 09:43:22][INFO] Solde contrat AVANT recrédit: 14 
+[2026-06-10 09:43:22][INFO] Tickets à recréditer: 7 
+[2026-06-10 09:43:22][INFO] Solde contrat APRÈS recrédit: 21 
+[2026-06-10 09:43:22][INFO] Recrédit de 7 tickets effectué pour le contrat 221 
+[2026-06-10 09:43:22][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-06-10 09:43:32][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:43:32][INFO] === FERMETURE INTERVENTION 330 === 
+[2026-06-10 09:43:32][INFO] Tickets à déduire: 21 
+[2026-06-10 09:43:32][INFO] Contrat ID: 221 
+[2026-06-10 09:43:32][INFO] Solde contrat AVANT déduction: 21 
+[2026-06-10 09:43:32][INFO] === DÉDUCTION TICKETS CONTRAT 221 === 
+[2026-06-10 09:43:32][INFO] Tickets à déduire: 21 
+[2026-06-10 09:43:32][INFO] Solde AVANT déduction: 21 
+[2026-06-10 09:43:32][INFO] Solde APRÈS déduction: 0 
+[2026-06-10 09:43:32][INFO] Déduction de 21 tickets réussie 
+[2026-06-10 09:43:32][INFO] isContractTicketById(221) = true 
+[2026-06-10 09:43:32][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 0 
+[2026-06-10 09:44:45][DEBUG] Tentative d'aperçu contrat pour l'ID: 198 
+[2026-06-10 09:44:45][DEBUG] Pièce jointe trouvée: {"id":198,"nom_fichier":"20260129174844498.pdf","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/107\/1769704617_0_20260129174844498.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":558997,"commentaire":null,"date_creation":"2026-01-29 19:36:57","masque_client":0,"type_id":null,"created_by":2} 
+[2026-06-10 09:44:45][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/107/1769704617_0_20260129174844498.pdf 
+[2026-06-10 09:44:45][DEBUG] Fichier trouvé, taille: 558997 
+[2026-06-10 09:44:45][DEBUG] Type MIME détecté: application/pdf 
+[2026-06-10 09:45:05][DEBUG] Tentative d'aperçu contrat pour l'ID: 330 
+[2026-06-10 09:45:05][DEBUG] Pièce jointe trouvée: {"id":330,"nom_fichier":"CC16539.pdf","nom_personnalise":"CC16539.pdf","chemin_fichier":"uploads\/contracts\/176\/1773909869_CC16539.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":413800,"commentaire":null,"date_creation":"2026-03-19 11:44:29","masque_client":0,"type_id":null,"created_by":2} 
+[2026-06-10 09:45:05][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/176/1773909869_CC16539.pdf 
+[2026-06-10 09:45:05][DEBUG] Fichier trouvé, taille: 413800 
+[2026-06-10 09:45:05][DEBUG] Type MIME détecté: application/pdf 
+[2026-06-10 09:45:19][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:45:19][INFO] === RÉOUVERTURE INTERVENTION 161 === 
+[2026-06-10 09:45:19][INFO] Tickets à recréditer: 2 
+[2026-06-10 09:45:19][INFO] Contrat ID: 176 
+[2026-06-10 09:45:19][INFO] Had tickets: oui 
+[2026-06-10 09:45:19][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 161 === 
+[2026-06-10 09:45:19][INFO] Solde contrat AVANT recrédit: 0 
+[2026-06-10 09:45:19][INFO] Tickets à recréditer: 2 
+[2026-06-10 09:45:19][INFO] Solde contrat APRÈS recrédit: 2 
+[2026-06-10 09:45:19][INFO] Recrédit de 2 tickets effectué pour le contrat 176 
+[2026-06-10 09:45:19][INFO] RÉOUVERTURE RÉUSSIE - Intervention 161 
+[2026-06-10 09:45:30][DEBUG] Tentative d'aperçu contrat pour l'ID: 330 
+[2026-06-10 09:45:30][DEBUG] Pièce jointe trouvée: {"id":330,"nom_fichier":"CC16539.pdf","nom_personnalise":"CC16539.pdf","chemin_fichier":"uploads\/contracts\/176\/1773909869_CC16539.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":413800,"commentaire":null,"date_creation":"2026-03-19 11:44:29","masque_client":0,"type_id":null,"created_by":2} 
+[2026-06-10 09:45:30][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/176/1773909869_CC16539.pdf 
+[2026-06-10 09:45:30][DEBUG] Fichier trouvé, taille: 413800 
+[2026-06-10 09:45:30][DEBUG] Type MIME détecté: application/pdf 
+[2026-06-10 09:46:47][DEBUG] CSRF: Token trouvé dans la requête - Token: e9a68da92862462a5616... 
+[2026-06-10 09:46:47][INFO] === RÉOUVERTURE INTERVENTION 330 === 
+[2026-06-10 09:46:47][INFO] Tickets à recréditer: 21 
+[2026-06-10 09:46:47][INFO] Contrat ID: 221 
+[2026-06-10 09:46:47][INFO] Had tickets: oui 
+[2026-06-10 09:46:47][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 330 === 
+[2026-06-10 09:46:47][INFO] Solde contrat AVANT recrédit: 0 
+[2026-06-10 09:46:47][INFO] Tickets à recréditer: 21 
+[2026-06-10 09:46:47][INFO] Solde contrat APRÈS recrédit: 21 
+[2026-06-10 09:46:47][INFO] Recrédit de 21 tickets effectué pour le contrat 221 
+[2026-06-10 09:46:47][INFO] RÉOUVERTURE RÉUSSIE - Intervention 330 
+[2026-06-10 10:10:57][DEBUG] Tentative d'aperçu contrat pour l'ID: 330 
+[2026-06-10 10:10:57][DEBUG] Pièce jointe trouvée: {"id":330,"nom_fichier":"CC16539.pdf","nom_personnalise":"CC16539.pdf","chemin_fichier":"uploads\/contracts\/176\/1773909869_CC16539.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":413800,"commentaire":null,"date_creation":"2026-03-19 11:44:29","masque_client":0,"type_id":null,"created_by":2} 
+[2026-06-10 10:10:57][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/176/1773909869_CC16539.pdf 
+[2026-06-10 10:10:57][DEBUG] Fichier trouvé, taille: 413800 
+[2026-06-10 10:10:57][DEBUG] Type MIME détecté: application/pdf 

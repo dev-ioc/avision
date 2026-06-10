@@ -1713,6 +1713,14 @@ $closeReason = [];
 		});
 
 		function renderFermeture(data) {
+			// Masquer ou désactiver le bouton selon la condition
+			if (data.contract && data.contract.is_ticket_contract == false) {
+				document.getElementById('fermetureConfirmer').style.display = 'none';
+			} else {
+				document.getElementById('fermetureConfirmer').style.display = 'block';
+				document.getElementById('fermetureConfirmer').disabled = false;
+			}
+
 			var html = '';
 			html += '<table class="table table-sm table-bordered align-middle mb-3">';
 			html += '<thead class="table-light"><tr><th>Technicien</th><th>Durée</th><th>Dépl.</th><th>Qualifié</th><th>Détail calcul</th><th class="text-end">Tickets</th></tr></thead><tbody>';
@@ -1748,80 +1756,132 @@ $closeReason = [];
 				html += '</div>';
 			}
 
-			html += '<div class="mb-2">'
-				+ '<label for="ticketsManuel" class="form-label fw-bold">'
-				+ 'Tickets à déduire'
-				+ '<small class="text-muted fw-normal ms-2">(modifiez si nécessaire)</small>'
-				+ '</label>'
-				+ '<input type="number" class="form-control" id="ticketsManuel" min="0" step="0.5" value="' + data.total_tickets + '">'
-				+ '<div id="ticketsWarning" class="form-text" style="display:none; color: #dca235;">'
-				+ '<i class="bi bi-exclamation-triangle-fill me-1"></i> <span id="ticketsWarningText"></span>'
-				+ '</div>'
-				+ '</div>';
-
-			document.getElementById('fermetureContent').innerHTML = html;
-			document.getElementById('fermetureConfirmer').disabled = false;
-			document.getElementById('fermetureEmailCheck').style.display = 'flex';
-
-			var ticketsInput = document.getElementById('ticketsManuel');
-			if (ticketsInput && data.contract) {
-				var currentRemaining = data.contract.tickets_remaining;
-				function checkSolde() {
-					var value = parseFloat(ticketsInput.value) || 0;
-					var newRemaining = currentRemaining - value;
-					document.getElementById('ticketsWarning').style.display = 'none';
-					document.getElementById('fermetureConfirmer').disabled = false;
-				}
-				ticketsInput.addEventListener('input', checkSolde);
-				ticketsInput.addEventListener('change', checkSolde);
-				checkSolde();
+			// Ajouter le champ ticketsManuel seulement si c'est un contrat à tickets
+			if (data.contract && data.contract.is_ticket_contract == true) {
+				html += '<div class="mb-2">'
+					+ '<label for="ticketsManuel" class="form-label fw-bold">'
+					+ 'Tickets à déduire'
+					+ '<small class="text-muted fw-normal ms-2">(modifiez si nécessaire)</small>'
+					+ '</label>'
+					+ '<input type="number" class="form-control" id="ticketsManuel" min="0" step="0.5" value="' + data.total_tickets + '">'
+					+ '<div id="ticketsWarning" class="form-text" style="display:none; color: #dca235;">'
+					+ '<i class="bi bi-exclamation-triangle-fill me-1"></i> <span id="ticketsWarningText"></span>'
+					+ '</div>'
+					+ '</div>';
+			} else if (data.contract && data.contract.is_ticket_contract == false) {
+				// Message optionnel pour les contrats non-tickets
+				html += '<div class="alert alert-info mb-2">';
+				html += '<i class="bi bi-info-circle-fill me-2"></i>';
+				html += 'Ce contrat ne permet pas la gestion par tickets. La fermeture ne déduira aucun ticket.';
+				html += '</div>';
 			}
 
-			document.getElementById('fermetureConfirmer').onclick = function () {
-				var tickets = parseFloat(document.getElementById('ticketsManuel').value) || 0;
-				var sendEmail = document.getElementById('sendEmailClose').checked ? 1 : 0;
-				var token = getCsrfToken();
+			document.getElementById('fermetureContent').innerHTML = html;
 
-				if (!token) {
-					alert('Token CSRF manquant. Rechargez la page et réessayez.');
-					return;
+			// Masquer la checkbox email si pas de contrat tickets
+			if (data.contract && data.contract.is_ticket_contract == false) {
+				document.getElementById('fermetureEmailCheck').style.display = 'none';
+			} else {
+				document.getElementById('fermetureEmailCheck').style.display = 'flex';
+			}
+
+			// Initialiser les écouteurs seulement si contrat tickets
+			if (data.contract && data.contract.is_ticket_contract == true) {
+				var ticketsInput = document.getElementById('ticketsManuel');
+				if (ticketsInput && data.contract) {
+					var currentRemaining = data.contract.tickets_remaining;
+					function checkSolde() {
+						var value = parseFloat(ticketsInput.value) || 0;
+						var newRemaining = currentRemaining - value;
+						document.getElementById('ticketsWarning').style.display = 'none';
+						document.getElementById('fermetureConfirmer').disabled = false;
+					}
+					ticketsInput.addEventListener('input', checkSolde);
+					ticketsInput.addEventListener('change', checkSolde);
+					checkSolde();
 				}
-				// if (data.contract && tickets > data.contract.tickets_remaining) {
-				// 	alert('Erreur : Le nombre de tickets à déduire (' + tickets + ') dépasse le solde disponible (' + data.contract.tickets_remaining + ').');
-				// 	document.getElementById('fermetureConfirmer').disabled = false;
-				// 	document.getElementById('fermetureConfirmer').innerHTML = '<i class="bi bi-lock me-1"></i>Confirmer la fermeture';
-				// 	return;
-				// }
+			}
 
-				document.getElementById('fermetureConfirmer').disabled = true;
-				document.getElementById('fermetureConfirmer').innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Fermeture…';
+			// Configuration du bouton de confirmation
+			document.getElementById('fermetureConfirmer').onclick = function () {
+				// Si pas contrat tickets, fermer sans ticket
+				if (data.contract && data.contract.is_ticket_contract == false) {
+					var token = getCsrfToken();
+					if (!token) {
+						alert('Token CSRF manquant. Rechargez la page et réessayez.');
+						return;
+					}
 
-				var fd = new FormData();
-				fd.append('csrf_token', token);
-				fd.append('tickets_used', tickets);
-				fd.append('send_email', sendEmail);
+					document.getElementById('fermetureConfirmer').disabled = true;
+					document.getElementById('fermetureConfirmer').innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Fermeture…';
 
-				fetch(baseUrl + 'interventions/close/' + interventionId, {
-					method: 'POST',
-					body: fd,
-					headers: { 'X-Requested-With': 'XMLHttpRequest' }
-				})
-					.then(function (r) {
-						if (!r.ok) throw new Error('HTTP ' + r.status);
-						return r.json();
+					var fd = new FormData();
+					fd.append('csrf_token', token);
+					fd.append('tickets_used', 0);
+					fd.append('send_email', 0);
+
+					fetch(baseUrl + 'interventions/close/' + interventionId, {
+						method: 'POST',
+						body: fd,
+						headers: { 'X-Requested-With': 'XMLHttpRequest' }
 					})
-					.then(function (result) {
-						if (result && result.success === false) {
-							alert('Erreur : ' + (result.error || 'Fermeture impossible.'));
-							document.getElementById('fermetureConfirmer').disabled = false;
-							document.getElementById('fermetureConfirmer').innerHTML = '<i class="bi bi-lock me-1"></i>Confirmer la fermeture';
-						} else {
+						.then(function (r) {
+							if (!r.ok) throw new Error('HTTP ' + r.status);
+							return r.json();
+						})
+						.then(function (result) {
+							if (result && result.success === false) {
+								alert('Erreur : ' + (result.error || 'Fermeture impossible.'));
+								document.getElementById('fermetureConfirmer').disabled = false;
+								document.getElementById('fermetureConfirmer').innerHTML = '<i class="bi bi-lock me-1"></i>Confirmer la fermeture';
+							} else {
+								window.location.reload();
+							}
+						})
+						.catch(function () {
 							window.location.reload();
-						}
+						});
+				} else {
+					// Comportement normal pour les contrats tickets
+					var tickets = parseFloat(document.getElementById('ticketsManuel').value) || 0;
+					var sendEmail = document.getElementById('sendEmailClose').checked ? 1 : 0;
+					var token = getCsrfToken();
+
+					if (!token) {
+						alert('Token CSRF manquant. Rechargez la page et réessayez.');
+						return;
+					}
+
+					document.getElementById('fermetureConfirmer').disabled = true;
+					document.getElementById('fermetureConfirmer').innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Fermeture…';
+
+					var fd = new FormData();
+					fd.append('csrf_token', token);
+					fd.append('tickets_used', tickets);
+					fd.append('send_email', sendEmail);
+
+					fetch(baseUrl + 'interventions/close/' + interventionId, {
+						method: 'POST',
+						body: fd,
+						headers: { 'X-Requested-With': 'XMLHttpRequest' }
 					})
-					.catch(function () {
-						window.location.reload();
-					});
+						.then(function (r) {
+							if (!r.ok) throw new Error('HTTP ' + r.status);
+							return r.json();
+						})
+						.then(function (result) {
+							if (result && result.success === false) {
+								alert('Erreur : ' + (result.error || 'Fermeture impossible.'));
+								document.getElementById('fermetureConfirmer').disabled = false;
+								document.getElementById('fermetureConfirmer').innerHTML = '<i class="bi bi-lock me-1"></i>Confirmer la fermeture';
+							} else {
+								window.location.reload();
+							}
+						})
+						.catch(function () {
+							window.location.reload();
+						});
+				}
 			};
 		}
 	})();
