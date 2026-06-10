@@ -27,145 +27,208 @@ include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
 ?>
+<?php
+require_once __DIR__ . '/../../includes/functions.php';
+
+if (!isset($_SESSION['user'])) {
+    header('Location: ' . BASE_URL . 'auth/login');
+    exit;
+}
+
+$userType = $_SESSION['user']['user_type'] ?? null;
+
+setPageVariables('Modifier mon profil', 'profile_client');
+$currentPage = 'profile_client';
+
+include_once __DIR__ . '/../../includes/header.php';
+include_once __DIR__ . '/../../includes/sidebar.php';
+include_once __DIR__ . '/../../includes/navbar.php';
+?>
 
 <div class="container-fluid flex-grow-1 container-p-y">
-    <div class="row">
-        <div class="col-lg-12 mb-4 order-0">
-            <div class="card">
-                <div class="d-flex align-items-end row">
-                    <div class="col-12">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="card-title text-primary">Modifier mon profil</h5>
-                                <a href="<?= BASE_URL ?>profileClient" class="btn btn-secondary">
-                                    <i class="bi bi-arrow-left"></i> Retour
-                                </a>
-                            </div>
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-0">Modifier mon profil</h4>
+            <small class="text-muted">Mettez à jour vos informations personnelles</small>
+        </div>
 
-                            <?php if (isset($_SESSION['error'])): ?>
-                                <div class="alert alert-danger alert-dismissible" role="alert">
-                                    <?= $_SESSION['error'] ?>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                                <?php unset($_SESSION['error']); ?>
-                            <?php endif; ?>
+        <a href="<?= BASE_URL ?>profileClient" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Retour
+        </a>
+    </div>
 
-                            <form method="POST" action="<?= BASE_URL ?>profileClient/edit">
-                                <?= csrf_field() ?>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="last_name" class="form-label">Nom <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="last_name" name="last_name" 
-                                                   value="<?= htmlspecialchars($user['last_name'] ?? '') ?>" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="first_name" class="form-label">Prénom <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="first_name" name="first_name" 
-                                                   value="<?= htmlspecialchars($user['first_name'] ?? '') ?>" required>
-                                        </div>
-                                    </div>
-                                </div>
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert alert-danger alert-dismissible fade show">
+            <?= $_SESSION['error'] ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control" id="email" name="email" 
-                                                   value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="phone" class="form-label">Téléphone</label>
-                                            <input type="tel" class="form-control" id="phone" name="phone" 
-                                                   value="<?= htmlspecialchars($user['phone'] ?? '') ?>">
-                                        </div>
-                                    </div>
-                                </div>
+    <form method="POST" action="<?= BASE_URL ?>profileClient/edit">
+        <?= csrf_field() ?>
 
-                                <hr class="my-4">
-                                <h6 class="text-primary mb-3">Changer le mot de passe (optionnel)</h6>
-                                <p class="text-muted small">Laissez ces champs vides si vous ne souhaitez pas changer votre mot de passe.</p>
+        <div class="row g-4">
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="current_password" class="form-label">Mot de passe actuel</label>
-                                            <input type="password" class="form-control" id="current_password" name="current_password">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="new_password" class="form-label">Nouveau mot de passe</label>
-                                            <input type="password" class="form-control" id="new_password" name="new_password" 
-                                                   minlength="8">
-                                            <div class="form-text">Minimum 8 caractères</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="confirm_password" class="form-label">Confirmer le nouveau mot de passe</label>
-                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password">
-                                        </div>
-                                    </div>
-                                </div>
+            <!-- INFOS PROFIL -->
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
 
-                                <div class="mt-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="bi bi-check"></i> Enregistrer les modifications
-                                    </button>
-                                    <a href="<?= BASE_URL ?>profileClient" class="btn btn-secondary ms-2">
-                                        <i class="bi bi-x"></i> Annuler
-                                    </a>
-                                </div>
-                            </form>
+                        <h6 class="text-primary mb-3">
+                            <i class="bi bi-person"></i> Informations personnelles
+                        </h6>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nom *</label>
+                            <input type="text" class="form-control" name="last_name"
+                                value="<?= htmlspecialchars($user['last_name'] ?? '') ?>" required>
                         </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Prénom *</label>
+                            <input type="text" class="form-control" name="first_name"
+                                value="<?= htmlspecialchars($user['first_name'] ?? '') ?>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-control" name="email"
+                                value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Téléphone</label>
+                            <input type="tel" class="form-control" name="phone"
+                                value="<?= htmlspecialchars($user['phone'] ?? '') ?>">
+                        </div>
+
                     </div>
                 </div>
             </div>
+
+            <!-- MOT DE PASSE -->
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+
+                        <h6 class="text-primary mb-3">
+                            <i class="bi bi-shield-lock"></i> Sécurité
+                        </h6>
+
+                        <p class="text-muted small mb-3">
+                            Laissez vide si vous ne souhaitez pas modifier votre mot de passe
+                        </p>
+
+                        <div class="mb-3">
+                            <label class="form-label">Mot de passe actuel</label>
+                            <input type="password" class="form-control" name="current_password">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nouveau mot de passe</label>
+                            <input type="password" class="form-control" name="new_password" minlength="8">
+                            <div class="form-text">Minimum 8 caractères</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Confirmer le mot de passe</label>
+                            <input type="password" class="form-control" name="confirm_password">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </div>
+
+        <!-- ACTIONS -->
+        <div class="mt-4 d-flex justify-content-end">
+            <a href="<?= BASE_URL ?>profileClient" class="btn btn-light me-2">
+                Annuler
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check"></i> Enregistrer
+            </button>
+        </div>
+
+    </form>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Validation côté client pour les mots de passe
-    const currentPassword = document.getElementById('current_password');
-    const newPassword = document.getElementById('new_password');
-    const confirmPassword = document.getElementById('confirm_password');
-    const form = document.querySelector('form');
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
 
-    form.addEventListener('submit', function(e) {
-        // Vérifier si au moins un champ de mot de passe est rempli
-        const hasPasswordField = currentPassword.value || newPassword.value || confirmPassword.value;
-        
-        if (hasPasswordField) {
-            // Si un champ est rempli, tous doivent l'être
-            if (!currentPassword.value || !newPassword.value || !confirmPassword.value) {
-                e.preventDefault();
-                alert('Si vous souhaitez changer votre mot de passe, tous les champs de mot de passe sont requis.');
-                return;
-            }
+        form.addEventListener('submit', function (e) {
+            const current = form.querySelector('[name="current_password"]').value;
+            const newPass = form.querySelector('[name="new_password"]').value;
+            const confirm = form.querySelector('[name="confirm_password"]').value;
 
-            // Vérifier que les nouveaux mots de passe correspondent
-            if (newPassword.value !== confirmPassword.value) {
-                e.preventDefault();
-                alert('Le nouveau mot de passe et sa confirmation ne correspondent pas.');
-                return;
-            }
+            const hasPassword = current || newPass || confirm;
 
-            // Vérifier la longueur du nouveau mot de passe
-            if (newPassword.value.length < 8) {
-                e.preventDefault();
-                alert('Le nouveau mot de passe doit contenir au moins 8 caractères.');
-                return;
+            if (hasPassword) {
+                if (!current || !newPass || !confirm) {
+                    e.preventDefault();
+                    alert('Tous les champs de mot de passe sont requis.');
+                    return;
+                }
+
+                if (newPass !== confirm) {
+                    e.preventDefault();
+                    alert('Les mots de passe ne correspondent pas.');
+                    return;
+                }
+
+                if (newPass.length < 8) {
+                    e.preventDefault();
+                    alert('Minimum 8 caractères.');
+                    return;
+                }
             }
-        }
+        });
     });
-});
+</script>
+
+<?php include_once __DIR__ . '/../../includes/footer.php'; ?>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Validation côté client pour les mots de passe
+        const currentPassword = document.getElementById('current_password');
+        const newPassword = document.getElementById('new_password');
+        const confirmPassword = document.getElementById('confirm_password');
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', function (e) {
+            // Vérifier si au moins un champ de mot de passe est rempli
+            const hasPasswordField = currentPassword.value || newPassword.value || confirmPassword.value;
+
+            if (hasPasswordField) {
+                // Si un champ est rempli, tous doivent l'être
+                if (!currentPassword.value || !newPassword.value || !confirmPassword.value) {
+                    e.preventDefault();
+                    alert('Si vous souhaitez changer votre mot de passe, tous les champs de mot de passe sont requis.');
+                    return;
+                }
+
+                // Vérifier que les nouveaux mots de passe correspondent
+                if (newPassword.value !== confirmPassword.value) {
+                    e.preventDefault();
+                    alert('Le nouveau mot de passe et sa confirmation ne correspondent pas.');
+                    return;
+                }
+
+                // Vérifier la longueur du nouveau mot de passe
+                if (newPassword.value.length < 8) {
+                    e.preventDefault();
+                    alert('Le nouveau mot de passe doit contenir au moins 8 caractères.');
+                    return;
+                }
+            }
+        });
+    });
 </script>
 
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
