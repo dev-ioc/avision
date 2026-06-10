@@ -210,13 +210,6 @@ require_once __DIR__ . '/functions.php';
           <div data-i18n="sites">Sites et salles</div>
         </a>
       </li>
-
-      <!-- Matériel & Documentation - Nouvelle entrée pour Client -->
-      <li class="menu-item <?php echo isActivePage('materiel_documentation'); ?>">
-        <a href="<?php echo BASE_URL; ?>materiel_documentation" class="menu-link">
-          <i class="menu-icon bi bi-hdd-stack"></i>
-          <div data-i18n="materiel_documentation">Matériel & Docs</div>
-        </a>
       </li>
 
       <li class="menu-item <?php echo isActivePage('materiel_client'); ?>">
