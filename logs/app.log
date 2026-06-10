@@ -91563,3 +91563,13 @@ Quant à l’écran n°1, il est HS
 [2026-06-10 10:10:57][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/176/1773909869_CC16539.pdf 
 [2026-06-10 10:10:57][DEBUG] Fichier trouvé, taille: 413800 
 [2026-06-10 10:10:57][DEBUG] Type MIME détecté: application/pdf 
+[2026-06-10 10:18:59][WARNING] Undefined variable $isAdmin {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":85,"errno":2}
+[2026-06-10 10:18:59][WARNING] Undefined variable $isAdmin {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":981,"errno":2}
+[2026-06-10 10:24:49][INFO] 30 
+[2026-06-10 10:40:42][INFO] 81 
+[2026-06-10 10:42:57][INFO] 81 
+[2026-06-10 10:45:34][INFO] 81 
+[2026-06-10 10:45:51][INFO] 81 
+[2026-06-10 10:46:15][INFO] 81 
+[2026-06-10 10:48:02][INFO] 81 
+[2026-06-10 10:49:08][INFO] 81 

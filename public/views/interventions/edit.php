@@ -95,16 +95,20 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <li><i class="bi bi-geo-alt text-warning"></i> <strong>Site</strong> - Sélectionnez un site</li>
                             <?php endif; ?>
                             <?php if (empty($intervention['building_id'])): ?>
-                                <li><i class="bi bi-building text-warning"></i> <strong>Bâtiment</strong> - Sélectionnez un bâtiment</li>
+                                <li><i class="bi bi-building text-warning"></i> <strong>Bâtiment</strong> - Sélectionnez un bâtiment
+                                </li>
                             <?php endif; ?>
                             <?php if (empty($intervention['room_id'])): ?>
-                                <li><i class="bi bi-door-closed text-warning"></i> <strong>Salle</strong> - Sélectionnez une salle</li>
+                                <li><i class="bi bi-door-closed text-warning"></i> <strong>Salle</strong> - Sélectionnez une salle
+                                </li>
                             <?php endif; ?>
                             <?php if (empty($intervention['description'])): ?>
-                                <li><i class="bi bi-file-text text-warning"></i> <strong>Description</strong> - Décrivez le problème</li>
+                                <li><i class="bi bi-file-text text-warning"></i> <strong>Description</strong> - Décrivez le problème
+                                </li>
                             <?php endif; ?>
                             <?php if (empty($intervention['demande_par'])): ?>
-                                <li><i class="bi bi-person text-warning"></i> <strong>Demandeur</strong> - Qui a demandé l'intervention ?</li>
+                                <li><i class="bi bi-person text-warning"></i> <strong>Demandeur</strong> - Qui a demandé
+                                    l'intervention ?</li>
                             <?php endif; ?>
                             <?php if (empty($intervention['title']) || $intervention['title'] == 'Flash Intervention - Assistance téléphonique' || strpos($intervention['title'], 'Flash Intervention') !== false): ?>
                                 <li><i class="bi bi-pencil text-warning"></i> <strong>Titre</strong> - Personnalisez le titre</li>
@@ -157,7 +161,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <div>
                                     <label class="form-label fw-bold mb-0">Client *</label>
                                     <div class="input-group">
-                                        <select class="form-select bg-body text-body" id="client_id" name="client_id" required>
+                                        <select class="form-select bg-body text-body" id="client_id" name="client_id"
+                                            required>
                                             <option value="">Sélectionner un client</option>
                                             <?php foreach ($clients as $client): ?>
                                                 <option value="<?= $client['id'] ?>"
@@ -258,7 +263,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <!-- Contrat -->
                                 <div>
                                     <label class="form-label fw-bold mb-0">Contrat associé *</label>
-                                    <select class="form-select bg-body text-body" id="contract_id" name="contract_id" required>
+                                    <select class="form-select bg-body text-body" id="contract_id" name="contract_id"
+                                        required>
                                         <option value="">Sélectionner un contrat</option>
                                         <?php foreach ($contracts as $contract): ?>
                                             <option value="<?= $contract['id'] ?>"
@@ -291,8 +297,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <!-- Priorité -->
                                 <div>
                                     <label class="form-label fw-bold mb-0">Priorité *</label>
-                                    <select class="form-select bg-body text-body" id="priority_id" name="priority_id" required>
-                                        <?php 
+                                    <select class="form-select bg-body text-body" id="priority_id" name="priority_id"
+                                        required>
+                                        <?php
                                         // Si l'intervention est préventive, forcer l'affichage de la priorité préventive
                                         $selectedPriority = isset($intervention['is_preventive']) && $intervention['is_preventive'] == 1 ? 5 : $intervention['priority_id'];
                                         ?>
@@ -307,8 +314,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <!-- Case à cocher Intervention préventive -->
                                 <div class="mt-2 pt-1">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="is_preventive" name="is_preventive" value="1"
-                                            <?= isset($intervention['is_preventive']) && $intervention['is_preventive'] == 1 ? 'checked' : '' ?>>
+                                        <input type="checkbox" class="form-check-input" id="is_preventive"
+                                            name="is_preventive" value="1" <?= isset($intervention['is_preventive']) && $intervention['is_preventive'] == 1 ? 'checked' : '' ?>>
                                         <label class="form-check-label fw-bold" for="is_preventive">
                                             Intervention préventive
                                         </label>
@@ -388,7 +395,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
 
         <!-- Le reste du code (commentaires, pièces jointes, historique) reste inchangé -->
-        
+
         <!-- Espace entre le formulaire et les sections -->
         <div class="mb-4"></div>
 
@@ -466,8 +473,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             usort($attachments, function ($a, $b) {
                                 $aIsBI = $a['type_liaison'] === 'bi';
                                 $bIsBI = $b['type_liaison'] === 'bi';
-                                if ($aIsBI && !$bIsBI) return -1;
-                                if (!$aIsBI && $bIsBI) return 1;
+                                if ($aIsBI && !$bIsBI)
+                                    return -1;
+                                if (!$aIsBI && $bIsBI)
+                                    return 1;
                                 return strtotime($b['date_creation']) - strtotime($a['date_creation']);
                             });
 
@@ -524,7 +533,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 <div class="display-name"><?php echo h($attachment['nom_fichier']); ?></div>
                                                 <?php if (!empty($attachment['nom_personnalise']) && $attachment['nom_personnalise'] !== $attachment['nom_fichier']): ?>
                                                     <div class="original-name text-muted small">
-                                                        <?php echo h($attachment['nom_personnalise']); ?></div>
+                                                        <?php echo h($attachment['nom_personnalise']); ?>
+                                                    </div>
                                                 <?php endif; ?>
                                             </div>
                                             <?php if (canModifyInterventions() && $intervention['status_id'] != 6): ?>
@@ -548,7 +558,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                         <div class="display-name"><?= h($attachment['nom_fichier']) ?></div>
                                                         <?php if (!empty($attachment['nom_personnalise']) && $attachment['nom_personnalise'] !== $attachment['nom_fichier']): ?>
                                                             <div class="original-name text-muted small">
-                                                                <?= h($attachment['nom_personnalise']) ?></div>
+                                                                <?= h($attachment['nom_personnalise']) ?>
+                                                            </div>
                                                         <?php endif; ?>
                                                     </div>
                                                 </h5>
@@ -661,7 +672,32 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     </div>
                     <div class="mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="visible_by_client" name="visible_by_client" value="1" checked>
+                            <input class="form-check-input" type="checkbox" id="is_solution" name="is_solution"
+                                value="1">
+                            <label class="form-check-label fw-bold text-success" for="is_solution">
+                                Marquer comme solution
+                            </label>
+                            <small class="text-muted d-block mt-1">
+                                Cochez si ce commentaire résout le problème
+                            </small>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="is_observation" name="is_observation"
+                                value="1">
+                            <label class="form-check-label fw-bold text-info" for="is_observation">
+                                Marquer comme observation
+                            </label>
+                            <small class="text-muted d-block mt-1">
+                                Cochez pour une simple observation sans action
+                            </small>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="visible_by_client"
+                                name="visible_by_client" value="1" checked>
                             <label class="form-check-label" for="visible_by_client">
                                 Visible par le client
                             </label>
@@ -735,95 +771,95 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 <script>
-// Initialisation du Drag & Drop pour l'upload de fichiers dans edit.php
-document.addEventListener('DOMContentLoaded', function() {
-    const dropZone = document.getElementById('dropZone');
-    const fileInput = document.getElementById('fileInput');
-    const fileList = document.getElementById('fileList');
-    const stats = document.getElementById('stats');
-    const validCountSpan = document.getElementById('validCount');
-    const invalidCountSpan = document.getElementById('invalidCount');
-    const clearAllBtn = document.getElementById('clearAllBtn');
-    const uploadValidBtn = document.getElementById('uploadValidBtn');
-    const dragDropForm = document.getElementById('dragDropForm');
-    
-    let validFiles = [];
-    let invalidFiles = [];
-    
-    if (!dropZone) return;
-    
-    // Empêcher le comportement par défaut du navigateur pour le drag & drop
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, preventDefaults, false);
-        document.body.addEventListener(eventName, preventDefaults, false);
-    });
-    
-    function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-    
-    // Highlight la zone de drop
-    ['dragenter', 'dragover'].forEach(eventName => {
-        dropZone.addEventListener(eventName, highlight, false);
-    });
-    
-    ['dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, unhighlight, false);
-    });
-    
-    function highlight(e) {
-        dropZone.classList.add('dragover');
-    }
-    
-    function unhighlight(e) {
-        dropZone.classList.remove('dragover');
-    }
-    
-    // Gérer le drop
-    dropZone.addEventListener('drop', handleDrop, false);
-    dropZone.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', handleFiles);
-    
-    function handleDrop(e) {
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        handleFiles({ target: { files: files } });
-    }
-    
-    function handleFiles(e) {
-        const files = Array.from(e.target.files);
-        
-        const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt'];
-        
-        files.forEach(file => {
-            const extension = file.name.split('.').pop().toLowerCase();
-            const isValid = allowedExtensions.includes(extension);
-            
-            if (isValid) {
-                validFiles.push(file);
-            } else {
-                invalidFiles.push({
-                    file: file,
-                    error: `Extension .${extension} non autorisée`
-                });
-            }
+    // Initialisation du Drag & Drop pour l'upload de fichiers dans edit.php
+    document.addEventListener('DOMContentLoaded', function () {
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        const stats = document.getElementById('stats');
+        const validCountSpan = document.getElementById('validCount');
+        const invalidCountSpan = document.getElementById('invalidCount');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        const uploadValidBtn = document.getElementById('uploadValidBtn');
+        const dragDropForm = document.getElementById('dragDropForm');
+
+        let validFiles = [];
+        let invalidFiles = [];
+
+        if (!dropZone) return;
+
+        // Empêcher le comportement par défaut du navigateur pour le drag & drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
         });
-        
-        updateFileList();
-        
-        // Réinitialiser l'input file
-        fileInput.value = '';
-    }
-    
-    function updateFileList() {
-        fileList.innerHTML = '';
-        
-        // Afficher les fichiers valides
-        validFiles.forEach((file, index) => {
-            const fileItem = document.createElement('div');
-            fileItem.className = 'file-item valid';
-            fileItem.innerHTML = `
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Highlight la zone de drop
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropZone.classList.add('dragover');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('dragover');
+        }
+
+        // Gérer le drop
+        dropZone.addEventListener('drop', handleDrop, false);
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFiles);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles({ target: { files: files } });
+        }
+
+        function handleFiles(e) {
+            const files = Array.from(e.target.files);
+
+            const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt'];
+
+            files.forEach(file => {
+                const extension = file.name.split('.').pop().toLowerCase();
+                const isValid = allowedExtensions.includes(extension);
+
+                if (isValid) {
+                    validFiles.push(file);
+                } else {
+                    invalidFiles.push({
+                        file: file,
+                        error: `Extension .${extension} non autorisée`
+                    });
+                }
+            });
+
+            updateFileList();
+
+            // Réinitialiser l'input file
+            fileInput.value = '';
+        }
+
+        function updateFileList() {
+            fileList.innerHTML = '';
+
+            // Afficher les fichiers valides
+            validFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item valid';
+                fileItem.innerHTML = `
                 <div class="file-info">
                     <i class="bi bi-file-earmark-check"></i>
                     <span class="file-name">${escapeHtml(file.name)}</span>
@@ -837,14 +873,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     <i class="bi bi-x-circle"></i>
                 </button>
             `;
-            fileList.appendChild(fileItem);
-        });
-        
-        // Afficher les fichiers invalides
-        invalidFiles.forEach((item, index) => {
-            const fileItem = document.createElement('div');
-            fileItem.className = 'file-item invalid';
-            fileItem.innerHTML = `
+                fileList.appendChild(fileItem);
+            });
+
+            // Afficher les fichiers invalides
+            invalidFiles.forEach((item, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item invalid';
+                fileItem.innerHTML = `
                 <div class="file-info">
                     <i class="bi bi-file-earmark-exclamation"></i>
                     <span class="file-name">${escapeHtml(item.file.name)}</span>
@@ -855,127 +891,127 @@ document.addEventListener('DOMContentLoaded', function() {
                     <i class="bi bi-x-circle"></i>
                 </button>
             `;
-            fileList.appendChild(fileItem);
-        });
-        
-        // Mettre à jour les compteurs
-        validCountSpan.textContent = validFiles.length;
-        invalidCountSpan.textContent = invalidFiles.length;
-        stats.style.display = validFiles.length > 0 || invalidFiles.length > 0 ? 'block' : 'none';
-        clearAllBtn.style.display = validFiles.length > 0 || invalidFiles.length > 0 ? 'inline-block' : 'none';
-        uploadValidBtn.style.display = validFiles.length > 0 ? 'inline-block' : 'none';
-        
-        // Ajouter les événements de suppression
-        document.querySelectorAll('.remove-file').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const index = parseInt(this.dataset.index);
-                const type = this.dataset.type;
-                if (type === 'valid') {
-                    validFiles.splice(index, 1);
-                } else {
-                    invalidFiles.splice(index, 1);
-                }
-                updateFileList();
+                fileList.appendChild(fileItem);
             });
+
+            // Mettre à jour les compteurs
+            validCountSpan.textContent = validFiles.length;
+            invalidCountSpan.textContent = invalidFiles.length;
+            stats.style.display = validFiles.length > 0 || invalidFiles.length > 0 ? 'block' : 'none';
+            clearAllBtn.style.display = validFiles.length > 0 || invalidFiles.length > 0 ? 'inline-block' : 'none';
+            uploadValidBtn.style.display = validFiles.length > 0 ? 'inline-block' : 'none';
+
+            // Ajouter les événements de suppression
+            document.querySelectorAll('.remove-file').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const index = parseInt(this.dataset.index);
+                    const type = this.dataset.type;
+                    if (type === 'valid') {
+                        validFiles.splice(index, 1);
+                    } else {
+                        invalidFiles.splice(index, 1);
+                    }
+                    updateFileList();
+                });
+            });
+        }
+
+        // Effacer tous les fichiers
+        clearAllBtn.addEventListener('click', function () {
+            validFiles = [];
+            invalidFiles = [];
+            updateFileList();
         });
-    }
-    
-    // Effacer tous les fichiers
-    clearAllBtn.addEventListener('click', function() {
-        validFiles = [];
-        invalidFiles = [];
-        updateFileList();
-    });
-    
-    // Upload des fichiers valides
-    uploadValidBtn.addEventListener('click', function() {
-        if (validFiles.length === 0) return;
-        
-        const formData = new FormData(dragDropForm);
-        
-        // Ajouter les fichiers avec leurs noms personnalisés
-        validFiles.forEach((file, index) => {
-            const customNameInput = document.getElementById(`custom_name_${index}`);
-            const customName = customNameInput ? customNameInput.value.trim() : '';
-            formData.append('attachments[]', file);
-            formData.append('custom_names[]', customName);
-        });
-        
-        // Désactiver le bouton pendant l'upload
-        uploadValidBtn.disabled = true;
-        uploadValidBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status"></span> Upload en cours...';
-        
-        fetch('<?php echo BASE_URL; ?>interventions/addMultipleAttachments/<?php echo $intervention['id']; ?>', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Fermer le modal
-                const modal = bootstrap.Modal.getInstance(document.getElementById('addAttachmentModal'));
-                if (modal) modal.hide();
-                
-                // Afficher un message de succès
-                const successMsg = document.createElement('div');
-                successMsg.className = 'alert alert-success alert-dismissible fade show mt-3';
-                successMsg.innerHTML = `
+
+        // Upload des fichiers valides
+        uploadValidBtn.addEventListener('click', function () {
+            if (validFiles.length === 0) return;
+
+            const formData = new FormData(dragDropForm);
+
+            // Ajouter les fichiers avec leurs noms personnalisés
+            validFiles.forEach((file, index) => {
+                const customNameInput = document.getElementById(`custom_name_${index}`);
+                const customName = customNameInput ? customNameInput.value.trim() : '';
+                formData.append('attachments[]', file);
+                formData.append('custom_names[]', customName);
+            });
+
+            // Désactiver le bouton pendant l'upload
+            uploadValidBtn.disabled = true;
+            uploadValidBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status"></span> Upload en cours...';
+
+            fetch('<?php echo BASE_URL; ?>interventions/addMultipleAttachments/<?php echo $intervention['id']; ?>', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Fermer le modal
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('addAttachmentModal'));
+                        if (modal) modal.hide();
+
+                        // Afficher un message de succès
+                        const successMsg = document.createElement('div');
+                        successMsg.className = 'alert alert-success alert-dismissible fade show mt-3';
+                        successMsg.innerHTML = `
                     <i class="bi bi-check-circle me-2"></i>
                     ${data.message || 'Fichiers uploadés avec succès !'}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 `;
-                const container = document.querySelector('.container-p-y');
-                if (container) {
-                    container.insertBefore(successMsg, container.firstChild);
-                }
-                
-                // Recharger la page après 2 secondes
-                setTimeout(() => {
-                    location.reload();
-                }, 2000);
-            } else {
-                alert('Erreur: ' + (data.error || 'Erreur lors de l\'upload'));
-                uploadValidBtn.disabled = false;
-                uploadValidBtn.innerHTML = '<i class="bi bi-upload me-1"></i> Uploader les fichiers valides';
-            }
-        })
-        .catch(error => {
-            
-            alert('Erreur lors de l\'upload des fichiers');
-            uploadValidBtn.disabled = false;
-            uploadValidBtn.innerHTML = '<i class="bi bi-upload me-1"></i> Uploader les fichiers valides';
+                        const container = document.querySelector('.container-p-y');
+                        if (container) {
+                            container.insertBefore(successMsg, container.firstChild);
+                        }
+
+                        // Recharger la page après 2 secondes
+                        setTimeout(() => {
+                            location.reload();
+                        }, 2000);
+                    } else {
+                        alert('Erreur: ' + (data.error || 'Erreur lors de l\'upload'));
+                        uploadValidBtn.disabled = false;
+                        uploadValidBtn.innerHTML = '<i class="bi bi-upload me-1"></i> Uploader les fichiers valides';
+                    }
+                })
+                .catch(error => {
+
+                    alert('Erreur lors de l\'upload des fichiers');
+                    uploadValidBtn.disabled = false;
+                    uploadValidBtn.innerHTML = '<i class="bi bi-upload me-1"></i> Uploader les fichiers valides';
+                });
         });
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>]/g, function (m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
     });
-    
-    function formatFileSize(bytes) {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-    
-    function escapeHtml(str) {
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-    }
-});
 </script>
 <script>
-function openAttachmentModal() {
-    const modalElement = document.getElementById('addAttachmentModal');
-    if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
+    function openAttachmentModal() {
+        const modalElement = document.getElementById('addAttachmentModal');
+        if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        }
     }
-}
 </script>
 <style>
     .drop-zone {
@@ -1172,46 +1208,46 @@ function openAttachmentModal() {
     }
 </style>
 <script>
-// Script pour gérer la case à cocher préventive et la priorité
-document.addEventListener('DOMContentLoaded', function() {
-    const isPreventiveCheckbox = document.getElementById('is_preventive');
-    const prioritySelect = document.getElementById('priority_id');
-    
-    if (isPreventiveCheckbox && prioritySelect) {
-        // Fonction pour mettre à jour la priorité
-        function updatePriority() {
-            if (isPreventiveCheckbox.checked) {
-                // Si préventive, on peut toujours modifier la priorité
-                // On ne bloque plus la sélection
-                prioritySelect.disabled = false;
-                // Optionnel: ajouter un message d'information
-                const helpText = document.querySelector('#priority_id + small');
-                if (helpText) {
-                    helpText.innerHTML = '<i class="bi bi-info-circle me-1"></i>La priorité peut être modifiée même pour les interventions préventives.';
+    // Script pour gérer la case à cocher préventive et la priorité
+    document.addEventListener('DOMContentLoaded', function () {
+        const isPreventiveCheckbox = document.getElementById('is_preventive');
+        const prioritySelect = document.getElementById('priority_id');
+
+        if (isPreventiveCheckbox && prioritySelect) {
+            // Fonction pour mettre à jour la priorité
+            function updatePriority() {
+                if (isPreventiveCheckbox.checked) {
+                    // Si préventive, on peut toujours modifier la priorité
+                    // On ne bloque plus la sélection
+                    prioritySelect.disabled = false;
+                    // Optionnel: ajouter un message d'information
+                    const helpText = document.querySelector('#priority_id + small');
+                    if (helpText) {
+                        helpText.innerHTML = '<i class="bi bi-info-circle me-1"></i>La priorité peut être modifiée même pour les interventions préventives.';
+                    }
+                } else {
+                    prioritySelect.disabled = false;
                 }
-            } else {
-                prioritySelect.disabled = false;
+            }
+
+            // Écouter le changement de la case à cocher
+            isPreventiveCheckbox.addEventListener('change', updatePriority);
+
+            // Appliquer au chargement
+            updatePriority();
+
+            // Ajouter une option pour créer des interventions préventives automatiquement
+            // lors de la création de contrats de maintenance
+            const autoCreatePreventiveBtn = document.getElementById('autoCreatePreventiveBtn');
+            if (autoCreatePreventiveBtn) {
+                autoCreatePreventiveBtn.addEventListener('click', function () {
+                    // Logique pour créer automatiquement des interventions préventives
+                    isPreventiveCheckbox.checked = true;
+                    updatePriority();
+                });
             }
         }
-        
-        // Écouter le changement de la case à cocher
-        isPreventiveCheckbox.addEventListener('change', updatePriority);
-        
-        // Appliquer au chargement
-        updatePriority();
-        
-        // Ajouter une option pour créer des interventions préventives automatiquement
-        // lors de la création de contrats de maintenance
-        const autoCreatePreventiveBtn = document.getElementById('autoCreatePreventiveBtn');
-        if (autoCreatePreventiveBtn) {
-            autoCreatePreventiveBtn.addEventListener('click', function() {
-                // Logique pour créer automatiquement des interventions préventives
-                isPreventiveCheckbox.checked = true;
-                updatePriority();
-            });
-        }
-    }
-});
+    });
 </script>
 
 <!-- Scripts pour le chargement dynamique des sites, bâtiments et salles -->
