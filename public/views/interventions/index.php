@@ -378,8 +378,8 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
   <div class="modal fade" id="flashInterventionModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header bg-success text-white mb-3">
-          <h5 class="modal-title"><i class="bi bi-lightning-charge me-2"></i>Flash Intervention</h5>
+        <div class="modal-header text-white mb-3">
+          <h5 class="modal-title mb-3">Flash Intervention</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
@@ -424,7 +424,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
       </div>
     </div>
   </div>
-
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const flashBtn = document.getElementById('confirmFlashBtn');
@@ -498,6 +497,77 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
             flashSpinner.classList.add('d-none');
             flashBtn.disabled = false;
           });
+      });
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.modal').forEach(function (modal) {
+
+        // Réinitialiser la position à la fermeture
+        modal.addEventListener('hidden.bs.modal', function () {
+          const dialog = modal.querySelector('.modal-dialog');
+          if (dialog) {
+            dialog.style.position = '';
+            dialog.style.left = '';
+            dialog.style.top = '';
+            dialog.style.margin = '';
+            dialog.style.width = '';
+            dialog.style.maxWidth = '';
+          }
+        });
+
+        modal.addEventListener('shown.bs.modal', function () {
+          const dialog = modal.querySelector('.modal-dialog');
+          const header = modal.querySelector('.modal-header');
+          if (!dialog || !header) return;
+
+          // Éviter d'attacher plusieurs fois le listener
+          if (header.dataset.draggable) return;
+          header.dataset.draggable = 'true';
+
+          header.style.cursor = 'grab';
+
+          let isDragging = false;
+          let startX, startY, startLeft, startTop;
+
+          header.addEventListener('mousedown', function (e) {
+            if (e.target.closest('button')) return;
+
+            isDragging = true;
+            header.style.cursor = 'grabbing';
+
+            const rect = dialog.getBoundingClientRect();
+            startX = e.clientX;
+            startY = e.clientY;
+            startLeft = rect.left;
+            startTop = rect.top;
+
+            // Figer la largeur AVANT de passer en fixed
+            dialog.style.width = rect.width + 'px';
+            dialog.style.maxWidth = 'none';
+            dialog.style.position = 'fixed';
+            dialog.style.left = startLeft + 'px';
+            dialog.style.top = startTop + 'px';
+            dialog.style.margin = '0';
+          });
+
+          document.addEventListener('mousemove', function (e) {
+            if (!isDragging) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            dialog.style.left = (startLeft + dx) + 'px';
+            dialog.style.top = (startTop + dy) + 'px';
+          });
+
+          document.addEventListener('mouseup', function () {
+            if (isDragging) {
+              isDragging = false;
+              header.style.cursor = 'grab';
+            }
+          });
+        });
+
       });
     });
   </script>
