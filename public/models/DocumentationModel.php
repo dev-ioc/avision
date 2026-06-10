@@ -382,4 +382,78 @@ class DocumentationModel extends BaseModel
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    /**
+     * Récupère tous les documents avec filtres (pour la vue unifiée)
+     * 
+     * @param array $filters Les filtres à appliquer
+     * @return array Liste des documents
+     */
+    public function getAllWithFilters($filters = [])
+    {
+        $where = [];
+        $params = [];
+
+        $query = "
+        SELECT 
+            pj.*,
+            c.id as client_id,
+            c.name as client_nom,
+            s.id as site_id,
+            s.name as site_nom,
+            b.id as building_id,
+            b.name as building_nom,
+            r.id as salle_id,
+            r.name as salle_nom,
+            u.first_name as uploader_first_name,
+            u.last_name as uploader_last_name,
+            CONCAT(u.first_name, ' ', u.last_name) as uploader_name
+        FROM pieces_jointes pj
+        INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+        LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+        LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+        LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN users u ON pj.created_by = u.id
+        WHERE lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
+    ";
+
+        // Appliquer les filtres
+        if (!empty($filters['client_id'])) {
+            $where[] = "(c.id = :client_id OR s.client_id = :client_id2 OR b.client_id = :client_id3)";
+            $params[':client_id'] = $filters['client_id'];
+            $params[':client_id2'] = $filters['client_id'];
+            $params[':client_id3'] = $filters['client_id'];
+        }
+
+        if (!empty($filters['site_id'])) {
+            $where[] = "(s.id = :site_id OR b.site_id = :site_id2)";
+            $params[':site_id'] = $filters['site_id'];
+            $params[':site_id2'] = $filters['site_id'];
+        }
+
+        if (!empty($filters['building_id'])) {
+            $where[] = "b.id = :building_id";
+            $params[':building_id'] = $filters['building_id'];
+        }
+
+        if (!empty($filters['salle_id'])) {
+            $where[] = "r.id = :salle_id";
+            $params[':salle_id'] = $filters['salle_id'];
+        }
+
+        // Ajouter les conditions WHERE
+        if (!empty($where)) {
+            $query .= " AND " . implode(" AND ", $where);
+        }
+
+        $query .= " ORDER BY c.name, s.name, b.name, r.name, pj.date_creation DESC";
+
+        $stmt = $this->db->prepare($query);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

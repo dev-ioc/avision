@@ -51,6 +51,7 @@ function generateBreadcrumbs($customBreadcrumbs = [])
         'client' => 'Client',
         'materiel' => 'Matériel',
         'materiel_client' => 'Mon matériel',
+        'materiel_documentation' => 'Matériel & Documentation',
         'documentation' => 'Documentation',
         'documentation_client' => 'Mes documents',
         'users' => 'Utilisateurs',
@@ -611,6 +612,110 @@ function generateMaterielIndexBreadcrumbs($filters, $clients = [], $sites = [], 
             ];
         }
     }
+    /**
+     * Génère les breadcrumbs personnalisés pour la page matériel_documentation
+     * Format: Matériel & Documentation - [Client] - [Site] - [Bâtiment] - [Salle] (selon les filtres)
+     * @param array $filters Tableau contenant les filtres (client_id, site_id, building_id, salle_id)
+     * @param array $clients Liste des clients
+     * @param array $sites Liste des sites
+     * @param array $buildings Liste des bâtiments
+     * @param array $salles Liste des salles
+     * @return array Tableau de breadcrumbs personnalisés
+     */
+    function generateMaterielDocumentationBreadcrumbs($filters, $clients = [], $sites = [], $buildings = [], $salles = [])
+    {
+        $breadcrumbs = [];
 
+        // Si aucun filtre n'est sélectionné, retourner simplement le titre
+        if (empty($filters['client_id']) && empty($filters['site_id']) && empty($filters['building_id']) && empty($filters['salle_id'])) {
+            $breadcrumbs[] = [
+                'label' => 'Matériel & Documentation',
+                'url' => null,
+                'active' => true
+            ];
+            return $breadcrumbs;
+        }
+
+        // Client (si sélectionné)
+        if (!empty($filters['client_id'])) {
+            $clientName = null;
+            foreach ($clients as $client) {
+                if ($client['id'] == $filters['client_id']) {
+                    $clientName = $client['name'];
+                    break;
+                }
+            }
+            if ($clientName) {
+                // Si c'est le seul filtre, le client est actif
+                $isActive = empty($filters['site_id']) && empty($filters['building_id']) && empty($filters['salle_id']);
+                $breadcrumbs[] = [
+                    'label' => h($clientName),
+                    'url' => $isActive ? null : BASE_URL . 'materiel_documentation?client_id=' . $filters['client_id'],
+                    'active' => $isActive
+                ];
+            }
+        }
+
+        // Site (si sélectionné)
+        if (!empty($filters['site_id'])) {
+            $siteName = null;
+            foreach ($sites as $site) {
+                if ($site['id'] == $filters['site_id']) {
+                    $siteName = $site['name'];
+                    break;
+                }
+            }
+            if ($siteName) {
+                $isActive = empty($filters['building_id']) && empty($filters['salle_id']);
+                $url = BASE_URL . 'materiel_documentation?client_id=' . $filters['client_id'] . '&site_id=' . $filters['site_id'];
+                $breadcrumbs[] = [
+                    'label' => h($siteName),
+                    'url' => $isActive ? null : $url,
+                    'active' => $isActive
+                ];
+            }
+        }
+
+        // Bâtiment (si sélectionné)
+        if (!empty($filters['building_id'])) {
+            $buildingName = null;
+            foreach ($buildings as $building) {
+                if ($building['id'] == $filters['building_id']) {
+                    $buildingName = $building['name'];
+                    break;
+                }
+            }
+            if ($buildingName) {
+                $isActive = empty($filters['salle_id']);
+                $url = BASE_URL . 'materiel_documentation?client_id=' . $filters['client_id'] .
+                    '&site_id=' . $filters['site_id'] . '&building_id=' . $filters['building_id'];
+                $breadcrumbs[] = [
+                    'label' => h($buildingName),
+                    'url' => $isActive ? null : $url,
+                    'active' => $isActive
+                ];
+            }
+        }
+
+        // Salle (si sélectionnée) - toujours actif
+        if (!empty($filters['salle_id'])) {
+            $salleName = null;
+            foreach ($salles as $salle) {
+                if ($salle['id'] == $filters['salle_id']) {
+                    $salleName = $salle['name'];
+                    break;
+                }
+            }
+            if ($salleName) {
+                $breadcrumbs[] = [
+                    'label' => h($salleName),
+                    'url' => null,
+                    'active' => true
+                ];
+            }
+        }
+
+        return $breadcrumbs;
+    }
     return $breadcrumbs;
 }

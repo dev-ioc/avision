@@ -206,6 +206,7 @@ require_once CONTROLLERS_PATH . '/InterventionTypeController.php';
 require_once CONTROLLERS_PATH . '/QRCodeController.php';
 require_once CONTROLLERS_PATH . '/ExcelController.php';
 require_once CONTROLLERS_PATH . '/BuildingsController.php';
+require_once CONTROLLERS_PATH . '/MaterielDocumentationController.php';
 
 // Récupération de l'URL demandée
 $request_uri = $_SERVER['REQUEST_URI'];
@@ -593,7 +594,18 @@ try {
 
             }
             break;
+        case 'materiel_documentation':
 
+            // Créer une instance avec la connexion à la base de données
+            $materielDocumentationController = new MaterielDocumentationController($db);
+
+            switch ($action) {
+                case 'index':
+                default:
+                    $materielDocumentationController->index();
+                    break;
+            }
+            break;
         case 'site':
             $siteController = new SiteController();
             switch ($action) {
