@@ -1528,4 +1528,82 @@ class MailService
             return $this->replaceTemplateVariables($template, $intervention);
         }
     }
+    /**
+     * Envoie un lien de réinitialisation de mot de passe à un utilisateur
+     * @param array $user Données de l'utilisateur (id, email, first_name, last_name)
+     * @param string $resetToken Token de réinitialisation
+     * @return bool Succès de l'envoi
+     */
+    public function sendPasswordResetLink($user, $resetToken)
+    {
+        try {
+            $resetUrl = BASE_URL . 'auth/resetPassword?token=' . $resetToken;
+            $fullName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
+
+            $subject = 'Réinitialisation de votre mot de passe';
+
+            $body = '
+        <html><body style="font-family: Arial, sans-serif; color: #333;">
+            <h2>Réinitialisation de votre mot de passe</h2>
+            <p>Bonjour ' . h($fullName) . ',</p>
+            <p>Vous avez demandé la réinitialisation de votre mot de passe.</p>
+            <p>Cliquez sur le lien ci-dessous pour définir un nouveau mot de passe :</p>
+            <p style="margin: 24px 0;">
+                <a href="' . $resetUrl . '"
+                   style="background:#0d6efd;color:#fff;padding:12px 24px;
+                          border-radius:6px;text-decoration:none;display:inline-block;">
+                    Réinitialiser mon mot de passe
+                </a>
+            </p>
+            <p style="color:#888;font-size:13px;">
+                Ce lien est valable <strong>2 heures</strong>.<br>
+                Si vous n\'avez pas demandé cette réinitialisation, ignorez cet email.
+            </p>
+            <p style="color:#bbb;font-size:12px;">
+                Ou copiez ce lien dans votre navigateur :<br>
+                <a href="' . $resetUrl . '">' . $resetUrl . '</a>
+            </p>
+        </body></html>';
+
+            $recipients = [
+                [
+                    'email' => $user['email'],
+                    'name' => $fullName
+                ]
+            ];
+
+            // Redirection test si configurée
+            $finalRecipients = $this->redirectToTestEmail($recipients);
+
+            $testEmail = $this->config->get('test_email', '');
+            if (!empty($testEmail)) {
+                $subject = '[TEST] ' . $subject;
+            }
+
+            foreach ($finalRecipients as $recipient) {
+                if ($this->config->get('oauth2_enabled', '0') == '1') {
+                    $this->sendEmailOAuth2(
+                        $recipient['email'],
+                        $recipient['name'],
+                        $subject,
+                        $body
+                    );
+                } else {
+                    $this->sendEmailBasic(
+                        $recipient['email'],
+                        $recipient['name'],
+                        $subject,
+                        $body
+                    );
+                }
+            }
+
+            custom_log_mail("Lien de réinitialisation envoyé à " . $user['email'], 'INFO');
+            return true;
+
+        } catch (Exception $e) {
+            custom_log_mail("Erreur envoi lien reset MDP : " . $e->getMessage(), 'ERROR');
+            throw $e;
+        }
+    }
 }

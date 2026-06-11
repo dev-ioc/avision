@@ -5,7 +5,8 @@ require_once __DIR__ . '/../classes/Models/BaseModel.php';
  * Modèle User
  * Gère toutes les opérations liées aux utilisateurs
  */
-class UserModel extends BaseModel {
+class UserModel extends BaseModel
+{
     private $id;
     private $username;
     private $email;
@@ -20,7 +21,8 @@ class UserModel extends BaseModel {
     /**
      * Constructeur
      */
-    public function __construct($db) {
+    public function __construct($db)
+    {
         parent::__construct($db);
         $this->table = 'users';
     }
@@ -28,7 +30,8 @@ class UserModel extends BaseModel {
     /**
      * Récupère la liste des utilisateurs avec filtres et pagination
      */
-    public function getUsers($filters = [], $page = 1, $limit = 10) {
+    public function getUsers($filters = [], $page = 1, $limit = 10)
+    {
         $offset = ($page - 1) * $limit;
         $where = [];
         $params = [];
@@ -97,7 +100,8 @@ class UserModel extends BaseModel {
     /**
      * Récupère un utilisateur par son ID
      */
-    public function getUserById($id) {
+    public function getUserById($id)
+    {
         $sql = "SELECT u.*, ut.name as user_type, ug.name as user_group
                 FROM " . $this->table . " u
                 JOIN user_types ut ON u.user_type_id = ut.id
@@ -112,18 +116,19 @@ class UserModel extends BaseModel {
     /**
      * Crée un nouvel utilisateur
      */
-    public function createUser($data) {
+    public function createUser($data)
+    {
         try {
             // Récupérer l'ID du type d'utilisateur
             $stmt = $this->db->prepare("SELECT id FROM user_types WHERE name = :type_name");
             $stmt->execute(['type_name' => $data['type']]);
             $userType = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if (!$userType) {
                 custom_log("Type d'utilisateur non trouvé : " . $data['type'], 'ERROR');
                 return false;
             }
-            
+
             // Déterminer si c'est un membre du staff
             $stmt = $this->db->prepare("
                 SELECT ug.name as group_name 
@@ -133,9 +138,9 @@ class UserModel extends BaseModel {
             ");
             $stmt->execute(['type_id' => $userType['id']]);
             $groupInfo = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             $isStaff = ($groupInfo['group_name'] === 'Staff');
-            
+
             $sql = "INSERT INTO " . $this->table . " 
                     (username, email, password, first_name, last_name, user_type_id, is_admin, status, coef_utilisateur, client_id, created_at) 
                     VALUES 
@@ -166,7 +171,8 @@ class UserModel extends BaseModel {
     /**
      * Met à jour un utilisateur
      */
-    public function updateUser($id, $data) {
+    public function updateUser($id, $data)
+    {
         try {
             $updates = [];
             $params = [':id' => $id];
@@ -197,11 +203,11 @@ class UserModel extends BaseModel {
                 $stmt = $this->db->prepare("SELECT id FROM user_types WHERE name = :type_name");
                 $stmt->execute(['type_name' => $data['type']]);
                 $userType = $stmt->fetch(PDO::FETCH_ASSOC);
-                
+
                 if ($userType) {
                     $updates[] = "user_type_id = :user_type_id";
                     $params[':user_type_id'] = $userType['id'];
-                    
+
                     // Déterminer si c'est un membre du staff
                     $stmt = $this->db->prepare("
                         SELECT ug.name as group_name 
@@ -211,9 +217,9 @@ class UserModel extends BaseModel {
                     ");
                     $stmt->execute(['type_id' => $userType['id']]);
                     $groupInfo = $stmt->fetch(PDO::FETCH_ASSOC);
-                    
+
                     $isStaff = ($groupInfo['group_name'] === 'Staff');
-                    
+
                     // Mettre à jour client_id en fonction du groupe
                     $clientIdValue = $isStaff ? 0 : ($data['client_id'] ?? null);
                     $updates[] = "client_id = :client_id";
@@ -242,7 +248,7 @@ class UserModel extends BaseModel {
                     $groupInfo = $stmt->fetch(PDO::FETCH_ASSOC);
                     $isStaff = ($groupInfo['group_name'] === 'Staff');
                 }
-                
+
                 $updates[] = "coef_utilisateur = :coef_utilisateur";
                 $params[':coef_utilisateur'] = $isStaff ? $data['coef_utilisateur'] : null;
             }
@@ -263,14 +269,16 @@ class UserModel extends BaseModel {
     /**
      * Supprime un utilisateur
      */
-    public function deleteUser($id) {
+    public function deleteUser($id)
+    {
         return parent::delete($id);
     }
 
     /**
      * Vérifie si un nom d'utilisateur existe déjà
      */
-    public function usernameExists($username, $excludeId = null) {
+    public function usernameExists($username, $excludeId = null)
+    {
         $sql = "SELECT COUNT(*) as count FROM " . $this->table . " WHERE username = :username";
         $params = [':username' => $username];
 
@@ -287,7 +295,8 @@ class UserModel extends BaseModel {
     /**
      * Vérifie si un email existe déjà
      */
-    public function emailExists($email, $excludeId = null) {
+    public function emailExists($email, $excludeId = null)
+    {
         $sql = "SELECT COUNT(*) as count FROM " . $this->table . " WHERE email = :email";
         $params = [':email' => $email];
 
@@ -307,7 +316,8 @@ class UserModel extends BaseModel {
      * @param string $password Mot de passe
      * @return bool True si l'authentification réussit
      */
-    public function authenticate($username, $password) {
+    public function authenticate($username, $password)
+    {
         try {
             $stmt = $this->db->prepare("
                 SELECT u.id, u.username, u.password, u.email, u.first_name, u.last_name, 
@@ -320,7 +330,7 @@ class UserModel extends BaseModel {
             ");
             $stmt->execute(['username' => $username]);
             $user = $stmt->fetch();
-           
+
             if ($user && password_verify($password, $user['password'])) {
                 $this->id = $user['id'];
                 $this->username = $user['username'];
@@ -372,7 +382,8 @@ class UserModel extends BaseModel {
     /**
      * Charge les permissions de l'utilisateur
      */
-    private function loadPermissions() {
+    private function loadPermissions()
+    {
         try {
             // Récupération des droits
             $stmt = $this->db->prepare("
@@ -436,14 +447,15 @@ class UserModel extends BaseModel {
      * @param string $permission Le nom de la permission à vérifier
      * @return bool True si l'utilisateur a la permission, false sinon
      */
-    public function hasPermission($permission) {
+    public function hasPermission($permission)
+    {
         // Les administrateurs ont des permissions configurées comme les autres membres du staff
         // Les droits spéciaux (gestion users, suppression, etc.) sont gérés au niveau de l'interface
         if ($this->type === 'admin') {
             // Vérifier si l'admin a explicitement cette permission
             if (isset($this->permissions['rights']) && is_array($this->permissions['rights'])) {
-                return isset($this->permissions['rights'][$permission]) && 
-                       $this->permissions['rights'][$permission] === true;
+                return isset($this->permissions['rights'][$permission]) &&
+                    $this->permissions['rights'][$permission] === true;
             }
         }
 
@@ -459,16 +471,16 @@ class UserModel extends BaseModel {
             'tech_modify_sites' => 'tech_manage_clients',
             'tech_create_rooms' => 'tech_manage_clients',
             'tech_modify_rooms' => 'tech_manage_clients',
-            
+
             // Permissions interventions
             'tech_create_interventions' => 'tech_manage_interventions',
             'tech_modify_interventions' => 'tech_manage_interventions',
             'tech_view_all_interventions' => 'tech_manage_interventions',
-            
+
             // Permissions documentation
             'tech_add_documentation' => 'tech_manage_documentation',
             'tech_modify_documentation' => 'tech_manage_documentation',
-            
+
             // Permissions contrats
             'tech_create_contrats' => 'tech_manage_contrats',
             'tech_modify_contrats' => 'tech_manage_contrats',
@@ -491,7 +503,8 @@ class UserModel extends BaseModel {
      * @param int|null $roomId ID de la salle (optionnel)
      * @return bool True si l'utilisateur a accès
      */
-    public function hasLocationAccess($clientId, $siteId = null, $roomId = null) {
+    public function hasLocationAccess($clientId, $siteId = null, $roomId = null)
+    {
         // Les administrateurs ont accès à tout
         if ($this->type === 'admin') {
             return true;
@@ -519,7 +532,8 @@ class UserModel extends BaseModel {
     /**
      * Déconnecte l'utilisateur
      */
-    public function logout() {
+    public function logout()
+    {
         if (isset($_SESSION['user'])) {
             custom_log("Utilisateur déconnecté : {$this->username}", 'INFO', [
                 'user_id' => $this->id
@@ -534,7 +548,8 @@ class UserModel extends BaseModel {
      * @param int $userId ID de l'utilisateur
      * @return array Liste des rôles
      */
-    public function getUserRoles($userId) {
+    public function getUserRoles($userId)
+    {
         try {
             $stmt = $this->db->prepare("
                 SELECT r.id, r.name, r.description
@@ -553,14 +568,15 @@ class UserModel extends BaseModel {
     /**
      * Récupère les permissions d'un utilisateur
      */
-    public function getUserPermissions($userId) {
+    public function getUserPermissions($userId)
+    {
         try {
             $sql = "SELECT ur.right_name, ap.description, ap.category 
                     FROM user_rights ur 
                     JOIN available_permissions ap ON ur.right_name = ap.name 
                     WHERE ur.user_id = :user_id AND ur.right_value = 1 
                     ORDER BY ap.category, ap.name";
-            
+
             $stmt = $this->db->prepare($sql);
             $stmt->bindValue(':user_id', $userId);
             $stmt->execute();
@@ -576,7 +592,8 @@ class UserModel extends BaseModel {
      * @param string $userType Le type d'utilisateur
      * @return array Les permissions disponibles
      */
-    public function getAvailablePermissions($userType) {
+    public function getAvailablePermissions($userType)
+    {
         try {
             // Récupérer le groupe du type d'utilisateur
             $stmt = $this->db->prepare("
@@ -587,14 +604,14 @@ class UserModel extends BaseModel {
             ");
             $stmt->execute(['user_type' => $userType]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if (!$result) {
                 custom_log("Type d'utilisateur non trouvé : $userType", 'WARNING');
                 return [];
             }
-            
+
             $groupName = $result['group_name'];
-            
+
             // Récupérer les permissions du groupe
             $query = "SELECT ap.id, ap.name, ap.description, ap.category 
                      FROM available_permissions ap
@@ -603,9 +620,9 @@ class UserModel extends BaseModel {
                      ORDER BY ap.category, ap.name";
             $stmt = $this->db->prepare($query);
             $stmt->execute(['group_name' => $groupName]);
-            
+
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
+
         } catch (PDOException $e) {
             custom_log("Erreur lors de la récupération des permissions : " . $e->getMessage(), 'ERROR');
             return [];
@@ -616,17 +633,18 @@ class UserModel extends BaseModel {
      * Récupère la liste des clients actifs
      * @return array Liste des clients avec leur id et nom
      */
-    public function getActiveClients() {
+    public function getActiveClients()
+    {
         try {
             $query = "SELECT id, name FROM clients WHERE status = 1 ORDER BY name";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             $clients = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
+
             if (empty($clients)) {
                 custom_log("Aucun client actif trouvé", 'WARNING');
             }
-            
+
             return $clients;
         } catch (PDOException $e) {
             custom_log("Erreur lors de la récupération des clients actifs : " . $e->getMessage(), 'ERROR');
@@ -640,7 +658,8 @@ class UserModel extends BaseModel {
      * @param int $permissionId L'ID de la permission
      * @return bool True si l'ajout a réussi, false sinon
      */
-    public function addUserPermission($userId, $permissionId) {
+    public function addUserPermission($userId, $permissionId)
+    {
         try {
             // Récupérer le nom de la permission
             $stmt = $this->db->prepare("SELECT name FROM available_permissions WHERE id = :permission_id");
@@ -658,7 +677,7 @@ class UserModel extends BaseModel {
                 'user_id' => $userId,
                 'right_name' => $permission['name']
             ]);
-            
+
             if ($stmt->fetch()) {
                 // Le droit existe déjà, on le met à jour
                 $query = "UPDATE user_rights SET right_value = 1 WHERE user_id = :user_id AND right_name = :right_name";
@@ -689,7 +708,8 @@ class UserModel extends BaseModel {
      * @param int $userId L'ID de l'utilisateur
      * @return bool True si la suppression a réussi, false sinon
      */
-    public function deleteUserPermissions($userId) {
+    public function deleteUserPermissions($userId)
+    {
         try {
             $query = "DELETE FROM user_rights WHERE user_id = :user_id";
             $stmt = $this->db->prepare($query);
@@ -705,7 +725,8 @@ class UserModel extends BaseModel {
      * @param int $clientId ID du client
      * @return array Liste des sites avec leurs salles
      */
-    public function getClientLocations($clientId) {
+    public function getClientLocations($clientId)
+    {
         try {
             // Vérifier que le client existe
             $query = "SELECT id FROM clients WHERE id = :client_id AND status = 1";
@@ -743,7 +764,8 @@ class UserModel extends BaseModel {
      * @param int $userId ID de l'utilisateur
      * @return array Liste des localisations
      */
-    public function getUserLocations($userId) {
+    public function getUserLocations($userId)
+    {
         try {
             $query = "SELECT client_id, site_id, room_id FROM user_locations WHERE user_id = :user_id";
             $stmt = $this->db->prepare($query);
@@ -761,17 +783,18 @@ class UserModel extends BaseModel {
      * @param array $locations Tableau des localisations à sauvegarder
      * @return bool True si la sauvegarde a réussi
      */
-    public function saveUserLocations($userId, $locations) {
+    public function saveUserLocations($userId, $locations)
+    {
         try {
             custom_log("Début de saveUserLocations pour l'utilisateur {$userId}", 'INFO');
             custom_log("Localisations reçues: " . json_encode($locations), 'INFO');
-            
+
             // Validation des paramètres
             if (!$userId || !is_array($locations)) {
                 custom_log("Paramètres invalides pour saveUserLocations: userId={$userId}, locations=" . json_encode($locations), 'ERROR');
                 return false;
             }
-            
+
             // Vérifier si l'utilisateur est un technicien
             $stmt = $this->db->prepare("SELECT ut.name as user_type FROM " . $this->table . " u 
                                        JOIN user_types ut ON u.user_type_id = ut.id 
@@ -779,15 +802,15 @@ class UserModel extends BaseModel {
             $stmt->bindValue(':user_id', $userId);
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             custom_log("Type d'utilisateur récupéré: " . ($user ? $user['user_type'] : 'non trouvé'), 'INFO');
-            
+
             // Si l'utilisateur est un technicien, ne pas sauvegarder de localisations
             if ($user && $user['user_type'] === 'technicien') {
                 custom_log("Utilisateur {$userId} est un technicien, pas besoin de sauvegarder les localisations", 'INFO');
                 return true;
             }
-            
+
             // Supprimer les anciennes localisations
             $query = "DELETE FROM user_locations WHERE user_id = :user_id";
             $stmt = $this->db->prepare($query);
@@ -796,14 +819,14 @@ class UserModel extends BaseModel {
             // Récupérer le client_id depuis l'utilisateur ou depuis $_POST
             $userData = $this->getUserById($userId);
             $clientId = $_POST['client_id'] ?? $userData['client_id'] ?? null;
-            
+
             custom_log("DEBUG - Client ID récupéré: " . ($clientId ?? 'NULL') . " (depuis POST: " . ($_POST['client_id'] ?? 'NULL') . ", depuis user: " . ($userData['client_id'] ?? 'NULL') . ")", 'DEBUG');
-            
+
             if (!$clientId) {
                 custom_log("Client ID manquant lors de la sauvegarde des localisations pour l'utilisateur {$userId}", 'ERROR');
                 return false;
             }
-            
+
             // Vérifier que le client existe et est actif
             $stmt = $this->db->prepare("SELECT id FROM clients WHERE id = :client_id AND status = 1");
             $stmt->execute(['client_id' => $clientId]);
@@ -828,19 +851,19 @@ class UserModel extends BaseModel {
             // Traiter les sites
             if (isset($locations['sites']) && !empty($locations['sites'])) {
                 custom_log("Traitement de " . count($locations['sites']) . " sites pour l'utilisateur {$userId}", 'INFO');
-                
+
                 // OPTIMISATION N+1 : Récupérer tous les sites valides en une seule requête
                 $placeholders = implode(',', array_fill(0, count($locations['sites']), '?'));
                 $query = "SELECT id, name FROM sites WHERE id IN ($placeholders) AND client_id = ? AND status = 1";
                 $params = array_merge($locations['sites'], [$clientId]);
                 $stmt = $this->db->prepare($query);
                 $stmt->execute($params);
-                
+
                 $validSites = [];
                 while ($site = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     $validSites[$site['id']] = $site;
                 }
-                
+
                 // INSERT batch pour tous les sites valides
                 if (!empty($validSites)) {
                     $values = [];
@@ -852,12 +875,12 @@ class UserModel extends BaseModel {
                         $insertParams[] = $siteId;
                         custom_log("Site {$siteId} ({$site['name']}) enregistré pour l'utilisateur {$userId}", 'INFO');
                     }
-                    
+
                     $query = "INSERT INTO user_locations (user_id, client_id, site_id) VALUES " . implode(', ', $values);
                     $stmt = $this->db->prepare($query);
                     $stmt->execute($insertParams);
                 }
-                
+
                 // Logger les sites invalides
                 foreach ($locations['sites'] as $siteId) {
                     if (!isset($validSites[$siteId])) {
@@ -872,7 +895,7 @@ class UserModel extends BaseModel {
                 $selectedSites = isset($locations['sites']) ? $locations['sites'] : [];
                 custom_log("Traitement de " . count($locations['rooms']) . " salles pour l'utilisateur {$userId}", 'INFO');
                 custom_log("Sites déjà sélectionnés: " . json_encode($selectedSites), 'INFO');
-                
+
                 // OPTIMISATION N+1 : Récupérer toutes les salles avec leurs sites en une seule requête
                 $placeholders = implode(',', array_fill(0, count($locations['rooms']), '?'));
                 $query = "SELECT 
@@ -890,7 +913,7 @@ class UserModel extends BaseModel {
                 $params = array_merge($locations['rooms'], [$clientId]);
                 $stmt = $this->db->prepare($query);
                 $stmt->execute($params);
-                
+
                 $validRooms = [];
                 while ($room = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     // Ne traiter la salle que si son site n'est pas déjà sélectionné
@@ -900,7 +923,7 @@ class UserModel extends BaseModel {
                         custom_log("Salle {$room['room_id']} ({$room['room_name']}) ignorée car son site {$room['site_id']} est déjà sélectionné", 'INFO');
                     }
                 }
-                
+
                 // Logger les salles non trouvées ou invalides
                 $foundRoomIds = array_column($validRooms, 'room_id');
                 foreach ($locations['rooms'] as $roomId) {
@@ -918,7 +941,7 @@ class UserModel extends BaseModel {
                         }
                     }
                 }
-                
+
                 // INSERT batch pour toutes les salles valides
                 if (!empty($validRooms)) {
                     $values = [];
@@ -931,7 +954,7 @@ class UserModel extends BaseModel {
                         $insertParams[] = $room['room_id'];
                         custom_log("Salle {$room['room_id']} ({$room['room_name']}) du site {$room['site_name']} enregistrée pour l'utilisateur {$userId}", 'INFO');
                     }
-                    
+
                     $query = "INSERT INTO user_locations (user_id, client_id, site_id, room_id) VALUES " . implode(', ', $values);
                     $stmt = $this->db->prepare($query);
                     $stmt->execute($insertParams);
@@ -953,7 +976,8 @@ class UserModel extends BaseModel {
      * @param int $clientId ID du client
      * @return array|false Les informations du client ou false si non trouvé
      */
-    public function getClientById($clientId) {
+    public function getClientById($clientId)
+    {
         try {
             $query = "SELECT id, name, status FROM clients WHERE id = :client_id";
             $stmt = $this->db->prepare($query);
@@ -970,7 +994,8 @@ class UserModel extends BaseModel {
      * @param int $siteId ID du site
      * @return array|false Les informations du site ou false si non trouvé
      */
-    public function getSiteById($siteId) {
+    public function getSiteById($siteId)
+    {
         try {
             $query = "SELECT id, name, status FROM sites WHERE id = :site_id AND status = 1";
             $stmt = $this->db->prepare($query);
@@ -987,7 +1012,8 @@ class UserModel extends BaseModel {
      * @param int $roomId ID de la salle
      * @return array|false Les informations de la salle ou false si non trouvée
      */
-    public function getRoomById($roomId) {
+    public function getRoomById($roomId)
+    {
         try {
             $query = "SELECT id, name, status FROM rooms WHERE id = :room_id AND status = 1";
             $stmt = $this->db->prepare($query);
@@ -1003,7 +1029,8 @@ class UserModel extends BaseModel {
      * Récupère la liste des membres du staff actifs (techniciens, commerciaux, administrateurs)
      * @return array Liste des utilisateurs staff avec leur id, nom et prénom
      */
-    public function getTechnicians() {
+    public function getTechnicians()
+    {
         try {
             $sql = "SELECT u.id, u.first_name, u.last_name 
                     FROM " . $this->table . " u
@@ -1012,7 +1039,7 @@ class UserModel extends BaseModel {
                     WHERE ug.name = 'Staff' 
                     AND u.status = 1 
                     ORDER BY u.last_name, u.first_name";
-            
+
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -1027,13 +1054,14 @@ class UserModel extends BaseModel {
      * @param int $userId ID de l'utilisateur
      * @return array Liste des IDs des permissions
      */
-    public function getUserPermissionIds($userId) {
+    public function getUserPermissionIds($userId)
+    {
         try {
             $permissionIds = [];
-            
+
             // Récupérer les permissions existantes
             $existingPermissions = $this->getUserPermissions($userId);
-            
+
             if (!empty($existingPermissions)) {
                 // Récupérer les IDs des permissions dans available_permissions
                 foreach ($existingPermissions as $permission) {
@@ -1045,11 +1073,38 @@ class UserModel extends BaseModel {
                     }
                 }
             }
-            
+
             return $permissionIds;
         } catch (PDOException $e) {
             custom_log("Erreur lors de la récupération des IDs des permissions : " . $e->getMessage(), 'ERROR');
             return [];
         }
     }
-} 
+    public function savePasswordResetToken($userId, $token, $expiresAt)
+    {
+        // Supprimer les anciens tokens de cet utilisateur
+        $stmt = $this->db->prepare(
+            "DELETE FROM password_reset_tokens WHERE user_id = ?"
+        );
+        $stmt->execute([$userId]);
+
+        // Insérer le nouveau token
+        $stmt = $this->db->prepare(
+            "INSERT INTO password_reset_tokens (user_id, token, expires_at, created_at)
+         VALUES (?, ?, ?, NOW())"
+        );
+        $stmt->execute([$userId, $token, $expiresAt]);
+    }
+
+    public function getUserByResetToken($token)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT u.* FROM users u
+         INNER JOIN password_reset_tokens prt ON u.id = prt.user_id
+         WHERE prt.token = ?
+         AND prt.expires_at > NOW()"
+        );
+        $stmt->execute([$token]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+}

@@ -7,11 +7,13 @@
 // Inclure les fonctions utilitaires
 require_once __DIR__ . '/../includes/functions.php';
 
-class UserController {
+class UserController
+{
     private $userModel;
     private $db;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
         $this->userModel = new UserModel($db);
     }
@@ -19,7 +21,8 @@ class UserController {
     /**
      * Affiche la liste des utilisateurs
      */
-    public function index() {
+    public function index()
+    {
         // Vérifier l'accès admin
         checkStaffAccess();
         if (!isAdmin()) {
@@ -48,7 +51,8 @@ class UserController {
     /**
      * Affiche le formulaire de création d'utilisateur
      */
-    public function add() {
+    public function add()
+    {
         // Vérifier l'accès admin
         checkStaffAccess();
         if (!isAdmin()) {
@@ -90,7 +94,7 @@ class UserController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Debug: Afficher les données reçues
             custom_log("Données POST reçues pour création d'utilisateur: " . json_encode($_POST), 'INFO');
-            
+
             $data = [
                 'username' => $_POST['username'] ?? '',
                 'email' => $_POST['email'] ?? '',
@@ -109,19 +113,19 @@ class UserController {
 
             // Validation
             $errors = $this->validateUserData($data);
-            
+
             // Debug: Afficher les erreurs de validation
             if (!empty($errors)) {
                 custom_log("Erreurs de validation: " . json_encode($errors), 'ERROR');
             }
-            
+
             if (empty($errors)) {
                 // Créer l'utilisateur
                 $userId = $this->userModel->createUser($data);
-                
+
                 // Debug: Afficher le résultat de la création
                 custom_log("Résultat de la création d'utilisateur: " . ($userId ? "Succès, ID: $userId" : "Échec"), $userId ? 'INFO' : 'ERROR');
-                
+
                 if ($userId) {
                     // Gérer les permissions si c'est un technicien ou un client
                     if (in_array($data['type'], ['technicien', 'client'])) {
@@ -153,7 +157,8 @@ class UserController {
     /**
      * Affiche le formulaire de modification d'utilisateur
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         // Vérifier les droits d'accès
         if (!isset($_SESSION['user']) || !isAdmin()) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -203,14 +208,14 @@ class UserController {
         // Récupérer les localisations existantes pour JavaScript
         $userLocations = $this->userModel->getUserLocations($id);
         $formattedLocations = [];
-        
+
         if (!empty($userLocations)) {
             $formattedLocations = [
                 'client_full' => null,
                 'sites' => [],
                 'rooms' => []
             ];
-            
+
             foreach ($userLocations as $location) {
                 if ($location['site_id'] === null && $location['room_id'] === null) {
                     // Accès complet au client
@@ -250,7 +255,7 @@ class UserController {
                     if (in_array($data['type'], ['admin', 'technicien', 'adv', 'client'])) {
                         // Supprimer toutes les permissions existantes
                         $this->userModel->deleteUserPermissions($id);
-                        
+
                         // Ajouter les nouvelles permissions
                         $permissions = $_POST['permissions'] ?? [];
                         foreach ($permissions as $permission) {
@@ -286,7 +291,8 @@ class UserController {
     /**
      * Supprime un utilisateur
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         // Vérifier les droits d'accès
         if (!isset($_SESSION['user']) || !isAdmin()) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -305,7 +311,8 @@ class UserController {
     /**
      * Valide les données d'un utilisateur
      */
-    private function validateUserData($data, $excludeId = null) {
+    private function validateUserData($data, $excludeId = null)
+    {
         $errors = [];
 
         // Validation du nom d'utilisateur
@@ -344,7 +351,8 @@ class UserController {
     /**
      * Récupère les permissions disponibles pour un type d'utilisateur (AJAX)
      */
-    public function get_permissions() {
+    public function get_permissions()
+    {
         // Vérifier les droits d'accès
         if (!isset($_SESSION['user']) || !isAdmin()) {
             http_response_code(403);
@@ -353,7 +361,7 @@ class UserController {
         }
 
         $userType = $_POST['type'] ?? $_GET['type'] ?? '';
-        
+
         if (empty($userType) || !in_array($userType, ['technicien', 'adv', 'client', 'admin'])) {
             echo json_encode([]);
             return;
@@ -366,7 +374,8 @@ class UserController {
     /**
      * Affiche les détails d'un utilisateur
      */
-    public function view($id) {
+    public function view($id)
+    {
         // Vérifier les droits d'accès
         if (!isset($_SESSION['user']) || !isAdmin()) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -393,7 +402,8 @@ class UserController {
     /**
      * Récupère les localisations d'un client (AJAX)
      */
-    public function get_client_locations() {
+    public function get_client_locations()
+    {
         try {
             // Vérifier si l'utilisateur est connecté
             if (!isset($_SESSION['user'])) {
@@ -416,7 +426,7 @@ class UserController {
                 exit;
             }
 
-            $clientId = (int)$_GET['client_id'];
+            $clientId = (int) $_GET['client_id'];
 
             // Vérifier si le client existe
             $client = $this->userModel->getClientById($clientId);
@@ -450,7 +460,8 @@ class UserController {
     /**
      * Récupère les localisations d'un utilisateur (AJAX)
      */
-    public function get_user_locations() {
+    public function get_user_locations()
+    {
         try {
             // Vérifier si l'utilisateur est connecté
             if (!isset($_SESSION['user'])) {
@@ -473,7 +484,7 @@ class UserController {
                 exit;
             }
 
-            $userId = (int)$_GET['user_id'];
+            $userId = (int) $_GET['user_id'];
 
             // Vérifier si l'utilisateur existe
             $user = $this->userModel->getUserById($userId);
@@ -507,18 +518,19 @@ class UserController {
     /**
      * Charge les localisations d'un client (AJAX simple)
      */
-    public function load_client_locations() {
+    public function load_client_locations()
+    {
         // Définir le Content-Type JSON dès le début pour éviter toute confusion
         header('Content-Type: application/json; charset=UTF-8');
-        
+
         // Log pour déboguer en production
         $hasUser = isset($_SESSION['user']);
         $isAdminUser = $hasUser && isAdmin();
         $sessionId = session_id();
         $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-        
+
         custom_log("load_client_locations - Session ID: $sessionId, Has User: " . ($hasUser ? 'yes' : 'no') . ", Is Admin: " . ($isAdminUser ? 'yes' : 'no') . ", Is AJAX: " . ($isAjax ? 'yes' : 'no'), 'DEBUG');
-        
+
         // Vérifier les droits d'accès
         if (!$hasUser || !$isAdminUser) {
             http_response_code(403);
@@ -530,7 +542,7 @@ class UserController {
 
         $clientId = $_POST['client_id'] ?? $_GET['client_id'] ?? '';
         $userId = $_POST['user_id'] ?? $_GET['user_id'] ?? null;
-        
+
         if (empty($clientId)) {
             echo json_encode(['html' => '<p class="text-muted">Veuillez sélectionner un client.</p>']);
             return;
@@ -538,7 +550,7 @@ class UserController {
 
         // Récupérer les localisations du client
         $clientLocations = $this->userModel->getClientLocations($clientId);
-        
+
         if (!$clientLocations) {
             echo json_encode(['html' => '<p class="text-muted">Aucune localisation disponible pour ce client.</p>']);
             return;
@@ -554,26 +566,27 @@ class UserController {
         ob_start();
         include __DIR__ . '/../views/user/locations_client.php';
         $html = ob_get_clean();
-        
+
         echo json_encode(['html' => $html]);
     }
 
     /**
      * Charge les permissions pour un type d'utilisateur (AJAX simple)
      */
-    public function load_permissions() {
+    public function load_permissions()
+    {
         // Définir le Content-Type JSON dès le début pour éviter toute confusion
         header('Content-Type: application/json; charset=UTF-8');
-        
+
         // Log pour déboguer en production
         $hasUser = isset($_SESSION['user']);
         $isAdminUser = $hasUser && isAdmin();
         $sessionId = session_id();
         $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
         $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-        
+
         custom_log("load_permissions - Session ID: $sessionId, Has User: " . ($hasUser ? 'yes' : 'no') . ", Is Admin: " . ($isAdminUser ? 'yes' : 'no') . ", Is AJAX: " . ($isAjax ? 'yes' : 'no'), 'DEBUG');
-        
+
         // Vérifier les droits d'accès
         if (!$hasUser || !$isAdminUser) {
             http_response_code(403);
@@ -585,7 +598,7 @@ class UserController {
 
         $userType = $_POST['type'] ?? $_GET['type'] ?? '';
         $userId = $_POST['user_id'] ?? $_GET['user_id'] ?? null;
-        
+
         if (empty($userType) || !in_array($userType, ['technicien', 'adv', 'client'])) {
             echo json_encode(['html' => '<p class="text-muted">Type d\'utilisateur invalide.</p>']);
             return;
@@ -593,7 +606,7 @@ class UserController {
 
         // Récupérer les permissions disponibles pour le type d'utilisateur
         $availablePermissions = $this->userModel->getAvailablePermissions($userType);
-        
+
         // Récupérer les permissions existantes si on édite un utilisateur
         $existingPermissionIds = [];
         if ($userId) {
@@ -603,7 +616,7 @@ class UserController {
 
         // Charger la vue appropriée
         ob_start();
-        
+
         // Passer les variables nécessaires aux vues
         if ($userType === 'client') {
             include __DIR__ . '/../views/user/permissions_client.php';
@@ -611,9 +624,72 @@ class UserController {
             // Pour technicien et adv, utiliser la même vue
             include __DIR__ . '/../views/user/permissions_staff.php';
         }
-        
+
         $html = ob_get_clean();
-        
+
         echo json_encode(['html' => $html]);
     }
-} 
+    public function sendResetLink($userId)
+    {
+        // Vérification AJAX + admin
+        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+            http_response_code(403);
+            exit;
+        }
+
+        if (!isAdmin()) {
+            echo json_encode(['success' => false, 'message' => 'Accès refusé.']);
+            exit;
+        }
+
+        // Vérification CSRF
+        $input = file_get_contents('php://input');
+        $data = json_decode($input, true);
+        $token = $data['csrf_token']
+            ?? $_POST['csrf_token']
+            ?? $_SERVER['HTTP_X_CSRF_TOKEN']
+            ?? null;
+
+        if (!csrf_verify($token)) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Token CSRF invalide.']);
+            exit;
+        }
+
+        header('Content-Type: application/json');
+
+        try {
+            // Récupérer l'utilisateur
+            $user = $this->userModel->getUserById((int) $userId);
+            if (!$user || empty($user['email'])) {
+                echo json_encode(['success' => false, 'message' => 'Utilisateur introuvable ou sans email.']);
+                exit;
+            }
+
+            // Générer un token unique
+            $resetToken = bin2hex(random_bytes(32));
+            $expiresAt = date('Y-m-d H:i:s', time() + 7200); // 2 heures
+
+            // Sauvegarder le token en base
+            $this->userModel->savePasswordResetToken($userId, $resetToken, $expiresAt);
+
+            // Envoyer l'email
+            require_once __DIR__ . '/../classes/MailService.php';
+            $mailService = new MailService($this->db);
+            $mailService->sendPasswordResetLink($user, $resetToken);
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Lien de réinitialisation envoyé à ' . $user['email']
+            ]);
+
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Erreur lors de l\'envoi : ' . $e->getMessage()
+            ]);
+        }
+
+        exit;
+    }
+}

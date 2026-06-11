@@ -369,6 +369,14 @@ try {
                         header('Location: ' . BASE_URL . 'user');
                     }
                     break;
+                case 'sendResetLink':
+                    if ($id) {
+                        $userController->sendResetLink($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => false, 'message' => 'ID utilisateur manquant.']);
+                    }
+                    break;
                 default:
                     header('Location: ' . BASE_URL . 'user');
                     break;
