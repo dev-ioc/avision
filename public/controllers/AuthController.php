@@ -8,14 +8,16 @@ if (!defined('BASE_URL')) {
 /**
  * Contrôleur d'authentification
  */
-class AuthController {
+class AuthController
+{
     private $userModel;
     private $db;
 
     /**
      * Constructeur
      */
-    public function __construct() {
+    public function __construct()
+    {
         global $db;
         $this->db = $db;
         $this->userModel = new UserModel($this->db);
@@ -24,7 +26,8 @@ class AuthController {
     /**
      * Affiche le formulaire de connexion
      */
-    public function showLoginForm() {
+    public function showLoginForm()
+    {
         // Vérifier s'il y a des paramètres QR dans l'URL
         $qrSalle = $_GET['qr'] ?? null;
         $qrType = $_GET['t'] ?? null;
@@ -53,7 +56,7 @@ class AuthController {
                 header('Location: ' . $baseUrl . $redirectUrl);
                 exit;
             }
-            
+
             // Sinon, redirection normale vers le tableau de bord
             if (isClient()) {
                 // Les clients vont vers le dashboard client
@@ -72,30 +75,31 @@ class AuthController {
     /**
      * Traite la connexion
      */
-    public function login() {
+    public function login()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
-            
+
             try {
                 $success = $this->userModel->authenticate($username, $password);
                 if ($success) {
                     // L'authentification a réussi, les données sont déjà stockées dans la session
                     $_SESSION['last_activity'] = time();
-                    
+
                     // Debug: logger ce qui est dans la session
                     custom_log("Login réussi - Session ID: " . session_id(), 'DEBUG');
                     custom_log("Login réussi - redirect_after_login: " . ($_SESSION['redirect_after_login'] ?? 'NON DÉFINI'), 'DEBUG');
                     custom_log("Login réussi - qr_salle: " . ($_SESSION['qr_salle'] ?? 'NON DÉFINI'), 'DEBUG');
                     custom_log("Login réussi - Toutes les clés de session: " . implode(', ', array_keys($_SESSION)), 'DEBUG');
-                    
+
                     // Vérifier s'il y a des paramètres QR dans la session
                     if (isset($_SESSION['qr_salle']) && isset($_SESSION['qr_type'])) {
                         // Rediriger vers le contrôleur QRCode pour gérer la redirection
                         header('Location: ' . BASE_URL . 'qrcode/redirect');
                         exit;
                     }
-                    
+
                     // Vérifier s'il y a une URL de redirection dans la session
                     // Vérifier d'abord si la clé existe, puis si elle n'est pas vide
                     $redirectAfterLogin = $_SESSION['redirect_after_login'] ?? null;
@@ -110,9 +114,9 @@ class AuthController {
                         header('Location: ' . $finalUrl);
                         exit;
                     }
-                    
+
                     custom_log("Aucune redirection trouvée (redirect_after_login: " . var_export($redirectAfterLogin, true) . "), redirection vers dashboard", 'DEBUG');
-                    
+
                     // Redirection normale vers le tableau de bord approprié selon le type d'utilisateur
                     if (isClient()) {
                         // Les clients vont vers le dashboard client
@@ -139,12 +143,90 @@ class AuthController {
     /**
      * Déconnecte l'utilisateur
      */
-    public function logout() {
+    public function logout()
+    {
         // Destruction de la session
         session_destroy();
-        
+
         // Redirection vers la page de connexion
         header('Location: ' . BASE_URL . 'auth/login');
         exit;
     }
-} 
+    /**
+     * Affiche le formulaire de réinitialisation de mot de passe
+     */
+    public function showResetPasswordForm()
+    {
+        $token = $_GET['token'] ?? null;
+
+        if (empty($token)) {
+            $_SESSION['error'] = "Lien de réinitialisation invalide.";
+            header('Location: ' . BASE_URL . 'auth/login');
+            exit;
+        }
+
+        // Vérifier que le token est valide et non expiré
+        require_once MODELS_PATH . '/UserModel.php';
+        $userModel = new UserModel($this->db ?? null);
+        $user = $userModel->getUserByResetToken($token);
+
+        if (!$user) {
+            $_SESSION['error'] = "Ce lien de réinitialisation est invalide ou a expiré.";
+            header('Location: ' . BASE_URL . 'auth/login');
+            exit;
+        }
+
+        // Afficher la vue
+        $pageTitle = 'Réinitialisation du mot de passe';
+        include_once VIEWS_PATH . '/auth/reset_password.php';
+    }
+
+    /**
+     * Traite la soumission du formulaire de réinitialisation
+     */
+    public function processResetPassword()
+    {
+        $token = $_POST['token'] ?? null;
+        $newPassword = $_POST['new_password'] ?? null;
+        $confirmPassword = $_POST['confirm_password'] ?? null;
+
+        if (empty($token) || empty($newPassword) || empty($confirmPassword)) {
+            $_SESSION['error'] = "Tous les champs sont requis.";
+            header('Location: ' . BASE_URL . 'auth/resetPassword?token=' . urlencode($token ?? ''));
+            exit;
+        }
+
+        if ($newPassword !== $confirmPassword) {
+            $_SESSION['error'] = "Les mots de passe ne correspondent pas.";
+            header('Location: ' . BASE_URL . 'auth/resetPassword?token=' . urlencode($token));
+            exit;
+        }
+
+        if (strlen($newPassword) < 8) {
+            $_SESSION['error'] = "Le mot de passe doit contenir au moins 8 caractères.";
+            header('Location: ' . BASE_URL . 'auth/resetPassword?token=' . urlencode($token));
+            exit;
+        }
+
+        require_once MODELS_PATH . '/UserModel.php';
+        $userModel = new UserModel($this->db ?? null);
+        $user = $userModel->getUserByResetToken($token);
+
+        if (!$user) {
+            $_SESSION['error'] = "Ce lien de réinitialisation est invalide ou a expiré.";
+            header('Location: ' . BASE_URL . 'auth/login');
+            exit;
+        }
+
+        // Mettre à jour le mot de passe
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $userModel->updatePassword($user['id'], $hashedPassword);
+
+        // Supprimer le token utilisé
+        $userModel->deleteResetToken($token);
+
+        $_SESSION['success'] = "Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter.";
+        header('Location: ' . BASE_URL . 'auth/login');
+        exit;
+    }
+}

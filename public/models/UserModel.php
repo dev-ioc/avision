@@ -1107,4 +1107,19 @@ class UserModel extends BaseModel
         $stmt->execute([$token]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function updatePassword($userId, $hashedPassword)
+    {
+        $stmt = $this->db->prepare(
+            "UPDATE users SET password = ? WHERE id = ?"
+        );
+        $stmt->execute([$hashedPassword, $userId]);
+    }
+
+    public function deleteResetToken($token)
+    {
+        $stmt = $this->db->prepare(
+            "DELETE FROM password_reset_tokens WHERE token = ?"
+        );
+        $stmt->execute([$token]);
+    }
 }

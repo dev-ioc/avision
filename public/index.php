@@ -83,7 +83,7 @@ if (strpos($path, '/api/') === 0) {
     $apiId = $apiParts[2] ?? null;
 
     // Vérifier l'authentification pour l'API (sauf pour certaines routes publiques)
-    $publicApiRoutes = ['auth/login', 'auth/logout'];
+    $publicApiRoutes = ['auth/login', 'auth/logout', 'auth/resetPassword',];
     $currentApiRoute = $apiController . '/' . $apiAction;
 
     if (!in_array($currentApiRoute, $publicApiRoutes) && !isset($_SESSION['user'])) {
@@ -245,7 +245,7 @@ $action = $parts[1] ?? 'index';
 $id = $parts[2] ?? null;
 
 // Vérification de l'authentification
-$public_routes = ['auth/login', 'auth/logout', 'settings/getAllowedExtensions', 'interventions/webhookSignature'];
+$public_routes = ['auth/login', 'auth/logout', 'settings/getAllowedExtensions', 'interventions/webhookSignature', 'auth/resetPassword'];
 $current_route = $controller . '/' . $action;
 
 if (!in_array($current_route, $public_routes) && !isset($_SESSION['user'])) {
@@ -317,6 +317,13 @@ try {
                     break;
                 case 'logout':
                     $authController->logout();
+                    break;
+                case 'resetPassword':
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $authController->processResetPassword();
+                    } else {
+                        $authController->showResetPasswordForm();
+                    }
                     break;
                 default:
                     header('Location: ' . BASE_URL . 'auth/login');
