@@ -94947,3 +94947,1286 @@ Quant à l’écran n°1, il est HS
 [2026-06-11 14:51:14][INFO] 116 
 [2026-06-11 14:51:14][INFO] 115 
 [2026-06-11 14:51:14][INFO] 82 
+[2026-06-11 14:52:14][INFO] 112 
+[2026-06-11 14:52:14][INFO] 79 
+[2026-06-11 14:52:14][INFO] 80 
+[2026-06-11 14:52:14][INFO] 93 
+[2026-06-11 14:52:14][INFO] 116 
+[2026-06-11 14:52:14][INFO] 115 
+[2026-06-11 14:52:14][INFO] 82 
+[2026-06-11 14:52:19][DEBUG] CSRF: Token trouvé dans la requête - Token: fe61634554f9181e8baa... 
+[2026-06-11 15:17:38][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 15:17:38][DEBUG] Params: [] 
+[2026-06-11 15:17:42][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 15:17:42][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 15:55:51][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 15:55:51][DEBUG] Params: [] 
+[2026-06-11 16:01:45][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:01:45][DEBUG] Params: [] 
+[2026-06-11 16:06:20][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:06:20][DEBUG] Params: [] 
+[2026-06-11 16:06:21][WARNING] Undefined variable $materiels_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:21][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:21][WARNING] Undefined variable $documents_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:21][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:25][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:06:25][DEBUG] Params: {":client_id":"35"} 
+[2026-06-11 16:06:25][WARNING] Undefined variable $materiels_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:25][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:25][WARNING] Undefined variable $documents_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:25][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:30][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:06:30][DEBUG] Params: {":client_id":"35",":site_id":"55"} 
+[2026-06-11 16:06:30][INFO] 55 
+[2026-06-11 16:06:30][WARNING] Undefined variable $materiels_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:30][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:30][WARNING] Undefined variable $documents_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:30][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:35][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:06:35][DEBUG] Params: {":client_id":"35",":site_id":"55",":building_id":"45"} 
+[2026-06-11 16:06:35][INFO] 55 
+[2026-06-11 16:06:35][WARNING] Undefined variable $materiels_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:35][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:35][WARNING] Undefined variable $documents_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:35][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:37][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:06:37][DEBUG] Params: {":client_id":"35",":site_id":"55",":building_id":"45",":salle_id":"147"} 
+[2026-06-11 16:06:37][INFO] 55 
+[2026-06-11 16:06:37][WARNING] Undefined variable $materiels_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:37][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:37][WARNING] Undefined variable $documents_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:37][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:40][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:06:40][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:06:40][WARNING] Undefined variable $materiels_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:40][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:40][WARNING] Undefined variable $documents_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:40][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:44][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:06:44][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:06:44][WARNING] Undefined variable $materiels_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:44][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:44][WARNING] Undefined variable $documents_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:44][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:50][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:06:50][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:06:50][WARNING] Undefined variable $materiels_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:50][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:06:50][WARNING] Undefined variable $documents_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:06:50][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:07:35][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:07:35][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:07:35][WARNING] Undefined variable $materiels_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:07:35][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:07:35][WARNING] Undefined variable $documents_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:07:35][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:07:39][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:07:39][DEBUG] Params: {":client_id":"35"} 
+[2026-06-11 16:07:39][WARNING] Undefined variable $materiels_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:07:39][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2188,"errno":2}
+[2026-06-11 16:07:39][WARNING] Undefined variable $documents_par_salle {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:07:39][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":2207,"errno":2}
+[2026-06-11 16:07:57][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:07:57][DEBUG] Params: [] 
+[2026-06-11 16:07:57][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":357,"errno":2}
+[2026-06-11 16:07:57][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":357,"errno":2}
+[2026-06-11 16:07:57][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":358,"errno":2}
+[2026-06-11 16:07:57][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":371,"errno":2}
+[2026-06-11 16:07:57][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":371,"errno":2}
+[2026-06-11 16:07:57][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":372,"errno":2}
+[2026-06-11 16:07:57][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":385,"errno":2}
+[2026-06-11 16:07:57][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":385,"errno":2}
+[2026-06-11 16:07:57][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":386,"errno":2}
+[2026-06-11 16:08:02][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:08:02][DEBUG] Params: {":client_id":"35"} 
+[2026-06-11 16:08:02][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":357,"errno":2}
+[2026-06-11 16:08:02][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":357,"errno":2}
+[2026-06-11 16:08:02][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":358,"errno":2}
+[2026-06-11 16:08:02][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":371,"errno":2}
+[2026-06-11 16:08:02][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":371,"errno":2}
+[2026-06-11 16:08:02][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":372,"errno":2}
+[2026-06-11 16:08:02][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":385,"errno":2}
+[2026-06-11 16:08:02][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":385,"errno":2}
+[2026-06-11 16:08:02][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":386,"errno":2}
+[2026-06-11 16:08:06][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:08:06][DEBUG] Params: {":client_id":"35"} 
+[2026-06-11 16:08:06][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":357,"errno":2}
+[2026-06-11 16:08:06][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":357,"errno":2}
+[2026-06-11 16:08:06][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":358,"errno":2}
+[2026-06-11 16:08:06][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":371,"errno":2}
+[2026-06-11 16:08:06][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":371,"errno":2}
+[2026-06-11 16:08:06][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":372,"errno":2}
+[2026-06-11 16:08:06][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":385,"errno":2}
+[2026-06-11 16:08:06][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":385,"errno":2}
+[2026-06-11 16:08:06][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":386,"errno":2}
+[2026-06-11 16:08:11][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:08:11][DEBUG] Params: {":client_id":"35"} 
+[2026-06-11 16:08:11][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":357,"errno":2}
+[2026-06-11 16:08:11][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":357,"errno":2}
+[2026-06-11 16:08:11][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":358,"errno":2}
+[2026-06-11 16:08:11][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":371,"errno":2}
+[2026-06-11 16:08:11][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":371,"errno":2}
+[2026-06-11 16:08:11][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":372,"errno":2}
+[2026-06-11 16:08:11][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":385,"errno":2}
+[2026-06-11 16:08:11][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":385,"errno":2}
+[2026-06-11 16:08:11][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":386,"errno":2}
+[2026-06-11 16:08:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:08:13][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:08:13][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":357,"errno":2}
+[2026-06-11 16:08:13][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":357,"errno":2}
+[2026-06-11 16:08:13][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":358,"errno":2}
+[2026-06-11 16:08:13][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":371,"errno":2}
+[2026-06-11 16:08:13][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":371,"errno":2}
+[2026-06-11 16:08:13][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":372,"errno":2}
+[2026-06-11 16:08:13][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":385,"errno":2}
+[2026-06-11 16:08:13][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":385,"errno":2}
+[2026-06-11 16:08:13][WARNING] Undefined array key "name" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\materiel_documentation\\index.php","line":386,"errno":2}
+[2026-06-11 16:09:05][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:09:05][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:09:10][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:09:10][DEBUG] Params: {":client_id":"46",":site_id":"81"} 
+[2026-06-11 16:09:10][INFO] 81 
+[2026-06-11 16:09:14][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:09:14][DEBUG] Params: {":client_id":"35"} 
+[2026-06-11 16:09:16][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:09:16][DEBUG] Params: {":client_id":"35"} 
+[2026-06-11 16:09:20][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:09:20][DEBUG] Params: {":client_id":"35",":site_id":"55"} 
+[2026-06-11 16:09:20][INFO] 55 
+[2026-06-11 16:09:22][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:09:22][DEBUG] Params: {":client_id":"35",":site_id":"55",":building_id":"45"} 
+[2026-06-11 16:09:22][INFO] 55 
+[2026-06-11 16:09:24][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:09:24][DEBUG] Params: {":client_id":"35",":site_id":"55",":building_id":"45",":salle_id":"147"} 
+[2026-06-11 16:09:25][INFO] 55 
+[2026-06-11 16:09:26][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:09:26][DEBUG] Params: {":client_id":"35",":site_id":"55",":building_id":"45",":salle_id":"147"} 
+[2026-06-11 16:09:26][INFO] 55 
+[2026-06-11 16:09:45][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:09:45][DEBUG] Params: {":client_id":"35",":site_id":"55",":building_id":"45",":salle_id":"147"} 
+[2026-06-11 16:09:45][INFO] 55 
+[2026-06-11 16:09:49][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:09:49][DEBUG] Params: {":client_id":"35",":site_id":"55",":building_id":"45",":salle_id":"147"} 
+[2026-06-11 16:09:49][INFO] 55 
+[2026-06-11 16:11:04][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:11:04][DEBUG] Params: {":client_id":"35",":site_id":"55",":building_id":"45",":salle_id":"147"} 
+[2026-06-11 16:11:04][INFO] 55 
+[2026-06-11 16:11:07][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:11:07][DEBUG] Params: {":client_id":"35",":site_id":"55",":building_id":"45",":salle_id":"147"} 
+[2026-06-11 16:11:07][INFO] 55 
+[2026-06-11 16:16:08][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:16:08][DEBUG] Params: [] 
+[2026-06-11 16:16:11][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:16:11][DEBUG] Params: {":client_id":"35"} 
+[2026-06-11 16:16:19][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:16:19][DEBUG] Params: {":client_id":"35",":site_id":"55"} 
+[2026-06-11 16:16:19][INFO] 55 
+[2026-06-11 16:16:28][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:16:28][DEBUG] Params: {":client_id":"35",":site_id":"55",":building_id":"45"} 
+[2026-06-11 16:16:28][INFO] 55 
+[2026-06-11 16:16:33][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:16:33][DEBUG] Params: {":client_id":"35",":site_id":"55",":building_id":"45",":salle_id":"147"} 
+[2026-06-11 16:16:33][INFO] 55 
+[2026-06-11 16:16:37][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:16:37][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:17:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 13e00a20cbb0e28d127d... 
+[2026-06-11 16:17:40][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-06-11 16:17:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 13e00a20cbb0e28d127d... 
+[2026-06-11 16:17:52][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-11 16:17:52][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-11 16:17:52][DEBUG] Login réussi - Session ID: eb34fup8j5u877o51nf12i35nl 
+[2026-06-11 16:17:52][DEBUG] Login réussi - redirect_after_login: auth/resetPassword?token=bcecf2381f1463ac2e824fe95f452d5f7033226450601756ba388d969ed24738 
+[2026-06-11 16:17:52][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-11 16:17:52][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-06-11 16:17:52][DEBUG] Redirection après login vers: http://localhost/avision/public/auth/resetPassword?token=bcecf2381f1463ac2e824fe95f452d5f7033226450601756ba388d969ed24738 
+[2026-06-11 16:17:56][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:17:56][DEBUG] Params: [] 
+[2026-06-11 16:18:01][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:18:01][DEBUG] Params: {":client_id":"35"} 
+[2026-06-11 16:18:05][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:18:05][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:20:09][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:20:09][DEBUG] Params: {":client_id":"46",":site_id":"81"} 
+[2026-06-11 16:20:09][INFO] 81 
+[2026-06-11 16:20:13][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:20:13][DEBUG] Params: {":client_id":"46",":site_id":"81",":building_id":"10"} 
+[2026-06-11 16:20:13][INFO] 81 
+[2026-06-11 16:20:42][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:20:42][DEBUG] Params: [] 
+[2026-06-11 16:20:49][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:20:49][DEBUG] Params: {":client_id":"35"} 
+[2026-06-11 16:20:51][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:20:51][DEBUG] Params: {":client_id":"35",":site_id":"55"} 
+[2026-06-11 16:20:51][INFO] 55 
+[2026-06-11 16:20:55][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:20:55][DEBUG] Params: {":client_id":"35",":site_id":"55",":building_id":"2"} 
+[2026-06-11 16:20:55][INFO] 55 
+[2026-06-11 16:21:00][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id AND s.id = :site_id AND b.id = :building_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:21:00][DEBUG] Params: {":client_id":"35",":site_id":"55",":building_id":"12"} 
+[2026-06-11 16:21:00][INFO] 55 
+[2026-06-11 16:21:06][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:21:06][DEBUG] Params: [] 
+[2026-06-11 16:21:10][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:21:10][DEBUG] Params: {":client_id":"61"} 
+[2026-06-11 16:21:14][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:21:14][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:23:27][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:23:27][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:24:20][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:24:20][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:24:58][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:24:58][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:25:26][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:25:26][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:25:53][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:25:53][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:26:37][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:26:37][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:27:24][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:27:24][DEBUG] Params: {":client_id":"46"} 
+[2026-06-11 16:28:53][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-11 16:28:53][DEBUG] Params: {":client_id":"46"} 
