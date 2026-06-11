@@ -94725,3 +94725,52 @@ Quant à l’écran n°1, il est HS
 [2026-06-10 14:59:55][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
 [2026-06-10 14:59:55][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
 [2026-06-10 15:00:09][INFO] 30 
+[2026-06-10 15:08:51][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-10 15:08:51][DEBUG] Params: [] 
+[2026-06-11 07:58:03][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: ilmqoqovd9rdchspnsg1lgpdjh) 
+[2026-06-11 07:58:08][DEBUG] CSRF: Token trouvé dans la requête - Token: e2527508f76cebaa6f44... 
+[2026-06-11 07:58:08][WARNING] Tentative de connexion échouée pour l'utilisateur : Karija 
+[2026-06-11 08:47:13][DEBUG] CSRF: Token trouvé dans la requête - Token: e2527508f76cebaa6f44... 
+[2026-06-11 08:47:13][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-11 08:47:13][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-11 08:47:13][DEBUG] Login réussi - Session ID: ilmqoqovd9rdchspnsg1lgpdjh 
+[2026-06-11 08:47:13][DEBUG] Login réussi - redirect_after_login: dashboard 
+[2026-06-11 08:47:13][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-11 08:47:13][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-06-11 08:47:13][DEBUG] Redirection après login vers: http://localhost/avision/public/dashboard 
+[2026-06-11 08:53:10][DEBUG] CSRF: Token trouvé dans la requête - Token: e2527508f76cebaa6f44... 
+[2026-06-11 08:53:10][DEBUG] load_permissions - Session ID: ilmqoqovd9rdchspnsg1lgpdjh, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-11 08:53:10][DEBUG] CSRF: Token trouvé dans la requête - Token: e2527508f76cebaa6f44... 
+[2026-06-11 08:53:10][DEBUG] load_client_locations - Session ID: ilmqoqovd9rdchspnsg1lgpdjh, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-11 08:53:10][ERROR] Erreur lors de la récupération des localisations du client 7: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause' 
+[2026-06-11 08:59:21][DEBUG] CSRF: Token manquant dans la requête - URI: /avision/public/user/sendResetLink/39 
+[2026-06-11 08:59:21][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/user/sendResetLink/39 
+[2026-06-11 08:59:21][DEBUG] POST data: [] 
+[2026-06-11 08:59:21][DEBUG] Session token: "e2527508f76cebaa6f44d93e09bf01605e6cb687938aba62bcedc066ec311608" 
+[2026-06-11 09:00:04][DEBUG] CSRF: Token manquant dans la requête - URI: /avision/public/user/sendResetLink/39 
+[2026-06-11 09:00:04][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/user/sendResetLink/39 
+[2026-06-11 09:00:04][DEBUG] POST data: [] 
+[2026-06-11 09:00:04][DEBUG] Session token: "e2527508f76cebaa6f44d93e09bf01605e6cb687938aba62bcedc066ec311608" 
+[2026-06-11 09:01:35][DEBUG] CSRF: Token manquant dans la requête - URI: /avision/public/user/sendResetLink/39 
+[2026-06-11 09:01:35][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/user/sendResetLink/39 
+[2026-06-11 09:01:35][DEBUG] POST data: [] 
+[2026-06-11 09:01:35][DEBUG] Session token: "e2527508f76cebaa6f44d93e09bf01605e6cb687938aba62bcedc066ec311608" 
+[2026-06-11 09:03:57][DEBUG] CSRF: Token trouvé dans la requête - Token: e2527508f76cebaa6f44... 
