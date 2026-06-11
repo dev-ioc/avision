@@ -531,3 +531,41 @@
 [2026-06-11 10:13:55][ERROR] Erreur envoi lien reset MDP : SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'intervention_id' cannot be null 
 [2026-06-11 10:15:05][ERROR] Erreur lors de l'envoi de l'email SMTP: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
 [2026-06-11 10:15:05][ERROR] Erreur envoi lien reset MDP : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-06-11 10:25:57][ERROR] Erreur lors de l'envoi de l'email : SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'intervention_id' cannot be null {"intervention_id":null,"mail_host":"172.20.64.14","mail_port":"587","mail_encryption":"tls","mail_from_address":"avision@caspeo.fr","oauth2_enabled":"0"}
+[2026-06-11 10:25:57][ERROR] Erreur envoi lien reset MDP : SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'intervention_id' cannot be null 
+[2026-06-11 10:50:10][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-11 10:50:10][INFO] Lien de réinitialisation envoyé à dev_mdg@caspeo.fr 
+[2026-06-11 10:54:58][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-11 10:54:58][INFO] Lien de réinitialisation envoyé à dev_mdg@caspeo.fr 
+[2026-06-11 10:55:52][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-11 10:55:52][INFO] Lien de réinitialisation envoyé à dev_mdg@caspeo.fr 
+[2026-06-11 10:58:35][INFO] === DEMANDE RESET MDP === 
+[2026-06-11 10:58:35][INFO] Utilisateur ID: 39 
+[2026-06-11 10:58:35][INFO] Email dans $user: dev_mdg@caspeo.fr 
+[2026-06-11 10:58:35][INFO] Email qui SERA utilisé: dev_mdg@caspeo.fr 
+[2026-06-11 10:58:39][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-11 10:58:39][INFO] Lien de réinitialisation envoyé à dev_mdg@caspeo.fr 
+[2026-06-11 11:09:30][INFO] === DEMANDE RESET MDP === 
+[2026-06-11 11:09:30][INFO] Utilisateur ID: 41 
+[2026-06-11 11:09:30][INFO] Email dans $user: tixehi2691@herojp.com 
+[2026-06-11 11:09:30][INFO] Email qui SERA utilisé: tixehi2691@herojp.com 
+[2026-06-11 11:09:33][INFO] Email reset MDP envoyé via Gmail à tixehi2691@herojp.com 
+[2026-06-11 11:09:33][INFO] Lien de réinitialisation envoyé à tixehi2691@herojp.com 
+[2026-06-11 11:12:04][INFO] ENVOI RESET MDP - Destinataire: tixehi2691@herojp.com (TEST TEST) 
+[2026-06-11 11:12:08][INFO] Email reset MDP envoyé via Gmail à tixehi2691@herojp.com 
+[2026-06-11 11:12:08][INFO] Lien de réinitialisation envoyé avec succès à tixehi2691@herojp.com 
+[2026-06-11 11:26:46][INFO] ENVOI RESET MDP - Destinataire: tixehi2691@herojp.com (TEST TEST) 
+[2026-06-11 11:26:50][INFO] Email reset MDP envoyé via Gmail à tixehi2691@herojp.com 
+[2026-06-11 11:26:50][INFO] Lien de réinitialisation envoyé avec succès à tixehi2691@herojp.com 
+[2026-06-11 11:34:51][INFO] ENVOI RESET MDP - Destinataire: tixehi2691@herojp.com (TEST TEST) 
+[2026-06-11 11:34:55][INFO] Email reset MDP envoyé via Gmail à tixehi2691@herojp.com 
+[2026-06-11 11:34:55][INFO] Lien de réinitialisation envoyé avec succès à tixehi2691@herojp.com 
+[2026-06-11 11:39:21][INFO] ENVOI RESET MDP - Destinataire: tixehi2691@herojp.com (TEST TEST) 
+[2026-06-11 11:39:42][ERROR] Erreur lors de l'envoi de l'email SMTP: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-06-11 11:39:42][ERROR] Erreur envoi lien reset MDP : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-06-11 11:40:04][INFO] ENVOI RESET MDP - Destinataire: tixehi2691@herojp.com (TEST TEST) 
+[2026-06-11 11:40:25][ERROR] Erreur lors de l'envoi de l'email SMTP: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-06-11 11:40:25][ERROR] Erreur envoi lien reset MDP : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-06-11 11:41:27][INFO] ENVOI RESET MDP - Destinataire: tixehi2691@herojp.com (TEST TEST) 
+[2026-06-11 11:41:30][INFO] Email reset MDP envoyé via Gmail à tixehi2691@herojp.com 
+[2026-06-11 11:41:30][INFO] Lien de réinitialisation envoyé avec succès à tixehi2691@herojp.com 

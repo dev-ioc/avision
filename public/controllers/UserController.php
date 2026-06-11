@@ -631,6 +631,7 @@ class UserController
     }
     public function sendResetLink($userId)
     {
+
         // Vérification AJAX + admin
         if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             http_response_code(403);
@@ -665,7 +666,20 @@ class UserController
                 echo json_encode(['success' => false, 'message' => 'Utilisateur introuvable ou sans email.']);
                 exit;
             }
+            // Après avoir récupéré l'utilisateur
+            error_log("=== sendResetLink ===");
+            error_log("User ID reçu: " . $userId);
+            error_log("User trouvé - ID: " . $user['id'] . ", Email: " . $user['email'] . ", Nom: " . $user['first_name'] . " " . $user['last_name']);
+            // EMPÊCHER l'envoi à l'admin lui-même
+            $adminEmail = $_SESSION['user']['email'] ?? null;
 
+            if ($adminEmail && $user['email'] === $adminEmail) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Vous ne pouvez pas envoyer de lien de réinitialisation à votre propre compte. Utilisez "Mot de passe oublié" standard.'
+                ]);
+                exit;
+            }
             // Générer un token unique
             $resetToken = bin2hex(random_bytes(32));
             $expiresAt = date('Y-m-d H:i:s', time() + 7200); // 2 heures
