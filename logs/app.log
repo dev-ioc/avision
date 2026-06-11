@@ -94926,3 +94926,24 @@ Quant à l’écran n°1, il est HS
 [2026-06-11 14:15:29][DEBUG] CSRF: Token trouvé dans la requête - Token: fe61634554f9181e8baa... 
 [2026-06-11 14:16:14][DEBUG] CSRF: Token trouvé dans la requête - Token: fe61634554f9181e8baa... 
 [2026-06-11 14:16:14][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractModel.php","line":1275,"errno":2}
+[2026-06-11 14:41:35][INFO] 112 
+[2026-06-11 14:41:35][INFO] 79 
+[2026-06-11 14:41:35][INFO] 80 
+[2026-06-11 14:41:35][INFO] 93 
+[2026-06-11 14:41:35][INFO] 116 
+[2026-06-11 14:41:35][INFO] 115 
+[2026-06-11 14:41:35][INFO] 82 
+[2026-06-11 14:45:48][DEBUG] CSRF: Token manquant dans la requête - URI: /avision/public/contracts/create?return_to=view 
+[2026-06-11 14:45:48][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/contracts/create?return_to=view 
+[2026-06-11 14:45:48][DEBUG] POST data: {"client_id":"50","name":"TEST CONTRAT CHATEAU","contract_type_id":"1","start_date":"2026-06-11","end_date":"2027-12-31","tickets_number":"0","status":"actif","access_level_id":"8","comment":"","reminder_days":"30","num_facture":"","tarif":"","indice":""} 
+[2026-06-11 14:45:48][DEBUG] Session token: "fe61634554f9181e8baa5578ce815ee70f5694076e0e323a3ca97be6c20fb191" 
+[2026-06-11 14:50:55][DEBUG] CSRF: Token trouvé dans la requête - Token: fe61634554f9181e8baa... 
+[2026-06-11 14:51:14][DEBUG] CSRF: Token trouvé dans la requête - Token: fe61634554f9181e8baa... 
+[2026-06-11 14:51:14][WARNING] Undefined array key "id" {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContractModel.php","line":1275,"errno":2}
+[2026-06-11 14:51:14][INFO] 112 
+[2026-06-11 14:51:14][INFO] 79 
+[2026-06-11 14:51:14][INFO] 80 
+[2026-06-11 14:51:14][INFO] 93 
+[2026-06-11 14:51:14][INFO] 116 
+[2026-06-11 14:51:14][INFO] 115 
+[2026-06-11 14:51:14][INFO] 82 

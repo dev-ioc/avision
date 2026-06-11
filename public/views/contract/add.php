@@ -96,13 +96,13 @@ if (isset($client) && $client) {
         </div>
         <div class="card-body py-2">
             <form id="contractForm" action="<?php echo BASE_URL; ?>contracts/create<?php echo isset($_GET['return_to']) ? '?return_to=' . $_GET['return_to'] : ''; ?>" method="POST">
-             
+              <?= csrf_field() ?>    
                 <?php if ($client): ?>
                 <input type="hidden" name="client_id" value="<?php echo $client['id']; ?>">
                     <p class="mb-3"><strong>Client :</strong> <?php echo h($client['name']); ?></p>
                 <?php else: ?>
                     <div class="mb-3">
-            <?= csrf_field() ?>               <label for="client_id_select" class="form-label">Client <span class="text-danger">*</span></label>
+                      <label for="client_id_select" class="form-label">Client <span class="text-danger">*</span></label>
                         <select class="form-control bg-body text-body" id="client_id_select" name="client_id" required>
                             <option value="">Sélectionnez un client</option>
                             <?php if ($allClientsForDropdown): ?>
@@ -312,7 +312,33 @@ if (isset($client) && $client) {
         </div>
     </div>
 </div>
-
+<?php if ($client): ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Charger automatiquement les salles quand le client est préselectionné
+    if (typeof loadClientRooms === 'function') {
+        loadClientRooms(<?= (int)$client['id'] ?>);
+    } else {
+        // Fallback AJAX direct si la fonction n'est pas dans contracts-form.js
+        fetch('<?= BASE_URL ?>contracts/load_client_rooms', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: 'client_id=<?= (int)$client['id'] ?>&csrf_token=<?= csrf_token() ?>'
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.html) {
+                document.getElementById('rooms-container').innerHTML = data.html;
+            }
+        })
+        .catch(err => console.error('Erreur chargement salles:', err));
+    }
+});
+</script>
+<?php endif; ?>
 <!-- JavaScript extrait vers public/assets/js/pages/contracts-form.js -->
 <!-- Code JavaScript supprimé - Utilise maintenant contracts-form.js -->
 
