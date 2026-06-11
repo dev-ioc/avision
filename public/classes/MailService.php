@@ -1565,180 +1565,45 @@ class MailService
             </p>
         </body></html>';
 
-            // Expéditeur dédié pour le reset MDP
-            $fromAddress = 'karijatsilefilaza@gmail.com';
-            $fromName = 'Support AVision';
+            $recipients = [
+                [
+                    'email' => $user['email'],
+                    'name' => $fullName
+                ]
+            ];
 
-            // Destinataire final (test redirect si configuré)
-            $toEmail = $user['email'];
-            $toName = $fullName;
+            // Redirection test si configurée
+            $finalRecipients = $this->redirectToTestEmail($recipients);
 
             $testEmail = $this->config->get('test_email', '');
-            if (!empty(trim($testEmail))) {
-                $toEmail = trim($testEmail);
-                $toName = $fullName . ' [REDIRIGÉ: ' . $user['email'] . ']';
+            if (!empty($testEmail)) {
                 $subject = '[TEST] ' . $subject;
             }
 
-            // Envoi direct via SMTP Gmail (port 587 TLS)
-            // sans passer par la config globale
-            $sent = $this->sendPasswordResetViaGmail(
-                $fromAddress,
-                $fromName,
-                $toEmail,
-                $toName,
-                $subject,
-                $body
-            );
+            foreach ($finalRecipients as $recipient) {
+                if ($this->config->get('oauth2_enabled', '0') == '1') {
+                    $this->sendEmailOAuth2(
+                        $recipient['email'],
+                        $recipient['name'],
+                        $subject,
+                        $body
+                    );
+                } else {
+                    $this->sendEmailBasic(
+                        $recipient['email'],
+                        $recipient['name'],
+                        $subject,
+                        $body
+                    );
+                }
+            }
 
             custom_log_mail("Lien de réinitialisation envoyé à " . $user['email'], 'INFO');
-            return $sent;
+            return true;
 
         } catch (Exception $e) {
             custom_log_mail("Erreur envoi lien reset MDP : " . $e->getMessage(), 'ERROR');
             throw $e;
         }
-    }
-
-    /**
-     * Envoie un email via Gmail SMTP dédié pour le reset de mot de passe
-     */
-    private function sendPasswordResetViaGmail($fromAddress, $fromName, $to, $toName, $subject, $body)
-    {
-        $gmailPassword = 'zyredxmnzhzethlp';
-
-        $host = 'smtp.gmail.com';
-        $port = '587';
-
-        // Connexion TCP
-        $socket = @stream_socket_client("tcp://$host:$port", $errno, $errstr, 60);
-        if (!$socket) {
-            throw new Exception("Gmail SMTP: connexion impossible ($errstr)");
-        }
-
-        // Lire bannière
-        $response = fgets($socket, 1024);
-        if (!preg_match('/^220/', $response)) {
-            fclose($socket);
-            throw new Exception("Gmail SMTP: bannière invalide: " . trim($response));
-        }
-
-        // EHLO
-        $hostname = $_SERVER['HTTP_HOST'] ?? 'localhost';
-        fwrite($socket, "EHLO $hostname\r\n");
-        $ehloResponse = '';
-        do {
-            $response = fgets($socket, 1024);
-            $ehloResponse .= $response;
-        } while (preg_match('/^250-/', $response));
-
-        // STARTTLS
-        fwrite($socket, "STARTTLS\r\n");
-        $response = fgets($socket, 1024);
-        if (!preg_match('/^220/', $response)) {
-            fclose($socket);
-            throw new Exception("Gmail SMTP: STARTTLS refusé");
-        }
-
-        // Activer TLS
-        $tlsOk = false;
-        foreach ([
-            STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT,
-            STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
-            STREAM_CRYPTO_METHOD_TLS_CLIENT
-        ] as $method) {
-            @stream_context_set_option($socket, 'ssl', 'verify_peer', false);
-            @stream_context_set_option($socket, 'ssl', 'verify_peer_name', false);
-            if (@stream_socket_enable_crypto($socket, true, $method)) {
-                $tlsOk = true;
-                break;
-            }
-        }
-        if (!$tlsOk) {
-            fclose($socket);
-            throw new Exception("Gmail SMTP: impossible d'activer TLS");
-        }
-
-        // EHLO après TLS
-        fwrite($socket, "EHLO $hostname\r\n");
-        $ehloResponse = '';
-        do {
-            $response = fgets($socket, 1024);
-            $ehloResponse .= $response;
-        } while (preg_match('/^250-/', $response));
-
-        // AUTH LOGIN
-        fwrite($socket, "AUTH LOGIN\r\n");
-        $response = fgets($socket, 1024);
-        if (!preg_match('/^334/', $response)) {
-            fclose($socket);
-            throw new Exception("Gmail SMTP: AUTH LOGIN refusé: " . trim($response));
-        }
-
-        fwrite($socket, base64_encode($fromAddress) . "\r\n");
-        $response = fgets($socket, 1024);
-        if (!preg_match('/^334/', $response)) {
-            fclose($socket);
-            throw new Exception("Gmail SMTP: username refusé");
-        }
-
-        fwrite($socket, base64_encode($gmailPassword) . "\r\n");
-        $response = fgets($socket, 1024);
-        if (!preg_match('/^235/', $response)) {
-            fclose($socket);
-            throw new Exception("Gmail SMTP: authentification échouée: " . trim($response));
-        }
-
-        // MAIL FROM
-        fwrite($socket, "MAIL FROM:<$fromAddress>\r\n");
-        $response = fgets($socket, 1024);
-        if (!preg_match('/^250/', $response)) {
-            fclose($socket);
-            throw new Exception("Gmail SMTP: MAIL FROM refusé: " . trim($response));
-        }
-
-        // RCPT TO
-        fwrite($socket, "RCPT TO:<$to>\r\n");
-        $response = fgets($socket, 1024);
-        if (!preg_match('/^250/', $response)) {
-            fclose($socket);
-            throw new Exception("Gmail SMTP: RCPT TO refusé: " . trim($response));
-        }
-
-        // DATA
-        fwrite($socket, "DATA\r\n");
-        $response = fgets($socket, 1024);
-        if (!preg_match('/^354/', $response)) {
-            fclose($socket);
-            throw new Exception("Gmail SMTP: DATA refusé");
-        }
-
-        $encodedFrom = $this->encodeHeader($fromName);
-        $encodedTo = $this->encodeHeader($toName);
-        $encodedSubject = $this->encodeHeader($subject);
-
-        $emailData = "From: $encodedFrom <$fromAddress>\r\n";
-        $emailData .= "To: $encodedTo <$to>\r\n";
-        $emailData .= "Reply-To: $fromAddress\r\n";
-        $emailData .= "Subject: $encodedSubject\r\n";
-        $emailData .= "MIME-Version: 1.0\r\n";
-        $emailData .= "Content-Type: text/html; charset=UTF-8\r\n";
-        $emailData .= "X-Mailer: AVision Password Reset\r\n";
-        $emailData .= "\r\n";
-        $emailData .= str_replace(["\r\n", "\n"], "\r\n", $body);
-        $emailData .= "\r\n.\r\n";
-
-        fwrite($socket, $emailData);
-        $response = fgets($socket, 1024);
-        if (!preg_match('/^250/', $response)) {
-            fclose($socket);
-            throw new Exception("Gmail SMTP: envoi refusé: " . trim($response));
-        }
-
-        fwrite($socket, "QUIT\r\n");
-        fclose($socket);
-
-        custom_log_mail("Email reset MDP envoyé via Gmail à $to", 'INFO');
-        return true;
     }
 }
