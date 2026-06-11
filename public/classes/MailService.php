@@ -1565,41 +1565,14 @@ class MailService
             </p>
         </body></html>';
 
+            // Construire le tableau de destinataires attendu par sendEmail
             $recipients = [
                 [
                     'email' => $user['email'],
                     'name' => $fullName
                 ]
             ];
-
-            // Redirection test si configurée
-            $finalRecipients = $this->redirectToTestEmail($recipients);
-
-            $testEmail = $this->config->get('test_email', '');
-            if (!empty($testEmail)) {
-                $subject = '[TEST] ' . $subject;
-            }
-
-            foreach ($finalRecipients as $recipient) {
-                if ($this->config->get('oauth2_enabled', '0') == '1') {
-                    $this->sendEmailOAuth2(
-                        $recipient['email'],
-                        $recipient['name'],
-                        $subject,
-                        $body
-                    );
-                } else {
-                    $this->sendEmailBasic(
-                        $recipient['email'],
-                        $recipient['name'],
-                        $subject,
-                        $body
-                    );
-                }
-            }
-
-            custom_log_mail("Lien de réinitialisation envoyé à " . $user['email'], 'INFO');
-            return true;
+            return $this->sendEmailBasic($recipients, $subject, $body, null);
 
         } catch (Exception $e) {
             custom_log_mail("Erreur envoi lien reset MDP : " . $e->getMessage(), 'ERROR');
