@@ -16,9 +16,6 @@ setPageVariables(
 // Définir la page courante pour le menu
 $currentPage = 'materiel';
 
-// Onglet actif (par défaut 'materiel')
-$activeTab = $_GET['tab'] ?? 'materiel';
-
 // Initialiser $pieces_jointes_count si non définie
 if (!isset($pieces_jointes_count)) {
     $pieces_jointes_count = [];
@@ -124,29 +121,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css">
     <script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
     <style>
-        .nav-tabs .nav-link {
-            font-weight: 500;
-            color: var(--bs-gray-700);
-            border: none;
-            border-bottom: 2px solid transparent;
-            padding: 0.75rem 1.5rem;
-        }
-
-        .nav-tabs .nav-link:hover {
-            border-bottom-color: var(--bs-gray-300);
-            color: var(--bs-primary);
-        }
-
-        .nav-tabs .nav-link.active {
-            color: var(--bs-primary);
-            border-bottom-color: var(--bs-primary);
-            background: transparent;
-        }
-
-        .tab-content>.tab-pane {
-            padding-top: 1.5rem;
-        }
-
         .card,
         .card-body,
         .accordion-body,
@@ -210,12 +184,27 @@ include_once __DIR__ . '/../../includes/navbar.php';
             color: var(--bs-primary);
             text-decoration: underline;
         }
+
+        .section-header {
+            border-left: 4px solid var(--bs-primary);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .section-header p {
+            margin-bottom: 0;
+            color: var(--bs-gray-600);
+        }
     </style>
 </head>
 
 <body>
     <div class="container-fluid grow container-y">
-        <!-- En-tête avec titre et onglets -->
+        <!-- En-tête avec titre -->
         <div class="row mb-4">
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-start">
@@ -248,30 +237,26 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         $addMaterielUrl = BASE_URL . 'materiel/add' . (!empty($addParams) ? '?' . http_build_query($addParams) : '');
                         $addDocumentUrl = BASE_URL . 'documentation/add' . (!empty($addParams) ? '?' . http_build_query($addParams) : '');
                         ?>
-                        <?php if ($activeTab === 'materiel'): ?>
-                            <a href="<?= $addMaterielUrl ?>" class="btn btn-primary">
-                                <i class="bi bi-plus me-1"></i>Ajouter du Matériel
-                            </a>
-                            <?php if (canImportMateriel()): ?>
-                                <a href="<?= BASE_URL ?>materiel_bulk" class="btn btn-info">
-                                    <i class="bi bi-arrow-left-right me-1"></i>Import/Export
-                                </a>
-                            <?php endif; ?>
-                            <?php if (canDeleteDocumentation()): ?>
-                                <a href="<?= BASE_URL ?>materiel_bulk/bulk_delete" class="btn btn-outline-danger">
-                                    <i class="bi bi-trash me-1"></i>Supprimer en masse
-                                </a>
-                            <?php endif; ?>
-                        <?php else: ?>
-                            <a href="<?= $addDocumentUrl ?>" class="btn btn-primary">
-                                <i class="bi bi-plus me-1"></i>Ajouter un Document
+                        <a href="<?= $addMaterielUrl ?>" class="btn btn-primary">
+                            <i class="bi bi-plus me-1"></i>Ajouter du Matériel
+                        </a>
+                        <?php if (canImportMateriel()): ?>
+                            <a href="<?= BASE_URL ?>materiel_bulk" class="btn btn-info">
+                                <i class="bi bi-arrow-left-right me-1"></i>Import/Export
                             </a>
                         <?php endif; ?>
+                        <?php if (canDeleteDocumentation()): ?>
+                            <a href="<?= BASE_URL ?>materiel_bulk/bulk_delete" class="btn btn-outline-danger">
+                                <i class="bi bi-trash me-1"></i>Supprimer en masse
+                            </a>
+                        <?php endif; ?>
+                        <a href="<?= $addDocumentUrl ?>" class="btn btn-outline-primary">
+                            <i class="bi bi-plus me-1"></i>Ajouter un Document
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-
 
         <!-- Filtres -->
         <div class="card mb-4">
@@ -280,7 +265,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
             <div class="card-body py-2">
                 <form method="get" action="<?= BASE_URL ?>materiel_documentation" id="filterForm">
-                    <input type="hidden" name="tab" value="<?= $activeTab ?>">
                     <div class="row g-3 align-items-end">
                         <div class="col-md-2">
                             <label for="client_id" class="form-label fw-bold mb-0">Client</label>
@@ -339,8 +323,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </select>
                         </div>
                         <div class="col-md-4 d-flex justify-content-end">
-                            <a href="<?= BASE_URL ?>materiel_documentation?tab=<?= $activeTab ?>"
-                                class="btn btn-outline-secondary">
+                            <a href="<?= BASE_URL ?>materiel_documentation" class="btn btn-outline-secondary">
                                 <i class="bi bi-x-lg me-1"></i>Réinitialiser
                             </a>
                         </div>
@@ -349,414 +332,382 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
         </div>
 
-        <!-- Onglets -->
-        <ul class="nav nav-tabs" id="contentTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link <?= $activeTab === 'materiel' ? 'active' : '' ?>" id="materiel-tab"
-                    data-bs-toggle="tab" data-bs-target="#materiel-content" type="button" role="tab"
-                    onclick="switchTab('materiel')">
-                    <i class="bi bi-hdd-network me-2"></i>Matériel
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link <?= $activeTab === 'documentation' ? 'active' : '' ?>" id="documentation-tab"
-                    data-bs-toggle="tab" data-bs-target="#documentation-content" type="button" role="tab"
-                    onclick="switchTab('documentation')">
-                    <i class="bi bi-file-text me-2"></i>Documentation
-                </button>
-            </li>
-        </ul>
-
-        <div class="tab-content">
-            <!-- Onglet Matériel -->
-            <div class="tab-pane fade <?= $activeTab === 'materiel' ? 'show active' : '' ?>" id="materiel-content"
-                role="tabpanel" aria-labelledby="materiel-tab">
-
-                <?php if (empty($filters['client_id'])): ?>
-                    <div class="card">
-                        <div class="card-body text-center py-5">
-                            <i class="fas fa-filter fa-3x text-muted mb-3"></i>
-                            <h5 class="text-muted">Sélectionnez un client pour voir le matériel</h5>
-                            <p class="text-muted mb-3">Choisissez un client dans le filtre ci-dessus pour afficher le
-                                matériel associé.
-                            </p>
-                        </div>
-                    </div>
-                <?php elseif (empty($materiel_organise)): ?>
-                    <div class="card">
-                        <div class="card-body text-center py-5">
-                            <i class="bi bi-hdd-network fa-3x text-muted mb-3"></i>
-                            <h5 class="text-muted">Aucun matériel trouvé</h5>
-                            <p class="text-muted mb-3">Aucun matériel ne correspond aux critères sélectionnés.</p>
-                            <a href="<?= $addMaterielUrl ?>" class="btn btn-primary">
-                                <i class="bi bi-plus me-1"></i>Ajouter du Matériel
-                            </a>
-                        </div>
-                    </div>
-                <?php else: ?>
-                    <!-- Recherche globale et contrôles -->
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-md-6">
-                                    <label for="globalSearch" class="form-label fw-bold mb-2">
-                                        <i class="bi bi-search me-2"></i>Recherche globale
-                                    </label>
-                                    <input type="text" class="form-control" id="globalSearch"
-                                        placeholder="Rechercher dans tous les tableaux..." autocomplete="off">
-                                    <small class="text-muted">La recherche s'applique à tous les tableaux de toutes les
-                                        salles</small>
-                                </div>
-                                <div class="col-md-6 text-end">
-                                    <div class="d-flex gap-2 justify-content-end align-items-end">
-                                        <button type="button" class="btn btn-outline-secondary" id="clearGlobalSearch"
-                                            style="display: none;">
-                                            <i class="bi bi-x-lg me-1"></i>Effacer
-                                        </button>
-                                        <div class="btn-group">
-                                            <button class="btn btn-outline-secondary dropdown-toggle"
-                                                data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                                                <i class="bi bi-list-check me-1"></i>Colonnes
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end"
-                                                style="max-height:500px;overflow:auto;">
-                                                <?php foreach ($allColumns as $i => $col): ?>
-                                                    <li>
-                                                        <label class="dropdown-item">
-                                                            <input type="checkbox" class="global-colvis-checkbox me-2"
-                                                                data-col="<?= $i ?>" <?= $col['default'] ? 'checked' : '' ?>>
-                                                            <?= h($col['label']) ?>
-                                                        </label>
-                                                    </li>
-                                                <?php endforeach; ?>
-                                            </ul>
-                                        </div>
-                                        <button type="button" class="btn btn-outline-primary" id="openAllAccordions">
-                                            <i class="bi bi-chevron-down me-1"></i>Ouvrir tout
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary" id="closeAllAccordions">
-                                            <i class="bi bi-chevron-up me-1"></i>Fermer tout
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="accordionContainer">
-                        <?php foreach ($materiel_organise as $client_nom => $sites): ?>
-                            <div class="card mb-4">
-                                <div class="card-header bg-body-secondary d-flex align-items-center justify-content-between">
-                                    <h5 class="card-title mb-0 d-flex align-items-center">
-                                        <i class="bi bi-building text-primary me-2"></i>
-                                        <?= h($client_nom) ?>
-                                    </h5>
-                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="saveAllTablesData()">
-                                        <i class="bi bi-save-all me-1"></i>
-                                        Sauvegarder toutes les modifications
-                                    </button>
-                                </div>
-                                <div class="card-body p-0">
-                                    <?php foreach ($sites as $site_nom => $buildings): ?>
-                                        <?php foreach ($buildings as $building_nom => $salles): ?>
-                                            <?php foreach ($salles as $salle_nom => $materiels):
-                                                $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
-                                                $accordion_id = 'accordion_' . $salle_id;
-                                                $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
-                                                ?>
-                                                <div class="accordion mb-3" id="<?= $accordion_id ?>">
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header">
-                                                            <button class="accordion-button collapsed" type="button"
-                                                                data-bs-toggle="collapse" data-bs-target="#collapse_<?= $salle_id ?>">
-                                                                <div class="d-flex justify-content-between w-100 me-3 align-items-center">
-                                                                    <span>
-                                                                        <i class="bi bi-door-open me-2 text-info"></i>
-                                                                        <strong>
-                                                                            <?= $locationString ?>
-                                                                        </strong>
-                                                                    </span>
-                                                                    <span class="badge bg-secondary ms-3">
-                                                                        <?= count($materiels) ?> équipement(s)
-                                                                    </span>
-                                                                </div>
-                                                            </button>
-                                                        </h2>
-                                                        <div id="collapse_<?= $salle_id ?>" class="accordion-collapse collapse"
-                                                            data-bs-parent="#accordionContainer">
-                                                            <div class="accordion-body p-0">
-                                                                <div class="d-flex justify-content-end p-2 border-bottom bg-light">
-                                                                    <button type="button" class="btn btn-sm btn-success"
-                                                                        onclick="addNewRowToTable('excelTable-<?= $salle_id ?>', '<?= addslashes($locationString) ?>', <?= $materiels[0]['salle_id'] ?? 'null' ?>)">
-                                                                        <i class="bi bi-plus-circle me-1"></i>Ajouter un équipement
-                                                                    </button>
-                                                                </div>
-                                                                <div class="table-wrapper">
-                                                                    <div id="excelTable-<?= $salle_id ?>"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <?php endforeach; ?>
-                                        <?php endforeach; ?>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
+        <?php if (empty($filters['client_id'])): ?>
+            <!-- Message si aucun client sélectionné -->
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-filter fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Sélectionnez un client pour voir le contenu</h5>
+                    <p class="text-muted mb-3">Choisissez un client dans le filtre ci-dessus pour afficher la documentation
+                        et le matériel associés.</p>
+                </div>
+            </div>
+        <?php else: ?>
+            <!-- SECTION DOCUMENTATION (affichée en premier) -->
+            <div class="section-header">
+                <h4><i class="bi bi-file-text me-2"></i>Documentation</h4>
+                <p>Documents disponibles pour ce client</p>
             </div>
 
-            <!-- Onglet Documentation -->
-            <div class="tab-pane fade <?= $activeTab === 'documentation' ? 'show active' : '' ?>"
-                id="documentation-content" role="tabpanel" aria-labelledby="documentation-tab">
-
-                <?php if (empty($filters['client_id'])): ?>
-                    <div class="card">
-                        <div class="card-body text-center py-5">
-                            <i class="fas fa-filter fa-3x text-muted mb-3"></i>
-                            <h5 class="text-muted">Sélectionnez un client pour voir la documentation</h5>
-                            <p class="text-muted mb-3">Choisissez un client dans le filtre ci-dessus pour afficher la
-                                documentation
-                                associée.</p>
-                        </div>
+            <?php if (empty($documentation_organise)): ?>
+                <div class="card mb-4">
+                    <div class="card-body text-center py-4">
+                        <i class="bi bi-file-text fa-2x text-muted mb-2"></i>
+                        <p class="text-muted mb-0">Aucune documentation trouvée pour les critères sélectionnés.</p>
+                        <a href="<?= $addDocumentUrl ?>" class="btn btn-sm btn-primary mt-3">
+                            <i class="bi bi-plus me-1"></i>Ajouter un Document
+                        </a>
                     </div>
-                <?php elseif (empty($documentation_organise)): ?>
-                    <div class="card">
-                        <div class="card-body text-center py-5">
-                            <i class="bi bi-file-text fa-3x text-muted mb-3"></i>
-                            <h5 class="text-muted">Aucune documentation trouvée</h5>
-                            <p class="text-muted mb-3">Aucun document ne correspond aux critères sélectionnés.</p>
-                            <a href="<?= $addDocumentUrl ?>" class="btn btn-primary">
-                                <i class="bi bi-plus me-1"></i>Ajouter un Document
-                            </a>
+                </div>
+            <?php else: ?>
+                <?php foreach ($documentation_organise as $client_nom => $sites_data): ?>
+                    <div class="card mb-4">
+                        <div class="card-header bg-body-secondary">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-building me-2 text-primary"></i>
+                                <?= h($client_nom) ?>
+                            </h5>
                         </div>
-                    </div>
-                <?php else: ?>
-                    <?php foreach ($documentation_organise as $client_nom => $sites_data): ?>
-                        <div class="card mb-4">
-                            <div class="card-header bg-body-secondary">
-                                <h5 class="card-title mb-0">
-                                    <i class="bi bi-building me-2 text-primary"></i>
-                                    <?= h($client_nom) ?>
-                                </h5>
-                            </div>
-                            <div class="card-body p-0">
-                                <?php foreach ($sites_data as $site_nom => $buildings_data): ?>
-                                    <div class="border-bottom">
-                                        <div class="p-3 bg-body-secondary bg-opacity-10">
-                                            <h6 class="mb-0">
-                                                <i class="bi bi-geo-alt me-2 text-success"></i>
-                                                <?= h($site_nom) ?>
-                                            </h6>
-                                        </div>
-                                        <?php foreach ($buildings_data as $building_nom => $salles_data): ?>
-                                            <div class="border-bottom">
-                                                <div class="p-3 bg-body-secondary bg-opacity-5">
-                                                    <h6 class="mb-0">
-                                                        <i class="bi bi-building me-2 text-warning"></i>
-                                                        <?= h($building_nom) ?>
-                                                    </h6>
-                                                </div>
-                                                <?php foreach ($salles_data as $salle_nom => $documents): ?>
-                                                    <div class="border-bottom">
-                                                        <div class="p-3">
-                                                            <h6 class="mb-3">
-                                                                <i class="bi bi-door-open me-2 text-info"></i>
-                                                                <?= h($salle_nom) ?>
-                                                                <span class="badge bg-secondary ms-2">
-                                                                    <?= count($documents) ?> document(s)
-                                                                </span>
-                                                            </h6>
-                                                            <div class="table-responsive">
-                                                                <table class="table table-hover">
-                                                                    <thead class="table-light">
+                        <div class="card-body p-0">
+                            <?php foreach ($sites_data as $site_nom => $buildings_data): ?>
+                                <div class="border-bottom">
+                                    <div class="p-3 bg-body-secondary bg-opacity-10">
+                                        <h6 class="mb-0">
+                                            <i class="bi bi-geo-alt me-2 text-success"></i>
+                                            <?= h($site_nom) ?>
+                                        </h6>
+                                    </div>
+                                    <?php foreach ($buildings_data as $building_nom => $salles_data): ?>
+                                        <div class="border-bottom">
+                                            <div class="p-3 bg-body-secondary bg-opacity-5">
+                                                <h6 class="mb-0">
+                                                    <i class="bi bi-building me-2 text-warning"></i>
+                                                    <?= h($building_nom) ?>
+                                                </h6>
+                                            </div>
+                                            <?php foreach ($salles_data as $salle_nom => $documents): ?>
+                                                <div class="border-bottom">
+                                                    <div class="p-3">
+                                                        <h6 class="mb-3">
+                                                            <i class="bi bi-door-open me-2 text-info"></i>
+                                                            <?= h($salle_nom) ?>
+                                                            <span class="badge bg-secondary ms-2">
+                                                                <?= count($documents) ?> document(s)
+                                                            </span>
+                                                        </h6>
+                                                        <div class="table-responsive">
+                                                            <table class="table table-hover">
+                                                                <thead class="table-light">
+                                                                    <tr>
+                                                                        <th style="width: 40%;">Document</th>
+                                                                        <th style="width: 15%;">Type</th>
+                                                                        <th style="width: 10%;">Taille</th>
+                                                                        <th style="width: 10%;">Visibilité</th>
+                                                                        <th style="width: 15%;">Date</th>
+                                                                        <th style="width: 10%;">User</th>
+                                                                        <th style="width: 10%;">Actions</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php foreach ($documents as $doc): ?>
                                                                         <tr>
-                                                                            <th style="width: 40%;">Document</th>
-                                                                            <th style="width: 15%;">Type</th>
-                                                                            <th style="width: 10%;">Taille</th>
-                                                                            <th style="width: 10%;">Visibilité</th>
-                                                                            <th style="width: 15%;">Date</th>
-                                                                            <th style="width: 10%;">User</th>
-                                                                            <th style="width: 10%;">Actions</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <?php foreach ($documents as $doc): ?>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <div class="d-flex align-items-center">
-                                                                                        <i
-                                                                                            class="<?= getFileIcon($doc['type_fichier'] ?? '') ?> text-primary me-2"></i>
-                                                                                        <div class="flex-grow-1 min-w-0">
-                                                                                            <div
-                                                                                                class="fw-bold text-primary d-flex align-items-center gap-2">
-                                                                                                <span class="editable-name"
-                                                                                                    data-id="<?= $doc['id'] ?>"
-                                                                                                    data-current-name="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document sans nom') ?>"
-                                                                                                    style="cursor: pointer;"
-                                                                                                    title="Double-clic pour modifier">
-                                                                                                    <?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document sans nom') ?>
-                                                                                                </span>
-                                                                                                <button type="button"
-                                                                                                    class="btn btn-sm btn-link p-0 edit-name-btn"
-                                                                                                    data-id="<?= $doc['id'] ?>"
-                                                                                                    data-current-name="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document sans nom') ?>"
-                                                                                                    title="Modifier le nom"
-                                                                                                    style="font-size: 0.75rem;">
-                                                                                                    <i class="bi bi-pencil"></i>
-                                                                                                </button>
-                                                                                            </div>
-                                                                                            <?php if (!empty($doc['nom_personnalise']) && $doc['nom_personnalise'] !== $doc['nom_fichier']): ?>
-                                                                                                <small class="text-muted">
-                                                                                                    <i class="bi bi-file-earmark me-1"></i>
-                                                                                                    <?= h($doc['nom_fichier']) ?>
-                                                                                                </small>
-                                                                                            <?php endif; ?>
-                                                                                            <?php if (!empty($doc['commentaire'])): ?>
-                                                                                                <small class="text-muted d-block">
-                                                                                                    <i class="bi bi-chat-text me-1"></i>
-                                                                                                    <?= h($doc['commentaire']) ?>
-                                                                                                </small>
-                                                                                            <?php endif; ?>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <?php if (!empty($doc['type_fichier'])): ?>
-                                                                                        <span class="badge bg-info">
-                                                                                            <?= strtoupper($doc['type_fichier']) ?>
-                                                                                        </span>
-                                                                                    <?php endif; ?>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <?php if (!empty($doc['taille_fichier']) && $doc['taille_fichier'] > 0): ?>
-                                                                                        <small class="text-muted">
-                                                                                            <?= formatFileSize($doc['taille_fichier']) ?>
-                                                                                        </small>
-                                                                                    <?php endif; ?>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <?php if ($doc['masque_client']): ?>
-                                                                                        <span class="badge bg-warning"><i
-                                                                                                class="bi bi-eye-slash me-1"></i>Masqué</span>
-                                                                                    <?php else: ?>
-                                                                                        <span class="badge bg-success"><i
-                                                                                                class="bi bi-eye me-1"></i>Visible</span>
-                                                                                    <?php endif; ?>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <small class="text-muted">
-                                                                                        <i class="bi bi-calendar me-1"></i>
-                                                                                        <?= formatDateFrench($doc['date_creation'] ?? '') ?>
-                                                                                    </small>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <?php if (!empty($doc['uploader_name'])): ?>
-                                                                                        <small class="text-muted">
-                                                                                            <i class="bi bi-person me-1"></i>
-                                                                                            <?= h($doc['uploader_name']) ?>
-                                                                                        </small>
-                                                                                    <?php endif; ?>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="d-flex gap-1">
-                                                                                        <?php
-                                                                                        $fileType = strtolower($doc['type_fichier'] ?? '');
-                                                                                        $canPreview = in_array($fileType, ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'webp']);
-                                                                                        ?>
-                                                                                        <?php if ($canPreview && !empty($doc['chemin_fichier'])): ?>
+                                                                            <td>
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <i
+                                                                                        class="<?= getFileIcon($doc['type_fichier'] ?? '') ?> text-primary me-2"></i>
+                                                                                    <div class="flex-grow-1 min-w-0">
+                                                                                        <div
+                                                                                            class="fw-bold text-primary d-flex align-items-center gap-2">
+                                                                                            <span class="editable-name" data-id="<?= $doc['id'] ?>"
+                                                                                                data-current-name="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document sans nom') ?>"
+                                                                                                style="cursor: pointer;"
+                                                                                                title="Double-clic pour modifier">
+                                                                                                <?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document sans nom') ?>
+                                                                                            </span>
                                                                                             <button type="button"
-                                                                                                class="btn btn-sm btn-outline-info btn-action"
-                                                                                                title="Aperçu" data-bs-toggle="modal"
-                                                                                                data-bs-target="#previewModal<?= $doc['id'] ?>">
-                                                                                                <i class="bi bi-eye"></i>
+                                                                                                class="btn btn-sm btn-link p-0 edit-name-btn"
+                                                                                                data-id="<?= $doc['id'] ?>"
+                                                                                                data-current-name="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document sans nom') ?>"
+                                                                                                title="Modifier le nom" style="font-size: 0.75rem;">
+                                                                                                <i class="bi bi-pencil"></i>
                                                                                             </button>
-                                                                                        <?php endif; ?>
-                                                                                        <?php if (!empty($doc['chemin_fichier'])): ?>
-                                                                                            <a href="<?= BASE_URL ?>documentation/download/<?= $doc['id'] ?>"
-                                                                                                class="btn btn-sm btn-outline-success btn-action"
-                                                                                                title="Télécharger">
-                                                                                                <i class="bi bi-download"></i>
-                                                                                            </a>
-                                                                                        <?php endif; ?>
-                                                                                        <?php if (canManageDocumentation()): ?>
-                                                                                            <a href="<?= BASE_URL ?>documentation/toggleAttachmentVisibility/<?= $doc['id'] ?>"
-                                                                                                class="btn btn-sm btn-outline-warning btn-action"
-                                                                                                title="<?= ($doc['masque_client'] ?? 0) == 1 ? 'Rendre visible aux clients' : 'Masquer aux clients' ?>"
-                                                                                                onclick="return confirm('<?= ($doc['masque_client'] ?? 0) == 1 ? 'Rendre ce document visible aux clients ?' : 'Masquer ce document aux clients ?' ?>');">
-                                                                                                <i
-                                                                                                    class="bi <?= ($doc['masque_client'] ?? 0) == 1 ? 'bi-eye' : 'bi-eye-slash' ?>"></i>
-                                                                                            </a>
-                                                                                        <?php endif; ?>
-                                                                                        <?php if (canDeleteDocumentation()): ?>
-                                                                                            <button type="button"
-                                                                                                class="btn btn-sm btn-outline-danger btn-action delete-document"
-                                                                                                data-id="<?= (int) $doc['id'] ?>"
-                                                                                                data-name="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document') ?>">
-                                                                                                <i class="bi bi-trash"></i>
-                                                                                            </button>
-                                                                                        <?php endif; ?>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <!-- Modal d'aperçu -->
-                                                                            <?php if ($canPreview && !empty($doc['chemin_fichier'])): ?>
-                                                                                <div class="modal fade" id="previewModal<?= $doc['id'] ?>"
-                                                                                    tabindex="-1" aria-hidden="true">
-                                                                                    <div class="modal-dialog modal-xl">
-                                                                                        <div class="modal-content">
-                                                                                            <div class="modal-header">
-                                                                                                <h5 class="modal-title">
-                                                                                                    <?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>
-                                                                                                </h5>
-                                                                                                <button type="button" class="btn-close"
-                                                                                                    data-bs-dismiss="modal"
-                                                                                                    aria-label="Close"></button>
-                                                                                            </div>
-                                                                                            <div class="modal-body p-0">
-                                                                                                <div style="min-height: 75vh;">
-                                                                                                    <?php if ($fileType === 'pdf'): ?>
-                                                                                                        <iframe
-                                                                                                            src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>#toolbar=1"
-                                                                                                            width="100%" height="75vh"
-                                                                                                            frameborder="0"></iframe>
-                                                                                                    <?php elseif (in_array($fileType, ['jpg', 'jpeg', 'png', 'gif', 'webp'])): ?>
-                                                                                                        <img src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>"
-                                                                                                            class="img-fluid w-100">
-                                                                                                    <?php endif; ?>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="modal-footer">
-                                                                                                <a href="<?= BASE_URL ?>documentation/download/<?= $doc['id'] ?>"
-                                                                                                    class="btn btn-primary" target="_blank">
-                                                                                                    <i class="bi bi-download me-1"></i> Télécharger
-                                                                                                </a>
-                                                                                                <button type="button" class="btn btn-secondary"
-                                                                                                    data-bs-dismiss="modal">Fermer</button>
-                                                                                            </div>
                                                                                         </div>
+                                                                                        <?php if (!empty($doc['nom_personnalise']) && $doc['nom_personnalise'] !== $doc['nom_fichier']): ?>
+                                                                                            <small class="text-muted">
+                                                                                                <i class="bi bi-file-earmark me-1"></i>
+                                                                                                <?= h($doc['nom_fichier']) ?>
+                                                                                            </small>
+                                                                                        <?php endif; ?>
+                                                                                        <?php if (!empty($doc['commentaire'])): ?>
+                                                                                            <small class="text-muted d-block">
+                                                                                                <i class="bi bi-chat-text me-1"></i>
+                                                                                                <?= h($doc['commentaire']) ?>
+                                                                                            </small>
+                                                                                        <?php endif; ?>
                                                                                     </div>
                                                                                 </div>
-                                                                            <?php endif; ?>
-                                                                        <?php endforeach; ?>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <?php if (!empty($doc['type_fichier'])): ?>
+                                                                                    <span class="badge bg-info">
+                                                                                        <?= strtoupper($doc['type_fichier']) ?>
+                                                                                    </span>
+                                                                                <?php endif; ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <?php if (!empty($doc['taille_fichier']) && $doc['taille_fichier'] > 0): ?>
+                                                                                    <small class="text-muted">
+                                                                                        <?= formatFileSize($doc['taille_fichier']) ?>
+                                                                                    </small>
+                                                                                <?php endif; ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <?php if ($doc['masque_client']): ?>
+                                                                                    <span class="badge bg-warning"><i
+                                                                                            class="bi bi-eye-slash me-1"></i>Masqué</span>
+                                                                                <?php else: ?>
+                                                                                    <span class="badge bg-success"><i
+                                                                                            class="bi bi-eye me-1"></i>Visible</span>
+                                                                                <?php endif; ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <small class="text-muted">
+                                                                                    <i class="bi bi-calendar me-1"></i>
+                                                                                    <?= formatDateFrench($doc['date_creation'] ?? '') ?>
+                                                                                </small>
+                                                                            </td>
+                                                                            <td>
+                                                                                <?php if (!empty($doc['uploader_name'])): ?>
+                                                                                    <small class="text-muted">
+                                                                                        <i class="bi bi-person me-1"></i>
+                                                                                        <?= h($doc['uploader_name']) ?>
+                                                                                    </small>
+                                                                                <?php endif; ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="d-flex gap-1">
+                                                                                    <?php
+                                                                                    $fileType = strtolower($doc['type_fichier'] ?? '');
+                                                                                    $canPreview = in_array($fileType, ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'webp']);
+                                                                                    ?>
+                                                                                    <?php if ($canPreview && !empty($doc['chemin_fichier'])): ?>
+                                                                                        <button type="button"
+                                                                                            class="btn btn-sm btn-outline-info btn-action"
+                                                                                            title="Aperçu" data-bs-toggle="modal"
+                                                                                            data-bs-target="#previewModal<?= $doc['id'] ?>">
+                                                                                            <i class="bi bi-eye"></i>
+                                                                                        </button>
+                                                                                    <?php endif; ?>
+                                                                                    <?php if (!empty($doc['chemin_fichier'])): ?>
+                                                                                        <a href="<?= BASE_URL ?>documentation/download/<?= $doc['id'] ?>"
+                                                                                            class="btn btn-sm btn-outline-success btn-action"
+                                                                                            title="Télécharger">
+                                                                                            <i class="bi bi-download"></i>
+                                                                                        </a>
+                                                                                    <?php endif; ?>
+                                                                                    <?php if (canManageDocumentation()): ?>
+                                                                                        <a href="<?= BASE_URL ?>documentation/toggleAttachmentVisibility/<?= $doc['id'] ?>"
+                                                                                            class="btn btn-sm btn-outline-warning btn-action"
+                                                                                            title="<?= ($doc['masque_client'] ?? 0) == 1 ? 'Rendre visible aux clients' : 'Masquer aux clients' ?>"
+                                                                                            onclick="return confirm('<?= ($doc['masque_client'] ?? 0) == 1 ? 'Rendre ce document visible aux clients ?' : 'Masquer ce document aux clients ?' ?>');">
+                                                                                            <i
+                                                                                                class="bi <?= ($doc['masque_client'] ?? 0) == 1 ? 'bi-eye' : 'bi-eye-slash' ?>"></i>
+                                                                                        </a>
+                                                                                    <?php endif; ?>
+                                                                                    <?php if (canDeleteDocumentation()): ?>
+                                                                                        <button type="button"
+                                                                                            class="btn btn-sm btn-outline-danger btn-action delete-document"
+                                                                                            data-id="<?= (int) $doc['id'] ?>"
+                                                                                            data-name="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier'] ?? 'Document') ?>">
+                                                                                            <i class="bi bi-trash"></i>
+                                                                                        </button>
+                                                                                    <?php endif; ?>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <!-- Modal d'aperçu -->
+                                                                        <?php if ($canPreview && !empty($doc['chemin_fichier'])): ?>
+                                                                            <div class="modal fade" id="previewModal<?= $doc['id'] ?>" tabindex="-1"
+                                                                                aria-hidden="true">
+                                                                                <div class="modal-dialog modal-xl">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title">
+                                                                                                <?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>
+                                                                                            </h5>
+                                                                                            <button type="button" class="btn-close"
+                                                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <div class="modal-body p-0">
+                                                                                            <div style=" height: auto;"></div>
+                                                                                            <?php if ($fileType === 'pdf'): ?>
+                                                                                                <iframe
+                                                                                                    src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>#toolbar=1"
+                                                                                                    width="100%" style="height:75vh; min-height:500px;"
+                                                                                                    frameborder="0"></iframe>
+                                                                                            <?php elseif (in_array($fileType, ['jpg', 'jpeg', 'png', 'gif', 'webp'])): ?>
+                                                                                                <img src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>"
+                                                                                                    class="img-fluid w-100">
+                                                                                            <?php endif; ?>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <a href="<?= BASE_URL ?>documentation/download/<?= $doc['id'] ?>"
+                                                                                            class="btn btn-primary" target="_blank">
+                                                                                            <i class="bi bi-download me-1"></i> Télécharger
+                                                                                        </a>
+                                                                                        <button type="button" class="btn btn-secondary"
+                                                                                            data-bs-dismiss="modal">Fermer</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                </div>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
+                                                        </tbody>
+                                                        </table>
                                                     </div>
-                                                <?php endforeach; ?>
+                                                </div>
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <!-- SECTION MATÉRIEL (affichée après la documentation) -->
+        <div class="section-header mt-4">
+            <h4><i class="bi bi-hdd-network me-2"></i>Matériel</h4>
+            <p>Équipements installés</p>
         </div>
+
+        <?php if (empty($materiel_organise)): ?>
+            <div class="card">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-hdd-network fa-2x text-muted mb-2"></i>
+                    <p class="text-muted mb-0">Aucun matériel trouvé pour les critères sélectionnés.</p>
+                    <a href="<?= $addMaterielUrl ?>" class="btn btn-sm btn-primary mt-3">
+                        <i class="bi bi-plus me-1"></i>Ajouter du Matériel
+                    </a>
+                </div>
+            </div>
+        <?php else: ?>
+            <!-- Recherche globale et contrôles -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <label for="globalSearch" class="form-label fw-bold mb-2">
+                                <i class="bi bi-search me-2"></i>Recherche globale
+                            </label>
+                            <input type="text" class="form-control" id="globalSearch"
+                                placeholder="Rechercher dans tous les tableaux..." autocomplete="off">
+                            <small class="text-muted">La recherche s'applique à tous les tableaux de toutes les
+                                salles</small>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <div class="d-flex gap-2 justify-content-end align-items-end">
+                                <button type="button" class="btn btn-outline-secondary" id="clearGlobalSearch"
+                                    style="display: none;">
+                                    <i class="bi bi-x-lg me-1"></i>Effacer
+                                </button>
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside">
+                                        <i class="bi bi-list-check me-1"></i>Colonnes
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" style="max-height:500px;overflow:auto;">
+                                        <?php foreach ($allColumns as $i => $col): ?>
+                                            <li>
+                                                <label class="dropdown-item">
+                                                    <input type="checkbox" class="global-colvis-checkbox me-2" data-col="<?= $i ?>"
+                                                        <?= $col['default'] ? 'checked' : '' ?>>
+                                                    <?= h($col['label']) ?>
+                                                </label>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                                <button type="button" class="btn btn-outline-primary" id="openAllAccordions">
+                                    <i class="bi bi-chevron-down me-1"></i>Ouvrir tout
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" id="closeAllAccordions">
+                                    <i class="bi bi-chevron-up me-1"></i>Fermer tout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="accordionContainer">
+                <?php foreach ($materiel_organise as $client_nom => $sites): ?>
+                    <div class="card mb-4">
+                        <div class="card-header bg-body-secondary d-flex align-items-center justify-content-between">
+                            <h5 class="card-title mb-0 d-flex align-items-center">
+                                <i class="bi bi-building text-primary me-2"></i>
+                                <?= h($client_nom) ?>
+                            </h5>
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="saveAllTablesData()">
+                                <i class="bi bi-save-all me-1"></i>
+                                Sauvegarder toutes les modifications
+                            </button>
+                        </div>
+                        <div class="card-body p-0">
+                            <?php foreach ($sites as $site_nom => $buildings): ?>
+                                <?php foreach ($buildings as $building_nom => $salles): ?>
+                                    <?php foreach ($salles as $salle_nom => $materiels):
+                                        $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
+                                        $accordion_id = 'accordion_' . $salle_id;
+                                        $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
+                                        ?>
+                                        <div class="accordion mb-3" id="<?= $accordion_id ?>">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapse_<?= $salle_id ?>">
+                                                        <div class="d-flex justify-content-between w-100 me-3 align-items-center">
+                                                            <span>
+                                                                <i class="bi bi-door-open me-2 text-info"></i>
+                                                                <strong>
+                                                                    <?= $locationString ?>
+                                                                </strong>
+                                                            </span>
+                                                            <span class="badge bg-secondary ms-3">
+                                                                <?= count($materiels) ?> équipement(s)
+                                                            </span>
+                                                        </div>
+                                                    </button>
+                                                </h2>
+                                                <div id="collapse_<?= $salle_id ?>" class="accordion-collapse collapse"
+                                                    data-bs-parent="#accordionContainer">
+                                                    <div class="accordion-body p-0">
+                                                        <div class="d-flex justify-content-end p-2 border-bottom bg-light">
+                                                            <button type="button" class="btn btn-sm btn-success"
+                                                                onclick="addNewRowToTable('excelTable-<?= $salle_id ?>', '<?= addslashes($locationString) ?>', <?= $materiels[0]['salle_id'] ?? 'null' ?>)">
+                                                                <i class="bi bi-plus-circle me-1"></i>Ajouter un équipement
+                                                            </button>
+                                                        </div>
+                                                        <div class="table-wrapper">
+                                                            <div id="excelTable-<?= $salle_id ?>"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
     </div>
 
     <!-- Modales -->
@@ -857,102 +808,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
         };
         const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
 
-        function switchTab(tab) {
-            const url = new URL(window.location.href);
-            url.searchParams.set('tab', tab);
-            window.location.href = url.toString();
-        }
-
-        function validateRow(row, rowIndex) {
-            const errors = [];
-            allColumnFields.forEach((field, colIndex) => {
-                const rule = FIELD_VALIDATORS[field];
-                if (!rule) return;
-                const value = row[colIndex];
-                if (!value || value === '') return;
-                if (!rule.regex.test(value)) {
-                    errors.push(`Ligne ${rowIndex + 1} — <strong>${rule.label}</strong> : "<em>${value}</em>" invalide (ex: ${rule.example})`);
-                }
-            });
-            return errors;
-        }
-
-        function showToast(message, type) {
-            const existingToasts = document.querySelectorAll('.custom-toast');
-            existingToasts.forEach(toast => toast.remove());
-
-            const toastDiv = document.createElement('div');
-            toastDiv.className = 'custom-toast position-fixed top-0 end-0 m-3';
-            toastDiv.style.zIndex = '9999';
-            toastDiv.style.minWidth = '300px';
-            toastDiv.style.maxWidth = '400px';
-
-            const colors = {
-                success: { bg: '#d4edda', border: '#28a745', icon: '#28a745' },
-                danger: { bg: '#f8d7da', border: '#dc3545', icon: '#dc3545' },
-                info: { bg: '#d1ecf1', border: '#17a2b8', icon: '#17a2b8' }
-            };
-            const color = colors[type] || colors.info;
-
-            toastDiv.style.backgroundColor = color.bg;
-            toastDiv.style.borderLeft = `4px solid ${color.border}`;
-            toastDiv.style.borderRadius = '8px';
-            toastDiv.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-            toastDiv.style.padding = '12px 16px';
-
-            toastDiv.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <div class="me-3" style="color:${color.icon}">
-                        <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : type === 'danger' ? 'bi-x-circle-fill' : 'bi-info-circle-fill'} fs-4"></i>
-                    </div>
-                    <div class="flex-grow-1" style="font-size:14px;">
-                        <strong>${type === 'success' ? 'Succès' : type === 'danger' ? 'Erreur' : 'Information'}</strong>
-                        <div class="mt-1">${message}</div>
-                    </div>
-                    <button type="button" class="btn-close ms-2" style="font-size:12px;" onclick="this.closest('.custom-toast').remove()"></button>
-                </div>`;
-
-            document.body.appendChild(toastDiv);
-
-            const duration = type === 'danger' ? 7000 : 4000;
-            setTimeout(() => {
-                if (toastDiv.parentNode) {
-                    toastDiv.style.opacity = '0';
-                    toastDiv.style.transition = 'opacity 0.3s ease';
-                    setTimeout(() => toastDiv.remove(), 300);
-                }
-            }, duration);
-        }
-
-        function addNewRowToTable(tableId, locationName, salleId) {
-            const hot = hotInstances[tableId];
-            if (!hot) return;
-
-            hot.__salleId = salleId;
-
-            const existingData = hot.getSourceData();
-            const data = existingData.map(row => row.map(cell => (cell && typeof cell === 'object') ? { ...cell } : cell));
-
-            const colCount = <?= count($allColumns) ?>;
-            const newRow = Array(colCount).fill('');
-            newRow[PIECES_JOINTES_INDEX] = { count: 0, id: null, name: '' };
-
-            data.push(newRow);
-            hot.loadData(data);
-
-            const newRowIndex = data.length - 1;
-            hot.scrollViewportTo(newRowIndex, 0);
-            hot.selectCell(newRowIndex, 0);
-
-            showToast('Nouvelle ligne ajoutée. Remplissez les informations puis sauvegardez.', 'info');
-        }
-
         function submitFilters() {
             const clientId = document.getElementById('client_id')?.value || '';
             const siteId = document.getElementById('site_id')?.value || '';
             const buildingId = document.getElementById('building_id')?.value || '';
             const salleId = document.getElementById('salle_id')?.value || '';
-            const tab = document.querySelector('input[name="tab"]')?.value || 'materiel';
 
             let url = baseUrl + '/materiel_documentation?';
             const params = [];
@@ -960,7 +820,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             if (siteId) params.push('site_id=' + encodeURIComponent(siteId));
             if (buildingId) params.push('building_id=' + encodeURIComponent(buildingId));
             if (salleId) params.push('salle_id=' + encodeURIComponent(salleId));
-            params.push('tab=' + encodeURIComponent(tab));
 
             window.location.href = url + params.join('&');
         }
@@ -1070,6 +929,90 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 if (roomSelect) roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
                 submitFilters();
             }
+        }
+
+        function validateRow(row, rowIndex) {
+            const errors = [];
+            allColumnFields.forEach((field, colIndex) => {
+                const rule = FIELD_VALIDATORS[field];
+                if (!rule) return;
+                const value = row[colIndex];
+                if (!value || value === '') return;
+                if (!rule.regex.test(value)) {
+                    errors.push(`Ligne ${rowIndex + 1} — <strong>${rule.label}</strong> : "<em>${value}</em>" invalide (ex: ${rule.example})`);
+                }
+            });
+            return errors;
+        }
+
+        function showToast(message, type) {
+            const existingToasts = document.querySelectorAll('.custom-toast');
+            existingToasts.forEach(toast => toast.remove());
+
+            const toastDiv = document.createElement('div');
+            toastDiv.className = 'custom-toast position-fixed top-0 end-0 m-3';
+            toastDiv.style.zIndex = '9999';
+            toastDiv.style.minWidth = '300px';
+            toastDiv.style.maxWidth = '400px';
+
+            const colors = {
+                success: { bg: '#d4edda', border: '#28a745', icon: '#28a745' },
+                danger: { bg: '#f8d7da', border: '#dc3545', icon: '#dc3545' },
+                info: { bg: '#d1ecf1', border: '#17a2b8', icon: '#17a2b8' }
+            };
+            const color = colors[type] || colors.info;
+
+            toastDiv.style.backgroundColor = color.bg;
+            toastDiv.style.borderLeft = `4px solid ${color.border}`;
+            toastDiv.style.borderRadius = '8px';
+            toastDiv.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+            toastDiv.style.padding = '12px 16px';
+
+            toastDiv.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <div class="me-3" style="color:${color.icon}">
+                        <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : type === 'danger' ? 'bi-x-circle-fill' : 'bi-info-circle-fill'} fs-4"></i>
+                    </div>
+                    <div class="flex-grow-1" style="font-size:14px;">
+                        <strong>${type === 'success' ? 'Succès' : type === 'danger' ? 'Erreur' : 'Information'}</strong>
+                        <div class="mt-1">${message}</div>
+                    </div>
+                    <button type="button" class="btn-close ms-2" style="font-size:12px;" onclick="this.closest('.custom-toast').remove()"></button>
+                </div>`;
+
+            document.body.appendChild(toastDiv);
+
+            const duration = type === 'danger' ? 7000 : 4000;
+            setTimeout(() => {
+                if (toastDiv.parentNode) {
+                    toastDiv.style.opacity = '0';
+                    toastDiv.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => toastDiv.remove(), 300);
+                }
+            }, duration);
+        }
+
+        function addNewRowToTable(tableId, locationName, salleId) {
+            const hot = hotInstances[tableId];
+            if (!hot) return;
+
+            hot.__salleId = salleId;
+
+            const existingData = hot.getSourceData();
+            const data = existingData.map(row => row.map(cell => (cell && typeof cell === 'object') ? { ...cell } : cell));
+
+            const colCount = <?= count($allColumns) ?>;
+            const newRow = Array(colCount).fill('');
+            newRow[PIECES_JOINTES_INDEX] = { count: 0, id: null, name: '' };
+
+            data.push(newRow);
+            hot.loadData(data);
+
+            const newRowIndex = data.length - 1;
+            hot.scrollViewportTo(newRowIndex, 0);
+            hot.selectCell(newRowIndex, 0);
+
+            showToast('Nouvelle ligne ajoutée. Remplissez les informations puis sauvegardez.', 'info');
         }
 
         function applyGlobalSearch() {
@@ -1503,7 +1446,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            <?php if (!empty($filters['client_id']) && !empty($materiel_organise) && $activeTab === 'materiel'): ?>
+            <?php if (!empty($filters['client_id']) && !empty($materiel_organise)): ?>
                 <?php foreach ($materiel_organise as $client_nom => $sites): ?>
                     <?php foreach ($sites as $site_nom => $buildings): ?>
                         <?php foreach ($buildings as $building_nom => $salles): ?>
@@ -2005,29 +1948,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             border-radius: 4px;
             transition: width 0.3s ease;
         }
-    </style>
-    <style>
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
 
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .bi-arrow-clockwise.spin {
-            animation: spin 1s linear infinite;
-            display: inline-block;
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-    </style>
-    <style>
         body {
             background: #f4f6f9;
             font-family: "Segoe UI", sans-serif;
@@ -2065,15 +1986,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             vertical-align: middle;
         }
 
-        /* Style de base pour toutes les cellules */
-        .handsontable td {
-            background-color: #ffffff;
-            border-bottom: 1px solid #dee2e6;
-            padding: 8px;
-            vertical-align: middle;
-        }
-
-        /* Style pour la colonne Équipement (toujours à l'index 0 après rendu) */
         .handsontable td:first-child {
             background-color: #f8f9fa !important;
             text-align: center;
@@ -2082,11 +1994,29 @@ include_once __DIR__ . '/../../includes/navbar.php';
             min-width: 100px;
         }
 
-        /* Style pour la colonne Équipement (deuxième colonne) */
         .handsontable td:nth-child(2) {
             background-color: #ffffff !important;
             color: #0d6efd !important;
             font-weight: 600;
+        }
+
+        .handsontable tbody tr:hover td {
+            background-color: #eef3ff !important;
+        }
+
+        .handsontable td:first-child button {
+            white-space: nowrap;
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+
+        .handsontable col:first-child {
+            width: 100px;
+        }
+
+        .handsontable td.htInvalid {
+            background-color: #ffe0e0 !important;
+            border: 1px solid #dc3545 !important;
         }
 
         /* Style pour toutes les cellules sauf la première et la dernière (pièces jointes) */
@@ -2100,58 +2030,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             text-align: center;
         }
 
-        /* Hover */
-        .handsontable tbody tr:hover td {
-            background-color: #eef3ff !important;
-        }
-
-        .handsontable tbody tr:hover td {
-            background-color: #eef3ff !important;
-        }
-
-        .drop-zone {
-            border: 2px dashed var(--bs-border-color);
-            border-radius: 8px;
-            padding: 30px;
-            text-align: center;
-            background-color: var(--bs-body-bg);
-            transition: all 0.3s ease;
-            min-height: 150px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .drop-zone.dragover {
-            border-color: var(--bs-primary);
-            background-color: var(--bs-primary-bg-subtle);
-        }
-
-        .file-list {
-            margin-top: 15px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .file-item {
-            display: flex;
-            align-items: center;
-            padding: 8px;
-            margin: 3px 0;
-            border-radius: 5px;
-            border: 1px solid var(--bs-border-color);
-        }
-
-        .file-item.valid {
-            background-color: var(--bs-success-bg-subtle);
-        }
-
-        .file-item.invalid {
-            background-color: var(--bs-danger-bg-subtle);
-        }
-
-        /* Style pour la colonne Actions */
+        /* Style pour la colonne Équipement (toujours à l'index 0 après rendu) */
         .handsontable td:first-child {
             background-color: #f8f9fa !important;
             text-align: center;
@@ -2160,22 +2039,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
             min-width: 100px;
         }
 
-        .handsontable td:first-child button {
-            white-space: nowrap;
-            font-size: 12px;
-            padding: 4px 8px;
-        }
-
-        /* Ajuster la largeur de la colonne Actions */
-        .handsontable col:first-child {
-            width: 100px;
-        }
-
-        .handsontable td.htInvalid {
-            background-color: #ffe0e0 !important;
-            border: 1px solid #dc3545 !important;
+        /* Style pour la colonne Pièces jointes (toujours à la dernière position après rendu) */
+        .handsontable td:nth-child(7) {
+            background-color: #f8f9fa !important;
+            text-align: center;
         }
     </style>
+
 </body>
 
 </html>
