@@ -539,174 +539,175 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                                                         </div>
                                                                                         <div class="modal-body p-0">
-                                                                                            <div style="min-height: 75vh;">
-                                                                                                <?php if ($fileType === 'pdf'): ?>
-                                                                                                    <iframe
-                                                                                                        src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>#toolbar=1"
-                                                                                                        width="100%" height="75vh" frameborder="0"></iframe>
-                                                                                                <?php elseif (in_array($fileType, ['jpg', 'jpeg', 'png', 'gif', 'webp'])): ?>
-                                                                                                    <img src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>"
-                                                                                                        class="img-fluid w-100">
-                                                                                                <?php endif; ?>
-                                                                                            </div>
+                                                                                            <div style=" height: auto;"></div>
+                                                                                            <?php if ($fileType === 'pdf'): ?>
+                                                                                                <iframe
+                                                                                                    src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>#toolbar=1"
+                                                                                                    width="100%" style="height:75vh; min-height:500px;"
+                                                                                                    frameborder="0"></iframe>
+                                                                                            <?php elseif (in_array($fileType, ['jpg', 'jpeg', 'png', 'gif', 'webp'])): ?>
+                                                                                                <img src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>"
+                                                                                                    class="img-fluid w-100">
+                                                                                            <?php endif; ?>
                                                                                         </div>
-                                                                                        <div class="modal-footer">
-                                                                                            <a href="<?= BASE_URL ?>documentation/download/<?= $doc['id'] ?>"
-                                                                                                class="btn btn-primary" target="_blank">
-                                                                                                <i class="bi bi-download me-1"></i> Télécharger
-                                                                                            </a>
-                                                                                            <button type="button" class="btn btn-secondary"
-                                                                                                data-bs-dismiss="modal">Fermer</button>
-                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <a href="<?= BASE_URL ?>documentation/download/<?= $doc['id'] ?>"
+                                                                                            class="btn btn-primary" target="_blank">
+                                                                                            <i class="bi bi-download me-1"></i> Télécharger
+                                                                                        </a>
+                                                                                        <button type="button" class="btn btn-secondary"
+                                                                                            data-bs-dismiss="modal">Fermer</button>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                        <?php endif; ?>
-                                                                    <?php endforeach; ?>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <?php endforeach; ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
-
-            <!-- SECTION MATÉRIEL (affichée après la documentation) -->
-            <div class="section-header mt-4">
-                <h4><i class="bi bi-hdd-network me-2"></i>Matériel</h4>
-                <p>Équipements installés</p>
-            </div>
-
-            <?php if (empty($materiel_organise)): ?>
-                <div class="card">
-                    <div class="card-body text-center py-4">
-                        <i class="bi bi-hdd-network fa-2x text-muted mb-2"></i>
-                        <p class="text-muted mb-0">Aucun matériel trouvé pour les critères sélectionnés.</p>
-                        <a href="<?= $addMaterielUrl ?>" class="btn btn-sm btn-primary mt-3">
-                            <i class="bi bi-plus me-1"></i>Ajouter du Matériel
-                        </a>
-                    </div>
-                </div>
-            <?php else: ?>
-                <!-- Recherche globale et contrôles -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-md-6">
-                                <label for="globalSearch" class="form-label fw-bold mb-2">
-                                    <i class="bi bi-search me-2"></i>Recherche globale
-                                </label>
-                                <input type="text" class="form-control" id="globalSearch"
-                                    placeholder="Rechercher dans tous les tableaux..." autocomplete="off">
-                                <small class="text-muted">La recherche s'applique à tous les tableaux de toutes les
-                                    salles</small>
-                            </div>
-                            <div class="col-md-6 text-end">
-                                <div class="d-flex gap-2 justify-content-end align-items-end">
-                                    <button type="button" class="btn btn-outline-secondary" id="clearGlobalSearch"
-                                        style="display: none;">
-                                        <i class="bi bi-x-lg me-1"></i>Effacer
-                                    </button>
-                                    <div class="btn-group">
-                                        <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"
-                                            data-bs-auto-close="outside">
-                                            <i class="bi bi-list-check me-1"></i>Colonnes
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end" style="max-height:500px;overflow:auto;">
-                                            <?php foreach ($allColumns as $i => $col): ?>
-                                                <li>
-                                                    <label class="dropdown-item">
-                                                        <input type="checkbox" class="global-colvis-checkbox me-2"
-                                                            data-col="<?= $i ?>" <?= $col['default'] ? 'checked' : '' ?>>
-                                                        <?= h($col['label']) ?>
-                                                    </label>
-                                                </li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-                                    <button type="button" class="btn btn-outline-primary" id="openAllAccordions">
-                                        <i class="bi bi-chevron-down me-1"></i>Ouvrir tout
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary" id="closeAllAccordions">
-                                        <i class="bi bi-chevron-up me-1"></i>Fermer tout
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="accordionContainer">
-                    <?php foreach ($materiel_organise as $client_nom => $sites): ?>
-                        <div class="card mb-4">
-                            <div class="card-header bg-body-secondary d-flex align-items-center justify-content-between">
-                                <h5 class="card-title mb-0 d-flex align-items-center">
-                                    <i class="bi bi-building text-primary me-2"></i>
-                                    <?= h($client_nom) ?>
-                                </h5>
-                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="saveAllTablesData()">
-                                    <i class="bi bi-save-all me-1"></i>
-                                    Sauvegarder toutes les modifications
-                                </button>
-                            </div>
-                            <div class="card-body p-0">
-                                <?php foreach ($sites as $site_nom => $buildings): ?>
-                                    <?php foreach ($buildings as $building_nom => $salles): ?>
-                                        <?php foreach ($salles as $salle_nom => $materiels):
-                                            $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
-                                            $accordion_id = 'accordion_' . $salle_id;
-                                            $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
-                                            ?>
-                                            <div class="accordion mb-3" id="<?= $accordion_id ?>">
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header">
-                                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                                            data-bs-target="#collapse_<?= $salle_id ?>">
-                                                            <div class="d-flex justify-content-between w-100 me-3 align-items-center">
-                                                                <span>
-                                                                    <i class="bi bi-door-open me-2 text-info"></i>
-                                                                    <strong>
-                                                                        <?= $locationString ?>
-                                                                    </strong>
-                                                                </span>
-                                                                <span class="badge bg-secondary ms-3">
-                                                                    <?= count($materiels) ?> équipement(s)
-                                                                </span>
-                                                            </div>
-                                                        </button>
-                                                    </h2>
-                                                    <div id="collapse_<?= $salle_id ?>" class="accordion-collapse collapse"
-                                                        data-bs-parent="#accordionContainer">
-                                                        <div class="accordion-body p-0">
-                                                            <div class="d-flex justify-content-end p-2 border-bottom bg-light">
-                                                                <button type="button" class="btn btn-sm btn-success"
-                                                                    onclick="addNewRowToTable('excelTable-<?= $salle_id ?>', '<?= addslashes($locationString) ?>', <?= $materiels[0]['salle_id'] ?? 'null' ?>)">
-                                                                    <i class="bi bi-plus-circle me-1"></i>Ajouter un équipement
-                                                                </button>
-                                                            </div>
-                                                            <div class="table-wrapper">
-                                                                <div id="excelTable-<?= $salle_id ?>"></div>
-                                                            </div>
-                                                        </div>
+                                                                </div>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
+                                                        </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
                                         <?php endforeach; ?>
-                                    <?php endforeach; ?>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-            <?php endif; ?>
+            <?php endforeach; ?>
         <?php endif; ?>
+
+        <!-- SECTION MATÉRIEL (affichée après la documentation) -->
+        <div class="section-header mt-4">
+            <h4><i class="bi bi-hdd-network me-2"></i>Matériel</h4>
+            <p>Équipements installés</p>
+        </div>
+
+        <?php if (empty($materiel_organise)): ?>
+            <div class="card">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-hdd-network fa-2x text-muted mb-2"></i>
+                    <p class="text-muted mb-0">Aucun matériel trouvé pour les critères sélectionnés.</p>
+                    <a href="<?= $addMaterielUrl ?>" class="btn btn-sm btn-primary mt-3">
+                        <i class="bi bi-plus me-1"></i>Ajouter du Matériel
+                    </a>
+                </div>
+            </div>
+        <?php else: ?>
+            <!-- Recherche globale et contrôles -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <label for="globalSearch" class="form-label fw-bold mb-2">
+                                <i class="bi bi-search me-2"></i>Recherche globale
+                            </label>
+                            <input type="text" class="form-control" id="globalSearch"
+                                placeholder="Rechercher dans tous les tableaux..." autocomplete="off">
+                            <small class="text-muted">La recherche s'applique à tous les tableaux de toutes les
+                                salles</small>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <div class="d-flex gap-2 justify-content-end align-items-end">
+                                <button type="button" class="btn btn-outline-secondary" id="clearGlobalSearch"
+                                    style="display: none;">
+                                    <i class="bi bi-x-lg me-1"></i>Effacer
+                                </button>
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside">
+                                        <i class="bi bi-list-check me-1"></i>Colonnes
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" style="max-height:500px;overflow:auto;">
+                                        <?php foreach ($allColumns as $i => $col): ?>
+                                            <li>
+                                                <label class="dropdown-item">
+                                                    <input type="checkbox" class="global-colvis-checkbox me-2" data-col="<?= $i ?>"
+                                                        <?= $col['default'] ? 'checked' : '' ?>>
+                                                    <?= h($col['label']) ?>
+                                                </label>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                                <button type="button" class="btn btn-outline-primary" id="openAllAccordions">
+                                    <i class="bi bi-chevron-down me-1"></i>Ouvrir tout
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" id="closeAllAccordions">
+                                    <i class="bi bi-chevron-up me-1"></i>Fermer tout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="accordionContainer">
+                <?php foreach ($materiel_organise as $client_nom => $sites): ?>
+                    <div class="card mb-4">
+                        <div class="card-header bg-body-secondary d-flex align-items-center justify-content-between">
+                            <h5 class="card-title mb-0 d-flex align-items-center">
+                                <i class="bi bi-building text-primary me-2"></i>
+                                <?= h($client_nom) ?>
+                            </h5>
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="saveAllTablesData()">
+                                <i class="bi bi-save-all me-1"></i>
+                                Sauvegarder toutes les modifications
+                            </button>
+                        </div>
+                        <div class="card-body p-0">
+                            <?php foreach ($sites as $site_nom => $buildings): ?>
+                                <?php foreach ($buildings as $building_nom => $salles): ?>
+                                    <?php foreach ($salles as $salle_nom => $materiels):
+                                        $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
+                                        $accordion_id = 'accordion_' . $salle_id;
+                                        $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
+                                        ?>
+                                        <div class="accordion mb-3" id="<?= $accordion_id ?>">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapse_<?= $salle_id ?>">
+                                                        <div class="d-flex justify-content-between w-100 me-3 align-items-center">
+                                                            <span>
+                                                                <i class="bi bi-door-open me-2 text-info"></i>
+                                                                <strong>
+                                                                    <?= $locationString ?>
+                                                                </strong>
+                                                            </span>
+                                                            <span class="badge bg-secondary ms-3">
+                                                                <?= count($materiels) ?> équipement(s)
+                                                            </span>
+                                                        </div>
+                                                    </button>
+                                                </h2>
+                                                <div id="collapse_<?= $salle_id ?>" class="accordion-collapse collapse"
+                                                    data-bs-parent="#accordionContainer">
+                                                    <div class="accordion-body p-0">
+                                                        <div class="d-flex justify-content-end p-2 border-bottom bg-light">
+                                                            <button type="button" class="btn btn-sm btn-success"
+                                                                onclick="addNewRowToTable('excelTable-<?= $salle_id ?>', '<?= addslashes($locationString) ?>', <?= $materiels[0]['salle_id'] ?? 'null' ?>)">
+                                                                <i class="bi bi-plus-circle me-1"></i>Ajouter un équipement
+                                                            </button>
+                                                        </div>
+                                                        <div class="table-wrapper">
+                                                            <div id="excelTable-<?= $salle_id ?>"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
     </div>
 
     <!-- Modales -->
