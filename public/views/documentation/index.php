@@ -484,12 +484,12 @@ foreach ($documentation_list as $doc) {
                                             target="_blank">
                                             <i class="bi bi-download me-1"></i> Télécharger
                                           </a>
-                                               <?php if ($fileType === 'pdf'): ?>
+                                          <?php if ($fileType === 'pdf'): ?>
                                             <a href="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>"
                                               class="btn btn-outline-secondary" target="_blank">
                                               <i class="bi bi-arrows-fullscreen me-1"></i> Agrandir
                                             </a>
-                                                                                  <?php endif; ?>
+                                          <?php endif; ?>
                                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                                         </div>
                                       </div>
@@ -824,5 +824,75 @@ foreach ($documentation_list as $doc) {
     });
   });
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.modal').forEach(function (modal) {
 
+      // Réinitialiser la position à la fermeture
+      modal.addEventListener('hidden.bs.modal', function () {
+        const dialog = modal.querySelector('.modal-dialog');
+        if (dialog) {
+          dialog.style.position = '';
+          dialog.style.left = '';
+          dialog.style.top = '';
+          dialog.style.margin = '';
+          dialog.style.width = '';
+          dialog.style.maxWidth = '';
+        }
+      });
+
+      modal.addEventListener('shown.bs.modal', function () {
+        const dialog = modal.querySelector('.modal-dialog');
+        const header = modal.querySelector('.modal-header');
+        if (!dialog || !header) return;
+
+        // Éviter d'attacher plusieurs fois le listener
+        if (header.dataset.draggable) return;
+        header.dataset.draggable = 'true';
+
+        header.style.cursor = 'grab';
+
+        let isDragging = false;
+        let startX, startY, startLeft, startTop;
+
+        header.addEventListener('mousedown', function (e) {
+          if (e.target.closest('button')) return;
+
+          isDragging = true;
+          header.style.cursor = 'grabbing';
+
+          const rect = dialog.getBoundingClientRect();
+          startX = e.clientX;
+          startY = e.clientY;
+          startLeft = rect.left;
+          startTop = rect.top;
+
+          // Figer la largeur AVANT de passer en fixed
+          dialog.style.width = rect.width + 'px';
+          dialog.style.maxWidth = 'none';
+          dialog.style.position = 'fixed';
+          dialog.style.left = startLeft + 'px';
+          dialog.style.top = startTop + 'px';
+          dialog.style.margin = '0';
+        });
+
+        document.addEventListener('mousemove', function (e) {
+          if (!isDragging) return;
+          const dx = e.clientX - startX;
+          const dy = e.clientY - startY;
+          dialog.style.left = (startLeft + dx) + 'px';
+          dialog.style.top = (startTop + dy) + 'px';
+        });
+
+        document.addEventListener('mouseup', function () {
+          if (isDragging) {
+            isDragging = false;
+            header.style.cursor = 'grab';
+          }
+        });
+      });
+
+    });
+  });
+</script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
