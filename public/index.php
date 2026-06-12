@@ -207,7 +207,7 @@ require_once CONTROLLERS_PATH . '/QRCodeController.php';
 require_once CONTROLLERS_PATH . '/ExcelController.php';
 require_once CONTROLLERS_PATH . '/BuildingsController.php';
 require_once CONTROLLERS_PATH . '/MaterielDocumentationController.php';
-
+require_once CONTROLLERS_PATH . '/StatsController.php';
 // Récupération de l'URL demandée
 $request_uri = $_SERVER['REQUEST_URI'];
 $base_path = parse_url(BASE_URL, PHP_URL_PATH);
@@ -2071,7 +2071,15 @@ try {
                     break;
             }
             break;
-
+        case 'stats':
+            $controller = new StatsController($db);
+            $action = $urlParts[1] ?? 'index';
+            if ($action === 'api') {
+                $controller->api();
+            } else {
+                $controller->index();
+            }
+            break;
         case 'test':
             switch ($action) {
                 case 'dragDrop':

@@ -43,6 +43,7 @@ function generateBreadcrumbs($customBreadcrumbs = [])
     // Mapping des routes vers les labels
     $routeLabels = [
         'dashboard' => 'Tableau de bord',
+        'stats' => 'Statistique',
         'interventions' => 'Interventions',
         'interventions_client' => 'Mes interventions',
         'contracts' => 'Contrats',
