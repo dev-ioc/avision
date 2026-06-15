@@ -46,9 +46,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 ?>
 
 <div class="container-fluid flex-grow-1 container-p-y">
-
-    ```
-    <!-- HEADER PROFIL -->
     <div class="card mb-4 shadow-sm border-0">
         <div class="card-body d-flex justify-content-between align-items-center">
 
@@ -120,14 +117,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <label class="text-muted 
                             small">Prénom</label>
                             <div class="fw-semibold">
-                                    <?= htmlspecialchars($user['first_name'] ?? '') ?>
+                                <?= htmlspecialchars($user['first_name'] ?? '') ?>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label class="text-muted small">Nom d'utilisateur</label>
                             <div class="fw-semibold">
-                                    <?= htmlspecialchars($user['username'] ?? '') ?>
+                                <?= htmlspecialchars($user['username'] ?? '') ?>
                             </div>
                         </div>
 
@@ -147,14 +144,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <div class="mb-3">
                             <label class="text-muted small">Email</label>
                             <div class="fw-semibold">
-                                    <?= htmlspecialchars($user['email'] ?? '') ?>
+                                <?= htmlspecialchars($user['email'] ?? '') ?>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label class="text-muted small">Téléphone</label>
                             <div class="fw-semibold">
-                                    <?= htmlspecialchars($user['phone'] ?? 'Non renseigné') ?>
+                                <?= htmlspecialchars($user['phone'] ?? 'Non renseigné') ?>
                             </div>
                         </div>
 
@@ -163,11 +160,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
 
         </div>
-        ```
+
 
     </div>
-
-        <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
-
-
-        <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
+</div>
+<?php include_once __DIR__ . '/../../includes/footer.php'; ?>
