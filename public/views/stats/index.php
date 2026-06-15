@@ -69,7 +69,7 @@ function minutesToHuman(int $minutes): string
         <ul class="nav nav-tabs mb-0" id="statsTabs">
             <li class="nav-item">
                 <a class="nav-link <?= $activeType === 'curatives' ? 'active' : '' ?>"
-                    href="<?= BASE_URL ?>stats?type=curatives&limit=<?= $limit ?>">
+                    href="<?= BASE_URL ?>stats?type=curatives&limit=<?= $limit ?><?= !empty($filters['technician_id']) ? '&technician_id=' . $filters['technician_id'] : '' ?><?= !empty($filters['status_id']) ? '&status_id=' . $filters['status_id'] : '' ?><?= !empty($filters['priority_id']) ? '&priority_id=' . $filters['priority_id'] : '' ?>">
                     <i class="bi bi-tools me-1"></i>
                     Interventions Curatives
                     <span class="badge bg-primary ms-1">
@@ -79,7 +79,7 @@ function minutesToHuman(int $minutes): string
             </li>
             <li class="nav-item">
                 <a class="nav-link <?= $activeType === 'preventives' ? 'active' : '' ?>"
-                    href="<?= BASE_URL ?>stats?type=preventives&limit=<?= $limit ?>">
+                    href="<?= BASE_URL ?>stats?type=preventives&limit=<?= $limit ?><?= !empty($filters['technician_id']) ? '&technician_id=' . $filters['technician_id'] : '' ?><?= !empty($filters['status_id']) ? '&status_id=' . $filters['status_id'] : '' ?><?= !empty($filters['priority_id']) ? '&priority_id=' . $filters['priority_id'] : '' ?>">
                     <i class="bi bi-shield-check me-1"></i>
                     Interventions Préventives
                     <span class="badge bg-success ms-1">
@@ -89,7 +89,7 @@ function minutesToHuman(int $minutes): string
             </li>
             <li class="nav-item">
                 <a class="nav-link <?= $activeType === 'all' ? 'active' : '' ?>"
-                    href="<?= BASE_URL ?>stats?type=all&limit=<?= $limit ?>">
+                    href="<?= BASE_URL ?>stats?type=all&limit=<?= $limit ?><?= !empty($filters['technician_id']) ? '&technician_id=' . $filters['technician_id'] : '' ?><?= !empty($filters['status_id']) ? '&status_id=' . $filters['status_id'] : '' ?><?= !empty($filters['priority_id']) ? '&priority_id=' . $filters['priority_id'] : '' ?>">
                     <i class="bi bi-list-ul me-1"></i>
                     Toutes Les Interventions
                     <span class="badge bg-secondary ms-1">
@@ -101,7 +101,7 @@ function minutesToHuman(int $minutes): string
         <div class="d-flex align-items-center gap-3  px-3 py-2">
             <span class="text-muted small fw-semibold">Temps passé :</span>
             <span class="fw-bold">
-                        <?= minutesToHuman($totalOnSiteMinutes + $totalRemoteMinutes) ?>
+                <?= minutesToHuman($totalOnSiteMinutes + $totalRemoteMinutes) ?>
             </span>
             <span class="text-muted small fw-semibold ms-2">sur site :</span>
             <span class="fw-bold text-success">
