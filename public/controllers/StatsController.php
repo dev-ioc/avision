@@ -164,14 +164,30 @@ class StatsController
             WHERE it2.intervention_id = i.id
             LIMIT 1
         ) AS temps_passe,
-        
-        -- Temps sur site (requires_travel = 1)
-        COALESCE(SUM(CASE WHEN COALESCE(t.requires_travel, 0) = 1
-                          THEN COALESCE(it.temps_passe, 0) END), 0) AS on_site_minutes,
-        
-        -- Temps remote (requires_travel = 0 ou NULL)
-        COALESCE(SUM(CASE WHEN COALESCE(t.requires_travel, 0) = 0
-                          THEN COALESCE(it.temps_passe, 0) END), 0) AS remote_minutes,
+                
+        -- Temps sur site (deplacement = 1)
+        COALESCE(
+            SUM(
+                CASE
+                    WHEN COALESCE(it.deplacement, 0) = 1
+                    THEN COALESCE(it.temps_passe, 0)
+                    ELSE 0
+                END
+            ),
+            0
+        ) AS on_site_minutes,
+
+        -- Temps remote (deplacement = 0)
+        COALESCE(
+            SUM(
+                CASE
+                    WHEN COALESCE(it.deplacement, 0) = 0
+                    THEN COALESCE(it.temps_passe, 0)
+                    ELSE 0
+                END
+            ),
+            0
+        ) AS remote_minutes,
         
         -- Liste des techniciens
         (
