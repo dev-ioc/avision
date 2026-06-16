@@ -96601,3 +96601,78 @@ Quant à l’écran n°1, il est HS
 [2026-06-16 15:28:50][ERROR] Call to undefined method InterventionController::calculateRealTicketsUsed() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":309,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(949): InterventionController->view('122')\n#1 {main}","type":"Error"}
 [2026-06-16 15:30:59][ERROR] Erreur : SQLSTATE[42S02]: Base table or view not found: 1146 Table 'avision.intervention_tickets' doesn't exist {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":1079}
 [2026-06-16 15:32:33][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'intervention_id' in 'where clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":1079}
+[2026-06-16 15:52:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 1d1b105d8177f1279f86... 
+[2026-06-16 15:52:07][INFO] === RÉOUVERTURE INTERVENTION 122 === 
+[2026-06-16 15:52:07][INFO] Tickets à recréditer: 4 
+[2026-06-16 15:52:07][INFO] Contrat ID: 118 
+[2026-06-16 15:52:07][INFO] Had tickets: oui 
+[2026-06-16 15:52:07][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 122 === 
+[2026-06-16 15:52:07][INFO] Solde contrat AVANT recrédit: 5 
+[2026-06-16 15:52:07][INFO] Tickets à recréditer: 4 
+[2026-06-16 15:52:07][INFO] Solde contrat APRÈS recrédit: 9 
+[2026-06-16 15:52:07][INFO] Recrédit de 4 tickets effectué pour le contrat 118 
+[2026-06-16 15:52:07][INFO] RÉOUVERTURE RÉUSSIE - Intervention 122 
+[2026-06-16 15:52:40][DEBUG] CSRF: Token trouvé dans la requête - Token: 1d1b105d8177f1279f86... 
+[2026-06-16 15:52:40][INFO] === FERMETURE INTERVENTION 122 === 
+[2026-06-16 15:52:40][INFO] Tickets à déduire: 2 
+[2026-06-16 15:52:40][INFO] Contrat ID: 118 
+[2026-06-16 15:52:40][INFO] Solde contrat AVANT déduction: 9 
+[2026-06-16 15:52:40][INFO] === DÉDUCTION TICKETS CONTRAT 118 === 
+[2026-06-16 15:52:40][INFO] Tickets à déduire: 2 
+[2026-06-16 15:52:40][INFO] Solde AVANT déduction: 9 
+[2026-06-16 15:52:40][INFO] Solde APRÈS déduction: 7 
+[2026-06-16 15:52:40][INFO] Déduction de 2 tickets réussie 
+[2026-06-16 15:52:40][INFO] isContractTicketById(118) = true 
+[2026-06-16 15:52:40][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 7 
+[2026-06-16 15:57:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 1d1b105d8177f1279f86... 
+[2026-06-16 15:57:40][INFO] === RÉOUVERTURE INTERVENTION 122 === 
+[2026-06-16 15:57:40][INFO] Tickets à recréditer: 2 
+[2026-06-16 15:57:40][INFO] Contrat ID: 118 
+[2026-06-16 15:57:40][INFO] Had tickets: oui 
+[2026-06-16 15:57:40][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 122 === 
+[2026-06-16 15:57:40][INFO] Solde contrat AVANT recrédit: 7 
+[2026-06-16 15:57:40][INFO] Tickets à recréditer: 2 
+[2026-06-16 15:57:40][INFO] Solde contrat APRÈS recrédit: 9 
+[2026-06-16 15:57:40][INFO] Recrédit de 2 tickets effectué pour le contrat 118 
+[2026-06-16 15:57:40][INFO] RÉOUVERTURE RÉUSSIE - Intervention 122 
+[2026-06-16 15:58:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 1d1b105d8177f1279f86... 
+[2026-06-16 15:58:45][INFO] Technicien 7 mis à jour pour l'intervention 122 
+[2026-06-16 15:58:45][INFO] Technicien 5 ajouté à l'intervention 122 
+[2026-06-16 15:59:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 1d1b105d8177f1279f86... 
+[2026-06-16 15:59:04][INFO] === FERMETURE INTERVENTION 122 === 
+[2026-06-16 15:59:04][INFO] Tickets à déduire: 4 
+[2026-06-16 15:59:04][INFO] Contrat ID: 118 
+[2026-06-16 15:59:04][INFO] Solde contrat AVANT déduction: 9 
+[2026-06-16 15:59:04][INFO] === DÉDUCTION TICKETS CONTRAT 118 === 
+[2026-06-16 15:59:04][INFO] Tickets à déduire: 4 
+[2026-06-16 15:59:04][INFO] Solde AVANT déduction: 9 
+[2026-06-16 15:59:04][INFO] Solde APRÈS déduction: 5 
+[2026-06-16 15:59:04][INFO] Déduction de 4 tickets réussie 
+[2026-06-16 15:59:04][INFO] isContractTicketById(118) = true 
+[2026-06-16 15:59:04][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 5 
+[2026-06-16 16:00:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 1d1b105d8177f1279f86... 
+[2026-06-16 16:00:55][INFO] === RÉOUVERTURE INTERVENTION 122 === 
+[2026-06-16 16:00:55][INFO] Tickets à recréditer: 4 
+[2026-06-16 16:00:55][INFO] Contrat ID: 118 
+[2026-06-16 16:00:55][INFO] Had tickets: oui 
+[2026-06-16 16:00:55][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 122 === 
+[2026-06-16 16:00:55][INFO] Solde contrat AVANT recrédit: 5 
+[2026-06-16 16:00:55][INFO] Tickets à recréditer: 4 
+[2026-06-16 16:00:55][INFO] Solde contrat APRÈS recrédit: 9 
+[2026-06-16 16:00:55][INFO] Recrédit de 4 tickets effectué pour le contrat 118 
+[2026-06-16 16:00:55][INFO] RÉOUVERTURE RÉUSSIE - Intervention 122 
+[2026-06-16 16:01:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 1d1b105d8177f1279f86... 
+[2026-06-16 16:01:26][INFO] Technicien 7 mis à jour pour l'intervention 122 
+[2026-06-16 16:01:26][INFO] Technicien 5 mis à jour pour l'intervention 122 
+[2026-06-16 16:01:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 1d1b105d8177f1279f86... 
+[2026-06-16 16:01:34][INFO] === FERMETURE INTERVENTION 122 === 
+[2026-06-16 16:01:34][INFO] Tickets à déduire: 5 
+[2026-06-16 16:01:34][INFO] Contrat ID: 118 
+[2026-06-16 16:01:34][INFO] Solde contrat AVANT déduction: 9 
+[2026-06-16 16:01:34][INFO] === DÉDUCTION TICKETS CONTRAT 118 === 
+[2026-06-16 16:01:34][INFO] Tickets à déduire: 5 
+[2026-06-16 16:01:34][INFO] Solde AVANT déduction: 9 
+[2026-06-16 16:01:34][INFO] Solde APRÈS déduction: 4 
+[2026-06-16 16:01:34][INFO] Déduction de 5 tickets réussie 
+[2026-06-16 16:01:34][INFO] isContractTicketById(118) = true 
+[2026-06-16 16:01:34][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 4 

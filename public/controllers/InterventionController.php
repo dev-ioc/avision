@@ -655,10 +655,11 @@ class InterventionController
                     $data['duration'],
                     $data['type_id'] ?? $intervention['type_id']
                 );
+                $ticketsUsed = ceil($ticketsUsed);
                 $this->deductTicketsFromContract($data['contract_id'], $ticketsUsed, $id);
             }
-            $data['tickets_used'] = $ticketsUsed;
 
+            $data['tickets_used'] = $ticketsUsed;
         } elseif ($alreadyClosed && !$isSaveBeforeClose) {
             $ticketManagementResult = $this->handleTicketManagementOnContractChange($id, $intervention, $data);
             $contractChanged = ($intervention['contract_id'] ?? null) != ($data['contract_id'] ?? null);
@@ -2785,7 +2786,7 @@ class InterventionController
      * @param int   $typeId
      * @return float
      */
-    private function calculateTotalTicketsUsed(int $interventionId, $durationUnused, $typeId): float
+    private function calculateTotalTicketsUsed(int $interventionId, $durationUnused, $typeId): int
     {
         $sql = "SELECT technicien_id, temps_passe, is_qualified, deplacement
             FROM intervention_techniciens
@@ -2805,18 +2806,51 @@ class InterventionController
         foreach ($technicians as $tech) {
             $total += $this->computeTicketsForTech($tech, $isRemote);
         }
-        return $total;
+        return (int) ceil($total);
     }
     /**
-     * Calcule les tickets pour UN technicien selon les nouvelles règles.
-     *
-     * @param array $tech  Ligne de intervention_techniciens
-     *   - temps_passe  : minutes (peut être null)
-     *   - is_qualified : 0|1
-     *   - deplacement  : 0|1
-     * @param bool  $isRemote  true = inter à distance ou tél
-     * @return float
+     * Vérifie la cohérence des tickets entre l'intervention et le contrat
      */
+    public function verifyTicketConsistency($interventionId)
+    {
+        $intervention = $this->interventionModel->getById($interventionId);
+        if (!$intervention) {
+            return ['success' => false, 'error' => 'Intervention non trouvée'];
+        }
+
+        $contractId = $intervention['contract_id'];
+        if (!$contractId || !isContractTicketById($contractId)) {
+            return ['success' => true, 'message' => 'Pas de contrat à tickets'];
+        }
+        $contract = $this->contractModel->getContractById($contractId);
+        if (!$contract) {
+            return ['success' => false, 'error' => 'Contrat non trouvé'];
+        }
+
+        $interventionTickets = (int) ($intervention['tickets_used'] ?? 0);
+        $contractTickets = (int) ($contract['tickets_remaining'] ?? 0);
+        $originalTickets = (int) ($contract['tickets_number'] ?? 0);
+
+        // Calculer les tickets théoriques
+        $theoreticalTickets = $this->calculateTotalTicketsUsed($interventionId, null, $intervention['type_id']);
+        $theoreticalTickets = (int) ceil($theoreticalTickets);
+
+        return [
+            'success' => true,
+            'data' => [
+                'intervention_id' => $interventionId,
+                'contract_id' => $contractId,
+                'intervention_tickets_used' => $interventionTickets,
+                'contract_tickets_remaining' => $contractTickets,
+                'contract_tickets_total' => $originalTickets,
+                'theoretical_tickets' => $theoreticalTickets,
+                'is_consistent' => ($interventionTickets === $theoreticalTickets),
+                'message' => $interventionTickets === $theoreticalTickets
+                    ? 'Les tickets sont cohérents'
+                    : "Incohérence: intervention=$interventionTickets, théorique=$theoreticalTickets"
+            ]
+        ];
+    }
     /**
      * Calcule les tickets pour UN technicien selon les nouvelles règles.
      * On utilise is_qualified stocké dans intervention_techniciens, pas le coef_utilisateur du profil.
@@ -3347,8 +3381,14 @@ class InterventionController
             return;
         }
 
-        // Vérifier si le contrat est de type ticket
-        $sql = "SELECT isticketcontract FROM contracts WHERE id = :contract_id";
+        $ticketsUsed = (int) ceil($ticketsUsed);
+
+        if ($ticketsUsed <= 0) {
+            custom_log("Tickets à déduire = 0, déduction ignorée", 'INFO');
+            return;
+        }
+
+        $sql = "SELECT isticketcontract, tickets_remaining FROM contracts WHERE id = :contract_id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':contract_id' => $contractId]);
         $contract = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -3358,45 +3398,36 @@ class InterventionController
             return;
         }
 
-        // Récupérer le solde avant déduction
-        $stmt = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = :contract_id");
-        $stmt->execute([':contract_id' => $contractId]);
-        $currentRemaining = (float) $stmt->fetchColumn();
+        $currentRemaining = (float) $contract['tickets_remaining'];
         custom_log("Solde AVANT déduction: $currentRemaining", 'INFO');
 
-        // Construire le commentaire
-        $comment = 'Déduction automatique - Intervention fermée';
-        if ($interventionId) {
-            $stmt = $this->db->prepare("SELECT reference FROM interventions WHERE id = ?");
-            $stmt->execute([$interventionId]);
-            $intervention = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($intervention && !empty($intervention['reference'])) {
-                $comment = $intervention['reference'] . ' - ' . $comment;
-            }
+        if ($currentRemaining < $ticketsUsed) {
+            custom_log("⚠️ ATTENTION: Solde insuffisant! ($currentRemaining < $ticketsUsed)", 'WARNING');
         }
 
-        // Mettre à jour les tickets restants (UNE SEULE FOIS)
-        $sql = "UPDATE contracts SET tickets_remaining = tickets_remaining - :tickets_used WHERE id = :contract_id";
+        $comment = 'Déduction automatique - Intervention fermée';
+        if ($interventionId) {
+            $interventionRef = $this->getInterventionReference($interventionId);
+            if ($interventionRef) {
+                $comment = $interventionRef . ' - ' . $comment;
+            }
+        }
+        $newRemaining = max(0, $currentRemaining - $ticketsUsed);
+        $sql = "UPDATE contracts SET tickets_remaining = :new_remaining WHERE id = :contract_id";
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([
-            ':tickets_used' => $ticketsUsed,
+            ':new_remaining' => $newRemaining,
             ':contract_id' => $contractId
         ]);
 
         if ($result) {
-            // Vérifier le nouveau solde
-            $stmt = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = :contract_id");
-            $stmt->execute([':contract_id' => $contractId]);
-            $newRemaining = (float) $stmt->fetchColumn();
             custom_log("Solde APRÈS déduction: $newRemaining", 'INFO');
             custom_log("Déduction de $ticketsUsed tickets réussie", 'INFO');
-
-            // Enregistrer uniquement dans l'historique (sans modifier le solde)
             $sqlHistory = "INSERT INTO contract_history (
-                    contract_id, field_name, old_value, new_value, changed_by, description
-                ) VALUES (
-                    :contract_id, :field_name, :old_value, :new_value, :changed_by, :description
-                )";
+                contract_id, field_name, old_value, new_value, changed_by, description
+            ) VALUES (
+                :contract_id, :field_name, :old_value, :new_value, :changed_by, :description
+            )";
             $stmtHistory = $this->db->prepare($sqlHistory);
             $stmtHistory->execute([
                 ':contract_id' => $contractId,
@@ -3406,8 +3437,17 @@ class InterventionController
                 ':changed_by' => $_SESSION['user']['id'],
                 ':description' => $comment . ' : -' . $ticketsUsed . ' tickets'
             ]);
+            if ($interventionId) {
+                $sqlUpdateInter = "UPDATE interventions SET tickets_used = :tickets_used WHERE id = :id";
+                $stmtInter = $this->db->prepare($sqlUpdateInter);
+                $stmtInter->execute([
+                    ':tickets_used' => $ticketsUsed,
+                    ':id' => $interventionId
+                ]);
+            }
         } else {
             custom_log("ERREUR: Échec de la déduction des tickets", 'ERROR');
+            throw new Exception("Erreur lors de la déduction des tickets du contrat");
         }
     }
     /**
