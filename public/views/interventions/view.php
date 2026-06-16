@@ -1689,31 +1689,36 @@ $closeReason = [];
 				headers: { 'X-Requested-With': 'XMLHttpRequest' }
 			})
 				.then(function (r) {
-					if (!r.ok) throw new Error('HTTP ' + r.status);
-					return r.json();
+					return r.json()
+						.catch(function () {
+							throw new Error('Réponse invalide du serveur (HTTP ' + r.status + ')');
+						})
+						.then(function (data) {
+							return { ok: r.ok, status: r.status, data: data };
+						});
 				})
-				.then(function (data) {
+				.then(function (res) {
 					showFermetureLoading(false);
-					if (!data.success) {
+					if (!res.data || !res.data.success) {
 						document.getElementById('fermetureContent').innerHTML =
 							'<div class="alert alert-danger"><i class="bi bi-exclamation-triangle me-2"></i>'
-							+ esc(data.error || 'Une erreur est survenue.')
+							+ esc((res.data && res.data.error) || 'Une erreur est survenue.')
 							+ '</div>';
 						return;
 					}
-					renderFermeture(data);
+					renderFermeture(res.data);
 				})
 				.catch(function (e) {
 					showFermetureLoading(false);
 					document.getElementById('fermetureContent').innerHTML =
 						'<div class="alert alert-danger"><i class="bi bi-exclamation-triangle me-2"></i>'
-						+ 'Impossible de fermer cette intervention : Aucun technicien n\'est affecté à cette intervention. Veuillez d\'abord affecter un technicien.'
-						+ '</div>';
+						+ 'Erreur lors du chargement des informations de fermeture'
+						+ (e && e.message ? ' (' + esc(e.message) + ')' : '')
+						+ '.</div>';
 				});
 		});
 
 		function renderFermeture(data) {
-			// Masquer ou désactiver le bouton selon la condition
 			if (data.contract && data.contract.is_ticket_contract == false) {
 				document.getElementById('fermetureConfirmer').style.display = 'none';
 			} else {

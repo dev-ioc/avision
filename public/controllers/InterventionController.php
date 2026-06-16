@@ -548,7 +548,6 @@ class InterventionController
      */
     public function update($id)
     {
-        // Code de débogage temporaire
         error_log("DEBUG - Début de update() pour l'intervention $id");
         error_log("DEBUG - POST data: " . print_r($_POST, true));
         error_log("=== DEBUG CSRF ===");
@@ -557,7 +556,6 @@ class InterventionController
         error_log("Session ID: " . session_id());
         error_log("REQUEST_URI: " . ($_SERVER['REQUEST_URI'] ?? ''));
 
-        // Vérifier manuellement le token avant toute chose
         if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
             error_log("CSRF MISMATCH !!!");
             $_SESSION['error'] = "Token CSRF invalide. Veuillez réessayer.";
@@ -565,20 +563,16 @@ class InterventionController
             exit;
         }
 
-        // Vérifier les permissions
         checkInterventionManagementAccess();
 
-        // Récupérer l'intervention
         $intervention = $this->interventionModel->getById($id);
         error_log("DEBUG - Intervention récupérée: " . print_r($intervention, true));
 
         if (!$intervention) {
-            // Rediriger vers la liste si l'intervention n'existe pas
             header('Location: ' . $this->getInterventionsListUrl());
             exit;
         }
 
-        // S'assurer que toutes les clés nécessaires existent
         $intervention = array_merge([
             'site_id' => null,
             'building_id' => null,
@@ -591,14 +585,12 @@ class InterventionController
             'title' => null
         ], $intervention);
 
-        // Vérifier si l'intervention est fermée
-        if ($intervention['status_id'] == 6 && !isAdmin()) { // 6 = Fermé
+        if ($intervention['status_id'] == 6 && !isAdmin()) {
             $_SESSION['error'] = "Impossible de modifier une intervention fermée.";
             header('Location: ' . BASE_URL . 'interventions/view/' . $id);
             exit;
         }
 
-        // Récupérer les données du formulaire
         $data = [
             'title' => $_POST['title'] ?? $intervention['title'],
             'client_id' => $_POST['client_id'] ?? $intervention['client_id'],
@@ -608,6 +600,7 @@ class InterventionController
             'status_id' => $_POST['status_id'] ?? $intervention['status_id'],
             'priority_id' => $_POST['priority_id'] ?? $intervention['priority_id'],
             'type_id' => $_POST['type_id'] ?? $intervention['type_id'],
+            'duration' => $_POST['duration'] ?? ($intervention['duration'] ?? null),
             'description' => $_POST['description'] ?? $intervention['description'],
             'demande_par' => $_POST['demande_par'] ?? $intervention['demande_par'],
             'ref_client' => $_POST['ref_client'] ?? $intervention['ref_client'],
@@ -615,22 +608,16 @@ class InterventionController
             'is_preventive' => isset($_POST['is_preventive']) ? 1 : 0,
         ];
 
-        // Traiter la date et l'heure de création
         $createdDate = $_POST['created_date'] ?? date('Y-m-d', strtotime($intervention['created_at']));
         $createdTime = $_POST['created_time'] ?? date('H:i', strtotime($intervention['created_at']));
         $data['created_at'] = $createdDate . ' ' . $createdTime . ':00';
-
-        // Gérer le contract_id séparément pour s'assurer qu'il est correctement traité
         if (isset($_POST['contract_id']) && $_POST['contract_id'] !== '') {
             $data['contract_id'] = $_POST['contract_id'];
         } else {
             $data['contract_id'] = null;
         }
-
-        // Vérifier si c'est une sauvegarde avant fermeture
         $isSaveBeforeClose = isset($_POST['save_before_close']) && $_POST['save_before_close'] == '1';
 
-        // Vérifier si l'intervention est en train d'être fermée
         custom_log("DEBUG - update() - Vérification de la fermeture", "DEBUG");
         custom_log("DEBUG - update() - data['status_id']: " . ($data['status_id'] ?? 'NON DÉFINI'), "DEBUG");
         custom_log("DEBUG - update() - intervention['status_id']: " . ($intervention['status_id'] ?? 'NON DÉFINI'), "DEBUG");
@@ -641,10 +628,20 @@ class InterventionController
             && isset($data['status_id'])
             && $data['status_id'] == 6;
 
+        $ticketManagementResult = false;
+        $needsTicketAdjust = false;
+
         if ($isBeingClosed && !$isSaveBeforeClose) {
-            // ── Fermeture fraîche ──────────────────────────────────────────────
             if (empty($data['duration'])) {
                 $_SESSION['error'] = "Impossible de fermer l'intervention sans avoir défini une durée.";
+                header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
+                exit;
+            }
+
+            $stmtTechCheck = $this->db->prepare('SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ?');
+            $stmtTechCheck->execute([$id]);
+            if ((int) $stmtTechCheck->fetchColumn() === 0) {
+                $_SESSION['error'] = "Impossible de fermer l'intervention sans technicien assigné.";
                 header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
                 exit;
             }
@@ -663,24 +660,12 @@ class InterventionController
             $data['tickets_used'] = $ticketsUsed;
 
         } elseif ($alreadyClosed && !$isSaveBeforeClose) {
-            // ── Modification d'une intervention déjà fermée ────────────────────
-            // 1. Gestion du changement de contrat (recrédit + nouvelle déduction)
-            $this->handleTicketManagementOnContractChange($id, $intervention, $data);
-
-            // 2. Si un champ ticketable a changé ET que le contrat n'a pas changé
-            //    (si le contrat a changé, handleTicketManagementOnContractChange
-            //    a déjà tout recalculé via le montant d'origine)
+            $ticketManagementResult = $this->handleTicketManagementOnContractChange($id, $intervention, $data);
             $contractChanged = ($intervention['contract_id'] ?? null) != ($data['contract_id'] ?? null);
             if (!$contractChanged && $this->ticketableFieldChanged($intervention, $data)) {
-                // On ajuste après le update() pour avoir les techniciens à jour
-                // On stocke un flag pour le faire juste après
                 $needsTicketAdjust = true;
             }
         }
-        // Gestion des tickets lors du changement de contrat pour une intervention fermée
-        $ticketManagementResult = $this->handleTicketManagementOnContractChange($id, $intervention, $data);
-
-        // Valider le format de l'email si renseigné
         if (!empty($data['contact_client'])) {
             if (!filter_var($data['contact_client'], FILTER_VALIDATE_EMAIL)) {
                 $_SESSION['error'] = "Le format de l'email de contact est invalide.";
@@ -688,17 +673,13 @@ class InterventionController
                 exit;
             }
         }
-
-        // Mettre à jour l'intervention
         $result = $this->interventionModel->update($id, $data);
-        if (!empty($needsTicketAdjust) && $result) {
+        if ($needsTicketAdjust && $result) {
             $this->adjustTicketsOnClosedIntervention($id, $intervention, $data);
         }
 
         if ($result) {
-            // Vérifier si le technicien a changé et si on doit envoyer un email
             $technicianChanged = false;
-            // Vérifier si des modifications ont été apportées
             $hasChanges = false;
             foreach ($data as $key => $value) {
                 if (isset($intervention[$key]) && $intervention[$key] != $value) {
@@ -707,12 +688,10 @@ class InterventionController
                 }
             }
 
-            // Enregistrer les modifications dans l'historique seulement si des changements ont été effectués
             if ($hasChanges) {
                 $this->recordChanges($id, $intervention, $data);
             }
 
-            // Si c'est une sauvegarde avant fermeture, retourner du JSON
             if ($isSaveBeforeClose) {
                 header('Content-Type: application/json');
                 echo json_encode(['success' => true, 'message' => 'Données sauvegardées avec succès']);
@@ -728,7 +707,6 @@ class InterventionController
             }
             $_SESSION['success'] = $successMessage;
         } else {
-            // Si c'est une sauvegarde avant fermeture, retourner du JSON même en cas d'erreur
             if ($isSaveBeforeClose) {
                 header('Content-Type: application/json');
                 echo json_encode(['success' => false, 'error' => 'Erreur lors de la sauvegarde des données']);

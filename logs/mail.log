@@ -569,3 +569,6 @@
 [2026-06-11 11:41:27][INFO] ENVOI RESET MDP - Destinataire: tixehi2691@herojp.com (TEST TEST) 
 [2026-06-11 11:41:30][INFO] Email reset MDP envoyé via Gmail à tixehi2691@herojp.com 
 [2026-06-11 11:41:30][INFO] Lien de réinitialisation envoyé avec succès à tixehi2691@herojp.com 
+[2026-06-16 11:09:55][INFO] Envoi automatique de création désactivé pour l'intervention 374 
+[2026-06-16 11:11:58][ERROR] Erreur envoi email fermeture intervention 374 : Aucun destinataire trouvé pour l'intervention 374 
+[2026-06-16 14:50:26][ERROR] Erreur envoi email fermeture intervention 76 : Aucun destinataire trouvé pour l'intervention 76 
