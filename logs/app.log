@@ -96596,3 +96596,8 @@ Quant à l’écran n°1, il est HS
 [2026-06-16 14:50:26][INFO] isContractTicketById(9) = true 
 [2026-06-16 14:50:26][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 8 
 [2026-06-16 14:56:40][INFO] 20 
+[2026-06-16 15:21:05][WARNING] require_once(C:\xampp\htdocs\avision\public\controllers/../views/contrcts/view.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":341,"errno":2}
+[2026-06-16 15:21:05][ERROR] Failed opening required 'C:\xampp\htdocs\avision\public\controllers/../views/contrcts/view.php' (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":341,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(949): InterventionController->view('122')\n#1 {main}","type":"Error"}
+[2026-06-16 15:28:50][ERROR] Call to undefined method InterventionController::calculateRealTicketsUsed() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":309,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(949): InterventionController->view('122')\n#1 {main}","type":"Error"}
+[2026-06-16 15:30:59][ERROR] Erreur : SQLSTATE[42S02]: Base table or view not found: 1146 Table 'avision.intervention_tickets' doesn't exist {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":1079}
+[2026-06-16 15:32:33][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'intervention_id' in 'where clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":1079}

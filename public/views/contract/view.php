@@ -484,12 +484,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <th>Durée totale</th>
                             <th>Durée (h)</th>
                             <th>Tickets utilisés</th>
-                            <th>Statut</th>
-                        </tr>
+                            <th>Statut</th </tr>
                     </thead>
                     <tbody>
-                        <?php if (!empty($interventions)): ?>
-                            <?php foreach ($interventions as $intervention): ?>
+                        <?php if (!empty($groupedInterventions)): ?>
+                            <?php foreach ($groupedInterventions as $groupId => $group): ?>
+                                <?php $intervention = $group['intervention']; ?>
                                 <tr>
                                     <td>
                                         <a href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>"
@@ -504,52 +504,52 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         <?= !empty($intervention['date_planif']) ? date('d/m/Y', strtotime($intervention['date_planif'])) . (!empty($intervention['heure_planif']) ? ' ' . $intervention['heure_planif'] : '') : date('d/m/Y H:i', strtotime($intervention['created_at'])) ?>
                                     </td>
                                     <td>
-                                        <?php
-                                        $technicianNames = !empty($intervention['technician_name']) && $intervention['technician_name'] != 'Non assigné'
-                                            ? explode(', ', $intervention['technician_name'])
-                                            : [];
-
-                                        if (!empty($technicianNames)): ?>
+                                        <?php if (!empty($group['technician_names'])): ?>
                                             <div>
-                                                <?php foreach ($technicianNames as $index => $techName): ?>
+                                                <?php foreach ($group['technician_names'] as $index => $techName): ?>
                                                     <div class="mb-1">
-                                                        <span>-</span>
+                                                        <span class="badge bg-light text-dark me-1">
+                                                            <i class="bi bi-person"></i>
+                                                        </span>
                                                         <?= htmlspecialchars($techName) ?>
                                                     </div>
                                                 <?php endforeach; ?>
                                             </div>
                                             <small class="text-muted">
                                                 <i class="bi bi-people me-1"></i>
-                                                <?= count($technicianNames) ?> technicien(s)
+                                                <?= count($group['technician_names']) ?> technicien(s)
                                             </small>
                                         <?php else: ?>
-                                            <?= htmlspecialchars($intervention['technician_name'] ?? 'Non assigné') ?>
+                                            <span class="text-muted">Non assigné</span>
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <?php if (!empty($intervention['total_duration_minutes']) && $intervention['total_duration_minutes'] > 0): ?>
+                                        <?php if (!empty($group['total_duration_minutes']) && $group['total_duration_minutes'] > 0): ?>
                                             <span class="badge bg-primary">
                                                 <i class="bi bi-clock me-1"></i>
-                                                <?= $intervention['total_duration_display'] ?>
+                                                <?= $group['total_duration_display'] ?>
                                             </span>
                                             <br>
                                             <small class="text-muted">
-                                                <?= $intervention['total_duration_minutes'] ?> min
+                                                <?= $group['total_duration_minutes'] ?> min
                                             </small>
                                         <?php else: ?>
                                             <span class="text-muted">-</span>
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <?php if (!empty($intervention['total_duration_hours'])): ?>
-                                            <?= number_format($intervention['total_duration_hours'], 2, ',', ' ') ?> h
+                                        <?php if (!empty($group['total_duration_hours'])): ?>
+                                            <?= number_format($group['total_duration_hours'], 2, ',', ' ') ?> h
                                         <?php else: ?>
                                             -
                                         <?php endif; ?>
                                     </td>
                                     <td>
                                         <?php if (isContractTicketById($contract['id'])): ?>
-                                            <?= $intervention['tickets_used'] ?? 0 ?>
+                                            <span
+                                                class="badge <?= ($intervention['tickets_used'] ?? 0) > 0 ? 'bg-info' : 'bg-secondary' ?>">
+                                                <?= h($intervention['tickets_used'] ?? '0') ?>
+                                            </span>
                                         <?php else: ?>
                                             <span class="no-tickets-indicator" title="Sans tickets">
                                                 <i class="no-tickets-icon"></i>
@@ -566,7 +566,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="8" class="text-center">Aucune intervention associée</td>
+                                <td colspan="9" class="text-center py-4">
+                                    <i class="bi bi-inbox fs-4 d-block mb-2"></i>
+                                    Aucune intervention associée à ce contrat
+                                </td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

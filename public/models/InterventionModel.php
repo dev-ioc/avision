@@ -1053,4 +1053,33 @@ ORDER BY pj.date_creation DESC
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([':id' => $interventionId]);
     }
+    /**
+     * Calcule le nombre réel de tickets utilisés pour une intervention
+     */
+    public function calculateRealTicketsUsed($interventionId)
+    {
+        // Vérifier d'abord si l'intervention est liée à un contrat à tickets
+        $sql = "SELECT i.contract_id, c.tickets_number 
+            FROM interventions i
+            INNER JOIN contracts c ON i.contract_id = c.id
+            WHERE i.id = ? AND c.tickets_number IS NOT NULL AND c.tickets_number > 0";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$interventionId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$result) {
+            return 0;
+        }
+
+        // Compter les tickets utilisés pour cette intervention
+        // À adapter selon votre logique métier (par exemple, basé sur la durée)
+        $sql_tickets = "SELECT tickets_used as total 
+                    FROM interventions 
+                    WHERE id = ?";
+        $stmt_tickets = $this->db->prepare($sql_tickets);
+        $stmt_tickets->execute([$interventionId]);
+        $ticketResult = $stmt_tickets->fetch(PDO::FETCH_ASSOC);
+
+        return (int) ($ticketResult['total'] ?? 0);
+    }
 }

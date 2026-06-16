@@ -904,7 +904,7 @@ class ContractController
                 exit;
             }
 
-            // Récupérer les interventions associées
+            // Récupérer les interventions associées avec tous les champs
             $sql_interventions = "SELECT i.*, 
             ist.name as status_name,
             ist.color as status_color
@@ -917,45 +917,56 @@ class ContractController
             $stmt_interventions->execute([$id]);
             $interventions = $stmt_interventions->fetchAll(PDO::FETCH_ASSOC);
 
-            // Pour chaque intervention, récupérer les techniciens assignés, la durée totale et les tickets
+            // Regrouper les données par intervention
             require_once __DIR__ . '/../models/UserModel.php';
             $userModel = new UserModel($this->db);
 
-            foreach ($interventions as &$intervention) {
-                // Récupérer les techniciens assignés à cette intervention et la durée totale
+            $groupedInterventions = [];
+            foreach ($interventions as $intervention) {
+                $interventionId = $intervention['id'];
+
+                // Initialiser le groupe si nécessaire
+                if (!isset($groupedInterventions[$interventionId])) {
+                    $groupedInterventions[$interventionId] = [
+                        'intervention' => $intervention,
+                        'technicians' => [],
+                        'total_duration_minutes' => 0,
+                        'total_duration_display' => '0h',
+                        'total_duration_hours' => 0,
+                        'technician_names' => []
+                    ];
+                }
+
+                // Récupérer les techniciens assignés à cette intervention
                 $sql_technicians = "SELECT u.id, u.first_name, u.last_name, u.email,
-                                       it.temps_passe, it.is_qualified, it.deplacement
-                                FROM intervention_techniciens it
-                                JOIN users u ON it.technicien_id = u.id
-                                WHERE it.intervention_id = ?";
+                                   it.temps_passe, it.is_qualified, it.deplacement
+                            FROM intervention_techniciens it
+                            JOIN users u ON it.technicien_id = u.id
+                            WHERE it.intervention_id = ?";
                 $stmt_tech = $this->db->prepare($sql_technicians);
-                $stmt_tech->execute([$intervention['id']]);
+                $stmt_tech->execute([$interventionId]);
                 $technicians = $stmt_tech->fetchAll(PDO::FETCH_ASSOC);
 
-                // Construire le nom des techniciens pour l'affichage
-                $technician_names = [];
-                $total_duration_minutes = 0;
-
+                // Ajouter les techniciens au groupe
                 foreach ($technicians as $tech) {
-                    $technician_names[] = $tech['first_name'] . ' ' . $tech['last_name'];
-                    // Additionner les durées de chaque technicien
+                    $groupedInterventions[$interventionId]['technicians'][] = $tech;
+                    $groupedInterventions[$interventionId]['technician_names'][] = $tech['first_name'] . ' ' . $tech['last_name'];
+
                     if (!empty($tech['temps_passe'])) {
-                        $total_duration_minutes += (int) $tech['temps_passe'];
+                        $groupedInterventions[$interventionId]['total_duration_minutes'] += (int) $tech['temps_passe'];
                     }
                 }
 
-                $intervention['technician_name'] = !empty($technician_names) ? implode(', ', $technician_names) : 'Non assigné';
+                // Calculer les durées
+                $total_minutes = $groupedInterventions[$interventionId]['total_duration_minutes'];
+                $total_hours = floor($total_minutes / 60);
+                $remaining_minutes = $total_minutes % 60;
+                $groupedInterventions[$interventionId]['total_duration_display'] = $total_hours . 'h' . ($remaining_minutes > 0 ? $remaining_minutes : '');
+                $groupedInterventions[$interventionId]['total_duration_hours'] = round($total_minutes / 60, 2);
 
-                // Convertir la durée totale en heures et minutes pour l'affichage
-                $total_hours = floor($total_duration_minutes / 60);
-                $total_minutes = $total_duration_minutes % 60;
-                $intervention['total_duration_display'] = $total_hours . 'h' . ($total_minutes > 0 ? $total_minutes : '');
-                $intervention['total_duration_minutes'] = $total_duration_minutes;
-                $intervention['total_duration_hours'] = round($total_duration_minutes / 60, 2);
-
-                // Calculer les tickets utilisés en temps réel pour les interventions fermées
-                if ((int) $intervention['status_id'] === 6) {
-                    $intervention['tickets_used'] = $this->calculateRealTicketsUsed($intervention['id']);
+                // S'assurer que tickets_used existe
+                if (!isset($groupedInterventions[$interventionId]['intervention']['tickets_used'])) {
+                    $groupedInterventions[$interventionId]['intervention']['tickets_used'] = 0;
                 }
             }
 
@@ -965,7 +976,7 @@ class ContractController
             // Récupérer l'historique du contrat
             $history = $this->contractModel->getContractHistory($id);
 
-            // Charger la vue
+            // Charger la vue avec les données regroupées
             require_once __DIR__ . '/../views/contract/view.php';
         } catch (Exception $e) {
             custom_log("Erreur dans ContractController::view : " . $e->getMessage(), 'ERROR');
