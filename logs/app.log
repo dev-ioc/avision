@@ -96676,3 +96676,49 @@ Quant à l’écran n°1, il est HS
 [2026-06-16 16:01:34][INFO] Déduction de 5 tickets réussie 
 [2026-06-16 16:01:34][INFO] isContractTicketById(118) = true 
 [2026-06-16 16:01:34][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 4 
+[2026-06-17 09:58:37][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: i5l77f6otgnmsf452vogeulues) 
+[2026-06-17 09:58:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d76363cb05c5b04a327... 
+[2026-06-17 09:58:41][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-17 09:58:41][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-17 09:58:41][DEBUG] Login réussi - Session ID: i5l77f6otgnmsf452vogeulues 
+[2026-06-17 09:58:41][DEBUG] Login réussi - redirect_after_login: dashboard 
+[2026-06-17 09:58:41][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-17 09:58:41][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-06-17 09:58:41][DEBUG] Redirection après login vers: http://localhost/avision/public/dashboard 
+[2026-06-17 10:00:59][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND m.salle_id = :salle_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-06-17 10:00:59][DEBUG] Params: {":salle_id":"369"} 
+[2026-06-17 10:01:15][DEBUG] Redirection vers login - URL sauvegardée: materiel_client/salle/369 (Session ID: vib7hrqd0ncivtkd1ld4tv6pq5) 
+[2026-06-17 10:01:15][DEBUG] Redirection vers login - URL sauvegardée: materiel_client/salle/369 (Session ID: i5cb1j4ulsioe0u0k35r1p3367) 
+[2026-06-17 10:01:24][DEBUG] MaterielClientController::index - userLocations: [] 
+[2026-06-17 10:01:24][DEBUG] getSitesByLocations - userLocations: [] 
+[2026-06-17 10:01:24][DEBUG] getSitesByLocations - aucune localisation trouvée 
+[2026-06-17 10:01:24][DEBUG] getBuildingsByLocations - userLocations: [] 
+[2026-06-17 10:01:24][DEBUG] getBuildingsByLocations - aucune localisation trouvée 
+[2026-06-17 10:07:34][DEBUG] CSRF: Token trouvé dans la requête - Token: ad4994cab104d483e76b... 
+[2026-06-17 10:07:35][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-06-17 10:07:47][DEBUG] CSRF: Token trouvé dans la requête - Token: ad4994cab104d483e76b... 
+[2026-06-17 10:07:48][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-17 10:07:48][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-17 10:07:48][DEBUG] Login réussi - Session ID: 1iiut98em9pfqp2h2bnuh2l2hi 
+[2026-06-17 10:07:48][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-17 10:07:48][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-17 10:07:48][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-17 10:07:48][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 

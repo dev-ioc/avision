@@ -4,6 +4,7 @@ require_once __DIR__ . '/../models/RoomModel.php';
 require_once __DIR__ . '/../models/MaterielModel.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
+require_once __DIR__ . '/../models/BuildingModel.php';
 
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
@@ -15,6 +16,7 @@ class QRCodeController
     private $siteModel;
     private $roomModel;
     private $materielModel;
+    private $buildingModel;
 
     public function __construct()
     {
@@ -23,6 +25,7 @@ class QRCodeController
         $this->siteModel = new SiteModel($this->db);
         $this->roomModel = new RoomModel($this->db);
         $this->materielModel = new MaterielModel($this->db);
+        $this->buildingModel = new BuildingModel($this->db);
     }
 
 
@@ -33,7 +36,6 @@ class QRCodeController
     {
         $this->checkAccess();
 
-        // Récupérer les informations du site
         $site = $this->siteModel->getSiteById($siteId);
         if (!$site) {
             $_SESSION['error'] = "Site non trouvé.";
@@ -41,14 +43,23 @@ class QRCodeController
             exit;
         }
 
-        // Récupérer toutes les salles du site
-        $salles = $this->roomModel->getRoomsByBuildingId($siteId, true); // activeOnly = true
+        // Récupérer tous les bâtiments du site
+        $batiments = $this->buildingModel->getBuildingsBySiteId($siteId, true); // activeOnly = true
 
-        // Récupérer le nombre de matériel par salle
+        // Récupérer toutes les salles de chaque bâtiment
+        $salles = [];
+        foreach ($batiments as $batiment) {
+            $sallesDuBatiment = $this->roomModel->getRoomsByBuildingId($batiment['id'], true);
+            foreach ($sallesDuBatiment as $salle) {
+                $salle['batiment_name'] = $batiment['name']; // utile pour l'affichage
+                $salles[] = $salle;
+            }
+        }
+
+        // Compter le matériel par salle
         $materielCounts = [];
         foreach ($salles as $salle) {
-            $count = $this->materielModel->getMaterielCountBySalle($salle['id']);
-            $materielCounts[$salle['id']] = $count;
+            $materielCounts[$salle['id']] = $this->materielModel->getMaterielCountBySalle($salle['id']);
         }
 
         $pageTitle = "QR Codes - " . $site['name'];
@@ -62,7 +73,6 @@ class QRCodeController
     {
         $this->checkAccess();
 
-        // Récupérer les informations de la salle
         $salle = $this->roomModel->getRoomById($salleId);
         if (!$salle) {
             $_SESSION['error'] = "Salle non trouvée.";
@@ -70,16 +80,19 @@ class QRCodeController
             exit;
         }
 
-        // Récupérer les informations du site
-        $site = $this->siteModel->getSiteById($salle['site_id']);
+        $building = $this->buildingModel->getBuildingById($salle['building_id']);
+        if (!$building) {
+            $_SESSION['error'] = "Bâtiment introuvable pour cette salle.";
+            header('Location: ' . BASE_URL . 'dashboard');
+            exit;
+        }
+        $site = $this->siteModel->getSiteById($building['site_id']);
 
-        // Récupérer le nombre de matériel dans cette salle
         $materielCount = $this->materielModel->getMaterielCountBySalle($salleId);
 
-        $pageTitle = "QR Code - " . $site['name'] . " - " . $salle['name'];
+        $pageTitle = "QR Code - " . $site['name'] . " - " . $building['name'] . " - " . $salle['name'];
         require_once VIEWS_PATH . '/qrcode/salle.php';
     }
-
     /**
      * Gère la redirection après authentification via QR code
      */
