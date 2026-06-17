@@ -96722,3 +96722,5 @@ Quant à l’écran n°1, il est HS
 [2026-06-17 10:07:48][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-06-17 10:07:48][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
 [2026-06-17 10:07:48][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-17 10:47:09][INFO] 36 
+[2026-06-17 11:07:54][INFO] 81 
