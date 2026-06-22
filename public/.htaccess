@@ -1,29 +1,26 @@
 RewriteEngine On
 
-# Exclure explicitement les fichiers statiques (assets, uploads, etc.)
-RewriteCond %{REQUEST_URI} ^/(assets|uploads)/ [NC]
-RewriteRule ^ - [L]
+# Redirection vers /public si absent
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteCond %{REQUEST_URI} !^/assets/
+RewriteCond %{REQUEST_URI} !^/uploads/
+RewriteRule ^(.*)$ /public/$1 [R=301,L]
 
-# Rediriger toutes les autres requêtes vers index.php
+# Front controller
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php [QSA,L]
 
-# Sécurité : Empêcher l'accès direct aux fichiers sensibles
-<Files "*.php">
-    Require all granted
-</Files>
-
-# Empêcher l'accès aux fichiers de configuration
+# Sécurité : accès fichiers sensibles
 <FilesMatch "\.(ini|log|conf)$">
     Require all denied
 </FilesMatch>
 
-# Headers de sécurité
+# Headers sécurité
 Header always set X-Content-Type-Options nosniff
 Header always set X-XSS-Protection "1; mode=block"
 
-# Permettre l'affichage des PDF dans des iframes (pour la prévisualisation)
+# PDF iframe
 <FilesMatch "\.(pdf)$">
     Header unset X-Frame-Options
     Header always set X-Frame-Options SAMEORIGIN
