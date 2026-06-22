@@ -1,12 +1,11 @@
 RewriteEngine On
 RewriteBase /
 
-# Exclure les fichiers statiques (CSS, JS, images, fonts, etc.)
+# Ne pas rediriger si déjà dans /public
+RewriteCond %{REQUEST_URI} !^/public/
+
+# Exclure les fichiers statiques
 RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf|zip|rar|doc|docx|xls|xlsx|ppt|pptx)$ [NC]
 
-# Si le fichier ou répertoire n'existe pas physiquement
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
-# Rediriger toutes les requêtes vers index.php
-RewriteRule ^(.*)$ index.php [QSA,L] 
+# Rediriger directement vers /public/ (chemin absolu, pas de boucle)
+RewriteRule ^(.*)$ /public/$1 [L,R=301]
