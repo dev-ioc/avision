@@ -48,7 +48,7 @@ class MaterielController
             'building_id' => isset($_GET['building_id']) ? (int) $_GET['building_id'] : null,
             'salle_id' => isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null
         ];
-
+        $materiel_list = $this->materielModel->getAllMateriel($filters);
         // Récupération des données pour les listes déroulantes
         $clients = $this->clientModel->getAllClients();
 

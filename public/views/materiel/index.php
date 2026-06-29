@@ -619,15 +619,19 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       vertical-align: middle;
     }
 
-    /* Style de base pour toutes les cellules */
-    .handsontable td {
-      background-color: #ffffff;
-      border-bottom: 1px solid #dee2e6;
-      padding: 8px;
-      vertical-align: middle;
+    .handsontable td:not(:first-child) {
+      background-color: #f3e1b5 !important;
     }
 
-    /* Style pour la colonne Équipement (toujours à l'index 0 après rendu) */
+    .handsontable td:nth-child(7) {
+      background-color: #f8f9fa !important;
+      text-align: center;
+    }
+
+    .handsontable tbody tr:hover td {
+      background-color: #eef3ff !important;
+    }
+
     .handsontable td:first-child {
       background-color: #f8f9fa !important;
       text-align: center;
@@ -636,31 +640,19 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       min-width: 100px;
     }
 
-    /* Style pour la colonne Équipement (deuxième colonne) */
-    .handsontable td:nth-child(2) {
-      background-color: #ffffff !important;
-      color: #0d6efd !important;
-      font-weight: 600;
+    .handsontable td:first-child button {
+      white-space: nowrap;
+      font-size: 12px;
+      padding: 4px 8px;
     }
 
-    /* Style pour toutes les cellules sauf la première et la dernière (pièces jointes) */
-    .handsontable td:not(:first-child) {
-      background-color: #f3e1b5 !important;
+    .handsontable col:first-child {
+      width: 100px;
     }
 
-    /* Style pour la colonne Pièces jointes (toujours à la dernière position après rendu) */
-    .handsontable td:nth-child(7) {
-      background-color: #f8f9fa !important;
-      text-align: center;
-    }
-
-    /* Hover */
-    .handsontable tbody tr:hover td {
-      background-color: #eef3ff !important;
-    }
-
-    .handsontable tbody tr:hover td {
-      background-color: #eef3ff !important;
+    .handsontable td.htInvalid {
+      background-color: #ffe0e0 !important;
+      border: 1px solid #dc3545 !important;
     }
 
     .drop-zone {
@@ -704,31 +696,6 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
     .file-item.invalid {
       background-color: var(--bs-danger-bg-subtle);
     }
-
-    /* Style pour la colonne Actions */
-    .handsontable td:first-child {
-      background-color: #f8f9fa !important;
-      text-align: center;
-      vertical-align: middle;
-      width: 100px;
-      min-width: 100px;
-    }
-
-    .handsontable td:first-child button {
-      white-space: nowrap;
-      font-size: 12px;
-      padding: 4px 8px;
-    }
-
-    /* Ajuster la largeur de la colonne Actions */
-    .handsontable col:first-child {
-      width: 100px;
-    }
-
-    .handsontable td.htInvalid {
-      background-color: #ffe0e0 !important;
-      border: 1px solid #dc3545 !important;
-    }
   </style>
 
   <script>
@@ -736,15 +703,14 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
     let currentSearchTerm = '';
     let hotInstances = {};
 
-    // Index des colonnes
     const MARQUE_INDEX = <?= $marqueIndex ?>;
     const MODELE_INDEX = <?= $modeleIndex ?>;
     const ID_INDEX = <?= $idIndex ?>;
     const PIECES_JOINTES_INDEX = <?= $piecesJointesIndex ?>;
     const FIELD_VALIDATORS = {
       date_fin_maintenance: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Expiration', example: '2026-12-31' },
-      date_fin_garantie: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Date Garantie', example: '2026-12-31' },
-      date_derniere_inter: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Dernière Inter', example: '2026-12-31' },
+      date_fin_garantie:    { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Date Garantie', example: '2026-12-31' },
+      date_derniere_inter:  { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Dernière Inter', example: '2026-12-31' },
     };
     const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
 
@@ -754,52 +720,41 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
         const rule = FIELD_VALIDATORS[field];
         if (!rule) return;
         const value = row[colIndex];
-        if (!value || value === '') return; // vide = ignoré
+        if (!value || value === '') return;
         if (!rule.regex.test(value)) {
           errors.push(`Ligne ${rowIndex + 1} — <strong>${rule.label}</strong> : "<em>${value}</em>" invalide (ex: ${rule.example})`);
         }
       });
       return errors;
     }
+
     // ── showToast ────────────────────────────────────────────────────────────────
     function showToast(message, type) {
-      const existingToasts = document.querySelectorAll('.custom-toast');
-      existingToasts.forEach(toast => toast.remove());
-
+      document.querySelectorAll('.custom-toast').forEach(t => t.remove());
       const toastDiv = document.createElement('div');
       toastDiv.className = 'custom-toast position-fixed top-0 end-0 m-3';
-      toastDiv.style.zIndex = '9999';
-      toastDiv.style.minWidth = '300px';
-      toastDiv.style.maxWidth = '400px';
-
+      toastDiv.style.cssText = 'z-index:9999;min-width:300px;max-width:400px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);padding:12px 16px;';
       const colors = {
         success: { bg: '#d4edda', border: '#28a745', icon: '#28a745' },
-        danger: { bg: '#f8d7da', border: '#dc3545', icon: '#dc3545' },
-        info: { bg: '#d1ecf1', border: '#17a2b8', icon: '#17a2b8' }
+        danger:  { bg: '#f8d7da', border: '#dc3545', icon: '#dc3545' },
+        info:    { bg: '#d1ecf1', border: '#17a2b8', icon: '#17a2b8' }
       };
       const color = colors[type] || colors.info;
-
       toastDiv.style.backgroundColor = color.bg;
       toastDiv.style.borderLeft = `4px solid ${color.border}`;
-      toastDiv.style.borderRadius = '8px';
-      toastDiv.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-      toastDiv.style.padding = '12px 16px';
-
       toastDiv.innerHTML = `
-      <div class="d-flex align-items-center">
-        <div class="me-3" style="color:${color.icon}">
-          <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : type === 'danger' ? 'bi-x-circle-fill' : 'bi-info-circle-fill'} fs-4"></i>
-        </div>
-        <div class="flex-grow-1" style="font-size:14px;">
-          <strong>${type === 'success' ? 'Succès' : type === 'danger' ? 'Erreur' : 'Information'}</strong>
-          <div class="mt-1">${message}</div>
-        </div>
-        <button type="button" class="btn-close ms-2" style="font-size:12px;"
-                onclick="this.closest('.custom-toast').remove()"></button>
-      </div>`;
-
+        <div class="d-flex align-items-center">
+          <div class="me-3" style="color:${color.icon}">
+            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : type === 'danger' ? 'bi-x-circle-fill' : 'bi-info-circle-fill'} fs-4"></i>
+          </div>
+          <div class="flex-grow-1" style="font-size:14px;">
+            <strong>${type === 'success' ? 'Succès' : type === 'danger' ? 'Erreur' : 'Information'}</strong>
+            <div class="mt-1">${message}</div>
+          </div>
+          <button type="button" class="btn-close ms-2" style="font-size:12px;"
+                  onclick="this.closest('.custom-toast').remove()"></button>
+        </div>`;
       document.body.appendChild(toastDiv);
-
       const duration = type === 'danger' ? 7000 : 4000;
       setTimeout(() => {
         if (toastDiv.parentNode) {
@@ -812,47 +767,38 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
 
     function addNewRowToTable(tableId, locationName, salleId) {
       const hot = hotInstances[tableId];
-      if (!hot) { return; }
-
+      if (!hot) return;
       hot.__salleId = salleId;
-
       const existingData = hot.getSourceData();
       const data = existingData.map(row => row.map(cell =>
         (cell && typeof cell === 'object') ? { ...cell } : cell
       ));
-
       const colCount = <?= count($allColumns) ?>;
       const newRow = Array(colCount).fill('');
       newRow[PIECES_JOINTES_INDEX] = { count: 0, id: null, name: '' };
-
       data.push(newRow);
       hot.loadData(data);
-
       const newRowIndex = data.length - 1;
       hot.scrollViewportTo(newRowIndex, 0);
       hot.selectCell(newRowIndex, 0);
-
       showToast('Nouvelle ligne ajoutée. Remplissez les informations puis sauvegardez.', 'info');
     }
 
-    // ── submitFilters ────────────────────────────────────────────────────────────
+    // ── submitFilters ─────────────────────────────────────────────────────────────
     function submitFilters() {
-      const clientId = document.getElementById('client_id').value;
-      const siteId = document.getElementById('site_id').value;
+      const clientId   = document.getElementById('client_id').value;
+      const siteId     = document.getElementById('site_id').value;
       const buildingId = document.getElementById('building_id').value;
-      const salleId = document.getElementById('salle_id').value;
-
+      const salleId    = document.getElementById('salle_id').value;
       let url = '<?= BASE_URL ?>materiel?';
       const params = [];
-      if (clientId) params.push('client_id=' + clientId);
-      if (siteId) params.push('site_id=' + siteId);
+      if (clientId)   params.push('client_id='   + clientId);
+      if (siteId)     params.push('site_id='     + siteId);
       if (buildingId) params.push('building_id=' + buildingId);
-      if (salleId) params.push('salle_id=' + salleId);
-
+      if (salleId)    params.push('salle_id='    + salleId);
       window.location.href = url + params.join('&');
     }
 
-    // ── updateSitesAndSubmit ──────────────────────────────────────────────────────
     function updateSitesAndSubmit() {
       const clientId = document.getElementById('client_id').value;
       if (clientId) {
@@ -879,10 +825,9 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       }
     }
 
-    // ── updateBuildingsAndSubmit ──────────────────────────────────────────────────
     function updateBuildingsAndSubmit() {
       const clientId = document.getElementById('client_id').value;
-      const siteId = document.getElementById('site_id').value;
+      const siteId   = document.getElementById('site_id').value;
       if (siteId && clientId) {
         fetch('<?= BASE_URL ?>materiel/get_buildings?site_id=' + siteId)
           .then(res => res.json())
@@ -905,13 +850,11 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       }
     }
 
-    // ── updateRoomsAndSubmit ──────────────────────────────────────────────────────
     function updateRoomsAndSubmit() {
-      const clientId = document.getElementById('client_id').value;
-      const siteId = document.getElementById('site_id').value;
+      const clientId   = document.getElementById('client_id').value;
+      const siteId     = document.getElementById('site_id').value;
       const buildingId = document.getElementById('building_id').value;
-
-      const loadRooms = (url) => fetch(url)
+      const loadRooms  = (url) => fetch(url)
         .then(res => res.json())
         .then(data => {
           const roomSelect = document.getElementById('salle_id');
@@ -935,34 +878,12 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       }
     }
 
-    // ── applyGlobalSearch ────────────────────────────────────────────────────────
-    function applyGlobalSearch() {
-      const searchTerm = document.getElementById('globalSearch').value.toLowerCase();
-      currentSearchTerm = searchTerm;
-      document.getElementById('clearGlobalSearch').style.display = searchTerm ? 'inline-block' : 'none';
-
-      Object.keys(hotInstances).forEach(tableId => {
-        const hot = hotInstances[tableId];
-        if (!hot) return;
-        const data = hot.getData();
-        for (let i = 0; i < data.length; i++) {
-          let matches = false;
-          for (let j = 0; j < data[i].length; j++) {
-            if (j === PIECES_JOINTES_INDEX) continue;
-            const v = data[i][j];
-            if (v && typeof v !== 'object' && v.toString().toLowerCase().includes(searchTerm)) { matches = true; break; }
-          }
-          const el = hot.getCell(hot.toVisualRow(i), 0);
-          if (el && el.parentNode) el.parentNode.style.display = (!searchTerm || matches) ? '' : 'none';
-        }
-        hot.render();
-      });
-
-      updateAccordionsVisibility(searchTerm);
-    }
-    // ── updateAccordionsVisibility ───────────────────────────────────────────────
+    // ── updateAccordionsVisibility ────────────────────────────────────────────────
     function updateAccordionsVisibility(searchTerm) {
-      if (!searchTerm) { document.querySelectorAll('.accordion-item').forEach(i => i.style.display = ''); return; }
+      if (!searchTerm) {
+        document.querySelectorAll('.accordion-item').forEach(i => i.style.display = '');
+        return;
+      }
       document.querySelectorAll('.accordion-item').forEach(item => {
         const collapse = item.querySelector('.accordion-collapse');
         if (!collapse) return;
@@ -974,11 +895,76 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
             for (let j = 0; j < data[i].length; j++) {
               if (j === PIECES_JOINTES_INDEX) continue;
               const v = data[i][j];
-              if (v && typeof v !== 'object' && v.toString().toLowerCase().includes(searchTerm)) { found = true; break outer; }
+              if (v && typeof v !== 'object' && v.toString().toLowerCase().includes(searchTerm)) {
+                found = true; break outer;
+              }
             }
         }
         item.style.display = found ? '' : 'none';
       });
+    }
+
+    // ── applyGlobalSearch ─────────────────────────────────────────────────────────
+    // CORRECTION 1 : appelée via événement 'input' (plus réactif que 'keyup')
+    function applyGlobalSearch() {
+      const searchTerm = document.getElementById('globalSearch').value.toLowerCase();
+      currentSearchTerm = searchTerm;
+      document.getElementById('clearGlobalSearch').style.display = searchTerm ? 'inline-block' : 'none';
+
+      // Filtrer les lignes dans chaque tableau HOT
+      Object.keys(hotInstances).forEach(tableId => {
+        const hot = hotInstances[tableId];
+        if (!hot) return;
+        const data = hot.getData();
+        for (let i = 0; i < data.length; i++) {
+          let matches = false;
+          for (let j = 0; j < data[i].length; j++) {
+            if (j === PIECES_JOINTES_INDEX) continue;
+            const v = data[i][j];
+            if (v && typeof v !== 'object' && v.toString().toLowerCase().includes(searchTerm)) {
+              matches = true; break;
+            }
+          }
+          const el = hot.getCell(hot.toVisualRow(i), 0);
+          if (el && el.parentNode) el.parentNode.style.display = (!searchTerm || matches) ? '' : 'none';
+        }
+        hot.render();
+      });
+
+      // Masquer/afficher les accordéons selon résultats
+      updateAccordionsVisibility(searchTerm);
+
+      // CORRECTION 2 : ouvrir automatiquement les accordéons avec résultats,
+      // fermer ceux sans résultats, refermer tout si recherche vide
+      if (searchTerm) {
+        document.querySelectorAll('.accordion-item').forEach(item => {
+          const isVisible = item.style.display !== 'none';
+          const collapse  = item.querySelector('.accordion-collapse');
+          if (!collapse) return;
+          const btn = item.querySelector('.accordion-button');
+
+          if (isVisible) {
+            // Ouvrir sans animation Bootstrap pour éviter le lag à la frappe
+            collapse.classList.add('show');
+            if (btn) btn.classList.remove('collapsed');
+
+            // CORRECTION 3 : forcer HOT à recalculer dans le conteneur maintenant visible
+            const tableId = collapse.id.replace('collapse_', 'excelTable-');
+            const hot = hotInstances[tableId];
+            if (hot) requestAnimationFrame(() => hot.render());
+          } else {
+            collapse.classList.remove('show');
+            if (btn) btn.classList.add('collapsed');
+          }
+        });
+      } else {
+        // Recherche vidée : refermer tous les accordéons
+        document.querySelectorAll('.accordion-collapse').forEach(c => {
+          c.classList.remove('show');
+          const btn = c.closest('.accordion-item')?.querySelector('.accordion-button');
+          if (btn) btn.classList.add('collapsed');
+        });
+      }
     }
 
     function openAllAccordions() {
@@ -987,13 +973,17 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       });
     }
     function closeAllAccordions() {
-      document.querySelectorAll('.accordion-collapse.show').forEach(c => bootstrap.Collapse.getInstance(c)?.hide());
+      document.querySelectorAll('.accordion-collapse.show').forEach(c =>
+        bootstrap.Collapse.getInstance(c)?.hide()
+      );
     }
 
-    // ── column visibility ────────────────────────────────────────────────────────
+    // ── column visibility ─────────────────────────────────────────────────────────
     function saveColumnVisibility() {
       const state = {};
-      document.querySelectorAll('.global-colvis-checkbox').forEach(cb => { state[parseInt(cb.dataset.col)] = cb.checked; });
+      document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
+        state[parseInt(cb.dataset.col)] = cb.checked;
+      });
       localStorage.setItem('materiel_columns_visibility', JSON.stringify(state));
     }
     function restoreColumnVisibility() {
@@ -1016,7 +1006,7 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       });
     }
 
-    // ── attachments ──────────────────────────────────────────────────────────────
+    // ── attachments ───────────────────────────────────────────────────────────────
     function openAttachmentsModal(materielId, materielName) {
       const modal = new bootstrap.Modal(document.getElementById('attachmentsModal'));
       document.getElementById('attachmentsModalLabel').textContent = `Pièces jointes - ${materielName}`;
@@ -1043,28 +1033,30 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
         attachments.sort((a, b) => new Date(b.date_creation) - new Date(a.date_creation));
         html += '<div class="list-group">';
         attachments.forEach(att => {
-          const isPdf = att.type_fichier?.toLowerCase() === 'pdf';
-          const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(att.type_fichier?.toLowerCase());
-          const size = formatFileSize(att.taille_fichier || 0);
-          const date = att.date_creation ? new Date(att.date_creation).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-';
+          const isPdf    = att.type_fichier?.toLowerCase() === 'pdf';
+          const isImage  = ['jpg','jpeg','png','gif','webp'].includes(att.type_fichier?.toLowerCase());
+          const size     = formatFileSize(att.taille_fichier || 0);
+          const date     = att.date_creation
+            ? new Date(att.date_creation).toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' })
+            : '-';
           html += `<div class="list-group-item ${att.masque_client == 1 ? 'bg-light-warning' : ''}">
-          <div class="d-flex justify-content-between align-items-start">
-            <div class="flex-grow-1">
-              <div class="d-flex align-items-center mb-1">
-                ${att.masque_client == 1 ? '<i class="bi bi-eye-slash text-warning me-2"></i>' : ''}
-                <strong>${escapeHtml(att.nom_fichier)}</strong>
+            <div class="d-flex justify-content-between align-items-start">
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center mb-1">
+                  ${att.masque_client == 1 ? '<i class="bi bi-eye-slash text-warning me-2"></i>' : ''}
+                  <strong>${escapeHtml(att.nom_fichier)}</strong>
+                </div>
+                ${att.commentaire ? `<small class="text-muted d-block">${escapeHtml(att.commentaire)}</small>` : ''}
+                <small class="text-muted">${size} • ${date}${att.created_by_name ? ' • ' + escapeHtml(att.created_by_name) : ''}</small>
               </div>
-              ${att.commentaire ? `<small class="text-muted d-block">${escapeHtml(att.commentaire)}</small>` : ''}
-              <small class="text-muted">${size} • ${date}${att.created_by_name ? ' • ' + escapeHtml(att.created_by_name) : ''}</small>
+              <div class="ms-3">
+                ${isPdf || isImage ? `<button class="btn btn-sm btn-outline-info me-1" onclick="previewAttachment(${att.id},'${escapeHtml(att.nom_fichier)}','${att.type_fichier}')"><i class="bi bi-eye"></i></button>` : ''}
+                <a href="<?= BASE_URL ?>materiel/download/${att.id}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-download"></i></a>
+                <a href="<?= BASE_URL ?>materiel/toggleAttachmentVisibility/${materielId}/${att.id}" class="btn btn-sm btn-outline-warning me-1"><i class="bi ${att.masque_client == 1 ? 'bi-eye' : 'bi-eye-slash'}"></i></a>
+                <a href="<?= BASE_URL ?>materiel/deleteAttachment/${materielId}/${att.id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer ?')"><i class="bi bi-trash"></i></a>
+              </div>
             </div>
-            <div class="ms-3">
-              ${isPdf || isImage ? `<button class="btn btn-sm btn-outline-info me-1" onclick="previewAttachment(${att.id},'${escapeHtml(att.nom_fichier)}','${att.type_fichier}')"><i class="bi bi-eye"></i></button>` : ''}
-              <a href="<?= BASE_URL ?>materiel/download/${att.id}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-download"></i></a>
-              <a href="<?= BASE_URL ?>materiel/toggleAttachmentVisibility/${materielId}/${att.id}" class="btn btn-sm btn-outline-warning me-1"><i class="bi ${att.masque_client == 1 ? 'bi-eye' : 'bi-eye-slash'}"></i></a>
-              <a href="<?= BASE_URL ?>materiel/deleteAttachment/${materielId}/${att.id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer ?')"><i class="bi bi-trash"></i></a>
-            </div>
-          </div>
-        </div>`;
+          </div>`;
         });
         html += '</div>';
       }
@@ -1075,15 +1067,15 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       const modal = new bootstrap.Modal(document.getElementById('previewAttachmentModal'));
       document.getElementById('previewAttachmentModalLabel').textContent = name;
       const body = document.getElementById('previewAttachmentModalBody');
-      const ext = type?.toLowerCase() || '';
+      const ext  = type?.toLowerCase() || '';
       if (ext === 'pdf') body.innerHTML = `<iframe src="<?= BASE_URL ?>materiel/preview/${id}" width="100%" height="600px" frameborder="0"></iframe>`;
-      else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) body.innerHTML = `<img src="<?= BASE_URL ?>materiel/preview/${id}" class="img-fluid">`;
+      else if (['jpg','jpeg','png','gif','webp'].includes(ext)) body.innerHTML = `<img src="<?= BASE_URL ?>materiel/preview/${id}" class="img-fluid">`;
       else body.innerHTML = `<div class="alert alert-info">Prévisualisation non disponible. <a href="<?= BASE_URL ?>materiel/download/${id}" target="_blank">Télécharger</a></div>`;
       modal.show();
     }
     function formatFileSize(bytes) {
       if (!bytes) return '0 Bytes';
-      const k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'], i = Math.floor(Math.log(bytes) / Math.log(k));
+      const k = 1024, sizes = ['Bytes','KB','MB','GB'], i = Math.floor(Math.log(bytes) / Math.log(k));
       return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
     function escapeHtml(text) {
@@ -1094,52 +1086,47 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       document.getElementById('addAttachmentModal').setAttribute('data-materiel-id', materielId);
       modal.show();
     }
+
     class DragDropUploader {
       constructor(materielId) {
-        this.materielId = materielId;
-        this.files = [];
+        this.materielId       = materielId;
+        this.files            = [];
         this.allowedExtensions = [];
-        this.maxSize = parsePhpSize('<?php echo ini_get("upload_max_filesize"); ?>');
-        this.dropZone = document.getElementById('dropZone');
-        this.fileInput = document.getElementById('fileInput');
-        this.fileList = document.getElementById('fileList');
-        this.stats = document.getElementById('stats');
-        this.validCount = document.getElementById('validCount');
-        this.invalidCount = document.getElementById('invalidCount');
-        this.progressFill = document.getElementById('progressFill');
-        this.uploadBtn = document.getElementById('uploadValidBtn');
-        this.clearBtn = document.getElementById('clearAllBtn');
-        this.filesOptions = document.getElementById('filesOptions');
+        this.maxSize          = parsePhpSize('<?php echo ini_get("upload_max_filesize"); ?>');
+        this.dropZone         = document.getElementById('dropZone');
+        this.fileInput        = document.getElementById('fileInput');
+        this.fileList         = document.getElementById('fileList');
+        this.stats            = document.getElementById('stats');
+        this.validCount       = document.getElementById('validCount');
+        this.invalidCount     = document.getElementById('invalidCount');
+        this.progressFill     = document.getElementById('progressFill');
+        this.uploadBtn        = document.getElementById('uploadValidBtn');
+        this.clearBtn         = document.getElementById('clearAllBtn');
+        this.filesOptions     = document.getElementById('filesOptions');
         this.filesOptionsList = document.getElementById('filesOptionsList');
         this.init();
       }
       async init() {
         try {
-          const res = await fetch('<?= BASE_URL ?>settings/getAllowedExtensions');
+          const res  = await fetch('<?= BASE_URL ?>settings/getAllowedExtensions');
           const data = await res.json();
           this.allowedExtensions = data.extensions || [];
         } catch (e) { console.error(e); }
         this.setupEvents();
       }
-
       setupEvents() {
-        this.dropZone.addEventListener('dragover', e => { e.preventDefault(); this.dropZone.classList.add('dragover'); });
+        this.dropZone.addEventListener('dragover',  e => { e.preventDefault(); this.dropZone.classList.add('dragover'); });
         this.dropZone.addEventListener('dragleave', e => { e.preventDefault(); this.dropZone.classList.remove('dragover'); });
-        this.dropZone.addEventListener('drop', e => { e.preventDefault(); this.dropZone.classList.remove('dragover'); this.handleFiles(Array.from(e.dataTransfer.files)); });
-        this.dropZone.addEventListener('click', () => this.fileInput.click());
-        this.fileInput.addEventListener('change', e => this.handleFiles(Array.from(e.target.files)));
-        this.uploadBtn.addEventListener('click', () => this.upload());
-        this.clearBtn.addEventListener('click', () => this.clearAll());
+        this.dropZone.addEventListener('drop',      e => { e.preventDefault(); this.dropZone.classList.remove('dragover'); this.handleFiles(Array.from(e.dataTransfer.files)); });
+        this.dropZone.addEventListener('click',     () => this.fileInput.click());
+        this.fileInput.addEventListener('change',   e => this.handleFiles(Array.from(e.target.files)));
+        this.uploadBtn.addEventListener('click',    () => this.upload());
+        this.clearBtn.addEventListener('click',     () => this.clearAll());
       }
-
-      handleFiles(newFiles) {
-        this.files.push(...this.validateFiles(newFiles));
-        this.render();
-      }
-
+      handleFiles(newFiles) { this.files.push(...this.validateFiles(newFiles)); this.render(); }
       validateFiles(files) {
         return files.map(f => {
-          const ext = f.name.split('.').pop().toLowerCase();
+          const ext      = f.name.split('.').pop().toLowerCase();
           const validExt = this.allowedExtensions.includes(ext);
           const validSize = f.size <= this.maxSize;
           let error = null;
@@ -1148,22 +1135,20 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
           return { file: f, isValid: validExt && validSize, error };
         });
       }
-
       render() {
         this.fileList.innerHTML = '';
         this.files.forEach((f, i) => {
           const div = document.createElement('div');
           div.className = `file-item ${f.isValid ? 'valid' : 'invalid'}`;
           div.innerHTML = `<span class="file-name">${f.file.name}</span>
-        <span class="file-size">${this.formatFileSize(f.file.size)}</span>
-        ${f.error ? `<span class="error-message">${f.error}</span>` : ''}
-        <button class="remove-file btn btn-sm btn-link" onclick="uploader.removeFile(${i})">×</button>`;
+            <span class="file-size">${this.formatFileSize(f.file.size)}</span>
+            ${f.error ? `<span class="error-message">${f.error}</span>` : ''}
+            <button class="remove-file btn btn-sm btn-link" onclick="uploader.removeFile(${i})">×</button>`;
           this.fileList.appendChild(div);
         });
         this.updateStats();
         this.updateOptions();
       }
-
       updateOptions() {
         const valid = this.files.filter(f => f.isValid);
         if (valid.length) {
@@ -1173,49 +1158,37 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
             const div = document.createElement('div');
             div.className = 'file-options mb-2 p-2 border rounded';
             div.innerHTML = `<div class="row align-items-center">
-          <div class="col-md-8"><strong>${f.file.name}</strong><input type="text" class="form-control form-control-sm mt-1" name="desc_${i}" placeholder="Description"></div>
-          <div class="col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" name="hide_${i}" value="1" id="hide_${i}"><label for="hide_${i}"><i class="bi bi-eye-slash me-1"></i>Masquer client</label></div></div>
-        </div>`;
+              <div class="col-md-8"><strong>${f.file.name}</strong><input type="text" class="form-control form-control-sm mt-1" name="desc_${i}" placeholder="Description"></div>
+              <div class="col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" name="hide_${i}" value="1" id="hide_${i}"><label for="hide_${i}"><i class="bi bi-eye-slash me-1"></i>Masquer client</label></div></div>
+            </div>`;
             this.filesOptionsList.appendChild(div);
           });
         } else this.filesOptions.style.display = 'none';
       }
-
       updateStats() {
-        const valid = this.files.filter(f => f.isValid).length;
+        const valid   = this.files.filter(f => f.isValid).length;
         const invalid = this.files.length - valid;
-        this.validCount.textContent = valid;
+        this.validCount.textContent   = valid;
         this.invalidCount.textContent = invalid;
         if (this.files.length) {
-          this.stats.style.display = 'block';
-          this.uploadBtn.style.display = 'inline-block';
-          this.clearBtn.style.display = 'inline-block';
+          this.stats.style.display      = 'block';
+          this.uploadBtn.style.display  = 'inline-block';
+          this.clearBtn.style.display   = 'inline-block';
           this.progressFill.style.width = (valid / this.files.length * 100) + '%';
         } else {
-          this.stats.style.display = 'none';
+          this.stats.style.display     = 'none';
           this.uploadBtn.style.display = 'none';
-          this.clearBtn.style.display = 'none';
+          this.clearBtn.style.display  = 'none';
         }
       }
-
-      removeFile(index) {
-        this.files.splice(index, 1);
-        this.render();
-      }
-
-      clearAll() {
-        this.files = [];
-        this.render();
-        this.fileInput.value = '';
-      }
-
+      removeFile(index) { this.files.splice(index, 1); this.render(); }
+      clearAll() { this.files = []; this.render(); this.fileInput.value = ''; }
       formatFileSize(bytes) {
         if (!bytes) return '0 Bytes';
-        const k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const k = 1024, sizes = ['Bytes','KB','MB','GB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
       }
-
       async upload() {
         const valid = this.files.filter(f => f.isValid);
         if (!valid.length) return alert('Aucun fichier valide');
@@ -1225,13 +1198,13 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
           fd.append(`files[${i}]`, f.file);
           const desc = document.querySelector(`input[name="desc_${i}"]`);
           const hide = document.querySelector(`input[name="hide_${i}"]`);
-          if (desc?.value) fd.append(`descriptions[${i}]`, desc.value);
+          if (desc?.value)   fd.append(`descriptions[${i}]`, desc.value);
           if (hide?.checked) fd.append(`masque_client[${i}]`, '1');
         });
-        this.uploadBtn.disabled = true;
+        this.uploadBtn.disabled  = true;
         this.uploadBtn.innerHTML = '<i class="bi bi-arrow-clockwise spin me-1"></i>Upload...';
         try {
-          const res = await fetch('<?= BASE_URL ?>materiel/uploadAttachment', {
+          const res    = await fetch('<?= BASE_URL ?>materiel/uploadAttachment', {
             method: 'POST',
             headers: { 'X-CSRF-Token': '<?= csrf_token() ?>' },
             body: fd
@@ -1244,7 +1217,7 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
           } else alert('Erreur: ' + (result.error || 'Inconnue'));
         } catch (e) { alert('Erreur réseau'); }
         finally {
-          this.uploadBtn.disabled = false;
+          this.uploadBtn.disabled  = false;
           this.uploadBtn.innerHTML = '<i class="bi bi-upload me-1"></i>Uploader';
         }
       }
@@ -1275,210 +1248,225 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
               <?php foreach ($salles as $salle_nom => $materiels):
                 $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
                 $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
-                ?>
-                  (function () {
-                    const container = document.getElementById('excelTable-<?= $salle_id ?>');
-                    if (!container) return;
+              ?>
+                (function () {
+                  const container = document.getElementById('excelTable-<?= $salle_id ?>');
+                  if (!container) return;
 
-                    const data = <?= json_encode(array_map(function ($m) use ($allColumns, $pieces_jointes_count) {
-                      $rowData = [];
-                      foreach ($allColumns as $col) {
-                        if ($col['field'] === 'pieces_jointes') {
-                          $rowData[] = ['count' => $pieces_jointes_count[$m['id']] ?? 0, 'id' => $m['id'], 'name' => ($m['marque'] ?? '') . ' ' . ($m['modele'] ?? '')];
-                        } else {
-                          $rowData[] = $m[$col['field']] ?? '';
-                        }
+                  const data = <?= json_encode(array_map(function ($m) use ($allColumns, $pieces_jointes_count) {
+                    $rowData = [];
+                    foreach ($allColumns as $col) {
+                      if ($col['field'] === 'pieces_jointes') {
+                        $rowData[] = ['count' => $pieces_jointes_count[$m['id']] ?? 0, 'id' => $m['id'], 'name' => ($m['marque'] ?? '') . ' ' . ($m['modele'] ?? '')];
+                      } else {
+                        $rowData[] = $m[$col['field']] ?? '';
                       }
-                      return $rowData;
-                    }, $materiels)); ?>;
+                    }
+                    return $rowData;
+                  }, $materiels)); ?>;
 
-                    const COLUMN_FORMATS = {
-                      'date_fin_maintenance': { type: 'date', dateFormat: 'YYYY-MM-DD' },
-                      'date_fin_garantie': { type: 'date', dateFormat: 'YYYY-MM-DD' },
-                      'date_derniere_inter': { type: 'date', dateFormat: 'YYYY-MM-DD' },
-                    };
-                    const COLUMN_PLACEHOLDERS = {
-                      'date_fin_maintenance': 'YYYY-MM-DD',
-                      'date_fin_garantie': 'YYYY-MM-DD',
-                      'date_derniere_inter': 'YYYY-MM-DD',
-                      'adresse_ip': '192.168.1.1',
-                      'ip_primaire': '192.168.1.1',
-                      'ip_secondaire': '192.168.1.1',
-                      'passerelle': '172.24.158.230',
-                      'masque': '255.255.255.0',
-                      'adresse_mac': '00:0E:DD:FA:65:88',
-                      'mac_primaire': '00:0E:DD:FA:65:88',
-                      'mac_secondaire': '00:0E:DD:FA:65:88',
-                      'version_firmware': '10.0.8',
-                      'ancien_firmware': '10.0.8',
-                    };
+                  const COLUMN_FORMATS = {
+                    'date_fin_maintenance': { type: 'date', dateFormat: 'YYYY-MM-DD' },
+                    'date_fin_garantie':    { type: 'date', dateFormat: 'YYYY-MM-DD' },
+                    'date_derniere_inter':  { type: 'date', dateFormat: 'YYYY-MM-DD' },
+                  };
+                  const COLUMN_PLACEHOLDERS = {
+                    'date_fin_maintenance': 'YYYY-MM-DD',
+                    'date_fin_garantie':    'YYYY-MM-DD',
+                    'date_derniere_inter':  'YYYY-MM-DD',
+                    'adresse_ip':           '192.168.1.1',
+                    'ip_primaire':          '192.168.1.1',
+                    'ip_secondaire':        '192.168.1.1',
+                    'passerelle':           '172.24.158.230',
+                    'masque':               '255.255.255.0',
+                    'adresse_mac':          '00:0E:DD:FA:65:88',
+                    'mac_primaire':         '00:0E:DD:FA:65:88',
+                    'mac_secondaire':       '00:0E:DD:FA:65:88',
+                    'version_firmware':     '10.0.8',
+                    'ancien_firmware':      '10.0.8',
+                  };
 
-                    // ← accolade fermante APRÈS le return, pas avant allColumnFields
-                    function makePlaceholderRenderer(placeholder) {
-                      return function (instance, td, row, col, prop, value, cellProperties) {
-                        Handsontable.renderers.TextRenderer.apply(this, arguments);
-                        if (!value || value === '') {
-                          td.innerHTML = `<span style="color:#adb5bd;font-style:italic;pointer-events:none;">${placeholder}</span>`;
+                  function makePlaceholderRenderer(placeholder) {
+                    return function (instance, td, row, col, prop, value, cellProperties) {
+                      Handsontable.renderers.TextRenderer.apply(this, arguments);
+                      if (!value || value === '') {
+                        td.innerHTML = `<span style="color:#adb5bd;font-style:italic;pointer-events:none;">${placeholder}</span>`;
+                      }
+                    };
+                  }
+
+                  const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
+
+                  const columns = allColumnFields.map(field => {
+                    const fmt = COLUMN_FORMATS[field];
+                    const ph  = COLUMN_PLACEHOLDERS[field];
+                    if (!fmt) {
+                      if (!ph) return { type: 'text' };
+                      return { type: 'text', renderer: makePlaceholderRenderer(ph) };
+                    }
+                    if (fmt.type === 'date') {
+                      return {
+                        type: 'date',
+                        dateFormat: fmt.dateFormat,
+                        correctFormat: true,
+                        defaultDate: '',
+                        renderer: makePlaceholderRenderer(ph || 'YYYY-MM-DD'),
+                        datePickerConfig: {
+                          firstDay: 1,
+                          showWeekNumber: true,
+                          i18n: {
+                            previousMonth: 'Mois préc.',
+                            nextMonth:     'Mois suiv.',
+                            months:        ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+                            weekdays:      ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+                            weekdaysShort: ['Di','Lu','Ma','Me','Je','Ve','Sa']
+                          }
                         }
                       };
-                    }  // ← fin de makePlaceholderRenderer
+                    }
+                    if (fmt.validator) {
+                      return {
+                        type: 'text',
+                        renderer: makePlaceholderRenderer(ph),
+                        validator: function (value, callback) {
+                          if (!value || value === '') return callback(true);
+                          callback(fmt.validator.test(value));
+                        },
+                        allowInvalid: true
+                      };
+                    }
+                    return { type: 'text' };
+                  });
 
-                    const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
+                  const hot = new Handsontable(container, {
+                    data: data,
+                    colHeaders: <?= json_encode($colHeaders) ?>,
+                    columns: columns,
+                    hiddenColumns: {
+                      columns: (function () {
+                        const saved = localStorage.getItem('materiel_columns_visibility');
+                        if (!saved) return <?= json_encode($hiddenColumns) ?>;
+                        try {
+                          const state = JSON.parse(saved);
+                          return Object.keys(state).map(k => parseInt(k)).filter(k => state[k] === false);
+                        } catch (e) { return <?= json_encode($hiddenColumns) ?>; }
+                      })(),
+                      indicators: true
+                    },
+                    rowHeaders: false,
+                    licenseKey: 'non-commercial-and-evaluation',
+                    stretchH: 'all',
+                    height: 'auto',
+                    cells: function (row, col) {
+                      const header = this.colHeaders[col];
 
-                    const columns = allColumnFields.map(field => {
-                      const fmt = COLUMN_FORMATS[field];
-                      const ph = COLUMN_PLACEHOLDERS[field];
-
-                      if (!fmt) {
-                        if (!ph) return { type: 'text' };
-                        return { type: 'text', renderer: makePlaceholderRenderer(ph) };
+                      if (header === 'Marque') {
+                        return {
+                          renderer: function (instance, td, row, col, prop, value) {
+                            const id = instance.getDataAtCell(row, ID_INDEX);
+                            td.innerHTML = '';
+                            if (id) {
+                              const urlParams = new URLSearchParams(window.location.search);
+                              const link = document.createElement('a');
+                              link.href      = '<?= BASE_URL ?>materiel/view/' + id + (urlParams.toString() ? '?' + urlParams : '');
+                              link.className = 'text-decoration-none fw-bold text-primary';
+                              link.onclick   = e => e.stopPropagation();
+                              link.textContent = value || '';
+                              td.appendChild(link);
+                            } else {
+                              const span = document.createElement('span');
+                              span.className   = 'fw-bold text-primary';
+                              span.textContent = value || '';
+                              td.appendChild(span);
+                            }
+                            td.style.cursor = 'default';
+                          },
+                          editor: 'text'
+                        };
                       }
 
-                      if (fmt.type === 'date') {
+                      if (header === 'Modèle') {
                         return {
-                          type: 'date',
-                          dateFormat: fmt.dateFormat,
-                          correctFormat: true,
-                          defaultDate: '',
-                          renderer: makePlaceholderRenderer(ph || 'YYYY-MM-DD'),
-                          datePickerConfig: {
-                            firstDay: 1,
-                            showWeekNumber: true,
-                            i18n: {
-                              previousMonth: 'Mois préc.',
-                              nextMonth: 'Mois suiv.',
-                              months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-                              weekdays: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-                              weekdaysShort: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa']
-                            }
+                          renderer: function (instance, td, row, col, prop, value) {
+                            td.style.color           = '#000000';
+                            td.style.fontWeight      = 'normal';
+                            td.style.backgroundColor = '#f3e1b5';
+                            td.textContent           = value || '';
+                            td.style.cursor          = 'default';
+                          },
+                          editor: 'text'
+                        };
+                      }
+
+                      if (header === 'Pièces jointes') {
+                        return {
+                          renderer: function (instance, td, row, col, prop, value) {
+                            const count = value?.count ?? 0;
+                            const id    = value?.id;
+                            const name  = value?.name ?? '';
+                            td.innerHTML = `<button class="btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}"
+                              onclick="openAttachmentsModal(${id},'${name.replace(/'/g, "\\'")}')">
+                              <i class="bi bi-paperclip"></i>
+                              <span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'} ms-1">${count}</span>
+                            </button>`;
+                            td.style.textAlign = 'center';
                           }
                         };
                       }
 
-                      if (fmt.validator) {
-                        return {
-                          type: 'text',
-                          renderer: makePlaceholderRenderer(ph),
-                          validator: function (value, callback) {
-                            if (!value || value === '') return callback(true);
-                            callback(fmt.validator.test(value));
-                          },
-                          allowInvalid: true
-                        };
-                      }
+                      return {};
+                    }
+                  });
 
-                      return { type: 'text' };
-                    });
+                  hot.__salleId = <?= $materiels[0]['salle_id'] ?? 'null' ?>;
+                  hotInstances['excelTable-<?= $salle_id ?>'] = hot;
+                })();
+              <?php endforeach; ?>
+            <?php endforeach; ?>
+          <?php endforeach; ?>
+        <?php endforeach; ?>
 
-                    const hot = new Handsontable(container, {
-                      data: data,
-                      colHeaders: <?= json_encode($colHeaders) ?>,
-                      columns: columns,
-                      hiddenColumns: {
-                        columns: (function () {
-                          const saved = localStorage.getItem('materiel_columns_visibility');
-                          if (!saved) return <?= json_encode($hiddenColumns) ?>;
-                          try {
-                            const state = JSON.parse(saved);
-                            return Object.keys(state).map(k => parseInt(k)).filter(k => state[k] === false);
-                          } catch (e) { return <?= json_encode($hiddenColumns) ?>; }
-                        })(),
-                        indicators: true
-                      },
-                      rowHeaders: false,
-                      licenseKey: 'non-commercial-and-evaluation',
-                      stretchH: 'all',
-                      height: 'auto',
-                      cells: function (row, col) {
-                        const header = this.colHeaders[col];
-
-                        if (header === 'Marque') {
-                          return {
-                            renderer: function (instance, td, row, col, prop, value) {
-                              const id = instance.getDataAtCell(row, ID_INDEX);
-                              td.innerHTML = '';
-                              if (id) {
-                                const urlParams = new URLSearchParams(window.location.search);
-                                const link = document.createElement('a');
-                                link.href = '<?= BASE_URL ?>materiel/view/' + id + (urlParams.toString() ? '?' + urlParams : '');
-                                link.className = 'text-decoration-none fw-bold text-primary';
-                                link.onclick = e => e.stopPropagation();
-                                link.textContent = value || '';
-                                td.appendChild(link);
-                              } else {
-                                const span = document.createElement('span');
-                                span.className = 'fw-bold text-primary';
-                                span.textContent = value || '';
-                                td.appendChild(span);
-                              }
-                              td.style.cursor = 'default';
-                            },
-                            editor: 'text'
-                          };
-                        }
-
-                        if (header === 'Modèle') {
-                          return {
-                            renderer: function (instance, td, row, col, prop, value) {
-                              td.style.color = '#000000';
-                              td.style.fontWeight = 'normal';
-                              td.style.backgroundColor = '#f3e1b5';
-                              td.textContent = value || '';
-                              td.style.cursor = 'default';
-                            },
-                            editor: 'text'
-                          };
-                        }
-
-                        if (header === 'Pièces jointes') {
-                          return {
-                            renderer: function (instance, td, row, col, prop, value) {
-                              const count = value?.count ?? 0;
-                              const id = value?.id;
-                              const name = value?.name ?? '';
-                              td.innerHTML = `<button class="btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}"
-              onclick="openAttachmentsModal(${id},'${name.replace(/'/g, "\\'")}')">
-              <i class="bi bi-paperclip"></i>
-              <span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'} ms-1">${count}</span>
-            </button>`;
-                    td.style.textAlign = 'center';
-                  }
-                };
-              }
-
-              return {};
-            }
+        // ── CORRECTION : initialisation silencieuse des tableaux HOT ─────────────
+        // Ouvrir tous les accordéons le temps d'un double rAF pour que HOT
+        // calcule ses dimensions dans un conteneur visible, puis refermer.
+        requestAnimationFrame(() => {
+          document.querySelectorAll('.accordion-collapse').forEach(c => c.classList.add('show'));
+          requestAnimationFrame(() => {
+            Object.values(hotInstances).forEach(hot => hot.render());
+            document.querySelectorAll('.accordion-collapse').forEach(c => {
+              c.classList.remove('show');
+              const btn = c.closest('.accordion-item')?.querySelector('.accordion-button');
+              if (btn) btn.classList.add('collapsed');
+            });
           });
+        });
 
-          hot.__salleId = <?= $materiels[0]['salle_id'] ?? 'null' ?>;
-          hotInstances['excelTable-<?= $salle_id ?>'] = hot;
-        })();
-      <?php endforeach; ?>
-      <?php endforeach; ?>
-      <?php endforeach; ?>
-      <?php endforeach; ?>
       <?php endif; ?>
 
       const saved = restoreColumnVisibility();
       if (saved) {
         setTimeout(() => {
-          Object.keys(saved).forEach(col => applyColumnVisibility(parseInt(col), saved[col] === true || saved[col] === 'true'));
+          Object.keys(saved).forEach(col =>
+            applyColumnVisibility(parseInt(col), saved[col] === true || saved[col] === 'true')
+          );
         }, 100);
       }
 
       const searchInput = document.getElementById('globalSearch');
-      const clearBtn = document.getElementById('clearGlobalSearch');
-      const openBtn = document.getElementById('openAllAccordions');
-      const closeBtn = document.getElementById('closeAllAccordions');
+      const clearBtn    = document.getElementById('clearGlobalSearch');
+      const openBtn     = document.getElementById('openAllAccordions');
+      const closeBtn    = document.getElementById('closeAllAccordions');
 
-      if (searchInput) searchInput.addEventListener('keyup', applyGlobalSearch);
-      if (clearBtn) clearBtn.addEventListener('click', () => { searchInput.value = ''; applyGlobalSearch(); });
-      if (openBtn) openBtn.addEventListener('click', openAllAccordions);
-      if (closeBtn) closeBtn.addEventListener('click', closeAllAccordions);
+      // CORRECTION : 'input' au lieu de 'keyup' — réagit immédiatement
+      // à chaque frappe, collé, coupé, ou effacement via la croix du champ
+      if (searchInput) searchInput.addEventListener('input', applyGlobalSearch);
+      if (clearBtn)    clearBtn.addEventListener('click', () => { searchInput.value = ''; applyGlobalSearch(); });
+      if (openBtn)     openBtn.addEventListener('click', openAllAccordions);
+      if (closeBtn)    closeBtn.addEventListener('click', closeAllAccordions);
 
       document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
         cb.addEventListener('change', function () {
-          const col = parseInt(this.dataset.col);
+          const col     = parseInt(this.dataset.col);
           const visible = this.checked;
           Object.values(hotInstances).forEach(hot => {
             const p = hot.getPlugin('hiddenColumns');
@@ -1490,20 +1478,20 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       });
     });
 
+    // ── saveAllTablesData ─────────────────────────────────────────────────────────
     window.saveAllTablesData = function () {
       let totalUpdated = 0;
       let totalCreated = 0;
-      let totalErrors = 0;
-      const savePromises = [];
-      const errorDetails = [];
+      let totalErrors  = 0;
+      const savePromises       = [];
+      const errorDetails       = [];
       const missingFieldsErrors = [];
-      // ── Validation globale AVANT tout envoi ──────────────────────────────
+
       const allValidationErrors = [];
       Object.keys(hotInstances).forEach(tableId => {
         const hot = hotInstances[tableId];
         if (!hot) return;
         hot.getSourceData().forEach((row, i) => {
-          // Ignorer les lignes totalement vides
           if (!row[MARQUE_INDEX] && !row[MODELE_INDEX]) return;
           allValidationErrors.push(...validateRow(row, i));
         });
@@ -1514,13 +1502,12 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
           `<strong>Format invalide — sauvegarde annulée</strong><br><br>` +
           `Corrigez les champs suivants avant de sauvegarder :<br><br>` +
           allValidationErrors.slice(0, 6).join('<br>') +
-          (allValidationErrors.length > 6
-            ? `<br><em>... et ${allValidationErrors.length - 6} autre(s) erreur(s)</em>`
-            : ''),
+          (allValidationErrors.length > 6 ? `<br><em>... et ${allValidationErrors.length - 6} autre(s) erreur(s)</em>` : ''),
           'danger'
         );
-        return; // ← bloque tout, rien n'est envoyé
+        return;
       }
+
       Object.keys(hotInstances).forEach(tableId => {
         const hot = hotInstances[tableId];
         if (!hot) return;
@@ -1531,10 +1518,7 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
 
         if (!globalSalleId && allData.length > 0) {
           for (const row of allData) {
-            if (row[ID_INDEX]) {
-              globalSalleId = filters.salle_id || null;
-              break;
-            }
+            if (row[ID_INDEX]) { globalSalleId = filters.salle_id || null; break; }
           }
         }
 
@@ -1543,34 +1527,26 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
           return;
         }
 
-        // Séparer les lignes existantes et nouvelles
         const existingRows = [];
-        const newRows = [];
-
+        const newRows      = [];
         for (let i = 0; i < allData.length; i++) {
           const row = allData[i];
           if (row[ID_INDEX] && row[ID_INDEX] !== '' && row[ID_INDEX] !== null) {
-            existingRows.push({ row: row, originalIndex: i });
+            existingRows.push({ row, originalIndex: i });
           } else {
-            newRows.push({ row: row, originalIndex: i });
+            newRows.push({ row, originalIndex: i });
           }
         }
 
-        // Traitement des mises à jour (lignes existantes)
         if (existingRows.length > 0) {
           const formattedData = existingRows.map(item => {
             const row = item.row;
             const obj = {};
-
-            // Inclure l'ID pour la mise à jour
             obj['id'] = row[ID_INDEX];
-
             <?php foreach ($allColumns as $col): ?>
-            <?php if ($col['field'] === 'pieces_jointes')
-              continue; ?>
+            <?php if ($col['field'] === 'pieces_jointes') continue; ?>
             obj['<?= $col['field'] ?>'] = row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || null;
             <?php endforeach; ?>
-
             return obj;
           });
 
@@ -1580,38 +1556,31 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
               headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': '<?= csrf_token() ?>' },
               body: JSON.stringify({ table_id: tableId, salle_id: globalSalleId, data: formattedData })
             })
-              .then(r => r.json())
-              .then(result => {
-                if (result.status === 'success' || result.status === 'partial') {
-                  totalUpdated += result.updated || 0;
-                  if (result.errors && result.errors.length > 0) {
-                    errorDetails.push(...result.errors);
-                  }
-                } else if (result.updated > 0) {
-                  totalUpdated += result.updated || 0;
-                } else {
-                  totalErrors++;
-                  errorDetails.push(`Mise à jour échouée`);
-                }
-              })
-              .catch((error) => {
+            .then(r => r.json())
+            .then(result => {
+              if (result.status === 'success' || result.status === 'partial') {
+                totalUpdated += result.updated || 0;
+                if (result.errors?.length > 0) errorDetails.push(...result.errors);
+              } else if (result.updated > 0) {
+                totalUpdated += result.updated || 0;
+              } else {
                 totalErrors++;
-                errorDetails.push(`Erreur réseau lors de la mise à jour`);
-              })
+                errorDetails.push('Mise à jour échouée');
+              }
+            })
+            .catch(() => { totalErrors++; errorDetails.push('Erreur réseau lors de la mise à jour'); })
           );
         }
 
-        // Traitement des créations (nouvelles lignes)
         for (let idx = 0; idx < newRows.length; idx++) {
-          const row = newRows[idx].row;
+          const row    = newRows[idx].row;
           const marque = row[MARQUE_INDEX];
           const modele = row[MODELE_INDEX];
 
-          if (!marque || marque.trim() === '' || !modele || modele.trim() === '') {
+          if (!marque?.trim() || !modele?.trim()) {
             const manquants = [];
-            if (!marque || marque.trim() === '') manquants.push('Marque');
-            if (!modele || modele.trim() === '') manquants.push('Modèle');
-
+            if (!marque?.trim()) manquants.push('Marque');
+            if (!modele?.trim()) manquants.push('Modèle');
             missingFieldsErrors.push(`• Équipement sans ${manquants.join(' et ')}`);
             totalErrors++;
             continue;
@@ -1619,16 +1588,13 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
 
           const fd = new FormData();
           fd.append('salle_id', globalSalleId);
-
           <?php foreach ($allColumns as $col): ?>
-          <?php if ($col['field'] === 'pieces_jointes')
-            continue; ?>
+          <?php if ($col['field'] === 'pieces_jointes') continue; ?>
           fd.append('<?= $col['field'] ?>', row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || '');
           <?php endforeach; ?>
-
           if (filters.client_id) fd.append('return_client_id', filters.client_id);
-          if (filters.site_id) fd.append('return_site_id', filters.site_id);
-          if (filters.salle_id) fd.append('return_salle_id', filters.salle_id);
+          if (filters.site_id)   fd.append('return_site_id',   filters.site_id);
+          if (filters.salle_id)  fd.append('return_salle_id',  filters.salle_id);
 
           const marqueRef = marque, modeleRef = modele;
           savePromises.push(
@@ -1637,19 +1603,15 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
               headers: { 'X-CSRF-Token': '<?= csrf_token() ?>' },
               body: fd
             })
-              .then(async response => {
-                if (response.status >= 200 && response.status < 400) {
-                  totalCreated++;
-                } else {
-                  totalErrors++;
-                  const errorText = await response.text();
-                  errorDetails.push(`Échec création "${marqueRef} ${modeleRef}" : ${response.status}`);
-                }
-              })
-              .catch((error) => {
+            .then(async response => {
+              if (response.status >= 200 && response.status < 400) {
+                totalCreated++;
+              } else {
                 totalErrors++;
-                errorDetails.push(`Erreur réseau pour "${marqueRef} ${modeleRef}"`);
-              })
+                errorDetails.push(`Échec création "${marqueRef} ${modeleRef}" : ${response.status}`);
+              }
+            })
+            .catch(() => { totalErrors++; errorDetails.push(`Erreur réseau pour "${marqueRef} ${modeleRef}"`); })
           );
         }
       });
@@ -1663,89 +1625,50 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
         const successParts = [];
         if (totalUpdated > 0) successParts.push(`${totalUpdated} mise(s) à jour`);
         if (totalCreated > 0) successParts.push(`${totalCreated} équipement(s) créé(s)`);
-
-        const successMessage = successParts.length > 0 ? successParts.join(', ') : '';
+        const successMessage = successParts.join(', ');
 
         let errorMessage = '';
         if (totalErrors > 0) {
           if (missingFieldsErrors.length > 0) {
-            errorMessage = `<br><br><strong>Problèmes détectés :</strong><br>`;
+            errorMessage  = `<br><br><strong>Problèmes détectés :</strong><br>`;
             errorMessage += missingFieldsErrors.slice(0, 5).join('<br>');
-            if (missingFieldsErrors.length > 5) {
-              errorMessage += `<br><em>... et ${missingFieldsErrors.length - 5} autre(s) ligne(s) avec champs manquants</em>`;
-            }
-            errorMessage += `<br><br><strong>Solution :</strong><br>`;
-            errorMessage += `Remplissez la <strong>Marque</strong> et le <strong>Modèle</strong> pour chaque nouvel équipement avant de sauvegarder.`;
-          }
-
-          if (errorDetails.length > 0 && missingFieldsErrors.length === 0) {
-            errorMessage = `<br><br><strong>Erreurs rencontrées :</strong><br>`;
+            if (missingFieldsErrors.length > 5) errorMessage += `<br><em>... et ${missingFieldsErrors.length - 5} autre(s)</em>`;
+            errorMessage += `<br><br><strong>Solution :</strong><br>Remplissez la <strong>Marque</strong> et le <strong>Modèle</strong> avant de sauvegarder.`;
+          } else if (errorDetails.length > 0) {
+            errorMessage  = `<br><br><strong>Erreurs rencontrées :</strong><br>`;
             errorMessage += errorDetails.slice(0, 3).join('<br>');
-            if (errorDetails.length > 3) {
-              errorMessage += `<br><em>... et ${errorDetails.length - 3} autre(s) erreur(s)</em>`;
-            }
+            if (errorDetails.length > 3) errorMessage += `<br><em>... et ${errorDetails.length - 3} autre(s)</em>`;
           }
         }
 
         if (totalErrors === 0 && (totalUpdated > 0 || totalCreated > 0)) {
-          showToast(
-            `<strong>Sauvegarde réussie !</strong><br><br>${successMessage}<br><br>Toutes les modifications ont été enregistrées.`,
-            'success'
-          );
+          showToast(`<strong>Sauvegarde réussie !</strong><br><br>${successMessage}<br><br>Toutes les modifications ont été enregistrées.`, 'success');
           if (totalCreated > 0) setTimeout(() => window.location.reload(), 2000);
-
         } else if (totalErrors > 0 && (totalUpdated > 0 || totalCreated > 0)) {
-          showToast(
-            `<strong>Sauvegarde partielle</strong><br><br>` +
-            `${successMessage}<br>` +
-            `${totalErrors} erreur(s)` +
-            errorMessage,
-            'danger'
-          );
+          showToast(`<strong>Sauvegarde partielle</strong><br><br>${successMessage}<br>${totalErrors} erreur(s)${errorMessage}`, 'danger');
           if (totalCreated > 0) setTimeout(() => window.location.reload(), 3000);
-
-        } else if (totalErrors > 0 && totalUpdated === 0 && totalCreated === 0) {
+        } else if (totalErrors > 0) {
           let mainMessage = `<strong>Sauvegarde impossible</strong><br><br>`;
-
           if (missingFieldsErrors.length > 0) {
-            mainMessage += `${missingFieldsErrors.length} ligne(s) avec des informations manquantes.<br><br>`;
+            mainMessage += `${missingFieldsErrors.length} ligne(s) avec informations manquantes.<br><br>`;
             mainMessage += `<strong>Comment corriger :</strong><br>`;
-            mainMessage += `• Remplissez la <strong>Marque</strong> et le <strong>Modèle</strong> pour chaque nouvel équipement<br>`;
-            mainMessage += `• Utilisez le bouton <strong>"Ajouter"</strong> pour créer une nouvelle ligne<br>`;
-            mainMessage += `• Assurez-vous que tous les champs obligatoires sont complétés avant de sauvegarder<br><br>`;
+            mainMessage += `• Remplissez la <strong>Marque</strong> et le <strong>Modèle</strong><br>`;
+            mainMessage += `• Utilisez <strong>"Ajouter un équipement"</strong> pour créer une nouvelle ligne<br><br>`;
             mainMessage += `<strong>Lignes concernées :</strong><br>`;
             mainMessage += missingFieldsErrors.slice(0, 3).join('<br>');
-            if (missingFieldsErrors.length > 3) {
-              mainMessage += `<br><em>... et ${missingFieldsErrors.length - 3} autre(s) ligne(s)</em>`;
-            }
+            if (missingFieldsErrors.length > 3) mainMessage += `<br><em>... et ${missingFieldsErrors.length - 3} autre(s)</em>`;
           } else {
-            mainMessage += `Aucune donnée n'a pu être sauvegardée.<br><br>`;
-            mainMessage += `<strong>Vérifiez :</strong><br>`;
-            mainMessage += `• Que vous avez bien rempli tous les champs obligatoires<br>`;
-            mainMessage += `• Que votre connexion internet est stable<br>`;
-            mainMessage += `• Que vous avez les droits nécessaires<br>`;
-            if (errorDetails.length > 0) {
-              mainMessage += `<br><strong>Détails :</strong><br>`;
-              mainMessage += errorDetails.slice(0, 2).join('<br>');
-            }
+            mainMessage += `Aucune donnée sauvegardée.<br><br><strong>Vérifiez :</strong><br>• Champs obligatoires remplis<br>• Connexion internet stable<br>• Droits suffisants`;
+            if (errorDetails.length > 0) mainMessage += `<br><br><strong>Détails :</strong><br>${errorDetails.slice(0, 2).join('<br>')}`;
           }
-
           showToast(mainMessage, 'danger');
-
         } else {
-          showToast(
-            `ℹ<strong>Aucune modification détectée</strong><br><br>Aucune donnée n'a été modifiée ou ajoutée.`,
-            'info'
-          );
+          showToast('ℹ<strong>Aucune modification détectée</strong><br><br>Aucune donnée n\'a été modifiée ou ajoutée.', 'info');
         }
-      }).catch((error) => {
+      }).catch(() => {
         showToast(
-          `<strong>Erreur système</strong><br><br>` +
-          `Une erreur inattendue s'est produite lors de la sauvegarde.<br><br>` +
-          `<strong>Actions recommandées :</strong><br>` +
-          `• Rafraîchissez la page (F5)<br>` +
-          `• Vérifiez votre connexion internet<br>` +
-          `• Contactez le support si le problème persiste`,
+          `<strong>Erreur système</strong><br><br>Une erreur inattendue s'est produite.<br><br>` +
+          `<strong>Actions recommandées :</strong><br>• Rafraîchissez la page (F5)<br>• Vérifiez votre connexion<br>• Contactez le support`,
           'danger'
         );
       });
@@ -1754,20 +1677,13 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
 
   <style>
     @keyframes spin {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
     }
-
     .bi-arrow-clockwise.spin {
       animation: spin 1s linear infinite;
       display: inline-block;
     }
-
     .btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;

@@ -406,10 +406,6 @@ try {
                 case 'index':
                     $dashboardController->index();
                     break;
-                case 'search':
-                    $dashboardController->searchLocations();
-                    break;
-                case '':
                 default:
                     header('Location: ' . BASE_URL . 'dashboard');
                     break;
@@ -1616,6 +1612,9 @@ try {
                     break;
                 case 'deleteBulk':
                     $materielController->deleteBulk();
+                    break;
+                case 'search':
+                    $materielController->search();
                     break;
                 default:
                     header('Location: ' . BASE_URL . 'materiel');

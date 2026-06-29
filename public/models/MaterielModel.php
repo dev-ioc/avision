@@ -991,4 +991,95 @@ class MaterielModel extends BaseModel
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    /**
+     * Recherche globale de matériel dans tous les champs
+     * 
+     * @param string $keyword Le terme de recherche
+     * @return array Liste des matériels correspondants
+     */
+    public function searchMateriel($keyword)
+    {
+        $keyword = '%' . $keyword . '%';
+
+        $sql = "SELECT DISTINCT 
+            m.*, 
+            c.name as client_nom, 
+            c.id as client_id,
+            s.name as site_nom, 
+            s.id as site_id,
+            b.name as building_nom, 
+            b.id as building_id,
+            r.name as salle_nom, 
+            r.id as salle_id
+    FROM materiels m
+    LEFT JOIN rooms r ON m.salle_id = r.id
+    LEFT JOIN buildings b ON r.building_id = b.id
+    LEFT JOIN sites s ON b.site_id = s.id
+    LEFT JOIN clients c ON s.client_id = c.id
+    WHERE 
+        m.marque LIKE :keyword 
+        OR m.modele LIKE :keyword 
+        OR m.numero_serie LIKE :keyword 
+        OR m.adresse_ip LIKE :keyword 
+        OR m.adresse_mac LIKE :keyword 
+        OR m.type_materiel LIKE :keyword 
+        OR m.reference LIKE :keyword 
+        OR m.commentaire LIKE :keyword 
+        OR m.version_firmware LIKE :keyword
+        OR m.ancien_firmware LIKE :keyword
+        OR m.login LIKE :keyword
+        OR m.password LIKE :keyword
+        OR m.ssid LIKE :keyword
+        OR m.libelle_pa_salle LIKE :keyword
+        OR m.id_materiel LIKE :keyword
+        OR m.ip_primaire LIKE :keyword
+        OR m.mac_primaire LIKE :keyword
+        OR m.ip_secondaire LIKE :keyword
+        OR m.mac_secondaire LIKE :keyword
+        OR m.stream_aes67_recu LIKE :keyword
+        OR m.stream_aes67_transmis LIKE :keyword
+        OR m.url_github LIKE :keyword
+        OR c.name LIKE :keyword 
+        OR s.name LIKE :keyword 
+        OR b.name LIKE :keyword 
+        OR r.name LIKE :keyword
+    ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':keyword' => $keyword]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Récupère les compteurs de pièces jointes pour plusieurs matériels
+     * 
+     * @param array $ids Tableau d'IDs de matériels
+     * @return array Tableau associatif [materiel_id => count]
+     */
+    public function getPiecesJointesCounts($ids)
+    {
+        if (empty($ids)) {
+            return [];
+        }
+
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+        $sql = "SELECT l.entite_id as materiel_id, COUNT(p.id) as count
+            FROM liaisons_pieces_jointes l
+            INNER JOIN pieces_jointes p ON l.piece_jointe_id = p.id
+            WHERE l.entite_id IN ($placeholders)
+            AND l.type_liaison = 'materiel'
+            GROUP BY l.entite_id";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($ids);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $counts = [];
+        foreach ($results as $row) {
+            $counts[$row['materiel_id']] = (int) $row['count'];
+        }
+
+        return $counts;
+    }
 }
