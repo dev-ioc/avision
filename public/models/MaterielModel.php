@@ -10,77 +10,74 @@ class MaterielModel extends BaseModel
     }
 
     /**
-     * Récupère tous les matériels avec filtres
-     * 
-     * @param array $filters Les filtres à appliquer
-     * @return array Liste des matériels
+     * Récupère tous les matériels avec filtres optionnels
+     * Supporte la recherche globale indépendante des filtres
      */
     public function getAllMateriel($filters = [])
     {
-        $where = [];
-        $params = [];
-
-        // Filtre par client
-        if (!empty($filters['client_id'])) {
-            $where[] = "c.id = :client_id";
-            $params[':client_id'] = $filters['client_id'];
-        }
-
-        // Filtre par site - CORRIGÉ : utiliser $filters au lieu de $params
-        if (!empty($filters['site_id'])) {
-            $where[] = "s.id = :site_id";
-            $params[':site_id'] = $filters['site_id'];
-        }
-
-        // Filtre par bâtiment
-        if (!empty($filters['building_id'])) {
-            $where[] = "b.id = :building_id";
-            $params[':building_id'] = $filters['building_id'];
-        }
-
-        // Filtre par salle
-        if (!empty($filters['salle_id'])) {
-            $where[] = "m.salle_id = :salle_id";
-            $params[':salle_id'] = $filters['salle_id'];
-        }
-
-        // Requête avec la hiérarchie complète
-        $query = "
+        $sql = "
         SELECT 
             m.*,
-            r.name as salle_nom,
-            r.id as salle_id,
-            b.name as building_nom,
-            b.id as building_id,
-            s.name as site_nom,
-            s.id as site_id,
             c.name as client_nom,
-            c.id as client_id,
-            m.type_materiel as type_nom
+            s.name as site_nom,
+            b.name as building_nom,
+            sal.name as salle_nom
         FROM materiel m
-        INNER JOIN rooms r ON m.salle_id = r.id 
-        INNER JOIN buildings b ON r.building_id = b.id 
-        INNER JOIN sites s ON b.site_id = s.id
-        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
-        WHERE 1=1 AND deleted_at IS NULL
+        LEFT JOIN rooms sal ON m.salle_id = sal.id
+        LEFT JOIN buildings b ON sal.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE 1=1
     ";
 
-        // Ajouter la clause WHERE s'il y a des conditions
-        if (!empty($where)) {
-            $query .= " AND " . implode(" AND ", $where);
+        $params = [];
+
+        // Gestion de la recherche globale - IGNORE les autres filtres
+        if (!empty($filters['search'])) {
+            $searchTerm = '%' . $filters['search'] . '%';
+            $sql .= " AND (
+            m.marque LIKE ? OR
+            m.modele LIKE ? OR
+            m.type_materiel LIKE ? OR
+            m.numero_serie LIKE ? OR
+            m.reference LIKE ? OR
+            m.adresse_ip LIKE ? OR
+            m.adresse_mac LIKE ? OR
+            m.version_firmware LIKE ? OR
+            m.usage_materiel LIKE ? OR
+            m.commentaire LIKE ? OR
+            c.name LIKE ? OR
+            s.name LIKE ? OR
+            b.name LIKE ? OR
+            sal.name LIKE ?
+        )";
+            // 14 paramètres pour les 14 champs
+            for ($i = 0; $i < 14; $i++) {
+                $params[] = $searchTerm;
+            }
+        } else {
+            if (!empty($filters['client_id'])) {
+                $sql .= " AND c.id = ?";
+                $params[] = $filters['client_id'];
+            }
+            if (!empty($filters['site_id'])) {
+                $sql .= " AND s.id = ?";
+                $params[] = $filters['site_id'];
+            }
+            if (!empty($filters['building_id'])) {
+                $sql .= " AND b.id = ?";
+                $params[] = $filters['building_id'];
+            }
+            if (!empty($filters['salle_id'])) {
+                $sql .= " AND sal.id = ?";
+                $params[] = $filters['salle_id'];
+            }
         }
 
-        $query .= " ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele";
+        $sql .= " ORDER BY c.name, s.name, b.name, sal.name, m.marque, m.modele";
 
-        custom_log("SQL Materiel: " . $query, 'DEBUG');
-        custom_log("Params: " . json_encode($params), 'DEBUG');
-
-        $stmt = $this->db->prepare($query);
-        foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
-        }
-        $stmt->execute();
-
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     /**

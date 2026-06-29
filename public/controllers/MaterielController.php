@@ -46,9 +46,10 @@ class MaterielController
             'client_id' => isset($_GET['client_id']) ? (int) $_GET['client_id'] : null,
             'site_id' => isset($_GET['site_id']) ? (int) $_GET['site_id'] : null,
             'building_id' => isset($_GET['building_id']) ? (int) $_GET['building_id'] : null,
-            'salle_id' => isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null
+            'salle_id' => isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null,
+            'search' => isset($_GET['search']) ? $_GET['search'] : null
         ];
-        $materiel_list = $this->materielModel->getAllMateriel($filters);
+
         // Récupération des données pour les listes déroulantes
         $clients = $this->clientModel->getAllClients();
 
@@ -73,7 +74,7 @@ class MaterielController
             }
         }
 
-        // Récupération du matériel
+        // Récupération du matériel AVEC ou SANS recherche globale
         $materiel_list = $this->materielModel->getAllMateriel($filters);
         $visibilites_champs = [];
         $pieces_jointes_count = [];
@@ -88,6 +89,10 @@ class MaterielController
 
         $currentPage = 'materiel';
         $pageTitle = 'Gestion du Matériel';
+
+        // Variables pour la recherche globale
+        $isGlobalSearch = !empty($filters['search']);
+        $globalSearchTerm = $isGlobalSearch ? $filters['search'] : '';
 
         require_once VIEWS_PATH . '/materiel/index.php';
     }
@@ -2008,6 +2013,91 @@ class MaterielController
             custom_log("Erreur lors de la récupération des salles : " . $e->getMessage(), 'ERROR');
             http_response_code(500);
             echo json_encode(['error' => 'Erreur lors de la récupération des salles']);
+        }
+    }
+    /**
+     * Recherche globale de matériel - sans dépendre des filtres
+     * Retourne tous les équipements correspondant au terme de recherche
+     */
+    public function globalSearch()
+    {
+        // Vérifier si l'utilisateur est connecté
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            exit;
+        }
+
+        $searchTerm = $_GET['q'] ?? '';
+        if (strlen($searchTerm) < 2) {
+            echo json_encode(['results' => []]);
+            exit;
+        }
+
+        $searchTerm = '%' . $searchTerm . '%';
+
+        // Récupérer tous les équipements correspondant à la recherche, SANS filtres
+        $sql = "
+        SELECT 
+            m.*,
+            c.name as client_nom,
+            s.name as site_nom,
+            b.name as building_nom,
+            sal.name as salle_nom,
+            sal.id as salle_id,
+            s.id as site_id,
+            b.id as building_id,
+            c.id as client_id
+        FROM materiel m
+        LEFT JOIN clients c ON m.client_id = c.id
+        LEFT JOIN sites s ON m.site_id = s.id
+        LEFT JOIN buildings b ON m.building_id = b.id
+        LEFT JOIN salles sal ON m.salle_id = sal.id
+        WHERE 
+            m.marque LIKE ? OR
+            m.modele LIKE ? OR
+            m.type_materiel LIKE ? OR
+            m.numero_serie LIKE ? OR
+            m.reference LIKE ? OR
+            m.adresse_ip LIKE ? OR
+            m.adresse_mac LIKE ? OR
+            m.version_firmware LIKE ? OR
+            m.usage_materiel LIKE ? OR
+            m.commentaire LIKE ? OR
+            c.name LIKE ? OR
+            s.name LIKE ? OR
+            b.name LIKE ? OR
+            sal.name LIKE ?
+        ORDER BY c.name, s.name, b.name, sal.name
+    ";
+
+        $params = array_fill(0, 15, $searchTerm); // 15 paramètres pour les 15 champs recherchés
+
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Organiser les résultats par client > site > bâtiment > salle
+            $organized = [];
+            foreach ($results as $item) {
+                $client = $item['client_nom'] ?? 'Sans client';
+                $site = $item['site_nom'] ?? 'Sans site';
+                $building = $item['building_nom'] ?? 'Sans bâtiment';
+                $salle = $item['salle_nom'] ?? 'Sans salle';
+
+                $organized[$client][$site][$building][$salle][] = $item;
+            }
+
+            echo json_encode([
+                'success' => true,
+                'total' => count($results),
+                'organized' => $organized,
+                'flat' => $results
+            ]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur de recherche: ' . $e->getMessage()]);
         }
     }
 }

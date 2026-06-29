@@ -1613,8 +1613,8 @@ try {
                 case 'deleteBulk':
                     $materielController->deleteBulk();
                     break;
-                case 'search':
-                    $materielController->search();
+                case 'global_search':
+                    $materielController->globalSearch();
                     break;
                 default:
                     header('Location: ' . BASE_URL . 'materiel');
