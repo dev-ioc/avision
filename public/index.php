@@ -406,6 +406,10 @@ try {
                 case 'index':
                     $dashboardController->index();
                     break;
+                case 'search':
+                    $dashboardController->searchLocations();
+                    break;
+                case '':
                 default:
                     header('Location: ' . BASE_URL . 'dashboard');
                     break;

@@ -118,7 +118,9 @@ class InterventionController
             'room_id' => $_GET['room_id'] ?? null,
             'status_id' => $_GET['status_id'] ?? null,
             'priority_id' => $_GET['priority_id'] ?? null,
-            'search' => $_GET['search'] ?? null
+            'search' => $_GET['search'] ?? null,
+            'order_by' => 'created_at',
+            'order_dir' => 'DESC'
         ];
 
         // Déterminer l'onglet actif
@@ -194,7 +196,8 @@ class InterventionController
             'status_id' => $_GET['status_id'] ?? null,
             'priority_id' => $_GET['priority_id'] ?? null,
             'search' => $_GET['search'] ?? null,
-            'is_preventive' => 0  // Utiliser le champ is_preventive
+            'is_preventive' => 0,
+            'order_by' => 'created_at',
         ];
 
         // Récupérer les interventions curatives

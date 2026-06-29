@@ -27,7 +27,6 @@ class DashboardController
     /**
      * Dashboard pour le personnel (admin, technicien)
      */
-
     private function staffDashboard()
     {
         // Vérifier que l'utilisateur est staff (sécurité)
@@ -56,6 +55,28 @@ class DashboardController
 
             // AJOUT : Récupérer la liste des clients pour le modal Flash Intervention
             $clients = $this->getAllClients($db);
+
+            // NOUVEAU : Récupérer les interventions en cours pour l'utilisateur connecté
+            $userId = $_SESSION['user']['id'] ?? null;
+            $userType = $_SESSION['user']['user_type'] ?? '';
+            $userOpenInterventions = [];
+            $dashboardTitle = 'Interventions en cours';
+
+            if ($userId) {
+                if ($userType === 'technician') {
+                    // Pour les techniciens : interventions qui leur sont assignées
+                    $userOpenInterventions = $this->getTechnicianOpenInterventions($db, $userId);
+                    $dashboardTitle = 'Mes interventions en cours';
+                } elseif ($userType === 'sales') {
+                    // Pour les commerciaux : interventions des clients dont ils s'occupent
+                    $userOpenInterventions = $this->getSalesOpenInterventions($db, $userId);
+                    $dashboardTitle = 'Interventions de mes clients';
+                } else {
+                    // Admin : voir toutes les interventions ouvertes
+                    $userOpenInterventions = $this->getAllOpenInterventions($db);
+                    $dashboardTitle = 'Toutes les interventions en cours';
+                }
+            }
 
             // Préparer les données pour les graphiques camembert
             $pieChartLabelsNonPreventive = [];
@@ -96,7 +117,9 @@ class DashboardController
             $pieChartLabelsPreventive = [];
             $pieChartSeriesPreventive = [];
             $pieChartColorsPreventive = [];
-            $clients = []; // AJOUT : Initialiser $clients vide en cas d'erreur
+            $clients = [];
+            $userOpenInterventions = [];
+            $dashboardTitle = 'Interventions en cours';
 
             // Log de l'erreur
             custom_log("Erreur lors du chargement des statistiques du dashboard : " . $e->getMessage(), 'ERROR');
@@ -106,6 +129,7 @@ class DashboardController
         // La vue dashboard/staff.php a besoin de $clients
         require_once VIEWS_PATH . '/dashboard/staff.php';
     }
+
     /**
      * Récupère la liste de tous les clients
      */
@@ -117,6 +141,7 @@ class DashboardController
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
     /**
      * Dashboard pour les clients
      */
@@ -583,5 +608,214 @@ class DashboardController
             'contractsValue' => $contractsValue,
             'tarifTicket' => $tarifTicket
         ];
+    }
+
+    /**
+     * Récupère les interventions en cours (status_id = 2) assignées à un technicien
+     */
+    private function getTechnicianOpenInterventions($db, $userId)
+    {
+        try {
+            $stmt = $db->prepare("
+                SELECT 
+                    i.id, 
+                    i.reference, 
+                    i.title, 
+                    i.created_at,
+                    i.client_id,
+                    c.name as client_name,
+                    s.name as site_name,
+                    b.name as building_name,
+                    r.name as room_name,
+                    its.name as status_name,
+                    its.color as status_color,
+                    ip.name as priority_name,
+                    ip.color as priority_color,
+                    GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') as technicians_names
+                FROM interventions i
+                JOIN intervention_techniciens it ON i.id = it.intervention_id
+                JOIN clients c ON i.client_id = c.id
+                LEFT JOIN sites s ON i.site_id = s.id
+                LEFT JOIN buildings b ON i.building_id = b.id
+                LEFT JOIN rooms r ON i.room_id = r.id
+                JOIN intervention_statuses its ON i.status_id = its.id
+                JOIN intervention_priorities ip ON i.priority_id = ip.id
+                LEFT JOIN users u ON it.technicien_id = u.id
+                WHERE it.technicien_id = :user_id
+                  AND i.status_id = 2  
+                GROUP BY i.id
+                ORDER BY 
+                    CASE ip.name 
+                        WHEN 'Urgent' THEN 1 
+                        WHEN 'Élevée' THEN 2 
+                        WHEN 'Moyenne' THEN 3 
+                        WHEN 'Basse' THEN 4 
+                        ELSE 5 
+                    END,
+                    i.created_at DESC
+                LIMIT 20
+            ");
+
+            $stmt->execute(['user_id' => $userId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (Exception $e) {
+            custom_log("Erreur récupération interventions technicien : " . $e->getMessage(), 'ERROR');
+            return [];
+        }
+    }
+
+    /**
+     * Récupère les interventions en cours (status_id = 2) des clients d'un commercial
+     */
+    private function getSalesOpenInterventions($db, $userId)
+    {
+        try {
+            // Récupérer d'abord les clients associés au commercial
+            $clients = $this->getSalesClients($db, $userId);
+
+            if (empty($clients)) {
+                return [];
+            }
+
+            $clientIds = array_column($clients, 'id');
+            $placeholders = implode(',', array_fill(0, count($clientIds), '?'));
+
+            $stmt = $db->prepare("
+                SELECT 
+                    i.id, 
+                    i.reference, 
+                    i.title, 
+                    i.created_at,
+                    i.client_id,
+                    c.name as client_name,
+                    s.name as site_name,
+                    b.name as building_name,
+                    r.name as room_name,
+                    its.name as status_name,
+                    its.color as status_color,
+                    ip.name as priority_name,
+                    ip.color as priority_color,
+                    GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') as technicians_names
+                FROM interventions i
+                JOIN clients c ON i.client_id = c.id
+                LEFT JOIN sites s ON i.site_id = s.id
+                LEFT JOIN buildings b ON i.building_id = b.id
+                LEFT JOIN rooms r ON i.room_id = r.id
+                JOIN intervention_statuses its ON i.status_id = its.id
+                JOIN intervention_priorities ip ON i.priority_id = ip.id
+                LEFT JOIN intervention_techniciens it ON i.id = it.intervention_id
+                LEFT JOIN users u ON it.technicien_id = u.id
+                WHERE i.client_id IN ($placeholders)
+                  AND i.status_id = 2  
+                GROUP BY i.id
+                ORDER BY 
+                    CASE ip.name 
+                        WHEN 'Urgent' THEN 1 
+                        WHEN 'Élevée' THEN 2 
+                        WHEN 'Moyenne' THEN 3 
+                        WHEN 'Basse' THEN 4 
+                        ELSE 5 
+                    END,
+                    i.created_at DESC
+                LIMIT 20
+            ");
+
+            $stmt->execute($clientIds);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (Exception $e) {
+            custom_log("Erreur récupération interventions commercial : " . $e->getMessage(), 'ERROR');
+            return [];
+        }
+    }
+
+    /**
+     * Récupère les clients associés à un commercial
+     */
+    private function getSalesClients($db, $userId)
+    {
+        try {
+            // Vérifier d'abord si la table client_sales existe
+            $tableExists = $db->query("
+                SELECT COUNT(*) FROM information_schema.tables 
+                WHERE table_schema = DATABASE() 
+                AND table_name = 'client_sales'
+            ")->fetchColumn();
+
+            if (!$tableExists) {
+                // Si la table n'existe pas, retourner tous les clients
+                return $this->getAllClients($db);
+            }
+
+            $stmt = $db->prepare("
+                SELECT DISTINCT c.id, c.name 
+                FROM clients c
+                JOIN client_sales cs ON c.id = cs.client_id
+                WHERE cs.sales_id = :user_id
+                ORDER BY c.name
+            ");
+            $stmt->execute(['user_id' => $userId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (Exception $e) {
+            custom_log("Erreur récupération clients commercial : " . $e->getMessage(), 'ERROR');
+            // En cas d'erreur, retourner tous les clients
+            return $this->getAllClients($db);
+        }
+    }
+
+    /**
+     * Récupère toutes les interventions en cours (status_id = 2) pour les admins
+     */
+    private function getAllOpenInterventions($db)
+    {
+        try {
+            $stmt = $db->prepare("
+                SELECT 
+                    i.id, 
+                    i.reference, 
+                    i.title, 
+                    i.created_at,
+                    i.client_id,
+                    c.name as client_name,
+                    s.name as site_name,
+                    b.name as building_name,
+                    r.name as room_name,
+                    its.name as status_name,
+                    its.color as status_color,
+                    ip.name as priority_name,
+                    ip.color as priority_color,
+                    GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') as technicians_names
+                FROM interventions i
+                JOIN clients c ON i.client_id = c.id
+                LEFT JOIN sites s ON i.site_id = s.id
+                LEFT JOIN buildings b ON i.building_id = b.id
+                LEFT JOIN rooms r ON i.room_id = r.id
+                JOIN intervention_statuses its ON i.status_id = its.id
+                JOIN intervention_priorities ip ON i.priority_id = ip.id
+                LEFT JOIN intervention_techniciens it ON i.id = it.intervention_id
+                LEFT JOIN users u ON it.technicien_id = u.id
+                WHERE i.status_id = 2  
+                GROUP BY i.id
+                ORDER BY 
+                    CASE ip.name 
+                        WHEN 'Urgent' THEN 1 
+                        WHEN 'Élevée' THEN 2 
+                        WHEN 'Moyenne' THEN 3 
+                        WHEN 'Basse' THEN 4 
+                        ELSE 5 
+                    END,
+                    i.created_at DESC
+                LIMIT 20
+            ");
+
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (Exception $e) {
+            custom_log("Erreur récupération toutes interventions : " . $e->getMessage(), 'ERROR');
+            return [];
+        }
     }
 }

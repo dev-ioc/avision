@@ -125,7 +125,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title mb-0">
-                                    <i class="bi bi-tools me-2"></i>Interventions en cours
+                                    <i class="bi bi-tools me-2"></i>Interventions Ouvertes
                                 </h5>
                             </div>
                             <div class="card-body">
