@@ -104482,3 +104482,94 @@ Quant à l’écran n°1, il est HS
 [2026-06-30 10:53:09][INFO] 37 
 [2026-06-30 10:53:09][INFO] 38 
 [2026-06-30 10:53:09][INFO] 36 
+[2026-06-30 10:59:27][INFO] 37 
+[2026-06-30 10:59:27][INFO] 38 
+[2026-06-30 10:59:27][INFO] 36 
+[2026-06-30 10:59:27][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":835,"errno":2}
+[2026-06-30 10:59:27][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":835,"errno":2}
+[2026-06-30 10:59:27][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":835,"errno":2}
+[2026-06-30 10:59:27][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":835,"errno":2}
+[2026-06-30 10:59:27][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":788,"errno":2}
+[2026-06-30 10:59:27][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":788,"errno":2}
+[2026-06-30 10:59:27][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":788,"errno":2}
+[2026-06-30 10:59:27][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":788,"errno":2}
+[2026-06-30 10:59:27][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":788,"errno":2}
+[2026-06-30 10:59:27][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":788,"errno":2}
+[2026-06-30 10:59:27][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":788,"errno":2}
+[2026-06-30 10:59:27][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":788,"errno":2}
+[2026-06-30 11:06:12][INFO] 37 
+[2026-06-30 11:06:12][INFO] 38 
+[2026-06-30 11:06:12][INFO] 36 
+[2026-06-30 11:06:12][ERROR] syntax error, unexpected token ":", expecting "," or ";" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":835,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(429): ClientController->view('23')\n#1 {main}","type":"ParseError"}
+[2026-06-30 11:06:43][INFO] 37 
+[2026-06-30 11:06:43][INFO] 38 
+[2026-06-30 11:06:43][INFO] 36 
+[2026-06-30 11:06:43][CRITICAL] Unparenthesized `a ? b : c ? d : e` is not supported. Use either `(a ? b : c) ? d : e` or `a ? b : (c ? d : e)` {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":813,"type":64}
+[2026-06-30 11:08:24][INFO] 37 
+[2026-06-30 11:08:24][INFO] 38 
+[2026-06-30 11:08:24][INFO] 36 
+[2026-06-30 11:08:24][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:08:24][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:08:24][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:08:24][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:08:24][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:08:24][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:08:24][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:08:24][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:09:50][INFO] 37 
+[2026-06-30 11:09:50][INFO] 38 
+[2026-06-30 11:09:50][INFO] 36 
+[2026-06-30 11:09:50][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:09:50][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:09:50][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:09:50][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:09:50][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:09:50][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:09:50][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:09:50][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:10:17][INFO] 37 
+[2026-06-30 11:10:17][INFO] 38 
+[2026-06-30 11:10:17][INFO] 36 
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":766,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":812,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":812,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":812,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":812,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":812,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":812,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":812,"errno":2}
+[2026-06-30 11:10:17][WARNING] Undefined array key "status" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":812,"errno":2}
+[2026-06-30 11:11:52][INFO] 37 
+[2026-06-30 11:11:52][INFO] 38 
+[2026-06-30 11:11:52][INFO] 36 
+[2026-06-30 11:12:50][INFO] 37 
+[2026-06-30 11:12:50][INFO] 38 
+[2026-06-30 11:12:50][INFO] 36 
+[2026-06-30 11:13:31][INFO] 37 
+[2026-06-30 11:13:31][INFO] 38 
+[2026-06-30 11:13:31][INFO] 36 
+[2026-06-30 11:14:15][INFO] 37 
+[2026-06-30 11:14:15][INFO] 38 
+[2026-06-30 11:14:15][INFO] 36 
+[2026-06-30 11:15:20][INFO] 37 
+[2026-06-30 11:15:20][INFO] 38 
+[2026-06-30 11:15:20][INFO] 36 
+[2026-06-30 11:15:55][INFO] 37 
+[2026-06-30 11:15:55][INFO] 38 
+[2026-06-30 11:15:55][INFO] 36 
+[2026-06-30 11:20:44][INFO] 37 
+[2026-06-30 11:20:44][INFO] 38 
+[2026-06-30 11:20:44][INFO] 36 
+[2026-06-30 11:21:17][INFO] 37 
+[2026-06-30 11:21:17][INFO] 38 
+[2026-06-30 11:21:17][INFO] 36 
+[2026-06-30 11:21:50][INFO] 37 
+[2026-06-30 11:21:50][INFO] 38 
+[2026-06-30 11:21:50][INFO] 36 
