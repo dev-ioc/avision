@@ -104917,3 +104917,21 @@ Quant à l’écran n°1, il est HS
 [2026-06-30 15:11:13][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\php1012.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/252/accueil_marqued_active.png 
 [2026-06-30 15:11:13][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/252/accueil_marqued_active.png 
 [2026-06-30 15:11:13][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: accueil_marqued_active.PNG (ID: 845) 
+[2026-06-30 15:21:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 3d9f04f9237e7ed4928f... 
+[2026-06-30 15:21:48][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-30 15:21:48][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-30 15:21:48][DEBUG] Login réussi - Session ID: 3f00uj43el5j5t8evnmoe8r4b6 
+[2026-06-30 15:21:48][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 15:21:48][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 15:21:48][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 15:21:48][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 15:30:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 15:30:46][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-06-30 15:30:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 15:30:55][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-30 15:30:55][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-30 15:30:55][DEBUG] Login réussi - Session ID: abvltu9tqgjav1d1ltmplbrj4q 
+[2026-06-30 15:30:55][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 15:30:55][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 15:30:55][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 15:30:55][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
