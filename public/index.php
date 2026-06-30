@@ -1286,6 +1286,15 @@ try {
                 case 'createSignNowWebhook':
                     $interventionController->createSignNowWebhook();
                     break;
+                case 'saveLocalSignature':
+                    if ($id) {
+                        $interventionController->saveLocalSignature($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => false, 'message' => 'ID manquant']);
+                        exit;
+                    }
+                    break;
             }
             break;
 

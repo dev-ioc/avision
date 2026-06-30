@@ -54,7 +54,8 @@ class InterventionPDF extends TCPDF
         $selectedAttachments = [],
         $technicians = [],
         $equipment = [],
-        $replacedParts = []
+        $replacedParts = [],
+        $signatures = []
     ) {
 
         // =====================================================
@@ -104,7 +105,7 @@ class InterventionPDF extends TCPDF
         $this->Ln(5);
 
         // Section 6
-        $this->renderClosure($intervention, $technicians, $selectedAttachments);
+        $this->renderClosure($intervention, $technicians, $selectedAttachments, $signatures);
 
         $this->Ln(2);
 
@@ -1076,9 +1077,8 @@ class InterventionPDF extends TCPDF
      * Conforme à la maquette client
      * =========================================================
      */
-    private function renderClosure($intervention, $technicians, $selectedAttachments)
+    private function renderClosure($intervention, $technicians, $selectedAttachments, $signatures = [])
     {
-
         $this->sectionTitle('6. CLÔTURE & SIGNATURES');
 
         // =====================================================
@@ -1086,6 +1086,7 @@ class InterventionPDF extends TCPDF
         // =====================================================
 
         $topY = $this->GetY();
+        $signY = $topY + 22;
 
         // Cadres principaux
         $this->Rect(10, $topY, 95, 22);
@@ -1096,9 +1097,7 @@ class InterventionPDF extends TCPDF
         // -------------------------
 
         $this->SetXY(14, $topY + 4);
-
         $this->SetFont('helvetica', 'B', 9);
-
         $this->Cell(50, 5, 'Retour nécessaire', 0, 1);
 
         $this->SetFont('helvetica', '', 9);
@@ -1107,7 +1106,6 @@ class InterventionPDF extends TCPDF
         // Oui
         $this->Rect(14, $topY + 11, 4, 4);
         if ($needsCompletion == 1) {
-            // Cocher la case Oui
             $this->Line(14, $topY + 11, 18, $topY + 15);
             $this->Line(18, $topY + 11, 14, $topY + 15);
         }
@@ -1117,31 +1115,26 @@ class InterventionPDF extends TCPDF
         // Non
         $this->Rect(14, $topY + 17, 4, 4);
         if ($needsCompletion == 0) {
-            // Cocher la case Non (intervention clôturée)
             $this->Line(14, $topY + 17, 18, $topY + 21);
             $this->Line(18, $topY + 17, 14, $topY + 21);
         }
         $this->SetXY(20, $topY + 16);
         $this->Cell(80, 5, 'Non – Intervention clôturée');
+
         // -------------------------
         // PHOTOS JOINTES
         // -------------------------
         $this->SetXY(109, $topY + 4);
-
         $this->SetFont('helvetica', 'B', 9);
-
         $this->Cell(45, 5, 'Photos jointes', 0, 1);
 
         $this->SetFont('helvetica', '', 9);
 
-        // Compter le nombre de photos jointes
         $photosCount = count($selectedAttachments);
         $hasPhotos = ($photosCount > 0);
 
-        // Case Oui
         $this->Rect(109, $topY + 11, 4, 4);
         if ($hasPhotos) {
-            // Cocher la case Oui
             $this->Line(109, $topY + 11, 113, $topY + 15);
             $this->Line(113, $topY + 11, 109, $topY + 15);
         }
@@ -1149,7 +1142,6 @@ class InterventionPDF extends TCPDF
         $this->SetXY(115, $topY + 10);
         $this->Cell(17, 5, 'Oui – Nb : ', 0, 0);
 
-        // Afficher le nombre avec soulignement
         if ($hasPhotos) {
             $this->SetDrawColor(0, 0, 0);
             $this->Cell(5, 3, $photosCount, 'B', 0, 'L');
@@ -1159,10 +1151,8 @@ class InterventionPDF extends TCPDF
             $this->Cell(10, 5, '', 'B', 0, 'L');
         }
 
-        // Case Non
         $this->Rect(153, $topY + 11, 4, 4);
         if (!$hasPhotos) {
-            // Cocher la case Non
             $this->Line(153, $topY + 11, 157, $topY + 15);
             $this->Line(157, $topY + 11, 153, $topY + 15);
         }
@@ -1171,22 +1161,15 @@ class InterventionPDF extends TCPDF
         $this->Cell(20, 5, 'Non', 0, 0);
 
         // =====================================================
-        // BLOC SIGNATURES
+        // BLOC SIGNATURES — un seul rendu des cadres, fond + bordure
         // =====================================================
 
-        $signY = $topY + 22;
-
-        // Cadres signatures
+        // Cadre gauche (technicien) : bordure simple, fond blanc
         $this->Rect(10, $signY, 95, 52);
-        $this->Rect(105, $signY, 95, 52);
 
-        // Fond beige client
+        // Cadre droit (client) : fond beige + bordure, dessinés UNE SEULE FOIS ici
         $this->SetFillColor(248, 243, 226);
-
-        $this->Rect(105, $signY, 95, 52, 'F');
-
-        // Reborde après fill
-        $this->Rect(105, $signY, 95, 52);
+        $this->Rect(105, $signY, 95, 52, 'DF'); // 'DF' = Draw + Fill en un seul appel, évite le double-dessin
 
         // -------------------------
         // SIGNATURE TECHNICIEN
@@ -1197,19 +1180,14 @@ class InterventionPDF extends TCPDF
         $this->SetTextColor(42, 74, 92);
         $this->Cell(60, 5, 'Signature technicien');
 
-        // Récupération des noms des techniciens
         $intervenants = '';
-
         if (!empty($technicians)) {
-            $intervenants = implode(
-                ', ',
-                array_column($technicians, 'first_name')
-            );
+            $intervenants = implode(', ', array_column($technicians, 'first_name'));
         }
+
         $this->SetFont('helvetica', '', 9);
         $this->SetTextColor(0, 0, 0);
 
-        // Nom du technicien (ligne 1)
         $this->SetXY(14, $signY + 12);
         $this->SetFont('helvetica', '', 9);
         $this->SetTextColor(0, 0, 0);
@@ -1217,12 +1195,10 @@ class InterventionPDF extends TCPDF
         $this->SetFont('helvetica', 'I', 8);
         $this->Cell(60, 5, $intervenants, 'B', 0, 'L');
 
-        // Date (ligne 2, en dessous du nom)
         $this->SetXY(14, $signY + 19);
         $this->SetFont('helvetica', '', 9);
         $this->Cell(10, 5, "Date : ", 0, 0, 'L');
 
-        // Date ligne soulignée
         $this->SetFont('helvetica', 'I', 7);
         $this->SetDrawColor(0, 0, 0);
 
@@ -1237,8 +1213,9 @@ class InterventionPDF extends TCPDF
         $this->Cell(2, 5, $slash, 0, 0, 'L');
         $this->Cell(6, 5, $year, 'B', 0, 'L');
 
-        // Restaurer la couleur de bordure par défaut (NOIRE)
         $this->SetDrawColor($this->border[0], $this->border[1], $this->border[2]);
+
+        // -------------------------
         // SIGNATURE CLIENT
         // -------------------------
 
@@ -1247,7 +1224,6 @@ class InterventionPDF extends TCPDF
         $this->SetTextColor(42, 74, 92);
         $this->Cell(70, 5, 'Bon pour accord client');
 
-        // Nom du client (ligne 1)
         $this->SetXY(109, $signY + 12);
         $this->SetFont('helvetica', '', 9);
         $this->SetTextColor(0, 0, 0);
@@ -1259,12 +1235,10 @@ class InterventionPDF extends TCPDF
         }
         $this->Cell(60, 5, $clientName, 'B', 0, 'L');
 
-        // Date (ligne 2, en dessous du nom)
         $this->SetXY(109, $signY + 19);
         $this->SetFont('helvetica', '', 9);
         $this->Cell(10, 5, "Date : ", 0, 0, 'L');
 
-        // Date ligne soulignée
         $this->SetFont('helvetica', 'I', 7);
         $this->SetDrawColor(0, 0, 0);
 
@@ -1274,38 +1248,39 @@ class InterventionPDF extends TCPDF
         $this->Cell(2, 5, $slash, 0, 0, 'L');
         $this->Cell(6, 5, $year, 'B', 0, 'L');
 
-        // Mention vérification
+        $this->SetDrawColor($this->border[0], $this->border[1], $this->border[2]);
+
         $this->SetXY(111, $signY + 31);
         $this->SetFont('helvetica', 'I', 8);
         $this->SetTextColor(0, 0, 0);
         $this->Cell(70, 4, '☐ Sous réserve de vérification');
 
-        // Mention légale
         $this->SetXY(111, $signY + 36);
         $this->SetTextColor(120, 120, 120);
         $this->Cell(80, 4, 'La signature vaut acceptation des travaux réalisés.');
 
-        // Mention vérification
-        $this->SetXY(111, $signY + 31);
+        // =========================================================
+        // INTÉGRATION DES IMAGES DE SIGNATURE
+        // Insérées EN DERNIER, après tout le texte/fond, pour ne pas
+        // être recouvertes par un remplissage ultérieur du cadre.
+        // =========================================================
+        $uploadRoot = __DIR__ . '/../../'; // adapter selon l'emplacement réel de InterventionPDF.php
 
-        $this->SetFont('helvetica', 'I', 8);
+        // Signature technicien : sous "Date :", dans l'espace libre du cadre gauche
+        if (!empty($signatures['technicien'])) {
+            $techImgPath = $uploadRoot . $signatures['technicien'];
+            if (file_exists($techImgPath)) {
+                $this->Image($techImgPath, 16, $signY + 26, 55, 18, 'PNG', '', '', false, 300, '', false, false, 0);
+            }
+        }
 
-        $this->Cell(
-            70,
-            4,
-            '☐ Sous réserve de vérification'
-        );
-
-        // Mention légale
-        $this->SetXY(111, $signY + 36);
-
-        $this->SetTextColor(120, 120, 120);
-
-        $this->Cell(
-            80,
-            4,
-            'La signature vaut acceptation des travaux réalisés.'
-        );
+        // Signature client : sous la mention légale, dans l'espace libre restant du cadre droit
+        if (!empty($signatures['client'])) {
+            $clientImgPath = $uploadRoot . $signatures['client'];
+            if (file_exists($clientImgPath)) {
+                $this->Image($clientImgPath, 111, $signY + 41, 60, 9, 'PNG', '', '', false, 300, '', false, false, 0);
+            }
+        }
 
         // =====================================================
         // BAS : QR + INFOS
@@ -1313,17 +1288,12 @@ class InterventionPDF extends TCPDF
 
         $bottomY = $signY + 52;
 
-        // Bloc gauche
         $this->Rect(10, $bottomY, 95, 26);
 
-        // Bloc droite bleu clair
         $this->SetFillColor(236, 242, 244);
-
         $this->Rect(105, $bottomY, 95, 26, 'F');
-
         $this->Rect(105, $bottomY, 95, 26);
 
-        // QR CODE
         $style = [
             'border' => 0,
             'padding' => 0,
@@ -1331,73 +1301,38 @@ class InterventionPDF extends TCPDF
             'bgcolor' => false
         ];
 
-        $this->write2DBarcode(
-            'AVision Ticket',
-            'QRCODE,L',
-            18,
-            $bottomY + 4,
-            12,
-            12,
-            $style,
-            'N'
-        );
+        $this->write2DBarcode('AVision Ticket', 'QRCODE,L', 18, $bottomY + 4, 12, 12, $style, 'N');
 
-        // Texte QR
         $this->SetXY(34, $bottomY + 16);
-
         $this->SetFont('helvetica', 'I', 8);
-
         $this->SetTextColor(70, 70, 70);
+        $this->Cell(60, 4, 'Accès à la fiche ticket AVision (lecture client)');
 
-        $this->Cell(
-            60,
-            4,
-            'Accès à la fiche ticket AVision (lecture client)'
-        );
-
-        // Texte droite
         $this->SetXY(111, $bottomY + 4);
-
         $this->SetFont('helvetica', 'I', 7);
-
         $this->SetTextColor(60, 80, 95);
-
-        $this->Cell(
-            80,
-            4,
-            'Bon généré par AVision Pro – Document confidentiel VIDEOSONIC'
-        );
+        $this->Cell(80, 4, 'Bon généré par AVision Pro – Document confidentiel VIDEOSONIC');
 
         $this->SetXY(111, $bottomY + 10);
-
-        // Couleur texte noire
         $this->SetTextColor(0, 0, 0);
 
         $heure = date('H');
         $minute = date('i');
         $version = '1.0';
 
-        // "Généré le :" sans soulignement
         $this->Cell(22, 5, 'Généré le :', 0, 0, 'L');
 
-        // Date soulignée (format JJ/MM/AAAA)
         $this->Cell(4, 1, $day, 'B', 0, 'L');
         $this->Cell(1.5, 1, $slash);
         $this->Cell(4, 1, $month, 'B', 0, 'L');
         $this->Cell(1.5, 1, $slash);
         $this->Cell(6, 1, $year, 'B', 0, 'L');
-        // "à" sans soulignement
         $this->Cell(4, 1, ' à ', 0, 0, 'L');
-
-        // Heure soulignée (HH)
         $this->Cell(6, 1, $heure . " h", 'B', 0, 'L');
-        // Minute soulignée (mm)
         $this->Cell(6, 1, $minute . "'", 'B', 0, 'L');
-        // " – Version V" sans soulignement
         $this->Cell(15, 5, ' – Version V', 0, 0, 'L');
-
-        // Version soulignée
         $this->Cell(10, 1, $version, 'B', 0, 'L');
+
         $this->SetY($bottomY + 28);
     }
 

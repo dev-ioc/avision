@@ -579,12 +579,19 @@ $closeReason = [];
 											</small>
 										</div>
 										<div>
+											<?php if ($isBI && canModifyInterventions() && $intervention['status_id'] != 6): ?>
+												<button type="button" class="btn btn-sm btn-outline-success btn-action"
+													data-bs-toggle="modal" data-bs-target="#localSignatureModal"
+													onclick="openLocalSignatureModal(<?= $attachment['id'] ?>)" title="Signer ce bon">
+													<i class="bi bi-pen"></i>
+												</button>
+											<?php endif; ?>
 											<?php if ($isBI && canModifyInterventions()): ?>
 												<button type="button" class="btn btn-sm btn-outline-success btn-action"
 													data-bs-toggle="modal" data-bs-target="#signatureModal"
 													onclick="openSignatureModal(<?= $attachment['id'] ?>)"
-													title="Envoyer pour signature">
-													<i class="bi bi-pen"></i>
+													title="Envoyer pour signature (SignNow)">
+													<i class="bi bi-send"></i>
 												</button>
 											<?php endif; ?>
 											<?php if ($isPdf): ?>
@@ -804,7 +811,155 @@ $closeReason = [];
 	<?php else: ?>
 		<div class="alert alert-danger">Intervention introuvable.</div>
 	<?php endif; ?>
+	<!-- Modal Signature locale (technicien / client) sur un bon déjà généré -->
+	<div class="modal fade" id="localSignatureModal" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><i class="bi bi-pen me-2"></i>Signature du bon d'intervention</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">
+					<ul class="nav nav-tabs" id="signTabs">
+						<li class="nav-item">
+							<button class="nav-link active" data-bs-toggle="tab"
+								data-bs-target="#tab-tech">Technicien</button>
+						</li>
+						<li class="nav-item">
+							<button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-client">Client</button>
+						</li>
+					</ul>
 
+					<div class="tab-content mt-3">
+						<div class="tab-pane fade show active" id="tab-tech">
+							<p class="text-muted small">Le technicien signe ici</p>
+							<canvas id="signature-tech" width="700" height="200"
+								style="border:1px solid #ccc;border-radius:6px;touch-action:none;width:100%;height:200px;"></canvas>
+							<div class="mt-2">
+								<button type="button" class="btn btn-sm btn-outline-secondary"
+									id="clear-tech">Effacer</button>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="tab-client">
+							<p class="text-muted small">Le client signe ici (bon pour accord)</p>
+							<canvas id="signature-client" width="700" height="200"
+								style="border:1px solid #ccc;border-radius:6px;touch-action:none;width:100%;height:200px;"></canvas>
+							<div class="mt-2">
+								<button type="button" class="btn btn-sm btn-outline-secondary"
+									id="clear-client">Effacer</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+					<button type="button" class="btn btn-success" id="btnSaveSignatures">
+						<i class="bi bi-check-lg me-1"></i> Valider et générer le PDF signé
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.6/dist/signature_pad.umd.min.js"></script>
+	<script>
+		// ID de la pièce jointe (bon déjà généré) que l'on est en train de signer
+		window.currentSignAttachmentId = null;
+
+		function openLocalSignatureModal(attachmentId) {
+			window.currentSignAttachmentId = attachmentId;
+		}
+
+		const canvasTech = document.getElementById('signature-tech');
+		const canvasClient = document.getElementById('signature-client');
+
+		function resizeCanvas(canvas) {
+			const ratio = Math.max(window.devicePixelRatio || 1, 1);
+			const rect = canvas.getBoundingClientRect();
+			if (rect.width === 0 || rect.height === 0) return false;
+			canvas.width = rect.width * ratio;
+			canvas.height = rect.height * ratio;
+			canvas.getContext('2d').scale(ratio, ratio);
+			return true;
+		}
+
+		const padTech = new SignaturePad(canvasTech, { backgroundColor: 'rgb(255,255,255)' });
+		const padClient = new SignaturePad(canvasClient, { backgroundColor: 'rgb(255,255,255)' });
+
+		const resizedLocal = { tech: false, client: false };
+
+		document.getElementById('localSignatureModal').addEventListener('shown.bs.modal', () => {
+			if (!resizedLocal.tech) resizedLocal.tech = resizeCanvas(canvasTech);
+		});
+
+		document.querySelectorAll('#signTabs button[data-bs-toggle="tab"]').forEach(tabButton => {
+			tabButton.addEventListener('shown.bs.tab', (event) => {
+				const target = event.target.getAttribute('data-bs-target');
+				if (target === '#tab-tech' && !resizedLocal.tech) resizedLocal.tech = resizeCanvas(canvasTech);
+				if (target === '#tab-client' && !resizedLocal.client) resizedLocal.client = resizeCanvas(canvasClient);
+			});
+		});
+
+		document.getElementById('localSignatureModal').addEventListener('hidden.bs.modal', () => {
+			padTech.clear();
+			padClient.clear();
+			resizedLocal.tech = false;
+			resizedLocal.client = false;
+			window.currentSignAttachmentId = null;
+			const techTabButton = document.querySelector('#signTabs button[data-bs-target="#tab-tech"]');
+			if (techTabButton) bootstrap.Tab.getOrCreateInstance(techTabButton).show();
+		});
+
+		document.getElementById('clear-tech').addEventListener('click', () => padTech.clear());
+		document.getElementById('clear-client').addEventListener('click', () => padClient.clear());
+
+		document.getElementById('btnSaveSignatures').addEventListener('click', async () => {
+			if (!window.currentSignAttachmentId) {
+				showAlert('Aucun bon sélectionné pour la signature', 'warning');
+				return;
+			}
+			if (padTech.isEmpty() && padClient.isEmpty()) {
+				showAlert('Veuillez signer au moins un champ', 'warning');
+				return;
+			}
+
+			const btn = document.getElementById('btnSaveSignatures');
+			btn.disabled = true;
+			btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Génération...';
+
+			const payload = {
+				technicien_signature: padTech.isEmpty() ? null : padTech.toDataURL('image/png'),
+				client_signature: padClient.isEmpty() ? null : padClient.toDataURL('image/png'),
+			};
+
+			try {
+				const res = await fetch(`${window.BASE_URL}interventions/saveLocalSignature/${window.currentSignAttachmentId}`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRF-Token': window.CSRF_TOKEN || '',
+					},
+					body: JSON.stringify(payload)
+				});
+
+				const data = await res.json();
+
+				if (data.success) {
+					showAlert('Bon signé généré avec succès', 'success');
+					bootstrap.Modal.getInstance(document.getElementById('localSignatureModal')).hide();
+					window.open(data.pdf_url, '_blank');
+					setTimeout(() => location.reload(), 1000);
+				} else {
+					showAlert(data.message || 'Erreur lors de la signature', 'danger');
+				}
+			} catch (e) {
+				showAlert('Erreur réseau lors de la signature', 'danger');
+			} finally {
+				btn.disabled = false;
+				btn.innerHTML = '<i class="bi bi-check-lg me-1"></i> Valider et générer le PDF signé';
+			}
+		});
+	</script>
 </div><!-- /container -->
 
 <!-- ════════════════════════════════════════════════════════════════════════

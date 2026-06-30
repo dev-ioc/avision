@@ -4131,55 +4131,41 @@ class InterventionController
      * @param array $replacedParts Pièces remplacées (optionnel)
      * @return string Chemin du fichier PDF généré
      */
-    private function generateBonInterventionPdf($intervention, $comments, $attachments, $technicians = [], $equipment = [], $replacedParts = [])
-    {
-        // Créer le dossier de stockage s'il n'existe pas
+    private function generateBonInterventionPdf(
+        $intervention,
+        $comments,
+        $attachments,
+        $technicians = [],
+        $equipment = [],
+        $replacedParts = [],
+        $signatures = []
+    ) {
         $uploadDir = __DIR__ . '/../../uploads/interventions/' . $intervention['id'];
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
 
-        // Générer un nom de fichier unique avec la date et l'heure
-        $fileName = 'BI_' . $intervention['reference'] . '_' . date('Ymd') . '_' . date('Hi') . '.pdf';
+        $fileName = 'BI_signe_' . $intervention['reference'] . '_' . date('Ymd_His') . '.pdf';
         $filePath = $uploadDir . '/' . $fileName;
 
-        // Charger la classe InterventionPDF
         require_once __DIR__ . '/../classes/InterventionPDF.php';
 
-        // Créer et générer le PDF avec les éléments sélectionnés
         $pdf = new InterventionPDF();
-        $pdf->generateBonIntervention($intervention, $comments, $attachments, $technicians, $equipment, $replacedParts);
+        $pdf->generateBonIntervention($intervention, $comments, $attachments, $technicians, $equipment, $replacedParts, $signatures);
         $pdf->Output($filePath, 'F');
 
-        // Ajouter le PDF comme pièce jointe
         $data = [
             'nom_fichier' => $fileName,
-            'nom_personnalise' => 'Bon_intervention_' . date('Ymd'),
+            'nom_personnalise' => 'Bon_intervention_signe_' . date('Ymd'),
             'chemin_fichier' => 'uploads/interventions/' . $intervention['id'] . '/' . $fileName,
             'type_fichier' => 'pdf',
             'taille_fichier' => filesize($filePath),
-            'commentaire' => 'Bon d\'intervention généré automatiquement',
+            'commentaire' => 'Bon d\'intervention signé électroniquement',
             'masque_client' => 0,
             'created_by' => $_SESSION['user']['id']
         ];
 
         $this->interventionModel->addPieceJointeWithType($intervention['id'], $data, 'bi');
-
-        // Enregistrer l'action dans l'historique
-        $sql = "INSERT INTO intervention_history (
-            intervention_id, field_name, old_value, new_value, changed_by, description
-        ) VALUES (
-            :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
-        )";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            ':intervention_id' => $intervention['id'],
-            ':field_name' => 'bon_intervention',
-            ':old_value' => '',
-            ':new_value' => 'Bon_intervention_' . date('Ymd'),
-            ':changed_by' => $_SESSION['user']['id'],
-            ':description' => 'Bon d\'intervention généré avec les éléments sélectionnés'
-        ]);
 
         return $filePath;
     }
@@ -6454,5 +6440,171 @@ class InterventionController
             ]);
         }
         exit;
+    }
+    /**
+     * Reçoit les signatures (base64 PNG) du canvas pour un BON DÉJÀ GÉNÉRÉ
+     * (identifié par son attachment_id, type_liaison = 'bi'), puis régénère
+     * ce même bon avec les signatures intégrées.
+     */
+    public function saveLocalSignature($attachmentId)
+    {
+        header('Content-Type: application/json');
+
+        if (!isset($_SESSION['user']) || !canModifyInterventions()) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Accès refusé']);
+            exit;
+        }
+
+        if (!CSRF::validateRequest()) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Token CSRF invalide']);
+            exit;
+        }
+
+        try {
+            // Récupérer la pièce jointe BI ciblée -> on en déduit l'intervention
+            $sql = "SELECT pj.*, lpj.entite_id AS intervention_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                WHERE pj.id = ? AND lpj.type_liaison = 'bi'";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$attachmentId]);
+            $pj = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$pj) {
+                throw new Exception("Bon d'intervention introuvable");
+            }
+
+            $interventionId = $pj['intervention_id'];
+
+            $intervention = $this->interventionModel->getById($interventionId);
+            if (!$intervention) {
+                throw new Exception('Intervention introuvable');
+            }
+
+            $input = json_decode(file_get_contents('php://input'), true);
+            $techSignatureData = $input['technicien_signature'] ?? null;
+            $clientSignatureData = $input['client_signature'] ?? null;
+
+            if (empty($techSignatureData) && empty($clientSignatureData)) {
+                throw new Exception('Aucune signature reçue');
+            }
+
+            $signatureDir = __DIR__ . '/../../uploads/interventions/' . $interventionId . '/signatures';
+            if (!file_exists($signatureDir)) {
+                mkdir($signatureDir, 0777, true);
+            }
+
+            $techPath = null;
+            $clientPath = null;
+
+            if ($techSignatureData) {
+                $techPath = $this->saveBase64Signature($techSignatureData, $signatureDir, 'tech');
+            }
+            if ($clientSignatureData) {
+                $clientPath = $this->saveBase64Signature($clientSignatureData, $signatureDir, 'client');
+            }
+
+            // Enregistrer en base (on garde une trace du BI source signé)
+            $sql = "INSERT INTO intervention_local_signatures
+            (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path, technicien_id, signed_at, ip_address)
+            VALUES (:iid, :source_id, :tech, :client, :tid, NOW(), :ip)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':iid' => $interventionId,
+                ':source_id' => $attachmentId,
+                ':tech' => $techPath,
+                ':client' => $clientPath,
+                ':tid' => $_SESSION['user']['id'],
+                ':ip' => $_SERVER['REMOTE_ADDR'] ?? null,
+            ]);
+
+            // Reconstituer les mêmes données que celles utilisées pour générer le bon,
+            // puis régénérer ce bon en y intégrant les signatures.
+            $pdfData = $this->prepareBonInterventionData($interventionId);
+
+            $pdfPath = $this->generateBonInterventionPdf(
+                $pdfData['intervention'],
+                $pdfData['comments'],
+                $pdfData['attachments'],
+                $pdfData['technicians'],
+                $pdfData['equipment'],
+                $pdfData['replacedParts'],
+                [
+                    'technicien' => $techPath,
+                    'client' => $clientPath,
+                ]
+            );
+
+            $this->insertHistory(
+                $interventionId,
+                'Signature',
+                '',
+                '',
+                "Bon d'intervention (PJ #{$attachmentId}) signé électroniquement (technicien" . ($clientPath ? " et client" : "") . ")"
+            );
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Signatures enregistrées et PDF généré',
+                'pdf_url' => BASE_URL . 'interventions/downloadGeneratedPdf/' . basename($pdfPath) . '?iid=' . $interventionId,
+            ]);
+
+        } catch (Exception $e) {
+            custom_log("Erreur saveLocalSignature : " . $e->getMessage(), 'ERROR');
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        }
+        exit;
+    }
+
+    /**
+     * Décode une image base64 (data URL) et la sauvegarde en PNG sur disque.
+     * Retourne le chemin relatif depuis la racine du projet.
+     */
+    private function saveBase64Signature(string $dataUrl, string $directory, string $prefix): string
+    {
+        if (!preg_match('/^data:image\/(png|jpeg);base64,/', $dataUrl, $matches)) {
+            throw new Exception('Format de signature invalide');
+        }
+
+        $base64 = substr($dataUrl, strpos($dataUrl, ',') + 1);
+        $binary = base64_decode($base64, true);
+
+        if ($binary === false) {
+            throw new Exception('Décodage de la signature échoué');
+        }
+
+        // Limite de taille raisonnable (ex: 2 Mo) pour éviter les abus
+        if (strlen($binary) > 2 * 1024 * 1024) {
+            throw new Exception('Signature trop volumineuse');
+        }
+
+        $fileName = $prefix . '_' . date('YmdHis') . '_' . bin2hex(random_bytes(4)) . '.png';
+        $fullPath = rtrim($directory, '/') . '/' . $fileName;
+
+        if (file_put_contents($fullPath, $binary) === false) {
+            throw new Exception("Impossible d'écrire le fichier de signature");
+        }
+
+        // Chemin relatif stocké en base (depuis la racine publique du projet)
+        return 'uploads/interventions/' . basename(dirname($directory)) . '/signatures/' . $fileName;
+    }
+    private function prepareBonInterventionData($interventionId)
+    {
+        $intervention = $this->interventionModel->getById($interventionId);
+        // ... (reprendre exactement la même logique d'enrichissement que dans generateBonPdf :
+        // contrat, client, contact, site, bâtiment, salle, dates, urgence)
+
+        return [
+            'intervention' => $intervention,
+            'comments' => $this->getComments($interventionId),
+            'attachments' => $this->getAttachmentsForBon($interventionId),
+            'technicians' => $this->getInterventionTechnicians($interventionId),
+            'equipment' => $this->clientController->getMaterielByClientId($intervention['client_id']),
+            'replacedParts' => $this->getReplacedPartsFromMaterials(
+                $this->clientController->getMaterielByClientId($intervention['client_id'])
+            ),
+        ];
     }
 }
