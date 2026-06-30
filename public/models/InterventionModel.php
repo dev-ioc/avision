@@ -501,6 +501,21 @@ class InterventionModel extends BaseModel
      */
     public function getPiecesJointes($interventionId)
     {
+        // Récupérer le dernier BI généré (le plus récent)
+        $sqlLastBI = "
+        SELECT pj.id as last_bi_id
+        FROM pieces_jointes pj
+        INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+        WHERE lpj.entite_id = :intervention_id 
+        AND lpj.type_liaison = 'bi'
+        ORDER BY pj.date_creation DESC
+        LIMIT 1
+    ";
+        $stmt = $this->db->prepare($sqlLastBI);
+        $stmt->execute([':intervention_id' => $interventionId]);
+        $lastBI = $stmt->fetch(PDO::FETCH_ASSOC);
+        $lastBIId = $lastBI ? $lastBI['last_bi_id'] : null;
+
         $query = "
         SELECT 
             pj.*,
@@ -508,34 +523,27 @@ class InterventionModel extends BaseModel
             lpj.type_liaison,
             lpj.pour_bon_intervention,
             u.username as created_by_name,
-            -- Informations de signature
+            -- Informations de signature LIÉES À CE BI SPÉCIFIQUE via source_attachment_id
             ls.technicien_signature_path,
             ls.client_signature_path,
             ls.signed_at,
-            -- Statut de signature
+            -- Statut de signature pour CE BI
             CASE 
                 WHEN ls.technicien_signature_path IS NOT NULL AND ls.client_signature_path IS NOT NULL THEN 'signe_tech_client'
                 WHEN ls.technicien_signature_path IS NOT NULL THEN 'signe_tech'
                 WHEN ls.client_signature_path IS NOT NULL THEN 'signe_client'
                 ELSE 'non_signe'
             END as signature_status,
-            -- Dernier BI signé
-            (
-                SELECT pj2.id 
-                FROM pieces_jointes pj2
-                INNER JOIN liaisons_pieces_jointes lpj2 ON pj2.id = lpj2.piece_jointe_id
-                INNER JOIN intervention_local_signatures ls2 ON lpj2.entite_id = ls2.intervention_id
-                WHERE lpj2.entite_id = lpj.entite_id 
-                AND lpj2.type_liaison = 'bi'
-                AND (ls2.technicien_signature_path IS NOT NULL OR ls2.client_signature_path IS NOT NULL)
-                ORDER BY ls2.signed_at DESC
-                LIMIT 1
-            ) as last_signed_bi_id
+            -- Flag pour le dernier BI généré
+            CASE 
+                WHEN pj.id = :last_bi_id THEN 1
+                ELSE 0
+            END as is_latest_bi
         FROM pieces_jointes pj
         LEFT JOIN settings st ON pj.type_id = st.id
         INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
         LEFT JOIN users u ON u.id = pj.created_by
-        LEFT JOIN intervention_local_signatures ls ON lpj.entite_id = ls.intervention_id
+        LEFT JOIN intervention_local_signatures ls ON ls.source_attachment_id = pj.id
         WHERE (lpj.type_liaison = 'intervention' OR lpj.type_liaison = 'bi')
         AND lpj.entite_id = :intervention_id
         ORDER BY pj.date_creation DESC
@@ -543,15 +551,32 @@ class InterventionModel extends BaseModel
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':intervention_id', $interventionId, PDO::PARAM_INT);
+        $stmt->bindParam(':last_bi_id', $lastBIId, PDO::PARAM_INT);
         $stmt->execute();
         $attachments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Ajouter un flag pour indiquer si c'est le dernier BI signé
+        // Ajouter le flag is_latest_signed (dernier BI complètement signé)
+        $latestSignedId = null;
+        $latestSignedAt = null;
+        foreach ($attachments as $attachment) {
+            if (
+                $attachment['type_liaison'] === 'bi' &&
+                $attachment['signature_status'] === 'signe_tech_client'
+            ) {
+                // Trouver le dernier BI complètement signé
+                if (
+                    $latestSignedAt === null ||
+                    strtotime($attachment['signed_at']) > strtotime($latestSignedAt)
+                ) {
+                    $latestSignedId = $attachment['id'];
+                    $latestSignedAt = $attachment['signed_at'];
+                }
+            }
+        }
+
         foreach ($attachments as &$attachment) {
             if ($attachment['type_liaison'] === 'bi') {
-                $attachment['is_latest_signed'] =
-                    ($attachment['id'] == $attachment['last_signed_bi_id'] &&
-                        $attachment['signature_status'] !== 'non_signe');
+                $attachment['is_latest_signed'] = ($attachment['id'] == $latestSignedId);
             } else {
                 $attachment['is_latest_signed'] = false;
             }

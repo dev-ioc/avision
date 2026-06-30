@@ -647,6 +647,15 @@ $closeReason = [];
 														<?= h($attachment['nom_fichier']) ?>
 													</div>
 												<?php endif; ?>
+
+												<!-- Afficher la date de signature si disponible -->
+												<?php if ($isBI && !empty($attachment['signed_at'])): ?>
+													<div class="text-muted small">
+														<i class="bi bi-clock me-1"></i>
+														Signé le :
+														<?= date('d/m/Y H:i', strtotime($attachment['signed_at'])) ?>
+													</div>
+												<?php endif; ?>
 											</div>
 
 											<!-- STATUT DE SIGNATURE POUR LES BI -->
@@ -682,13 +691,13 @@ $closeReason = [];
 
 													$status = $statusConfig[$signatureStatus] ?? $statusConfig['non_signe'];
 
-													// Priorité 1 : Si c'est le dernier BI et qu'il est complètement signé
+													// Si c'est le dernier BI et qu'il est complètement signé
 													if ($isLatestSigned && $signatureStatus === 'signe_tech_client') {
 														$status['label'] = '✓ Signé complet';
 														$status['class'] = 'bg-success';
 														$status['icon'] = 'bi-check-circle-fill';
 													}
-													// Priorité 2 : Si c'est le dernier BI (signé partiellement ou non)
+													// Si c'est le dernier BI (signé partiellement ou non)
 													elseif ($isLatestBI) {
 														if ($signatureStatus !== 'non_signe') {
 															$status['label'] .= ' (dernier)';

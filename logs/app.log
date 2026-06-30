@@ -104935,3 +104935,54 @@ Quant à l’écran n°1, il est HS
 [2026-06-30 15:30:55][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-06-30 15:30:55][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
 [2026-06-30 15:30:55][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 16:14:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:14:13][INFO] Pièces jointes sélectionnées : Array
+(
+    [0] => Array
+        (
+            [id] => 845
+            [nom_fichier] => accueil_marqued_active.PNG
+            [nom_personnalise] => accueil_marqued_active.PNG
+            [chemin_fichier] => uploads/interventions/252/accueil_marqued_active.png
+            [type_fichier] => png
+            [category_id] => 
+            [content] => 
+            [taille_fichier] => 2370322
+            [commentaire] => 
+            [date_creation] => 2026-06-30 16:11:13
+            [masque_client] => 0
+            [type_id] => 
+            [created_by] => 1
+            [created_by_name] => Eric CARTIER
+            [type_liaison] => intervention
+        )
+
+)
+ 
+[2026-06-30 16:14:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:14:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:14:30][ERROR] Erreur updateLastSignedBI: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'last_signed_bi_id' in 'field list' 
+[2026-06-30 16:23:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:23:41][INFO] Pièces jointes sélectionnées : Array
+(
+    [0] => Array
+        (
+            [id] => 845
+            [nom_fichier] => accueil_marqued_active.PNG
+            [nom_personnalise] => accueil_marqued_active.PNG
+            [chemin_fichier] => uploads/interventions/252/accueil_marqued_active.png
+            [type_fichier] => png
+            [category_id] => 
+            [content] => 
+            [taille_fichier] => 2370322
+            [commentaire] => 
+            [date_creation] => 2026-06-30 16:11:13
+            [masque_client] => 0
+            [type_id] => 
+            [created_by] => 1
+            [created_by_name] => Eric CARTIER
+            [type_liaison] => intervention
+        )
+
+)
+ 
