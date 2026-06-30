@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réinitialisation du mot de passe</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
@@ -84,24 +83,24 @@
                     <p class="text-muted small mb-0">Choisissez un mot de passe sécurisé pour votre compte</p>
                 </div>
 
-                    <?php if (isset($_SESSION['error'])): ?>
+                <?php if (isset($_SESSION['error'])): ?>
                     <div class="alert alert-danger d-flex align-items-center gap-2 py-2">
                         <i class="bi bi-exclamation-triangle-fill"></i>
                         <span><?= $_SESSION['error'];
                         unset($_SESSION['error']); ?></span>
                     </div>
-                    <?php endif; ?>
+                <?php endif; ?>
 
-                    <?php if (isset($_SESSION['success'])): ?>
+                <?php if (isset($_SESSION['success'])): ?>
                     <div class="alert alert-success d-flex align-items-center gap-2 py-2">
                         <i class="bi bi-check-circle-fill"></i>
                         <span><?= $_SESSION['success'];
                         unset($_SESSION['success']); ?></span>
                     </div>
-                    <?php endif; ?>
+                <?php endif; ?>
 
-                <form method="POST" action="<?= BASE_URL ?>auth/resetPassword" id="resetForm">
-                        <?= csrf_field() ?>
+                <form method="POST" action="<?= BASE_URL ?>auth/reset-password" id="resetForm">
+                    <?= csrf_field() ?>
                     <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token'] ?? '') ?>">
 
                     <!-- Nouveau mot de passe -->

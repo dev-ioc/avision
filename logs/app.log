@@ -104601,3 +104601,242 @@ Quant à l’écran n°1, il est HS
 [2026-06-30 11:39:23][DEBUG] Session token: "aa1b1767cb6d54f0657eaa03c1b9e5e07fc20fc7a908c79783be809f1207563b" 
 [2026-06-30 11:40:53][DEBUG] CSRF: Token trouvé dans la requête - Token: aa1b1767cb6d54f0657e... 
 [2026-06-30 11:41:54][DEBUG] CSRF: Token trouvé dans la requête - Token: aa1b1767cb6d54f0657e... 
+[2026-06-30 11:50:15][DEBUG] CSRF: Token trouvé dans la requête - Token: aa1b1767cb6d54f0657e... 
+[2026-06-30 11:50:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 11:50:32][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-06-30 11:50:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 11:50:45][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-30 11:50:45][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-30 11:50:45][DEBUG] Login réussi - Session ID: 2tg1g2k5kodm8pab2eqgavkotv 
+[2026-06-30 11:50:45][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 11:50:45][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 11:50:45][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 11:50:45][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 11:50:49][ERROR] Erreur dans getPasswordResetHistory: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'prt.requested_by' in 'on clause' 
+[2026-06-30 11:51:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 11:51:07][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'where clause' 
+[2026-06-30 11:51:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 11:51:38][DEBUG] load_permissions - Session ID: 2tg1g2k5kodm8pab2eqgavkotv, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 11:51:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 11:51:38][DEBUG] load_client_locations - Session ID: 2tg1g2k5kodm8pab2eqgavkotv, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 11:51:38][ERROR] Erreur lors de la récupération des localisations du client 46: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause' 
+[2026-06-30 11:51:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 11:51:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 11:51:48][DEBUG] load_permissions - Session ID: 2tg1g2k5kodm8pab2eqgavkotv, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 11:51:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 11:51:49][DEBUG] load_client_locations - Session ID: 2tg1g2k5kodm8pab2eqgavkotv, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 11:51:49][ERROR] Erreur lors de la récupération des localisations du client 46: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause' 
+[2026-06-30 11:52:10][ERROR] Erreur dans getPasswordResetHistory: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'prt.requested_by' in 'on clause' 
+[2026-06-30 11:52:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 11:52:15][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'where clause' 
+[2026-06-30 11:54:40][ERROR] Erreur dans getPasswordResetHistory: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'prt.requested_by' in 'on clause' 
+[2026-06-30 11:54:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 11:54:43][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'where clause' 
+[2026-06-30 11:58:35][ERROR] Erreur dans getPasswordResetHistory: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'prt.requested_by' in 'on clause' 
+[2026-06-30 11:58:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 11:58:42][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'where clause' 
+[2026-06-30 11:58:55][DEBUG] Redirection vers login - URL sauvegardée: auth/resetPassword?token=045e22b8d032dd6367ab4bea7ff8804a3d0da4c3f17b856e4a4f13d1ccfe7e1a (Session ID: nkoll3q8tabncg5ib3l0pso8k4) 
+[2026-06-30 13:13:17][ERROR] Erreur dans getPasswordResetHistory: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'prt.requested_by' in 'on clause' 
+[2026-06-30 13:13:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 13:13:20][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'where clause' 
+[2026-06-30 13:14:43][ERROR] Erreur dans getPasswordResetHistory: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'prt.requested_by' in 'on clause' 
+[2026-06-30 13:14:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 13:14:45][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'where clause' 
+[2026-06-30 13:16:49][ERROR] Erreur dans getPasswordResetHistory: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'prt.requested_by' in 'on clause' 
+[2026-06-30 13:16:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 13:16:55][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'used_at' in 'where clause' 
+[2026-06-30 13:23:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 35f2381da865be97367d... 
+[2026-06-30 13:23:44][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 
+[2026-06-30 13:26:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 2f736badd27d95bf3b5c... 
+[2026-06-30 13:26:22][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-30 13:26:22][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-30 13:26:22][DEBUG] Login réussi - Session ID: b04ohcfq5l0nlrp18lh789225l 
+[2026-06-30 13:26:22][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 13:26:22][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 13:26:22][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 13:26:22][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 13:26:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 2f736badd27d95bf3b5c... 
+[2026-06-30 13:26:37][DEBUG] load_client_locations - Session ID: b04ohcfq5l0nlrp18lh789225l, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 13:26:37][ERROR] Erreur lors de la récupération des localisations du client 46: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause' 
+[2026-06-30 13:26:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 2f736badd27d95bf3b5c... 
+[2026-06-30 13:26:37][DEBUG] load_permissions - Session ID: b04ohcfq5l0nlrp18lh789225l, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 13:26:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 2f736badd27d95bf3b5c... 
+[2026-06-30 13:27:00][INFO] Sauvegarde des localisations pour l'utilisateur 41, type: client 
+[2026-06-30 13:27:00][DEBUG] Localisations reçues: [] 
+[2026-06-30 13:27:00][INFO] Début de saveUserLocations pour l'utilisateur 41 
+[2026-06-30 13:27:00][INFO] Localisations reçues: [] 
+[2026-06-30 13:27:00][INFO] Type d'utilisateur récupéré: client 
+[2026-06-30 13:27:00][DEBUG] DEBUG - Client ID récupéré: 46 (depuis POST: 46, depuis user: 46) 
+[2026-06-30 13:27:00][INFO] Sauvegarde des localisations terminée avec succès pour l'utilisateur 41 
+[2026-06-30 13:27:00][INFO] Résultat de saveUserLocations: SUCCÈS 
+[2026-06-30 13:27:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 2f736badd27d95bf3b5c... 
+[2026-06-30 13:27:24][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 
+[2026-06-30 13:28:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 77363d12209a33cd08ba... 
+[2026-06-30 13:28:50][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-30 13:28:50][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-30 13:28:50][DEBUG] Login réussi - Session ID: nfamrhquf9cp92ffos947c1kue 
+[2026-06-30 13:28:50][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 13:28:50][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 13:28:50][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 13:28:50][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 13:28:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 77363d12209a33cd08ba... 
+[2026-06-30 13:28:59][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 
+[2026-06-30 13:34:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 77363d12209a33cd08ba... 
+[2026-06-30 13:34:54][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 
+[2026-06-30 13:40:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 77363d12209a33cd08ba... 
+[2026-06-30 13:40:16][INFO] Token de réinitialisation sauvegardé pour l'utilisateur 39 (demandé par: 1) 
+[2026-06-30 13:47:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 77363d12209a33cd08ba... 
+[2026-06-30 13:47:09][DEBUG] load_permissions - Session ID: nfamrhquf9cp92ffos947c1kue, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 13:48:20][DEBUG] CSRF: Token trouvé dans la requête - Token: eae8c27ff260c04c7b0f... 
+[2026-06-30 13:48:33][DEBUG] CSRF: Token trouvé dans la requête - Token: c1b600b234b0fc1fe69d... 
+[2026-06-30 13:48:33][WARNING] Tentative de connexion échouée pour l'utilisateur : TEST 
+[2026-06-30 13:48:47][DEBUG] CSRF: Token trouvé dans la requête - Token: c1b600b234b0fc1fe69d... 
+[2026-06-30 13:48:47][WARNING] Tentative de connexion échouée pour l'utilisateur : TEST 
+[2026-06-30 13:49:14][DEBUG] CSRF: Token trouvé dans la requête - Token: c1b600b234b0fc1fe69d... 
+[2026-06-30 13:49:14][DEBUG] Permissions chargées pour KARIJA : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-06-30 13:49:14][INFO] Utilisateur connecté : KARIJA {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":46}
+[2026-06-30 13:49:14][DEBUG] Login réussi - Session ID: 2hqtspvkdttbdvbm0rji04tlv0 
+[2026-06-30 13:49:14][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 13:49:14][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 13:49:14][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 13:49:14][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 13:49:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 63b4a572d682122d8139... 
+[2026-06-30 13:49:20][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-30 13:49:20][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-30 13:49:20][DEBUG] Login réussi - Session ID: c64ju28stfnbm4mud0fr0l9k7k 
+[2026-06-30 13:49:20][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 13:49:20][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 13:49:20][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 13:49:20][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 13:49:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 649fd4ce2c5797860d79... 
+[2026-06-30 13:49:57][WARNING] Tentative de connexion échouée pour l'utilisateur : TEST 
+[2026-06-30 13:50:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 649fd4ce2c5797860d79... 
+[2026-06-30 13:50:52][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-30 13:50:52][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-30 13:50:52][DEBUG] Login réussi - Session ID: 0monp1vbri3fk2vpjhvs5a8lk8 
+[2026-06-30 13:50:52][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 13:50:52][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 13:50:52][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 13:50:52][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 13:51:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 649fd4ce2c5797860d79... 
+[2026-06-30 13:51:04][DEBUG] load_permissions - Session ID: 0monp1vbri3fk2vpjhvs5a8lk8, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 13:51:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 649fd4ce2c5797860d79... 
+[2026-06-30 13:51:11][INFO] Utilisateur 39 n'est plus un client, suppression des localisations 
+[2026-06-30 13:51:11][INFO] Début de saveUserLocations pour l'utilisateur 39 
+[2026-06-30 13:51:11][INFO] Localisations reçues: [] 
+[2026-06-30 13:51:11][INFO] Type d'utilisateur récupéré: technicien 
+[2026-06-30 13:51:11][INFO] Utilisateur 39 est un technicien, pas besoin de sauvegarder les localisations 
+[2026-06-30 13:51:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 649fd4ce2c5797860d79... 
+[2026-06-30 13:51:19][DEBUG] load_permissions - Session ID: 0monp1vbri3fk2vpjhvs5a8lk8, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 13:51:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 649fd4ce2c5797860d79... 
+[2026-06-30 13:51:19][DEBUG] load_client_locations - Session ID: 0monp1vbri3fk2vpjhvs5a8lk8, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 13:51:19][ERROR] Erreur lors de la récupération des localisations du client 46: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause' 
+[2026-06-30 13:51:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 649fd4ce2c5797860d79... 
+[2026-06-30 13:51:32][INFO] Sauvegarde des localisations pour l'utilisateur 40, type: client 
+[2026-06-30 13:51:32][DEBUG] Localisations reçues: [] 
+[2026-06-30 13:51:32][INFO] Début de saveUserLocations pour l'utilisateur 40 
+[2026-06-30 13:51:32][INFO] Localisations reçues: [] 
+[2026-06-30 13:51:32][INFO] Type d'utilisateur récupéré: client 
+[2026-06-30 13:51:32][DEBUG] DEBUG - Client ID récupéré: 46 (depuis POST: 46, depuis user: 46) 
+[2026-06-30 13:51:32][INFO] Sauvegarde des localisations terminée avec succès pour l'utilisateur 40 
+[2026-06-30 13:51:32][INFO] Résultat de saveUserLocations: SUCCÈS 
+[2026-06-30 13:51:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 649fd4ce2c5797860d79... 
+[2026-06-30 13:51:44][INFO] Token de réinitialisation sauvegardé pour l'utilisateur 40 (demandé par: 1) 
+[2026-06-30 13:52:11][DEBUG] CSRF: Token trouvé dans la requête - Token: eae8c27ff260c04c7b0f... 
+[2026-06-30 13:52:32][DEBUG] CSRF: Token trouvé dans la requête - Token: eae8c27ff260c04c7b0f... 
+[2026-06-30 13:52:33][WARNING] Tentative de connexion échouée pour l'utilisateur : TEST 
+[2026-06-30 13:52:46][DEBUG] CSRF: Token trouvé dans la requête - Token: eae8c27ff260c04c7b0f... 
+[2026-06-30 13:52:46][WARNING] Tentative de connexion échouée pour l'utilisateur : karija 
+[2026-06-30 13:52:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 53f6632ce9edab231cc6... 
+[2026-06-30 13:52:55][DEBUG] Permissions chargées pour karija : {"role":"client","rights":{"client_add_intervention":true,"client_view_materiel":true,"client_view_documentation":true,"client_add_documentation":true,"client_view_contracts":true,"client_manage_contacts":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-06-30 13:52:55][INFO] Utilisateur connecté : karija {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":46}
+[2026-06-30 13:52:55][DEBUG] Login réussi - Session ID: f34tha5e1d0a8gbel0t3jfdjoc 
+[2026-06-30 13:52:55][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 13:52:55][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 13:52:55][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 13:52:55][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 13:53:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 3e2bc7f3af566d236a45... 
+[2026-06-30 13:53:26][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-30 13:53:26][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-30 13:53:26][DEBUG] Login réussi - Session ID: miir2rbhc4083mfrmkg2fntv76 
+[2026-06-30 13:53:26][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 13:53:26][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 13:53:26][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 13:53:26][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 13:53:52][DEBUG] CSRF: Token trouvé dans la requête - Token: cde3bdde6c0d4cd1a540... 
+[2026-06-30 13:53:52][DEBUG] Permissions chargées pour karija : {"role":"client","rights":{"client_add_intervention":true,"client_view_materiel":true,"client_view_documentation":true,"client_add_documentation":true,"client_view_contracts":true,"client_manage_contacts":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-06-30 13:53:52][INFO] Utilisateur connecté : karija {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":46}
+[2026-06-30 13:53:52][DEBUG] Login réussi - Session ID: vhm4es1cbnl42qmnl1s4qcbcum 
+[2026-06-30 13:53:52][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 13:53:52][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 13:53:52][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 13:53:52][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 13:53:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 36b7d40181aa04fc2673... 
+[2026-06-30 13:53:58][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-30 13:53:58][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-30 13:53:58][DEBUG] Login réussi - Session ID: f8fpn5s8a0mn33tdb2ra4ca0dt 
+[2026-06-30 13:53:58][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 13:53:58][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 13:53:58][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 13:53:58][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 13:54:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 36b7d40181aa04fc2673... 
+[2026-06-30 13:54:04][DEBUG] load_permissions - Session ID: f8fpn5s8a0mn33tdb2ra4ca0dt, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 13:54:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 36b7d40181aa04fc2673... 
+[2026-06-30 13:54:04][DEBUG] load_client_locations - Session ID: f8fpn5s8a0mn33tdb2ra4ca0dt, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 13:54:04][ERROR] Erreur lors de la récupération des localisations du client 46: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause' 
+[2026-06-30 13:54:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 36b7d40181aa04fc2673... 
+[2026-06-30 13:54:38][INFO] Token de réinitialisation sauvegardé pour l'utilisateur 40 (demandé par: 1) 
+[2026-06-30 13:55:19][DEBUG] CSRF: Token trouvé dans la requête - Token: eae8c27ff260c04c7b0f... 
+[2026-06-30 13:56:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 36b7d40181aa04fc2673... 
+[2026-06-30 13:56:49][INFO] Token de réinitialisation sauvegardé pour l'utilisateur 40 (demandé par: 1) 
+[2026-06-30 13:57:16][DEBUG] CSRF: Token trouvé dans la requête - Token: eae8c27ff260c04c7b0f... 
+[2026-06-30 13:57:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 3574598c3caab9aa0e98... 
+[2026-06-30 13:57:43][WARNING] Tentative de connexion échouée pour l'utilisateur : karija 
+[2026-06-30 13:57:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 3574598c3caab9aa0e98... 
+[2026-06-30 13:57:55][DEBUG] Permissions chargées pour karija : {"role":"client","rights":{"client_add_intervention":true,"client_view_materiel":true,"client_view_documentation":true,"client_add_documentation":true,"client_view_contracts":true,"client_manage_contacts":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-06-30 13:57:55][INFO] Utilisateur connecté : karija {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":46}
+[2026-06-30 13:57:55][DEBUG] Login réussi - Session ID: 5u6a3okmirhpobuni3n7kfceml 
+[2026-06-30 13:57:55][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 13:57:55][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 13:57:55][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 13:57:55][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 13:58:08][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: asbmklt400s6m4n7te9nlmv6cm) 
+[2026-06-30 13:58:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 56f6781c2e59ed6a8da9... 
+[2026-06-30 13:58:12][DEBUG] Permissions chargées pour karija : {"role":"client","rights":{"client_add_intervention":true,"client_view_materiel":true,"client_view_documentation":true,"client_add_documentation":true,"client_view_contracts":true,"client_manage_contacts":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-06-30 13:58:12][INFO] Utilisateur connecté : karija {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":46}
+[2026-06-30 13:58:12][DEBUG] Login réussi - Session ID: asbmklt400s6m4n7te9nlmv6cm 
+[2026-06-30 13:58:12][DEBUG] Login réussi - redirect_after_login: dashboard 
+[2026-06-30 13:58:12][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 13:58:12][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, redirect_after_login, user, last_activity 
+[2026-06-30 13:58:12][DEBUG] Redirection après login vers: http://localhost/avision/public/dashboard 
+[2026-06-30 13:58:23][DEBUG] CSRF: Token trouvé dans la requête - Token: cb1e65160dd65ff2f402... 
+[2026-06-30 13:58:23][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-06-30 13:58:23][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-06-30 13:58:23][DEBUG] Login réussi - Session ID: debef8t768vpn6fti459s1b162 
+[2026-06-30 13:58:23][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-06-30 13:58:23][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-06-30 13:58:23][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-06-30 13:58:23][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-06-30 14:01:39][DEBUG] CSRF: Token trouvé dans la requête - Token: cb1e65160dd65ff2f402... 
+[2026-06-30 14:06:11][DEBUG] CSRF: Token trouvé dans la requête - Token: cb1e65160dd65ff2f402... 
+[2026-06-30 14:06:11][DEBUG] load_client_locations - Session ID: debef8t768vpn6fti459s1b162, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 14:06:11][ERROR] Erreur lors de la récupération des localisations du client 46: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause' 
+[2026-06-30 14:06:11][DEBUG] CSRF: Token trouvé dans la requête - Token: cb1e65160dd65ff2f402... 
+[2026-06-30 14:06:11][DEBUG] load_permissions - Session ID: debef8t768vpn6fti459s1b162, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 14:06:44][DEBUG] CSRF: Token trouvé dans la requête - Token: cb1e65160dd65ff2f402... 
+[2026-06-30 14:06:44][INFO] Sauvegarde des localisations pour l'utilisateur 40, type: client 
+[2026-06-30 14:06:44][DEBUG] Localisations reçues: [] 
+[2026-06-30 14:06:44][INFO] Début de saveUserLocations pour l'utilisateur 40 
+[2026-06-30 14:06:44][INFO] Localisations reçues: [] 
+[2026-06-30 14:06:44][INFO] Type d'utilisateur récupéré: client 
+[2026-06-30 14:06:44][DEBUG] DEBUG - Client ID récupéré: 46 (depuis POST: 46, depuis user: 46) 
+[2026-06-30 14:06:44][INFO] Sauvegarde des localisations terminée avec succès pour l'utilisateur 40 
+[2026-06-30 14:06:44][INFO] Résultat de saveUserLocations: SUCCÈS 
+[2026-06-30 14:06:54][DEBUG] CSRF: Token trouvé dans la requête - Token: cb1e65160dd65ff2f402... 
+[2026-06-30 14:06:54][DEBUG] load_client_locations - Session ID: debef8t768vpn6fti459s1b162, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 14:06:54][ERROR] Erreur lors de la récupération des localisations du client 46: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause' 
+[2026-06-30 14:06:54][DEBUG] CSRF: Token trouvé dans la requête - Token: cb1e65160dd65ff2f402... 
+[2026-06-30 14:06:54][DEBUG] load_permissions - Session ID: debef8t768vpn6fti459s1b162, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-06-30 14:07:06][DEBUG] CSRF: Token trouvé dans la requête - Token: cb1e65160dd65ff2f402... 
+[2026-06-30 14:07:06][INFO] Token de réinitialisation sauvegardé pour l'utilisateur 40 (demandé par: 1) 
+[2026-06-30 14:07:27][ERROR] Erreur dans sendResetLink: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 

@@ -192,19 +192,19 @@ class AuthController
 
         if (empty($token) || empty($newPassword) || empty($confirmPassword)) {
             $_SESSION['error'] = "Tous les champs sont requis.";
-            header('Location: ' . BASE_URL . 'auth/resetPassword?token=' . urlencode($token ?? ''));
+            header('Location: ' . BASE_URL . 'auth/reset-password?token=' . urlencode($token ?? ''));
             exit;
         }
 
         if ($newPassword !== $confirmPassword) {
             $_SESSION['error'] = "Les mots de passe ne correspondent pas.";
-            header('Location: ' . BASE_URL . 'auth/resetPassword?token=' . urlencode($token));
+            header('Location: ' . BASE_URL . 'auth/reset-password?token=' . urlencode($token ?? ''));
             exit;
         }
 
         if (strlen($newPassword) < 8) {
             $_SESSION['error'] = "Le mot de passe doit contenir au moins 8 caractères.";
-            header('Location: ' . BASE_URL . 'auth/resetPassword?token=' . urlencode($token));
+            header('Location: ' . BASE_URL . 'auth/reset-password?token=' . urlencode($token ?? ''));
             exit;
         }
 
