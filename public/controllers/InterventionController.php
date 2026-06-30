@@ -6443,8 +6443,8 @@ class InterventionController
     }
     /**
      * Reçoit les signatures (base64 PNG) du canvas pour un BON DÉJÀ GÉNÉRÉ
-     * (identifié par son attachment_id, type_liaison = 'bi'), puis régénère
-     * ce même bon avec les signatures intégrées.
+     * (identifié par son attachment_id, type_liaison = 'bi')
+     * Met à jour le PDF existant avec les signatures
      */
     public function saveLocalSignature($attachmentId)
     {
@@ -6491,6 +6491,13 @@ class InterventionController
                 throw new Exception('Aucune signature reçue');
             }
 
+            // Chemin du PDF existant
+            $pdfPath = __DIR__ . '/../../' . $pj['chemin_fichier'];
+
+            if (!file_exists($pdfPath)) {
+                throw new Exception("Le fichier PDF original n'existe plus");
+            }
+
             $signatureDir = __DIR__ . '/../../uploads/interventions/' . $interventionId . '/signatures';
             if (!file_exists($signatureDir)) {
                 mkdir($signatureDir, 0777, true);
@@ -6505,14 +6512,12 @@ class InterventionController
             if ($techSignatureData) {
                 $techPath = $this->saveBase64Signature($techSignatureData, $signatureDir, 'tech');
             } elseif ($existingSignature && $existingSignature['technicien_signature_path']) {
-                // Conserver la signature existante du technicien
                 $techPath = $existingSignature['technicien_signature_path'];
             }
 
             if ($clientSignatureData) {
                 $clientPath = $this->saveBase64Signature($clientSignatureData, $signatureDir, 'client');
             } elseif ($existingSignature && $existingSignature['client_signature_path']) {
-                // Conserver la signature existante du client
                 $clientPath = $existingSignature['client_signature_path'];
             }
 
@@ -6537,10 +6542,15 @@ class InterventionController
                 ':tid' => $_SESSION['user']['id'],
                 ':ip' => $_SERVER['REMOTE_ADDR'] ?? null,
             ]);
-            $this->interventionModel->updateLastSignedBI($interventionId, $attachmentId);
+
+            // Charger le PDF existant
+            require_once __DIR__ . '/../classes/InterventionPDF.php';
+            $pdf = new InterventionPDF();
+
+            // Générer le PDF avec les signatures intégrées dans le même fichier
             $pdfData = $this->prepareBonInterventionData($interventionId);
 
-            $pdfPath = $this->generateBonInterventionPdf(
+            $tempPdfPath = $pdf->generateBonInterventionWithSignatures(
                 $pdfData['intervention'],
                 $pdfData['comments'],
                 $pdfData['attachments'],
@@ -6553,6 +6563,48 @@ class InterventionController
                 ]
             );
 
+            // Remplacer l'ancien PDF par le nouveau (signé)
+            if (file_exists($tempPdfPath)) {
+                // Supprimer l'ancien PDF
+                if (file_exists($pdfPath)) {
+                    unlink($pdfPath);
+                }
+                // Déplacer le nouveau PDF à la place de l'ancien
+                rename($tempPdfPath, $pdfPath);
+            }
+
+            // Mettre à jour le nom du fichier pour refléter qu'il est signé
+            $newFileName = str_replace('.pdf', '_signe.pdf', $pj['nom_fichier']);
+            $newPersonalizedName = str_replace('.pdf', ' (signé)', $pj['nom_personnalise'] ?? $pj['nom_fichier']);
+
+            // Mettre à jour la pièce jointe dans la base de données
+            $sql = "UPDATE pieces_jointes 
+                SET nom_fichier = :nom_fichier, 
+                    nom_personnalise = :nom_personnalise,
+                    updated_at = NOW()
+                WHERE id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':nom_fichier' => $newFileName,
+                ':nom_personnalise' => $newPersonalizedName,
+                ':id' => $attachmentId
+            ]);
+
+            // Mettre à jour le chemin du fichier dans la base
+            $newChemin = str_replace($pj['nom_fichier'], $newFileName, $pj['chemin_fichier']);
+            $sql = "UPDATE pieces_jointes 
+                SET chemin_fichier = :chemin_fichier
+                WHERE id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':chemin_fichier' => $newChemin,
+                ':id' => $attachmentId
+            ]);
+
+            // Mettre à jour le dernier BI signé
+            $this->interventionModel->updateLastSignedBI($interventionId, $attachmentId);
+
+            // Historique
             $this->insertHistory(
                 $interventionId,
                 'Signature',
@@ -6565,8 +6617,8 @@ class InterventionController
 
             echo json_encode([
                 'success' => true,
-                'message' => 'Signatures enregistrées et PDF généré',
-                'pdf_url' => BASE_URL . 'interventions/downloadGeneratedPdf/' . basename($pdfPath) . '?iid=' . $interventionId,
+                'message' => 'Signatures enregistrées et PDF mis à jour',
+                'pdf_url' => BASE_URL . 'interventions/download/' . $attachmentId,
             ]);
 
         } catch (Exception $e) {

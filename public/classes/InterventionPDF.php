@@ -1401,4 +1401,42 @@ class InterventionPDF extends TCPDF
     {
         $this->renderFooter();
     }
+    /**
+     * Génère un bon d'intervention avec les signatures intégrées
+     * 
+     * @param array $intervention Données de l'intervention
+     * @param array $comments Commentaires sélectionnés
+     * @param array $attachments Pièces jointes sélectionnées
+     * @param array $technicians Techniciens assignés
+     * @param array $equipment Équipements concernés
+     * @param array $replacedParts Pièces remplacées
+     * @param array $signatures Chemins des signatures ['technicien' => path, 'client' => path]
+     * @return string Chemin du fichier PDF généré
+     */
+    public function generateBonInterventionWithSignatures(
+        $intervention,
+        $comments,
+        $attachments,
+        $technicians = [],
+        $equipment = [],
+        $replacedParts = [],
+        $signatures = []
+    ) {
+        // Créer un dossier temporaire si nécessaire
+        $tempDir = __DIR__ . '/../../uploads/interventions/' . $intervention['id'] . '/temp/';
+        if (!file_exists($tempDir)) {
+            mkdir($tempDir, 0777, true);
+        }
+
+        $fileName = 'temp_BI_signe_' . $intervention['reference'] . '_' . date('Ymd_His') . '.pdf';
+        $filePath = $tempDir . '/' . $fileName;
+
+        // Appeler la méthode existante generateBonIntervention avec les signatures
+        $this->generateBonIntervention($intervention, $comments, $attachments, $technicians, $equipment, $replacedParts, $signatures);
+
+        // Sauvegarder dans le fichier temporaire
+        $this->Output($filePath, 'F');
+
+        return $filePath;
+    }
 }

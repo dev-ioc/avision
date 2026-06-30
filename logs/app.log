@@ -104986,3 +104986,145 @@ Quant à l’écran n°1, il est HS
 
 )
  
+[2026-06-30 16:32:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:32:07][INFO] Pièces jointes sélectionnées : Array
+(
+    [0] => Array
+        (
+            [id] => 845
+            [nom_fichier] => accueil_marqued_active.PNG
+            [nom_personnalise] => accueil_marqued_active.PNG
+            [chemin_fichier] => uploads/interventions/252/accueil_marqued_active.png
+            [type_fichier] => png
+            [category_id] => 
+            [content] => 
+            [taille_fichier] => 2370322
+            [commentaire] => 
+            [date_creation] => 2026-06-30 16:11:13
+            [masque_client] => 0
+            [type_id] => 
+            [created_by] => 1
+            [created_by_name] => Eric CARTIER
+            [type_liaison] => intervention
+        )
+
+)
+ 
+[2026-06-30 16:32:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:32:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:32:18][ERROR] Erreur saveLocalSignature : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'updated_at' in 'field list' 
+[2026-06-30 16:33:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:33:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:33:06][ERROR] Erreur saveLocalSignature : Le fichier PDF original n'existe plus 
+[2026-06-30 16:33:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:33:14][INFO] Pièces jointes sélectionnées : Array
+(
+    [0] => Array
+        (
+            [id] => 845
+            [nom_fichier] => accueil_marqued_active.PNG
+            [nom_personnalise] => accueil_marqued_active.PNG
+            [chemin_fichier] => uploads/interventions/252/accueil_marqued_active.png
+            [type_fichier] => png
+            [category_id] => 
+            [content] => 
+            [taille_fichier] => 2370322
+            [commentaire] => 
+            [date_creation] => 2026-06-30 16:11:13
+            [masque_client] => 0
+            [type_id] => 
+            [created_by] => 1
+            [created_by_name] => Eric CARTIER
+            [type_liaison] => intervention
+        )
+
+)
+ 
+[2026-06-30 16:33:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:33:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:33:23][ERROR] Erreur saveLocalSignature : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE id = ?' at line 4 
+[2026-06-30 16:34:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:34:17][INFO] Pièces jointes sélectionnées : Array
+(
+    [0] => Array
+        (
+            [id] => 845
+            [nom_fichier] => accueil_marqued_active.PNG
+            [nom_personnalise] => accueil_marqued_active.PNG
+            [chemin_fichier] => uploads/interventions/252/accueil_marqued_active.png
+            [type_fichier] => png
+            [category_id] => 
+            [content] => 
+            [taille_fichier] => 2370322
+            [commentaire] => 
+            [date_creation] => 2026-06-30 16:11:13
+            [masque_client] => 0
+            [type_id] => 
+            [created_by] => 1
+            [created_by_name] => Eric CARTIER
+            [type_liaison] => intervention
+        )
+
+)
+ 
+[2026-06-30 16:34:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:34:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:34:26][WARNING] Undefined variable $tempPdfPath {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":6553,"errno":2}
+[2026-06-30 16:34:26][INFO] file_exists(): Passing null to parameter #1 ($filename) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":6553,"errno":8192}
+[2026-06-30 16:34:26][ERROR] Erreur saveLocalSignature : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'updated_at' in 'field list' 
+[2026-06-30 16:35:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:35:47][INFO] Pièces jointes sélectionnées : Array
+(
+    [0] => Array
+        (
+            [id] => 845
+            [nom_fichier] => accueil_marqued_active.PNG
+            [nom_personnalise] => accueil_marqued_active.PNG
+            [chemin_fichier] => uploads/interventions/252/accueil_marqued_active.png
+            [type_fichier] => png
+            [category_id] => 
+            [content] => 
+            [taille_fichier] => 2370322
+            [commentaire] => 
+            [date_creation] => 2026-06-30 16:11:13
+            [masque_client] => 0
+            [type_id] => 
+            [created_by] => 1
+            [created_by_name] => Eric CARTIER
+            [type_liaison] => intervention
+        )
+
+)
+ 
+[2026-06-30 16:35:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:35:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:35:57][ERROR] Erreur saveLocalSignature : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'updated_at' in 'field list' 
+[2026-06-30 16:37:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:37:39][INFO] Pièces jointes sélectionnées : Array
+(
+    [0] => Array
+        (
+            [id] => 845
+            [nom_fichier] => accueil_marqued_active.PNG
+            [nom_personnalise] => accueil_marqued_active.PNG
+            [chemin_fichier] => uploads/interventions/252/accueil_marqued_active.png
+            [type_fichier] => png
+            [category_id] => 
+            [content] => 
+            [taille_fichier] => 2370322
+            [commentaire] => 
+            [date_creation] => 2026-06-30 16:11:13
+            [updated_at] => 
+            [masque_client] => 0
+            [type_id] => 
+            [created_by] => 1
+            [created_by_name] => Eric CARTIER
+            [type_liaison] => intervention
+        )
+
+)
+ 
+[2026-06-30 16:37:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:37:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 4369c96196fb034f2e25... 
+[2026-06-30 16:37:48][ERROR] Erreur updateLastSignedBI: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'last_signed_bi_id' in 'field list' 
+[2026-06-30 16:37:48][ERROR] Erreur lors du téléchargement de la pièce jointe : Fichier non trouvé 
