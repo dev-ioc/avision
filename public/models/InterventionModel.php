@@ -497,32 +497,85 @@ class InterventionModel extends BaseModel
     }
 
     /**
-     * Récupère les pièces jointes d'une intervention
+     * Récupère les pièces jointes d'une intervention avec leur statut de signature
      */
     public function getPiecesJointes($interventionId)
     {
         $query = "
-            SELECT 
-    pj.*,
-    st.setting_value as type_nom,
-    lpj.type_liaison,
-    lpj.pour_bon_intervention,
-    u.username as created_by_name
-FROM pieces_jointes pj
-LEFT JOIN settings st ON pj.type_id = st.id
-INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-LEFT JOIN users u ON u.id = pj.created_by
-WHERE (lpj.type_liaison = 'intervention' OR lpj.type_liaison = 'bi')
-AND lpj.entite_id = :intervention_id
-ORDER BY pj.date_creation DESC
-        ";
+        SELECT 
+            pj.*,
+            st.setting_value as type_nom,
+            lpj.type_liaison,
+            lpj.pour_bon_intervention,
+            u.username as created_by_name,
+            -- Informations de signature
+            ls.technicien_signature_path,
+            ls.client_signature_path,
+            ls.signed_at,
+            -- Statut de signature
+            CASE 
+                WHEN ls.technicien_signature_path IS NOT NULL AND ls.client_signature_path IS NOT NULL THEN 'signe_tech_client'
+                WHEN ls.technicien_signature_path IS NOT NULL THEN 'signe_tech'
+                WHEN ls.client_signature_path IS NOT NULL THEN 'signe_client'
+                ELSE 'non_signe'
+            END as signature_status,
+            -- Dernier BI signé
+            (
+                SELECT pj2.id 
+                FROM pieces_jointes pj2
+                INNER JOIN liaisons_pieces_jointes lpj2 ON pj2.id = lpj2.piece_jointe_id
+                INNER JOIN intervention_local_signatures ls2 ON lpj2.entite_id = ls2.intervention_id
+                WHERE lpj2.entite_id = lpj.entite_id 
+                AND lpj2.type_liaison = 'bi'
+                AND (ls2.technicien_signature_path IS NOT NULL OR ls2.client_signature_path IS NOT NULL)
+                ORDER BY ls2.signed_at DESC
+                LIMIT 1
+            ) as last_signed_bi_id
+        FROM pieces_jointes pj
+        LEFT JOIN settings st ON pj.type_id = st.id
+        INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+        LEFT JOIN users u ON u.id = pj.created_by
+        LEFT JOIN intervention_local_signatures ls ON lpj.entite_id = ls.intervention_id
+        WHERE (lpj.type_liaison = 'intervention' OR lpj.type_liaison = 'bi')
+        AND lpj.entite_id = :intervention_id
+        ORDER BY pj.date_creation DESC
+    ";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':intervention_id', $interventionId, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+        $attachments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // Ajouter un flag pour indiquer si c'est le dernier BI signé
+        foreach ($attachments as &$attachment) {
+            if ($attachment['type_liaison'] === 'bi') {
+                $attachment['is_latest_signed'] =
+                    ($attachment['id'] == $attachment['last_signed_bi_id'] &&
+                        $attachment['signature_status'] !== 'non_signe');
+            } else {
+                $attachment['is_latest_signed'] = false;
+            }
+        }
+
+        return $attachments;
+    }
+    /**
+     * Met à jour le dernier BI signé pour une intervention
+     */
+    public function updateLastSignedBI($interventionId, $attachmentId)
+    {
+        try {
+            $sql = "UPDATE interventions SET last_signed_bi_id = :attachment_id WHERE id = :intervention_id";
+            $stmt = $this->db->prepare($sql);
+            return $stmt->execute([
+                ':attachment_id' => $attachmentId,
+                ':intervention_id' => $interventionId
+            ]);
+        } catch (PDOException $e) {
+            custom_log("Erreur updateLastSignedBI: " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
     /**
      * Ajoute une pièce jointe à une intervention
      */

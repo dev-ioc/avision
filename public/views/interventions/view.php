@@ -637,6 +637,7 @@ $closeReason = [];
 											<?php else: ?>
 												<i class="bi bi-file-earmark text-secondary me-2"></i>
 											<?php endif; ?>
+
 											<div class="attachment-name flex-grow-1">
 												<div class="display-name">
 													<?= h($attachment['nom_personnalise'] ?? $attachment['nom_fichier']) ?>
@@ -647,8 +648,64 @@ $closeReason = [];
 													</div>
 												<?php endif; ?>
 											</div>
+
+											<!-- STATUT DE SIGNATURE POUR LES BI -->
+											<?php if ($isBI): ?>
+												<div class="ms-2">
+													<?php
+													$signatureStatus = $attachment['signature_status'] ?? 'non_signe';
+													$isLatestBI = $attachment['is_latest_bi'] ?? false;
+													$isLatestSigned = $attachment['is_latest_signed'] ?? false;
+
+													$statusConfig = [
+														'signe_tech_client' => [
+															'label' => 'Signé (Tech + Client)',
+															'class' => 'bg-success',
+															'icon' => 'bi-check-circle-fill'
+														],
+														'signe_tech' => [
+															'label' => 'Signé (Tech)',
+															'class' => 'bg-warning',
+															'icon' => 'bi-check-circle'
+														],
+														'signe_client' => [
+															'label' => 'Signé (Client)',
+															'class' => 'bg-warning',
+															'icon' => 'bi-check-circle'
+														],
+														'non_signe' => [
+															'label' => 'Non signé',
+															'class' => 'bg-secondary',
+															'icon' => 'bi-x-circle'
+														]
+													];
+
+													$status = $statusConfig[$signatureStatus] ?? $statusConfig['non_signe'];
+
+													// Priorité 1 : Si c'est le dernier BI et qu'il est complètement signé
+													if ($isLatestSigned && $signatureStatus === 'signe_tech_client') {
+														$status['label'] = '✓ Signé complet';
+														$status['class'] = 'bg-success';
+														$status['icon'] = 'bi-check-circle-fill';
+													}
+													// Priorité 2 : Si c'est le dernier BI (signé partiellement ou non)
+													elseif ($isLatestBI) {
+														if ($signatureStatus !== 'non_signe') {
+															$status['label'] .= ' (dernier)';
+														} else {
+															$status['label'] = 'Dernier généré';
+														}
+													}
+													?>
+													<span class="badge <?= $status['class'] ?>">
+														<i class="bi <?= $status['icon'] ?> me-1"></i>
+														<?= $status['label'] ?>
+													</span>
+												</div>
+											<?php endif; ?>
+
 											<?php if (canModifyInterventions() && $intervention['status_id'] != 6): ?>
-												<button type="button" class="btn btn-sm btn-outline-secondary"
+												<button type="button" class="btn btn-sm btn-outline-secondary ms-2"
 													onclick="editAttachmentName(<?= $attachment['id'] ?>, '<?= h($attachment['nom_fichier']) ?>')"
 													title="Modifier le nom">
 													<i class="bi bi-pencil-square"></i>
@@ -960,11 +1017,7 @@ $closeReason = [];
 			}
 		});
 	</script>
-</div><!-- /container -->
-
-<!-- ════════════════════════════════════════════════════════════════════════
-		 MODALES GLOBALES
-		 ════════════════════════════════════════════════════════════════════════ -->
+</div>
 
 <!-- Ajout commentaire -->
 <div class="modal fade" id="addCommentModal" tabindex="-1" aria-hidden="true">

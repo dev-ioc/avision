@@ -6465,9 +6465,9 @@ class InterventionController
         try {
             // Récupérer la pièce jointe BI ciblée -> on en déduit l'intervention
             $sql = "SELECT pj.*, lpj.entite_id AS intervention_id
-                FROM pieces_jointes pj
-                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-                WHERE pj.id = ? AND lpj.type_liaison = 'bi'";
+            FROM pieces_jointes pj
+            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+            WHERE pj.id = ? AND lpj.type_liaison = 'bi'";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$attachmentId]);
             $pj = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -6499,17 +6499,35 @@ class InterventionController
             $techPath = null;
             $clientPath = null;
 
+            // Récupérer les signatures existantes pour les conserver si une seule est envoyée
+            $existingSignature = $this->getExistingSignature($interventionId);
+
             if ($techSignatureData) {
                 $techPath = $this->saveBase64Signature($techSignatureData, $signatureDir, 'tech');
-            }
-            if ($clientSignatureData) {
-                $clientPath = $this->saveBase64Signature($clientSignatureData, $signatureDir, 'client');
+            } elseif ($existingSignature && $existingSignature['technicien_signature_path']) {
+                // Conserver la signature existante du technicien
+                $techPath = $existingSignature['technicien_signature_path'];
             }
 
-            // Enregistrer en base (on garde une trace du BI source signé)
-            $sql = "INSERT INTO intervention_local_signatures
+            if ($clientSignatureData) {
+                $clientPath = $this->saveBase64Signature($clientSignatureData, $signatureDir, 'client');
+            } elseif ($existingSignature && $existingSignature['client_signature_path']) {
+                // Conserver la signature existante du client
+                $clientPath = $existingSignature['client_signature_path'];
+            }
+
+            // Enregistrer ou mettre à jour en base avec INSERT ... ON DUPLICATE KEY UPDATE
+            $sql = "INSERT INTO intervention_local_signatures 
             (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path, technicien_id, signed_at, ip_address)
-            VALUES (:iid, :source_id, :tech, :client, :tid, NOW(), :ip)";
+            VALUES (:iid, :source_id, :tech, :client, :tid, NOW(), :ip)
+            ON DUPLICATE KEY UPDATE
+            source_attachment_id = VALUES(source_attachment_id),
+            technicien_signature_path = VALUES(technicien_signature_path),
+            client_signature_path = VALUES(client_signature_path),
+            technicien_id = VALUES(technicien_id),
+            signed_at = NOW(),
+            ip_address = VALUES(ip_address)";
+
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
                 ':iid' => $interventionId,
@@ -6519,9 +6537,7 @@ class InterventionController
                 ':tid' => $_SESSION['user']['id'],
                 ':ip' => $_SERVER['REMOTE_ADDR'] ?? null,
             ]);
-
-            // Reconstituer les mêmes données que celles utilisées pour générer le bon,
-            // puis régénérer ce bon en y intégrant les signatures.
+            $this->interventionModel->updateLastSignedBI($interventionId, $attachmentId);
             $pdfData = $this->prepareBonInterventionData($interventionId);
 
             $pdfPath = $this->generateBonInterventionPdf(
@@ -6542,7 +6558,9 @@ class InterventionController
                 'Signature',
                 '',
                 '',
-                "Bon d'intervention (PJ #{$attachmentId}) signé électroniquement (technicien" . ($clientPath ? " et client" : "") . ")"
+                "Bon d'intervention (PJ #{$attachmentId}) signé électroniquement" .
+                ($techPath ? " (technicien)" : "") .
+                ($clientPath ? " et client" : "")
             );
 
             echo json_encode([
@@ -6556,6 +6574,22 @@ class InterventionController
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
         }
         exit;
+    }
+
+    /**
+     * Récupère les signatures existantes pour une intervention
+     */
+    private function getExistingSignature($interventionId)
+    {
+        try {
+            $sql = "SELECT * FROM intervention_local_signatures WHERE intervention_id = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$interventionId]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            custom_log("Erreur getExistingSignature: " . $e->getMessage(), 'ERROR');
+            return null;
+        }
     }
 
     /**
