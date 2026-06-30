@@ -629,16 +629,21 @@ class UserController
 
         echo json_encode(['html' => $html]);
     }
+    /**
+     * Envoie un lien de réinitialisation de mot de passe (AJAX)
+     */
     public function sendResetLink($userId)
     {
-
-        // Vérification AJAX + admin
-        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+        // Vérification AJAX
+        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
             http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Accès non autorisé.']);
             exit;
         }
 
+        // Vérification admin
         if (!isAdmin()) {
+            http_response_code(403);
             echo json_encode(['success' => false, 'message' => 'Accès refusé.']);
             exit;
         }
@@ -646,10 +651,7 @@ class UserController
         // Vérification CSRF
         $input = file_get_contents('php://input');
         $data = json_decode($input, true);
-        $token = $data['csrf_token']
-            ?? $_POST['csrf_token']
-            ?? $_SERVER['HTTP_X_CSRF_TOKEN']
-            ?? null;
+        $token = $data['csrf_token'] ?? $_POST['csrf_token'] ?? null;
 
         if (!csrf_verify($token)) {
             http_response_code(403);
@@ -666,13 +668,9 @@ class UserController
                 echo json_encode(['success' => false, 'message' => 'Utilisateur introuvable ou sans email.']);
                 exit;
             }
-            // Après avoir récupéré l'utilisateur
-            error_log("=== sendResetLink ===");
-            error_log("User ID reçu: " . $userId);
-            error_log("User trouvé - ID: " . $user['id'] . ", Email: " . $user['email'] . ", Nom: " . $user['first_name'] . " " . $user['last_name']);
+
             // EMPÊCHER l'envoi à l'admin lui-même
             $adminEmail = $_SESSION['user']['email'] ?? null;
-
             if ($adminEmail && $user['email'] === $adminEmail) {
                 echo json_encode([
                     'success' => false,
@@ -680,12 +678,13 @@ class UserController
                 ]);
                 exit;
             }
+
             // Générer un token unique
             $resetToken = bin2hex(random_bytes(32));
-            $expiresAt = date('Y-m-d H:i:s', time() + 7200); // 2 heures
+            $expiresAt = date('Y-m-d H:i:s', time() + 7200);
 
-            // Sauvegarder le token en base
-            $this->userModel->savePasswordResetToken($userId, $resetToken, $expiresAt);
+            // Sauvegarder le token en base (avec l'ID de l'admin qui demande)
+            $this->userModel->savePasswordResetToken($userId, $resetToken, $expiresAt, $_SESSION['user']['id']);
 
             // Envoyer l'email
             require_once __DIR__ . '/../classes/MailService.php';
@@ -698,12 +697,12 @@ class UserController
             ]);
 
         } catch (Exception $e) {
+            custom_log("Erreur dans sendResetLink: " . $e->getMessage(), 'ERROR');
             echo json_encode([
                 'success' => false,
                 'message' => 'Erreur lors de l\'envoi : ' . $e->getMessage()
             ]);
         }
-
         exit;
     }
 }

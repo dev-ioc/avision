@@ -744,7 +744,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <?php endif; ?>
                             <?php if ($correctiveCount > 0): ?>
                               <span class="badge bg-warning">
-                                <?php echo $correctiveCount; ?> Curratives(s)
+                                <?php echo $correctiveCount; ?> Correctives(s)
                               </span>
                             <?php endif; ?>
                             <?php if ($preventiveCount === 0 && $correctiveCount === 0): ?>
@@ -812,7 +812,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         $correctives = isset($contractGroup['corrective']) ? $contractGroup['corrective'] : [];
                         if (!empty($correctives)):
                           ?>
-                          <h6 class="fw-bold mb-3 mt-4">Curratives</h6>
+                          <h6 class="fw-bold mb-3 mt-4">Correctives</h6>
                           <div class="table-responsive">
                             <table class="table table-striped table-bordered">
                               <thead>
