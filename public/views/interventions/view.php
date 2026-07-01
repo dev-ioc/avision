@@ -648,7 +648,6 @@ $closeReason = [];
 													</div>
 												<?php endif; ?>
 
-												<!-- Afficher la date de signature si disponible -->
 												<?php if ($isBI && !empty($attachment['signed_at'])): ?>
 													<div class="text-muted small">
 														<i class="bi bi-clock me-1"></i>
@@ -657,18 +656,16 @@ $closeReason = [];
 													</div>
 												<?php endif; ?>
 											</div>
-
-											<!-- STATUT DE SIGNATURE POUR LES BI -->
 											<?php if ($isBI): ?>
 												<div class="ms-2">
 													<?php
 													$signatureStatus = $attachment['signature_status'] ?? 'non_signe';
-													$isLatestBI = $attachment['is_latest_bi'] ?? false;
-													$isLatestSigned = $attachment['is_latest_signed'] ?? false;
+													$version = $attachment['version'] ?? 1;
+													$isLatestVersion = $attachment['is_latest_version'] ?? false;
 
 													$statusConfig = [
 														'signe_tech_client' => [
-															'label' => 'Signé (Tech + Client)',
+															'label' => '✓ Signé complet',
 															'class' => 'bg-success',
 															'icon' => 'bi-check-circle-fill'
 														],
@@ -690,20 +687,8 @@ $closeReason = [];
 													];
 
 													$status = $statusConfig[$signatureStatus] ?? $statusConfig['non_signe'];
-
-													// Si c'est le dernier BI et qu'il est complètement signé
-													if ($isLatestSigned && $signatureStatus === 'signe_tech_client') {
-														$status['label'] = '✓ Signé complet';
-														$status['class'] = 'bg-success';
-														$status['icon'] = 'bi-check-circle-fill';
-													}
-													// Si c'est le dernier BI (signé partiellement ou non)
-													elseif ($isLatestBI) {
-														if ($signatureStatus !== 'non_signe') {
-															$status['label'] .= ' (dernier)';
-														} else {
-															$status['label'] = 'Dernier généré';
-														}
+													if ($isLatestVersion && $signatureStatus !== 'non_signe') {
+														$status['label'];
 													}
 													?>
 													<span class="badge <?= $status['class'] ?>">

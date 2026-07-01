@@ -6444,7 +6444,7 @@ class InterventionController
     /**
      * Reçoit les signatures (base64 PNG) du canvas pour un BON DÉJÀ GÉNÉRÉ
      * (identifié par son attachment_id, type_liaison = 'bi')
-     * Met à jour le PDF existant avec les signatures
+     * Met à jour le BI existant avec les signatures (SANS écraser les signatures existantes)
      */
     public function saveLocalSignature($attachmentId)
     {
@@ -6463,11 +6463,11 @@ class InterventionController
         }
 
         try {
-            // Récupérer la pièce jointe BI ciblée -> on en déduit l'intervention
+            // Récupérer la pièce jointe BI ciblée
             $sql = "SELECT pj.*, lpj.entite_id AS intervention_id
-            FROM pieces_jointes pj
-            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-            WHERE pj.id = ? AND lpj.type_liaison = 'bi'";
+        FROM pieces_jointes pj
+        INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+        WHERE pj.id = ? AND lpj.type_liaison = 'bi'";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$attachmentId]);
             $pj = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -6503,35 +6503,49 @@ class InterventionController
                 mkdir($signatureDir, 0777, true);
             }
 
+            // ============================================================
+            // ÉTAPE 1 : Récupérer les signatures EXISTANTES pour ce BI
+            // ============================================================
+            $existingSignature = $this->getExistingSignatureByAttachment($attachmentId);
+
             $techPath = null;
             $clientPath = null;
 
-            // Récupérer les signatures existantes pour les conserver si une seule est envoyée
-            $existingSignature = $this->getExistingSignature($interventionId);
+            // Conserver les signatures existantes
+            if ($existingSignature) {
+                if (!empty($existingSignature['technicien_signature_path'])) {
+                    $techPath = $existingSignature['technicien_signature_path'];
+                }
+                if (!empty($existingSignature['client_signature_path'])) {
+                    $clientPath = $existingSignature['client_signature_path'];
+                }
+            }
 
+            // ============================================================
+            // ÉTAPE 2 : Ajouter les NOUVELLES signatures (sans écraser)
+            // ============================================================
             if ($techSignatureData) {
+                // Si une nouvelle signature tech est fournie, on l'ajoute
                 $techPath = $this->saveBase64Signature($techSignatureData, $signatureDir, 'tech');
-            } elseif ($existingSignature && $existingSignature['technicien_signature_path']) {
-                $techPath = $existingSignature['technicien_signature_path'];
             }
 
             if ($clientSignatureData) {
+                // Si une nouvelle signature client est fournie, on l'ajoute
                 $clientPath = $this->saveBase64Signature($clientSignatureData, $signatureDir, 'client');
-            } elseif ($existingSignature && $existingSignature['client_signature_path']) {
-                $clientPath = $existingSignature['client_signature_path'];
             }
 
-            // Enregistrer ou mettre à jour en base avec INSERT ... ON DUPLICATE KEY UPDATE
+            // ============================================================
+            // ÉTAPE 3 : Mettre à jour les signatures en base
+            // ============================================================
             $sql = "INSERT INTO intervention_local_signatures 
-            (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path, technicien_id, signed_at, ip_address)
-            VALUES (:iid, :source_id, :tech, :client, :tid, NOW(), :ip)
-            ON DUPLICATE KEY UPDATE
-            source_attachment_id = VALUES(source_attachment_id),
-            technicien_signature_path = VALUES(technicien_signature_path),
-            client_signature_path = VALUES(client_signature_path),
-            technicien_id = VALUES(technicien_id),
-            signed_at = NOW(),
-            ip_address = VALUES(ip_address)";
+        (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path, technicien_id, signed_at, ip_address)
+        VALUES (:iid, :source_id, :tech, :client, :tid, NOW(), :ip)
+        ON DUPLICATE KEY UPDATE
+        technicien_signature_path = VALUES(technicien_signature_path),
+        client_signature_path = VALUES(client_signature_path),
+        technicien_id = VALUES(technicien_id),
+        signed_at = NOW(),
+        ip_address = VALUES(ip_address)";
 
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
@@ -6543,14 +6557,26 @@ class InterventionController
                 ':ip' => $_SERVER['REMOTE_ADDR'] ?? null,
             ]);
 
-            // Charger le PDF existant
-            require_once __DIR__ . '/../classes/InterventionPDF.php';
-            $pdf = new InterventionPDF();
+            // ============================================================
+            // ÉTAPE 4 : Déterminer le statut de signature final
+            // ============================================================
+            $signatureStatus = 'non_signe';
+            if ($techPath && $clientPath) {
+                $signatureStatus = 'signe_tech_client';
+            } elseif ($techPath) {
+                $signatureStatus = 'signe_tech';
+            } elseif ($clientPath) {
+                $signatureStatus = 'signe_client';
+            }
 
-            // Générer le PDF avec les signatures intégrées dans le même fichier
+            // ============================================================
+            // ÉTAPE 5 : Mettre à jour le PDF avec TOUTES les signatures
+            // ============================================================
             $pdfData = $this->prepareBonInterventionData($interventionId);
 
-            $tempPdfPath = $pdf->generateBonInterventionWithSignatures(
+            require_once __DIR__ . '/../classes/InterventionPDF.php';
+            $pdf = new InterventionPDF();
+            $pdf->generateBonIntervention(
                 $pdfData['intervention'],
                 $pdfData['comments'],
                 $pdfData['attachments'],
@@ -6563,41 +6589,37 @@ class InterventionController
                 ]
             );
 
-            // Remplacer l'ancien PDF par le nouveau (signé)
-            if (file_exists($tempPdfPath)) {
-                // Supprimer l'ancien PDF
+            // Sauvegarder dans un fichier temporaire
+            $tempDir = __DIR__ . '/../../uploads/interventions/' . $interventionId . '/temp/';
+            if (!file_exists($tempDir)) {
+                mkdir($tempDir, 0777, true);
+            }
+            $tempFilePath = $tempDir . 'temp_signed_' . time() . '.pdf';
+            $pdf->Output($tempFilePath, 'F');
+
+            // Remplacer l'ancien PDF par le nouveau
+            if (file_exists($tempFilePath)) {
                 if (file_exists($pdfPath)) {
                     unlink($pdfPath);
                 }
-                // Déplacer le nouveau PDF à la place de l'ancien
-                rename($tempPdfPath, $pdfPath);
+                rename($tempFilePath, $pdfPath);
+
+                if (is_dir($tempDir) && count(scandir($tempDir)) <= 2) {
+                    rmdir($tempDir);
+                }
             }
 
-            // Mettre à jour le nom du fichier pour refléter qu'il est signé
-            $newFileName = str_replace('.pdf', '_signe.pdf', $pj['nom_fichier']);
-            $newPersonalizedName = str_replace('.pdf', ' (signé)', $pj['nom_personnalise'] ?? $pj['nom_fichier']);
-
-            // Mettre à jour la pièce jointe dans la base de données
+            // ============================================================
+            // ÉTAPE 6 : Mettre à jour le statut dans pieces_jointes
+            // ============================================================
             $sql = "UPDATE pieces_jointes 
-                SET nom_fichier = :nom_fichier, 
-                    nom_personnalise = :nom_personnalise,
-                    updated_at = NOW()
+                SET signature_status = :signature_status,
+                    nom_personnalise = :nom_personnalise
                 WHERE id = :id";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
-                ':nom_fichier' => $newFileName,
-                ':nom_personnalise' => $newPersonalizedName,
-                ':id' => $attachmentId
-            ]);
-
-            // Mettre à jour le chemin du fichier dans la base
-            $newChemin = str_replace($pj['nom_fichier'], $newFileName, $pj['chemin_fichier']);
-            $sql = "UPDATE pieces_jointes 
-                SET chemin_fichier = :chemin_fichier
-                WHERE id = :id";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([
-                ':chemin_fichier' => $newChemin,
+                ':signature_status' => $signatureStatus,
+                ':nom_personnalise' => str_replace('.pdf', ' (signé)', $pj['nom_personnalise'] ?? $pj['nom_fichier']),
                 ':id' => $attachmentId
             ]);
 
@@ -6610,15 +6632,22 @@ class InterventionController
                 'Signature',
                 '',
                 '',
-                "Bon d'intervention (PJ #{$attachmentId}) signé électroniquement" .
-                ($techPath ? " (technicien)" : "") .
-                ($clientPath ? " et client" : "")
+                "Bon d'intervention (PJ #{$attachmentId}) mis à jour - " .
+                ($techPath ? "Signature technicien ajoutée" : "") .
+                ($techPath && $clientPath ? " et " : "") .
+                ($clientPath ? "Signature client ajoutée" : "") .
+                " - Statut: " . $signatureStatus .
+                " - Version " . ($pj['version'] ?? 1)
             );
 
             echo json_encode([
                 'success' => true,
-                'message' => 'Signatures enregistrées et PDF mis à jour',
+                'message' => 'Signature(s) enregistrée(s) et PDF mis à jour',
                 'pdf_url' => BASE_URL . 'interventions/download/' . $attachmentId,
+                'version' => $pj['version'] ?? 1,
+                'signature_status' => $signatureStatus,
+                'has_tech_signature' => !empty($techPath),
+                'has_client_signature' => !empty($clientPath)
             ]);
 
         } catch (Exception $e) {
@@ -6627,19 +6656,18 @@ class InterventionController
         }
         exit;
     }
-
     /**
-     * Récupère les signatures existantes pour une intervention
+     * Récupère les signatures existantes pour un BI spécifique
      */
-    private function getExistingSignature($interventionId)
+    private function getExistingSignatureByAttachment($attachmentId)
     {
         try {
-            $sql = "SELECT * FROM intervention_local_signatures WHERE intervention_id = ?";
+            $sql = "SELECT * FROM intervention_local_signatures WHERE source_attachment_id = ?";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$interventionId]);
+            $stmt->execute([$attachmentId]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            custom_log("Erreur getExistingSignature: " . $e->getMessage(), 'ERROR');
+            custom_log("Erreur getExistingSignatureByAttachment: " . $e->getMessage(), 'ERROR');
             return null;
         }
     }
