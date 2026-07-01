@@ -237,7 +237,6 @@ function minutesToHuman(int $minutes): string
                                 <th style="width:9%">DATE PLANIFIÉE</th>
                                 <th style="width:10%">TECHNICIEN</th>
                                 <th style="width:9%">DATE CRÉATION</th>
-                                <th style="width:5%">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody id="statsTableBody">
@@ -309,7 +308,7 @@ function minutesToHuman(int $minutes): string
                                             <span class="text-muted">-</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         <div class="d-flex gap-1">
                                             <a href="<?= BASE_URL ?>interventions/view/<?= $interv['id'] ?>"
                                                 class="btn btn-sm btn-outline-info p-1" title="Voir">
@@ -320,7 +319,7 @@ function minutesToHuman(int $minutes): string
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                         </div>
-                                    </td>
+                                    </td> -->
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
