@@ -1639,6 +1639,9 @@ try {
                 case 'global_search':
                     $materielController->globalSearch();
                     break;
+                case 'search_api':
+                    $materielController->searchApi();
+                    break;
                 default:
                     header('Location: ' . BASE_URL . 'materiel');
                     break;

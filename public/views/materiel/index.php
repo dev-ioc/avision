@@ -873,6 +873,8 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       date_derniere_inter: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Dernière Inter', example: '2026-12-31' },
     };
     const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
+    const colHeadersGlobal = <?= json_encode($colHeaders) ?>;
+    const hiddenColumnsDefault = <?= json_encode($hiddenColumns) ?>;
 
     function validateRow(row, rowIndex) {
       const errors = [];
@@ -1038,29 +1040,8 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       }
     }
 
-    // ── RECHERCHE GLOBALE EN TEMPS RÉEL ──────────────────────────────────────
+    // ── RECHERCHE GLOBALE EN TEMPS RÉEL (locale, sur données déjà chargées) ──────
     let searchDebounceTimer = null;
-
-    function performGlobalSearch(term) {
-      if (!term || term.length < 2) {
-        // Si le terme est vide ou trop court, on efface la recherche
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.delete('search');
-        window.location.href = currentUrl.toString();
-        return;
-      }
-
-      // Rediriger vers la page avec le paramètre de recherche
-      const currentUrl = new URL(window.location.href);
-      currentUrl.searchParams.set('search', term);
-      // Supprimer les filtres client/site/batiment/salle car la recherche est globale
-      currentUrl.searchParams.delete('client_id');
-      currentUrl.searchParams.delete('site_id');
-      currentUrl.searchParams.delete('building_id');
-      currentUrl.searchParams.delete('salle_id');
-
-      window.location.href = currentUrl.toString();
-    }
 
     function applyGlobalSearch() {
       const searchTerm = document.getElementById('globalSearch').value.toLowerCase();
@@ -1412,6 +1393,283 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       if (uploader) uploader.clearAll();
     });
 
+    // ══════════════════════════════════════════════════════════════════════════
+    // RECHERCHE AJAX SANS RECHARGEMENT — construction dynamique des tableaux
+    // ══════════════════════════════════════════════════════════════════════════
+
+    const COLUMN_FORMATS_GLOBAL = {
+      'date_fin_maintenance': { type: 'date', dateFormat: 'YYYY-MM-DD' },
+      'date_fin_garantie': { type: 'date', dateFormat: 'YYYY-MM-DD' },
+      'date_derniere_inter': { type: 'date', dateFormat: 'YYYY-MM-DD' },
+    };
+    const COLUMN_PLACEHOLDERS_GLOBAL = {
+      'date_fin_maintenance': 'YYYY-MM-DD',
+      'date_fin_garantie': 'YYYY-MM-DD',
+      'date_derniere_inter': 'YYYY-MM-DD',
+      'adresse_ip': '192.168.1.1',
+      'ip_primaire': '192.168.1.1',
+      'ip_secondaire': '192.168.1.1',
+      'passerelle': '172.24.158.230',
+      'masque': '255.255.255.0',
+      'adresse_mac': '00:0E:DD:FA:65:88',
+      'mac_primaire': '00:0E:DD:FA:65:88',
+      'mac_secondaire': '00:0E:DD:FA:65:88',
+      'version_firmware': '10.0.8',
+      'ancien_firmware': '10.0.8',
+    };
+
+    function makePlaceholderRendererGlobal(placeholder) {
+      return function (instance, td, row, col, prop, value) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        if (!value || value === '') {
+          td.innerHTML = `<span style="color:#adb5bd;font-style:italic;pointer-events:none;">${placeholder}</span>`;
+        }
+      };
+    }
+
+    function buildHotColumnsGlobal() {
+      return allColumnFields.map(field => {
+        const fmt = COLUMN_FORMATS_GLOBAL[field];
+        const ph = COLUMN_PLACEHOLDERS_GLOBAL[field];
+        if (!fmt) return ph ? { type: 'text', renderer: makePlaceholderRendererGlobal(ph) } : { type: 'text' };
+        if (fmt.type === 'date') {
+          return {
+            type: 'date', dateFormat: fmt.dateFormat, correctFormat: true, defaultDate: '',
+            renderer: makePlaceholderRendererGlobal(ph || 'YYYY-MM-DD'),
+            datePickerConfig: {
+              firstDay: 1, showWeekNumber: true,
+              i18n: {
+                previousMonth: 'Mois préc.', nextMonth: 'Mois suiv.',
+                months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                weekdays: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                weekdaysShort: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa']
+              }
+            }
+          };
+        }
+        return { type: 'text' };
+      });
+    }
+
+    function materielRowToArrayGlobal(m, piecesJointesCount) {
+      return allColumnFields.map(field => {
+        if (field === 'pieces_jointes') {
+          return { count: piecesJointesCount[m.id] || 0, id: m.id, name: `${m.marque || ''} ${m.modele || ''}` };
+        }
+        return m[field] ?? '';
+      });
+    }
+
+    function createMaterielHotTable(containerId, materiels, salleId, piecesJointesCount) {
+      const container = document.getElementById(containerId);
+      if (!container) return null;
+
+      const data = materiels.map(m => materielRowToArrayGlobal(m, piecesJointesCount));
+
+      const hot = new Handsontable(container, {
+        data: data,
+        colHeaders: colHeadersGlobal,
+        columns: buildHotColumnsGlobal(),
+        hiddenColumns: {
+          columns: (function () {
+            const saved = localStorage.getItem('materiel_columns_visibility');
+            if (!saved) return hiddenColumnsDefault;
+            try {
+              const state = JSON.parse(saved);
+              return Object.keys(state).map(k => parseInt(k)).filter(k => state[k] === false);
+            } catch (e) { return hiddenColumnsDefault; }
+          })(),
+          indicators: true
+        },
+        rowHeaders: false,
+        licenseKey: 'non-commercial-and-evaluation',
+        stretchH: 'all',
+        height: 'auto',
+        cells: function (row, col) {
+          const header = this.colHeaders[col];
+          if (header === 'Marque') {
+            return {
+              renderer: function (instance, td, row, col, prop, value) {
+                const id = instance.getDataAtCell(row, ID_INDEX);
+                td.innerHTML = '';
+                if (id) {
+                  const urlParams = new URLSearchParams(window.location.search);
+                  const link = document.createElement('a');
+                  link.href = baseUrl + 'materiel/view/' + id + (urlParams.toString() ? '?' + urlParams : '');
+                  link.className = 'text-decoration-none fw-bold text-primary';
+                  link.onclick = e => e.stopPropagation();
+                  link.textContent = value || '';
+                  td.appendChild(link);
+                } else {
+                  const span = document.createElement('span');
+                  span.className = 'fw-bold text-primary';
+                  span.textContent = value || '';
+                  td.appendChild(span);
+                }
+                td.style.cursor = 'default';
+              },
+              editor: 'text'
+            };
+          }
+          if (header === 'Modèle') {
+            return {
+              renderer: function (instance, td, row, col, prop, value) {
+                td.style.color = '#000000';
+                td.style.fontWeight = 'normal';
+                td.style.backgroundColor = '#f3e1b5';
+                td.textContent = value || '';
+                td.style.cursor = 'default';
+              },
+              editor: 'text'
+            };
+          }
+          if (header === 'Pièces jointes') {
+            return {
+              renderer: function (instance, td, row, col, prop, value) {
+                const count = value?.count ?? 0;
+                const id = value?.id;
+                const name = value?.name ?? '';
+                td.innerHTML = `<button class="btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}"
+                  onclick="openAttachmentsModal(${id},'${name.replace(/'/g, "\\'")}')">
+                  <i class="bi bi-paperclip"></i>
+                  <span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'} ms-1">${count}</span>
+                </button>`;
+                td.style.textAlign = 'center';
+              }
+            };
+          }
+          return {};
+        }
+      });
+
+      hot.__salleId = salleId;
+      return hot;
+    }
+
+    function escapeAttrGlobal(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function slugifyLocationKey(str) {
+      // Génère un identifiant stable et sans accents pour un id HTML
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = (hash * 31 + str.charCodeAt(i)) | 0;
+      }
+      const clean = str
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9]/g, '_')
+        .substring(0, 80);
+      return 'salle_' + clean + '_' + Math.abs(hash);
+    }
+
+    function groupMaterielByLocation(materiels) {
+      const groups = {};
+      materiels.forEach(m => {
+        const client = m.client_nom || m.client_name || 'Sans client';
+        const site = m.site_nom || m.site_name || 'Sans site';
+        const building = m.building_nom || m.building_name || 'Sans bâtiment';
+        const salle = m.salle_nom || m.room_name || 'Sans salle';
+        groups[client] = groups[client] || {};
+        groups[client][site] = groups[client][site] || {};
+        groups[client][site][building] = groups[client][site][building] || {};
+        groups[client][site][building][salle] = groups[client][site][building][salle] || [];
+        groups[client][site][building][salle].push(m);
+      });
+      return groups;
+    }
+
+    function renderSearchResults(materiels, piecesJointesCount) {
+      // Détruire les instances Handsontable précédentes pour éviter les fuites mémoire
+      Object.values(hotInstances).forEach(hot => { try { hot.destroy(); } catch (e) { } });
+      hotInstances = {};
+
+      const container = document.getElementById('accordionContainer');
+      if (!container) return;
+
+      if (!materiels.length) {
+        container.innerHTML = `<div class="card"><div class="card-body text-center py-5">
+          <i class="bi bi-hdd-network fa-3x text-muted mb-3"></i>
+          <h5 class="text-muted">Aucun matériel trouvé</h5>
+        </div></div>`;
+        return;
+      }
+
+      const groups = groupMaterielByLocation(materiels);
+      let html = '';
+      const salleKeyMap = {};
+
+      Object.keys(groups).forEach(clientNom => {
+        html += `<div class="card mb-4">
+          <div class="card-header bg-body-secondary d-flex align-items-center justify-content-between">
+            <h5 class="card-title mb-0 d-flex align-items-center">
+              <i class="bi bi-building text-primary me-2"></i>${escapeHtml(clientNom)}
+            </h5>
+            <button type="button" class="btn btn-sm btn-outline-primary" onclick="saveAllTablesData()">
+              <i class="bi bi-save-all me-1"></i>Sauvegarder toutes les modifications
+            </button>
+          </div>
+          <div class="card-body p-0">`;
+
+        Object.keys(groups[clientNom]).forEach(siteNom => {
+          Object.keys(groups[clientNom][siteNom]).forEach(buildingNom => {
+            Object.keys(groups[clientNom][siteNom][buildingNom]).forEach(salleNom => {
+              const materielsSalle = groups[clientNom][siteNom][buildingNom][salleNom];
+              const key = clientNom + '|' + siteNom + '|' + buildingNom + '|' + salleNom;
+              const salleIdHash = slugifyLocationKey(key);
+              salleKeyMap[salleIdHash] = materielsSalle;
+              const locationString = `${escapeHtml(siteNom)} - ${escapeHtml(buildingNom)} - ${escapeHtml(salleNom)}`;
+              const salleId = materielsSalle[0]?.salle_id ?? 'null';
+
+              html += `<div class="accordion mb-3" id="accordion_${salleIdHash}">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_${salleIdHash}">
+                      <div class="d-flex justify-content-between w-100 me-3 align-items-center">
+                        <span><i class="bi bi-door-open me-2 text-info"></i><strong>${locationString}</strong></span>
+                        <span class="badge bg-secondary ms-3">${materielsSalle.length} équipement(s)</span>
+                      </div>
+                    </button>
+                  </h2>
+                  <div id="collapse_${salleIdHash}" class="accordion-collapse collapse show" data-bs-parent="#accordionContainer">
+                    <div class="accordion-body p-0">
+                      <div class="d-flex justify-content-end p-2 border-bottom bg-light">
+                        <button type="button" class="btn btn-sm btn-success"
+                          onclick="addNewRowToTable('excelTable-${salleIdHash}', '${escapeAttrGlobal(locationString)}', ${salleId})">
+                          <i class="bi bi-plus-circle me-1"></i>Ajouter un équipement
+                        </button>
+                      </div>
+                      <div class="table-wrapper"><div id="excelTable-${salleIdHash}"></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>`;
+            });
+          });
+        });
+
+        html += `</div></div>`;
+      });
+
+      container.innerHTML = html;
+
+      // Créer les tableaux Handsontable après insertion du DOM
+      Object.keys(salleKeyMap).forEach(salleIdHash => {
+        const materielsSalle = salleKeyMap[salleIdHash];
+        const salleId = materielsSalle[0]?.salle_id ?? null;
+        const hot = createMaterielHotTable('excelTable-' + salleIdHash, materielsSalle, salleId, piecesJointesCount);
+        if (hot) hotInstances['excelTable-' + salleIdHash] = hot;
+      });
+
+      // Réappliquer la visibilité des colonnes sauvegardée
+      const saved = restoreColumnVisibility();
+      if (saved) {
+        Object.keys(saved).forEach(col =>
+          applyColumnVisibility(parseInt(col), saved[col] === true || saved[col] === 'true')
+        );
+      }
+    }
+
     // ── DOMContentLoaded ──────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -1439,373 +1697,51 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
                       return $rowData;
                     }, $materiels)); ?>;
 
-                    const COLUMN_FORMATS = {
-                      'date_fin_maintenance': { type: 'date', dateFormat: 'YYYY-MM-DD' },
-                      'date_fin_garantie': { type: 'date', dateFormat: 'YYYY-MM-DD' },
-                      'date_derniere_inter': { type: 'date', dateFormat: 'YYYY-MM-DD' },
-                    };
-                    const COLUMN_PLACEHOLDERS = {
-                      'date_fin_maintenance': 'YYYY-MM-DD',
-                      'date_fin_garantie': 'YYYY-MM-DD',
-                      'date_derniere_inter': 'YYYY-MM-DD',
-                      'adresse_ip': '192.168.1.1',
-                      'ip_primaire': '192.168.1.1',
-                      'ip_secondaire': '192.168.1.1',
-                      'passerelle': '172.24.158.230',
-                      'masque': '255.255.255.0',
-                      'adresse_mac': '00:0E:DD:FA:65:88',
-                      'mac_primaire': '00:0E:DD:FA:65:88',
-                      'mac_secondaire': '00:0E:DD:FA:65:88',
-                      'version_firmware': '10.0.8',
-                      'ancien_firmware': '10.0.8',
-                    };
+                    const hot = createMaterielHotTable('excelTable-<?= $salle_id ?>'.split('excelTable-')[1] ? 'excelTable-<?= $salle_id ?>' : 'excelTable-<?= $salle_id ?>', <?= json_encode($materiels) ?>, <?= $materiels[0]['salle_id'] ?? 'null' ?>, <?= json_encode($pieces_jointes_count) ?>);
+                    if (hot) hotInstances['excelTable-<?= $salle_id ?>'] = hot;
+                  })();
+              <?php endforeach; ?>
+            <?php endforeach; ?>
+          <?php endforeach; ?>
+        <?php endforeach; ?>
 
-                    function makePlaceholderRenderer(placeholder) {
-                      return function (instance, td, row, col, prop, value, cellProperties) {
-                        Handsontable.renderers.TextRenderer.apply(this, arguments);
-                        if (!value || value === '') {
-                          td.innerHTML = `<span style="color:#adb5bd;font-style:italic;pointer-events:none;">${placeholder}</span>`;
-                        }
-                      };
-                    }
-
-                    const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
-
-                    const columns = allColumnFields.map(field => {
-                      const fmt = COLUMN_FORMATS[field];
-                      const ph = COLUMN_PLACEHOLDERS[field];
-                      if (!fmt) {
-                        if (!ph) return { type: 'text' };
-                        return { type: 'text', renderer: makePlaceholderRenderer(ph) };
-                      }
-                      if (fmt.type === 'date') {
-                        return {
-                          type: 'date',
-                          dateFormat: fmt.dateFormat,
-                          correctFormat: true,
-                          defaultDate: '',
-                          renderer: makePlaceholderRenderer(ph || 'YYYY-MM-DD'),
-                          datePickerConfig: {
-                            firstDay: 1,
-                            showWeekNumber: true,
-                            i18n: {
-                              previousMonth: 'Mois préc.',
-                              nextMonth: 'Mois suiv.',
-                              months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-                              weekdays: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-                              weekdaysShort: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa']
-                            }
-                          }
-                        };
-                      }
-                      if (fmt.validator) {
-                        return {
-                          type: 'text',
-                          renderer: makePlaceholderRenderer(ph),
-                          validator: function (value, callback) {
-                            if (!value || value === '') return callback(true);
-                            callback(fmt.validator.test(value));
-                          },
-                          allowInvalid: true
-                        };
-                      }
-                      return { type: 'text' };
-                    });
-
-                    const hot = new Handsontable(container, {
-                      data: data,
-                      colHeaders: <?= json_encode($colHeaders) ?>,
-                      columns: columns,
-                      hiddenColumns: {
-                        columns: (function () {
-                          const saved = localStorage.getItem('materiel_columns_visibility');
-                          if (!saved) return <?= json_encode($hiddenColumns) ?>;
-                          try {
-                            const state = JSON.parse(saved);
-                            return Object.keys(state).map(k => parseInt(k)).filter(k => state[k] === false);
-                          } catch (e) { return <?= json_encode($hiddenColumns) ?>; }
-                        })(),
-                        indicators: true
-                      },
-                      rowHeaders: false,
-                      licenseKey: 'non-commercial-and-evaluation',
-                      stretchH: 'all',
-                      height: 'auto',
-                      cells: function (row, col) {
-                        const header = this.colHeaders[col];
-
-                        if (header === 'Marque') {
-                          return {
-                            renderer: function (instance, td, row, col, prop, value) {
-                              const id = instance.getDataAtCell(row, ID_INDEX);
-                              td.innerHTML = '';
-                              if (id) {
-                                const urlParams = new URLSearchParams(window.location.search);
-                                const link = document.createElement('a');
-                                link.href = '<?= BASE_URL ?>materiel/view/' + id + (urlParams.toString() ? '?' + urlParams : '');
-                                link.className = 'text-decoration-none fw-bold text-primary';
-                                link.onclick = e => e.stopPropagation();
-                                link.textContent = value || '';
-                                td.appendChild(link);
-                              } else {
-                                const span = document.createElement('span');
-                                span.className = 'fw-bold text-primary';
-                                span.textContent = value || '';
-                                td.appendChild(span);
-                              }
-                              td.style.cursor = 'default';
-                            },
-                            editor: 'text'
-                          };
-                        }
-
-                        if (header === 'Modèle') {
-                          return {
-                            renderer: function (instance, td, row, col, prop, value) {
-                              td.style.color = '#000000';
-                              td.style.fontWeight = 'normal';
-                              td.style.backgroundColor = '#f3e1b5';
-                              td.textContent = value || '';
-                              td.style.cursor = 'default';
-                            },
-                            editor: 'text'
-                          };
-                        }
-
-                        if (header === 'Pièces jointes') {
-                          return {
-                            renderer: function (instance, td, row, col, prop, value) {
-                              const count = value?.count ?? 0;
-                              const id = value?.id;
-                              const name = value?.name ?? '';
-                              td.innerHTML = `<button class="btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}"
-                              onclick="openAttachmentsModal(${id},'${name.replace(/'/g, "\\'")}')">
-                              <i class="bi bi-paperclip"></i>
-                              <span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'} ms-1">${count}</span>
-                            </button>`;
-                    td.style.textAlign = 'center';
-                  }
-                };
-              }
-
-              return {};
-            }
-          });
-
-          hot.__salleId = <?= $materiels[0]['salle_id'] ?? 'null' ?>;
-          hotInstances['excelTable-<?= $salle_id ?>'] = hot;
-        })();
-      <?php endforeach; ?>
-      <?php endforeach; ?>
-      <?php endforeach; ?>
-      <?php endforeach; ?>
-
-      // ── CORRECTION : initialisation silencieuse des tableaux HOT ─────────────
-      requestAnimationFrame(() => {
-        document.querySelectorAll('.accordion-collapse').forEach(c => c.classList.add('show'));
+        // ── initialisation silencieuse des tableaux HOT ─────────────
         requestAnimationFrame(() => {
-          Object.values(hotInstances).forEach(hot => hot.render());
-          document.querySelectorAll('.accordion-collapse').forEach(c => {
-            c.classList.remove('show');
-            const btn = c.closest('.accordion-item')?.querySelector('.accordion-button');
-            if (btn) btn.classList.add('collapsed');
+          document.querySelectorAll('.accordion-collapse').forEach(c => c.classList.add('show'));
+          requestAnimationFrame(() => {
+            Object.values(hotInstances).forEach(hot => hot.render());
+            document.querySelectorAll('.accordion-collapse').forEach(c => {
+              c.classList.remove('show');
+              const btn = c.closest('.accordion-item')?.querySelector('.accordion-button');
+              if (btn) btn.classList.add('collapsed');
+            });
           });
         });
-      });
 
       <?php elseif ($isGlobalSearch && !empty($materiel_organise)): ?>
-      // Initialisation pour les résultats de recherche
-      <?php foreach ($materiel_organise as $client_nom => $sites): ?>
-      <?php foreach ($sites as $site_nom => $buildings): ?>
-      <?php foreach ($buildings as $building_nom => $salles): ?>
-      <?php foreach ($salles as $salle_nom => $materiels):
-            $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
-            $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
-            ?>
-        (function () {
-          const container = document.getElementById('excelTable-<?= $salle_id ?>');
-          if (!container) return;
+        // Initialisation pour les résultats de recherche (chargement initial via URL ?search=)
+        <?php foreach ($materiel_organise as $client_nom => $sites): ?>
+          <?php foreach ($sites as $site_nom => $buildings): ?>
+            <?php foreach ($buildings as $building_nom => $salles): ?>
+              <?php foreach ($salles as $salle_nom => $materiels):
+                $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
+                ?>
+                  (function () {
+                    const hot = createMaterielHotTable('excelTable-<?= $salle_id ?>', <?= json_encode($materiels) ?>, <?= $materiels[0]['salle_id'] ?? 'null' ?>, <?= json_encode($pieces_jointes_count) ?>);
+                    if (hot) hotInstances['excelTable-<?= $salle_id ?>'] = hot;
+                  })();
+              <?php endforeach; ?>
+            <?php endforeach; ?>
+          <?php endforeach; ?>
+        <?php endforeach; ?>
 
-          const data = <?= json_encode(array_map(function ($m) use ($allColumns, $pieces_jointes_count) {
-            $rowData = [];
-            foreach ($allColumns as $col) {
-              if ($col['field'] === 'pieces_jointes') {
-                $rowData[] = ['count' => $pieces_jointes_count[$m['id']] ?? 0, 'id' => $m['id'], 'name' => ($m['marque'] ?? '') . ' ' . ($m['modele'] ?? '')];
-              } else {
-                $rowData[] = $m[$col['field']] ?? '';
-              }
-            }
-            return $rowData;
-          }, $materiels)); ?>;
-
-          const COLUMN_FORMATS = {
-            'date_fin_maintenance': { type: 'date', dateFormat: 'YYYY-MM-DD' },
-            'date_fin_garantie': { type: 'date', dateFormat: 'YYYY-MM-DD' },
-            'date_derniere_inter': { type: 'date', dateFormat: 'YYYY-MM-DD' },
-          };
-          const COLUMN_PLACEHOLDERS = {
-            'date_fin_maintenance': 'YYYY-MM-DD',
-            'date_fin_garantie': 'YYYY-MM-DD',
-            'date_derniere_inter': 'YYYY-MM-DD',
-            'adresse_ip': '192.168.1.1',
-            'ip_primaire': '192.168.1.1',
-            'ip_secondaire': '192.168.1.1',
-            'passerelle': '172.24.158.230',
-            'masque': '255.255.255.0',
-            'adresse_mac': '00:0E:DD:FA:65:88',
-            'mac_primaire': '00:0E:DD:FA:65:88',
-            'mac_secondaire': '00:0E:DD:FA:65:88',
-            'version_firmware': '10.0.8',
-            'ancien_firmware': '10.0.8',
-          };
-
-          function makePlaceholderRenderer(placeholder) {
-            return function (instance, td, row, col, prop, value, cellProperties) {
-              Handsontable.renderers.TextRenderer.apply(this, arguments);
-              if (!value || value === '') {
-                td.innerHTML = `<span style="color:#adb5bd;font-style:italic;pointer-events:none;">${placeholder}</span>`;
-              }
-            };
-          }
-
-          const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
-
-          const columns = allColumnFields.map(field => {
-            const fmt = COLUMN_FORMATS[field];
-            const ph = COLUMN_PLACEHOLDERS[field];
-            if (!fmt) {
-              if (!ph) return { type: 'text' };
-              return { type: 'text', renderer: makePlaceholderRenderer(ph) };
-            }
-            if (fmt.type === 'date') {
-              return {
-                type: 'date',
-                dateFormat: fmt.dateFormat,
-                correctFormat: true,
-                defaultDate: '',
-                renderer: makePlaceholderRenderer(ph || 'YYYY-MM-DD'),
-                datePickerConfig: {
-                  firstDay: 1,
-                  showWeekNumber: true,
-                  i18n: {
-                    previousMonth: 'Mois préc.',
-                    nextMonth: 'Mois suiv.',
-                    months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-                    weekdays: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-                    weekdaysShort: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa']
-                  }
-                }
-              };
-            }
-            if (fmt.validator) {
-              return {
-                type: 'text',
-                renderer: makePlaceholderRenderer(ph),
-                validator: function (value, callback) {
-                  if (!value || value === '') return callback(true);
-                  callback(fmt.validator.test(value));
-                },
-                allowInvalid: true
-              };
-            }
-            return { type: 'text' };
-          });
-
-          const hot = new Handsontable(container, {
-            data: data,
-            colHeaders: <?= json_encode($colHeaders) ?>,
-            columns: columns,
-            hiddenColumns: {
-              columns: (function () {
-                const saved = localStorage.getItem('materiel_columns_visibility');
-                if (!saved) return <?= json_encode($hiddenColumns) ?>;
-                try {
-                  const state = JSON.parse(saved);
-                  return Object.keys(state).map(k => parseInt(k)).filter(k => state[k] === false);
-                } catch (e) { return <?= json_encode($hiddenColumns) ?>; }
-              })(),
-              indicators: true
-            },
-            rowHeaders: false,
-            licenseKey: 'non-commercial-and-evaluation',
-            stretchH: 'all',
-            height: 'auto',
-            cells: function (row, col) {
-              const header = this.colHeaders[col];
-
-              if (header === 'Marque') {
-                return {
-                  renderer: function (instance, td, row, col, prop, value) {
-                    const id = instance.getDataAtCell(row, ID_INDEX);
-                    td.innerHTML = '';
-                    if (id) {
-                      const urlParams = new URLSearchParams(window.location.search);
-                      const link = document.createElement('a');
-                      link.href = '<?= BASE_URL ?>materiel/view/' + id + (urlParams.toString() ? '?' + urlParams : '');
-                      link.className = 'text-decoration-none fw-bold text-primary';
-                      link.onclick = e => e.stopPropagation();
-                      link.textContent = value || '';
-                      td.appendChild(link);
-                    } else {
-                      const span = document.createElement('span');
-                      span.className = 'fw-bold text-primary';
-                      span.textContent = value || '';
-                      td.appendChild(span);
-                    }
-                    td.style.cursor = 'default';
-                  },
-                  editor: 'text'
-                };
-              }
-
-              if (header === 'Modèle') {
-                return {
-                  renderer: function (instance, td, row, col, prop, value) {
-                    td.style.color = '#000000';
-                    td.style.fontWeight = 'normal';
-                    td.style.backgroundColor = '#f3e1b5';
-                    td.textContent = value || '';
-                    td.style.cursor = 'default';
-                  },
-                  editor: 'text'
-                };
-              }
-
-              if (header === 'Pièces jointes') {
-                return {
-                  renderer: function (instance, td, row, col, prop, value) {
-                    const count = value?.count ?? 0;
-                    const id = value?.id;
-                    const name = value?.name ?? '';
-                    td.innerHTML = `<button class="btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}"
-                                                                                                                                                      onclick="openAttachmentsModal(${id},'${name.replace(/'/g, "\\'")}')">
-                                                                                                                                                      <i class="bi bi-paperclip"></i>
-                                                                                                                                                      <span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'} ms-1">${count}</span>
-                                                                                                                                                    </button>`;
-                    td.style.textAlign = 'center';
-                  }
-                };
-              }
-
-              return {};
-            }
-          });
-
-          hot.__salleId = <?= $materiels[0]['salle_id'] ?? 'null' ?>;
-          hotInstances['excelTable-<?= $salle_id ?>'] = hot;
-        })();
-      <?php endforeach; ?>
-      <?php endforeach; ?>
-      <?php endforeach; ?>
-      <?php endforeach; ?>
-
-      // Initialisation des tableaux pour la recherche
-      requestAnimationFrame(() => {
-        document.querySelectorAll('.accordion-collapse').forEach(c => c.classList.add('show'));
+        // Initialisation des tableaux pour la recherche
         requestAnimationFrame(() => {
-          Object.values(hotInstances).forEach(hot => hot.render());
+          document.querySelectorAll('.accordion-collapse').forEach(c => c.classList.add('show'));
+          requestAnimationFrame(() => {
+            Object.values(hotInstances).forEach(hot => hot.render());
+          });
         });
-      });
 
       <?php endif; ?>
 
@@ -1823,52 +1759,53 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
       const searchBtn = document.getElementById('searchBtn');
       const openBtn = document.getElementById('openAllAccordions');
       const closeBtn = document.getElementById('closeAllAccordions');
+      let searchAbortController = null;
 
-      // ── RECHERCHE EN TEMPS RÉEL AVEC DEBOUNCE ──────────────────────────────
+      function performAjaxSearch(term) {
+        if (searchAbortController) searchAbortController.abort();
+        searchAbortController = new AbortController();
+
+        fetch(baseUrl + 'materiel/search_api?search=' + encodeURIComponent(term), {
+          signal: searchAbortController.signal,
+          headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (!data.success) return;
+            renderSearchResults(data.materiels, data.pieces_jointes_count || {});
+          })
+          .catch(err => {
+            if (err.name !== 'AbortError') console.error('Erreur recherche:', err);
+          });
+      }
+
       if (searchInput) {
-        // Événement 'input' déclenché à chaque frappe
-        searchInput.addEventListener('input', function (e) {
+        searchInput.addEventListener('input', function () {
           const term = this.value.trim();
-
-          // Afficher/masquer le bouton clear
           clearBtn.style.display = term ? 'inline-block' : 'none';
 
-          // Annuler le timeout précédent
-          if (searchDebounceTimer) {
-            clearTimeout(searchDebounceTimer);
-            searchDebounceTimer = null;
-          }
+          if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
 
-          // Si le terme est vide ou trop court, effacer la recherche
           if (!term || term.length < 2) {
-            // Attendre un peu pour voir si l'utilisateur continue de taper
-            searchDebounceTimer = setTimeout(() => {
-              const currentUrl = new URL(window.location.href);
-              if (currentUrl.searchParams.has('search')) {
-                currentUrl.searchParams.delete('search');
-                window.location.href = currentUrl.toString();
-              }
-            }, 300);
+            // Terme vide/trop court : réaffiche ce qui est déjà chargé localement, sans reload
+            applyGlobalSearch();
             return;
           }
 
-          // Lancer la recherche après le délai (400ms)
-          searchDebounceTimer = setTimeout(() => {
-            performGlobalSearch(term);
-          }, 400);
+          searchDebounceTimer = setTimeout(() => performAjaxSearch(term), 350);
         });
       }
 
-      // Bouton "Effacer" - supprime la recherche
       if (clearBtn) {
         clearBtn.addEventListener('click', function () {
-          const currentUrl = new URL(window.location.href);
-          currentUrl.searchParams.delete('search');
-          window.location.href = currentUrl.toString();
+          searchInput.value = '';
+          clearBtn.style.display = 'none';
+          if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+          if (searchAbortController) searchAbortController.abort();
+          applyGlobalSearch();
         });
       }
 
-      // Bouton "Rechercher" - recherche manuelle forcée
       if (searchBtn) {
         searchBtn.addEventListener('click', function () {
           const term = searchInput.value.trim();
@@ -1876,7 +1813,7 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
             clearTimeout(searchDebounceTimer);
             searchDebounceTimer = null;
           }
-          performGlobalSearch(term);
+          if (term.length >= 2) performAjaxSearch(term);
         });
       }
 

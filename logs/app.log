@@ -105310,3 +105310,6 @@ Quant à l’écran n°1, il est HS
 [2026-07-01 10:00:14][DEBUG] SIGNNOW EMAIL INVITE RESPONSE = {"status":"success"} 
 [2026-07-01 10:00:14][DEBUG] SIGNNOW Document: {"id":"0f6806c0511549da89bf9b7a050e8493816fdfbf"} 
 [2026-07-01 10:00:14][DEBUG] SIGNNOW Invite: {"status":200,"data":{"status":"success"}} 
+[2026-07-01 10:22:00][INFO] 37 
+[2026-07-01 10:22:00][INFO] 38 
+[2026-07-01 10:22:00][INFO] 36 

@@ -97,6 +97,51 @@ class MaterielController
         require_once VIEWS_PATH . '/materiel/index.php';
     }
     /**
+     * Recherche globale de matériel en AJAX — renvoie du JSON, sans recharger la page.
+     * Réutilise exactement la même logique que index() pour rester cohérent.
+     */
+    public function searchApi()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'error' => 'Non autorisé']);
+            exit;
+        }
+
+        $term = trim($_GET['search'] ?? '');
+
+        if (mb_strlen($term) < 2) {
+            echo json_encode(['success' => true, 'materiels' => [], 'pieces_jointes_count' => []]);
+            exit;
+        }
+
+        try {
+            $filters = ['search' => $term];
+            $materiel_list = $this->materielModel->getAllMateriel($filters);
+
+            $pieces_jointes_count = [];
+            if (!empty($materiel_list)) {
+                $materiel_ids = array_column($materiel_list, 'id');
+                foreach ($materiel_ids as $materiel_id) {
+                    $pieces_jointes_count[$materiel_id] = $this->materielModel->getPiecesJointesCount($materiel_id);
+                }
+            }
+
+            echo json_encode([
+                'success' => true,
+                'materiels' => $materiel_list,
+                'pieces_jointes_count' => $pieces_jointes_count,
+            ]);
+        } catch (Exception $e) {
+            custom_log("Erreur searchApi matériel : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur lors de la recherche']);
+        }
+        exit;
+    }
+    /**
      * Affiche les détails d'un matériel
      */
     public function view($id)

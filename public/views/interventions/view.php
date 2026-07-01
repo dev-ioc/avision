@@ -1535,7 +1535,6 @@ $closeReason = [];
 					<?= csrf_field() ?>
 					<div class="mb-4">
 						<label class="form-label fw-semibold">Signataire</label>
-						<!-- Contact principal de l'intervention -->
 						<div class="form-check border rounded p-3 mb-2" id="optionPrincipal">
 							<input class="form-check-input" type="radio" name="signerChoice" id="signerPrincipal"
 								value="principal" checked>
@@ -1550,27 +1549,21 @@ $closeReason = [];
 								</div>
 							</label>
 						</div>
-
-						<!-- Select contacts -->
 						<div id="otherContactWrapper" style="display:none;" class="ms-4 mt-2">
 							<select class="form-select" id="otherContactSelect">
 								<option value="">— Sélectionner un contact —</option>
 							</select>
 						</div>
-
-						<!-- Signataire manuel -->
 						<div class="form-check border rounded p-3 mb-2">
 							<input class="form-check-input" type="radio" name="signerChoice" id="signerManual"
 								value="manual">
 							<label class="form-check-label w-100" for="signerManual">
 								<div class="d-flex align-items-center gap-2">
 									<i class="bi bi-pencil-fill text-warning"></i>
-									<span class="fw-semibold">Saisir manuellement</span>
+									<span class="fw-semibold">Saisir manuellement (envoie par adresse)</span>
 								</div>
 							</label>
 						</div>
-
-						<!-- Champs manuels -->
 						<div id="manualFields" style="display:none;" class="ms-4 mt-2">
 							<div class="row g-2">
 								<div class="col-md-6">
@@ -1586,9 +1579,7 @@ $closeReason = [];
 							</div>
 						</div>
 					</div>
-
-					<!-- Téléphone pour SMS OTP -->
-					<div class="mb-3">
+					<div class="mb-3" id="contactFields" style="display: none;">
 						<label class="form-label fw-semibold">
 							Téléphone pour vérification SMS
 							<span class="text-muted fw-normal">(optionnel mais recommandé)</span>
@@ -1731,7 +1722,6 @@ $closeReason = [];
 	onerror="console.error('ERREUR: interventions.js introuvable.');"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script>
-	/* ── PDF / Image viewers ─────────────────────────────────────────────────── */
 	pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 	var pdfDoc = null, currentPdfPage = 1, pdfScale = 1.5, pdfCanvas = null, pdfCtx = null, currentImageScale = 1;
 
@@ -1790,7 +1780,6 @@ $closeReason = [];
 </script>
 
 <script>
-	/* ── Envoi email ─────────────────────────────────────────────────────────── */
 	(function () {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 		var baseUrl = window.BASE_URL || '<?= addslashes(BASE_URL) ?>';
@@ -1851,7 +1840,6 @@ $closeReason = [];
 </script>
 
 <script>
-	/* ── MODALE FERMETURE ────────────────────────────────────────────────────── */
 	(function () {
 		'use strict';
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
@@ -1962,8 +1950,6 @@ $closeReason = [];
 				}
 				html += '</div>';
 			}
-
-			// Ajouter le champ ticketsManuel seulement si c'est un contrat à tickets
 			if (data.contract && data.contract.is_ticket_contract == true) {
 				html += '<div class="mb-2">'
 					+ '<label for="ticketsManuel" class="form-label fw-bold">'
@@ -1976,7 +1962,6 @@ $closeReason = [];
 					+ '</div>'
 					+ '</div>';
 			} else if (data.contract && data.contract.is_ticket_contract == false) {
-				// Message optionnel pour les contrats non-tickets
 				html += '<div class="alert alert-info mb-2">';
 				html += '<i class="bi bi-info-circle-fill me-2"></i>';
 				html += 'Ce contrat ne permet pas la gestion par tickets. La fermeture ne déduira aucun ticket.';
@@ -1984,15 +1969,11 @@ $closeReason = [];
 			}
 
 			document.getElementById('fermetureContent').innerHTML = html;
-
-			// Masquer la checkbox email si pas de contrat tickets
 			if (data.contract && data.contract.is_ticket_contract == false) {
 				document.getElementById('fermetureEmailCheck').style.display = 'none';
 			} else {
 				document.getElementById('fermetureEmailCheck').style.display = 'flex';
 			}
-
-			// Initialiser les écouteurs seulement si contrat tickets
 			if (data.contract && data.contract.is_ticket_contract == true) {
 				var ticketsInput = document.getElementById('ticketsManuel');
 				if (ticketsInput && data.contract) {
@@ -2008,10 +1989,7 @@ $closeReason = [];
 					checkSolde();
 				}
 			}
-
-			// Configuration du bouton de confirmation
 			document.getElementById('fermetureConfirmer').onclick = function () {
-				// Si pas contrat tickets, fermer sans ticket
 				if (data.contract && data.contract.is_ticket_contract == false) {
 					var token = getCsrfToken();
 					if (!token) {
@@ -2049,7 +2027,6 @@ $closeReason = [];
 							window.location.reload();
 						});
 				} else {
-					// Comportement normal pour les contrats tickets
 					var tickets = parseFloat(document.getElementById('ticketsManuel').value) || 0;
 					var sendEmail = document.getElementById('sendEmailClose').checked ? 1 : 0;
 					var token = getCsrfToken();
@@ -2103,7 +2080,6 @@ $closeReason = [];
 			if (contractId) {
 				var modalElement = document.getElementById('contractDetailsModal');
 				if (modalElement) {
-					// Nettoyer les backdrops existants avant d'ouvrir
 					cleanupModals();
 
 					var modal = new bootstrap.Modal(modalElement, {
@@ -2111,12 +2087,9 @@ $closeReason = [];
 						keyboard: true
 					});
 					modal.show();
-
-					// Nettoyer après fermeture
 					modalElement.addEventListener('hidden.bs.modal', function onHidden() {
 						modalElement.removeEventListener('hidden.bs.modal', onHidden);
 						cleanupModals();
-						// Restaurer le scroll
 						document.body.style.overflow = '';
 						document.body.style.position = '';
 						document.body.style.paddingRight = '';
@@ -2127,21 +2100,17 @@ $closeReason = [];
 	});
 
 	function cleanupModals() {
-		// Supprimer les backdrops orphelins
 		var backdrops = document.querySelectorAll('.modal-backdrop');
 		backdrops.forEach(function (backdrop) {
 			backdrop.remove();
 		});
-		// Restaurer la classe body
 		document.body.classList.remove('modal-open');
 		document.body.style.overflow = '';
 		document.body.style.position = '';
 		document.body.style.paddingRight = '';
 	}
-	// loadTechniciansInPage(); 
 </script>
 <script>
-	/* ── Techniciens ────────────────────────────────────────────────────────── */
 	var assignedTechnicians = [];
 	var currentEditId = null;
 
@@ -2375,12 +2344,9 @@ $closeReason = [];
 
 			if (end > start) {
 				var diffMinutes = Math.round((end - start) / 60000);
-				// Arrondir à 30 minutes près
 				var roundedMinutes = Math.round(diffMinutes / 30) * 30;
 				tempsPasseInput.value = roundedMinutes;
 				displayRoundedTime();
-
-				// Afficher une notification visuelle
 				showDurationCalculated(diffMinutes, roundedMinutes);
 			}
 		}
@@ -2403,8 +2369,6 @@ $closeReason = [];
 			}, 3000);
 		}
 	}
-
-	// Ajouter les écouteurs d'événements
 	document.getElementById('start_time')?.addEventListener('change', calculateDurationFromDates);
 	document.getElementById('end_time')?.addEventListener('change', calculateDurationFromDates);
 </script>
@@ -2417,19 +2381,14 @@ $closeReason = [];
 		phone: <?= json_encode($intervention['contact_phone'] ?? '') ?>,
 	};
 
-	// Ajouter cette ligne
 	window.interventionIdForSignature = interventionId;
 	let selectedAttachmentId = null;
 	let signatureModal = null;
-
-	// Nettoyer les modales orphelines
 	function cleanupModals() {
-		// Supprimer les backdrops orphelins
 		const backdrops = document.querySelectorAll('.modal-backdrop');
 		backdrops.forEach(function (backdrop) {
 			backdrop.remove();
 		});
-		// Restaurer la classe body
 		document.body.classList.remove('modal-open');
 		document.body.style.overflow = '';
 		document.body.style.position = '';
@@ -2445,21 +2404,16 @@ $closeReason = [];
 		document.getElementById('principalEmail').textContent = principalContact.email || '(email manquant)';
 		document.getElementById('signerPhone').value = principalContact.phone || '';
 
-		// Bascule automatiquement sur "manuel" si le contact principal n'a pas d'email
 		if (!principalContact.email) {
+			document.getElementById('signerPrincipal').checked = true;
+			document.getElementById('contactFields').style.display = '';
+		} else {
 			document.getElementById('signerManual').checked = true;
 			document.getElementById('manualFields').style.display = '';
-			// document.getElementById('optionPrincipal').classList.add('disabled'); // optionnel : griser le choix
-		} else {
-			document.getElementById('signerPrincipal').checked = true;
 		}
 
 		refreshRecap();
-
-		// Créer une nouvelle instance de la modale
 		const modalElement = document.getElementById('signatureModal');
-
-		// Supprimer les anciennes instances
 		if (signatureModal) {
 			signatureModal.dispose();
 		}
@@ -2468,12 +2422,9 @@ $closeReason = [];
 			backdrop: true,
 			keyboard: true
 		});
-
-		// Nettoyer après fermeture
 		modalElement.addEventListener('hidden.bs.modal', function onHidden() {
 			modalElement.removeEventListener('hidden.bs.modal', onHidden);
 			cleanupModals();
-			// Restaurer le scroll
 			document.body.style.overflow = '';
 			document.body.style.position = '';
 			document.body.style.paddingRight = '';
@@ -2512,8 +2463,6 @@ $closeReason = [];
 
 		const hasEmail = !!signer.email;
 		const hasPhone = !!signer.phone;
-
-		// Le bouton s'active si au moins un des deux canaux est renseigné
 		if (!hasEmail && !hasPhone) {
 			recap.classList.add('d-none');
 			btn.disabled = true;
@@ -2578,7 +2527,6 @@ $closeReason = [];
 				if (signatureModal) {
 					signatureModal.hide();
 				}
-				// Nettoyer après fermeture
 				setTimeout(cleanupModals, 300);
 			} else {
 				throw new Error(data.message || 'Erreur inconnue');
@@ -2592,16 +2540,12 @@ $closeReason = [];
 		}
 	}
 
-	// Fonction pour afficher les alertes stylisées
 	function showAlert(message, type) {
-		// Supprimer les alertes existantes pour éviter les doublons
 		const existingAlerts = document.querySelectorAll('.custom-alert-floating');
 		existingAlerts.forEach(alert => alert.remove());
 
 		const alertDiv = document.createElement('div');
 		alertDiv.className = `custom-alert-floating alert alert-${type} alert-dismissible fade show`;
-
-		// Icônes selon le type
 		const icons = {
 			success: '<i class="bi bi-check-circle-fill me-2"></i>',
 			danger: '<i class="bi bi-exclamation-triangle-fill me-2"></i>',
@@ -2622,7 +2566,6 @@ $closeReason = [];
 			</div>
 		`;
 
-		// Styles CSS inline
 		alertDiv.style.position = 'fixed';
 		alertDiv.style.top = '20px';
 		alertDiv.style.right = '20px';
@@ -2633,8 +2576,6 @@ $closeReason = [];
 		alertDiv.style.borderRadius = '8px';
 		alertDiv.style.borderLeft = `4px solid ${type === 'success' ? '#28a745' : type === 'danger' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#17a2b8'}`;
 		alertDiv.style.animation = 'slideInRight 0.3s ease-out';
-
-		// Ajouter l'animation CSS si elle n'existe pas
 		if (!document.querySelector('#alert-styles')) {
 			const style = document.createElement('style');
 			style.id = 'alert-styles';
@@ -2672,8 +2613,6 @@ $closeReason = [];
 		}
 
 		document.body.appendChild(alertDiv);
-
-		// Barre de progression
 		const progressBar = document.createElement('div');
 		progressBar.style.position = 'absolute';
 		progressBar.style.bottom = '0';
@@ -2684,13 +2623,9 @@ $closeReason = [];
 		progressBar.style.borderRadius = '0 0 8px 8px';
 		progressBar.style.transition = 'width 4s linear';
 		alertDiv.appendChild(progressBar);
-
-		// Animer la barre de progression
 		setTimeout(() => {
 			progressBar.style.width = '0%';
 		}, 100);
-
-		// Fermeture automatique après 4 secondes
 		setTimeout(() => {
 			if (alertDiv.parentNode) {
 				alertDiv.style.animation = 'slideOutRight 0.3s ease-out forwards';
@@ -2701,8 +2636,6 @@ $closeReason = [];
 				}, 300);
 			}
 		}, 4000);
-
-		// Fermeture au clic
 		alertDiv.addEventListener('click', function (e) {
 			if (!e.target.closest('.btn-close')) {
 				alertDiv.style.animation = 'slideOutRight 0.3s ease-out forwards';
@@ -2714,8 +2647,6 @@ $closeReason = [];
 			}
 		});
 	}
-
-	// Nettoyage global au chargement de la page
 	document.addEventListener('DOMContentLoaded', function () {
 		cleanupModals();
 	});
@@ -2725,6 +2656,7 @@ $closeReason = [];
 				radio.value === 'other' ? '' : 'none';
 			document.getElementById('manualFields').style.display =
 				radio.value === 'manual' ? '' : 'none';
+			document.getElementById('contactFields').style.display = radio.value !== 'manual' ? '' : 'none';
 			refreshRecap();
 		});
 	});
@@ -2732,8 +2664,6 @@ $closeReason = [];
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
 		document.querySelectorAll('.modal').forEach(function (modal) {
-
-			// Réinitialiser la position à la fermeture
 			modal.addEventListener('hidden.bs.modal', function () {
 				const dialog = modal.querySelector('.modal-dialog');
 				if (dialog) {
@@ -2750,8 +2680,6 @@ $closeReason = [];
 				const dialog = modal.querySelector('.modal-dialog');
 				const header = modal.querySelector('.modal-header');
 				if (!dialog || !header) return;
-
-				// Éviter d'attacher plusieurs fois le listener
 				if (header.dataset.draggable) return;
 				header.dataset.draggable = 'true';
 
@@ -2771,8 +2699,6 @@ $closeReason = [];
 					startY = e.clientY;
 					startLeft = rect.left;
 					startTop = rect.top;
-
-					// Figer la largeur AVANT de passer en fixed
 					dialog.style.width = rect.width + 'px';
 					dialog.style.maxWidth = 'none';
 					dialog.style.position = 'fixed';
