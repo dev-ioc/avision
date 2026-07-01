@@ -1586,7 +1586,7 @@ $closeReason = [];
 						</label>
 						<div class="input-group">
 							<span class="input-group-text"><i class="bi bi-phone"></i></span>
-							<input type="text" class="form-control" id="signerPhone" placeholder="+261 32 12 345 67">
+							<input type="text" class="form-control" id="signerPhone" placeholder="+33 7 12 34 56 78">
 						</div>
 						<div class="form-text">
 							Si renseigné, SignNow enverra un code SMS au signataire pour authentification.
