@@ -6344,16 +6344,16 @@ class InterventionController
             $contactFirstname = $data['contact_firstname'] ?? 'Contact';
             $contactLastname = $data['contact_lastname'] ?? '';
 
-            // Valider les champs requis
-            if (!$contactPhone) {
-                throw new Exception('Le numéro de téléphone du signataire est requis');
-            }
-            if (!$contactEmail) {
-                throw new Exception('L\'adresse email du signataire est requise');
-            }
-            if (!filter_var($contactEmail, FILTER_VALIDATE_EMAIL)) {
-                throw new Exception('L\'adresse email n\'est pas valide');
-            }
+            // // Valider les champs requis
+            // if (!$contactPhone) {
+            //     throw new Exception('Le numéro de téléphone du signataire est requis');
+            // }
+            // if (!$contactEmail) {
+            //     throw new Exception('L\'adresse email du signataire est requise');
+            // }
+            // if (!filter_var($contactEmail, FILTER_VALIDATE_EMAIL)) {
+            //     throw new Exception('L\'adresse email n\'est pas valide');
+            // }
 
             // Récupérer la pièce jointe (BI) spécifique par son ID
             $sql = "SELECT pj.*, lpj.entite_id as intervention_id

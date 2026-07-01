@@ -2484,6 +2484,17 @@ $closeReason = [];
 	}
 
 	function getSelectedSigner() {
+		const choice = document.querySelector('input[name="signerChoice"]:checked')?.value;
+
+		if (choice === 'manual') {
+			return {
+				email: document.getElementById('manualEmail').value.trim(),
+				firstname: document.getElementById('manualFirstname').value.trim(),
+				lastname: document.getElementById('manualLastname').value.trim(),
+				phone: document.getElementById('signerPhone').value.trim(),
+			};
+		}
+
 		return {
 			email: principalContact.email,
 			firstname: principalContact.firstname,
@@ -2496,7 +2507,9 @@ $closeReason = [];
 		const signer = getSelectedSigner();
 		const recap = document.getElementById('signerRecap');
 		const btn = document.getElementById('btnSendSignature');
-
+		document.getElementById('manualEmail').addEventListener('input', refreshRecap);
+		document.getElementById('manualFirstname').addEventListener('input', refreshRecap);
+		document.getElementById('manualLastname').addEventListener('input', refreshRecap);
 		if (!signer.email) {
 			recap.classList.add('d-none');
 			btn.disabled = true;
