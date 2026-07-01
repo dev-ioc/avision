@@ -46,7 +46,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <i class="bi bi-pencil me-1"></i> Modifier
             </a>
             <button type="button" class="btn btn-info me-2" onclick="sendResetLink(<?php echo $user['id']; ?>)">
-                              <?= csrf_field() ?>
+                <?= csrf_field() ?>
                 <i class="bi bi-envelope me-1"></i> Envoyer lien de réinitialisation
             </button>
             <?php if (isAdmin()): ?>
@@ -355,10 +355,21 @@ include_once __DIR__ . '/../../includes/navbar.php';
     }
 </script>
 <script>
+    function confirmDelete(userId, username) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer l\'utilisateur "' + username + '" ?\n\nCette action est irréversible et supprimera définitivement l\'utilisateur et toutes ses données associées.')) {
+            window.location.href = '<?php echo BASE_URL; ?>user/delete/' + userId;
+        }
+    }
+</script>
+
+<script>
     function sendResetLink(userId) {
         if (!confirm('Envoyer un lien de réinitialisation de mot de passe à cet utilisateur ?')) {
             return;
         }
+
+        // Afficher le loader
+        showLoadingOverlay('Envoi du lien de réinitialisation en cours...');
 
         // Récupérer le token CSRF
         const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ||
@@ -375,6 +386,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
         })
             .then(response => response.json())
             .then(data => {
+                // Cacher le loader
+                hideLoadingOverlay();
+
                 if (data.success) {
                     alert(data.message);
                     // Recharger l'historique si présent
@@ -386,6 +400,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 }
             })
             .catch(error => {
+                // Cacher le loader en cas d'erreur
+                hideLoadingOverlay();
                 console.error('Erreur:', error);
                 alert('Une erreur est survenue lors de l\'envoi.');
             });
@@ -407,6 +423,126 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 }
             })
             .catch(error => console.error('Erreur:', error));
+    }
+
+    // ─── LOADER OVERLAY ──────────────────────────────────────────────────────
+    function showLoadingOverlay(message) {
+        // Supprimer un overlay existant
+        const existingOverlay = document.getElementById('loadingOverlay');
+        if (existingOverlay) {
+            existingOverlay.remove();
+        }
+
+        // Créer l'overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'loadingOverlay';
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s ease;
+            opacity: 1;
+        `;
+
+        // Contenu du loader
+        overlay.innerHTML = `
+            <div style="
+                background: white;
+                border-radius: 16px;
+                padding: 40px 50px;
+                max-width: 400px;
+                width: 90%;
+                text-align: center;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                animation: scaleIn 0.3s ease;
+            ">
+                <div style="
+                    width: 60px;
+                    height: 60px;
+                    margin: 0 auto 20px auto;
+                    border: 4px solid #e9ecef;
+                    border-top: 4px solid #0d6efd;
+                    border-radius: 50%;
+                    animation: spin 0.8s linear infinite;
+                "></div>
+                <h5 style="margin-bottom: 8px; color: #212529; font-weight: 600;">
+                    <i class="bi bi-envelope me-2"></i>Envoi en cours
+                </h5>
+                <p style="color: #6c757d; margin-bottom: 0; font-size: 14px;">
+                    ${message || 'Veuillez patienter...'}
+                </p>
+                <div style="
+                    margin-top: 16px;
+                    height: 3px;
+                    background: #e9ecef;
+                    border-radius: 2px;
+                    overflow: hidden;
+                ">
+                    <div style="
+                        height: 100%;
+                        width: 0%;
+                        background: linear-gradient(90deg, #0d6efd, #0dcaf0);
+                        border-radius: 2px;
+                        animation: progressBar 2s ease-in-out infinite;
+                    "></div>
+                </div>
+            </div>
+        `;
+
+        // Ajouter les animations
+        const style = document.createElement('style');
+        style.id = 'loaderStyles';
+        style.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            @keyframes scaleIn {
+                0% { transform: scale(0.9); opacity: 0; }
+                100% { transform: scale(1); opacity: 1; }
+            }
+            @keyframes progressBar {
+                0% { width: 0%; }
+                50% { width: 70%; }
+                100% { width: 0%; }
+            }
+            .loader-enter {
+                animation: scaleIn 0.3s ease;
+            }
+        `;
+
+        if (!document.getElementById('loaderStyles')) {
+            document.head.appendChild(style);
+        }
+
+        // Ajouter l'overlay au body
+        document.body.appendChild(overlay);
+
+        // Empêcher le scroll
+        document.body.style.overflow = 'hidden';
+    }
+
+    function hideLoadingOverlay() {
+        const overlay = document.getElementById('loadingOverlay');
+        if (overlay) {
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.remove();
+                // Réactiver le scroll
+                document.body.style.overflow = '';
+            }, 300);
+        } else {
+            document.body.style.overflow = '';
+        }
     }
 </script>
 
