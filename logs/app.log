@@ -105286,3 +105286,27 @@ Quant à l’écran n°1, il est HS
 [2026-07-01 09:35:51][DEBUG] SIGNNOW EMAIL INVITE RESPONSE = {"status":"success"} 
 [2026-07-01 09:35:51][DEBUG] SIGNNOW Document: {"id":"8cd905cc00ab4d5194d23f45a25c0bbc8d88fffc"} 
 [2026-07-01 09:35:51][DEBUG] SIGNNOW Invite: {"status":200,"data":{"status":"success"}} 
+[2026-07-01 09:52:05][DEBUG] CSRF: Token trouvé dans la requête - Token: adec070403d1b20d1d21... 
+[2026-07-01 09:52:05][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-01 09:53:07][DEBUG] CSRF: Token trouvé dans la requête - Token: adec070403d1b20d1d21... 
+[2026-07-01 09:53:07][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-01 09:57:28][DEBUG] CSRF: Token trouvé dans la requête - Token: adec070403d1b20d1d21... 
+[2026-07-01 09:57:28][DEBUG] CSRF: Token trouvé dans la requête - Token: adec070403d1b20d1d21... 
+[2026-07-01 09:57:35][DEBUG] SIGNNOW SMS INVITE BODY = {"to":[{"phone_invite":"+261346570207","phone":"+261346570207","role":"Signer 1","order":1,"authentication_type":"phone","method":"sms","language":"fr","first_name":"karija","last_name":"tsilefilaza"}],"from":"dev_mdg@caspeo.fr"} 
+[2026-07-01 09:57:38][DEBUG] SIGNNOW SMS INVITE RESPONSE = {"status":"success"} 
+[2026-07-01 09:57:38][DEBUG] SIGNNOW SMS HTTP CODE = 200 
+[2026-07-01 09:57:38][INFO] SIGNNOW: Invitation SMS envoyée avec succès au +261346570207 
+[2026-07-01 09:57:38][DEBUG] SIGNNOW Document: {"id":"86b7a5cf35394fc1a11e1ff0b5a3bc34d7ab0418"} 
+[2026-07-01 09:57:38][DEBUG] SIGNNOW Invite: {"status":200,"data":{"status":"success"}} 
+[2026-07-01 09:59:23][DEBUG] CSRF: Token trouvé dans la requête - Token: adec070403d1b20d1d21... 
+[2026-07-01 09:59:23][DEBUG] CSRF: Token trouvé dans la requête - Token: adec070403d1b20d1d21... 
+[2026-07-01 09:59:52][DEBUG] SIGNNOW EMAIL INVITE BODY = {"to":[{"email":"bomebar373@cadebek.com","role":"Signer 1","order":1,"first_name":"karija","last_name":"tsilefilaza"}],"from":"dev_mdg@caspeo.fr","subject":"Demande de signature - Bon d'intervention","message":"Veuillez signer le bon d'intervention en cliquant sur le lien ci-dessous."} 
+[2026-07-01 10:00:14][DEBUG] SIGNNOW EMAIL INVITE RESPONSE = {"status":"success"} 
+[2026-07-01 10:00:14][DEBUG] SIGNNOW Document: {"id":"0f6806c0511549da89bf9b7a050e8493816fdfbf"} 
+[2026-07-01 10:00:14][DEBUG] SIGNNOW Invite: {"status":200,"data":{"status":"success"}} 

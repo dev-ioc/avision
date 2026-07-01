@@ -2437,23 +2437,22 @@ $closeReason = [];
 	}
 
 	function openSignatureModal(attachmentId) {
-		// Nettoyer les modales existantes avant d'ouvrir
 		cleanupModals();
-
 		selectedAttachmentId = attachmentId;
 
-		const pName = [
-			principalContact.firstname,
-			principalContact.lastname
-		].filter(Boolean).join(' ') || '(non défini)';
-
+		const pName = [principalContact.firstname, principalContact.lastname].filter(Boolean).join(' ') || '(non défini)';
 		document.getElementById('principalName').textContent = pName;
+		document.getElementById('principalEmail').textContent = principalContact.email || '(email manquant)';
+		document.getElementById('signerPhone').value = principalContact.phone || '';
 
-		document.getElementById('principalEmail').textContent =
-			principalContact.email || '(email manquant)';
-
-		document.getElementById('signerPhone').value =
-			principalContact.phone || '';
+		// Bascule automatiquement sur "manuel" si le contact principal n'a pas d'email
+		if (!principalContact.email) {
+			document.getElementById('signerManual').checked = true;
+			document.getElementById('manualFields').style.display = '';
+			// document.getElementById('optionPrincipal').classList.add('disabled'); // optionnel : griser le choix
+		} else {
+			document.getElementById('signerPrincipal').checked = true;
+		}
 
 		refreshRecap();
 
@@ -2502,34 +2501,38 @@ $closeReason = [];
 			phone: document.getElementById('signerPhone').value.trim(),
 		};
 	}
-
+	document.getElementById('signerPhone').addEventListener('input', refreshRecap);
+	document.getElementById('manualEmail').addEventListener('input', refreshRecap);
+	document.getElementById('manualFirstname').addEventListener('input', refreshRecap);
+	document.getElementById('manualLastname').addEventListener('input', refreshRecap);
 	function refreshRecap() {
 		const signer = getSelectedSigner();
 		const recap = document.getElementById('signerRecap');
 		const btn = document.getElementById('btnSendSignature');
-		document.getElementById('manualEmail').addEventListener('input', refreshRecap);
-		document.getElementById('manualFirstname').addEventListener('input', refreshRecap);
-		document.getElementById('manualLastname').addEventListener('input', refreshRecap);
-		if (!signer.email) {
+
+		const hasEmail = !!signer.email;
+		const hasPhone = !!signer.phone;
+
+		// Le bouton s'active si au moins un des deux canaux est renseigné
+		if (!hasEmail && !hasPhone) {
 			recap.classList.add('d-none');
 			btn.disabled = true;
 			return;
 		}
 
-		const name = [
-			signer.firstname,
-			signer.lastname
-		].filter(Boolean).join(' ') || signer.email;
+		const name = [signer.firstname, signer.lastname]
+			.filter(Boolean)
+			.join(' ') || signer.email || signer.phone;
 
-		const sms = signer.phone ? ` — SMS: ${signer.phone}` : '';
+		let recapText = `Envoi à : ${name}`;
+		if (hasEmail) recapText += ` <${signer.email}>`;
+		if (hasPhone) recapText += hasEmail ? ` — SMS: ${signer.phone}` : ` — Téléphone: ${signer.phone}`;
+		if (!hasEmail && hasPhone) recapText += ' (envoi par SMS uniquement, sans email)';
 
-		document.getElementById('signerRecapText').textContent =
-			`Envoi à : ${name} <${signer.email}>${sms}`;
-
+		document.getElementById('signerRecapText').textContent = recapText;
 		recap.classList.remove('d-none');
 		btn.disabled = false;
 	}
-
 	document.getElementById('signerPhone')
 		.addEventListener('input', refreshRecap);
 
