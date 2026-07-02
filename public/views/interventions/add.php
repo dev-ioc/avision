@@ -395,7 +395,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- Modale site -->
 <div class="modal fade" id="quickCreateSiteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -448,7 +447,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- Modale bâtiment -->
 <div class="modal fade" id="quickCreateBuildingModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -481,7 +479,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- Modale salle -->
 <div class="modal fade" id="quickCreateRoomModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -514,7 +511,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- Modale contact -->
 <div class="modal fade" id="quickCreateContactModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -567,7 +563,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- Modale notification technicien -->
 <div class="modal fade" id="notifyTechnicianModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -592,7 +587,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- ===== STYLES ===== -->
 <style>
     .contact-info-card {
         border-width: 2px !important;

@@ -973,6 +973,7 @@ try {
                     }
                     break;
                 case 'editComment':
+
                     if ($id) {
                         $interventionController->editComment($id);
                     } else {

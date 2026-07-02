@@ -1019,6 +1019,7 @@ $closeReason = [];
 		<div class="modal-content">
 			<form action="<?= BASE_URL ?>interventions/addComment/<?= $intervention['id'] ?>" method="post">
 				<?= csrf_field() ?>
+				<input type="hidden" name="redirect_to" value="view">
 				<div class="modal-header">
 					<h5 class="modal-title">Ajouter un commentaire</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>

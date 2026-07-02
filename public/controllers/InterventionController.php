@@ -1189,44 +1189,59 @@ class InterventionController
      */
     public function addComment($interventionId)
     {
-        // Vérifier les permissions
         $this->checkAccess();
 
-        // Récupérer l'intervention
         $intervention = $this->interventionModel->getById($interventionId);
+        $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 
         if (!$intervention) {
-            // Rediriger vers la liste si l'intervention n'existe pas
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'error' => 'Intervention introuvable']);
+                exit;
+            }
             header('Location: ' . $this->getInterventionsListUrl());
             exit;
         }
 
-        // Vérifier si l'intervention est fermée
-        if ($intervention['status_id'] == 6) { // 6 = Fermé
-            $_SESSION['error'] = "Impossible d'ajouter un commentaire à une intervention fermée.";
-            header('Location: ' . BASE_URL . 'interventions/view/' . $interventionId);
+        $redirectTo = ($_POST['redirect_to'] ?? 'view') === 'edit' ? 'edit' : 'view';
+        $redirectUrl = BASE_URL . 'interventions/' . $redirectTo . '/' . $interventionId;
+
+        if ($intervention['status_id'] == 6) {
+            $msg = "Impossible d'ajouter un commentaire à une intervention fermée.";
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'error' => $msg]);
+                exit;
+            }
+            $_SESSION['error'] = $msg;
+            header('Location: ' . $redirectUrl);
             exit;
         }
 
-        // Récupérer les données du formulaire
-        $comment = $_POST['comment'] ?? '';
+        $comment = trim($_POST['comment'] ?? '');
         $visibleByClient = isset($_POST['visible_by_client']) ? 1 : 0;
         $isSolution = isset($_POST['is_solution']) ? 1 : 0;
         $isObservation = isset($_POST['is_observation']) ? 1 : 0;
 
         if (empty($comment)) {
-            $_SESSION['error'] = "Le commentaire ne peut pas être vide.";
-            header('Location: ' . BASE_URL . 'interventions/view/' . $interventionId);
+            $msg = "Le commentaire ne peut pas être vide.";
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'error' => $msg]);
+                exit;
+            }
+            $_SESSION['error'] = $msg;
+            header('Location: ' . $redirectUrl);
             exit;
         }
 
-        // Ajouter le commentaire
         $sql = "INSERT INTO intervention_comments (
-                    intervention_id, comment, visible_by_client, is_solution, is_observation, created_by
-                ) VALUES (
-                    :intervention_id, :comment, :visible_by_client, :is_solution, :is_observation, :created_by
-                )";
-
+            intervention_id, comment, visible_by_client, is_solution, is_observation, created_by
+        ) VALUES (
+            :intervention_id, :comment, :visible_by_client, :is_solution, :is_observation, :created_by
+        )";
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([
             ':intervention_id' => $interventionId,
@@ -1238,13 +1253,13 @@ class InterventionController
         ]);
 
         if ($result) {
-            // Enregistrer l'action dans l'historique
-            $sql = "INSERT INTO intervention_history (
-                        intervention_id, field_name, old_value, new_value, changed_by, description
-                    ) VALUES (
-                        :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
-                    )";
+            $commentId = $this->db->lastInsertId();
 
+            $sql = "INSERT INTO intervention_history (
+                intervention_id, field_name, old_value, new_value, changed_by, description
+            ) VALUES (
+                :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
+            )";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
                 ':intervention_id' => $interventionId,
@@ -1255,15 +1270,34 @@ class InterventionController
                 ':description' => "Commentaire ajouté" . ($isSolution ? " (marqué comme solution)" : "") . ($visibleByClient ? " (visible par le client)" : "")
             ]);
 
+            if ($isAjax) {
+                // Renvoyer le commentaire nouvellement créé pour l'insérer côté client
+                $sql = "SELECT c.*, CONCAT(u.first_name, ' ', u.last_name) as created_by_name
+                    FROM intervention_comments c
+                    LEFT JOIN users u ON c.created_by = u.id
+                    WHERE c.id = ?";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([$commentId]);
+                $newComment = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                header('Content-Type: application/json');
+                echo json_encode(['success' => true, 'message' => 'Commentaire ajouté avec succès.', 'comment' => $newComment]);
+                exit;
+            }
+
             $_SESSION['success'] = "Commentaire ajouté avec succès.";
         } else {
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'error' => "Erreur lors de l'ajout du commentaire."]);
+                exit;
+            }
             $_SESSION['error'] = "Erreur lors de l'ajout du commentaire.";
         }
 
-        header('Location: ' . BASE_URL . 'interventions/view/' . $interventionId);
+        header('Location: ' . $redirectUrl);
         exit;
     }
-
     /**
      * Ajoute une pièce jointe à une intervention
      */
