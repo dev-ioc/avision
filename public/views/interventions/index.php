@@ -88,6 +88,7 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
     <table id="interventionsTable" class="table table-striped table-hover">
       <thead>
         <tr>
+          <th>Date</th>
           <th>Référence</th>
           <th>Titre</th>
           <th>Client</th>
@@ -95,7 +96,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
           <th>Salle</th>
           <th>Statut</th>
           <th>Priorité</th>
-          <th>Date</th>
         </tr>
       </thead>
       <tbody>
@@ -106,6 +106,11 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
         <?php else: ?>
           <?php foreach ($allInterventions as $intervention): ?>
             <tr>
+              <td>
+                <?= !empty($intervention['created_at'])
+                  ? date('d/m/Y H:i', strtotime($intervention['created_at']))
+                  : '-' ?>
+              </td>
               <td>
                 <a href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>">
                   <?= htmlspecialchars($intervention['reference'] ?? '-') ?>
@@ -133,18 +138,12 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
                   <?= htmlspecialchars($intervention['priority_name'] ?? '-') ?>
                 </span>
               </td>
-              <td>
-                <?= !empty($intervention['created_at'])
-                  ? date('d/m/Y H:i', strtotime($intervention['created_at']))
-                  : '-' ?>
-              </td>
             </tr>
           <?php endforeach; ?>
         <?php endif; ?>
       </tbody>
     </table>
   </div>
-
   <!-- 📱 MOBILE CARDS - Pagination manuelle -->
   <div class="mobile-interventions d-block d-md-none">
     <?php if (empty($paginatedInterventions)): ?>
