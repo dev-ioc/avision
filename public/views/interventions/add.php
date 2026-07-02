@@ -46,7 +46,10 @@ include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
 ?>
-
+<header>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</header>
 <div class="container-fluid flex-grow-1 container-p-y">
 
     <div class="d-flex flex-row align-items-center justify-content-between">
@@ -235,7 +238,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <?php endforeach; ?>
                                 </select>
                                 <small class="text-muted d-block mt-1">
-                                    Ctrl/Cmd + clic pour sélectionner plusieurs techniciens. Laissez vide si vous ne savez pas encore qui interviendra.
+                                    Ctrl + clic pour sélectionner plusieurs techniciens.
                                 </small>
                                 <div class="form-check mt-2">
                                     <input class="form-check-input" type="checkbox" id="notify_technician" name="notify_technician" value="1" checked>
