@@ -96,7 +96,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
           <th>Salle</th>
           <th>Statut</th>
           <th>Priorité</th>
-          <th>Date</th>
         </tr>
       </thead>
       <tbody>
@@ -138,11 +137,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
                 <span class="badge" style="background: <?= $intervention['priority_color'] ?? '#ccc' ?>">
                   <?= htmlspecialchars($intervention['priority_name'] ?? '-') ?>
                 </span>
-              </td>
-              <td>
-                <?= !empty($intervention['created_at'])
-                  ? date('d/m/Y H:i', strtotime($intervention['created_at']))
-                  : '-' ?>
               </td>
             </tr>
           <?php endforeach; ?>
