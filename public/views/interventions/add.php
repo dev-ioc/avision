@@ -225,6 +225,25 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 </select>
                                 <small id="contractError" class="text-danger d-none">Le contrat est obligatoire.</small>
                             </div>
+                            <div>
+                                <label class="form-label fw-bold mb-0">Technicien(s) à affecter</label>
+                                <select class="form-select bg-body text-body" id="technicien_ids" name="technicien_ids[]" multiple size="4">
+                                    <?php foreach ($technicians as $technician): ?>
+                                        <option value="<?= $technician['id'] ?>">
+                                            <?= h(($technician['first_name'] ?? '') . ' ' . ($technician['last_name'] ?? '')) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <small class="text-muted d-block mt-1">
+                                    Ctrl/Cmd + clic pour sélectionner plusieurs techniciens. Laissez vide si vous ne savez pas encore qui interviendra.
+                                </small>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" id="notify_technician" name="notify_technician" value="1" checked>
+                                    <label class="form-check-label" for="notify_technician">
+                                        Notifier le(s) technicien(s) par email
+                                    </label>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
@@ -632,16 +651,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
         initBaseUrl('<?php echo BASE_URL; ?>');
 
         const canModifyClients = <?php echo canModifyClients() ? 'true' : 'false'; ?>;
-
-        // ── Sélecteurs principaux ────────────────────────────────────────────────
         const clientSelect = document.getElementById('client_id');
         const siteSelect = document.getElementById('site_id');
         const buildingSelect = document.getElementById('building_id');
         const roomSelect = document.getElementById('room_id');
         const contractSelect = document.getElementById('contract_id');
-
-        // ── Chargement en cascade ────────────────────────────────────────────────
-
+        const technicienSelect= document.getElementById('technician_id');
         <?php if ($selectedClientId): ?>
             if (clientSelect.value) {
                 loadSites(clientSelect.value, 'site_id', null, null, function () {
@@ -689,7 +704,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     .catch(err => console.error('Erreur contrat salle:', err));
             }
         });
-
+        technicienSelect
         // ── Contacts ─────────────────────────────────────────────────────────────
 
         const contactClientSelect = document.getElementById('contact_client_select');

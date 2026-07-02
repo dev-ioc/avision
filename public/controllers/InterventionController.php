@@ -2508,7 +2508,8 @@ class InterventionController
             'contract_id' => !empty($_POST['contract_id']) ? $_POST['contract_id'] : null,
             'is_preventive' => $isPreventive,
         ];
-
+        $technicienIds = array_filter(array_map('intval', $_POST['technicien_ids'] ?? []));
+        $notifyTechnician = isset($_POST['notify_technician']) && $_POST['notify_technician'] == '1';
         // Traiter la date et l'heure de création
         $createdDate = $_POST['created_date'] ?? date('Y-m-d');
         $createdTime = $_POST['created_time'] ?? date('H:i');
@@ -2603,12 +2604,10 @@ class InterventionController
         if ($result) {
             $interventionId = $this->db->lastInsertId();
 
-            // Déduire les tickets du contrat si l'intervention est créée avec le statut fermé
             if ($data['status_id'] == 6 && !empty($data['contract_id']) && !empty($data['tickets_used'])) {
                 $this->deductTicketsFromContract($data['contract_id'], $data['tickets_used'], $interventionId);
             }
 
-            // Enregistrer l'action dans l'historique
             $sql = "INSERT INTO intervention_history (
                     intervention_id, field_name, old_value, new_value, changed_by, description
                 ) VALUES (
@@ -2624,8 +2623,52 @@ class InterventionController
                 ':changed_by' => $_SESSION['user']['id'],
                 ':description' => "Intervention créée" . ($data['is_preventive'] == 1 ? " (Préventive)" : "")
             ]);
+            // Affectation préalable des techniciens (sans données de temps passé)
+            if (!empty($technicienIds)) {
+                $sqlAssign = "INSERT INTO intervention_techniciens 
+                    (intervention_id, technicien_id, created_at) 
+                  VALUES (:intervention_id, :technicien_id, NOW())";
+                $stmtAssign = $this->db->prepare($sqlAssign);
 
-            // Envoyer l'email de création d'intervention
+                $assignedNames = [];
+                foreach ($technicienIds as $techId) {
+                    $stmtAssign->execute([
+                        ':intervention_id' => $interventionId,
+                        ':technicien_id' => $techId
+                    ]);
+
+                    // Récupérer le nom pour l'historique
+                    $tech = $this->userModel->getUserById($techId);
+                    $techName = $tech ? trim(($tech['first_name'] ?? '') . ' ' . ($tech['last_name'] ?? '')) : "#$techId";
+                    $assignedNames[] = $techName;
+
+                    // Notification email
+                    if ($notifyTechnician) {
+                        try {
+                            $this->mailService->sendTechnicianAssigned($interventionId, $techId);
+                        } catch (Exception $e) {
+                            custom_log_mail("Erreur envoi email affectation technicien $techId (intervention $interventionId) : " . $e->getMessage(), 'ERROR');
+                        }
+                    }
+                }
+
+                // Historique de l'affectation
+                $sqlHist = "INSERT INTO intervention_history (
+                    intervention_id, field_name, old_value, new_value, changed_by, description
+                ) VALUES (
+                    :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
+                )";
+                $stmtHist = $this->db->prepare($sqlHist);
+                $stmtHist->execute([
+                    ':intervention_id' => $interventionId,
+                    ':field_name' => 'Technicien',
+                    ':old_value' => '',
+                    ':new_value' => implode(', ', $assignedNames),
+                    ':changed_by' => $_SESSION['user']['id'],
+                    ':description' => "Technicien(s) affecté(s) à la création : " . implode(', ', $assignedNames)
+                        . ($notifyTechnician ? " (notification envoyée)" : " (sans notification)")
+                ]);
+            }
             try {
                 $this->mailService->sendInterventionCreated($interventionId);
             } catch (Exception $e) {

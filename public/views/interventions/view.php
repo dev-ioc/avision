@@ -204,7 +204,6 @@ $closeReason = [];
 
 	<?php if ($intervention): ?>
 
-		<!-- ── Carte principale ──────────────────────────────────────────────── -->
 		<div class="card">
 			<div class="card-header py-2">
 				<div class="d-flex justify-content-between align-items-center">
@@ -419,11 +418,7 @@ $closeReason = [];
 				<?php endif; ?>
 			</div>
 		</div>
-
-		<!-- ── Commentaires / Pièces jointes / Techniciens ───────────────────── -->
 		<div class="row mt-4">
-
-			<!-- Commentaires -->
 			<div class="col-md-4">
 				<div class="card mb-3 h-auto">
 					<div class="card-header py-2 d-flex justify-content-between align-items-center">
