@@ -4572,9 +4572,8 @@ class InterventionController
             $stmt->execute([$id]);
             $observations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Récupérer l'email du destinataire (site_email ou contact_client)
-            $recipientEmail = !empty($intervention['site_email']) ? $intervention['site_email'] :
-                (!empty($intervention['contact_client']) ? $intervention['contact_client'] : '');
+            $recipientEmail = !empty($intervention['contact_client']) ? $intervention['contact_client'] :
+                (!empty($intervention['site_email']) ? $intervention['site_email'] : '');
 
             // Récupérer l'email de test si configuré
             $config = Config::getInstance();
