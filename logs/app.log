@@ -105469,3 +105469,17 @@ Quant à l’écran n°1, il est HS
 [2026-07-02 14:18:36][DEBUG] DEBUG - update() - isSaveBeforeClose: FAUX 
 [2026-07-02 14:18:36][INFO] Changement de contrat historisé pour intervention 130 : ICDC Bagneux → Aucun contrat 
 [2026-07-02 14:18:36][INFO] Tickets recrédités au contrat 178 pour intervention 130 (changement vers contrat sans tickets) 
+[2026-07-03 07:21:55][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: cif8imuh51vjj1mj8vefd92jh6) 
+[2026-07-03 07:22:00][DEBUG] CSRF: Token trouvé dans la requête - Token: b3294272211ea93b8c1f... 
+[2026-07-03 07:22:00][WARNING] Tentative de connexion échouée pour l'utilisateur : Karija 
+[2026-07-03 07:22:05][DEBUG] CSRF: Token trouvé dans la requête - Token: b3294272211ea93b8c1f... 
+[2026-07-03 07:22:05][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-03 07:22:05][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-03 07:22:05][DEBUG] Login réussi - Session ID: cif8imuh51vjj1mj8vefd92jh6 
+[2026-07-03 07:22:05][DEBUG] Login réussi - redirect_after_login: dashboard 
+[2026-07-03 07:22:05][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-03 07:22:05][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-07-03 07:22:05][DEBUG] Redirection après login vers: http://localhost/avision/public/dashboard 
+[2026-07-03 13:36:18][INFO] 37 
+[2026-07-03 13:36:18][INFO] 38 
+[2026-07-03 13:36:18][INFO] 36 

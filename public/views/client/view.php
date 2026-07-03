@@ -690,7 +690,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
       </div>
 
       <!-- Onglet Interventions -->
-      <!-- Onglet Interventions -->
       <div class="tab-pane fade" id="interventions" role="tabpanel" aria-labelledby="interventions-tab">
         <div class="card">
           <div class="card-header py-2 d-flex justify-content-between align-items-center">
