@@ -96873,3 +96873,7 @@ Quant à l’écran n°1, il est HS
         WHERE 1=1 AND deleted_at IS NULL
      ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
 [2026-07-02 14:57:39][DEBUG] Params: [] 
+[2026-07-03 13:46:10][INFO] 37 
+[2026-07-03 13:46:10][INFO] 38 
+[2026-07-03 13:46:10][INFO] 36 
+[2026-07-03 13:46:41][INFO] 81 
