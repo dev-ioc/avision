@@ -4,8 +4,6 @@ require_once __DIR__ . '/../../controllers/MaterielController.php';
 /**
  * Vue de la liste du matériel
  * Affiche la liste du matériel regroupé par site/salle avec filtres
- * La recherche globale se fait désormais en AJAX (voir materiel/search_api),
- * sans rechargement de la page.
  */
 
 // Vérifier si l'utilisateur est connecté
@@ -33,8 +31,6 @@ $salles = $salles ?? [];
 $visibilites_champs = $visibilites_champs ?? [];
 $pieces_jointes_count = $pieces_jointes_count ?? [];
 $filters = $filters ?? [];
-$isGlobalSearch = $isGlobalSearch ?? false;
-$globalSearchTerm = $globalSearchTerm ?? '';
 
 // Définir les breadcrumbs personnalisés pour la page matériel index
 if (isset($filters) && !empty($filters)) {
@@ -129,114 +125,6 @@ $marqueIndex = array_search('marque', array_column($allColumns, 'field'));
 $modeleIndex = array_search('modele', array_column($allColumns, 'field'));
 $idIndex = array_search('id', array_column($allColumns, 'field'));
 $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, 'field'));
-
-/**
- * Petit helper local pour générer le bloc HTML d'un accordéon "client"
- * (utilisé pour l'affichage initial côté PHP — la recherche AJAX régénère
- * la même structure côté JS via renderSearchResults()).
- */
-function renderMaterielAccordions(array $materiel_organise): void
-{
-  foreach ($materiel_organise as $client_nom => $sites): ?>
-        <div class="card mb-4">
-          <div class="card-header bg-body-secondary d-flex align-items-center justify-content-between">
-            <h5 class="card-title mb-0 d-flex align-items-center">
-              <i class="bi bi-building text-primary me-2"></i>
-              <?= h($client_nom) ?>
-            </h5>
-            <button type="button" class="btn btn-sm btn-outline-primary" onclick="saveAllTablesData()">
-              <i class="bi bi-save-all me-1"></i>
-              Sauvegarder toutes les modifications
-            </button>
-          </div>
-          <div class="card-body p-0">
-            <?php foreach ($sites as $site_nom => $buildings): ?>
-                <?php foreach ($buildings as $building_nom => $salles): ?>
-                    <?php foreach ($salles as $salle_nom => $materiels):
-                      $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
-                      $accordion_id = 'accordion_' . $salle_id;
-                      $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
-                      ?>
-                        <div class="accordion mb-3" id="<?= $accordion_id ?>">
-                          <div class="accordion-item">
-                            <h2 class="accordion-header">
-                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse_<?= $salle_id ?>">
-                                <div class="d-flex justify-content-between w-100 me-3 align-items-center">
-                                  <span>
-                                    <i class="bi bi-door-open me-2 text-info"></i>
-                                    <strong>
-                                      <?= $locationString ?>
-                                    </strong>
-                                  </span>
-                                  <span class="badge bg-secondary ms-3">
-                                    <?= count($materiels) ?> équipement(s)
-                                  </span>
-                                </div>
-                              </button>
-                            </h2>
-                            <div id="collapse_<?= $salle_id ?>" class="accordion-collapse collapse" data-bs-parent="#accordionContainer">
-                              <div class="accordion-body p-0">
-                                <div class="d-flex justify-content-end p-2 border-bottom bg-light">
-                                  <button type="button" class="btn btn-sm btn-success"
-                                    onclick="addNewRowToTable('excelTable-<?= $salle_id ?>', '<?= addslashes($locationString) ?>', <?= $materiels[0]['salle_id'] ?? 'null' ?>)">
-                                    <i class="bi bi-plus-circle me-1"></i>Ajouter un équipement
-                                  </button>
-                                </div>
-                                <div class="table-wrapper">
-                                  <div id="excelTable-<?= $salle_id ?>"></div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endforeach; ?>
-            <?php endforeach; ?>
-          </div>
-        </div>
-    <?php endforeach;
-}
-
-/**
- * Émet le JS d'initialisation Handsontable (appels à createSalleTable) pour
- * la structure $materiel_organise donnée. Doit être appelé DANS un <script>.
- */
-function renderMaterielTableInitJs(array $materiel_organise, array $pieces_jointes_count, array $allColumns): void
-{
-  foreach ($materiel_organise as $client_nom => $sites):
-    foreach ($sites as $site_nom => $buildings):
-      foreach ($buildings as $building_nom => $salles):
-        foreach ($salles as $salle_nom => $materiels):
-          $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
-          $rows = array_map(function ($m) use ($allColumns, $pieces_jointes_count) {
-            $rowData = [];
-            foreach ($allColumns as $col) {
-              if ($col['field'] === 'pieces_jointes') {
-                $rowData[] = [
-                  'count' => $pieces_jointes_count[$m['id']] ?? 0,
-                  'id' => $m['id'],
-                  'name' => ($m['marque'] ?? '') . ' ' . ($m['modele'] ?? ''),
-                ];
-              } else {
-                $rowData[] = $m[$col['field']] ?? '';
-              }
-            }
-            return $rowData;
-          }, $materiels);
-          ?>
-                    createSalleTable(
-                    'excelTable-
-                    <?= $salle_id ?>',
-                    <?= json_encode($rows) ?>,
-                    <?= json_encode($materiels[0]['salle_id'] ?? null) ?>
-                    );
-                    <?php
-        endforeach;
-      endforeach;
-    endforeach;
-  endforeach;
-}
 ?>
 
 <!DOCTYPE html>
@@ -293,16 +181,16 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
             </a>
 
             <?php if (canImportMateriel()): ?>
-                <a href="<?= BASE_URL ?>materiel_bulk<?= !empty($bulkParams) ? '?' . http_build_query($bulkParams) : '' ?>"
-                  class="btn btn-info">
-                  <i class="bi bi-arrow-left-right me-2 me-1"></i>Import/Export en Masse
-                </a>
+              <a href="<?= BASE_URL ?>materiel_bulk<?= !empty($bulkParams) ? '?' . http_build_query($bulkParams) : '' ?>"
+                class="btn btn-info">
+                <i class="bi bi-arrow-left-right me-2 me-1"></i>Import/Export en Masse
+              </a>
             <?php endif; ?>
             <?php if (canDeleteDocumentation()): ?>
-                <a href="<?= BASE_URL ?>materiel_bulk/bulk_delete<?= !empty($bulkDeleteParams) ? '?' . http_build_query($bulkDeleteParams) : '' ?>"
-                  class="btn btn-outline-danger">
-                  <i class="bi bi-trash me-2 me-1"></i>Supprimer en masse
-                </a>
+              <a href="<?= BASE_URL ?>materiel_bulk/bulk_delete<?= !empty($bulkDeleteParams) ? '?' . http_build_query($bulkDeleteParams) : '' ?>"
+                class="btn btn-outline-danger">
+                <i class="bi bi-trash me-2 me-1"></i>Supprimer en masse
+              </a>
             <?php endif; ?>
           </div>
         </div>
@@ -311,73 +199,72 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
 
     <!-- Statistiques -->
     <?php if (!empty($stats)): ?>
-        <div class="row mb-4">
-          <div class="col-12">
-            <div class="row g-3">
-              <div class="col-md-3">
-                <div class="card border-0 bg-primary bg-opacity-10">
-                  <div class="card-body p-3">
-                    <div class="d-flex align-items-center">
-                      <div class="shrink-0">
-                        <i class="bi bi-hdd-network fa-2x text-primary me-1"></i>
-                      </div>
-                      <div class="grow ms-3">
-                        <h6 class="mb-1 text-primary fw-bold">
-                          <?= $stats['total'] ?? 0 ?>
-                        </h6>
-                        <small class="text-muted">Total Matériel</small>
-                      </div>
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <div class="card border-0 bg-primary bg-opacity-10">
+                <div class="card-body p-3">
+                  <div class="d-flex align-items-center">
+                    <div class="shrink-0">
+                      <i class="bi bi-hdd-network fa-2x text-primary me-1"></i>
+                    </div>
+                    <div class="grow ms-3">
+                      <h6 class="mb-1 text-primary fw-bold">
+                        <?= $stats['total'] ?? 0 ?>
+                      </h6>
+                      <small class="text-muted">Total Matériel</small>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="card border-0 bg-success bg-opacity-10">
-                  <div class="card-body p-3">
-                    <div class="d-flex align-items-center">
-                      <div class="shrink-0">
-                        <i class="fas fa-wifi fa-2x text-success"></i>
-                      </div>
-                      <div class="grow ms-3">
-                        <h6 class="mb-1 text-success fw-bold">
-                          <?= $stats['online'] ?? 0 ?>
-                        </h6>
-                        <small class="text-muted">En Ligne</small>
-                      </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card border-0 bg-success bg-opacity-10">
+                <div class="card-body p-3">
+                  <div class="d-flex align-items-center">
+                    <div class="shrink-0">
+                      <i class="fas fa-wifi fa-2x text-success"></i>
+                    </div>
+                    <div class="grow ms-3">
+                      <h6 class="mb-1 text-success fw-bold">
+                        <?= $stats['online'] ?? 0 ?>
+                      </h6>
+                      <small class="text-muted">En Ligne</small>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="card border-0 bg-warning bg-opacity-10">
-                  <div class="card-body p-3">
-                    <div class="d-flex align-items-center">
-                      <div class="shrink-0">
-                        <i class="bi bi-tools fa-2x text-warning me-1"></i>
-                      </div>
-                      <div class="grow ms-3">
-                        <h6 class="mb-1 text-warning fw-bold">
-                          <?= $stats['maintenance_expired'] ?? 0 ?>
-                        </h6>
-                        <small class="text-muted">Maintenance Expirée</small>
-                      </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card border-0 bg-warning bg-opacity-10">
+                <div class="card-body p-3">
+                  <div class="d-flex align-items-center">
+                    <div class="shrink-0">
+                      <i class="bi bi-tools fa-2x text-warning me-1"></i>
+                    </div>
+                    <div class="grow ms-3">
+                      <h6 class="mb-1 text-warning fw-bold">
+                        <?= $stats['maintenance_expired'] ?? 0 ?>
+                      </h6>
+                      <small class="text-muted">Maintenance Expirée</small>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="card border-0 bg-danger bg-opacity-10">
-                  <div class="card-body p-3">
-                    <div class="d-flex align-items-center">
-                      <div class="shrink-0">
-                        <i class="fas fa-certificate fa-2x text-danger"></i>
-                      </div>
-                      <div class="grow ms-3">
-                        <h6 class="mb-1 text-danger fw-bold">
-                          <?= $stats['garantie_expired'] ?? 0 ?>
-                        </h6>
-                        <small class="text-muted">Garantie Expirée</small>
-                      </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card border-0 bg-danger bg-opacity-10">
+                <div class="card-body p-3">
+                  <div class="d-flex align-items-center">
+                    <div class="shrink-0">
+                      <i class="fas fa-certificate fa-2x text-danger"></i>
+                    </div>
+                    <div class="grow ms-3">
+                      <h6 class="mb-1 text-danger fw-bold">
+                        <?= $stats['garantie_expired'] ?? 0 ?>
+                      </h6>
+                      <small class="text-muted">Garantie Expirée</small>
                     </div>
                   </div>
                 </div>
@@ -385,6 +272,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
             </div>
           </div>
         </div>
+      </div>
     <?php endif; ?>
 
     <!-- Filtres -->
@@ -393,38 +281,6 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         <h6 class="card-title mb-0">Filtres</h6>
       </div>
       <div class="card-body py-2">
-        <div class="row mb-3">
-          <div class="col-md-12">
-            <div class="input-group">
-              <span class="input-group-text bg-primary text-white">
-                <i class="bi bi-search"></i>
-              </span>
-              <input type="text" class="form-control form-control-lg " id="globalSearch"
-                style="border-top-right-radius:8px; border-bottom-right-radius:8px;"
-                placeholder="Rechercher dans TOUT le matériel (marque, modèle, série, IP, MAC, client, site, salle...)"
-                autocomplete="off" value="<?= h($globalSearchTerm) ?>">
-
-              <button class="btn btn-outline-secondary" type="button" id="clearGlobalSearch"
-                style="display: <?= $isGlobalSearch ? 'inline-block' : 'none' ?>;">
-                <i class="bi bi-x-lg"></i>
-              </button>
-            </div>
-            <?php if ($isGlobalSearch): ?>
-                <div class="mt-2" id="globalSearchInfo">
-                  <span class="badge bg-info text-white">
-                    <i class="bi bi-search me-1"></i>
-                    <?= count($materiel_list) ?> résultat(s)
-                  </span>
-                  <span class="text-muted ms-2">Recherche globale : "<strong>
-                      <?= h($globalSearchTerm) ?>
-                    </strong>"</span>
-                </div>
-            <?php else: ?>
-                <div class="mt-2" id="globalSearchInfo" style="display:none;"></div>
-            <?php endif; ?>
-          </div>
-        </div>
-
         <form method="get" action="" id="filterForm">
           <div class="row g-3 align-items-end">
             <div class="col-md-2">
@@ -433,11 +289,11 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
                 onchange="updateSitesAndSubmit()">
                 <option value="">Tous les clients</option>
                 <?php if (isset($clients) && is_array($clients)): ?>
-                    <?php foreach ($clients as $client): ?>
-                        <option value="<?= $client['id'] ?>" <?= ($filters['client_id'] ?? '') == $client['id'] ? 'selected' : '' ?>>
-                          <?= h($client['name']) ?>
-                        </option>
-                    <?php endforeach; ?>
+                  <?php foreach ($clients as $client): ?>
+                    <option value="<?= $client['id'] ?>" <?= ($filters['client_id'] ?? '') == $client['id'] ? 'selected' : '' ?>>
+                      <?= h($client['name']) ?>
+                    </option>
+                  <?php endforeach; ?>
                 <?php endif; ?>
               </select>
             </div>
@@ -447,11 +303,11 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
                 onchange="updateBuildingsAndSubmit()">
                 <option value="">Tous les sites</option>
                 <?php if (isset($sites) && is_array($sites)): ?>
-                    <?php foreach ($sites as $site): ?>
-                        <option value="<?= $site['id'] ?>" <?= ($filters['site_id'] ?? '') == $site['id'] ? 'selected' : '' ?>>
-                          <?= h($site['name']) ?>
-                        </option>
-                    <?php endforeach; ?>
+                  <?php foreach ($sites as $site): ?>
+                    <option value="<?= $site['id'] ?>" <?= ($filters['site_id'] ?? '') == $site['id'] ? 'selected' : '' ?>>
+                      <?= h($site['name']) ?>
+                    </option>
+                  <?php endforeach; ?>
                 <?php endif; ?>
               </select>
             </div>
@@ -461,11 +317,11 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
                 onchange="updateRoomsAndSubmit()">
                 <option value="">Tous les bâtiments</option>
                 <?php if (isset($buildings) && is_array($buildings)): ?>
-                    <?php foreach ($buildings as $building): ?>
-                        <option value="<?= $building['id'] ?>" <?= ($filters['building_id'] ?? '') == $building['id'] ? 'selected' : '' ?>>
-                          <?= h($building['name']) ?>
-                        </option>
-                    <?php endforeach; ?>
+                  <?php foreach ($buildings as $building): ?>
+                    <option value="<?= $building['id'] ?>" <?= ($filters['building_id'] ?? '') == $building['id'] ? 'selected' : '' ?>>
+                      <?= h($building['name']) ?>
+                    </option>
+                  <?php endforeach; ?>
                 <?php endif; ?>
               </select>
             </div>
@@ -475,15 +331,15 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
                 onchange="document.getElementById('filterForm').submit();">
                 <option value="">Toutes les salles</option>
                 <?php if (isset($salles) && is_array($salles)): ?>
-                    <?php foreach ($salles as $salle): ?>
-                        <option value="<?= $salle['id'] ?>" <?= ($filters['salle_id'] ?? '') == $salle['id'] ? 'selected' : '' ?>>
-                          <?= h($salle['name']) ?>
-                        </option>
-                    <?php endforeach; ?>
+                  <?php foreach ($salles as $salle): ?>
+                    <option value="<?= $salle['id'] ?>" <?= ($filters['salle_id'] ?? '') == $salle['id'] ? 'selected' : '' ?>>
+                      <?= h($salle['name']) ?>
+                    </option>
+                  <?php endforeach; ?>
                 <?php endif; ?>
               </select>
             </div>
-            <div class="col-md-4 d-flex justify-content-end gap-2">
+            <div class="col-md-4 d-flex justify-content-end">
               <a href="<?= BASE_URL ?>materiel" class="btn btn-outline-secondary">
                 <i class="bi bi-x-lg me-1"></i>Réinitialiser
               </a>
@@ -493,105 +349,157 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       </div>
     </div>
 
-    <style>
-      .card,
-      .card-body,
-      .accordion-body,
-      .table-wrapper {
-        overflow: visible !important;
-      }
+    <!-- Liste du matériel organisée -->
+    <?php if (empty($filters['client_id'])): ?>
+      <div class="card">
+        <div class="card-body text-center py-5">
+          <i class="fas fa-filter fa-3x text-muted mb-3"></i>
+          <h5 class="text-muted">Sélectionnez un client pour voir le matériel</h5>
+          <p class="text-muted mb-3">Choisissez un client dans le filtre ci-dessus pour afficher le matériel associé.</p>
+        </div>
+      </div>
+    <?php elseif (empty($materiel_organise)): ?>
+      <div class="card">
+        <div class="card-body text-center py-5">
+          <i class="bi bi-hdd-network fa-3x text-muted mb-3 me-1"></i>
+          <h5 class="text-muted">Aucun matériel trouvé</h5>
+          <p class="text-muted mb-3">Aucun matériel ne correspond aux critères sélectionnés.</p>
+          <a href="<?= BASE_URL ?>materiel/add<?= !empty($addParams) ? '?' . http_build_query($addParams) : '' ?>"
+            class="btn btn-primary">
+            <i class="bi bi-plus me-2 me-1"></i>Ajouter du Matériel
+          </a>
+        </div>
+      </div>
+    <?php else: ?>
+      <style>
+        .card,
+        .card-body,
+        .accordion-body,
+        .table-wrapper {
+          overflow: visible !important;
+        }
 
-      .dropdown-menu {
-        z-index: 9999 !important;
-      }
+        .dropdown-menu {
+          z-index: 9999 !important;
+        }
 
-      .handsontable td {
-        transition: background-color 0.2s;
-      }
+        .handsontable td {
+          transition: background-color 0.2s;
+        }
 
-      .handsontable tr.hidden-row {
-        display: none !important;
-      }
-    </style>
+        .handsontable tr.hidden-row {
+          display: none !important;
+        }
+      </style>
 
-    <div class="card mb-4" id="columnControlsCard"
-      style="display: <?= (!empty($filters['client_id']) || $isGlobalSearch) ? 'block' : 'none' ?>;">
-      <div class="card-body">
-        <div class="row align-items-center">
-          <div class="col-md-12 text-end">
-            <div class="d-flex gap-2 justify-content-end align-items-end">
-              <div class="btn-group">
-                <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"
-                  data-bs-auto-close="outside">
-                  <i class="bi bi-list-check me-1"></i>Colonnes
+      <!-- Recherche globale et contrôles -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <label for="globalSearch" class="form-label fw-bold mb-2">
+                <i class="bi bi-search me-2"></i>Recherche globale
+              </label>
+              <input type="text" class="form-control" id="globalSearch" placeholder="Rechercher dans tous les tableaux..."
+                autocomplete="off">
+              <small class="text-muted">La recherche s'applique à tous les tableaux de toutes les salles</small>
+            </div>
+            <div class="col-md-6 text-end">
+              <div class="d-flex gap-2 justify-content-end align-items-end">
+                <button type="button" class="btn btn-outline-secondary" id="clearGlobalSearch" style="display: none;">
+                  <i class="bi bi-x-lg me-1"></i>Effacer
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end" style="max-height:500px;overflow:auto;">
-                  <?php foreach ($allColumns as $i => $col): ?>
+                <div class="btn-group">
+                  <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside">
+                    <i class="bi bi-list-check me-1"></i>Colonnes
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end" style="max-height:500px;overflow:auto;">
+                    <?php foreach ($allColumns as $i => $col): ?>
                       <li>
                         <label class="dropdown-item">
                           <input type="checkbox" class="global-colvis-checkbox me-2" data-col="<?= $i ?>" <?= $col['default'] ? 'checked' : '' ?>>
                           <?= h($col['label']) ?>
                         </label>
                       </li>
-                  <?php endforeach; ?>
-                </ul>
+                    <?php endforeach; ?>
+                  </ul>
+                </div>
+                <button type="button" class="btn btn-outline-primary" id="openAllAccordions">
+                  <i class="bi bi-chevron-down me-1"></i>Ouvrir tout
+                </button>
+                <button type="button" class="btn btn-outline-secondary" id="closeAllAccordions">
+                  <i class="bi bi-chevron-up me-1"></i>Fermer tout
+                </button>
               </div>
-              <button type="button" class="btn btn-outline-primary" id="openAllAccordions">
-                <i class="bi bi-chevron-down me-1"></i>Ouvrir tout
-              </button>
-              <button type="button" class="btn btn-outline-secondary" id="closeAllAccordions">
-                <i class="bi bi-chevron-up me-1"></i>Fermer tout
-              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div id="materielResultsContainer">
-      <?php if (empty($filters['client_id']) && !$isGlobalSearch): ?>
-          <div class="card">
-            <div class="card-body text-center py-5">
-              <i class="fas fa-filter fa-3x text-muted mb-3"></i>
-              <h5 class="text-muted">Sélectionnez un client pour voir le matériel</h5>
-              <p class="text-muted mb-3">Choisissez un client dans le filtre ci-dessus pour afficher le matériel associé,
-                ou utilisez la recherche globale ci-dessous.</p>
+      <div id="accordionContainer">
+        <?php foreach ($materiel_organise as $client_nom => $sites): ?>
+          <div class="card mb-4">
+            <div class="card-header bg-body-secondary d-flex align-items-center justify-content-between">
+              <h5 class="card-title mb-0 d-flex align-items-center">
+                <i class="bi bi-building text-primary me-2"></i>
+                <?= h($client_nom) ?>
+              </h5>
+              <button type="button" class="btn btn-sm btn-outline-primary" onclick="saveAllTablesData()">
+                <i class="bi bi-save-all me-1"></i>
+                Sauvegarder toutes les modifications
+              </button>
+            </div>
+            <div class="card-body p-0">
+              <?php foreach ($sites as $site_nom => $buildings): ?>
+                <?php foreach ($buildings as $building_nom => $salles): ?>
+                  <?php foreach ($salles as $salle_nom => $materiels):
+                    $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
+                    $accordion_id = 'accordion_' . $salle_id;
+                    $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
+                    ?>
+                    <div class="accordion mb-3" id="<?= $accordion_id ?>">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse_<?= $salle_id ?>">
+                            <div class="d-flex justify-content-between w-100 me-3 align-items-center">
+                              <span>
+                                <i class="bi bi-door-open me-2 text-info"></i>
+                                <strong>
+                                  <?= $locationString ?>
+                                </strong>
+                              </span>
+                              <span class="badge bg-secondary ms-3">
+                                <?= count($materiels) ?> équipement(s)
+                              </span>
+                            </div>
+                          </button>
+                        </h2>
+                        <div id="collapse_<?= $salle_id ?>" class="accordion-collapse collapse"
+                          data-bs-parent="#accordionContainer">
+                          <div class="accordion-body p-0">
+                            <div class="d-flex justify-content-end p-2 border-bottom bg-light">
+                              <button type="button" class="btn btn-sm btn-success"
+                                onclick="addNewRowToTable('excelTable-<?= $salle_id ?>', '<?= addslashes($locationString) ?>', <?= $materiels[0]['salle_id'] ?? 'null' ?>)">
+                                <i class="bi bi-plus-circle me-1"></i>Ajouter un équipement
+                              </button>
+                            </div>
+                            <div class="table-wrapper">
+                              <div id="excelTable-<?= $salle_id ?>"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <?php endforeach; ?>
+                <?php endforeach; ?>
+              <?php endforeach; ?>
             </div>
           </div>
-
-      <?php elseif ($isGlobalSearch && !empty($materiel_organise)): ?>
-          <div id="accordionContainer">
-            <?php renderMaterielAccordions($materiel_organise); ?>
-          </div>
-
-      <?php elseif (empty($materiel_organise) && ($isGlobalSearch || !empty($filters['client_id']))): ?>
-          <div class="card">
-            <div class="card-body text-center py-5">
-              <i class="bi bi-hdd-network fa-3x text-muted mb-3 me-1"></i>
-              <h5 class="text-muted">Aucun matériel trouvé</h5>
-              <p class="text-muted mb-3">
-                <?php if ($isGlobalSearch): ?>
-                    Aucun équipement ne correspond à votre recherche "<strong>
-                      <?= h($globalSearchTerm) ?>
-                    </strong>".
-                <?php else: ?>
-                    Aucun matériel ne correspond aux critères sélectionnés.
-                <?php endif; ?>
-              </p>
-              <a href="<?= BASE_URL ?>materiel/add<?= !empty($addParams) ? '?' . http_build_query($addParams) : '' ?>"
-                class="btn btn-primary">
-                <i class="bi bi-plus me-2 me-1"></i>Ajouter du Matériel
-              </a>
-            </div>
-          </div>
-
-      <?php elseif (!empty($materiel_organise) && !$isGlobalSearch && !empty($filters['client_id'])): ?>
-          <div id="accordionContainer">
-            <?php renderMaterielAccordions($materiel_organise); ?>
-          </div>
-
-      <?php endif; ?>
-    </div>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
 
   </div>
 
@@ -673,7 +581,6 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       </div>
     </div>
   </div>
-
   <style>
     body {
       background: #f4f6f9;
@@ -712,19 +619,15 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       vertical-align: middle;
     }
 
-    .handsontable td:not(:first-child) {
-      background-color: #f3e1b5 !important;
+    /* Style de base pour toutes les cellules */
+    .handsontable td {
+      background-color: #ffffff;
+      border-bottom: 1px solid #dee2e6;
+      padding: 8px;
+      vertical-align: middle;
     }
 
-    .handsontable td:nth-child(7) {
-      background-color: #f8f9fa !important;
-      text-align: center;
-    }
-
-    .handsontable tbody tr:hover td {
-      background-color: #eef3ff !important;
-    }
-
+    /* Style pour la colonne Équipement (toujours à l'index 0 après rendu) */
     .handsontable td:first-child {
       background-color: #f8f9fa !important;
       text-align: center;
@@ -733,19 +636,31 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       min-width: 100px;
     }
 
-    .handsontable td:first-child button {
-      white-space: nowrap;
-      font-size: 12px;
-      padding: 4px 8px;
+    /* Style pour la colonne Équipement (deuxième colonne) */
+    .handsontable td:nth-child(2) {
+      background-color: #ffffff !important;
+      color: #0d6efd !important;
+      font-weight: 600;
     }
 
-    .handsontable col:first-child {
-      width: 100px;
+    /* Style pour toutes les cellules sauf la première et la dernière (pièces jointes) */
+    .handsontable td:not(:first-child) {
+      background-color: #f3e1b5 !important;
     }
 
-    .handsontable td.htInvalid {
-      background-color: #ffe0e0 !important;
-      border: 1px solid #dc3545 !important;
+    /* Style pour la colonne Pièces jointes (toujours à la dernière position après rendu) */
+    .handsontable td:nth-child(7) {
+      background-color: #f8f9fa !important;
+      text-align: center;
+    }
+
+    /* Hover */
+    .handsontable tbody tr:hover td {
+      background-color: #eef3ff !important;
+    }
+
+    .handsontable tbody tr:hover td {
+      background-color: #eef3ff !important;
     }
 
     .drop-zone {
@@ -789,12 +704,39 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
     .file-item.invalid {
       background-color: var(--bs-danger-bg-subtle);
     }
+
+    /* Style pour la colonne Actions */
+    .handsontable td:first-child {
+      background-color: #f8f9fa !important;
+      text-align: center;
+      vertical-align: middle;
+      width: 100px;
+      min-width: 100px;
+    }
+
+    .handsontable td:first-child button {
+      white-space: nowrap;
+      font-size: 12px;
+      padding: 4px 8px;
+    }
+
+    /* Ajuster la largeur de la colonne Actions */
+    .handsontable col:first-child {
+      width: 100px;
+    }
+
+    .handsontable td.htInvalid {
+      background-color: #ffe0e0 !important;
+      border: 1px solid #dc3545 !important;
+    }
   </style>
 
   <script>
     const baseUrl = '<?= BASE_URL ?>';
+    let currentSearchTerm = '';
     let hotInstances = {};
 
+    // Index des colonnes
     const MARQUE_INDEX = <?= $marqueIndex ?>;
     const MODELE_INDEX = <?= $modeleIndex ?>;
     const ID_INDEX = <?= $idIndex ?>;
@@ -805,8 +747,6 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       date_derniere_inter: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Dernière Inter', example: '2026-12-31' },
     };
     const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
-    const colHeadersGlobal = <?= json_encode($colHeaders) ?>;
-    const DEFAULT_HIDDEN_COLUMNS = <?= json_encode($hiddenColumns) ?>;
 
     function validateRow(row, rowIndex) {
       const errors = [];
@@ -814,40 +754,52 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         const rule = FIELD_VALIDATORS[field];
         if (!rule) return;
         const value = row[colIndex];
-        if (!value || value === '') return;
+        if (!value || value === '') return; // vide = ignoré
         if (!rule.regex.test(value)) {
           errors.push(`Ligne ${rowIndex + 1} — <strong>${rule.label}</strong> : "<em>${value}</em>" invalide (ex: ${rule.example})`);
         }
       });
       return errors;
     }
-
+    // ── showToast ────────────────────────────────────────────────────────────────
     function showToast(message, type) {
-      document.querySelectorAll('.custom-toast').forEach(t => t.remove());
+      const existingToasts = document.querySelectorAll('.custom-toast');
+      existingToasts.forEach(toast => toast.remove());
+
       const toastDiv = document.createElement('div');
       toastDiv.className = 'custom-toast position-fixed top-0 end-0 m-3';
-      toastDiv.style.cssText = 'z-index:9999;min-width:300px;max-width:400px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);padding:12px 16px;';
+      toastDiv.style.zIndex = '9999';
+      toastDiv.style.minWidth = '300px';
+      toastDiv.style.maxWidth = '400px';
+
       const colors = {
         success: { bg: '#d4edda', border: '#28a745', icon: '#28a745' },
         danger: { bg: '#f8d7da', border: '#dc3545', icon: '#dc3545' },
         info: { bg: '#d1ecf1', border: '#17a2b8', icon: '#17a2b8' }
       };
       const color = colors[type] || colors.info;
+
       toastDiv.style.backgroundColor = color.bg;
       toastDiv.style.borderLeft = `4px solid ${color.border}`;
+      toastDiv.style.borderRadius = '8px';
+      toastDiv.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+      toastDiv.style.padding = '12px 16px';
+
       toastDiv.innerHTML = `
-        <div class="d-flex align-items-center">
-          <div class="me-3" style="color:${color.icon}">
-            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : type === 'danger' ? 'bi-x-circle-fill' : 'bi-info-circle-fill'} fs-4"></i>
-          </div>
-          <div class="flex-grow-1" style="font-size:14px;">
-            <strong>${type === 'success' ? 'Succès' : type === 'danger' ? 'Erreur' : 'Information'}</strong>
-            <div class="mt-1">${message}</div>
-          </div>
-          <button type="button" class="btn-close ms-2" style="font-size:12px;"
-                  onclick="this.closest('.custom-toast').remove()"></button>
-        </div>`;
+      <div class="d-flex align-items-center">
+        <div class="me-3" style="color:${color.icon}">
+          <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : type === 'danger' ? 'bi-x-circle-fill' : 'bi-info-circle-fill'} fs-4"></i>
+        </div>
+        <div class="flex-grow-1" style="font-size:14px;">
+          <strong>${type === 'success' ? 'Succès' : type === 'danger' ? 'Erreur' : 'Information'}</strong>
+          <div class="mt-1">${message}</div>
+        </div>
+        <button type="button" class="btn-close ms-2" style="font-size:12px;"
+                onclick="this.closest('.custom-toast').remove()"></button>
+      </div>`;
+
       document.body.appendChild(toastDiv);
+
       const duration = type === 'danger' ? 7000 : 4000;
       setTimeout(() => {
         if (toastDiv.parentNode) {
@@ -858,49 +810,53 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       }, duration);
     }
 
-    function escapeHtml(text) {
-      const d = document.createElement('div');
-      d.textContent = text ?? '';
-      return d.innerHTML;
-    }
-
     function addNewRowToTable(tableId, locationName, salleId) {
       const hot = hotInstances[tableId];
-      if (!hot) return;
+      if (!hot) { return; }
+
       hot.__salleId = salleId;
+
       const existingData = hot.getSourceData();
       const data = existingData.map(row => row.map(cell =>
         (cell && typeof cell === 'object') ? { ...cell } : cell
       ));
-      const colCount = allColumnFields.length;
+
+      const colCount = <?= count($allColumns) ?>;
       const newRow = Array(colCount).fill('');
       newRow[PIECES_JOINTES_INDEX] = { count: 0, id: null, name: '' };
+
       data.push(newRow);
       hot.loadData(data);
+
       const newRowIndex = data.length - 1;
       hot.scrollViewportTo(newRowIndex, 0);
       hot.selectCell(newRowIndex, 0);
+
       showToast('Nouvelle ligne ajoutée. Remplissez les informations puis sauvegardez.', 'info');
     }
 
+    // ── submitFilters ────────────────────────────────────────────────────────────
     function submitFilters() {
       const clientId = document.getElementById('client_id').value;
       const siteId = document.getElementById('site_id').value;
       const buildingId = document.getElementById('building_id').value;
       const salleId = document.getElementById('salle_id').value;
-      let url = baseUrl + 'materiel?';
+
+      let url = '<?= BASE_URL ?>materiel?';
       const params = [];
       if (clientId) params.push('client_id=' + clientId);
       if (siteId) params.push('site_id=' + siteId);
       if (buildingId) params.push('building_id=' + buildingId);
       if (salleId) params.push('salle_id=' + salleId);
+
       window.location.href = url + params.join('&');
     }
 
+    // ── updateSitesAndSubmit ──────────────────────────────────────────────────────
     function updateSitesAndSubmit() {
       const clientId = document.getElementById('client_id').value;
       if (clientId) {
-        fetch(baseUrl + 'materiel/get_sites?client_id=' + clientId)
+        fetch('<?= BASE_URL ?>materiel/get_sites?client_id=' + clientId)
           .then(res => res.json())
           .then(data => {
             const siteSelect = document.getElementById('site_id');
@@ -923,11 +879,12 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       }
     }
 
+    // ── updateBuildingsAndSubmit ──────────────────────────────────────────────────
     function updateBuildingsAndSubmit() {
       const clientId = document.getElementById('client_id').value;
       const siteId = document.getElementById('site_id').value;
       if (siteId && clientId) {
-        fetch(baseUrl + 'materiel/get_buildings?site_id=' + siteId)
+        fetch('<?= BASE_URL ?>materiel/get_buildings?site_id=' + siteId)
           .then(res => res.json())
           .then(data => {
             const buildingSelect = document.getElementById('building_id');
@@ -948,10 +905,12 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       }
     }
 
+    // ── updateRoomsAndSubmit ──────────────────────────────────────────────────────
     function updateRoomsAndSubmit() {
       const clientId = document.getElementById('client_id').value;
       const siteId = document.getElementById('site_id').value;
       const buildingId = document.getElementById('building_id').value;
+
       const loadRooms = (url) => fetch(url)
         .then(res => res.json())
         .then(data => {
@@ -967,212 +926,59 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         .catch(err => console.error('Erreur chargement salles:', err));
 
       if (buildingId && siteId && clientId) {
-        loadRooms(baseUrl + 'materiel/get_rooms_by_building?building_id=' + buildingId);
+        loadRooms('<?= BASE_URL ?>materiel/get_rooms_by_building?building_id=' + buildingId);
       } else if (siteId && clientId) {
-        loadRooms(baseUrl + 'materiel/get_rooms_by_site?site_id=' + siteId);
+        loadRooms('<?= BASE_URL ?>materiel/get_rooms_by_site?site_id=' + siteId);
       } else {
         document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
         submitFilters();
       }
     }
 
-    let searchDebounceTimer = null;
-    let searchAbortController = null;
-    let initialResultsHtml = null; 
+    // ── applyGlobalSearch ────────────────────────────────────────────────────────
+    function applyGlobalSearch() {
+      const searchTerm = document.getElementById('globalSearch').value.toLowerCase();
+      currentSearchTerm = searchTerm;
+      document.getElementById('clearGlobalSearch').style.display = searchTerm ? 'inline-block' : 'none';
 
-    function organizeMateriel(list) {
-      const organise = {};
-      list.forEach(m => {
-        const client = m.client_nom || 'Sans client';
-        const site = m.site_nom || 'Sans site';
-        const building = m.building_nom || 'Sans bâtiment';
-        const salle = m.salle_nom || 'Sans salle';
-        organise[client] ??= {};
-        organise[client][site] ??= {};
-        organise[client][site][building] ??= {};
-        organise[client][site][building][salle] ??= [];
-        organise[client][site][building][salle].push(m);
+      Object.keys(hotInstances).forEach(tableId => {
+        const hot = hotInstances[tableId];
+        if (!hot) return;
+        const data = hot.getData();
+        for (let i = 0; i < data.length; i++) {
+          let matches = false;
+          for (let j = 0; j < data[i].length; j++) {
+            if (j === PIECES_JOINTES_INDEX) continue;
+            const v = data[i][j];
+            if (v && typeof v !== 'object' && v.toString().toLowerCase().includes(searchTerm)) { matches = true; break; }
+          }
+          const el = hot.getCell(hot.toVisualRow(i), 0);
+          if (el && el.parentNode) el.parentNode.style.display = (!searchTerm || matches) ? '' : 'none';
+        }
+        hot.render();
       });
-      return organise;
+
+      updateAccordionsVisibility(searchTerm);
     }
-
-    function stableKey(str) {
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) {
-        hash = ((hash << 5) - hash) + str.charCodeAt(i);
-        hash |= 0;
-      }
-      return 'h' + Math.abs(hash);
-    }
-
-    function destroyAllTables() {
-      Object.values(hotInstances).forEach(hot => {
-        try { hot.destroy(); } catch (e) { /* ignore */ }
-      });
-      hotInstances = {};
-    }
-
-    function renderSearchResults(materielList, piecesJointesCount, term) {
-      destroyAllTables();
-
-      const container = document.getElementById('materielResultsContainer');
-      const columnControls = document.getElementById('columnControlsCard');
-      const organise = organizeMateriel(materielList || []);
-
-      if (Object.keys(organise).length === 0) {
-        columnControls.style.display = 'none';
-        container.innerHTML = `
-          <div class="card">
-            <div class="card-body text-center py-5">
-              <i class="bi bi-hdd-network fa-3x text-muted mb-3"></i>
-              <h5 class="text-muted">Aucun matériel trouvé</h5>
-              <p class="text-muted mb-3">Aucun équipement ne correspond à votre recherche "<strong>${escapeHtml(term)}</strong>".</p>
-            </div>
-          </div>`;
-        return;
-      }
-
-      columnControls.style.display = 'block';
-
-      const salleRefs = [];
-      let html = '<div id="accordionContainer">';
-
-      for (const clientNom in organise) {
-        html += `<div class="card mb-4">
-          <div class="card-header bg-body-secondary d-flex align-items-center justify-content-between">
-            <h5 class="card-title mb-0 d-flex align-items-center"><i class="bi bi-building text-primary me-2"></i>${escapeHtml(clientNom)}</h5>
-            <button type="button" class="btn btn-sm btn-outline-primary" onclick="saveAllTablesData()">
-              <i class="bi bi-save-all me-1"></i>Sauvegarder toutes les modifications
-            </button>
-          </div>
-          <div class="card-body p-0">`;
-
-        for (const siteNom in organise[clientNom]) {
-          for (const buildingNom in organise[clientNom][siteNom]) {
-            for (const salleNom in organise[clientNom][siteNom][buildingNom]) {
-              const materiels = organise[clientNom][siteNom][buildingNom][salleNom];
-              const salleId = 'salle_' + stableKey(clientNom + siteNom + buildingNom + salleNom);
-              const tableId = 'excelTable-' + salleId;
-              const location = `${escapeHtml(siteNom)} - ${escapeHtml(buildingNom)} - ${escapeHtml(salleNom)}`;
-              const dbSalleId = materiels[0]?.salle_id ?? null;
-
-              html += `
-                <div class="accordion mb-3" id="accordion_${salleId}">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header">
-                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_${salleId}">
-                        <div class="d-flex justify-content-between w-100 me-3 align-items-center">
-                          <span><i class="bi bi-door-open me-2 text-info"></i><strong>${location}</strong></span>
-                          <span class="badge bg-secondary ms-3">${materiels.length} équipement(s)</span>
-                        </div>
-                      </button>
-                    </h2>
-                    <div id="collapse_${salleId}" class="accordion-collapse collapse show">
-                      <div class="accordion-body p-0">
-                        <div class="d-flex justify-content-end p-2 border-bottom bg-light">
-                          <button type="button" class="btn btn-sm btn-success"
-                            onclick="addNewRowToTable('${tableId}', '${location.replace(/'/g, "\\'")}', ${dbSalleId ?? 'null'})">
-                            <i class="bi bi-plus-circle me-1"></i>Ajouter un équipement
-                          </button>
-                        </div>
-                        <div class="table-wrapper"><div id="${tableId}"></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>`;
-
-              salleRefs.push({ tableId, materiels, dbSalleId });
+    // ── updateAccordionsVisibility ───────────────────────────────────────────────
+    function updateAccordionsVisibility(searchTerm) {
+      if (!searchTerm) { document.querySelectorAll('.accordion-item').forEach(i => i.style.display = ''); return; }
+      document.querySelectorAll('.accordion-item').forEach(item => {
+        const collapse = item.querySelector('.accordion-collapse');
+        if (!collapse) return;
+        const hot = hotInstances[collapse.id.replace('collapse_', 'excelTable-')];
+        let found = false;
+        if (hot) {
+          const data = hot.getData();
+          outer: for (let i = 0; i < data.length; i++)
+            for (let j = 0; j < data[i].length; j++) {
+              if (j === PIECES_JOINTES_INDEX) continue;
+              const v = data[i][j];
+              if (v && typeof v !== 'object' && v.toString().toLowerCase().includes(searchTerm)) { found = true; break outer; }
             }
-          }
         }
-        html += `</div></div>`;
-      }
-      html += '</div>';
-      container.innerHTML = html;
-
-      salleRefs.forEach(({ tableId, materiels, dbSalleId }) => {
-        const rows = materiels.map(m => allColumnFields.map(field => {
-          if (field === 'pieces_jointes') {
-            return { count: (piecesJointesCount && piecesJointesCount[m.id]) || 0, id: m.id, name: `${m.marque || ''} ${m.modele || ''}` };
-          }
-          return m[field] ?? '';
-        }));
-        createSalleTable(tableId, rows, dbSalleId);
+        item.style.display = found ? '' : 'none';
       });
-
-      requestAnimationFrame(() => Object.values(hotInstances).forEach(hot => hot.render()));
-
-      const applied = restoreColumnVisibility();
-      if (applied) {
-        Object.keys(applied).forEach(col =>
-          applyColumnVisibility(parseInt(col), applied[col] === true || applied[col] === 'true')
-        );
-      }
-    }
-
-    function updateSearchInfoBanner(term, count) {
-      const info = document.getElementById('globalSearchInfo');
-      if (!info) return;
-      if (!term) {
-        info.style.display = 'none';
-        info.innerHTML = '';
-        return;
-      }
-      info.style.display = 'block';
-      info.innerHTML = `
-        <span class="badge bg-info text-white"><i class="bi bi-search me-1"></i>${count} résultat(s)</span>
-        <span class="text-muted ms-2">Recherche globale : "<strong>${escapeHtml(term)}</strong>"</span>`;
-    }
-
-    function performGlobalSearchAjax(term) {
-      const clearBtn = document.getElementById('clearGlobalSearch');
-      clearBtn.style.display = term ? 'inline-block' : 'none';
-
-      if (!term || term.length < 2) {
-        if (initialResultsHtml !== null) {
-          document.getElementById('materielResultsContainer').innerHTML = initialResultsHtml;
-        }
-        updateSearchInfoBanner('', 0);
-        const url = new URL(window.location.href);
-        url.searchParams.delete('search');
-        history.pushState({}, '', url.toString());
-        return;
-      }
-
-      if (searchAbortController) searchAbortController.abort();
-      searchAbortController = new AbortController();
-
-      document.getElementById('materielResultsContainer').innerHTML = `
-        <div class="text-center py-5">
-          <div class="spinner-border text-primary"></div>
-          <p class="mt-2 text-muted">Recherche en cours...</p>
-        </div>`;
-
-      fetch(baseUrl + 'materiel/search_api?search=' + encodeURIComponent(term), {
-        signal: searchAbortController.signal
-      })
-        .then(res => res.json())
-        .then(json => {
-          if (!json.success) {
-            showToast(json.error || 'Erreur de recherche', 'danger');
-            return;
-          }
-          renderSearchResults(json.materiels, json.pieces_jointes_count, term);
-          updateSearchInfoBanner(term, (json.materiels || []).length);
-
-          const url = new URL(window.location.href);
-          url.searchParams.set('search', term);
-          url.searchParams.delete('client_id');
-          url.searchParams.delete('site_id');
-          url.searchParams.delete('building_id');
-          url.searchParams.delete('salle_id');
-          history.pushState({ search: term }, '', url.toString());
-        })
-        .catch(err => {
-          if (err.name === 'AbortError') return;
-          console.error(err);
-          showToast('Erreur réseau lors de la recherche', 'danger');
-        });
     }
 
     function openAllAccordions() {
@@ -1181,16 +987,13 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       });
     }
     function closeAllAccordions() {
-      document.querySelectorAll('.accordion-collapse.show').forEach(c =>
-        bootstrap.Collapse.getInstance(c)?.hide()
-      );
+      document.querySelectorAll('.accordion-collapse.show').forEach(c => bootstrap.Collapse.getInstance(c)?.hide());
     }
 
+    // ── column visibility ────────────────────────────────────────────────────────
     function saveColumnVisibility() {
       const state = {};
-      document.querySelectorAll('.global-colvis-checkbox').forEach(cb => {
-        state[parseInt(cb.dataset.col)] = cb.checked;
-      });
+      document.querySelectorAll('.global-colvis-checkbox').forEach(cb => { state[parseInt(cb.dataset.col)] = cb.checked; });
       localStorage.setItem('materiel_columns_visibility', JSON.stringify(state));
     }
     function restoreColumnVisibility() {
@@ -1213,155 +1016,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       });
     }
 
-    const COLUMN_FORMATS = {
-      'date_fin_maintenance': { type: 'date', dateFormat: 'YYYY-MM-DD' },
-      'date_fin_garantie': { type: 'date', dateFormat: 'YYYY-MM-DD' },
-      'date_derniere_inter': { type: 'date', dateFormat: 'YYYY-MM-DD' },
-    };
-    const COLUMN_PLACEHOLDERS = {
-      'date_fin_maintenance': 'YYYY-MM-DD',
-      'date_fin_garantie': 'YYYY-MM-DD',
-      'date_derniere_inter': 'YYYY-MM-DD',
-      'adresse_ip': '192.168.1.1',
-      'ip_primaire': '192.168.1.1',
-      'ip_secondaire': '192.168.1.1',
-      'passerelle': '172.24.158.230',
-      'masque': '255.255.255.0',
-      'adresse_mac': '00:0E:DD:FA:65:88',
-      'mac_primaire': '00:0E:DD:FA:65:88',
-      'mac_secondaire': '00:0E:DD:FA:65:88',
-      'version_firmware': '10.0.8',
-      'ancien_firmware': '10.0.8',
-    };
-
-    function makePlaceholderRenderer(placeholder) {
-      return function (instance, td, row, col, prop, value, cellProperties) {
-        Handsontable.renderers.TextRenderer.apply(this, arguments);
-        if (!value || value === '') {
-          td.innerHTML = `<span style="color:#adb5bd;font-style:italic;pointer-events:none;">${placeholder}</span>`;
-        }
-      };
-    }
-
-    function buildHandsontableColumns() {
-      return allColumnFields.map(field => {
-        const fmt = COLUMN_FORMATS[field];
-        const ph = COLUMN_PLACEHOLDERS[field];
-        if (!fmt) return ph ? { type: 'text', renderer: makePlaceholderRenderer(ph) } : { type: 'text' };
-        if (fmt.type === 'date') {
-          return {
-            type: 'date',
-            dateFormat: fmt.dateFormat,
-            correctFormat: true,
-            defaultDate: '',
-            renderer: makePlaceholderRenderer(ph || 'YYYY-MM-DD'),
-            datePickerConfig: {
-              firstDay: 1,
-              showWeekNumber: true,
-              i18n: {
-                previousMonth: 'Mois préc.',
-                nextMonth: 'Mois suiv.',
-                months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-                weekdays: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-                weekdaysShort: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa']
-              }
-            }
-          };
-        }
-        return { type: 'text' };
-      });
-    }
-
-    function getHiddenColumnsFromStorage() {
-      const saved = localStorage.getItem('materiel_columns_visibility');
-      if (!saved) return DEFAULT_HIDDEN_COLUMNS;
-      try {
-        const state = JSON.parse(saved);
-        return Object.keys(state).map(k => parseInt(k)).filter(k => state[k] === false);
-      } catch (e) { return DEFAULT_HIDDEN_COLUMNS; }
-    }
-
-    function hotCellsFn(row, col) {
-      const header = this.colHeaders[col];
-
-      if (header === 'Marque') {
-        return {
-          renderer: function (instance, td, row, col, prop, value) {
-            const id = instance.getDataAtCell(row, ID_INDEX);
-            td.innerHTML = '';
-            if (id) {
-              const urlParams = new URLSearchParams(window.location.search);
-              const link = document.createElement('a');
-              link.href = baseUrl + 'materiel/view/' + id + (urlParams.toString() ? '?' + urlParams : '');
-              link.className = 'text-decoration-none fw-bold text-primary';
-              link.onclick = e => e.stopPropagation();
-              link.textContent = value || '';
-              td.appendChild(link);
-            } else {
-              const span = document.createElement('span');
-              span.className = 'fw-bold text-primary';
-              span.textContent = value || '';
-              td.appendChild(span);
-            }
-            td.style.cursor = 'default';
-          },
-          editor: 'text'
-        };
-      }
-
-      if (header === 'Modèle') {
-        return {
-          renderer: function (instance, td, row, col, prop, value) {
-            td.style.color = '#000000';
-            td.style.fontWeight = 'normal';
-            td.style.backgroundColor = '#f3e1b5';
-            td.textContent = value || '';
-            td.style.cursor = 'default';
-          },
-          editor: 'text'
-        };
-      }
-
-      if (header === 'Pièces jointes') {
-        return {
-          renderer: function (instance, td, row, col, prop, value) {
-            const count = value?.count ?? 0;
-            const id = value?.id;
-            const name = value?.name ?? '';
-            td.innerHTML = `<button class="btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}"
-              onclick="openAttachmentsModal(${id},'${name.replace(/'/g, "\\'")}')">
-              <i class="bi bi-paperclip"></i>
-              <span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'} ms-1">${count}</span>
-            </button>`;
-            td.style.textAlign = 'center';
-          }
-        };
-      }
-
-      return {};
-    }
-
-    function createSalleTable(tableId, rows, dbSalleId) {
-      const container = document.getElementById(tableId);
-      if (!container) return null;
-
-      const hot = new Handsontable(container, {
-        data: rows,
-        colHeaders: colHeadersGlobal,
-        columns: buildHandsontableColumns(),
-        hiddenColumns: { columns: getHiddenColumnsFromStorage(), indicators: true },
-        rowHeaders: false,
-        licenseKey: 'non-commercial-and-evaluation',
-        stretchH: 'all',
-        height: 'auto',
-        cells: hotCellsFn
-      });
-
-      hot.__salleId = dbSalleId ?? null;
-      hotInstances[tableId] = hot;
-      return hot;
-    }
-
+    // ── attachments ──────────────────────────────────────────────────────────────
     function openAttachmentsModal(materielId, materielName) {
       const modal = new bootstrap.Modal(document.getElementById('attachmentsModal'));
       document.getElementById('attachmentsModalLabel').textContent = `Pièces jointes - ${materielName}`;
@@ -1372,7 +1027,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       loadAttachments(materielId, content);
     }
     function loadAttachments(materielId, container) {
-      fetch(baseUrl + 'materiel/getAttachments/' + materielId)
+      fetch('<?= BASE_URL ?>materiel/getAttachments/' + materielId)
         .then(res => res.json())
         .then(data => {
           if (data.success && data.attachments) renderAttachments(data.attachments, container, materielId);
@@ -1391,27 +1046,25 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           const isPdf = att.type_fichier?.toLowerCase() === 'pdf';
           const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(att.type_fichier?.toLowerCase());
           const size = formatFileSize(att.taille_fichier || 0);
-          const date = att.date_creation
-            ? new Date(att.date_creation).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
-            : '-';
+          const date = att.date_creation ? new Date(att.date_creation).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-';
           html += `<div class="list-group-item ${att.masque_client == 1 ? 'bg-light-warning' : ''}">
-            <div class="d-flex justify-content-between align-items-start">
-              <div class="flex-grow-1">
-                <div class="d-flex align-items-center mb-1">
-                  ${att.masque_client == 1 ? '<i class="bi bi-eye-slash text-warning me-2"></i>' : ''}
-                  <strong>${escapeHtml(att.nom_fichier)}</strong>
-                </div>
-                ${att.commentaire ? `<small class="text-muted d-block">${escapeHtml(att.commentaire)}</small>` : ''}
-                <small class="text-muted">${size} • ${date}${att.created_by_name ? ' • ' + escapeHtml(att.created_by_name) : ''}</small>
+          <div class="d-flex justify-content-between align-items-start">
+            <div class="flex-grow-1">
+              <div class="d-flex align-items-center mb-1">
+                ${att.masque_client == 1 ? '<i class="bi bi-eye-slash text-warning me-2"></i>' : ''}
+                <strong>${escapeHtml(att.nom_fichier)}</strong>
               </div>
-              <div class="ms-3">
-                ${isPdf || isImage ? `<button class="btn btn-sm btn-outline-info me-1" onclick="previewAttachment(${att.id},'${escapeHtml(att.nom_fichier)}','${att.type_fichier}')"><i class="bi bi-eye"></i></button>` : ''}
-                <a href="${baseUrl}materiel/download/${att.id}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-download"></i></a>
-                <a href="${baseUrl}materiel/toggleAttachmentVisibility/${materielId}/${att.id}" class="btn btn-sm btn-outline-warning me-1"><i class="bi ${att.masque_client == 1 ? 'bi-eye' : 'bi-eye-slash'}"></i></a>
-                <a href="${baseUrl}materiel/deleteAttachment/${materielId}/${att.id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer ?')"><i class="bi bi-trash"></i></a>
-              </div>
+              ${att.commentaire ? `<small class="text-muted d-block">${escapeHtml(att.commentaire)}</small>` : ''}
+              <small class="text-muted">${size} • ${date}${att.created_by_name ? ' • ' + escapeHtml(att.created_by_name) : ''}</small>
             </div>
-          </div>`;
+            <div class="ms-3">
+              ${isPdf || isImage ? `<button class="btn btn-sm btn-outline-info me-1" onclick="previewAttachment(${att.id},'${escapeHtml(att.nom_fichier)}','${att.type_fichier}')"><i class="bi bi-eye"></i></button>` : ''}
+              <a href="<?= BASE_URL ?>materiel/download/${att.id}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-download"></i></a>
+              <a href="<?= BASE_URL ?>materiel/toggleAttachmentVisibility/${materielId}/${att.id}" class="btn btn-sm btn-outline-warning me-1"><i class="bi ${att.masque_client == 1 ? 'bi-eye' : 'bi-eye-slash'}"></i></a>
+              <a href="<?= BASE_URL ?>materiel/deleteAttachment/${materielId}/${att.id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer ?')"><i class="bi bi-trash"></i></a>
+            </div>
+          </div>
+        </div>`;
         });
         html += '</div>';
       }
@@ -1423,9 +1076,9 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       document.getElementById('previewAttachmentModalLabel').textContent = name;
       const body = document.getElementById('previewAttachmentModalBody');
       const ext = type?.toLowerCase() || '';
-      if (ext === 'pdf') body.innerHTML = `<iframe src="${baseUrl}materiel/preview/${id}" width="100%" height="600px" frameborder="0"></iframe>`;
-      else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) body.innerHTML = `<img src="${baseUrl}materiel/preview/${id}" class="img-fluid">`;
-      else body.innerHTML = `<div class="alert alert-info">Prévisualisation non disponible. <a href="${baseUrl}materiel/download/${id}" target="_blank">Télécharger</a></div>`;
+      if (ext === 'pdf') body.innerHTML = `<iframe src="<?= BASE_URL ?>materiel/preview/${id}" width="100%" height="600px" frameborder="0"></iframe>`;
+      else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) body.innerHTML = `<img src="<?= BASE_URL ?>materiel/preview/${id}" class="img-fluid">`;
+      else body.innerHTML = `<div class="alert alert-info">Prévisualisation non disponible. <a href="<?= BASE_URL ?>materiel/download/${id}" target="_blank">Télécharger</a></div>`;
       modal.show();
     }
     function formatFileSize(bytes) {
@@ -1433,12 +1086,14 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       const k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'], i = Math.floor(Math.log(bytes) / Math.log(k));
       return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
+    function escapeHtml(text) {
+      const d = document.createElement('div'); d.textContent = text; return d.innerHTML;
+    }
     function openAddAttachmentModal(materielId) {
       const modal = new bootstrap.Modal(document.getElementById('addAttachmentModal'));
       document.getElementById('addAttachmentModal').setAttribute('data-materiel-id', materielId);
       modal.show();
     }
-
     class DragDropUploader {
       constructor(materielId) {
         this.materielId = materielId;
@@ -1460,12 +1115,13 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       }
       async init() {
         try {
-          const res = await fetch(baseUrl + 'settings/getAllowedExtensions');
+          const res = await fetch('<?= BASE_URL ?>settings/getAllowedExtensions');
           const data = await res.json();
           this.allowedExtensions = data.extensions || [];
         } catch (e) { console.error(e); }
         this.setupEvents();
       }
+
       setupEvents() {
         this.dropZone.addEventListener('dragover', e => { e.preventDefault(); this.dropZone.classList.add('dragover'); });
         this.dropZone.addEventListener('dragleave', e => { e.preventDefault(); this.dropZone.classList.remove('dragover'); });
@@ -1475,7 +1131,12 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         this.uploadBtn.addEventListener('click', () => this.upload());
         this.clearBtn.addEventListener('click', () => this.clearAll());
       }
-      handleFiles(newFiles) { this.files.push(...this.validateFiles(newFiles)); this.render(); }
+
+      handleFiles(newFiles) {
+        this.files.push(...this.validateFiles(newFiles));
+        this.render();
+      }
+
       validateFiles(files) {
         return files.map(f => {
           const ext = f.name.split('.').pop().toLowerCase();
@@ -1487,20 +1148,22 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           return { file: f, isValid: validExt && validSize, error };
         });
       }
+
       render() {
         this.fileList.innerHTML = '';
         this.files.forEach((f, i) => {
           const div = document.createElement('div');
           div.className = `file-item ${f.isValid ? 'valid' : 'invalid'}`;
           div.innerHTML = `<span class="file-name">${f.file.name}</span>
-            <span class="file-size">${this.formatFileSize(f.file.size)}</span>
-            ${f.error ? `<span class="error-message">${f.error}</span>` : ''}
-            <button class="remove-file btn btn-sm btn-link" onclick="uploader.removeFile(${i})">×</button>`;
+        <span class="file-size">${this.formatFileSize(f.file.size)}</span>
+        ${f.error ? `<span class="error-message">${f.error}</span>` : ''}
+        <button class="remove-file btn btn-sm btn-link" onclick="uploader.removeFile(${i})">×</button>`;
           this.fileList.appendChild(div);
         });
         this.updateStats();
         this.updateOptions();
       }
+
       updateOptions() {
         const valid = this.files.filter(f => f.isValid);
         if (valid.length) {
@@ -1510,13 +1173,14 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
             const div = document.createElement('div');
             div.className = 'file-options mb-2 p-2 border rounded';
             div.innerHTML = `<div class="row align-items-center">
-              <div class="col-md-8"><strong>${f.file.name}</strong><input type="text" class="form-control form-control-sm mt-1" name="desc_${i}" placeholder="Description"></div>
-              <div class="col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" name="hide_${i}" value="1" id="hide_${i}"><label for="hide_${i}"><i class="bi bi-eye-slash me-1"></i>Masquer client</label></div></div>
-            </div>`;
+          <div class="col-md-8"><strong>${f.file.name}</strong><input type="text" class="form-control form-control-sm mt-1" name="desc_${i}" placeholder="Description"></div>
+          <div class="col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" name="hide_${i}" value="1" id="hide_${i}"><label for="hide_${i}"><i class="bi bi-eye-slash me-1"></i>Masquer client</label></div></div>
+        </div>`;
             this.filesOptionsList.appendChild(div);
           });
         } else this.filesOptions.style.display = 'none';
       }
+
       updateStats() {
         const valid = this.files.filter(f => f.isValid).length;
         const invalid = this.files.length - valid;
@@ -1533,14 +1197,25 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           this.clearBtn.style.display = 'none';
         }
       }
-      removeFile(index) { this.files.splice(index, 1); this.render(); }
-      clearAll() { this.files = []; this.render(); this.fileInput.value = ''; }
+
+      removeFile(index) {
+        this.files.splice(index, 1);
+        this.render();
+      }
+
+      clearAll() {
+        this.files = [];
+        this.render();
+        this.fileInput.value = '';
+      }
+
       formatFileSize(bytes) {
         if (!bytes) return '0 Bytes';
         const k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
       }
+
       async upload() {
         const valid = this.files.filter(f => f.isValid);
         if (!valid.length) return alert('Aucun fichier valide');
@@ -1556,7 +1231,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         this.uploadBtn.disabled = true;
         this.uploadBtn.innerHTML = '<i class="bi bi-arrow-clockwise spin me-1"></i>Upload...';
         try {
-          const res = await fetch(baseUrl + 'materiel/uploadAttachment', {
+          const res = await fetch('<?= BASE_URL ?>materiel/uploadAttachment', {
             method: 'POST',
             headers: { 'X-CSRF-Token': '<?= csrf_token() ?>' },
             body: fd
@@ -1590,232 +1265,204 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       if (uploader) uploader.clearAll();
     });
 
-    window.saveAllTablesData = function () {
-      let totalUpdated = 0;
-      let totalCreated = 0;
-      let totalErrors = 0;
-      const savePromises = [];
-      const errorDetails = [];
-      const missingFieldsErrors = [];
-
-      const allValidationErrors = [];
-      Object.keys(hotInstances).forEach(tableId => {
-        const hot = hotInstances[tableId];
-        if (!hot) return;
-        hot.getSourceData().forEach((row, i) => {
-          if (!row[MARQUE_INDEX] && !row[MODELE_INDEX]) return;
-          allValidationErrors.push(...validateRow(row, i));
-        });
-      });
-
-      if (allValidationErrors.length > 0) {
-        showToast(
-          `<strong>Format invalide — sauvegarde annulée</strong><br><br>` +
-          `Corrigez les champs suivants avant de sauvegarder :<br><br>` +
-          allValidationErrors.slice(0, 6).join('<br>') +
-          (allValidationErrors.length > 6 ? `<br><em>... et ${allValidationErrors.length - 6} autre(s) erreur(s)</em>` : ''),
-          'danger'
-        );
-        return;
-      }
-
-      Object.keys(hotInstances).forEach(tableId => {
-        const hot = hotInstances[tableId];
-        if (!hot) return;
-
-        const allData = hot.getSourceData();
-        const filters = <?= json_encode($filters ?? []) ?>;
-        let globalSalleId = hot.__salleId || filters.salle_id || null;
-
-        if (!globalSalleId && allData.length > 0) {
-          for (const row of allData) {
-            if (row[ID_INDEX]) { globalSalleId = filters.salle_id || null; break; }
-          }
-        }
-
-        if (!globalSalleId) {
-          showToast('Impossible de sauvegarder : salle non identifiée. Filtrez par salle d\'abord.', 'danger');
-          return;
-        }
-
-        const existingRows = [];
-        const newRows = [];
-        for (let i = 0; i < allData.length; i++) {
-          const row = allData[i];
-          if (row[ID_INDEX] && row[ID_INDEX] !== '' && row[ID_INDEX] !== null) {
-            existingRows.push({ row, originalIndex: i });
-          } else {
-            newRows.push({ row, originalIndex: i });
-          }
-        }
-
-        if (existingRows.length > 0) {
-          const formattedData = existingRows.map(item => {
-            const row = item.row;
-            const obj = {};
-            obj['id'] = row[ID_INDEX];
-            <?php foreach ($allColumns as $col): ?>
-            <?php if ($col['field'] === 'pieces_jointes')
-              continue; ?>
-                obj['<?= $col['field'] ?>'] = row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || null;
-            <?php endforeach; ?>
-            return obj;
-          });
-
-          savePromises.push(
-            fetch(baseUrl + 'views/excel/excel_save.php', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': '<?= csrf_token() ?>' },
-              body: JSON.stringify({ table_id: tableId, salle_id: globalSalleId, data: formattedData })
-            })
-              .then(r => r.json())
-              .then(result => {
-                if (result.status === 'success' || result.status === 'partial') {
-                  totalUpdated += result.updated || 0;
-                  if (result.errors?.length > 0) errorDetails.push(...result.errors);
-                } else if (result.updated > 0) {
-                  totalUpdated += result.updated || 0;
-                } else {
-                  totalErrors++;
-                  errorDetails.push('Mise à jour échouée');
-                }
-              })
-              .catch(() => { totalErrors++; errorDetails.push('Erreur réseau lors de la mise à jour'); })
-          );
-        }
-
-        for (let idx = 0; idx < newRows.length; idx++) {
-          const row = newRows[idx].row;
-          const marque = row[MARQUE_INDEX];
-          const modele = row[MODELE_INDEX];
-
-          if (!marque?.trim() || !modele?.trim()) {
-            const manquants = [];
-            if (!marque?.trim()) manquants.push('Marque');
-            if (!modele?.trim()) manquants.push('Modèle');
-            missingFieldsErrors.push(`• Équipement sans ${manquants.join(' et ')}`);
-            totalErrors++;
-            continue;
-          }
-
-          const fd = new FormData();
-          fd.append('salle_id', globalSalleId);
-          <?php foreach ($allColumns as $col): ?>
-          <?php if ($col['field'] === 'pieces_jointes')
-            continue; ?>
-              fd.append('<?= $col['field'] ?>', row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || '');
-          <?php endforeach; ?>
-          if (filters.client_id) fd.append('return_client_id', filters.client_id);
-          if (filters.site_id) fd.append('return_site_id', filters.site_id);
-          if (filters.salle_id) fd.append('return_salle_id', filters.salle_id);
-
-          const marqueRef = marque, modeleRef = modele;
-          savePromises.push(
-            fetch(baseUrl + 'materiel/store', {
-              method: 'POST',
-              headers: { 'X-CSRF-Token': '<?= csrf_token() ?>' },
-              body: fd
-            })
-              .then(async response => {
-                if (response.status >= 200 && response.status < 400) {
-                  totalCreated++;
-                } else {
-                  totalErrors++;
-                  errorDetails.push(`Échec création "${marqueRef} ${modeleRef}" : ${response.status}`);
-                }
-              })
-              .catch(() => { totalErrors++; errorDetails.push(`Erreur réseau pour "${marqueRef} ${modeleRef}"`); })
-          );
-        }
-      });
-
-      if (savePromises.length === 0 && totalErrors === 0) {
-        showToast('Aucune donnée à sauvegarder', 'info');
-        return;
-      }
-
-      Promise.all(savePromises).then(() => {
-        const successParts = [];
-        if (totalUpdated > 0) successParts.push(`${totalUpdated} mise(s) à jour`);
-        if (totalCreated > 0) successParts.push(`${totalCreated} équipement(s) créé(s)`);
-        const successMessage = successParts.join(', ');
-
-        let errorMessage = '';
-        if (totalErrors > 0) {
-          if (missingFieldsErrors.length > 0) {
-            errorMessage = `<br><br><strong>Problèmes détectés :</strong><br>`;
-            errorMessage += missingFieldsErrors.slice(0, 5).join('<br>');
-            if (missingFieldsErrors.length > 5) errorMessage += `<br><em>... et ${missingFieldsErrors.length - 5} autre(s)</em>`;
-            errorMessage += `<br><br><strong>Solution :</strong><br>Remplissez la <strong>Marque</strong> et le <strong>Modèle</strong> avant de sauvegarder.`;
-          } else if (errorDetails.length > 0) {
-            errorMessage = `<br><br><strong>Erreurs rencontrées :</strong><br>`;
-            errorMessage += errorDetails.slice(0, 3).join('<br>');
-            if (errorDetails.length > 3) errorMessage += `<br><em>... et ${errorDetails.length - 3} autre(s)</em>`;
-          }
-        }
-
-        if (totalErrors === 0 && (totalUpdated > 0 || totalCreated > 0)) {
-          showToast(`<strong>Sauvegarde réussie !</strong><br><br>${successMessage}<br><br>Toutes les modifications ont été enregistrées.`, 'success');
-          if (totalCreated > 0) setTimeout(() => window.location.reload(), 2000);
-        } else if (totalErrors > 0 && (totalUpdated > 0 || totalCreated > 0)) {
-          showToast(`<strong>Sauvegarde partielle</strong><br><br>${successMessage}<br>${totalErrors} erreur(s)${errorMessage}`, 'danger');
-          if (totalCreated > 0) setTimeout(() => window.location.reload(), 3000);
-        } else if (totalErrors > 0) {
-          let mainMessage = `<strong>Sauvegarde impossible</strong><br><br>`;
-          if (missingFieldsErrors.length > 0) {
-            mainMessage += `${missingFieldsErrors.length} ligne(s) avec informations manquantes.<br><br>`;
-            mainMessage += `<strong>Comment corriger :</strong><br>`;
-            mainMessage += `• Remplissez la <strong>Marque</strong> et le <strong>Modèle</strong><br>`;
-            mainMessage += `• Utilisez <strong>"Ajouter un équipement"</strong> pour créer une nouvelle ligne<br><br>`;
-            mainMessage += `<strong>Lignes concernées :</strong><br>`;
-            mainMessage += missingFieldsErrors.slice(0, 3).join('<br>');
-            if (missingFieldsErrors.length > 3) mainMessage += `<br><em>... et ${missingFieldsErrors.length - 3} autre(s)</em>`;
-          } else {
-            mainMessage += `Aucune donnée sauvegardée.<br><br><strong>Vérifiez :</strong><br>• Champs obligatoires remplis<br>• Connexion internet stable<br>• Droits suffisants`;
-            if (errorDetails.length > 0) mainMessage += `<br><br><strong>Détails :</strong><br>${errorDetails.slice(0, 2).join('<br>')}`;
-          }
-          showToast(mainMessage, 'danger');
-        } else {
-          showToast('ℹ<strong>Aucune modification détectée</strong><br><br>Aucune donnée n\'a été modifiée ou ajoutée.', 'info');
-        }
-      }).catch(() => {
-        showToast(
-          `<strong>Erreur système</strong><br><br>Une erreur inattendue s'est produite.<br><br>` +
-          `<strong>Actions recommandées :</strong><br>• Rafraîchissez la page (F5)<br>• Vérifiez votre connexion<br>• Contactez le support`,
-          'danger'
-        );
-      });
-    };
-
+    // ── DOMContentLoaded ──────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', function () {
 
-      <?php if (!empty($filters['client_id']) && !empty($materiel_organise) && !$isGlobalSearch): ?>
-        <?php renderMaterielTableInitJs($materiel_organise, $pieces_jointes_count, $allColumns); ?>
-      <?php elseif ($isGlobalSearch && !empty($materiel_organise)): ?>
-        <?php renderMaterielTableInitJs($materiel_organise, $pieces_jointes_count, $allColumns); ?>
-      <?php endif; ?>
+      <?php if (!empty($filters['client_id']) && !empty($materiel_organise)): ?>
+        <?php foreach ($materiel_organise as $client_nom => $sites): ?>
+          <?php foreach ($sites as $site_nom => $buildings): ?>
+            <?php foreach ($buildings as $building_nom => $salles): ?>
+              <?php foreach ($salles as $salle_nom => $materiels):
+                $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
+                $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
+                ?>
+                  (function () {
+                    const container = document.getElementById('excelTable-<?= $salle_id ?>');
+                    if (!container) return;
 
-        requestAnimationFrame(() => {
-          document.querySelectorAll('.accordion-collapse').forEach(c => c.classList.add('show'));
-          requestAnimationFrame(() => {
-            Object.values(hotInstances).forEach(hot => hot.render());
-          <?php if (!$isGlobalSearch): ?>
-              document.querySelectorAll('.accordion-collapse').forEach(c => {
-                c.classList.remove('show');
-                const btn = c.closest('.accordion-item')?.querySelector('.accordion-button');
-                if (btn) btn.classList.add('collapsed');
-              });
-          <?php endif; ?>
-        });
-        });
-      initialResultsHtml = document.getElementById('materielResultsContainer').innerHTML;
+                    const data = <?= json_encode(array_map(function ($m) use ($allColumns, $pieces_jointes_count) {
+                      $rowData = [];
+                      foreach ($allColumns as $col) {
+                        if ($col['field'] === 'pieces_jointes') {
+                          $rowData[] = ['count' => $pieces_jointes_count[$m['id']] ?? 0, 'id' => $m['id'], 'name' => ($m['marque'] ?? '') . ' ' . ($m['modele'] ?? '')];
+                        } else {
+                          $rowData[] = $m[$col['field']] ?? '';
+                        }
+                      }
+                      return $rowData;
+                    }, $materiels)); ?>;
+
+                    const COLUMN_FORMATS = {
+                      'date_fin_maintenance': { type: 'date', dateFormat: 'YYYY-MM-DD' },
+                      'date_fin_garantie': { type: 'date', dateFormat: 'YYYY-MM-DD' },
+                      'date_derniere_inter': { type: 'date', dateFormat: 'YYYY-MM-DD' },
+                    };
+                    const COLUMN_PLACEHOLDERS = {
+                      'date_fin_maintenance': 'YYYY-MM-DD',
+                      'date_fin_garantie': 'YYYY-MM-DD',
+                      'date_derniere_inter': 'YYYY-MM-DD',
+                      'adresse_ip': '192.168.1.1',
+                      'ip_primaire': '192.168.1.1',
+                      'ip_secondaire': '192.168.1.1',
+                      'passerelle': '172.24.158.230',
+                      'masque': '255.255.255.0',
+                      'adresse_mac': '00:0E:DD:FA:65:88',
+                      'mac_primaire': '00:0E:DD:FA:65:88',
+                      'mac_secondaire': '00:0E:DD:FA:65:88',
+                      'version_firmware': '10.0.8',
+                      'ancien_firmware': '10.0.8',
+                    };
+
+                    // ← accolade fermante APRÈS le return, pas avant allColumnFields
+                    function makePlaceholderRenderer(placeholder) {
+                      return function (instance, td, row, col, prop, value, cellProperties) {
+                        Handsontable.renderers.TextRenderer.apply(this, arguments);
+                        if (!value || value === '') {
+                          td.innerHTML = `<span style="color:#adb5bd;font-style:italic;pointer-events:none;">${placeholder}</span>`;
+                        }
+                      };
+                    }  // ← fin de makePlaceholderRenderer
+
+                    const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
+
+                    const columns = allColumnFields.map(field => {
+                      const fmt = COLUMN_FORMATS[field];
+                      const ph = COLUMN_PLACEHOLDERS[field];
+
+                      if (!fmt) {
+                        if (!ph) return { type: 'text' };
+                        return { type: 'text', renderer: makePlaceholderRenderer(ph) };
+                      }
+
+                      if (fmt.type === 'date') {
+                        return {
+                          type: 'date',
+                          dateFormat: fmt.dateFormat,
+                          correctFormat: true,
+                          defaultDate: '',
+                          renderer: makePlaceholderRenderer(ph || 'YYYY-MM-DD'),
+                          datePickerConfig: {
+                            firstDay: 1,
+                            showWeekNumber: true,
+                            i18n: {
+                              previousMonth: 'Mois préc.',
+                              nextMonth: 'Mois suiv.',
+                              months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                              weekdays: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                              weekdaysShort: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa']
+                            }
+                          }
+                        };
+                      }
+
+                      if (fmt.validator) {
+                        return {
+                          type: 'text',
+                          renderer: makePlaceholderRenderer(ph),
+                          validator: function (value, callback) {
+                            if (!value || value === '') return callback(true);
+                            callback(fmt.validator.test(value));
+                          },
+                          allowInvalid: true
+                        };
+                      }
+
+                      return { type: 'text' };
+                    });
+
+                    const hot = new Handsontable(container, {
+                      data: data,
+                      colHeaders: <?= json_encode($colHeaders) ?>,
+                      columns: columns,
+                      hiddenColumns: {
+                        columns: (function () {
+                          const saved = localStorage.getItem('materiel_columns_visibility');
+                          if (!saved) return <?= json_encode($hiddenColumns) ?>;
+                          try {
+                            const state = JSON.parse(saved);
+                            return Object.keys(state).map(k => parseInt(k)).filter(k => state[k] === false);
+                          } catch (e) { return <?= json_encode($hiddenColumns) ?>; }
+                        })(),
+                        indicators: true
+                      },
+                      rowHeaders: false,
+                      licenseKey: 'non-commercial-and-evaluation',
+                      stretchH: 'all',
+                      height: 'auto',
+                      cells: function (row, col) {
+                        const header = this.colHeaders[col];
+
+                        if (header === 'Marque') {
+                          return {
+                            renderer: function (instance, td, row, col, prop, value) {
+                              const id = instance.getDataAtCell(row, ID_INDEX);
+                              td.innerHTML = '';
+                              if (id) {
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const link = document.createElement('a');
+                                link.href = '<?= BASE_URL ?>materiel/view/' + id + (urlParams.toString() ? '?' + urlParams : '');
+                                link.className = 'text-decoration-none fw-bold text-primary';
+                                link.onclick = e => e.stopPropagation();
+                                link.textContent = value || '';
+                                td.appendChild(link);
+                              } else {
+                                const span = document.createElement('span');
+                                span.className = 'fw-bold text-primary';
+                                span.textContent = value || '';
+                                td.appendChild(span);
+                              }
+                              td.style.cursor = 'default';
+                            },
+                            editor: 'text'
+                          };
+                        }
+
+                        if (header === 'Modèle') {
+                          return {
+                            renderer: function (instance, td, row, col, prop, value) {
+                              td.style.color = '#000000';
+                              td.style.fontWeight = 'normal';
+                              td.style.backgroundColor = '#f3e1b5';
+                              td.textContent = value || '';
+                              td.style.cursor = 'default';
+                            },
+                            editor: 'text'
+                          };
+                        }
+
+                        if (header === 'Pièces jointes') {
+                          return {
+                            renderer: function (instance, td, row, col, prop, value) {
+                              const count = value?.count ?? 0;
+                              const id = value?.id;
+                              const name = value?.name ?? '';
+                              td.innerHTML = `<button class="btn btn-sm ${count > 0 ? 'btn-outline-info' : 'btn-outline-secondary'}"
+              onclick="openAttachmentsModal(${id},'${name.replace(/'/g, "\\'")}')">
+              <i class="bi bi-paperclip"></i>
+              <span class="badge ${count > 0 ? 'bg-info' : 'bg-secondary'} ms-1">${count}</span>
+            </button>`;
+                    td.style.textAlign = 'center';
+                  }
+                };
+              }
+
+              return {};
+            }
+          });
+
+          hot.__salleId = <?= $materiels[0]['salle_id'] ?? 'null' ?>;
+          hotInstances['excelTable-<?= $salle_id ?>'] = hot;
+        })();
+      <?php endforeach; ?>
+      <?php endforeach; ?>
+      <?php endforeach; ?>
+      <?php endforeach; ?>
+      <?php endif; ?>
 
       const saved = restoreColumnVisibility();
       if (saved) {
         setTimeout(() => {
-          Object.keys(saved).forEach(col =>
-            applyColumnVisibility(parseInt(col), saved[col] === true || saved[col] === 'true')
-          );
+          Object.keys(saved).forEach(col => applyColumnVisibility(parseInt(col), saved[col] === true || saved[col] === 'true'));
         }, 100);
       }
 
@@ -1824,31 +1471,8 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       const openBtn = document.getElementById('openAllAccordions');
       const closeBtn = document.getElementById('closeAllAccordions');
 
-      if (searchInput) {
-        searchInput.addEventListener('input', function () {
-          const term = this.value.trim();
-          clearBtn.style.display = term ? 'inline-block' : 'none';
-          if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
-          searchDebounceTimer = setTimeout(() => performGlobalSearchAjax(term), 400);
-        });
-
-        searchInput.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
-            performGlobalSearchAjax(this.value.trim());
-          }
-        });
-      }
-
-      if (clearBtn) {
-        clearBtn.addEventListener('click', function () {
-          if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
-          searchInput.value = '';
-          performGlobalSearchAjax('');
-        });
-      }
-
+      if (searchInput) searchInput.addEventListener('keyup', applyGlobalSearch);
+      if (clearBtn) clearBtn.addEventListener('click', () => { searchInput.value = ''; applyGlobalSearch(); });
       if (openBtn) openBtn.addEventListener('click', openAllAccordions);
       if (closeBtn) closeBtn.addEventListener('click', closeAllAccordions);
 
@@ -1864,13 +1488,268 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           saveColumnVisibility();
         });
       });
-      window.addEventListener('popstate', function () {
-        const term = new URL(window.location.href).searchParams.get('search') || '';
-        const input = document.getElementById('globalSearch');
-        if (input) input.value = term;
-        performGlobalSearchAjax(term);
-      });
     });
+
+    window.saveAllTablesData = function () {
+      let totalUpdated = 0;
+      let totalCreated = 0;
+      let totalErrors = 0;
+      const savePromises = [];
+      const errorDetails = [];
+      const missingFieldsErrors = [];
+      // ── Validation globale AVANT tout envoi ──────────────────────────────
+      const allValidationErrors = [];
+      Object.keys(hotInstances).forEach(tableId => {
+        const hot = hotInstances[tableId];
+        if (!hot) return;
+        hot.getSourceData().forEach((row, i) => {
+          // Ignorer les lignes totalement vides
+          if (!row[MARQUE_INDEX] && !row[MODELE_INDEX]) return;
+          allValidationErrors.push(...validateRow(row, i));
+        });
+      });
+
+      if (allValidationErrors.length > 0) {
+        showToast(
+          `<strong>Format invalide — sauvegarde annulée</strong><br><br>` +
+          `Corrigez les champs suivants avant de sauvegarder :<br><br>` +
+          allValidationErrors.slice(0, 6).join('<br>') +
+          (allValidationErrors.length > 6
+            ? `<br><em>... et ${allValidationErrors.length - 6} autre(s) erreur(s)</em>`
+            : ''),
+          'danger'
+        );
+        return; // ← bloque tout, rien n'est envoyé
+      }
+      Object.keys(hotInstances).forEach(tableId => {
+        const hot = hotInstances[tableId];
+        if (!hot) return;
+
+        const allData = hot.getSourceData();
+        const filters = <?= json_encode($filters ?? []) ?>;
+        let globalSalleId = hot.__salleId || filters.salle_id || null;
+
+        if (!globalSalleId && allData.length > 0) {
+          for (const row of allData) {
+            if (row[ID_INDEX]) {
+              globalSalleId = filters.salle_id || null;
+              break;
+            }
+          }
+        }
+
+        if (!globalSalleId) {
+          showToast('Impossible de sauvegarder : salle non identifiée. Filtrez par salle d\'abord.', 'danger');
+          return;
+        }
+
+        // Séparer les lignes existantes et nouvelles
+        const existingRows = [];
+        const newRows = [];
+
+        for (let i = 0; i < allData.length; i++) {
+          const row = allData[i];
+          if (row[ID_INDEX] && row[ID_INDEX] !== '' && row[ID_INDEX] !== null) {
+            existingRows.push({ row: row, originalIndex: i });
+          } else {
+            newRows.push({ row: row, originalIndex: i });
+          }
+        }
+
+        // Traitement des mises à jour (lignes existantes)
+        if (existingRows.length > 0) {
+          const formattedData = existingRows.map(item => {
+            const row = item.row;
+            const obj = {};
+
+            // Inclure l'ID pour la mise à jour
+            obj['id'] = row[ID_INDEX];
+
+            <?php foreach ($allColumns as $col): ?>
+            <?php if ($col['field'] === 'pieces_jointes')
+              continue; ?>
+            obj['<?= $col['field'] ?>'] = row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || null;
+            <?php endforeach; ?>
+
+            return obj;
+          });
+
+          savePromises.push(
+            fetch('<?= BASE_URL ?>views/excel/excel_save.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': '<?= csrf_token() ?>' },
+              body: JSON.stringify({ table_id: tableId, salle_id: globalSalleId, data: formattedData })
+            })
+              .then(r => r.json())
+              .then(result => {
+                if (result.status === 'success' || result.status === 'partial') {
+                  totalUpdated += result.updated || 0;
+                  if (result.errors && result.errors.length > 0) {
+                    errorDetails.push(...result.errors);
+                  }
+                } else if (result.updated > 0) {
+                  totalUpdated += result.updated || 0;
+                } else {
+                  totalErrors++;
+                  errorDetails.push(`Mise à jour échouée`);
+                }
+              })
+              .catch((error) => {
+                totalErrors++;
+                errorDetails.push(`Erreur réseau lors de la mise à jour`);
+              })
+          );
+        }
+
+        // Traitement des créations (nouvelles lignes)
+        for (let idx = 0; idx < newRows.length; idx++) {
+          const row = newRows[idx].row;
+          const marque = row[MARQUE_INDEX];
+          const modele = row[MODELE_INDEX];
+
+          if (!marque || marque.trim() === '' || !modele || modele.trim() === '') {
+            const manquants = [];
+            if (!marque || marque.trim() === '') manquants.push('Marque');
+            if (!modele || modele.trim() === '') manquants.push('Modèle');
+
+            missingFieldsErrors.push(`• Équipement sans ${manquants.join(' et ')}`);
+            totalErrors++;
+            continue;
+          }
+
+          const fd = new FormData();
+          fd.append('salle_id', globalSalleId);
+
+          <?php foreach ($allColumns as $col): ?>
+          <?php if ($col['field'] === 'pieces_jointes')
+            continue; ?>
+          fd.append('<?= $col['field'] ?>', row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || '');
+          <?php endforeach; ?>
+
+          if (filters.client_id) fd.append('return_client_id', filters.client_id);
+          if (filters.site_id) fd.append('return_site_id', filters.site_id);
+          if (filters.salle_id) fd.append('return_salle_id', filters.salle_id);
+
+          const marqueRef = marque, modeleRef = modele;
+          savePromises.push(
+            fetch('<?= BASE_URL ?>materiel/store', {
+              method: 'POST',
+              headers: { 'X-CSRF-Token': '<?= csrf_token() ?>' },
+              body: fd
+            })
+              .then(async response => {
+                if (response.status >= 200 && response.status < 400) {
+                  totalCreated++;
+                } else {
+                  totalErrors++;
+                  const errorText = await response.text();
+                  errorDetails.push(`Échec création "${marqueRef} ${modeleRef}" : ${response.status}`);
+                }
+              })
+              .catch((error) => {
+                totalErrors++;
+                errorDetails.push(`Erreur réseau pour "${marqueRef} ${modeleRef}"`);
+              })
+          );
+        }
+      });
+
+      if (savePromises.length === 0 && totalErrors === 0) {
+        showToast('Aucune donnée à sauvegarder', 'info');
+        return;
+      }
+
+      Promise.all(savePromises).then(() => {
+        const successParts = [];
+        if (totalUpdated > 0) successParts.push(`${totalUpdated} mise(s) à jour`);
+        if (totalCreated > 0) successParts.push(`${totalCreated} équipement(s) créé(s)`);
+
+        const successMessage = successParts.length > 0 ? successParts.join(', ') : '';
+
+        let errorMessage = '';
+        if (totalErrors > 0) {
+          if (missingFieldsErrors.length > 0) {
+            errorMessage = `<br><br><strong>Problèmes détectés :</strong><br>`;
+            errorMessage += missingFieldsErrors.slice(0, 5).join('<br>');
+            if (missingFieldsErrors.length > 5) {
+              errorMessage += `<br><em>... et ${missingFieldsErrors.length - 5} autre(s) ligne(s) avec champs manquants</em>`;
+            }
+            errorMessage += `<br><br><strong>Solution :</strong><br>`;
+            errorMessage += `Remplissez la <strong>Marque</strong> et le <strong>Modèle</strong> pour chaque nouvel équipement avant de sauvegarder.`;
+          }
+
+          if (errorDetails.length > 0 && missingFieldsErrors.length === 0) {
+            errorMessage = `<br><br><strong>Erreurs rencontrées :</strong><br>`;
+            errorMessage += errorDetails.slice(0, 3).join('<br>');
+            if (errorDetails.length > 3) {
+              errorMessage += `<br><em>... et ${errorDetails.length - 3} autre(s) erreur(s)</em>`;
+            }
+          }
+        }
+
+        if (totalErrors === 0 && (totalUpdated > 0 || totalCreated > 0)) {
+          showToast(
+            `<strong>Sauvegarde réussie !</strong><br><br>${successMessage}<br><br>Toutes les modifications ont été enregistrées.`,
+            'success'
+          );
+          if (totalCreated > 0) setTimeout(() => window.location.reload(), 2000);
+
+        } else if (totalErrors > 0 && (totalUpdated > 0 || totalCreated > 0)) {
+          showToast(
+            `<strong>Sauvegarde partielle</strong><br><br>` +
+            `${successMessage}<br>` +
+            `${totalErrors} erreur(s)` +
+            errorMessage,
+            'danger'
+          );
+          if (totalCreated > 0) setTimeout(() => window.location.reload(), 3000);
+
+        } else if (totalErrors > 0 && totalUpdated === 0 && totalCreated === 0) {
+          let mainMessage = `<strong>Sauvegarde impossible</strong><br><br>`;
+
+          if (missingFieldsErrors.length > 0) {
+            mainMessage += `${missingFieldsErrors.length} ligne(s) avec des informations manquantes.<br><br>`;
+            mainMessage += `<strong>Comment corriger :</strong><br>`;
+            mainMessage += `• Remplissez la <strong>Marque</strong> et le <strong>Modèle</strong> pour chaque nouvel équipement<br>`;
+            mainMessage += `• Utilisez le bouton <strong>"Ajouter"</strong> pour créer une nouvelle ligne<br>`;
+            mainMessage += `• Assurez-vous que tous les champs obligatoires sont complétés avant de sauvegarder<br><br>`;
+            mainMessage += `<strong>Lignes concernées :</strong><br>`;
+            mainMessage += missingFieldsErrors.slice(0, 3).join('<br>');
+            if (missingFieldsErrors.length > 3) {
+              mainMessage += `<br><em>... et ${missingFieldsErrors.length - 3} autre(s) ligne(s)</em>`;
+            }
+          } else {
+            mainMessage += `Aucune donnée n'a pu être sauvegardée.<br><br>`;
+            mainMessage += `<strong>Vérifiez :</strong><br>`;
+            mainMessage += `• Que vous avez bien rempli tous les champs obligatoires<br>`;
+            mainMessage += `• Que votre connexion internet est stable<br>`;
+            mainMessage += `• Que vous avez les droits nécessaires<br>`;
+            if (errorDetails.length > 0) {
+              mainMessage += `<br><strong>Détails :</strong><br>`;
+              mainMessage += errorDetails.slice(0, 2).join('<br>');
+            }
+          }
+
+          showToast(mainMessage, 'danger');
+
+        } else {
+          showToast(
+            `ℹ<strong>Aucune modification détectée</strong><br><br>Aucune donnée n'a été modifiée ou ajoutée.`,
+            'info'
+          );
+        }
+      }).catch((error) => {
+        showToast(
+          `<strong>Erreur système</strong><br><br>` +
+          `Une erreur inattendue s'est produite lors de la sauvegarde.<br><br>` +
+          `<strong>Actions recommandées :</strong><br>` +
+          `• Rafraîchissez la page (F5)<br>` +
+          `• Vérifiez votre connexion internet<br>` +
+          `• Contactez le support si le problème persiste`,
+          'danger'
+        );
+      });
+    };
   </script>
 
   <style>
