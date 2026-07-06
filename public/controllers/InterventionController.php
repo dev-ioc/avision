@@ -4575,14 +4575,9 @@ class InterventionController
             $recipientEmail = !empty($intervention['contact_client']) ? $intervention['contact_client'] :
                 (!empty($intervention['site_email']) ? $intervention['site_email'] : '');
 
-            // Récupérer l'email de test si configuré
             $config = Config::getInstance();
             $testEmail = $config->get('test_email', '');
-
-            // URL publique de l'intervention pour le client
             $interventionUrl = BASE_URL . 'interventions_client/view/' . $id;
-
-            // Préparer les données de l'intervention pour l'affichage
             $interventionData = [
                 'id' => $intervention['id'],
                 'reference' => $intervention['reference'] ?? '',
