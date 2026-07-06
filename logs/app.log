@@ -97278,3 +97278,100 @@ Quant à l’écran n°1, il est HS
         WHERE 1=1 AND deleted_at IS NULL
      AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
 [2026-07-03 14:11:13][DEBUG] Params: {":client_id":46} 
+[2026-07-06 13:29:47][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-06 13:29:47][DEBUG] Params: {":client_id":46} 
+[2026-07-06 13:30:10][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-06 13:30:10][DEBUG] Params: [] 
+[2026-07-06 13:30:15][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-06 13:30:15][DEBUG] Params: {":client_id":23} 
+[2026-07-06 13:30:32][DEBUG] Tentative d'aperçu contrat pour l'ID: 185 
+[2026-07-06 13:30:32][DEBUG] Pièce jointe trouvée: {"id":185,"nom_fichier":"EnvelopePDF.aspx.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/196\/1768486414_0_EnvelopePDF.aspx.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":588541,"commentaire":null,"date_creation":"2026-01-15 17:13:34","masque_client":0,"type_id":null,"created_by":2} 
+[2026-07-06 13:30:32][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/196/1768486414_0_EnvelopePDF.aspx.pdf 
+[2026-07-06 13:30:32][DEBUG] Fichier trouvé, taille: 588541 
+[2026-07-06 13:30:32][DEBUG] Type MIME détecté: application/pdf 
+[2026-07-06 13:30:49][INFO] 39 
+[2026-07-06 13:31:09][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-06 13:31:09][DEBUG] Params: [] 
+[2026-07-06 13:31:14][INFO] 37 
+[2026-07-06 13:31:14][INFO] 38 
+[2026-07-06 13:31:14][INFO] 36 
+[2026-07-06 13:31:27][INFO] 112 
+[2026-07-06 13:31:27][INFO] 79 
+[2026-07-06 13:31:27][INFO] 80 
+[2026-07-06 13:31:27][INFO] 93 
+[2026-07-06 13:31:27][INFO] 116 
+[2026-07-06 13:31:27][INFO] 115 
+[2026-07-06 13:31:27][INFO] 82 
+[2026-07-06 13:36:10][INFO] 87 

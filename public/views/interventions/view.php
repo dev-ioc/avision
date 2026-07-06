@@ -43,7 +43,7 @@ $closeReason = [];
 				$isPreventive = true;
 			}
 			$defaultReturnUrl = $isPreventive ? BASE_URL . 'interventions/preventives' : BASE_URL . 'interventions/curatives';
-			$returnUrl = $defaultReturnUrl;
+			$returnUrl = $_SERVER['HTTP_REFERER'];
 			$returnText = 'Retour';
 
 			if (isset($_GET['return_to']) && isset($_GET['client_id'])) {
