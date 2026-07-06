@@ -225,12 +225,10 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
             return $rowData;
           }, $materiels);
           ?>
-          createSalleTable(
-          'excelTable-
+          createSalleTable('excelTable-
           <?= $salle_id ?>',
           <?= json_encode($rows) ?>,
-          <?= json_encode($materiels[0]['salle_id'] ?? null) ?>
-          );
+          <?= json_encode($materiels[0]['salle_id'] ?? null) ?>);
           <?php
         endforeach;
       endforeach;
@@ -978,7 +976,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
 
     let searchDebounceTimer = null;
     let searchAbortController = null;
-    let initialResultsHtml = null; 
+    let initialResultsHtml = null;
 
     function organizeMateriel(list) {
       const organise = {};
@@ -1657,7 +1655,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
             <?php foreach ($allColumns as $col): ?>
             <?php if ($col['field'] === 'pieces_jointes')
               continue; ?>
-                obj['<?= $col['field'] ?>'] = row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || null;
+            obj['<?= $col['field'] ?>'] = row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || null;
             <?php endforeach; ?>
             return obj;
           });
@@ -1703,7 +1701,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           <?php foreach ($allColumns as $col): ?>
           <?php if ($col['field'] === 'pieces_jointes')
             continue; ?>
-              fd.append('<?= $col['field'] ?>', row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || '');
+          fd.append('<?= $col['field'] ?>', row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || '');
           <?php endforeach; ?>
           if (filters.client_id) fd.append('return_client_id', filters.client_id);
           if (filters.site_id) fd.append('return_site_id', filters.site_id);
@@ -1790,24 +1788,24 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
     document.addEventListener('DOMContentLoaded', function () {
 
       <?php if (!empty($filters['client_id']) && !empty($materiel_organise) && !$isGlobalSearch): ?>
-        <?php renderMaterielTableInitJs($materiel_organise, $pieces_jointes_count, $allColumns); ?>
+      <?php renderMaterielTableInitJs($materiel_organise, $pieces_jointes_count, $allColumns); ?>
       <?php elseif ($isGlobalSearch && !empty($materiel_organise)): ?>
-        <?php renderMaterielTableInitJs($materiel_organise, $pieces_jointes_count, $allColumns); ?>
+      <?php renderMaterielTableInitJs($materiel_organise, $pieces_jointes_count, $allColumns); ?>
       <?php endif; ?>
 
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.accordion-collapse').forEach(c => c.classList.add('show'));
         requestAnimationFrame(() => {
-          document.querySelectorAll('.accordion-collapse').forEach(c => c.classList.add('show'));
-          requestAnimationFrame(() => {
-            Object.values(hotInstances).forEach(hot => hot.render());
+          Object.values(hotInstances).forEach(hot => hot.render());
           <?php if (!$isGlobalSearch): ?>
-              document.querySelectorAll('.accordion-collapse').forEach(c => {
-                c.classList.remove('show');
-                const btn = c.closest('.accordion-item')?.querySelector('.accordion-button');
-                if (btn) btn.classList.add('collapsed');
-              });
+          document.querySelectorAll('.accordion-collapse').forEach(c => {
+            c.classList.remove('show');
+            const btn = c.closest('.accordion-item')?.querySelector('.accordion-button');
+            if (btn) btn.classList.add('collapsed');
+          });
           <?php endif; ?>
         });
-        });
+      });
       initialResultsHtml = document.getElementById('materielResultsContainer').innerHTML;
 
       const saved = restoreColumnVisibility();
