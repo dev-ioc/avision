@@ -105497,3 +105497,38 @@ Quant à l’écran n°1, il est HS
 [2026-07-06 13:27:39][INFO] 37 
 [2026-07-06 13:27:39][INFO] 38 
 [2026-07-06 13:27:39][INFO] 36 
+[2026-07-06 13:58:55][DEBUG] Tentative d'aperçu contrat pour l'ID: 185 
+[2026-07-06 13:58:55][DEBUG] Pièce jointe trouvée: {"id":185,"nom_fichier":"EnvelopePDF.aspx.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/196\/1768486414_0_EnvelopePDF.aspx.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":588541,"commentaire":null,"date_creation":"2026-01-15 17:13:34","updated_at":null,"masque_client":0,"type_id":null,"created_by":2} 
+[2026-07-06 13:58:55][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/196/1768486414_0_EnvelopePDF.aspx.pdf 
+[2026-07-06 13:58:55][DEBUG] Fichier trouvé, taille: 588541 
+[2026-07-06 13:58:55][DEBUG] Type MIME détecté: application/pdf 
+[2026-07-06 13:59:00][DEBUG] Tentative d'aperçu contrat pour l'ID: 185 
+[2026-07-06 13:59:00][DEBUG] Pièce jointe trouvée: {"id":185,"nom_fichier":"EnvelopePDF.aspx.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/196\/1768486414_0_EnvelopePDF.aspx.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":588541,"commentaire":null,"date_creation":"2026-01-15 17:13:34","updated_at":null,"masque_client":0,"type_id":null,"created_by":2} 
+[2026-07-06 13:59:00][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/196/1768486414_0_EnvelopePDF.aspx.pdf 
+[2026-07-06 13:59:00][DEBUG] Fichier trouvé, taille: 588541 
+[2026-07-06 13:59:00][DEBUG] Type MIME détecté: application/pdf 
+[2026-07-06 13:59:07][DEBUG] Tentative d'aperçu contrat pour l'ID: 185 
+[2026-07-06 13:59:07][DEBUG] Pièce jointe trouvée: {"id":185,"nom_fichier":"EnvelopePDF.aspx.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/196\/1768486414_0_EnvelopePDF.aspx.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":588541,"commentaire":null,"date_creation":"2026-01-15 17:13:34","updated_at":null,"masque_client":0,"type_id":null,"created_by":2} 
+[2026-07-06 13:59:07][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/196/1768486414_0_EnvelopePDF.aspx.pdf 
+[2026-07-06 13:59:07][DEBUG] Fichier trouvé, taille: 588541 
+[2026-07-06 13:59:07][DEBUG] Type MIME détecté: application/pdf 
+[2026-07-06 13:59:31][DEBUG] Tentative d'aperçu contrat pour l'ID: 185 
+[2026-07-06 13:59:31][DEBUG] Pièce jointe trouvée: {"id":185,"nom_fichier":"EnvelopePDF.aspx.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/196\/1768486414_0_EnvelopePDF.aspx.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":588541,"commentaire":null,"date_creation":"2026-01-15 17:13:34","updated_at":null,"masque_client":0,"type_id":null,"created_by":2} 
+[2026-07-06 13:59:31][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/196/1768486414_0_EnvelopePDF.aspx.pdf 
+[2026-07-06 13:59:31][DEBUG] Fichier trouvé, taille: 588541 
+[2026-07-06 13:59:31][DEBUG] Type MIME détecté: application/pdf 
+[2026-07-06 13:59:37][DEBUG] Tentative d'aperçu contrat pour l'ID: 198 
+[2026-07-06 13:59:37][DEBUG] Pièce jointe trouvée: {"id":198,"nom_fichier":"20260129174844498.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/107\/1769704617_0_20260129174844498.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":558997,"commentaire":null,"date_creation":"2026-01-29 19:36:57","updated_at":null,"masque_client":0,"type_id":null,"created_by":2} 
+[2026-07-06 13:59:37][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/107/1769704617_0_20260129174844498.pdf 
+[2026-07-06 13:59:37][DEBUG] Fichier trouvé, taille: 558997 
+[2026-07-06 13:59:37][DEBUG] Type MIME détecté: application/pdf 
+[2026-07-06 13:59:46][DEBUG] Tentative d'aperçu contrat pour l'ID: 198 
+[2026-07-06 13:59:46][DEBUG] Pièce jointe trouvée: {"id":198,"nom_fichier":"20260129174844498.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/107\/1769704617_0_20260129174844498.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":558997,"commentaire":null,"date_creation":"2026-01-29 19:36:57","updated_at":null,"masque_client":0,"type_id":null,"created_by":2} 
+[2026-07-06 13:59:46][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/107/1769704617_0_20260129174844498.pdf 
+[2026-07-06 13:59:46][DEBUG] Fichier trouvé, taille: 558997 
+[2026-07-06 13:59:46][DEBUG] Type MIME détecté: application/pdf 
+[2026-07-06 14:09:33][DEBUG] Tentative d'aperçu contrat pour l'ID: 185 
+[2026-07-06 14:09:33][DEBUG] Pièce jointe trouvée: {"id":185,"nom_fichier":"EnvelopePDF.aspx.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/196\/1768486414_0_EnvelopePDF.aspx.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":588541,"commentaire":null,"date_creation":"2026-01-15 17:13:34","updated_at":null,"masque_client":0,"type_id":null,"created_by":2} 
+[2026-07-06 14:09:33][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/196/1768486414_0_EnvelopePDF.aspx.pdf 
+[2026-07-06 14:09:33][DEBUG] Fichier trouvé, taille: 588541 
+[2026-07-06 14:09:33][DEBUG] Type MIME détecté: application/pdf 

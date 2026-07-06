@@ -43,7 +43,29 @@ $closeReason = [];
 				$isPreventive = true;
 			}
 			$defaultReturnUrl = $isPreventive ? BASE_URL . 'interventions/preventives' : BASE_URL . 'interventions/curatives';
-			$returnUrl = $_SERVER['HTTP_REFERER'];
+
+			$interventionId = $intervention['id'];
+			$sessionKey = 'intervention_return_url_' . $interventionId;
+
+			$referer = $_SERVER['HTTP_REFERER'] ?? '';
+			$blacklistedReferers = ['generateBon', 'assignToMe'];
+			$isBlacklisted = false;
+			foreach ($blacklistedReferers as $blacklisted) {
+				if (strpos($referer, $blacklisted) !== false) {
+					$isBlacklisted = true;
+					break;
+				}
+			}
+
+			if (!empty($referer) && !$isBlacklisted) {
+				$_SESSION[$sessionKey] = $referer;
+				$returnUrl = $referer;
+			} elseif (!empty($_SESSION[$sessionKey])) {
+				$returnUrl = $_SESSION[$sessionKey];
+			} else {
+				$returnUrl = $defaultReturnUrl;
+			}
+
 			$returnText = 'Retour';
 
 			if (isset($_GET['return_to']) && isset($_GET['client_id'])) {
