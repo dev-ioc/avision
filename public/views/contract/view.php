@@ -24,7 +24,6 @@ setPageVariables(
     'contracts' . ($contractId ? '_view_' . $contractId : '')
 );
 
-// Définir la page courante pour le menu
 $currentPage = 'contracts';
 
 // Définir les breadcrumbs personnalisés pour la vue contrat
@@ -32,23 +31,39 @@ if (isset($contract) && !empty($contract)) {
     $GLOBALS['customBreadcrumbs'] = generateContractViewBreadcrumbs($contract);
 }
 
-// Déterminer l'URL de retour dynamiquement
 $returnTo = $_GET['return_to'] ?? null;
 $clientId = $_GET['client_id'] ?? null;
 $activeTab = $_GET['active_tab'] ?? null;
 
+$defaultReturnUrl = BASE_URL . 'contracts';
+$sessionKey = 'contract_return_url_' . $contractId;
+
+$referer = $_SERVER['HTTP_REFERER'] ?? '';
+
+$blacklistedReferers = ['interventions/', 'contracts/edit', 'contracts/generatePreventiveInterventions'];
+$isBlacklisted = false;
+foreach ($blacklistedReferers as $blacklisted) {
+    if (strpos($referer, $blacklisted) !== false) {
+        $isBlacklisted = true;
+        break;
+    }
+}
+
+if (!empty($referer) && !$isBlacklisted) {
+    $_SESSION[$sessionKey] = $referer;
+    $returnUrl = $referer;
+} elseif (!empty($_SESSION[$sessionKey])) {
+    $returnUrl = $_SESSION[$sessionKey];
+} else {
+    $returnUrl = $defaultReturnUrl;
+}
+
 if ($returnTo === 'client' && $clientId) {
-    // Si on vient de la vue du client, retourner à cette vue avec l'onglet actif
     $returnUrl = BASE_URL . 'clients/view/' . $clientId;
     if ($activeTab) {
         $returnUrl .= '?active_tab=' . $activeTab;
     }
-} else {
-    // Par défaut, retourner à la liste des contrats
-    $returnUrl = BASE_URL . 'contracts';
 }
-
-// Inclure le header qui contient le menu latéral
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
