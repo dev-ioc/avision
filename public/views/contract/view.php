@@ -6,17 +6,14 @@ require_once __DIR__ . '/../../includes/FileUploadValidator.php';
  * Affiche les informations complètes d'un contrat
  */
 
-// Vérification de l'accès - seuls les utilisateurs connectés peuvent voir les contrats
 if (!isset($_SESSION['user'])) {
     header('Location: ' . BASE_URL . 'auth/login');
     exit;
 }
 
-// Définir le type d'utilisateur pour le menu
 $userType = $_SESSION['user']['user_type'] ?? null;
 $isAdmin = isAdmin();
 
-// Récupérer l'ID du contrat depuis l'URL
 $contractId = isset($contract['id']) ? $contract['id'] : '';
 
 setPageVariables(
@@ -24,31 +21,25 @@ setPageVariables(
     'contracts' . ($contractId ? '_view_' . $contractId : '')
 );
 
-// Définir la page courante pour le menu
 $currentPage = 'contracts';
 
-// Définir les breadcrumbs personnalisés pour la vue contrat
 if (isset($contract) && !empty($contract)) {
     $GLOBALS['customBreadcrumbs'] = generateContractViewBreadcrumbs($contract);
 }
 
-// Déterminer l'URL de retour dynamiquement
 $returnTo = $_GET['return_to'] ?? null;
 $clientId = $_GET['client_id'] ?? null;
 $activeTab = $_GET['active_tab'] ?? null;
 
 if ($returnTo === 'client' && $clientId) {
-    // Si on vient de la vue du client, retourner à cette vue avec l'onglet actif
     $returnUrl = BASE_URL . 'clients/view/' . $clientId;
     if ($activeTab) {
         $returnUrl .= '?active_tab=' . $activeTab;
     }
 } else {
-    // Par défaut, retourner à la liste des contrats
-    $returnUrl = BASE_URL . 'contracts';
+    $returnUrl = $_SERVER['HTTP_REFERER'];
 }
 
-// Inclure le header qui contient le menu latéral
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
@@ -73,14 +64,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </a>
 
                 <?php
-                // Vérifier si le contrat peut être renouvelé (30 jours avant la fin OU après la fin)
                 $endDate = new DateTime($contract['end_date']);
                 $today = new DateTime();
                 $daysUntilEnd = $today->diff($endDate)->days;
                 $isExpired = $today > $endDate;
                 $canRenew = ($daysUntilEnd <= 30 && $daysUntilEnd >= 0) || $isExpired;
-
-                // Afficher le bouton de renouvellement sans contrainte de renouvellement tacite
                 if ($canRenew):
                     ?>
                     <button type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#renewalModal">
