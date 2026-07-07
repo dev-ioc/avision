@@ -88,7 +88,7 @@ class InterventionModel extends BaseModel
         }
 
         // Tri par défaut : date de création décroissante
-        $sql .= " ORDER BY i.created_at DESC";
+        $sql .= "ORDER BY i.created_at ASC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
