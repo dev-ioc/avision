@@ -97667,3 +97667,14 @@ Quant à l’écran n°1, il est HS
 [2026-07-07 10:44:35][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/82/1757582119_0_PAVILLON_ELYSEE_CF16589.pdf 
 [2026-07-07 10:44:35][DEBUG] Fichier trouvé, taille: 447962 
 [2026-07-07 10:44:36][DEBUG] Type MIME détecté: application/pdf 
+[2026-07-07 10:51:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 122a93f473ae40fa5531... 
+[2026-07-07 10:51:16][INFO] === FERMETURE INTERVENTION 228 === 
+[2026-07-07 10:51:16][INFO] Tickets à déduire: 0 
+[2026-07-07 10:51:16][INFO] Contrat ID: 82 
+[2026-07-07 10:51:16][INFO] isContractTicketById(82) = false 
+[2026-07-07 10:51:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 122a93f473ae40fa5531... 
+[2026-07-07 10:51:20][INFO] === RÉOUVERTURE INTERVENTION 228 === 
+[2026-07-07 10:51:20][INFO] Tickets à recréditer: 0 
+[2026-07-07 10:51:20][INFO] Contrat ID: 82 
+[2026-07-07 10:51:20][INFO] Had tickets: non 
+[2026-07-07 10:51:20][INFO] RÉOUVERTURE RÉUSSIE - Intervention 228 

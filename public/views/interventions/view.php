@@ -1744,43 +1744,45 @@ $closeReason = [];
 			document.getElementById('fermetureConfirmer').style.display = 'block';
 			document.getElementById('fermetureConfirmer').disabled = (data.contract && data.contract.can_close === false);
 
+			var isTicketContract = data.contract && data.contract.is_ticket_contract == true;
 			var html = '';
-			html += '<table class="table table-sm table-bordered align-middle mb-3">';
-			html += '<thead class="table-light"><tr><th>Technicien</th><th>Durée</th><th>Dépl.</th><th>Qualifié</th><th>Détail calcul</th><th class="text-end">Tickets</th></tr></thead><tbody>';
-			data.technicians.forEach(function (t) {
-				var qualifiedBadge = t.is_qualified ? '<i class="bi bi-check-circle-fill text-success"></i>' : '-';
-				html += '<tr>';
-				html += '<td>' + esc(t.name) + '</td>';
-				html += '<td>' + t.duration_minutes + ' min<br><small class="text-muted">' + t.duration_hours.toFixed(2) + 'h</small></td>';
-				html += '<td class="text-center">' + (t.has_travel ? '<i class="bi bi-check-circle-fill text-success"></i>' : '<i class="bi bi-dash-circle text-muted"></i>') + '</td>';
-				html += '<td class="text-center">' + qualifiedBadge + '</td>';
-				html += '<td><small class="text-muted font-monospace">' + esc(t.formula) + '</small></td>';
-				html += '<td class="text-end fw-bold">' + t.tickets_rounded + '</td>';
-				html += '</tr>';
-			});
-			html += '</tbody>';
-			html += '<tfoot><tr class="table-secondary fw-bold"><td colspan="5" class="text-end">Total proposé</td><td class="text-end">' + data.total_tickets + '</td></tr></tfoot>';
-			html += '</table>';
 
-			if (data.contract) {
-				var after = data.contract.tickets_after_close;
-				var cls = after > 3 ? 'success' : (after > 0 ? 'warning' : 'danger');
-				html += '<div class="alert alert-light border mb-3 py-2">';
-				html += '<strong>Contrat :</strong> ' + esc(data.contract.name);
-				html += ' &nbsp;|&nbsp; Solde actuel : <strong>' + data.contract.tickets_remaining + '</strong>';
-				html += ' &nbsp;→&nbsp; Après fermeture : <span class="badge bg-' + cls + '">' + after + '</span>';
-				if (after < 0) {
-					html += '<div class="alert alert-danger mt-2 mb-0 py-1">';
-					html += '<i class="bi bi-exclamation-triangle-fill me-2"></i>';
-					html += '<strong>⚠️ Attention !</strong> Cette fermeture rendrait le solde du contrat négatif.';
-					html += '<br>Veuillez réduire le nombre de tickets ou ajouter des tickets au contrat.';
+			if (isTicketContract) {
+				// Tableau détaillé par technicien (uniquement pertinent pour les contrats à tickets)
+				html += '<table class="table table-sm table-bordered align-middle mb-3">';
+				html += '<thead class="table-light"><tr><th>Technicien</th><th>Durée</th><th>Dépl.</th><th>Qualifié</th><th>Détail calcul</th><th class="text-end">Tickets</th></tr></thead><tbody>';
+				data.technicians.forEach(function (t) {
+					var qualifiedBadge = t.is_qualified ? '<i class="bi bi-check-circle-fill text-success"></i>' : '-';
+					html += '<tr>';
+					html += '<td>' + esc(t.name) + '</td>';
+					html += '<td>' + t.duration_minutes + ' min<br><small class="text-muted">' + t.duration_hours.toFixed(2) + 'h</small></td>';
+					html += '<td class="text-center">' + (t.has_travel ? '<i class="bi bi-check-circle-fill text-success"></i>' : '<i class="bi bi-dash-circle text-muted"></i>') + '</td>';
+					html += '<td class="text-center">' + qualifiedBadge + '</td>';
+					html += '<td><small class="text-muted font-monospace">' + esc(t.formula) + '</small></td>';
+					html += '<td class="text-end fw-bold">' + t.tickets_rounded + '</td>';
+					html += '</tr>';
+				});
+				html += '</tbody>';
+				html += '<tfoot><tr class="table-secondary fw-bold"><td colspan="5" class="text-end">Total proposé</td><td class="text-end">' + data.total_tickets + '</td></tr></tfoot>';
+				html += '</table>';
+
+				if (data.contract) {
+					var after = data.contract.tickets_after_close;
+					var cls = after > 3 ? 'success' : (after > 0 ? 'warning' : 'danger');
+					html += '<div class="alert alert-light border mb-3 py-2">';
+					html += '<strong>Contrat :</strong> ' + esc(data.contract.name);
+					html += ' &nbsp;|&nbsp; Solde actuel : <strong>' + data.contract.tickets_remaining + '</strong>';
+					html += ' &nbsp;→&nbsp; Après fermeture : <span class="badge bg-' + cls + '">' + after + '</span>';
+					if (after < 0) {
+						html += '<div class="alert alert-danger mt-2 mb-0 py-1">';
+						html += '<i class="bi bi-exclamation-triangle-fill me-2"></i>';
+						html += '<strong>⚠️ Attention !</strong> Cette fermeture rendrait le solde du contrat négatif.';
+						html += '<br>Veuillez réduire le nombre de tickets ou ajouter des tickets au contrat.';
+						html += '</div>';
+					}
 					html += '</div>';
 				}
-				html += '</div>';
-			}
 
-			// Ajouter le champ ticketsManuel seulement si c'est un contrat à tickets
-			if (data.contract && data.contract.is_ticket_contract == true) {
 				html += '<div class="mb-2">'
 					+ '<label for="ticketsManuel" class="form-label fw-bold">'
 					+ 'Tickets à déduire'
@@ -1791,8 +1793,8 @@ $closeReason = [];
 					+ '<i class="bi bi-exclamation-triangle-fill me-1"></i> <span id="ticketsWarningText"></span>'
 					+ '</div>'
 					+ '</div>';
-			} else if (data.contract && data.contract.is_ticket_contract == false) {
-				// Message optionnel pour les contrats non-tickets
+			} else {
+				// Contrat sans gestion par tickets : uniquement le message d'info
 				html += '<div class="alert alert-info mb-2">';
 				html += '<i class="bi bi-info-circle-fill me-2"></i>';
 				html += 'Ce contrat ne permet pas la gestion par tickets. La fermeture ne déduira aucun ticket.';
@@ -1802,14 +1804,10 @@ $closeReason = [];
 			document.getElementById('fermetureContent').innerHTML = html;
 
 			// Masquer la checkbox email si pas de contrat tickets
-			if (data.contract && data.contract.is_ticket_contract == false) {
-				document.getElementById('fermetureEmailCheck').style.display = 'none';
-			} else {
-				document.getElementById('fermetureEmailCheck').style.display = 'flex';
-			}
+			document.getElementById('fermetureEmailCheck').style.display = isTicketContract ? 'flex' : 'none';
 
 			// Initialiser les écouteurs seulement si contrat tickets
-			if (data.contract && data.contract.is_ticket_contract == true) {
+			if (isTicketContract) {
 				var ticketsInput = document.getElementById('ticketsManuel');
 				if (ticketsInput && data.contract) {
 					var currentRemaining = data.contract.tickets_remaining;
@@ -1827,8 +1825,7 @@ $closeReason = [];
 
 			// Configuration du bouton de confirmation
 			document.getElementById('fermetureConfirmer').onclick = function () {
-				// Si pas contrat tickets, fermer sans ticket
-				if (data.contract && data.contract.is_ticket_contract == false) {
+				if (!isTicketContract) {
 					var token = getCsrfToken();
 					if (!token) {
 						alert('Token CSRF manquant. Rechargez la page et réessayez.');
@@ -1865,7 +1862,6 @@ $closeReason = [];
 							window.location.reload();
 						});
 				} else {
-					// Comportement normal pour les contrats tickets
 					var tickets = parseFloat(document.getElementById('ticketsManuel').value) || 0;
 					var sendEmail = document.getElementById('sendEmailClose').checked ? 1 : 0;
 					var token = getCsrfToken();
