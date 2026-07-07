@@ -29,143 +29,186 @@ class DocumentationClientController
         $this->checkClientPermission('client_view_documentation');
     }
 
-    /**
-     * Affiche la liste des documents du client selon ses localisations autorisées
-     */
     public function index()
     {
         $this->checkAccess();
 
-        // Récupérer les localisations autorisées de l'utilisateur
         $userLocations = getUserLocations();
         custom_log("DocumentationClientController::index - userLocations: " . json_encode($userLocations), 'DEBUG');
 
-        // Récupération des filtres
-        $site_id = isset($_GET['site_id']) ? (int) $_GET['site_id'] : null;
-        $building_id = isset($_GET['building_id']) ? (int) $_GET['building_id'] : null;
-        $salle_id = isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null;
+        // Récupération des filtres depuis l'URL
+        $site_id = isset($_GET['site_id']) && $_GET['site_id'] !== '' ? (int) $_GET['site_id'] : null;
+        $building_id = isset($_GET['building_id']) && $_GET['building_id'] !== '' ? (int) $_GET['building_id'] : null;
+        $salle_id = isset($_GET['salle_id']) && $_GET['salle_id'] !== '' ? (int) $_GET['salle_id'] : null;
 
-        // Récupération des sites selon les localisations autorisées
+        // Récupérer les sites pour les filtres
         $sites = $this->getSitesByLocations($userLocations);
 
-        // Récupération des bâtiments selon le filtre site
+        // Récupérer les bâtiments pour les filtres (si un site est sélectionné)
         $buildings = [];
         if ($site_id) {
             $buildings = $this->getBuildingsBySiteAndLocations($site_id, $userLocations);
         }
 
-        // Récupération des salles selon le filtre bâtiment
+        // Récupérer les salles pour les filtres (si un bâtiment est sélectionné)
         $salles = [];
         if ($building_id) {
             $salles = $this->getRoomsByBuildingAndLocations($building_id, $userLocations);
         }
 
-        // Initialiser la liste de documentation vide
         $documentation_list = [];
 
-        // Construire les conditions de localisation pour la requête
         if (!empty($userLocations)) {
+            // Construire les conditions pour les localisations
             $locationConditions = [];
+            $params = [];
+
             foreach ($userLocations as $location) {
                 $clientId = $location['client_id'];
                 $locationSiteId = $location['site_id'];
                 $locationBuildingId = $location['building_id'] ?? null;
                 $locationRoomId = $location['room_id'] ?? null;
 
-                // Condition pour ce client
-                $condition = "(
-                    c.id = {$clientId} 
-                    OR c2.id = {$clientId} 
-                    OR c3.id = {$clientId} 
-                    OR s.client_id = {$clientId} 
-                    OR s2.client_id = {$clientId} 
-                    OR b.client_id = {$clientId}
-                )";
+                // Construire la condition pour cette localisation
+                $conditions = [];
 
-                // Si accès spécifique à un site
+                // Document lié au client
+                $conditions[] = "(lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)";
+                $params[] = $clientId;
+
+                // Document lié au site
                 if ($locationSiteId !== null) {
-                    $condition .= " AND (s.id = {$locationSiteId} OR s2.id = {$locationSiteId} OR b.site_id = {$locationSiteId})";
-
-                    // Si accès spécifique à un bâtiment
-                    if ($locationBuildingId !== null) {
-                        $condition .= " AND (b.id = {$locationBuildingId})";
-                    }
-
-                    // Si accès spécifique à une salle
-                    if ($locationRoomId !== null) {
-                        $condition .= " AND r.id = {$locationRoomId}";
-                    }
+                    $conditions[] = "(lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?)";
+                    $params[] = $locationSiteId;
                 }
 
-                $locationConditions[] = $condition;
+                // Document lié au bâtiment
+                if ($locationBuildingId !== null) {
+                    $conditions[] = "(lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?)";
+                    $params[] = $locationBuildingId;
+                }
+
+                // Document lié à la salle
+                if ($locationRoomId !== null) {
+                    $conditions[] = "(lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)";
+                    $params[] = $locationRoomId;
+                }
+
+                $locationConditions[] = "(" . implode(" OR ", $conditions) . ")";
             }
 
-            $locationWhere = "(" . implode(" OR ", $locationConditions) . ")";
+            $locationWhere = implode(" OR ", $locationConditions);
 
-            // Requête pour récupérer les pièces jointes de documentation avec la nouvelle structure
+            // Requête simplifiée
             $query = "
-                SELECT 
-                    pj.*,
-                    COALESCE(pj.content, pj.commentaire) as description,
-                    COALESCE(c.name, c2.name, c3.name) as client_nom,
-                    COALESCE(s.name, s2.name) as site_nom,
-                    b.name as building_nom,
-                    r.name as salle_nom,
-                    COALESCE(c.id, c2.id, c3.id) as client_id,
-                    COALESCE(s.id, s2.id) as site_id,
-                    b.id as building_id,
-                    r.id as salle_id,
-                    u.username as uploader_name,
-                    pj.created_by
-                FROM pieces_jointes pj
-                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-                -- JOIN pour les documents liés directement au client
-                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
-                -- JOIN pour les documents liés directement au site
-                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
-                -- JOIN pour récupérer le client depuis le site (quand document lié au site)
-                LEFT JOIN clients c2 ON s.client_id = c2.id
-                -- JOIN pour les documents liés directement au bâtiment
-                LEFT JOIN buildings b ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = b.id)
-                -- JOIN pour récupérer le site depuis le bâtiment
-                LEFT JOIN sites s2 ON b.site_id = s2.id
-                -- JOIN pour récupérer le client depuis le site du bâtiment
-                LEFT JOIN clients c3 ON s2.client_id = c3.id
-                -- JOIN pour les documents liés directement à la salle
-                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
-                -- JOIN pour récupérer le bâtiment depuis la salle
-                LEFT JOIN buildings b2 ON r.building_id = b2.id
-                LEFT JOIN users u ON pj.created_by = u.id
-                WHERE lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_building', 'documentation_room')
-                AND pj.masque_client = 0
-                AND {$locationWhere}
-            ";
+        SELECT 
+            pj.*,
+            COALESCE(pj.content, pj.commentaire) as description,
+            u.username as uploader_name,
+            pj.created_by,
+            -- Récupérer les noms via des sous-requêtes
+            (SELECT name FROM clients WHERE id = (
+                SELECT entite_id FROM liaisons_pieces_jointes 
+                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_client' 
+                LIMIT 1
+            )) as client_nom,
+            (SELECT name FROM sites WHERE id = (
+                SELECT entite_id FROM liaisons_pieces_jointes 
+                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_site' 
+                LIMIT 1
+            )) as site_nom,
+            (SELECT name FROM buildings WHERE id = (
+                SELECT entite_id FROM liaisons_pieces_jointes 
+                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_building' 
+                LIMIT 1
+            )) as building_nom,
+            (SELECT name FROM rooms WHERE id = (
+                SELECT entite_id FROM liaisons_pieces_jointes 
+                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_room' 
+                LIMIT 1
+            )) as salle_nom,
+            (SELECT id FROM clients WHERE id = (
+                SELECT entite_id FROM liaisons_pieces_jointes 
+                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_client' 
+                LIMIT 1
+            )) as client_id,
+            (SELECT id FROM sites WHERE id = (
+                SELECT entite_id FROM liaisons_pieces_jointes 
+                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_site' 
+                LIMIT 1
+            )) as site_id,
+            (SELECT id FROM buildings WHERE id = (
+                SELECT entite_id FROM liaisons_pieces_jointes 
+                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_building' 
+                LIMIT 1
+            )) as building_id,
+            (SELECT id FROM rooms WHERE id = (
+                SELECT entite_id FROM liaisons_pieces_jointes 
+                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_room' 
+                LIMIT 1
+            )) as salle_id
+        FROM pieces_jointes pj
+        INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+        LEFT JOIN users u ON pj.created_by = u.id
+        WHERE pj.masque_client = 0
+        AND (
+            " . $locationWhere . "
+        )
+        GROUP BY pj.id
+    ";
 
-            $params = [];
-
-            // Filtres optionnels
+            // Ajouter les filtres optionnels
             if ($site_id) {
-                $query .= " AND (s.id = ? OR s2.id = ? OR b.site_id = ?)";
+                $query .= " AND EXISTS (
+                SELECT 1 FROM liaisons_pieces_jointes lpj2 
+                WHERE lpj2.piece_jointe_id = pj.id 
+                AND (
+                    lpj2.entite_id = ? 
+                    OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                    OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+                )
+            )";
                 $params[] = $site_id;
                 $params[] = $site_id;
                 $params[] = $site_id;
             }
 
             if ($building_id) {
-                $query .= " AND b.id = ?";
+                $query .= " AND EXISTS (
+                SELECT 1 FROM liaisons_pieces_jointes lpj2 
+                WHERE lpj2.piece_jointe_id = pj.id 
+                AND (
+                    lpj2.entite_id = ? 
+                    OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+                )
+            )";
+                $params[] = $building_id;
                 $params[] = $building_id;
             }
 
             if ($salle_id) {
-                $query .= " AND r.id = ?";
+                $query .= " AND EXISTS (
+                SELECT 1 FROM liaisons_pieces_jointes lpj2 
+                WHERE lpj2.piece_jointe_id = pj.id 
+                AND lpj2.entite_id = ?
+            )";
                 $params[] = $salle_id;
             }
 
-            $query .= " ORDER BY client_nom, site_nom, building_nom, salle_nom, pj.date_creation DESC";
+            $query .= " ORDER BY pj.date_creation DESC";
+
+            custom_log("DocumentationClientController::index - Requête SQL: " . $query, 'DEBUG');
+            custom_log("DocumentationClientController::index - Paramètres: " . json_encode($params), 'DEBUG');
 
             $stmt = $this->db->prepare($query);
             $stmt->execute($params);
             $documentation_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            custom_log("DocumentationClientController::index - Nombre de documents trouvés: " . count($documentation_list), 'DEBUG');
+
+            if (empty($documentation_list)) {
+                custom_log("DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id={$site_id}, building_id={$building_id}, salle_id={$salle_id}", 'WARNING');
+            }
         }
 
         // Préparer les données pour la vue
@@ -175,7 +218,7 @@ class DocumentationClientController
             'salle_id' => $salle_id
         ];
 
-        // Passage des données à la vue
+        // Inclure la vue avec toutes les variables nécessaires
         require_once __DIR__ . '/../views/documentation_client/index.php';
     }
 
