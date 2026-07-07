@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const dt = new DataTable(table, {
     pageLength: 10,
     lengthMenu: [10, 25, 50, 100],
-    order: [[7, "desc"]],
+    order: [[2, "asc"]],
     layout: {
       topStart: {
         search: {

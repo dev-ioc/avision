@@ -371,8 +371,8 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
   window.csrfToken = '<?= $_SESSION['csrf_token'] ?>';
 </script>
 
-<script src="<?= BASE_URL ?>assets/js/datatable-persistence.js"></script>
 <script src="<?= BASE_URL ?>assets/js/interventions-datatable.js"></script>
+<script src="<?= BASE_URL ?>assets/js/datatable-persistence.js"></script>
 <?php if (!$isPreventivePage && canModifyInterventions()): ?>
   <!-- Modale Flash Intervention -->
   <div class="modal fade" id="flashInterventionModal" tabindex="-1" aria-hidden="true">

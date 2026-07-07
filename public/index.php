@@ -925,7 +925,7 @@ try {
 
         case 'interventions':
             $interventionController = new InterventionController($db);
-            $buildingController = new BuildingController($db);
+            $buildingController = new BuildingController();
             switch ($action) {
                 case 'index':
                     header('Location: ' . BASE_URL . 'interventions/curatives');

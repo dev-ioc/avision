@@ -119,8 +119,6 @@ class InterventionController
             'status_id' => $_GET['status_id'] ?? null,
             'priority_id' => $_GET['priority_id'] ?? null,
             'search' => $_GET['search'] ?? null,
-            'order_by' => 'created_at',
-            'order_dir' => 'DESC'
         ];
 
         // Déterminer l'onglet actif

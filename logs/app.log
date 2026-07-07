@@ -105540,3 +105540,148 @@ Quant à l’écran n°1, il est HS
 [2026-07-07 11:03:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 122a93f473ae40fa5531... 
 [2026-07-07 11:03:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 122a93f473ae40fa5531... 
 [2026-07-07 11:03:32][INFO] Technicien 41 ajouté à l'intervention 229 
+[2026-07-07 12:53:20][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'BY i.created_at ASC' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":93}
+[2026-07-07 12:53:23][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'BY i.created_at ASC' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":93}
+[2026-07-07 12:53:38][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'BY i.created_at ASC' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":93}
+[2026-07-07 12:53:41][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'BY i.created_at ASC' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":93}
+[2026-07-07 12:56:03][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'BY i.created_at ASC' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":93}
+[2026-07-07 12:56:53][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'BY i.created_at DESC' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":93}
+[2026-07-07 13:10:46][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'GROUP BY i.id' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":93}
+[2026-07-07 13:10:52][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'GROUP BY i.id' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":93}
+[2026-07-07 13:10:59][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND GROUP BY i.id' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":93}
+[2026-07-07 13:11:26][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ORDER BY i.created_at ASC' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":93}
+[2026-07-07 13:19:22][DEBUG] CSRF: Token trouvé dans la requête - Token: b4f60a5b244c93183f9c... 
+[2026-07-07 13:19:22][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 13:19:22][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 13:19:22][DEBUG] Login réussi - Session ID: 5ib1b5ekun4a3i650caiq6dhur 
+[2026-07-07 13:19:22][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-07 13:19:22][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 13:19:22][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-07 13:19:22][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-07 13:21:52][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: bguaqs8tj6h787jpmp32k8f3k8) 
+[2026-07-07 13:21:56][DEBUG] CSRF: Token trouvé dans la requête - Token: fa293df05e0fd86399e5... 
+[2026-07-07 13:21:56][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 13:21:56][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 13:21:56][DEBUG] Login réussi - Session ID: bguaqs8tj6h787jpmp32k8f3k8 
+[2026-07-07 13:21:56][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-07-07 13:21:56][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 13:21:56][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-07-07 13:21:56][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-07-07 13:23:19][DEBUG] Redirection vers login - URL sauvegardée: interventions/add (Session ID: 2ps2bba1ut2jfhqn70hplg2n9e) 
+[2026-07-07 13:23:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 102105637352d740f341... 
+[2026-07-07 13:23:21][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 13:23:21][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 13:23:21][DEBUG] Login réussi - Session ID: 2ps2bba1ut2jfhqn70hplg2n9e 
+[2026-07-07 13:23:21][DEBUG] Login réussi - redirect_after_login: interventions/add 
+[2026-07-07 13:23:21][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 13:23:21][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-07-07 13:23:21][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/add 
+[2026-07-07 13:23:46][DEBUG] Redirection vers login - URL sauvegardée: interventions/add (Session ID: og3qcpeuh9kqjo4be4b22g29gk) 
+[2026-07-07 13:23:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 19fd440b8bd75fb1a841... 
+[2026-07-07 13:23:57][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 13:23:57][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 13:23:57][DEBUG] Login réussi - Session ID: og3qcpeuh9kqjo4be4b22g29gk 
+[2026-07-07 13:23:57][DEBUG] Login réussi - redirect_after_login: interventions/add 
+[2026-07-07 13:23:57][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 13:23:57][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-07-07 13:23:57][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/add 
+[2026-07-07 14:06:26][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' . interventions . ' i
+            LEFT JOIN clients c ON i.client_id = c.i...' at line 11 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":94}
+[2026-07-07 14:06:47][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' . interventions . ' i
+            LEFT JOIN clients c ON i.client_id = c.i...' at line 11 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":94}
+[2026-07-07 14:06:52][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' . interventions . ' i
+            LEFT JOIN clients c ON i.client_id = c.i...' at line 11 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":94}
+[2026-07-07 14:07:19][ERROR] Erreur : SQLSTATE[42S02]: Base table or view not found: 1051 Unknown table 'avisiondb.i' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":94}
+[2026-07-07 14:08:04][ERROR] Erreur : SQLSTATE[42S02]: Base table or view not found: 1051 Unknown table 'avisiondb.i' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":94}
+[2026-07-07 14:08:09][ERROR] Erreur : SQLSTATE[42S02]: Base table or view not found: 1051 Unknown table 'avisiondb.i' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":94}
+[2026-07-07 14:08:51][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.is_preventive' in 'where clause' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":94}
+[2026-07-07 14:10:01][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND i.is_preventive = ? ORDER BY i.created_at ASC' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":94}
+[2026-07-07 14:10:06][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND i.is_preventive = ? ORDER BY i.created_at ASC' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":94}
+[2026-07-07 14:10:11][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND i.is_preventive = ? ORDER BY i.created_at ASC' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":94}
+[2026-07-07 14:10:38][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ORDER BY i.created_at ASC  AND i.is_preventive = ? ORDER BY i.created_at ASC' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":94}
+[2026-07-07 14:11:01][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ORDER BY i.created_at ASC  AND i.is_preventive = ?' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-07-07 14:13:58][INFO] 81 
+[2026-07-07 14:14:40][DEBUG] CSRF: Token trouvé dans la requête - Token: bfa83c6e80a238e1c18b... 
+[2026-07-07 14:14:40][WARNING] Tentative de connexion échouée pour l'utilisateur : Karija 
+[2026-07-07 14:14:44][DEBUG] CSRF: Token trouvé dans la requête - Token: bfa83c6e80a238e1c18b... 
+[2026-07-07 14:14:44][WARNING] Tentative de connexion échouée pour l'utilisateur : Karija 
+[2026-07-07 14:14:47][DEBUG] CSRF: Token trouvé dans la requête - Token: bfa83c6e80a238e1c18b... 
+[2026-07-07 14:14:47][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 14:14:47][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 14:14:47][DEBUG] Login réussi - Session ID: ehru6m02j4fjrmb46obif53cek 
+[2026-07-07 14:14:47][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-07 14:14:47][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 14:14:47][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-07 14:14:47][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-07 14:15:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 8d12019b96b2f2906c98... 
+[2026-07-07 14:15:02][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 14:15:02][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 14:15:02][DEBUG] Login réussi - Session ID: l6l2gpsf59gbqrofeh72dogj5c 
+[2026-07-07 14:15:02][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-07 14:15:02][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 14:15:02][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-07 14:15:02][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-07 14:15:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 8bcc90c6f57bfed87cb1... 
+[2026-07-07 14:15:53][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 14:15:53][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 14:15:53][DEBUG] Login réussi - Session ID: ijetfqk3raauerk8l78ldhj5e1 
+[2026-07-07 14:15:53][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-07 14:15:53][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 14:15:53][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-07 14:15:53][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-07 14:16:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 05435ca733c6f49c7512... 
+[2026-07-07 14:16:07][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 14:16:07][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 14:16:07][DEBUG] Login réussi - Session ID: t0015vr84gre3lfqm2su69vjda 
+[2026-07-07 14:16:07][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-07 14:16:07][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 14:16:07][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-07 14:16:07][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-07 14:16:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 24557e658f5a1f951d58... 
+[2026-07-07 14:16:31][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 14:16:31][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 14:16:31][DEBUG] Login réussi - Session ID: 5446egn1oe5o13uliqn422hf09 
+[2026-07-07 14:16:31][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-07 14:16:31][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 14:16:31][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-07 14:16:31][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-07 14:20:22][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: 4mloeubu24cctgd3jcq4qlltmq) 
+[2026-07-07 14:20:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 9e1b2bfb135d880a4b57... 
+[2026-07-07 14:20:27][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 14:20:27][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 14:20:27][DEBUG] Login réussi - Session ID: 4mloeubu24cctgd3jcq4qlltmq 
+[2026-07-07 14:20:27][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-07-07 14:20:27][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 14:20:27][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-07-07 14:20:27][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-07-07 14:21:32][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: o2ojh9a5f0g41qrhgc7mstldbc) 
+[2026-07-07 14:21:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 92380ad284121d3acbc3... 
+[2026-07-07 14:21:36][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 14:21:36][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 14:21:36][DEBUG] Login réussi - Session ID: o2ojh9a5f0g41qrhgc7mstldbc 
+[2026-07-07 14:21:36][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-07-07 14:21:36][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 14:21:36][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-07-07 14:21:36][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-07-07 14:27:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 4f84cb9120da8f8a41f2... 
+[2026-07-07 14:27:33][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-07-07 14:27:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 505288a50a9bff2a43e7... 
+[2026-07-07 14:27:46][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-07-07 14:27:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 505288a50a9bff2a43e7... 
+[2026-07-07 14:27:50][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 14:27:50][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 14:27:50][DEBUG] Login réussi - Session ID: t1cqnom3dpegju9fjrb7pqdop5 
+[2026-07-07 14:27:50][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-07 14:27:50][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 14:27:50][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-07 14:27:50][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-07 14:28:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 4f84cb9120da8f8a41f2... 
+[2026-07-07 14:28:04][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 14:28:04][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 14:28:04][DEBUG] Login réussi - Session ID: 6o0cusj9t6pt1hli24k9954l9k 
+[2026-07-07 14:28:04][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-07 14:28:04][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 14:28:04][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-07 14:28:04][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-07 14:34:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 4e50fb2d389991ccc07f... 
+[2026-07-07 14:34:22][WARNING] Tentative de connexion échouée pour l'utilisateur : karija 
