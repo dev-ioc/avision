@@ -105532,3 +105532,11 @@ Quant à l’écran n°1, il est HS
 [2026-07-06 14:09:33][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/196/1768486414_0_EnvelopePDF.aspx.pdf 
 [2026-07-06 14:09:33][DEBUG] Fichier trouvé, taille: 588541 
 [2026-07-06 14:09:33][DEBUG] Type MIME détecté: application/pdf 
+[2026-07-07 11:02:52][DEBUG] Tentative d'aperçu contrat pour l'ID: 198 
+[2026-07-07 11:02:52][DEBUG] Pièce jointe trouvée: {"id":198,"nom_fichier":"20260129174844498.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/107\/1769704617_0_20260129174844498.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":558997,"commentaire":null,"date_creation":"2026-01-29 19:36:57","updated_at":null,"masque_client":0,"type_id":null,"created_by":2} 
+[2026-07-07 11:02:52][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/107/1769704617_0_20260129174844498.pdf 
+[2026-07-07 11:02:52][DEBUG] Fichier trouvé, taille: 558997 
+[2026-07-07 11:02:52][DEBUG] Type MIME détecté: application/pdf 
+[2026-07-07 11:03:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 122a93f473ae40fa5531... 
+[2026-07-07 11:03:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 122a93f473ae40fa5531... 
+[2026-07-07 11:03:32][INFO] Technicien 41 ajouté à l'intervention 229 
