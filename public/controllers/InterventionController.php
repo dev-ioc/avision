@@ -118,6 +118,7 @@ class InterventionController
             'room_id' => $_GET['room_id'] ?? null,
             'status_id' => $_GET['status_id'] ?? null,
             'priority_id' => $_GET['priority_id'] ?? null,
+            'created_at' => $_GET['created_at'] ?? null,
             'search' => $_GET['search'] ?? null
         ];
 

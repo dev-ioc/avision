@@ -97678,3 +97678,25 @@ Quant à l’écran n°1, il est HS
 [2026-07-07 10:51:20][INFO] Contrat ID: 82 
 [2026-07-07 10:51:20][INFO] Had tickets: non 
 [2026-07-07 10:51:20][INFO] RÉOUVERTURE RÉUSSIE - Intervention 228 
+[2026-07-07 12:22:35][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'ip.name' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-07-07 12:22:46][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'ip.name' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-07-07 12:23:19][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'ip.color' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-07-07 12:23:28][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM interventions i
+            LEFT JOIN clients c ON i.client_id = c.id
+...' at line 11 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-07-07 12:27:01][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND i.is_preventive = ?' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":90}
+[2026-07-07 12:27:02][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND i.is_preventive = ?' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":90}
+[2026-07-07 12:27:35][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ORDER BY i.created_at ASC AND i.is_preventive = ?' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":90}
+[2026-07-07 12:28:23][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND AND i.is_preventive = ?' at line 19 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":90}
+[2026-07-07 12:48:41][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM interventions i
+            LEFT JOIN clients c ON i.client_id = c.id
+...' at line 11 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":92}
+[2026-07-07 12:48:51][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM interventions i
+            LEFT JOIN clients c ON i.client_id = c.id
+...' at line 11 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":92}
+[2026-07-07 12:49:12][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM interventions i
+            LEFT JOIN clients c ON i.client_id = c.id
+...' at line 11 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-07-07 12:49:27][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM interventions i
+            LEFT JOIN clients c ON i.client_id = c.id
+...' at line 11 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}

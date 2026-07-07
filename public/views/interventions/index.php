@@ -106,7 +106,7 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
         <?php else: ?>
           <?php foreach ($allInterventions as $intervention): ?>
             <tr>
-              <td>
+              <td data-order="<?= $intervention['created_at'] ?>">
                 <?= !empty($intervention['created_at'])
                   ? date('d/m/Y H:i', strtotime($intervention['created_at']))
                   : '-' ?>

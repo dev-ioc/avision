@@ -65,7 +65,10 @@ class InterventionModel extends BaseModel
             $sql .= " AND i.priority_id = ?";
             $params[] = $filters['priority_id'];
         }
-
+        if (!empty($filters['i.created_at'])) {
+            $sql .= " AND i.created_at = ?";
+            $params[] = $filters['created_at'];
+        }
         // Filtre par type d'intervention (préventive/curative)
         if (isset($filters['is_preventive'])) {
             $sql .= " AND i.is_preventive = :is_preventive";
@@ -87,7 +90,6 @@ class InterventionModel extends BaseModel
             $params = array_merge($params, $filters['exclude_priority_ids']);
         }
 
-        // Tri par défaut : date de création décroissante
         $sql .= " ORDER BY i.created_at ASC";
 
         $stmt = $this->db->prepare($sql);
