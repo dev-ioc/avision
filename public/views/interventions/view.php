@@ -1741,12 +1741,8 @@ $closeReason = [];
 		});
 
 		function renderFermeture(data) {
-			if (data.contract && data.contract.is_ticket_contract == false) {
-				document.getElementById('fermetureConfirmer').style.display = 'none';
-			} else {
-				document.getElementById('fermetureConfirmer').style.display = 'block';
-				document.getElementById('fermetureConfirmer').disabled = false;
-			}
+			document.getElementById('fermetureConfirmer').style.display = 'block';
+			document.getElementById('fermetureConfirmer').disabled = (data.contract && data.contract.can_close === false);
 
 			var html = '';
 			html += '<table class="table table-sm table-bordered align-middle mb-3">';

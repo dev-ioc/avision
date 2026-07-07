@@ -97455,3 +97455,215 @@ Quant à l’écran n°1, il est HS
         WHERE 1=1 AND deleted_at IS NULL
      AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
 [2026-07-06 14:38:21][DEBUG] Params: {":client_id":23} 
+[2026-07-06 15:08:32][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-06 15:08:32][DEBUG] Params: {":client_id":46} 
+[2026-07-06 15:08:48][INFO] 81 
+[2026-07-06 15:08:52][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-06 15:08:52][DEBUG] Params: [] 
+[2026-07-06 15:08:57][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-06 15:08:57][DEBUG] Params: {":client_id":46} 
+[2026-07-06 15:09:09][INFO] 81 
+[2026-07-06 15:09:13][INFO] 81 
+[2026-07-06 15:09:20][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-06 15:09:20][DEBUG] Params: {":client_id":46} 
+[2026-07-06 15:10:10][INFO] 81 
+[2026-07-06 15:10:15][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-06 15:10:15][DEBUG] Params: [] 
+[2026-07-06 15:10:19][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-06 15:10:19][DEBUG] Params: {":client_id":46} 
+[2026-07-06 15:10:25][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-06 15:10:25][DEBUG] Params: {":client_id":46} 
+[2026-07-06 15:10:30][INFO] 81 
+[2026-07-06 15:10:36][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-06 15:10:36][DEBUG] Params: {":client_id":46} 
+[2026-07-06 15:10:45][INFO] 81 
+[2026-07-06 15:11:00][DEBUG] SQL Materiel: 
+        SELECT 
+            m.*,
+            r.name as salle_nom,
+            r.id as salle_id,
+            b.name as building_nom,
+            b.id as building_id,
+            s.name as site_nom,
+            s.id as site_id,
+            c.name as client_nom,
+            c.id as client_id,
+            m.type_materiel as type_nom
+        FROM materiel m
+        INNER JOIN rooms r ON m.salle_id = r.id 
+        INNER JOIN buildings b ON r.building_id = b.id 
+        INNER JOIN sites s ON b.site_id = s.id
+        INNER JOIN clients c ON s.client_id = c.id AND c.status = 1
+        WHERE 1=1 AND deleted_at IS NULL
+     AND c.id = :client_id ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-06 15:11:00][DEBUG] Params: {":client_id":46} 
+[2026-07-07 08:04:30][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: se57sbg32n3n20aomtbg8oevs1) 
+[2026-07-07 08:04:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 122a93f473ae40fa5531... 
+[2026-07-07 08:04:36][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-07-07 08:04:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 122a93f473ae40fa5531... 
+[2026-07-07 08:04:40][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-07 08:04:40][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-07 08:04:40][DEBUG] Login réussi - Session ID: se57sbg32n3n20aomtbg8oevs1 
+[2026-07-07 08:04:40][DEBUG] Login réussi - redirect_after_login: dashboard 
+[2026-07-07 08:04:40][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-07 08:04:40][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-07-07 08:04:40][DEBUG] Redirection après login vers: http://localhost/avision/public/dashboard 
+[2026-07-07 10:42:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 122a93f473ae40fa5531... 
+[2026-07-07 10:42:45][INFO] === FERMETURE INTERVENTION 132 === 
+[2026-07-07 10:42:45][INFO] Tickets à déduire: 0 
+[2026-07-07 10:42:45][INFO] Contrat ID: 82 
+[2026-07-07 10:42:45][INFO] isContractTicketById(82) = false 
+[2026-07-07 10:44:16][DEBUG] Tentative d'aperçu contrat pour l'ID: 108 
+[2026-07-07 10:44:16][DEBUG] Pièce jointe trouvée: {"id":108,"nom_fichier":"PAVILLON ELYSEE CF16589.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/82\/1757582119_0_PAVILLON_ELYSEE_CF16589.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":447962,"commentaire":null,"date_creation":"2025-09-11 12:15:19","masque_client":1,"type_id":null,"created_by":2} 
+[2026-07-07 10:44:16][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/82/1757582119_0_PAVILLON_ELYSEE_CF16589.pdf 
+[2026-07-07 10:44:16][DEBUG] Fichier trouvé, taille: 447962 
+[2026-07-07 10:44:16][DEBUG] Type MIME détecté: application/pdf 
+[2026-07-07 10:44:35][DEBUG] Tentative d'aperçu contrat pour l'ID: 108 
+[2026-07-07 10:44:35][DEBUG] Pièce jointe trouvée: {"id":108,"nom_fichier":"PAVILLON ELYSEE CF16589.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/82\/1757582119_0_PAVILLON_ELYSEE_CF16589.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":447962,"commentaire":null,"date_creation":"2025-09-11 12:15:19","masque_client":1,"type_id":null,"created_by":2} 
+[2026-07-07 10:44:35][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/82/1757582119_0_PAVILLON_ELYSEE_CF16589.pdf 
+[2026-07-07 10:44:35][DEBUG] Fichier trouvé, taille: 447962 
+[2026-07-07 10:44:36][DEBUG] Type MIME détecté: application/pdf 

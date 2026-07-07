@@ -46,7 +46,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
         <div class="ms-auto p-2 bd-highlight">
             <?php
-            // Construire l'URL de retour avec les paramètres de filtres
             $returnParams = [];
             if (isset($_GET['client_id']) && !empty($_GET['client_id'])) {
                 $returnParams['client_id'] = $_GET['client_id'];
