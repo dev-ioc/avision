@@ -90,6 +90,7 @@ class InterventionModel extends BaseModel
             $sql .= " AND i.priority_id NOT IN ($placeholders)";
             $params = array_merge($params, $filters['exclude_priority_ids']);
         }
+
         $sql .= " ORDER BY itech.start_time DESC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
