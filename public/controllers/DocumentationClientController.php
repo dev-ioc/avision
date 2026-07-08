@@ -101,60 +101,44 @@ class DocumentationClientController
 
             // Requête simplifiée
             $query = "
-    SELECT 
-        pj.*,
-        COALESCE(pj.content, pj.commentaire) as description,
-        u.username as uploader_name,
-        pj.created_by,
-        -- Récupérer les noms via des sous-requêtes
-        (SELECT name FROM clients WHERE id = (
-            SELECT entite_id FROM liaisons_pieces_jointes 
-            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_client' 
-            LIMIT 1
-        )) as client_nom,
-        (SELECT name FROM sites WHERE id = (
-            SELECT entite_id FROM liaisons_pieces_jointes 
-            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_site' 
-            LIMIT 1
-        )) as site_nom,
-        (SELECT name FROM buildings WHERE id = (
-            SELECT entite_id FROM liaisons_pieces_jointes 
-            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_building' 
-            LIMIT 1
-        )) as building_nom,
-        (SELECT name FROM rooms WHERE id = (
-            SELECT entite_id FROM liaisons_pieces_jointes 
-            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_room' 
-            LIMIT 1
-        )) as salle_nom,
-        (SELECT id FROM clients WHERE id = (
-            SELECT entite_id FROM liaisons_pieces_jointes 
-            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_client' 
-            LIMIT 1
-        )) as client_id,
-        (SELECT id FROM sites WHERE id = (
-            SELECT entite_id FROM liaisons_pieces_jointes 
-            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_site' 
-            LIMIT 1
-        )) as site_id,
-        (SELECT id FROM buildings WHERE id = (
-            SELECT entite_id FROM liaisons_pieces_jointes 
-            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_building' 
-            LIMIT 1
-        )) as building_id,
-        (SELECT id FROM rooms WHERE id = (
-            SELECT entite_id FROM liaisons_pieces_jointes 
-            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_room' 
-            LIMIT 1
-        )) as salle_id
-    FROM pieces_jointes pj
-    INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-    LEFT JOIN users u ON pj.created_by = u.id
-    WHERE pj.masque_client = 0
-    AND (
-        " . $locationWhere . "
-    )
-";
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (" . $locationWhere . ")
+            ";
 
             // Ajouter les filtres optionnels AVANT le GROUP BY
             if ($site_id) {
