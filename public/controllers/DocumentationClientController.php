@@ -101,73 +101,72 @@ class DocumentationClientController
 
             // Requête simplifiée
             $query = "
-        SELECT 
-            pj.*,
-            COALESCE(pj.content, pj.commentaire) as description,
-            u.username as uploader_name,
-            pj.created_by,
-            -- Récupérer les noms via des sous-requêtes
-            (SELECT name FROM clients WHERE id = (
-                SELECT entite_id FROM liaisons_pieces_jointes 
-                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_client' 
-                LIMIT 1
-            )) as client_nom,
-            (SELECT name FROM sites WHERE id = (
-                SELECT entite_id FROM liaisons_pieces_jointes 
-                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_site' 
-                LIMIT 1
-            )) as site_nom,
-            (SELECT name FROM buildings WHERE id = (
-                SELECT entite_id FROM liaisons_pieces_jointes 
-                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_building' 
-                LIMIT 1
-            )) as building_nom,
-            (SELECT name FROM rooms WHERE id = (
-                SELECT entite_id FROM liaisons_pieces_jointes 
-                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_room' 
-                LIMIT 1
-            )) as salle_nom,
-            (SELECT id FROM clients WHERE id = (
-                SELECT entite_id FROM liaisons_pieces_jointes 
-                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_client' 
-                LIMIT 1
-            )) as client_id,
-            (SELECT id FROM sites WHERE id = (
-                SELECT entite_id FROM liaisons_pieces_jointes 
-                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_site' 
-                LIMIT 1
-            )) as site_id,
-            (SELECT id FROM buildings WHERE id = (
-                SELECT entite_id FROM liaisons_pieces_jointes 
-                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_building' 
-                LIMIT 1
-            )) as building_id,
-            (SELECT id FROM rooms WHERE id = (
-                SELECT entite_id FROM liaisons_pieces_jointes 
-                WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_room' 
-                LIMIT 1
-            )) as salle_id
-        FROM pieces_jointes pj
-        INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-        LEFT JOIN users u ON pj.created_by = u.id
-        WHERE pj.masque_client = 0
-        AND (
-            " . $locationWhere . "
-        )
-        GROUP BY pj.id
-    ";
+    SELECT 
+        pj.*,
+        COALESCE(pj.content, pj.commentaire) as description,
+        u.username as uploader_name,
+        pj.created_by,
+        -- Récupérer les noms via des sous-requêtes
+        (SELECT name FROM clients WHERE id = (
+            SELECT entite_id FROM liaisons_pieces_jointes 
+            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_client' 
+            LIMIT 1
+        )) as client_nom,
+        (SELECT name FROM sites WHERE id = (
+            SELECT entite_id FROM liaisons_pieces_jointes 
+            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_site' 
+            LIMIT 1
+        )) as site_nom,
+        (SELECT name FROM buildings WHERE id = (
+            SELECT entite_id FROM liaisons_pieces_jointes 
+            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_building' 
+            LIMIT 1
+        )) as building_nom,
+        (SELECT name FROM rooms WHERE id = (
+            SELECT entite_id FROM liaisons_pieces_jointes 
+            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_room' 
+            LIMIT 1
+        )) as salle_nom,
+        (SELECT id FROM clients WHERE id = (
+            SELECT entite_id FROM liaisons_pieces_jointes 
+            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_client' 
+            LIMIT 1
+        )) as client_id,
+        (SELECT id FROM sites WHERE id = (
+            SELECT entite_id FROM liaisons_pieces_jointes 
+            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_site' 
+            LIMIT 1
+        )) as site_id,
+        (SELECT id FROM buildings WHERE id = (
+            SELECT entite_id FROM liaisons_pieces_jointes 
+            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_building' 
+            LIMIT 1
+        )) as building_id,
+        (SELECT id FROM rooms WHERE id = (
+            SELECT entite_id FROM liaisons_pieces_jointes 
+            WHERE piece_jointe_id = pj.id AND type_liaison = 'documentation_room' 
+            LIMIT 1
+        )) as salle_id
+    FROM pieces_jointes pj
+    INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+    LEFT JOIN users u ON pj.created_by = u.id
+    WHERE pj.masque_client = 0
+    AND (
+        " . $locationWhere . "
+    )
+";
 
-            // Ajouter les filtres optionnels
+            // Ajouter les filtres optionnels AVANT le GROUP BY
             if ($site_id) {
                 $query .= " AND EXISTS (
-                SELECT 1 FROM liaisons_pieces_jointes lpj2 
-                WHERE lpj2.piece_jointe_id = pj.id 
-                AND (
-                    lpj2.entite_id = ? 
-                    OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
-                    OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
-                )
-            )";
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        )";
                 $params[] = $site_id;
                 $params[] = $site_id;
                 $params[] = $site_id;
@@ -175,27 +174,28 @@ class DocumentationClientController
 
             if ($building_id) {
                 $query .= " AND EXISTS (
-                SELECT 1 FROM liaisons_pieces_jointes lpj2 
-                WHERE lpj2.piece_jointe_id = pj.id 
-                AND (
-                    lpj2.entite_id = ? 
-                    OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
-                )
-            )";
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        )";
                 $params[] = $building_id;
                 $params[] = $building_id;
             }
 
             if ($salle_id) {
                 $query .= " AND EXISTS (
-                SELECT 1 FROM liaisons_pieces_jointes lpj2 
-                WHERE lpj2.piece_jointe_id = pj.id 
-                AND lpj2.entite_id = ?
-            )";
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND lpj2.entite_id = ?
+        )";
                 $params[] = $salle_id;
             }
 
-            $query .= " ORDER BY pj.date_creation DESC";
+            // GROUP BY et ORDER BY sont ajoutés APRÈS tous les filtres
+            $query .= " GROUP BY pj.id ORDER BY pj.date_creation DESC";
 
             custom_log("DocumentationClientController::index - Requête SQL: " . $query, 'DEBUG');
             custom_log("DocumentationClientController::index - Paramètres: " . json_encode($params), 'DEBUG');
