@@ -108991,3 +108991,23 @@ Quant à l’écran n°1, il est HS
              GROUP BY pj.id ORDER BY pj.date_creation DESC 
 [2026-07-08 11:54:02][DEBUG] DocumentationClientController::index - Paramètres: [22,35,25,77,22,35,25,72,22,35,25,73,22,35,25,74,22,35,25,75,22,35,25,76,22,35,25,78,22,35,25,79,22,35,25,80,22,35,25,81,22,35,25,82,22,35,25,83,22,35,25,84,22,35,25,297] 
 [2026-07-08 11:54:02][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 17 
+[2026-07-08 13:21:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 04c07b922592872e277f... 
+[2026-07-08 13:21:39][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-08 13:21:39][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-08 13:21:39][DEBUG] Login réussi - Session ID: 9pha0r2nqffri0ujjq65pqe6i6 
+[2026-07-08 13:21:39][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-08 13:21:39][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-08 13:21:39][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-08 13:21:39][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-08 14:17:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 78ff82272edb67604af8... 
+[2026-07-08 14:17:23][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-08 14:17:23][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-08 14:17:23][DEBUG] Login réussi - Session ID: 1abu9gbld3adihsnkibf9be5re 
+[2026-07-08 14:17:23][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-08 14:17:23][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-08 14:17:23][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-08 14:17:23][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-08 14:32:35][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'NULLS LAST' at line 24 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":99}
+[2026-07-08 14:33:12][ERROR] Erreur : SQLSTATE[42S02]: Base table or view not found: 1146 Table 'avision.techniciens' doesn't exist {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":99}
+[2026-07-08 14:33:14][ERROR] Erreur : SQLSTATE[42S02]: Base table or view not found: 1146 Table 'avision.techniciens' doesn't exist {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":99}
+[2026-07-08 14:33:45][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 't.name' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":98}

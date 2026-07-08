@@ -52,11 +52,10 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ Wrapper DataTables supprimé");
   }
 
-  // === INITIALISATION ===
   const dt = new DataTable(table, {
     pageLength: 10,
     lengthMenu: [10, 25, 50, 100],
-    order: [[0, "asc"]],
+    order: [],
     layout: {
       topStart: {
         search: {

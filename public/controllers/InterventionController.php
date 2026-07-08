@@ -103,90 +103,88 @@ class InterventionController
         // Par défaut, retourner vers les curatives
         return BASE_URL . 'interventions/curatives';
     }
-    /**
-     * Affiche la liste des interventions
-     */
-    public function index()
-    {
-        // Vérifier les permissions
-        $this->checkAccess();
+    // /**
+    //  * Affiche la liste des interventions
+    //  */
+    // public function index()
+    // {
+    //     // Vérifier les permissions
+    //     $this->checkAccess();
 
-        // Récupérer les filtres
-        $filters = [
-            'client_id' => $_GET['client_id'] ?? null,
-            'site_id' => $_GET['site_id'] ?? null,
-            'room_id' => $_GET['room_id'] ?? null,
-            'status_id' => $_GET['status_id'] ?? null,
-            'priority_id' => $_GET['priority_id'] ?? null,
-            'created_at' => $_GET['created_at'] ?? null,
-            'search' => $_GET['search'] ?? null
-        ];
+    //     // Récupérer les filtres
+    //     $filters = [
+    //         'client_id' => $_GET['client_id'] ?? null,
+    //         'site_id' => $_GET['site_id'] ?? null,
+    //         'room_id' => $_GET['room_id'] ?? null,
+    //         'status_id' => $_GET['status_id'] ?? null,
+    //         'priority_id' => $_GET['priority_id'] ?? null,
+    //         'created_at' => $_GET['created_at'] ?? null,
+    //         'search' => $_GET['search'] ?? null
+    //     ];
 
-        // Déterminer l'onglet actif
-        $activeTab = $_GET['tab'] ?? 'non-preventive';
+    //     // Déterminer l'onglet actif
+    //     $activeTab = $_GET['tab'] ?? 'non-preventive';
 
-        // Récupérer les interventions selon l'onglet actif en utilisant le champ is_preventive
-        $interventions = [];
-        if ($activeTab === 'preventive') {
-            // Onglet préventives
-            $filters['is_preventive'] = 1;
-            $interventions = $this->interventionModel->getAll($filters);
-        } elseif ($activeTab === 'all') {
-            // Onglet toutes
-            $interventions = $this->interventionModel->getAll($filters);
-        } else {
-            // Onglet non-préventives (curatives)
-            $filters['is_preventive'] = 0;
-            $interventions = $this->interventionModel->getAll($filters);
-        }
+    //     // Récupérer les interventions selon l'onglet actif en utilisant le champ is_preventive
+    //     $interventions = [];
+    //     if ($activeTab === 'preventive') {
+    //         // Onglet préventives
+    //         $filters['is_preventive'] = 1;
+    //         $interventions = $this->interventionModel->getAll($filters);
+    //     } elseif ($activeTab === 'all') {
+    //         // Onglet toutes
+    //         $interventions = $this->interventionModel->getAll($filters);
+    //     } else {
+    //         // Onglet non-préventives (curatives)
+    //         $filters['is_preventive'] = 0;
+    //         $interventions = $this->interventionModel->getAll($filters);
+    //     }
 
-        // Récupérer les données pour les filtres
-        $clients = $this->clientModel->getAllClientsWithStats();
-        $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
-        $buildings = !empty($filters['site_id']) ? $this->buildingModel->getBuildingsBySiteId($filters['site_id']) : [];
-        $rooms = !empty($filters['building_id']) ? $this->roomModel->getRoomsByBuildingId($filters['building_id']) : [];
-        $technicians = $this->userModel->getTechnicians();
+    //     // Récupérer les données pour les filtres
+    //     $clients = $this->clientModel->getAllClientsWithStats();
+    //     $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
+    //     $buildings = !empty($filters['site_id']) ? $this->buildingModel->getBuildingsBySiteId($filters['site_id']) : [];
+    //     $rooms = !empty($filters['building_id']) ? $this->roomModel->getRoomsByBuildingId($filters['building_id']) : [];
+    //     $technicians = $this->userModel->getTechnicians();
 
-        // Récupérer les statuts
-        $statuses = $this->getAllStatuses();
+    //     // Récupérer les statuts
+    //     $statuses = $this->getAllStatuses();
 
-        // Récupérer les statistiques globales par onglet (sans filtres)
-        $statsByTab = [];
+    //     // Récupérer les statistiques globales par onglet (sans filtres)
+    //     $statsByTab = [];
 
-        // Statistiques globales pour non-préventives
-        $statsByTab['non-preventive'] = $this->interventionModel->getStats(['is_preventive' => 0]);
+    //     // Statistiques globales pour non-préventives
+    //     $statsByTab['non-preventive'] = $this->interventionModel->getStats(['is_preventive' => 0]);
 
-        // Statistiques globales pour préventives
-        $statsByTab['preventive'] = $this->interventionModel->getStats(['is_preventive' => 1]);
+    //     // Statistiques globales pour préventives
+    //     $statsByTab['preventive'] = $this->interventionModel->getStats(['is_preventive' => 1]);
 
-        // Statistiques globales pour toutes
-        $statsByTab['all'] = $this->interventionModel->getStats([]);
+    //     // Statistiques globales pour toutes
+    //     $statsByTab['all'] = $this->interventionModel->getStats([]);
 
-        // Récupérer les statistiques par statut pour les filtres rapides (selon l'onglet actif)
-        $statsByStatus = [];
-        if ($activeTab === 'preventive') {
-            $statsByStatus = $this->interventionModel->getStatsByStatus(['is_preventive' => 1]);
-        } elseif ($activeTab === 'all') {
-            $statsByStatus = $this->interventionModel->getStatsByStatus([]);
-        } else {
-            $statsByStatus = $this->interventionModel->getStatsByStatus(['is_preventive' => 0]);
-        }
+    //     // Récupérer les statistiques par statut pour les filtres rapides (selon l'onglet actif)
+    //     $statsByStatus = [];
+    //     if ($activeTab === 'preventive') {
+    //         $statsByStatus = $this->interventionModel->getStatsByStatus(['is_preventive' => 1]);
+    //     } elseif ($activeTab === 'all') {
+    //         $statsByStatus = $this->interventionModel->getStatsByStatus([]);
+    //     } else {
+    //         $statsByStatus = $this->interventionModel->getStatsByStatus(['is_preventive' => 0]);
+    //     }
 
-        // Vérifier la permission de gestion des interventions
-        $canManageInterventions = $this->checkPermission('technicien', 'manage_interventions');
+    //     // Vérifier la permission de gestion des interventions
+    //     $canManageInterventions = $this->checkPermission('technicien', 'manage_interventions');
 
-        // Charger la vue
-        require_once __DIR__ . '/../views/interventions/index.php';
-    }
+    //     // Charger la vue
+    //     require_once __DIR__ . '/../views/interventions/index.php';
+    // }
     /**
      * Affiche la liste des interventions curatives
      */
     public function curatives()
     {
-        // Vérifier les permissions
         $this->checkAccess();
 
-        // Récupérer les filtres
         $filters = [
             'client_id' => $_GET['client_id'] ?? null,
             'site_id' => $_GET['site_id'] ?? null,
@@ -195,22 +193,17 @@ class InterventionController
             'status_id' => $_GET['status_id'] ?? null,
             'priority_id' => $_GET['priority_id'] ?? null,
             'search' => $_GET['search'] ?? null,
-            'is_preventive' => 0  // Utiliser le champ is_preventive
+            'is_preventive' => 0
         ];
 
-        // Récupérer les interventions curatives
         $interventions = $this->interventionModel->getAll($filters);
 
-        // Récupérer les données pour les filtres
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
         $buildings = !empty($filters['site_id']) ? $this->buildingModel->getBuildingsBySiteId($filters['site_id']) : [];
         $rooms = !empty($filters['building_id']) ? $this->roomModel->getRoomsByBuildingId($filters['building_id']) : [];
-
-        // Récupérer les statuts
         $statuses = $this->getAllStatuses();
 
-        // Statistiques
         $statsByTab = [
             'non-preventive' => $this->interventionModel->getStats(['is_preventive' => 0]),
             'preventive' => $this->interventionModel->getStats(['is_preventive' => 1])
@@ -218,7 +211,6 @@ class InterventionController
 
         $statsByStatus = $this->interventionModel->getStatsByStatus(['is_preventive' => 0]);
 
-        // Charger la vue
         require_once __DIR__ . '/../views/interventions/index.php';
     }
 
@@ -227,10 +219,8 @@ class InterventionController
      */
     public function preventives()
     {
-        // Vérifier les permissions
         $this->checkAccess();
 
-        // Récupérer les filtres
         $filters = [
             'client_id' => $_GET['client_id'] ?? null,
             'site_id' => $_GET['site_id'] ?? null,
@@ -238,22 +228,18 @@ class InterventionController
             'status_id' => $_GET['status_id'] ?? null,
             'priority_id' => $_GET['priority_id'] ?? null,
             'search' => $_GET['search'] ?? null,
-            'is_preventive' => 1  // Utiliser le champ is_preventive
+            'is_preventive' => 1
         ];
 
-        // Récupérer les interventions préventives
         $interventions = $this->interventionModel->getAll($filters);
 
-        // Récupérer les données pour les filtres
         $clients = $this->clientModel->getAllClientsWithStats();
         $sites = !empty($filters['client_id']) ? $this->siteModel->getSitesByClientId($filters['client_id']) : [];
         $buildings = !empty($filters['site_id']) ? $this->buildingModel->getBuildingsBySiteId($filters['site_id']) : [];
         $rooms = !empty($filters['building_id']) ? $this->roomModel->getRoomsByBuildingId($filters['building_id']) : [];
 
-        // Récupérer les statuts
         $statuses = $this->getAllStatuses();
 
-        // Statistiques
         $statsByTab = [
             'non-preventive' => $this->interventionModel->getStats(['is_preventive' => 0]),
             'preventive' => $this->interventionModel->getStats(['is_preventive' => 1])

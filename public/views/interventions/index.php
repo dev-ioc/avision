@@ -38,7 +38,6 @@ $perPage = 15;
 $page = isset($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
 $offset = ($page - 1) * $perPage;
 
-// Récupérer toutes les interventions (pour mobile)
 $allInterventions = $interventions ?? [];
 
 // Paginer manuellement pour mobile
@@ -82,8 +81,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
       <?php endif; ?>
     </div>
   </div>
-
-  <!-- TABLE DESKTOP - DataTables gère la pagination -->
   <div class="table-responsive d-none d-md-block">
     <table id="interventionsTable" class="table table-striped table-hover">
       <thead>
@@ -106,9 +103,9 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
         <?php else: ?>
           <?php foreach ($allInterventions as $intervention): ?>
             <tr>
-              <td data-order="<?= $intervention['created_at'] ?>">
-                <?= !empty($intervention['created_at'])
-                  ? date('d/m/Y H:i', strtotime($intervention['created_at']))
+              <td>
+                <?= !empty($intervention['scheduled_start_time'])
+                  ? date('d/m/Y', strtotime($intervention['scheduled_start_time']))
                   : '-' ?>
               </td>
               <td>
@@ -144,7 +141,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
       </tbody>
     </table>
   </div>
-  <!-- 📱 MOBILE CARDS - Pagination manuelle -->
   <div class="mobile-interventions d-block d-md-none">
     <?php if (empty($paginatedInterventions)): ?>
       <div class="text-center py-4">
@@ -153,7 +149,12 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
     <?php else: ?>
       <?php foreach ($paginatedInterventions as $intervention): ?>
         <div class="intervention-card">
-          <!-- En-tête avec référence et titre -->
+          <div class="intervention-date">
+            <i class="bi bi-calendar3"></i>
+            <?= !empty($intervention['scheduled_start_time'])
+              ? date('d/m/Y', strtotime($intervention['scheduled_start_time']))
+              : '-' ?>
+          </div>
           <div class="intervention-header">
             <div class="intervention-reference">
               <a href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>">
@@ -164,8 +165,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
               <?= htmlspecialchars($intervention['title'] ?? '-') ?>
             </div>
           </div>
-
-          <!-- Client et site -->
           <div class="intervention-location">
             <div class="client-info">
               <i class="bi bi-building"></i>
@@ -182,8 +181,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
               </div>
             <?php endif; ?>
           </div>
-
-          <!-- Badges statut et priorité -->
           <div class="intervention-badges">
             <span class="badge" style="background: <?= $intervention['status_color'] ?? '#6c757d' ?>; color: #fff;">
               <i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>
@@ -194,16 +191,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
               <?= htmlspecialchars($intervention['priority_name'] ?? '-') ?>
             </span>
           </div>
-
-          <!-- Date de création -->
-          <div class="intervention-date">
-            <i class="bi bi-calendar3"></i>
-            <?= !empty($intervention['created_at'])
-              ? date('d/m/Y H:i', strtotime($intervention['created_at']))
-              : '-' ?>
-          </div>
-
-          <!-- Salle (si pas déjà affichée) -->
           <?php if (empty($intervention['site_name']) && !empty($intervention['room_name']) && $intervention['room_name'] != '-'): ?>
             <div class="intervention-room">
               <i class="bi bi-door-closed"></i>
@@ -214,8 +201,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
         </div>
       <?php endforeach; ?>
     <?php endif; ?>
-
-    <!-- PAGINATION MOBILE -->
     <?php if ($totalPages > 1): ?>
       <div class="pagination-mobile text-center mt-4">
         <div class="btn-group" role="group">
@@ -237,8 +222,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
             </a>
           <?php endif; ?>
         </div>
-
-        <!-- Sélecteur de page rapide -->
         <?php if ($totalPages > 5): ?>
           <div class="mt-2">
             <select class="form-select form-select-sm d-inline-block w-auto" id="mobilePageSelect">
@@ -256,8 +239,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
   </div>
 
 </div>
-
-<!-- STYLE MOBILE -->
 <style>
   @media (max-width: 768px) {
     .intervention-card {
@@ -352,11 +333,8 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
     }
   }
 </style>
-
-<!-- SCRIPT POUR LA NAVIGATION RAPIDE -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Navigation par select sur mobile
     const pageSelect = document.getElementById('mobilePageSelect');
     if (pageSelect) {
       pageSelect.addEventListener('change', function () {
@@ -373,7 +351,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
 <script src="<?= BASE_URL ?>assets/js/datatable-persistence.js"></script>
 <script src="<?= BASE_URL ?>assets/js/interventions-datatable.js"></script>
 <?php if (!$isPreventivePage && canModifyInterventions()): ?>
-  <!-- Modale Flash Intervention -->
   <div class="modal fade" id="flashInterventionModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -502,8 +479,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       document.querySelectorAll('.modal').forEach(function (modal) {
-
-        // Réinitialiser la position à la fermeture
         modal.addEventListener('hidden.bs.modal', function () {
           const dialog = modal.querySelector('.modal-dialog');
           if (dialog) {
@@ -520,8 +495,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
           const dialog = modal.querySelector('.modal-dialog');
           const header = modal.querySelector('.modal-header');
           if (!dialog || !header) return;
-
-          // Éviter d'attacher plusieurs fois le listener
           if (header.dataset.draggable) return;
           header.dataset.draggable = 'true';
 
@@ -541,8 +514,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
             startY = e.clientY;
             startLeft = rect.left;
             startTop = rect.top;
-
-            // Figer la largeur AVANT de passer en fixed
             dialog.style.width = rect.width + 'px';
             dialog.style.maxWidth = 'none';
             dialog.style.position = 'fixed';
