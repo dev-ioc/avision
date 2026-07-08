@@ -109011,3 +109011,12 @@ Quant à l’écran n°1, il est HS
 [2026-07-08 14:33:12][ERROR] Erreur : SQLSTATE[42S02]: Base table or view not found: 1146 Table 'avision.techniciens' doesn't exist {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":99}
 [2026-07-08 14:33:14][ERROR] Erreur : SQLSTATE[42S02]: Base table or view not found: 1146 Table 'avision.techniciens' doesn't exist {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":99}
 [2026-07-08 14:33:45][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 't.name' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":98}
+[2026-07-08 14:49:33][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: fihu84qtansq00c2155s5e6vnp) 
+[2026-07-08 14:49:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 3cd189ed68f9a39cb247... 
+[2026-07-08 14:49:37][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-08 14:49:37][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-08 14:49:37][DEBUG] Login réussi - Session ID: fihu84qtansq00c2155s5e6vnp 
+[2026-07-08 14:49:37][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-07-08 14:49:37][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-08 14:49:37][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-07-08 14:49:37][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
