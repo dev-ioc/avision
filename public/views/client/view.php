@@ -812,7 +812,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </table>
                           </div>
                         <?php endif; ?>
-
                         <!-- Interventions correctives -->
                         <?php
                         $correctives = isset($contractGroup['corrective']) ? $contractGroup['corrective'] : [];
@@ -836,8 +835,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                   <tr>
                                     <td>
                                       <?= !empty($intervention['created_at'])
-                                      ? date('d/m/Y', strtotime($intervention['created_at']))
-                                      : '-' ?></td>
+                                        ? date('d/m/Y', strtotime($intervention['created_at']))
+                                        : '-' ?>
+                                    </td>
                                     <td>
                                       <a
                                         href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>?return_to=client&client_id=<?= $client['id'] ?>&active_tab=interventions-tab">
