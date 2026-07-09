@@ -301,10 +301,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 
     <div class="tab-content" id="clientTabsContent">
-<<<<<<< HEAD
-      <!-- Onglet Informations -->
-=======
->>>>>>> fix-bug
       <div class="tab-pane fade " id="info" role="tabpanel" aria-labelledby="info-tab">
         <div class="card">
           <div class="card-header py-2">
@@ -386,9 +382,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <table class="table table-striped" id="contactsTable">
                   <thead>
                     <tr>
-                      <th class="sortable" data-sort="first_name">Prénom <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                      <th class="sortable" data-sort="first_name">Prénom <i class="bi bi-arrow-down-up sort-icon"></i>
+                      </th>
                       <th class="sortable" data-sort="last_name">Nom <i class="bi bi-arrow-down-up sort-icon"></i></th>
-                      <th class="sortable" data-sort="fonction">Fonction <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                      <th class="sortable" data-sort="fonction">Fonction <i class="bi bi-arrow-down-up sort-icon"></i>
+                      </th>
                       <th class="sortable" data-sort="phone1">Téléphone fixe <i class="bi bi-arrow-down-up sort-icon"></i>
                       </th>
                       <th class="sortable" data-sort="phone2">Mobile <i class="bi bi-arrow-down-up sort-icon"></i></th>
@@ -874,10 +872,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
           </div>
         </div>
       </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> fix-bug
       <!-- Onglet Matériel -->
       <div class="tab-pane fade show active" id="materiel" role="tabpanel" aria-labelledby="materiel-tab">
         <div class="card">
