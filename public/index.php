@@ -620,6 +620,9 @@ try {
                 case 'get_rooms_by_building':
                     $documentationController->get_rooms_by_building();
                     break;
+                case 'search_api':
+                    $documentationController->searchApi();
+                    break;
 
             }
             break;

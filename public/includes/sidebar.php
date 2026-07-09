@@ -159,10 +159,9 @@ require_once __DIR__ . '/functions.php';
           <div data-i18n="documentation">Documentation</div>
         </a>
       </li>
-      <!-- Lien externe vers Avance -->
-      <li class="menu-item">
+      <li class="menu-item  <?php echo isActivePage('avance'); ?></li>">
         <a href="https://avance-vdsc.vercel.app/" class="menu-link" target="_blank" rel="noopener noreferrer">
-          <i class="menu-icon bi bi-box-arrow-up-right"></i>
+          <img src="<?php echo BASE_URL; ?>assets/img/Avance.png" class="menu-icon avance-logo" alt="Avance">
           <div data-i18n="avance">Avance</div>
         </a>
       </li>

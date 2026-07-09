@@ -783,9 +783,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                       <?php echo h($intervention['created_at'] ?? '-'); ?>
                                     </td>
                                     <td>
-                                      <?php echo h($intervention['reference'] ?? '-'); ?>
-                                    <td>
-                                      <?php echo h($intervention['title'] ?? '-'); ?>
+                                      <a href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>">
+                                                              <?= htmlspecialchars($intervention['reference'] ?? '-') ?>
+                                      </a>
+                                    </td>
+                                    <?php echo h($intervention['title'] ?? '-'); ?>
                                     <td>
                                       <?= htmlspecialchars($intervention['site_name'] ?? '-') ?>
                                     </td>

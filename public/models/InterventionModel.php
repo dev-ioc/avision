@@ -27,9 +27,7 @@ class InterventionModel extends BaseModel
         its.color as status_color,
         it.name as type_name,
         ip.name as priority_name,
-        ip.color as priority_color,
-        itech.start_time as scheduled_start_time,
-        itech.end_time as scheduled_end_time
+        ip.color as priority_color
         FROM " . $this->table . " i
         LEFT JOIN clients c ON i.client_id = c.id
         LEFT JOIN sites s ON i.site_id = s.id
@@ -38,7 +36,6 @@ class InterventionModel extends BaseModel
         LEFT JOIN intervention_statuses its ON i.status_id = its.id
         LEFT JOIN intervention_types it ON i.type_id = it.id
         LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
-        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
         WHERE 1=1";
 
         $params = [];
@@ -91,7 +88,7 @@ class InterventionModel extends BaseModel
             $params = array_merge($params, $filters['exclude_priority_ids']);
         }
 
-        $sql .= " ORDER BY itech.start_time DESC";
+        $sql .= " ORDER BY i.created_at DESC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);

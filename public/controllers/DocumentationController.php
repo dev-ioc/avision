@@ -2348,5 +2348,82 @@ class DocumentationController
             echo json_encode(['error' => 'Erreur lors de la récupération des salles']);
         }
     }
+    /**
+     * Recherche globale de documentation en AJAX — renvoie du JSON, sans recharger la page.
+     * Réutilise la même logique de jointures que index() pour rester cohérent.
+     */
+    public function searchApi()
+    {
+        header('Content-Type: application/json; charset=utf-8');
 
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'error' => 'Non autorisé']);
+            exit;
+        }
+
+        $term = trim($_GET['search'] ?? '');
+
+        if (mb_strlen($term) < 2) {
+            echo json_encode(['success' => true, 'documents' => []]);
+            exit;
+        }
+
+        try {
+            $searchTerm = '%' . $term . '%';
+
+            $query = "
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    COALESCE(c.name, c2.name, c3.name) as client_nom,
+                    COALESCE(s.name, s2.name) as site_nom,
+                    b.name as building_nom,
+                    r.name as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id) as client_id,
+                    COALESCE(s.id, s2.id) as site_id,
+                    b.id as building_id,
+                    r.id as salle_id,
+                    u.username as uploader_name
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b ON r.building_id = b.id
+                LEFT JOIN sites s2 ON b.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+                LEFT JOIN users u ON pj.created_by = u.id
+                WHERE lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
+                AND (
+                    pj.nom_fichier LIKE ? OR
+                    pj.nom_personnalise LIKE ? OR
+                    pj.commentaire LIKE ? OR
+                    pj.content LIKE ? OR
+                    COALESCE(c.name, c2.name, c3.name) LIKE ? OR
+                    COALESCE(s.name, s2.name) LIKE ? OR
+                    b.name LIKE ? OR
+                    r.name LIKE ?
+                )
+                ORDER BY client_nom, site_nom, building_nom, salle_nom, pj.date_creation DESC
+            ";
+
+            $params = array_fill(0, 8, $searchTerm);
+
+            $stmt = $this->db->prepare($query);
+            $stmt->execute($params);
+            $documents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            echo json_encode([
+                'success' => true,
+                'documents' => $documents,
+            ]);
+        } catch (Exception $e) {
+            custom_log("Erreur searchApi documentation : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur lors de la recherche']);
+        }
+        exit;
+    }
 }

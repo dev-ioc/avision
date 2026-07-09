@@ -104,8 +104,8 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
           <?php foreach ($allInterventions as $intervention): ?>
             <tr>
               <td>
-                <?= !empty($intervention['scheduled_start_time'])
-                  ? date('d/m/Y', strtotime($intervention['scheduled_start_time']))
+                <?= !empty($intervention['created_at'])
+                  ? date('d/m/Y', strtotime($intervention['created_at']))
                   : '-' ?>
               </td>
               <td>
@@ -151,8 +151,8 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
         <div class="intervention-card">
           <div class="intervention-date">
             <i class="bi bi-calendar3"></i>
-            <?= !empty($intervention['scheduled_start_time'])
-              ? date('d/m/Y', strtotime($intervention['scheduled_start_time']))
+            <?= !empty($intervention['created_at'])
+              ? date('d/m/Y', strtotime($intervention['created_at']))
               : '-' ?>
           </div>
           <div class="intervention-header">
