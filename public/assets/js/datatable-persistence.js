@@ -1,111 +1,117 @@
-/**
- * DataTable Persistence Utility
- * Gère la persistance des configurations DataTable (pageLength, etc.)
- */
+document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
 
-window.DataTablePersistence = {
-  /**
-   * Clé de base pour localStorage
-   */
-  STORAGE_PREFIX: 'datatable_',
+  const table = document.querySelector("#interventionsTable");
+  if (!table) return;
 
-  /**
-   * Récupère la configuration sauvegardée pour une table spécifique
-   * @param {string} tableId - ID de la table
-   * @param {string} setting - Nom du paramètre (pageLength, order, etc.)
-   * @param {*} defaultValue - Valeur par défaut si aucune sauvegarde
-   * @returns {*} Valeur sauvegardée ou valeur par défaut
-   */
-  getSetting: function(tableId, setting, defaultValue) {
-    try {
-      const key = this.STORAGE_PREFIX + tableId + '_' + setting;
-      const stored = localStorage.getItem(key);
-      return stored !== null ? JSON.parse(stored) : defaultValue;
-    } catch (e) {
-      console.warn('Erreur lors de la récupération du paramètre DataTable:', e);
-      return defaultValue;
-    }
-  },
+  table.querySelectorAll("tbody tr td[colspan]").forEach((td) => {
+    td.closest("tr").remove();
+  });
 
-  /**
-   * Sauvegarde une configuration pour une table spécifique
-   * @param {string} tableId - ID de la table
-   * @param {string} setting - Nom du paramètre
-   * @param {*} value - Valeur à sauvegarder
-   */
-  setSetting: function(tableId, setting, value) {
-    try {
-      const key = this.STORAGE_PREFIX + tableId + '_' + setting;
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (e) {
-      console.warn('Erreur lors de la sauvegarde du paramètre DataTable:', e);
+  // === NETTOYAGE COMPLET ===
+  // Désactivé pour permettre la persistance des paramètres DataTable
+  // Le nettoyage supprimait les préférences utilisateur (pageLength, etc.)
+  /*
+  Object.keys(localStorage).forEach((key) => {
+    if (key.includes("DataTable") || key.includes("interventionsTable")) {
+      localStorage.removeItem(key);
+      console.log(`🗑️ Supprimé: ${key}`);
     }
-  },
+  });
+  */
 
-  /**
-   * Récupère la configuration complète pour une table
-   * @param {string} tableId - ID de la table
-   * @returns {object} Configuration complète
-   */
-  getTableConfig: function(tableId) {
-    return {
-      pageLength: this.getSetting(tableId, 'pageLength', 10),
-      order: this.getSetting(tableId, 'order', [[0, 'asc']]),
-      search: this.getSetting(tableId, 'search', ''),
-      page: this.getSetting(tableId, 'page', 0)
-    };
-  },
-
-  /**
-   * Sauvegarde la configuration complète d'une table
-   * @param {string} tableId - ID de la table
-   * @param {object} config - Configuration à sauvegarder
-   */
-  saveTableConfig: function(tableId, config) {
-    if (config.pageLength !== undefined) {
-      this.setSetting(tableId, 'pageLength', config.pageLength);
+  try {
+    if (
+      typeof $ !== "undefined" &&
+      $.fn.DataTable &&
+      $.fn.DataTable.isDataTable(table)
+    ) {
+      $(table).DataTable().destroy();
+    } else if (
+      typeof DataTable !== "undefined" &&
+      DataTable.isDataTable(table)
+    ) {
+      console.log("Instance DataTable native détectée");
     }
-    if (config.order !== undefined) {
-      this.setSetting(tableId, 'order', config.order);
-    }
-    if (config.search !== undefined) {
-      this.setSetting(tableId, 'search', config.search);
-    }
-    if (config.page !== undefined) {
-      this.setSetting(tableId, 'page', config.page);
-    }
-  },
-
-  /**
-   * Efface toutes les configurations sauvegardées
-   */
-  clearAllSettings: function() {
-    try {
-      const keys = Object.keys(localStorage);
-      keys.forEach(key => {
-        if (key.startsWith(this.STORAGE_PREFIX)) {
-          localStorage.removeItem(key);
-        }
-      });
-    } catch (e) {
-      console.warn('Erreur lors de la suppression des paramètres DataTable:', e);
-    }
-  },
-
-  /**
-   * Efface la configuration d'une table spécifique
-   * @param {string} tableId - ID de la table
-   */
-  clearTableSettings: function(tableId) {
-    try {
-      const keys = Object.keys(localStorage);
-      keys.forEach(key => {
-        if (key.startsWith(this.STORAGE_PREFIX + tableId + '_')) {
-          localStorage.removeItem(key);
-        }
-      });
-    } catch (e) {
-      console.warn('Erreur lors de la suppression des paramètres DataTable:', e);
-    }
+  } catch (e) {
+    console.log("Aucune instance à détruire");
   }
-}; 
+
+  table.classList.remove("dataTable");
+  table.removeAttribute("data-dt-instance");
+
+  // 4. Supprimer les wrappers DataTables si présents
+  const wrapper = table.closest(".dataTables_wrapper");
+  if (wrapper && wrapper.parentNode) {
+    const parent = wrapper.parentNode;
+    parent.insertBefore(table, wrapper);
+    parent.removeChild(wrapper);
+  }
+
+  const savedPageLength = DataTablePersistence.getSetting(
+    "interventionsTable",
+    "pageLength",
+    10,
+  );
+
+  const dt = new DataTable(table, {
+    pageLength: savedPageLength,
+    lengthMenu: [10, 25, 50, 100],
+
+    order: [],
+
+    layout: {
+      topStart: {
+        search: {
+          placeholder: "Rechercher...",
+        },
+      },
+      topEnd: {
+        features: [
+          {
+            pageLength: {
+              menu: [10, 25, 50, 100],
+            },
+          },
+        ],
+      },
+      bottomStart: ["info"],
+      bottomEnd: ["paging"],
+    },
+
+    language: {
+      url: (window.BASE_URL || "") + "assets/json/locales/datatables-fr.json",
+    },
+
+    responsive: {
+      details: {
+        display: DataTable.Responsive.display.modal({
+          header: function (row) {
+            const data = row.data();
+            return "Détails : " + (data[0] || "");
+          },
+        }),
+        type: "column",
+      },
+    },
+
+    columnDefs: [
+      { targets: 0, responsivePriority: 1 },
+      { targets: 1, responsivePriority: 2 },
+      { targets: 2, responsivePriority: 3 },
+      { targets: 3, responsivePriority: 4 },
+      { targets: 4, responsivePriority: 5 },
+      { targets: 5, responsivePriority: 6 },
+      { targets: 6, responsivePriority: 7 },
+      { targets: 7, responsivePriority: 8 },
+    ],
+
+    initComplete: function () {
+      console.log("DataTable initialisée avec succès");
+    },
+  });
+
+  dt.on("length.dt", function (e, settings, len) {
+    DataTablePersistence.setSetting("interventionsTable", "pageLength", len);
+  });
+});
