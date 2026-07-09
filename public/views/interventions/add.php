@@ -46,7 +46,10 @@ include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
 ?>
-
+<header>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</header>
 <div class="container-fluid flex-grow-1 container-p-y">
 
     <div class="d-flex flex-row align-items-center justify-content-between">
@@ -225,6 +228,25 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 </select>
                                 <small id="contractError" class="text-danger d-none">Le contrat est obligatoire.</small>
                             </div>
+                            <div>
+                                <label class="form-label fw-bold mb-0">Technicien(s) à affecter</label>
+                                <select class="form-select bg-body text-body" id="technicien_ids" name="technicien_ids[]" multiple size="4">
+                                    <?php foreach ($technicians as $technician): ?>
+                                        <option value="<?= $technician['id'] ?>">
+                                            <?= h(($technician['first_name'] ?? '') . ' ' . ($technician['last_name'] ?? '')) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <small class="text-muted d-block mt-1">
+                                    Ctrl + clic pour sélectionner plusieurs techniciens.
+                                </small>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" id="notify_technician" name="notify_technician" value="1" checked>
+                                    <label class="form-check-label" for="notify_technician">
+                                        Notifier le(s) technicien(s) par email
+                                    </label>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
@@ -395,7 +417,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- Modale site -->
 <div class="modal fade" id="quickCreateSiteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -448,7 +469,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- Modale bâtiment -->
 <div class="modal fade" id="quickCreateBuildingModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -481,7 +501,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- Modale salle -->
 <div class="modal fade" id="quickCreateRoomModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -514,7 +533,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- Modale contact -->
 <div class="modal fade" id="quickCreateContactModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -567,7 +585,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- Modale notification technicien -->
 <div class="modal fade" id="notifyTechnicianModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -592,7 +609,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- ===== STYLES ===== -->
 <style>
     .contact-info-card {
         border-width: 2px !important;
@@ -638,16 +654,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
         initBaseUrl('<?php echo BASE_URL; ?>');
 
         const canModifyClients = <?php echo canModifyClients() ? 'true' : 'false'; ?>;
-
-        // ── Sélecteurs principaux ────────────────────────────────────────────────
         const clientSelect = document.getElementById('client_id');
         const siteSelect = document.getElementById('site_id');
         const buildingSelect = document.getElementById('building_id');
         const roomSelect = document.getElementById('room_id');
         const contractSelect = document.getElementById('contract_id');
-
-        // ── Chargement en cascade ────────────────────────────────────────────────
-
+        const technicienSelect= document.getElementById('technician_id');
         <?php if ($selectedClientId): ?>
             if (clientSelect.value) {
                 loadSites(clientSelect.value, 'site_id', null, null, function () {
@@ -695,7 +707,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     .catch(err => console.error('Erreur contrat salle:', err));
             }
         });
-
+        technicienSelect
         // ── Contacts ─────────────────────────────────────────────────────────────
 
         const contactClientSelect = document.getElementById('contact_client_select');

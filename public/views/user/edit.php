@@ -126,7 +126,7 @@ echo '</script>';
                             <label for="current_password" class="form-label">Mot de passe actuel</label>
                             <div class="input-group">
                                 <input type="password" class="form-control bg-body text-body" id="current_password" 
-                                       value="••••••••" readonly style="background-color: #f8f9fa; cursor: not-allowed;">
+                                        style="background-color: #f8f9fa;">
                                 <button class="btn btn-outline-secondary" type="button" id="toggleCurrentPassword" 
                                         title="Mot de passe actuel (non modifiable)">
                                     <i class="bi bi-eye me-1"></i>

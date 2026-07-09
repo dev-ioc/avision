@@ -1080,22 +1080,200 @@ class UserModel extends BaseModel
             return [];
         }
     }
-    public function savePasswordResetToken($userId, $token, $expiresAt)
+    /**
+     * Sauvegarde un token de réinitialisation de mot de passe
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @param string $token Token de réinitialisation
+     * @param string $expiresAt Date d'expiration (format Y-m-d H:i:s)
+     * @param int|null $requestedBy ID de l'admin qui fait la demande (null si demandé par l'utilisateur lui-même)
+     * @return bool
+     */
+    public function savePasswordResetToken($userId, $token, $expiresAt, $requestedBy = null)
     {
-        // Supprimer les anciens tokens de cet utilisateur
-        $stmt = $this->db->prepare(
-            "DELETE FROM password_reset_tokens WHERE user_id = ?"
-        );
-        $stmt->execute([$userId]);
+        try {
+            // Récupérer l'email de l'utilisateur
+            $user = $this->getUserById($userId);
+            if (!$user) {
+                custom_log("Utilisateur ID {$userId} non trouvé pour la réinitialisation", 'ERROR');
+                return false;
+            }
 
-        // Insérer le nouveau token
-        $stmt = $this->db->prepare(
-            "INSERT INTO password_reset_tokens (user_id, token, expires_at, created_at)
-         VALUES (?, ?, ?, NOW())"
-        );
-        $stmt->execute([$userId, $token, $expiresAt]);
+            // Vérifier si un token existe déjà pour cet utilisateur et le supprimer (soft delete)
+            // On garde l'historique mais on marque les anciens comme utilisés
+            $stmt = $this->db->prepare("
+            UPDATE password_reset_tokens 
+            SET used_at = NOW() 
+            WHERE user_id = ? AND used_at IS NULL
+        ");
+            $stmt->execute([$userId]);
+
+            // Insérer le nouveau token
+            $stmt = $this->db->prepare("
+            INSERT INTO password_reset_tokens 
+            (user_id, email, token, expires_at, requested_by, request_ip, user_agent, created_at) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+        ");
+
+            $requestIp = $_SERVER['REMOTE_ADDR'] ?? null;
+            $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
+
+            // Si requested_by n'est pas spécifié, utiliser l'admin connecté
+            // Si c'est une demande de l'utilisateur lui-même, le champ reste NULL
+            $adminId = $requestedBy ?? ($_SESSION['user']['id'] ?? null);
+
+            // Si l'admin connecté est le même que l'utilisateur, on met NULL
+            // pour indiquer que c'est l'utilisateur lui-même qui a fait la demande
+            if ($adminId == $userId) {
+                $adminId = null;
+            }
+
+            $result = $stmt->execute([
+                $userId,
+                $user['email'],
+                $token,
+                $expiresAt,
+                $adminId,
+                $requestIp,
+                $userAgent
+            ]);
+
+            if ($result) {
+                custom_log("Token de réinitialisation sauvegardé pour l'utilisateur {$userId} (demandé par: " . ($adminId ? $adminId : 'l\'utilisateur lui-même') . ")", 'INFO');
+            } else {
+                custom_log("Erreur lors de la sauvegarde du token pour l'utilisateur {$userId}", 'ERROR');
+            }
+
+            return $result;
+        } catch (Exception $e) {
+            custom_log("Exception dans savePasswordResetToken: " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
+    /**
+     * Vérifie un token de réinitialisation et retourne les données de l'utilisateur
+     * 
+     * @param string $token Token à vérifier
+     * @return array|null Données de l'utilisateur ou null si token invalide
+     */
+    public function verifyPasswordResetToken($token)
+    {
+        try {
+            $stmt = $this->db->prepare("
+            SELECT * FROM password_reset_tokens 
+            WHERE token = ? AND used_at IS NULL AND expires_at > NOW()
+        ");
+            $stmt->execute([$token]);
+            $request = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$request) {
+                return null;
+            }
+
+            return $this->getUserById($request['user_id']);
+        } catch (Exception $e) {
+            custom_log("Erreur dans verifyPasswordResetToken: " . $e->getMessage(), 'ERROR');
+            return null;
+        }
     }
 
+    /**
+     * Marque un token comme utilisé
+     * 
+     * @param string $token Token à marquer
+     * @return bool
+     */
+    public function markResetTokenAsUsed($token)
+    {
+        try {
+            $stmt = $this->db->prepare("
+            UPDATE password_reset_tokens 
+            SET used_at = NOW() 
+            WHERE token = ?
+        ");
+            return $stmt->execute([$token]);
+        } catch (Exception $e) {
+            custom_log("Erreur dans markResetTokenAsUsed: " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
+
+    /**
+     * Récupère l'historique des demandes de réinitialisation pour un utilisateur
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @param int $limit Nombre de résultats maximum
+     * @return array
+     */
+    public function getPasswordResetHistory($userId, $limit = 10)
+    {
+        try {
+            $stmt = $this->db->prepare("
+            SELECT 
+                prt.*,
+                u.username as requested_by_username,
+                u.first_name as requested_by_first_name,
+                u.last_name as requested_by_last_name
+            FROM password_reset_tokens prt
+            LEFT JOIN users u ON prt.requested_by = u.id
+            WHERE prt.user_id = ?
+            ORDER BY prt.created_at DESC
+            LIMIT ?
+        ");
+            $stmt->execute([$userId, $limit]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            custom_log("Erreur dans getPasswordResetHistory: " . $e->getMessage(), 'ERROR');
+            return [];
+        }
+    }
+
+    /**
+     * Nettoie les tokens expirés ou utilisés (à exécuter périodiquement)
+     * 
+     * @param int $daysToKeep Nombre de jours à conserver dans l'historique (0 = tout supprimer)
+     * @return bool
+     */
+    public function cleanupExpiredResetTokens($daysToKeep = 30)
+    {
+        try {
+            $sql = "DELETE FROM password_reset_tokens WHERE used_at IS NOT NULL";
+            if ($daysToKeep > 0) {
+                $sql .= " AND created_at < DATE_SUB(NOW(), INTERVAL ? DAY)";
+            }
+
+            $stmt = $this->db->prepare($sql);
+            if ($daysToKeep > 0) {
+                return $stmt->execute([$daysToKeep]);
+            }
+            return $stmt->execute();
+        } catch (Exception $e) {
+            custom_log("Erreur dans cleanupExpiredResetTokens: " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
+
+    /**
+     * Vérifie si un utilisateur a des tokens de réinitialisation actifs
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @return bool
+     */
+    public function hasActiveResetToken($userId)
+    {
+        try {
+            $stmt = $this->db->prepare("
+            SELECT COUNT(*) as count FROM password_reset_tokens 
+            WHERE user_id = ? AND used_at IS NULL AND expires_at > NOW()
+        ");
+            $stmt->execute([$userId]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return ($result['count'] ?? 0) > 0;
+        } catch (Exception $e) {
+            custom_log("Erreur dans hasActiveResetToken: " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
     public function getUserByResetToken($token)
     {
         $stmt = $this->db->prepare(

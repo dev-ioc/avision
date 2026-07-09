@@ -435,6 +435,146 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 
+    <!-- Section des interventions ouvertes par utilisateur -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header text-dark d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="bi bi-tools me-1"></i>
+                        <?= $dashboardTitle ?? 'Interventions en cours' ?>
+                    </div>
+                    <?php if (!empty($userOpenInterventions)): ?>
+                        <span class="badge bg-primary rounded-pill">
+                            <?= count($userOpenInterventions) ?>
+                        </span>
+                    <?php endif; ?>
+                </div>
+                <div class="card-body">
+                    <?php if (!empty($userOpenInterventions)): ?>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped" id="userInterventionsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Référence</th>
+                                        <th>Titre</th>
+                                        <th>Client</th>
+                                        <th>Localisation</th>
+                                        <th>Statut</th>
+                                        <th>Priorité</th>
+                                        <?php if ($userType !== 'technician'): ?>
+                                            <th>Techniciens</th>
+                                        <?php endif; ?>
+                                        <th>Date création</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($userOpenInterventions as $intervention): ?>
+                                        <tr>
+                                            <td>
+                                                <a href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>"
+                                                    class="text-primary fw-bold text-decoration-none">
+                                                    <?= h($intervention['reference']) ?>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <?= h($intervention['title']) ?>
+                                            </td>
+                                            <td>
+                                                <?= h($intervention['client_name']) ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                $location = [];
+                                                if (!empty($intervention['site_name'])) {
+                                                    $location[] = h($intervention['site_name']);
+                                                }
+                                                if (!empty($intervention['building_name'])) {
+                                                    $location[] = h($intervention['building_name']);
+                                                }
+                                                if (!empty($intervention['room_name'])) {
+                                                    $location[] = h($intervention['room_name']);
+                                                }
+                                                echo !empty($location) ? implode(' → ', $location) : '<span class="text-muted">Non défini</span>';
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <span class="badge"
+                                                    style="background-color: <?= h($intervention['status_color'] ?? '#6c757d') ?>">
+                                                    <?= h($intervention['status_name'] ?? 'Statut inconnu') ?>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <?php if (!empty($intervention['priority_name'])): ?>
+                                                    <span class="badge"
+                                                        style="background-color: <?= h($intervention['priority_color'] ?? '#6c757d') ?>">
+                                                        <?= h($intervention['priority_name']) ?>
+                                                    </span>
+                                                <?php else: ?>
+                                                    <span class="text-muted">-</span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <?php if ($userType !== 'technician'): ?>
+                                                <td>
+                                                    <?php if (!empty($intervention['technicians_names'])): ?>
+                                                        <span class="badge bg-info">
+                                                            <?= h($intervention['technicians_names']) ?>
+                                                        </span>
+                                                    <?php else: ?>
+                                                        <span class="text-muted">Non assigné</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                            <?php endif; ?>
+                                            <td>
+                                                <small>
+                                                    <?= formatDate($intervention['created_at']) ?>
+                                                </small>
+                                            </td>
+                                            <!-- <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>"
+                                                        class="btn btn-outline-primary" title="Voir">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <?php if (hasPermission('intervention_modify')): ?>
+                                                        <a href="<?= BASE_URL ?>interventions/edit/<?= $intervention['id'] ?>"
+                                                            class="btn btn-outline-warning" title="Modifier">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+                                                    <?php if ($userType === 'technician' && hasPermission('intervention_update_status')): ?>
+                                                        <button class="btn btn-outline-success"
+                                                            onclick="updateStatus(<?= $intervention['id'] ?>)"
+                                                            title="Changer statut">
+                                                            <i class="bi bi-arrow-right-circle"></i>
+                                                        </button>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </td> -->
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php else: ?>
+                        <div class="text-center py-4">
+                            <div class="text-muted">
+                                <i class="bi bi-check-circle fs-1 mb-3" style="color: #28a745;"></i>
+                                <p>Aucune intervention en cours</p>
+                                <?php if ($userType === 'technician'): ?>
+                                    <small>Vous n'avez pas d'intervention assignée actuellement</small>
+                                <?php elseif ($userType === 'sales'): ?>
+                                    <small>Tous les contrats de vos clients sont à jour</small>
+                                <?php else: ?>
+                                    <small>Toutes les interventions sont terminées ou fermées</small>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Salles sans contrat affecté -->
     <div class="row mt-4">
         <div class="col-12">

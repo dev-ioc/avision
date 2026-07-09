@@ -83,7 +83,13 @@ if (strpos($path, '/api/') === 0) {
     $apiId = $apiParts[2] ?? null;
 
     // Vérifier l'authentification pour l'API (sauf pour certaines routes publiques)
-    $publicApiRoutes = ['auth/login', 'auth/logout', 'auth/resetPassword',];
+    $publicApiRoutes = [
+        'auth/login',
+        'auth/logout',
+        'auth/forgot-password',    // Formulaire de demande de réinitialisation
+        'auth/reset-password',     // Action d'envoi du lien (POST)
+        'auth/process-reset',      // Action de réinitialisation (POST)
+    ];
     $currentApiRoute = $apiController . '/' . $apiAction;
 
     if (!in_array($currentApiRoute, $publicApiRoutes) && !isset($_SESSION['user'])) {
@@ -245,7 +251,15 @@ $action = $parts[1] ?? 'index';
 $id = $parts[2] ?? null;
 
 // Vérification de l'authentification
-$public_routes = ['auth/login', 'auth/logout', 'settings/getAllowedExtensions', 'interventions/webhookSignature', 'auth/resetPassword'];
+$public_routes = [
+    'auth/login',
+    'auth/logout',
+    'settings/getAllowedExtensions',
+    'interventions/webhookSignature',
+    'auth/forgot-password',    // Formulaire de demande de réinitialisation
+    'auth/reset-password',     // Action d'envoi du lien (POST)
+    'auth/process-reset',
+];
 $current_route = $controller . '/' . $action;
 
 if (!in_array($current_route, $public_routes) && !isset($_SESSION['user'])) {
@@ -318,7 +332,7 @@ try {
                 case 'logout':
                     $authController->logout();
                     break;
-                case 'resetPassword':
+                case 'reset-password':
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $authController->processResetPassword();
                     } else {
@@ -376,7 +390,7 @@ try {
                         header('Location: ' . BASE_URL . 'user');
                     }
                     break;
-                case 'sendResetLink':
+                case 'send-reset-link':
                     if ($id) {
                         $userController->sendResetLink($id);
                     } else {
@@ -911,7 +925,7 @@ try {
 
         case 'interventions':
             $interventionController = new InterventionController($db);
-            $buildingController = new BuildingController($db);
+            $buildingController = new BuildingController();
             switch ($action) {
                 case 'index':
                     header('Location: ' . BASE_URL . 'interventions/curatives');
@@ -959,6 +973,7 @@ try {
                     }
                     break;
                 case 'editComment':
+
                     if ($id) {
                         $interventionController->editComment($id);
                     } else {
@@ -1286,6 +1301,15 @@ try {
                 case 'createSignNowWebhook':
                     $interventionController->createSignNowWebhook();
                     break;
+                case 'saveLocalSignature':
+                    if ($id) {
+                        $interventionController->saveLocalSignature($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => false, 'message' => 'ID manquant']);
+                        exit;
+                    }
+                    break;
             }
             break;
 
@@ -1612,6 +1636,12 @@ try {
                     break;
                 case 'deleteBulk':
                     $materielController->deleteBulk();
+                    break;
+                case 'global_search':
+                    $materielController->globalSearch();
+                    break;
+                case 'search_api':
+                    $materielController->searchApi();
                     break;
                 default:
                     header('Location: ' . BASE_URL . 'materiel');

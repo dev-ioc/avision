@@ -1173,44 +1173,59 @@ class InterventionController
      */
     public function addComment($interventionId)
     {
-        // Vérifier les permissions
         $this->checkAccess();
 
-        // Récupérer l'intervention
         $intervention = $this->interventionModel->getById($interventionId);
+        $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 
         if (!$intervention) {
-            // Rediriger vers la liste si l'intervention n'existe pas
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'error' => 'Intervention introuvable']);
+                exit;
+            }
             header('Location: ' . $this->getInterventionsListUrl());
             exit;
         }
 
-        // Vérifier si l'intervention est fermée
-        if ($intervention['status_id'] == 6) { // 6 = Fermé
-            $_SESSION['error'] = "Impossible d'ajouter un commentaire à une intervention fermée.";
-            header('Location: ' . BASE_URL . 'interventions/view/' . $interventionId);
+        $redirectTo = ($_POST['redirect_to'] ?? 'view') === 'edit' ? 'edit' : 'view';
+        $redirectUrl = BASE_URL . 'interventions/' . $redirectTo . '/' . $interventionId;
+
+        if ($intervention['status_id'] == 6) {
+            $msg = "Impossible d'ajouter un commentaire à une intervention fermée.";
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'error' => $msg]);
+                exit;
+            }
+            $_SESSION['error'] = $msg;
+            header('Location: ' . $redirectUrl);
             exit;
         }
 
-        // Récupérer les données du formulaire
-        $comment = $_POST['comment'] ?? '';
+        $comment = trim($_POST['comment'] ?? '');
         $visibleByClient = isset($_POST['visible_by_client']) ? 1 : 0;
         $isSolution = isset($_POST['is_solution']) ? 1 : 0;
         $isObservation = isset($_POST['is_observation']) ? 1 : 0;
 
         if (empty($comment)) {
-            $_SESSION['error'] = "Le commentaire ne peut pas être vide.";
-            header('Location: ' . BASE_URL . 'interventions/view/' . $interventionId);
+            $msg = "Le commentaire ne peut pas être vide.";
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'error' => $msg]);
+                exit;
+            }
+            $_SESSION['error'] = $msg;
+            header('Location: ' . $redirectUrl);
             exit;
         }
 
-        // Ajouter le commentaire
         $sql = "INSERT INTO intervention_comments (
-                    intervention_id, comment, visible_by_client, is_solution, is_observation, created_by
-                ) VALUES (
-                    :intervention_id, :comment, :visible_by_client, :is_solution, :is_observation, :created_by
-                )";
-
+            intervention_id, comment, visible_by_client, is_solution, is_observation, created_by
+        ) VALUES (
+            :intervention_id, :comment, :visible_by_client, :is_solution, :is_observation, :created_by
+        )";
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([
             ':intervention_id' => $interventionId,
@@ -1222,13 +1237,13 @@ class InterventionController
         ]);
 
         if ($result) {
-            // Enregistrer l'action dans l'historique
-            $sql = "INSERT INTO intervention_history (
-                        intervention_id, field_name, old_value, new_value, changed_by, description
-                    ) VALUES (
-                        :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
-                    )";
+            $commentId = $this->db->lastInsertId();
 
+            $sql = "INSERT INTO intervention_history (
+                intervention_id, field_name, old_value, new_value, changed_by, description
+            ) VALUES (
+                :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
+            )";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
                 ':intervention_id' => $interventionId,
@@ -1239,15 +1254,34 @@ class InterventionController
                 ':description' => "Commentaire ajouté" . ($isSolution ? " (marqué comme solution)" : "") . ($visibleByClient ? " (visible par le client)" : "")
             ]);
 
+            if ($isAjax) {
+                // Renvoyer le commentaire nouvellement créé pour l'insérer côté client
+                $sql = "SELECT c.*, CONCAT(u.first_name, ' ', u.last_name) as created_by_name
+                    FROM intervention_comments c
+                    LEFT JOIN users u ON c.created_by = u.id
+                    WHERE c.id = ?";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([$commentId]);
+                $newComment = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                header('Content-Type: application/json');
+                echo json_encode(['success' => true, 'message' => 'Commentaire ajouté avec succès.', 'comment' => $newComment]);
+                exit;
+            }
+
             $_SESSION['success'] = "Commentaire ajouté avec succès.";
         } else {
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'error' => "Erreur lors de l'ajout du commentaire."]);
+                exit;
+            }
             $_SESSION['error'] = "Erreur lors de l'ajout du commentaire.";
         }
 
-        header('Location: ' . BASE_URL . 'interventions/view/' . $interventionId);
+        header('Location: ' . $redirectUrl);
         exit;
     }
-
     /**
      * Ajoute une pièce jointe à une intervention
      */
@@ -2458,7 +2492,8 @@ class InterventionController
             'contract_id' => !empty($_POST['contract_id']) ? $_POST['contract_id'] : null,
             'is_preventive' => $isPreventive,
         ];
-
+        $technicienIds = array_filter(array_map('intval', $_POST['technicien_ids'] ?? []));
+        $notifyTechnician = isset($_POST['notify_technician']) && $_POST['notify_technician'] == '1';
         // Traiter la date et l'heure de création
         $createdDate = $_POST['created_date'] ?? date('Y-m-d');
         $createdTime = $_POST['created_time'] ?? date('H:i');
@@ -2553,12 +2588,10 @@ class InterventionController
         if ($result) {
             $interventionId = $this->db->lastInsertId();
 
-            // Déduire les tickets du contrat si l'intervention est créée avec le statut fermé
             if ($data['status_id'] == 6 && !empty($data['contract_id']) && !empty($data['tickets_used'])) {
                 $this->deductTicketsFromContract($data['contract_id'], $data['tickets_used'], $interventionId);
             }
 
-            // Enregistrer l'action dans l'historique
             $sql = "INSERT INTO intervention_history (
                     intervention_id, field_name, old_value, new_value, changed_by, description
                 ) VALUES (
@@ -2574,8 +2607,52 @@ class InterventionController
                 ':changed_by' => $_SESSION['user']['id'],
                 ':description' => "Intervention créée" . ($data['is_preventive'] == 1 ? " (Préventive)" : "")
             ]);
+            // Affectation préalable des techniciens (sans données de temps passé)
+            if (!empty($technicienIds)) {
+                $sqlAssign = "INSERT INTO intervention_techniciens 
+                    (intervention_id, technicien_id, created_at) 
+                  VALUES (:intervention_id, :technicien_id, NOW())";
+                $stmtAssign = $this->db->prepare($sqlAssign);
 
-            // Envoyer l'email de création d'intervention
+                $assignedNames = [];
+                foreach ($technicienIds as $techId) {
+                    $stmtAssign->execute([
+                        ':intervention_id' => $interventionId,
+                        ':technicien_id' => $techId
+                    ]);
+
+                    // Récupérer le nom pour l'historique
+                    $tech = $this->userModel->getUserById($techId);
+                    $techName = $tech ? trim(($tech['first_name'] ?? '') . ' ' . ($tech['last_name'] ?? '')) : "#$techId";
+                    $assignedNames[] = $techName;
+
+                    // Notification email
+                    if ($notifyTechnician) {
+                        try {
+                            $this->mailService->sendTechnicianAssigned($interventionId, $techId);
+                        } catch (Exception $e) {
+                            custom_log_mail("Erreur envoi email affectation technicien $techId (intervention $interventionId) : " . $e->getMessage(), 'ERROR');
+                        }
+                    }
+                }
+
+                // Historique de l'affectation
+                $sqlHist = "INSERT INTO intervention_history (
+                    intervention_id, field_name, old_value, new_value, changed_by, description
+                ) VALUES (
+                    :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
+                )";
+                $stmtHist = $this->db->prepare($sqlHist);
+                $stmtHist->execute([
+                    ':intervention_id' => $interventionId,
+                    ':field_name' => 'Technicien',
+                    ':old_value' => '',
+                    ':new_value' => implode(', ', $assignedNames),
+                    ':changed_by' => $_SESSION['user']['id'],
+                    ':description' => "Technicien(s) affecté(s) à la création : " . implode(', ', $assignedNames)
+                        . ($notifyTechnician ? " (notification envoyée)" : " (sans notification)")
+                ]);
+            }
             try {
                 $this->mailService->sendInterventionCreated($interventionId);
             } catch (Exception $e) {
@@ -4115,55 +4192,41 @@ class InterventionController
      * @param array $replacedParts Pièces remplacées (optionnel)
      * @return string Chemin du fichier PDF généré
      */
-    private function generateBonInterventionPdf($intervention, $comments, $attachments, $technicians = [], $equipment = [], $replacedParts = [])
-    {
-        // Créer le dossier de stockage s'il n'existe pas
+    private function generateBonInterventionPdf(
+        $intervention,
+        $comments,
+        $attachments,
+        $technicians = [],
+        $equipment = [],
+        $replacedParts = [],
+        $signatures = []
+    ) {
         $uploadDir = __DIR__ . '/../../uploads/interventions/' . $intervention['id'];
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
 
-        // Générer un nom de fichier unique avec la date et l'heure
-        $fileName = 'BI_' . $intervention['reference'] . '_' . date('Ymd') . '_' . date('Hi') . '.pdf';
+        $fileName = 'BI_signe_' . $intervention['reference'] . '_' . date('Ymd_His') . '.pdf';
         $filePath = $uploadDir . '/' . $fileName;
 
-        // Charger la classe InterventionPDF
         require_once __DIR__ . '/../classes/InterventionPDF.php';
 
-        // Créer et générer le PDF avec les éléments sélectionnés
         $pdf = new InterventionPDF();
-        $pdf->generateBonIntervention($intervention, $comments, $attachments, $technicians, $equipment, $replacedParts);
+        $pdf->generateBonIntervention($intervention, $comments, $attachments, $technicians, $equipment, $replacedParts, $signatures);
         $pdf->Output($filePath, 'F');
 
-        // Ajouter le PDF comme pièce jointe
         $data = [
             'nom_fichier' => $fileName,
-            'nom_personnalise' => 'Bon_intervention_' . date('Ymd'),
+            'nom_personnalise' => 'Bon_intervention_signe_' . date('Ymd'),
             'chemin_fichier' => 'uploads/interventions/' . $intervention['id'] . '/' . $fileName,
             'type_fichier' => 'pdf',
             'taille_fichier' => filesize($filePath),
-            'commentaire' => 'Bon d\'intervention généré automatiquement',
+            'commentaire' => 'Bon d\'intervention signé électroniquement',
             'masque_client' => 0,
             'created_by' => $_SESSION['user']['id']
         ];
 
         $this->interventionModel->addPieceJointeWithType($intervention['id'], $data, 'bi');
-
-        // Enregistrer l'action dans l'historique
-        $sql = "INSERT INTO intervention_history (
-            intervention_id, field_name, old_value, new_value, changed_by, description
-        ) VALUES (
-            :intervention_id, :field_name, :old_value, :new_value, :changed_by, :description
-        )";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            ':intervention_id' => $intervention['id'],
-            ':field_name' => 'bon_intervention',
-            ':old_value' => '',
-            ':new_value' => 'Bon_intervention_' . date('Ymd'),
-            ':changed_by' => $_SESSION['user']['id'],
-            ':description' => 'Bon d\'intervention généré avec les éléments sélectionnés'
-        ]);
 
         return $filePath;
     }
@@ -4498,11 +4561,7 @@ class InterventionController
             // Récupérer l'email de test si configuré
             $config = Config::getInstance();
             $testEmail = $config->get('test_email', '');
-
-            // URL publique de l'intervention pour le client
             $interventionUrl = BASE_URL . 'interventions_client/view/' . $id;
-
-            // Préparer les données de l'intervention pour l'affichage
             $interventionData = [
                 'id' => $intervention['id'],
                 'reference' => $intervention['reference'] ?? '',
@@ -6340,16 +6399,16 @@ class InterventionController
             $contactFirstname = $data['contact_firstname'] ?? 'Contact';
             $contactLastname = $data['contact_lastname'] ?? '';
 
-            // Valider les champs requis
-            if (!$contactPhone) {
-                throw new Exception('Le numéro de téléphone du signataire est requis');
-            }
-            if (!$contactEmail) {
-                throw new Exception('L\'adresse email du signataire est requise');
-            }
-            if (!filter_var($contactEmail, FILTER_VALIDATE_EMAIL)) {
-                throw new Exception('L\'adresse email n\'est pas valide');
-            }
+            // // Valider les champs requis
+            // if (!$contactPhone) {
+            //     throw new Exception('Le numéro de téléphone du signataire est requis');
+            // }
+            // if (!$contactEmail) {
+            //     throw new Exception('L\'adresse email du signataire est requise');
+            // }
+            // if (!filter_var($contactEmail, FILTER_VALIDATE_EMAIL)) {
+            //     throw new Exception('L\'adresse email n\'est pas valide');
+            // }
 
             // Récupérer la pièce jointe (BI) spécifique par son ID
             $sql = "SELECT pj.*, lpj.entite_id as intervention_id
@@ -6436,5 +6495,285 @@ class InterventionController
             ]);
         }
         exit;
+    }
+    /**
+     * Reçoit les signatures (base64 PNG) du canvas pour un BON DÉJÀ GÉNÉRÉ
+     * (identifié par son attachment_id, type_liaison = 'bi')
+     * Met à jour le BI existant avec les signatures (SANS écraser les signatures existantes)
+     */
+    public function saveLocalSignature($attachmentId)
+    {
+        header('Content-Type: application/json');
+
+        if (!isset($_SESSION['user']) || !canModifyInterventions()) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Accès refusé']);
+            exit;
+        }
+
+        if (!CSRF::validateRequest()) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Token CSRF invalide']);
+            exit;
+        }
+
+        try {
+            // Récupérer la pièce jointe BI ciblée
+            $sql = "SELECT pj.*, lpj.entite_id AS intervention_id
+        FROM pieces_jointes pj
+        INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+        WHERE pj.id = ? AND lpj.type_liaison = 'bi'";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$attachmentId]);
+            $pj = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$pj) {
+                throw new Exception("Bon d'intervention introuvable");
+            }
+
+            $interventionId = $pj['intervention_id'];
+
+            $intervention = $this->interventionModel->getById($interventionId);
+            if (!$intervention) {
+                throw new Exception('Intervention introuvable');
+            }
+
+            $input = json_decode(file_get_contents('php://input'), true);
+            $techSignatureData = $input['technicien_signature'] ?? null;
+            $clientSignatureData = $input['client_signature'] ?? null;
+
+            if (empty($techSignatureData) && empty($clientSignatureData)) {
+                throw new Exception('Aucune signature reçue');
+            }
+
+            // Chemin du PDF existant
+            $pdfPath = __DIR__ . '/../../' . $pj['chemin_fichier'];
+
+            if (!file_exists($pdfPath)) {
+                throw new Exception("Le fichier PDF original n'existe plus");
+            }
+
+            $signatureDir = __DIR__ . '/../../uploads/interventions/' . $interventionId . '/signatures';
+            if (!file_exists($signatureDir)) {
+                mkdir($signatureDir, 0777, true);
+            }
+
+            // ============================================================
+            // ÉTAPE 1 : Récupérer les signatures EXISTANTES pour ce BI
+            // ============================================================
+            $existingSignature = $this->getExistingSignatureByAttachment($attachmentId);
+
+            $techPath = null;
+            $clientPath = null;
+
+            // Conserver les signatures existantes
+            if ($existingSignature) {
+                if (!empty($existingSignature['technicien_signature_path'])) {
+                    $techPath = $existingSignature['technicien_signature_path'];
+                }
+                if (!empty($existingSignature['client_signature_path'])) {
+                    $clientPath = $existingSignature['client_signature_path'];
+                }
+            }
+
+            // ============================================================
+            // ÉTAPE 2 : Ajouter les NOUVELLES signatures (sans écraser)
+            // ============================================================
+            if ($techSignatureData) {
+                // Si une nouvelle signature tech est fournie, on l'ajoute
+                $techPath = $this->saveBase64Signature($techSignatureData, $signatureDir, 'tech');
+            }
+
+            if ($clientSignatureData) {
+                // Si une nouvelle signature client est fournie, on l'ajoute
+                $clientPath = $this->saveBase64Signature($clientSignatureData, $signatureDir, 'client');
+            }
+
+            // ============================================================
+            // ÉTAPE 3 : Mettre à jour les signatures en base
+            // ============================================================
+            $sql = "INSERT INTO intervention_local_signatures 
+        (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path, technicien_id, signed_at, ip_address)
+        VALUES (:iid, :source_id, :tech, :client, :tid, NOW(), :ip)
+        ON DUPLICATE KEY UPDATE
+        technicien_signature_path = VALUES(technicien_signature_path),
+        client_signature_path = VALUES(client_signature_path),
+        technicien_id = VALUES(technicien_id),
+        signed_at = NOW(),
+        ip_address = VALUES(ip_address)";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':iid' => $interventionId,
+                ':source_id' => $attachmentId,
+                ':tech' => $techPath,
+                ':client' => $clientPath,
+                ':tid' => $_SESSION['user']['id'],
+                ':ip' => $_SERVER['REMOTE_ADDR'] ?? null,
+            ]);
+
+            // ============================================================
+            // ÉTAPE 4 : Déterminer le statut de signature final
+            // ============================================================
+            $signatureStatus = 'non_signe';
+            if ($techPath && $clientPath) {
+                $signatureStatus = 'signe_tech_client';
+            } elseif ($techPath) {
+                $signatureStatus = 'signe_tech';
+            } elseif ($clientPath) {
+                $signatureStatus = 'signe_client';
+            }
+
+            // ============================================================
+            // ÉTAPE 5 : Mettre à jour le PDF avec TOUTES les signatures
+            // ============================================================
+            $pdfData = $this->prepareBonInterventionData($interventionId);
+
+            require_once __DIR__ . '/../classes/InterventionPDF.php';
+            $pdf = new InterventionPDF();
+            $pdf->generateBonIntervention(
+                $pdfData['intervention'],
+                $pdfData['comments'],
+                $pdfData['attachments'],
+                $pdfData['technicians'],
+                $pdfData['equipment'],
+                $pdfData['replacedParts'],
+                [
+                    'technicien' => $techPath,
+                    'client' => $clientPath,
+                ]
+            );
+
+            // Sauvegarder dans un fichier temporaire
+            $tempDir = __DIR__ . '/../../uploads/interventions/' . $interventionId . '/temp/';
+            if (!file_exists($tempDir)) {
+                mkdir($tempDir, 0777, true);
+            }
+            $tempFilePath = $tempDir . 'temp_signed_' . time() . '.pdf';
+            $pdf->Output($tempFilePath, 'F');
+
+            // Remplacer l'ancien PDF par le nouveau
+            if (file_exists($tempFilePath)) {
+                if (file_exists($pdfPath)) {
+                    unlink($pdfPath);
+                }
+                rename($tempFilePath, $pdfPath);
+
+                if (is_dir($tempDir) && count(scandir($tempDir)) <= 2) {
+                    rmdir($tempDir);
+                }
+            }
+
+            // ============================================================
+            // ÉTAPE 6 : Mettre à jour le statut dans pieces_jointes
+            // ============================================================
+            $sql = "UPDATE pieces_jointes 
+                SET signature_status = :signature_status,
+                    nom_personnalise = :nom_personnalise
+                WHERE id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':signature_status' => $signatureStatus,
+                ':nom_personnalise' => str_replace('.pdf', ' (signé)', $pj['nom_personnalise'] ?? $pj['nom_fichier']),
+                ':id' => $attachmentId
+            ]);
+
+            // Mettre à jour le dernier BI signé
+            $this->interventionModel->updateLastSignedBI($interventionId, $attachmentId);
+
+            // Historique
+            $this->insertHistory(
+                $interventionId,
+                'Signature',
+                '',
+                '',
+                "Bon d'intervention (PJ #{$attachmentId}) mis à jour - " .
+                ($techPath ? "Signature technicien ajoutée" : "") .
+                ($techPath && $clientPath ? " et " : "") .
+                ($clientPath ? "Signature client ajoutée" : "") .
+                " - Statut: " . $signatureStatus .
+                " - Version " . ($pj['version'] ?? 1)
+            );
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Signature(s) enregistrée(s) et PDF mis à jour',
+                'pdf_url' => BASE_URL . 'interventions/download/' . $attachmentId,
+                'version' => $pj['version'] ?? 1,
+                'signature_status' => $signatureStatus,
+                'has_tech_signature' => !empty($techPath),
+                'has_client_signature' => !empty($clientPath)
+            ]);
+
+        } catch (Exception $e) {
+            custom_log("Erreur saveLocalSignature : " . $e->getMessage(), 'ERROR');
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        }
+        exit;
+    }
+    /**
+     * Récupère les signatures existantes pour un BI spécifique
+     */
+    private function getExistingSignatureByAttachment($attachmentId)
+    {
+        try {
+            $sql = "SELECT * FROM intervention_local_signatures WHERE source_attachment_id = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$attachmentId]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            custom_log("Erreur getExistingSignatureByAttachment: " . $e->getMessage(), 'ERROR');
+            return null;
+        }
+    }
+
+    /**
+     * Décode une image base64 (data URL) et la sauvegarde en PNG sur disque.
+     * Retourne le chemin relatif depuis la racine du projet.
+     */
+    private function saveBase64Signature(string $dataUrl, string $directory, string $prefix): string
+    {
+        if (!preg_match('/^data:image\/(png|jpeg);base64,/', $dataUrl, $matches)) {
+            throw new Exception('Format de signature invalide');
+        }
+
+        $base64 = substr($dataUrl, strpos($dataUrl, ',') + 1);
+        $binary = base64_decode($base64, true);
+
+        if ($binary === false) {
+            throw new Exception('Décodage de la signature échoué');
+        }
+
+        // Limite de taille raisonnable (ex: 2 Mo) pour éviter les abus
+        if (strlen($binary) > 2 * 1024 * 1024) {
+            throw new Exception('Signature trop volumineuse');
+        }
+
+        $fileName = $prefix . '_' . date('YmdHis') . '_' . bin2hex(random_bytes(4)) . '.png';
+        $fullPath = rtrim($directory, '/') . '/' . $fileName;
+
+        if (file_put_contents($fullPath, $binary) === false) {
+            throw new Exception("Impossible d'écrire le fichier de signature");
+        }
+
+        // Chemin relatif stocké en base (depuis la racine publique du projet)
+        return 'uploads/interventions/' . basename(dirname($directory)) . '/signatures/' . $fileName;
+    }
+    private function prepareBonInterventionData($interventionId)
+    {
+        $intervention = $this->interventionModel->getById($interventionId);
+        // ... (reprendre exactement la même logique d'enrichissement que dans generateBonPdf :
+        // contrat, client, contact, site, bâtiment, salle, dates, urgence)
+
+        return [
+            'intervention' => $intervention,
+            'comments' => $this->getComments($interventionId),
+            'attachments' => $this->getAttachmentsForBon($interventionId),
+            'technicians' => $this->getInterventionTechnicians($interventionId),
+            'equipment' => $this->clientController->getMaterielByClientId($intervention['client_id']),
+            'replacedParts' => $this->getReplacedPartsFromMaterials(
+                $this->clientController->getMaterielByClientId($intervention['client_id'])
+            ),
+        ];
     }
 }

@@ -1542,7 +1542,7 @@ class MailService
                 throw new Exception("L'utilisateur n'a pas d'adresse email valide");
             }
 
-            $resetUrl = BASE_URL . 'auth/resetPassword?token=' . $resetToken;
+            $resetUrl = BASE_URL . 'auth/reset-password?token=' . $resetToken;
             $fullName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
 
             $subject = 'Réinitialisation de votre mot de passe';
@@ -1570,24 +1570,13 @@ class MailService
     </p>
 </body></html>';
 
-            // Utiliser Gmail comme expéditeur (c'est obligatoire pour l'authentification)
-            $fromAddress = 'karijatsilefilaza@gmail.com';
-            $fromName = 'AVision Support';
-
             $toEmail = $user['email'];
             $toName = $fullName;
 
             custom_log_mail("ENVOI RESET MDP - Destinataire: $toEmail ($toName)", 'INFO');
 
-            // Utiliser la fonction Gmail directe
-            $sent = $this->sendPasswordResetViaGmail(
-                $fromAddress,
-                $fromName,
-                $toEmail,
-                $toName,
-                $subject,
-                $body
-            );
+            // Utiliser la configuration SMTP standard de l'application
+            $sent = $this->sendEmailBasic($toEmail, $toName, $subject, $body);
 
             if ($sent) {
                 custom_log_mail("Lien de réinitialisation envoyé avec succès à " . $user['email'], 'INFO');

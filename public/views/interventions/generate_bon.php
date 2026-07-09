@@ -439,10 +439,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <p class="text-muted mb-0">Les éléments sélectionnés seront inclus dans le bon
                                 d'intervention</p>
                         </div>
+
                         <div>
                             <button type="button" class="btn btn-outline-secondary me-2" onclick="saveSelection()">
                                 <i class="bi bi-save me-1"></i> Sauvegarder la sélection
                             </button>
+                            <!-- <button type="button" class="btn btn-info me-2" data-bs-toggle="modal"
+                                data-bs-target="#localSignatureModal">
+                                <i class="bi bi-pen me-1"></i> Signer le bon
+                            </button> -->
                             <button type="button" class="btn btn-primary" onclick="generateBon()">
                                 <i class="bi bi-file-pdf me-1"></i> Générer le bon d'intervention
                             </button>

@@ -226,7 +226,6 @@ $closeReason = [];
 
 	<?php if ($intervention): ?>
 
-		<!-- ── Carte principale ──────────────────────────────────────────────── -->
 		<div class="card">
 			<div class="card-header py-2">
 				<div class="d-flex justify-content-between align-items-center">
@@ -441,11 +440,7 @@ $closeReason = [];
 				<?php endif; ?>
 			</div>
 		</div>
-
-		<!-- ── Commentaires / Pièces jointes / Techniciens ───────────────────── -->
 		<div class="row mt-4">
-
-			<!-- Commentaires -->
 			<div class="col-md-4">
 				<div class="card mb-3 h-auto">
 					<div class="card-header py-2 d-flex justify-content-between align-items-center">
@@ -601,12 +596,19 @@ $closeReason = [];
 											</small>
 										</div>
 										<div>
+											<?php if ($isBI && canModifyInterventions() && $intervention['status_id'] != 6): ?>
+												<button type="button" class="btn btn-sm btn-outline-success btn-action"
+													data-bs-toggle="modal" data-bs-target="#localSignatureModal"
+													onclick="openLocalSignatureModal(<?= $attachment['id'] ?>)" title="Signer ce bon">
+													<i class="bi bi-pen"></i>
+												</button>
+											<?php endif; ?>
 											<?php if ($isBI && canModifyInterventions()): ?>
 												<button type="button" class="btn btn-sm btn-outline-success btn-action"
 													data-bs-toggle="modal" data-bs-target="#signatureModal"
 													onclick="openSignatureModal(<?= $attachment['id'] ?>)"
-													title="Envoyer pour signature">
-													<i class="bi bi-pen"></i>
+													title="Envoyer pour signature (SignNow)">
+													<i class="bi bi-send"></i>
 												</button>
 											<?php endif; ?>
 											<?php if ($isPdf): ?>
@@ -652,6 +654,7 @@ $closeReason = [];
 											<?php else: ?>
 												<i class="bi bi-file-earmark text-secondary me-2"></i>
 											<?php endif; ?>
+
 											<div class="attachment-name flex-grow-1">
 												<div class="display-name">
 													<?= h($attachment['nom_personnalise'] ?? $attachment['nom_fichier']) ?>
@@ -661,9 +664,59 @@ $closeReason = [];
 														<?= h($attachment['nom_fichier']) ?>
 													</div>
 												<?php endif; ?>
+
+												<?php if ($isBI && !empty($attachment['signed_at'])): ?>
+													<div class="text-muted small">
+														<i class="bi bi-clock me-1"></i>
+														Signé le :
+														<?= date('d/m/Y H:i', strtotime($attachment['signed_at'])) ?>
+													</div>
+												<?php endif; ?>
 											</div>
+											<?php if ($isBI): ?>
+												<div class="ms-2">
+													<?php
+													$signatureStatus = $attachment['signature_status'] ?? 'non_signe';
+													$version = $attachment['version'] ?? 1;
+													$isLatestVersion = $attachment['is_latest_version'] ?? false;
+
+													$statusConfig = [
+														'signe_tech_client' => [
+															'label' => '✓ Signé complet',
+															'class' => 'bg-success',
+															'icon' => 'bi-check-circle-fill'
+														],
+														'signe_tech' => [
+															'label' => 'Signé (Tech)',
+															'class' => 'bg-warning',
+															'icon' => 'bi-check-circle'
+														],
+														'signe_client' => [
+															'label' => 'Signé (Client)',
+															'class' => 'bg-warning',
+															'icon' => 'bi-check-circle'
+														],
+														'non_signe' => [
+															'label' => 'Non signé',
+															'class' => 'bg-secondary',
+															'icon' => 'bi-x-circle'
+														]
+													];
+
+													$status = $statusConfig[$signatureStatus] ?? $statusConfig['non_signe'];
+													if ($isLatestVersion && $signatureStatus !== 'non_signe') {
+														$status['label'];
+													}
+													?>
+													<span class="badge <?= $status['class'] ?>">
+														<i class="bi <?= $status['icon'] ?> me-1"></i>
+														<?= $status['label'] ?>
+													</span>
+												</div>
+											<?php endif; ?>
+
 											<?php if (canModifyInterventions() && $intervention['status_id'] != 6): ?>
-												<button type="button" class="btn btn-sm btn-outline-secondary"
+												<button type="button" class="btn btn-sm btn-outline-secondary ms-2"
 													onclick="editAttachmentName(<?= $attachment['id'] ?>, '<?= h($attachment['nom_fichier']) ?>')"
 													title="Modifier le nom">
 													<i class="bi bi-pencil-square"></i>
@@ -826,12 +879,156 @@ $closeReason = [];
 	<?php else: ?>
 		<div class="alert alert-danger">Intervention introuvable.</div>
 	<?php endif; ?>
+	<!-- Modal Signature locale (technicien / client) sur un bon déjà généré -->
+	<div class="modal fade" id="localSignatureModal" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><i class="bi bi-pen me-2"></i>Signature du bon d'intervention</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">
+					<ul class="nav nav-tabs" id="signTabs">
+						<li class="nav-item">
+							<button class="nav-link active" data-bs-toggle="tab"
+								data-bs-target="#tab-tech">Technicien</button>
+						</li>
+						<li class="nav-item">
+							<button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-client">Client</button>
+						</li>
+					</ul>
 
-</div><!-- /container -->
+					<div class="tab-content mt-3">
+						<div class="tab-pane fade show active" id="tab-tech">
+							<p class="text-muted small">Le technicien signe ici</p>
+							<canvas id="signature-tech" width="700" height="200"
+								style="border:1px solid #ccc;border-radius:6px;touch-action:none;width:100%;height:200px;"></canvas>
+							<div class="mt-2">
+								<button type="button" class="btn btn-sm btn-outline-secondary"
+									id="clear-tech">Effacer</button>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="tab-client">
+							<p class="text-muted small">Le client signe ici (bon pour accord)</p>
+							<canvas id="signature-client" width="700" height="200"
+								style="border:1px solid #ccc;border-radius:6px;touch-action:none;width:100%;height:200px;"></canvas>
+							<div class="mt-2">
+								<button type="button" class="btn btn-sm btn-outline-secondary"
+									id="clear-client">Effacer</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+					<button type="button" class="btn btn-success" id="btnSaveSignatures">
+						<i class="bi bi-check-lg me-1"></i> Valider et générer le PDF signé
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-<!-- ════════════════════════════════════════════════════════════════════════
-		 MODALES GLOBALES
-		 ════════════════════════════════════════════════════════════════════════ -->
+	<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.6/dist/signature_pad.umd.min.js"></script>
+	<script>
+		// ID de la pièce jointe (bon déjà généré) que l'on est en train de signer
+		window.currentSignAttachmentId = null;
+
+		function openLocalSignatureModal(attachmentId) {
+			window.currentSignAttachmentId = attachmentId;
+		}
+
+		const canvasTech = document.getElementById('signature-tech');
+		const canvasClient = document.getElementById('signature-client');
+
+		function resizeCanvas(canvas) {
+			const ratio = Math.max(window.devicePixelRatio || 1, 1);
+			const rect = canvas.getBoundingClientRect();
+			if (rect.width === 0 || rect.height === 0) return false;
+			canvas.width = rect.width * ratio;
+			canvas.height = rect.height * ratio;
+			canvas.getContext('2d').scale(ratio, ratio);
+			return true;
+		}
+
+		const padTech = new SignaturePad(canvasTech, { backgroundColor: 'rgb(255,255,255)' });
+		const padClient = new SignaturePad(canvasClient, { backgroundColor: 'rgb(255,255,255)' });
+
+		const resizedLocal = { tech: false, client: false };
+
+		document.getElementById('localSignatureModal').addEventListener('shown.bs.modal', () => {
+			if (!resizedLocal.tech) resizedLocal.tech = resizeCanvas(canvasTech);
+		});
+
+		document.querySelectorAll('#signTabs button[data-bs-toggle="tab"]').forEach(tabButton => {
+			tabButton.addEventListener('shown.bs.tab', (event) => {
+				const target = event.target.getAttribute('data-bs-target');
+				if (target === '#tab-tech' && !resizedLocal.tech) resizedLocal.tech = resizeCanvas(canvasTech);
+				if (target === '#tab-client' && !resizedLocal.client) resizedLocal.client = resizeCanvas(canvasClient);
+			});
+		});
+
+		document.getElementById('localSignatureModal').addEventListener('hidden.bs.modal', () => {
+			padTech.clear();
+			padClient.clear();
+			resizedLocal.tech = false;
+			resizedLocal.client = false;
+			window.currentSignAttachmentId = null;
+			const techTabButton = document.querySelector('#signTabs button[data-bs-target="#tab-tech"]');
+			if (techTabButton) bootstrap.Tab.getOrCreateInstance(techTabButton).show();
+		});
+
+		document.getElementById('clear-tech').addEventListener('click', () => padTech.clear());
+		document.getElementById('clear-client').addEventListener('click', () => padClient.clear());
+
+		document.getElementById('btnSaveSignatures').addEventListener('click', async () => {
+			if (!window.currentSignAttachmentId) {
+				showAlert('Aucun bon sélectionné pour la signature', 'warning');
+				return;
+			}
+			if (padTech.isEmpty() && padClient.isEmpty()) {
+				showAlert('Veuillez signer au moins un champ', 'warning');
+				return;
+			}
+
+			const btn = document.getElementById('btnSaveSignatures');
+			btn.disabled = true;
+			btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Génération...';
+
+			const payload = {
+				technicien_signature: padTech.isEmpty() ? null : padTech.toDataURL('image/png'),
+				client_signature: padClient.isEmpty() ? null : padClient.toDataURL('image/png'),
+			};
+
+			try {
+				const res = await fetch(`${window.BASE_URL}interventions/saveLocalSignature/${window.currentSignAttachmentId}`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRF-Token': window.CSRF_TOKEN || '',
+					},
+					body: JSON.stringify(payload)
+				});
+
+				const data = await res.json();
+
+				if (data.success) {
+					showAlert('Bon signé généré avec succès', 'success');
+					bootstrap.Modal.getInstance(document.getElementById('localSignatureModal')).hide();
+					window.open(data.pdf_url, '_blank');
+					setTimeout(() => location.reload(), 1000);
+				} else {
+					showAlert(data.message || 'Erreur lors de la signature', 'danger');
+				}
+			} catch (e) {
+				showAlert('Erreur réseau lors de la signature', 'danger');
+			} finally {
+				btn.disabled = false;
+				btn.innerHTML = '<i class="bi bi-check-lg me-1"></i> Valider et générer le PDF signé';
+			}
+		});
+	</script>
+</div>
 
 <!-- Ajout commentaire -->
 <div class="modal fade" id="addCommentModal" tabindex="-1" aria-hidden="true">
@@ -839,6 +1036,7 @@ $closeReason = [];
 		<div class="modal-content">
 			<form action="<?= BASE_URL ?>interventions/addComment/<?= $intervention['id'] ?>" method="post">
 				<?= csrf_field() ?>
+				<input type="hidden" name="redirect_to" value="view">
 				<div class="modal-header">
 					<h5 class="modal-title">Ajouter un commentaire</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -1355,7 +1553,6 @@ $closeReason = [];
 					<?= csrf_field() ?>
 					<div class="mb-4">
 						<label class="form-label fw-semibold">Signataire</label>
-						<!-- Contact principal de l'intervention -->
 						<div class="form-check border rounded p-3 mb-2" id="optionPrincipal">
 							<input class="form-check-input" type="radio" name="signerChoice" id="signerPrincipal"
 								value="principal" checked>
@@ -1370,27 +1567,21 @@ $closeReason = [];
 								</div>
 							</label>
 						</div>
-
-						<!-- Select contacts -->
 						<div id="otherContactWrapper" style="display:none;" class="ms-4 mt-2">
 							<select class="form-select" id="otherContactSelect">
 								<option value="">— Sélectionner un contact —</option>
 							</select>
 						</div>
-
-						<!-- Signataire manuel -->
 						<div class="form-check border rounded p-3 mb-2">
 							<input class="form-check-input" type="radio" name="signerChoice" id="signerManual"
 								value="manual">
 							<label class="form-check-label w-100" for="signerManual">
 								<div class="d-flex align-items-center gap-2">
 									<i class="bi bi-pencil-fill text-warning"></i>
-									<span class="fw-semibold">Saisir manuellement</span>
+									<span class="fw-semibold">Saisir manuellement (envoie par adresse)</span>
 								</div>
 							</label>
 						</div>
-
-						<!-- Champs manuels -->
 						<div id="manualFields" style="display:none;" class="ms-4 mt-2">
 							<div class="row g-2">
 								<div class="col-md-6">
@@ -1406,16 +1597,14 @@ $closeReason = [];
 							</div>
 						</div>
 					</div>
-
-					<!-- Téléphone pour SMS OTP -->
-					<div class="mb-3">
+					<div class="mb-3" id="contactFields" style="display: none;">
 						<label class="form-label fw-semibold">
 							Téléphone pour vérification SMS
 							<span class="text-muted fw-normal">(optionnel mais recommandé)</span>
 						</label>
 						<div class="input-group">
 							<span class="input-group-text"><i class="bi bi-phone"></i></span>
-							<input type="text" class="form-control" id="signerPhone" placeholder="+261 32 12 345 67">
+							<input type="text" class="form-control" id="signerPhone" placeholder="+33 7 12 34 56 78">
 						</div>
 						<div class="form-text">
 							Si renseigné, SignNow enverra un code SMS au signataire pour authentification.
@@ -1551,7 +1740,6 @@ $closeReason = [];
 	onerror="console.error('ERREUR: interventions.js introuvable.');"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script>
-	/* ── PDF / Image viewers ─────────────────────────────────────────────────── */
 	pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 	var pdfDoc = null, currentPdfPage = 1, pdfScale = 1.5, pdfCanvas = null, pdfCtx = null, currentImageScale = 1;
 
@@ -1610,7 +1798,6 @@ $closeReason = [];
 </script>
 
 <script>
-	/* ── Envoi email ─────────────────────────────────────────────────────────── */
 	(function () {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 		var baseUrl = window.BASE_URL || '<?= addslashes(BASE_URL) ?>';
@@ -1671,7 +1858,6 @@ $closeReason = [];
 </script>
 
 <script>
-	/* ── MODALE FERMETURE ────────────────────────────────────────────────────── */
 	(function () {
 		'use strict';
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
@@ -1915,7 +2101,6 @@ $closeReason = [];
 			if (contractId) {
 				var modalElement = document.getElementById('contractDetailsModal');
 				if (modalElement) {
-					// Nettoyer les backdrops existants avant d'ouvrir
 					cleanupModals();
 
 					var modal = new bootstrap.Modal(modalElement, {
@@ -1923,12 +2108,9 @@ $closeReason = [];
 						keyboard: true
 					});
 					modal.show();
-
-					// Nettoyer après fermeture
 					modalElement.addEventListener('hidden.bs.modal', function onHidden() {
 						modalElement.removeEventListener('hidden.bs.modal', onHidden);
 						cleanupModals();
-						// Restaurer le scroll
 						document.body.style.overflow = '';
 						document.body.style.position = '';
 						document.body.style.paddingRight = '';
@@ -1939,21 +2121,17 @@ $closeReason = [];
 	});
 
 	function cleanupModals() {
-		// Supprimer les backdrops orphelins
 		var backdrops = document.querySelectorAll('.modal-backdrop');
 		backdrops.forEach(function (backdrop) {
 			backdrop.remove();
 		});
-		// Restaurer la classe body
 		document.body.classList.remove('modal-open');
 		document.body.style.overflow = '';
 		document.body.style.position = '';
 		document.body.style.paddingRight = '';
 	}
-	// loadTechniciansInPage(); 
 </script>
 <script>
-	/* ── Techniciens ────────────────────────────────────────────────────────── */
 	var assignedTechnicians = [];
 	var currentEditId = null;
 
@@ -2187,12 +2365,9 @@ $closeReason = [];
 
 			if (end > start) {
 				var diffMinutes = Math.round((end - start) / 60000);
-				// Arrondir à 30 minutes près
 				var roundedMinutes = Math.round(diffMinutes / 30) * 30;
 				tempsPasseInput.value = roundedMinutes;
 				displayRoundedTime();
-
-				// Afficher une notification visuelle
 				showDurationCalculated(diffMinutes, roundedMinutes);
 			}
 		}
@@ -2215,8 +2390,6 @@ $closeReason = [];
 			}, 3000);
 		}
 	}
-
-	// Ajouter les écouteurs d'événements
 	document.getElementById('start_time')?.addEventListener('change', calculateDurationFromDates);
 	document.getElementById('end_time')?.addEventListener('change', calculateDurationFromDates);
 </script>
@@ -2229,19 +2402,14 @@ $closeReason = [];
 		phone: <?= json_encode($intervention['contact_phone'] ?? '') ?>,
 	};
 
-	// Ajouter cette ligne
 	window.interventionIdForSignature = interventionId;
 	let selectedAttachmentId = null;
 	let signatureModal = null;
-
-	// Nettoyer les modales orphelines
 	function cleanupModals() {
-		// Supprimer les backdrops orphelins
 		const backdrops = document.querySelectorAll('.modal-backdrop');
 		backdrops.forEach(function (backdrop) {
 			backdrop.remove();
 		});
-		// Restaurer la classe body
 		document.body.classList.remove('modal-open');
 		document.body.style.overflow = '';
 		document.body.style.position = '';
@@ -2249,30 +2417,24 @@ $closeReason = [];
 	}
 
 	function openSignatureModal(attachmentId) {
-		// Nettoyer les modales existantes avant d'ouvrir
 		cleanupModals();
-
 		selectedAttachmentId = attachmentId;
 
-		const pName = [
-			principalContact.firstname,
-			principalContact.lastname
-		].filter(Boolean).join(' ') || '(non défini)';
-
+		const pName = [principalContact.firstname, principalContact.lastname].filter(Boolean).join(' ') || '(non défini)';
 		document.getElementById('principalName').textContent = pName;
+		document.getElementById('principalEmail').textContent = principalContact.email || '(email manquant)';
+		document.getElementById('signerPhone').value = principalContact.phone || '';
 
-		document.getElementById('principalEmail').textContent =
-			principalContact.email || '(email manquant)';
-
-		document.getElementById('signerPhone').value =
-			principalContact.phone || '';
+		if (!principalContact.email) {
+			document.getElementById('signerPrincipal').checked = true;
+			document.getElementById('contactFields').style.display = '';
+		} else {
+			document.getElementById('signerManual').checked = true;
+			document.getElementById('manualFields').style.display = '';
+		}
 
 		refreshRecap();
-
-		// Créer une nouvelle instance de la modale
 		const modalElement = document.getElementById('signatureModal');
-
-		// Supprimer les anciennes instances
 		if (signatureModal) {
 			signatureModal.dispose();
 		}
@@ -2281,12 +2443,9 @@ $closeReason = [];
 			backdrop: true,
 			keyboard: true
 		});
-
-		// Nettoyer après fermeture
 		modalElement.addEventListener('hidden.bs.modal', function onHidden() {
 			modalElement.removeEventListener('hidden.bs.modal', onHidden);
 			cleanupModals();
-			// Restaurer le scroll
 			document.body.style.overflow = '';
 			document.body.style.position = '';
 			document.body.style.paddingRight = '';
@@ -2296,6 +2455,17 @@ $closeReason = [];
 	}
 
 	function getSelectedSigner() {
+		const choice = document.querySelector('input[name="signerChoice"]:checked')?.value;
+
+		if (choice === 'manual') {
+			return {
+				email: document.getElementById('manualEmail').value.trim(),
+				firstname: document.getElementById('manualFirstname').value.trim(),
+				lastname: document.getElementById('manualLastname').value.trim(),
+				phone: document.getElementById('signerPhone').value.trim(),
+			};
+		}
+
 		return {
 			email: principalContact.email,
 			firstname: principalContact.firstname,
@@ -2303,32 +2473,36 @@ $closeReason = [];
 			phone: document.getElementById('signerPhone').value.trim(),
 		};
 	}
-
+	document.getElementById('signerPhone').addEventListener('input', refreshRecap);
+	document.getElementById('manualEmail').addEventListener('input', refreshRecap);
+	document.getElementById('manualFirstname').addEventListener('input', refreshRecap);
+	document.getElementById('manualLastname').addEventListener('input', refreshRecap);
 	function refreshRecap() {
 		const signer = getSelectedSigner();
 		const recap = document.getElementById('signerRecap');
 		const btn = document.getElementById('btnSendSignature');
 
-		if (!signer.email) {
+		const hasEmail = !!signer.email;
+		const hasPhone = !!signer.phone;
+		if (!hasEmail && !hasPhone) {
 			recap.classList.add('d-none');
 			btn.disabled = true;
 			return;
 		}
 
-		const name = [
-			signer.firstname,
-			signer.lastname
-		].filter(Boolean).join(' ') || signer.email;
+		const name = [signer.firstname, signer.lastname]
+			.filter(Boolean)
+			.join(' ') || signer.email || signer.phone;
 
-		const sms = signer.phone ? ` — SMS: ${signer.phone}` : '';
+		let recapText = `Envoi à : ${name}`;
+		if (hasEmail) recapText += ` <${signer.email}>`;
+		if (hasPhone) recapText += hasEmail ? ` — SMS: ${signer.phone}` : ` — Téléphone: ${signer.phone}`;
+		if (!hasEmail && hasPhone) recapText += ' (envoi par SMS uniquement, sans email)';
 
-		document.getElementById('signerRecapText').textContent =
-			`Envoi à : ${name} <${signer.email}>${sms}`;
-
+		document.getElementById('signerRecapText').textContent = recapText;
 		recap.classList.remove('d-none');
 		btn.disabled = false;
 	}
-
 	document.getElementById('signerPhone')
 		.addEventListener('input', refreshRecap);
 
@@ -2374,7 +2548,6 @@ $closeReason = [];
 				if (signatureModal) {
 					signatureModal.hide();
 				}
-				// Nettoyer après fermeture
 				setTimeout(cleanupModals, 300);
 			} else {
 				throw new Error(data.message || 'Erreur inconnue');
@@ -2388,16 +2561,12 @@ $closeReason = [];
 		}
 	}
 
-	// Fonction pour afficher les alertes stylisées
 	function showAlert(message, type) {
-		// Supprimer les alertes existantes pour éviter les doublons
 		const existingAlerts = document.querySelectorAll('.custom-alert-floating');
 		existingAlerts.forEach(alert => alert.remove());
 
 		const alertDiv = document.createElement('div');
 		alertDiv.className = `custom-alert-floating alert alert-${type} alert-dismissible fade show`;
-
-		// Icônes selon le type
 		const icons = {
 			success: '<i class="bi bi-check-circle-fill me-2"></i>',
 			danger: '<i class="bi bi-exclamation-triangle-fill me-2"></i>',
@@ -2418,7 +2587,6 @@ $closeReason = [];
 			</div>
 		`;
 
-		// Styles CSS inline
 		alertDiv.style.position = 'fixed';
 		alertDiv.style.top = '20px';
 		alertDiv.style.right = '20px';
@@ -2429,8 +2597,6 @@ $closeReason = [];
 		alertDiv.style.borderRadius = '8px';
 		alertDiv.style.borderLeft = `4px solid ${type === 'success' ? '#28a745' : type === 'danger' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#17a2b8'}`;
 		alertDiv.style.animation = 'slideInRight 0.3s ease-out';
-
-		// Ajouter l'animation CSS si elle n'existe pas
 		if (!document.querySelector('#alert-styles')) {
 			const style = document.createElement('style');
 			style.id = 'alert-styles';
@@ -2468,8 +2634,6 @@ $closeReason = [];
 		}
 
 		document.body.appendChild(alertDiv);
-
-		// Barre de progression
 		const progressBar = document.createElement('div');
 		progressBar.style.position = 'absolute';
 		progressBar.style.bottom = '0';
@@ -2480,13 +2644,9 @@ $closeReason = [];
 		progressBar.style.borderRadius = '0 0 8px 8px';
 		progressBar.style.transition = 'width 4s linear';
 		alertDiv.appendChild(progressBar);
-
-		// Animer la barre de progression
 		setTimeout(() => {
 			progressBar.style.width = '0%';
 		}, 100);
-
-		// Fermeture automatique après 4 secondes
 		setTimeout(() => {
 			if (alertDiv.parentNode) {
 				alertDiv.style.animation = 'slideOutRight 0.3s ease-out forwards';
@@ -2497,8 +2657,6 @@ $closeReason = [];
 				}, 300);
 			}
 		}, 4000);
-
-		// Fermeture au clic
 		alertDiv.addEventListener('click', function (e) {
 			if (!e.target.closest('.btn-close')) {
 				alertDiv.style.animation = 'slideOutRight 0.3s ease-out forwards';
@@ -2510,8 +2668,6 @@ $closeReason = [];
 			}
 		});
 	}
-
-	// Nettoyage global au chargement de la page
 	document.addEventListener('DOMContentLoaded', function () {
 		cleanupModals();
 	});
@@ -2521,6 +2677,7 @@ $closeReason = [];
 				radio.value === 'other' ? '' : 'none';
 			document.getElementById('manualFields').style.display =
 				radio.value === 'manual' ? '' : 'none';
+			document.getElementById('contactFields').style.display = radio.value !== 'manual' ? '' : 'none';
 			refreshRecap();
 		});
 	});
@@ -2528,8 +2685,6 @@ $closeReason = [];
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
 		document.querySelectorAll('.modal').forEach(function (modal) {
-
-			// Réinitialiser la position à la fermeture
 			modal.addEventListener('hidden.bs.modal', function () {
 				const dialog = modal.querySelector('.modal-dialog');
 				if (dialog) {
@@ -2546,8 +2701,6 @@ $closeReason = [];
 				const dialog = modal.querySelector('.modal-dialog');
 				const header = modal.querySelector('.modal-header');
 				if (!dialog || !header) return;
-
-				// Éviter d'attacher plusieurs fois le listener
 				if (header.dataset.draggable) return;
 				header.dataset.draggable = 'true';
 
@@ -2567,8 +2720,6 @@ $closeReason = [];
 					startY = e.clientY;
 					startLeft = rect.left;
 					startTop = rect.top;
-
-					// Figer la largeur AVANT de passer en fixed
 					dialog.style.width = rect.width + 'px';
 					dialog.style.maxWidth = 'none';
 					dialog.style.position = 'fixed';

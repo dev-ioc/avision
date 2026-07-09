@@ -159,7 +159,13 @@ require_once __DIR__ . '/functions.php';
           <div data-i18n="documentation">Documentation</div>
         </a>
       </li>
-
+      <!-- Lien externe vers Avance -->
+      <li class="menu-item">
+        <a href="https://avance-vdsc.vercel.app/" class="menu-link" target="_blank" rel="noopener noreferrer">
+          <i class="menu-icon bi bi-box-arrow-up-right"></i>
+          <div data-i18n="avance">Avance</div>
+        </a>
+      </li>
     <?php endif; ?>
 
 

@@ -6,17 +6,14 @@ require_once __DIR__ . '/../../includes/FileUploadValidator.php';
  * Affiche les informations complètes d'un contrat
  */
 
-// Vérification de l'accès - seuls les utilisateurs connectés peuvent voir les contrats
 if (!isset($_SESSION['user'])) {
     header('Location: ' . BASE_URL . 'auth/login');
     exit;
 }
 
-// Définir le type d'utilisateur pour le menu
 $userType = $_SESSION['user']['user_type'] ?? null;
 $isAdmin = isAdmin();
 
-// Récupérer l'ID du contrat depuis l'URL
 $contractId = isset($contract['id']) ? $contract['id'] : '';
 
 setPageVariables(
@@ -26,7 +23,6 @@ setPageVariables(
 
 $currentPage = 'contracts';
 
-// Définir les breadcrumbs personnalisés pour la vue contrat
 if (isset($contract) && !empty($contract)) {
     $GLOBALS['customBreadcrumbs'] = generateContractViewBreadcrumbs($contract);
 }
@@ -88,14 +84,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </a>
 
                 <?php
-                // Vérifier si le contrat peut être renouvelé (30 jours avant la fin OU après la fin)
                 $endDate = new DateTime($contract['end_date']);
                 $today = new DateTime();
                 $daysUntilEnd = $today->diff($endDate)->days;
                 $isExpired = $today > $endDate;
                 $canRenew = ($daysUntilEnd <= 30 && $daysUntilEnd >= 0) || $isExpired;
-
-                // Afficher le bouton de renouvellement sans contrainte de renouvellement tacite
                 if ($canRenew):
                     ?>
                     <button type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#renewalModal">

@@ -499,32 +499,63 @@ class InterventionModel extends BaseModel
     }
 
     /**
-     * Récupère les pièces jointes d'une intervention
+     * Récupère les pièces jointes d'une intervention avec leur statut de signature
      */
     public function getPiecesJointes($interventionId)
     {
         $query = "
-            SELECT 
-    pj.*,
-    st.setting_value as type_nom,
-    lpj.type_liaison,
-    lpj.pour_bon_intervention,
-    u.username as created_by_name
-FROM pieces_jointes pj
-LEFT JOIN settings st ON pj.type_id = st.id
-INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-LEFT JOIN users u ON u.id = pj.created_by
-WHERE (lpj.type_liaison = 'intervention' OR lpj.type_liaison = 'bi')
-AND lpj.entite_id = :intervention_id
-ORDER BY pj.date_creation DESC
-        ";
+        SELECT 
+            pj.*,
+            st.setting_value as type_nom,
+            lpj.type_liaison,
+            lpj.pour_bon_intervention,
+            u.username as created_by_name,
+            -- Informations de signature
+            ls.technicien_signature_path,
+            ls.client_signature_path,
+            ls.signed_at,
+            -- Statut de signature
+            COALESCE(pj.signature_status, 'non_signe') as signature_status,
+            -- Flag pour la dernière version
+            CASE 
+                WHEN pj.version = (SELECT MAX(version) FROM pieces_jointes pj2 
+                                   INNER JOIN liaisons_pieces_jointes lpj2 ON pj2.id = lpj2.piece_jointe_id
+                                   WHERE lpj2.entite_id = lpj.entite_id AND lpj2.type_liaison = 'bi') 
+                THEN 1
+                ELSE 0
+            END as is_latest_version
+        FROM pieces_jointes pj
+        LEFT JOIN settings st ON pj.type_id = st.id
+        INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+        LEFT JOIN users u ON u.id = pj.created_by
+        LEFT JOIN intervention_local_signatures ls ON ls.source_attachment_id = pj.id
+        WHERE (lpj.type_liaison = 'intervention' OR lpj.type_liaison = 'bi')
+        AND lpj.entite_id = :intervention_id
+        ORDER BY pj.version DESC, pj.date_creation DESC
+    ";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':intervention_id', $interventionId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
+    /**
+     * Met à jour le dernier BI signé pour une intervention
+     */
+    public function updateLastSignedBI($interventionId, $attachmentId)
+    {
+        try {
+            $sql = "UPDATE interventions SET last_signed_bi_id = :attachment_id WHERE id = :intervention_id";
+            $stmt = $this->db->prepare($sql);
+            return $stmt->execute([
+                ':attachment_id' => $attachmentId,
+                ':intervention_id' => $interventionId
+            ]);
+        } catch (PDOException $e) {
+            custom_log("Erreur updateLastSignedBI: " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
     /**
      * Ajoute une pièce jointe à une intervention
      */

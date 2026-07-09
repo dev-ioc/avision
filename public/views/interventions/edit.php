@@ -608,13 +608,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
         </div>
 
-        <!-- Section Historique (Bouton flottant) -->
         <button type="button" class="btn btn-sm btn-outline-secondary position-fixed bottom-0 end-0 m-3"
             data-bs-toggle="modal" data-bs-target="#historyModal" title="Historique des modifications">
             <i class="bi bi-clock-history me-1"></i>
         </button>
-
-        <!-- Modal Historique -->
         <div class="modal fade" id="historyModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
@@ -654,13 +651,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
     <?php endif; ?>
 </div>
 
-
-<!-- Modal Ajout de commentaire -->
 <div class="modal fade" id="addCommentModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="<?= BASE_URL ?>interventions/addComment/<?= $intervention['id'] ?>" method="post">
                 <?= csrf_field() ?>
+                <input type="hidden" name="redirect_to" value="edit">
                 <div class="modal-header">
                     <h5 class="modal-title">Ajouter un commentaire</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -712,7 +708,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 </div>
-<!-- Modal Ajout de pièces jointes avec Drag & Drop -->
 <div class="modal fade" id="addAttachmentModal" tabindex="-1" aria-labelledby="addAttachmentModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -1249,8 +1244,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         }
     });
 </script>
-
-<!-- Scripts pour le chargement dynamique des sites, bâtiments et salles -->
 <script>
     // Initialiser BASE_URL pour JavaScript
     window.BASE_URL = '<?php echo BASE_URL; ?>';
@@ -1662,6 +1655,69 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 });
             });
 
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var commentForm = document.querySelector('#addCommentModal form');
+        if (!commentForm) return;
+
+        commentForm.addEventListener('submit', function (e) {
+            e.preventDefault(); // empêche le rechargement de la page
+
+            var submitBtn = commentForm.querySelector('button[type="submit"]');
+            var originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Envoi...';
+
+            var formData = new FormData(commentForm);
+
+            fetch(commentForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+
+                    if (data.success) {
+                        // Fermer la modale et vider le formulaire
+                        var modalEl = document.getElementById('addCommentModal');
+                        bootstrap.Modal.getInstance(modalEl)?.hide();
+                        commentForm.reset();
+
+                        // Ajouter le nouveau commentaire dans la liste sans recharger la page
+                        // (adaptez le sélecteur si votre liste de commentaires a un autre id)
+                        var list = document.getElementById('commentsList');
+                        if (list && data.comment) {
+                            var div = document.createElement('div');
+                            div.className = 'comment mb-3 p-3 border rounded';
+                            div.innerHTML = '<strong>' + (data.comment.created_by_name || 'Vous') + '</strong>'
+                                + '<p class="mb-0 mt-2">' + data.comment.comment.replace(/\n/g, '<br>') + '</p>';
+                            list.prepend(div);
+                        }
+
+                        if (typeof showAlert === 'function') {
+                            showAlert(data.message, 'success');
+                        } else {
+                            alert(data.message);
+                        }
+                    } else {
+                        if (typeof showAlert === 'function') {
+                            showAlert(data.error || 'Erreur', 'danger');
+                        } else {
+                            alert(data.error || 'Erreur');
+                        }
+                    }
+                })
+                .catch(function () {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                    alert('Erreur réseau lors de l\'ajout du commentaire.');
+                });
         });
     });
 </script>

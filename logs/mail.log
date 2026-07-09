@@ -587,3 +587,74 @@
 [2026-06-16 16:01:55][ERROR] Erreur envoi email à christian.gonneau@orange.com : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
 [2026-06-16 16:01:55][ERROR] Erreur lors de l'envoi de l'email : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) {"intervention_id":"122","mail_host":"172.20.64.14","mail_port":"587","mail_encryption":"tls","mail_from_address":"avision@caspeo.fr","oauth2_enabled":"0"}
 [2026-06-16 16:01:55][ERROR] Erreur envoi email fermeture intervention 122 : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-06-30 11:51:07][INFO] ENVOI RESET MDP - Destinataire: dev_mdgrt@caspeo.fr (Tsilefilaza TEST) 
+[2026-06-30 11:51:11][INFO] Email reset MDP envoyé via Gmail à dev_mdgrt@caspeo.fr 
+[2026-06-30 11:51:11][INFO] Lien de réinitialisation envoyé avec succès à dev_mdgrt@caspeo.fr 
+[2026-06-30 11:52:15][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (KARIJA Tsilefilazaaa) 
+[2026-06-30 11:52:19][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-30 11:52:19][INFO] Lien de réinitialisation envoyé avec succès à dev_mdg@caspeo.fr 
+[2026-06-30 11:54:43][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (KARIJA Tsilefilazaaa) 
+[2026-06-30 11:54:47][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-30 11:54:47][INFO] Lien de réinitialisation envoyé avec succès à dev_mdg@caspeo.fr 
+[2026-06-30 11:58:42][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (KARIJA Tsilefilazaaa) 
+[2026-06-30 11:58:46][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-30 11:58:46][INFO] Lien de réinitialisation envoyé avec succès à dev_mdg@caspeo.fr 
+[2026-06-30 13:13:20][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (KARIJA Tsilefilazaaa) 
+[2026-06-30 13:13:25][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-30 13:13:25][INFO] Lien de réinitialisation envoyé avec succès à dev_mdg@caspeo.fr 
+[2026-06-30 13:14:45][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (KARIJA Tsilefilazaaa) 
+[2026-06-30 13:14:49][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-30 13:14:49][INFO] Lien de réinitialisation envoyé avec succès à dev_mdg@caspeo.fr 
+[2026-06-30 13:16:55][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (KARIJA Tsilefilazaaa) 
+[2026-06-30 13:16:59][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-30 13:16:59][INFO] Lien de réinitialisation envoyé avec succès à dev_mdg@caspeo.fr 
+[2026-06-30 13:23:44][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (Dev WW) 
+[2026-06-30 13:23:48][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-30 13:23:48][INFO] Lien de réinitialisation envoyé avec succès à dev_mdg@caspeo.fr 
+[2026-06-30 13:27:24][INFO] ENVOI RESET MDP - Destinataire: tsilefyandriamalaza@gmail.com (TEST TEST) 
+[2026-06-30 13:27:27][INFO] Email reset MDP envoyé via Gmail à tsilefyandriamalaza@gmail.com 
+[2026-06-30 13:27:27][INFO] Lien de réinitialisation envoyé avec succès à tsilefyandriamalaza@gmail.com 
+[2026-06-30 13:28:59][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (KARIJA Tsilefilazaaa) 
+[2026-06-30 13:29:03][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-30 13:29:03][INFO] Lien de réinitialisation envoyé avec succès à dev_mdg@caspeo.fr 
+[2026-06-30 13:34:54][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (KARIJA Tsilefilazaaa) 
+[2026-06-30 13:34:58][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-30 13:34:58][INFO] Lien de réinitialisation envoyé avec succès à dev_mdg@caspeo.fr 
+[2026-06-30 13:40:16][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (KARIJA Tsilefilazaaa) 
+[2026-06-30 13:40:21][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-30 13:40:21][INFO] Lien de réinitialisation envoyé avec succès à dev_mdg@caspeo.fr 
+[2026-06-30 13:51:44][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (Tsilefilaza TEST) 
+[2026-06-30 13:51:48][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-30 13:51:48][INFO] Lien de réinitialisation envoyé avec succès à dev_mdg@caspeo.fr 
+[2026-06-30 13:54:38][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (Tsilefilaza TEST) 
+[2026-06-30 13:54:42][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-30 13:54:42][INFO] Lien de réinitialisation envoyé avec succès à dev_mdg@caspeo.fr 
+[2026-06-30 13:56:49][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (Tsilefilaza TEST) 
+[2026-06-30 13:56:53][INFO] Email reset MDP envoyé via Gmail à dev_mdg@caspeo.fr 
+[2026-06-30 13:56:53][INFO] Lien de réinitialisation envoyé avec succès à dev_mdg@caspeo.fr 
+[2026-06-30 14:07:06][INFO] ENVOI RESET MDP - Destinataire: bomebar373@cadebek.com (Tsilefilaza TEST) 
+[2026-06-30 14:07:27][ERROR] Erreur lors de l'envoi de l'email SMTP: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-06-30 14:07:27][ERROR] Erreur envoi lien reset MDP : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-01 15:30:53][INFO] ENVOI RESET MDP - Destinataire: tsilefyandriamalaza@gmail.com (TEST TEST) 
+[2026-07-01 15:31:14][ERROR] Erreur lors de l'envoi de l'email SMTP: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-01 15:31:14][ERROR] Erreur envoi lien reset MDP : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-01 15:33:34][INFO] ENVOI RESET MDP - Destinataire: tsilefyandriamalaza@gmail.com (TEST TEST) 
+[2026-07-01 15:33:55][ERROR] Erreur lors de l'envoi de l'email SMTP: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-01 15:33:55][ERROR] Erreur envoi lien reset MDP : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-02 09:55:42][INFO] Envoi email à dev_mdg@caspeo.fr avec 0 pièce(s) jointe(s) 
+[2026-07-02 09:56:03][ERROR] Erreur lors de l'envoi de l'email SMTP: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-02 09:56:03][ERROR] Erreur envoi email à dev_mdg@caspeo.fr : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-02 09:56:03][ERROR] Erreur lors de l'envoi de l'email : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) {"intervention_id":"375","mail_host":"172.20.64.14","mail_port":"587","mail_encryption":"tls","mail_from_address":"avision@caspeo.fr","oauth2_enabled":"0"}
+[2026-07-02 09:56:03][ERROR] Erreur envoi email affectation technicien intervention 375 : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-02 09:56:03][INFO] Envoi automatique de création désactivé pour l'intervention 375 
+[2026-07-02 09:59:19][INFO] Envoi email à dev_mdg@caspeo.fr avec 0 pièce(s) jointe(s) 
+[2026-07-02 09:59:40][ERROR] Erreur lors de l'envoi de l'email SMTP: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-02 09:59:40][ERROR] Erreur envoi email à dev_mdg@caspeo.fr : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-02 09:59:40][ERROR] Erreur lors de l'envoi de l'email : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) {"intervention_id":"376","mail_host":"172.20.64.14","mail_port":"587","mail_encryption":"tls","mail_from_address":"avision@caspeo.fr","oauth2_enabled":"0"}
+[2026-07-02 09:59:40][ERROR] Erreur envoi email affectation technicien intervention 376 : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-02 09:59:40][INFO] Envoi email à dev_mdg@caspeo.fr avec 0 pièce(s) jointe(s) 
+[2026-07-02 10:00:01][ERROR] Erreur lors de l'envoi de l'email SMTP: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-02 10:00:01][ERROR] Erreur envoi email à dev_mdg@caspeo.fr : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-02 10:00:01][ERROR] Erreur lors de l'envoi de l'email : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) {"intervention_id":"376","mail_host":"172.20.64.14","mail_port":"587","mail_encryption":"tls","mail_from_address":"avision@caspeo.fr","oauth2_enabled":"0"}
+[2026-07-02 10:00:01][ERROR] Erreur envoi email affectation technicien intervention 376 : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-07-02 10:00:01][INFO] Envoi automatique de création désactivé pour l'intervention 376 
