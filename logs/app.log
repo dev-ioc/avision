@@ -117479,3 +117479,21 @@ Quant à l’écran n°1, il est HS
 [2026-07-09 10:01:57][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-07-09 10:01:57][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
 [2026-07-09 10:01:57][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-09 12:06:20][DEBUG] Redirection vers login - URL sauvegardée: interventions/preventives (Session ID: 5jaehe5ucjlphmlbjh5g0mdbeu) 
+[2026-07-09 12:06:25][DEBUG] CSRF: Token trouvé dans la requête - Token: a880d72d72e7b48428cd... 
+[2026-07-09 12:06:25][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-09 12:06:25][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-09 12:06:25][DEBUG] Login réussi - Session ID: 5jaehe5ucjlphmlbjh5g0mdbeu 
+[2026-07-09 12:06:25][DEBUG] Login réussi - redirect_after_login: interventions/preventives 
+[2026-07-09 12:06:25][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-09 12:06:25][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-07-09 12:06:25][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/preventives 
+[2026-07-09 12:06:56][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: 92dlo1pi9o2l24apa7320ps8kp) 
+[2026-07-09 12:07:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 00a2cdf9c95b61da09c1... 
+[2026-07-09 12:07:00][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-09 12:07:00][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-09 12:07:00][DEBUG] Login réussi - Session ID: 92dlo1pi9o2l24apa7320ps8kp 
+[2026-07-09 12:07:00][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-07-09 12:07:00][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-09 12:07:00][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-07-09 12:07:00][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
