@@ -117532,3 +117532,9 @@ Quant à l’écran n°1, il est HS
 [2026-07-09 13:31:05][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-07-09 13:31:05][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
 [2026-07-09 13:31:05][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-07-09 13:49:09][INFO] 37 
+[2026-07-09 13:49:09][INFO] 38 
+[2026-07-09 13:49:09][INFO] 36 
+[2026-07-09 13:49:16][INFO] 37 
+[2026-07-09 13:49:16][INFO] 38 
+[2026-07-09 13:49:16][INFO] 36 

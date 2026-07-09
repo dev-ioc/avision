@@ -784,7 +784,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     </td>
                                     <td>
                                       <a href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>">
-                                                              <?= htmlspecialchars($intervention['reference'] ?? '-') ?>
+                                        <?= htmlspecialchars($intervention['reference'] ?? '-') ?>
                                       </a>
                                     </td>
                                     <?php echo h($intervention['title'] ?? '-'); ?>
@@ -832,7 +832,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <?php foreach ($correctives as $intervention): ?>
                                   <tr>
                                     <td><?php echo h($intervention['created_at'] ?? '-'); ?></td>
-                                    <td><?php echo h($intervention['reference'] ?? '-'); ?>
+                                    <td>
+                                      <a href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>">
+                                        <?= htmlspecialchars($intervention['reference'] ?? '-') ?>
+                                      </a>
+                                    </td>
                                     <td><?php echo h($intervention['title'] ?? '-'); ?>
                                     <td>
                                       <?= htmlspecialchars($intervention['site_name'] ?? '-') ?>
