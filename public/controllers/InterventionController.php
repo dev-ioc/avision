@@ -258,16 +258,13 @@ class InterventionController
         // Vérifier les permissions
         $this->checkAccess();
 
-        // Récupérer l'intervention
         $intervention = $this->interventionModel->getById($id);
 
         if (!$intervention) {
-            // Rediriger vers la liste si l'intervention n'existe pas
             header('Location: ' . $this->getInterventionsListUrl());
             exit;
         }
 
-        // S'assurer que toutes les clés nécessaires existent
         $intervention = array_merge([
             'site_id' => null,
             'room_id' => null,
@@ -279,13 +276,11 @@ class InterventionController
             'title' => null
         ], $intervention);
 
-        // Récupérer le contrat associé directement via contract_id
         $contract = null;
         if (!empty($intervention['contract_id'])) {
             $contract = $this->contractModel->getContractById($intervention['contract_id']);
         }
 
-        // Ajouter les informations du contrat pour le calcul JavaScript
         if ($contract && isContractTicketById($contract['id'])) {
             $intervention['contract_tickets_number'] = $contract['tickets_number'];
             $intervention['contract_tickets_remaining'] = $contract['tickets_remaining'];
@@ -294,28 +289,24 @@ class InterventionController
             $intervention['contract_tickets_remaining'] = 0;
         }
 
-        // Récupérer les commentaires
         $comments = $this->getComments($id);
 
-        // Récupérer les pièces jointes
         $attachments = $this->getAttachments($id);
 
-        // Récupérer l'historique
         $history = $this->getHistory($id);
 
-        // 🔴 NOUVEAU : Récupérer les techniciens assignés (pour éviter l'appel AJAX)
         $assignedTechnicians = $this->getInterventionTechnicians($id);
 
-        // Récupérer tous les techniciens disponibles pour la modale
+        $totalTempsPasse = $this->calculateTotalTempsPasse($id);
+        $intervention['total_temps_passe'] = $totalTempsPasse;
+
         $availableTechnicians = $this->userModel->getTechnicians();
 
-        // Récupérer les priorités pour identifier les préventives
         $sql = "SELECT id, name, color, created_at FROM intervention_priorities ORDER BY id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $priorities = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Identifier la priorité préventive
         foreach ($priorities as $priority) {
             if (stripos($priority['name'], 'préventif') !== false || stripos($priority['name'], 'preventive') !== false) {
                 $preventivePriorityId = $priority['id'];
@@ -323,8 +314,25 @@ class InterventionController
             }
         }
 
-        // Charger la vue
         require_once __DIR__ . '/../views/interventions/view.php';
+    }
+
+    /**
+     * Calcule le temps total passé par tous les techniciens pour une intervention
+     * 
+     * @param int $interventionId
+     * @return int Temps total en minutes
+     */
+    private function calculateTotalTempsPasse($interventionId)
+    {
+        $sql = "SELECT SUM(temps_passe) as total 
+                FROM intervention_techniciens 
+                WHERE intervention_id = ? AND temps_passe IS NOT NULL";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$interventionId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return (int) ($result['total'] ?? 0);
     }
     /**
      * Affiche le formulaire d'édition d'une intervention

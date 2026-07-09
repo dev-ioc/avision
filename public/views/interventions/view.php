@@ -204,7 +204,6 @@ $closeReason = [];
 		</div>
 	<?php endif; ?>
 
-	<!-- ── Alertes session ───────────────────────────────────────────────── -->
 	<?php if (isset($_SESSION['error'])): ?>
 		<div class="alert alert-danger">
 			<?= $_SESSION['error'];
@@ -236,10 +235,10 @@ $closeReason = [];
 						<?= h($intervention['title'] ?? '') ?>
 					</h5>
 					<div class="d-flex align-items-center gap-2">
-						<div class="text-muted me-2">
+						<!-- <div class="text-muted me-2">
 							<i class="bi bi-clock me-1"></i>
 							<?= h($intervention['duration'] ?? '0') ?>h
-						</div>
+						</div> -->
 						<?php if (isInterventionLinkedToTicketContract($intervention['id'])): ?>
 							<div class="text-muted me-2">
 								<i class="bi bi-ticket-perforated me-1"></i>
@@ -359,19 +358,23 @@ $closeReason = [];
 						</div>
 					</div>
 
-					<!-- Col 4 : Date planifiée / Heure planifiée -->
+					<!-- Col 4 : Temps total passé -->
 					<div class="col-md-3">
 						<div class="d-flex flex-column gap-2">
 							<div>
-								<label class="form-label fw-bold mb-0">Date planifiée</label>
+								<label class="form-label fw-bold mb-0">Temps total passé</label>
 								<p class="form-control-static mb-0">
-									<?= !empty($intervention['date_planif']) ? formatDateFrench($intervention['date_planif']) : 'Non définie' ?>
-								</p>
-							</div>
-							<div>
-								<label class="form-label fw-bold mb-0">Heure planifiée</label>
-								<p class="form-control-static mb-0">
-									<?= !empty($intervention['heure_planif']) ? h($intervention['heure_planif']) : 'Non définie' ?>
+									<?php
+									$totalMinutes = $intervention['total_temps_passe'] ?? 0;
+									if ($totalMinutes > 0) {
+										$hours = floor($totalMinutes / 60);
+										$minutes = $totalMinutes % 60;
+										echo $hours > 0 ? $hours . 'h ' : '';
+										echo $minutes > 0 ? $minutes . 'min' : ($hours > 0 ? '00' : 'Non défini');
+									} else {
+										echo 'Non défini';
+									}
+									?>
 								</p>
 							</div>
 						</div>
