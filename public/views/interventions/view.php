@@ -603,7 +603,7 @@ $closeReason = [];
 													<i class="bi bi-pen"></i>
 												</button>
 											<?php endif; ?>
-											<?php if ($isBI && canModifyInterventions()): ?>
+											<?php if ($isBI && canModifyInterventions() && $intervention['status_id'] != 6): ?>
 												<button type="button" class="btn btn-sm btn-outline-success btn-action"
 													data-bs-toggle="modal" data-bs-target="#signatureModal"
 													onclick="openSignatureModal(<?= $attachment['id'] ?>)"

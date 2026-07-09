@@ -117328,3 +117328,31 @@ Quant à l’écran n°1, il est HS
 [2026-07-08 10:46:43][DEBUG] load_client_locations - Session ID: j5atrgk6jgpe7g5jqv4i21usa3, Has User: yes, Is Admin: yes, Is AJAX: yes 
 [2026-07-08 10:46:43][ERROR] Erreur lors de la récupération des localisations du client 22: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause' 
 >>>>>>> fix-bug
+[2026-07-09 08:25:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 324a24607f506d8ee35f... 
+[2026-07-09 08:25:40][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-09 08:25:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 324a24607f506d8ee35f... 
+[2026-07-09 08:25:49][INFO] === RÉOUVERTURE INTERVENTION 122 === 
+[2026-07-09 08:25:49][INFO] Tickets à recréditer: 5 
+[2026-07-09 08:25:49][INFO] Contrat ID: 118 
+[2026-07-09 08:25:49][INFO] Had tickets: oui 
+[2026-07-09 08:25:49][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 122 === 
+[2026-07-09 08:25:49][INFO] Solde contrat AVANT recrédit: 4 
+[2026-07-09 08:25:49][INFO] Tickets à recréditer: 5 
+[2026-07-09 08:25:49][INFO] Solde contrat APRÈS recrédit: 9 
+[2026-07-09 08:25:49][INFO] Recrédit de 5 tickets effectué pour le contrat 118 
+[2026-07-09 08:25:50][INFO] RÉOUVERTURE RÉUSSIE - Intervention 122 
+[2026-07-09 08:25:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 324a24607f506d8ee35f... 
+[2026-07-09 08:25:59][INFO] === FERMETURE INTERVENTION 122 === 
+[2026-07-09 08:25:59][INFO] Tickets à déduire: 5 
+[2026-07-09 08:25:59][INFO] Contrat ID: 118 
+[2026-07-09 08:25:59][INFO] Solde contrat AVANT déduction: 9 
+[2026-07-09 08:25:59][INFO] === DÉDUCTION TICKETS CONTRAT 118 === 
+[2026-07-09 08:25:59][INFO] Tickets à déduire: 5 
+[2026-07-09 08:25:59][INFO] Solde AVANT déduction: 9 
+[2026-07-09 08:25:59][INFO] Solde APRÈS déduction: 4 
+[2026-07-09 08:25:59][INFO] Déduction de 5 tickets réussie 
+[2026-07-09 08:25:59][INFO] isContractTicketById(118) = true 
+[2026-07-09 08:25:59][INFO] NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: 4 
