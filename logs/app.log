@@ -117549,3 +117549,5 @@ Quant à l’écran n°1, il est HS
 [2026-07-09 13:59:26][INFO] 36 
 [2026-07-09 13:59:56][INFO] 87 
 [2026-07-09 14:00:03][INFO] 87 
+[2026-07-09 14:21:10][ERROR] Erreur : SQLSTATE[HY093]: Invalid parameter number {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\StatsController.php","line":234}
+[2026-07-09 14:21:20][ERROR] Erreur : SQLSTATE[HY093]: Invalid parameter number {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\StatsController.php","line":234}

@@ -708,57 +708,57 @@ class InterventionController
         exit;
     }
 
-    /**
-     * Calcule le nombre de tickets utilisés en fonction de la durée et des coefficients
-     * @param float $duration Durée en heures
-     * @param int $technicianId ID du technicien
-     * @param int $typeId ID du type d'intervention
-     * @return int Nombre de tickets utilisés
-     */
-    private function calculateTicketsUsed($duration, $technicianId, $typeId, $typeRequiresTravel = null)
-    {
-        // custom_log("DEBUG - calculateTicketsUsed() - Paramètres: durée=$duration, technicien=$technicianId, type=$typeId, type_requires_travel=" . ($typeRequiresTravel ?? 'null'), "DEBUG");
+    // /**
+    //  * Calcule le nombre de tickets utilisés en fonction de la durée et des coefficients
+    //  * @param float $duration Durée en heures
+    //  * @param int $technicianId ID du technicien
+    //  * @param int $typeId ID du type d'intervention
+    //  * @return int Nombre de tickets utilisés
+    //  */
+    // private function calculateTicketsUsed($duration, $technicianId, $typeId, $typeRequiresTravel = null)
+    // {
+    //     // custom_log("DEBUG - calculateTicketsUsed() - Paramètres: durée=$duration, technicien=$technicianId, type=$typeId, type_requires_travel=" . ($typeRequiresTravel ?? 'null'), "DEBUG");
 
-        // Récupérer le coefficient utilisateur
-        $technician = $this->userModel->getUserById($technicianId);
-        $coefUtilisateur = $technician['coef_utilisateur'] ?? 0;
-        custom_log("DEBUG - calculateTicketsUsed() - Technicien: " . print_r($technician, true), "DEBUG");
-        custom_log("DEBUG - calculateTicketsUsed() - Coef utilisateur: $coefUtilisateur", "DEBUG");
+    //     // Récupérer le coefficient utilisateur
+    //     $technician = $this->userModel->getUserById($technicianId);
+    //     $coefUtilisateur = $technician['coef_utilisateur'] ?? 0;
+    //     custom_log("DEBUG - calculateTicketsUsed() - Technicien: " . print_r($technician, true), "DEBUG");
+    //     custom_log("DEBUG - calculateTicketsUsed() - Coef utilisateur: $coefUtilisateur", "DEBUG");
 
-        // Utiliser la valeur stockée dans l'intervention si disponible, sinon celle du type
-        if ($typeRequiresTravel !== null) {
-            $requiresTravel = (bool) $typeRequiresTravel;
-            custom_log("DEBUG - calculateTicketsUsed() - Utilisation de la valeur stockée dans l'intervention: " . ($requiresTravel ? 'OUI' : 'NON'), "DEBUG");
-        } else {
-            // Récupérer le type d'intervention pour savoir s'il y a déplacement
-            $type = $this->interventionModel->getTypeInfo($typeId);
-            $requiresTravel = $type['requires_travel'] ?? false;
-            custom_log("DEBUG - calculateTicketsUsed() - Type: " . print_r($type, true), "DEBUG");
-            custom_log("DEBUG - calculateTicketsUsed() - Déplacement requis (depuis type): " . ($requiresTravel ? 'OUI' : 'NON'), "DEBUG");
-        }
+    //     // Utiliser la valeur stockée dans l'intervention si disponible, sinon celle du type
+    //     if ($typeRequiresTravel !== null) {
+    //         $requiresTravel = (bool) $typeRequiresTravel;
+    //         custom_log("DEBUG - calculateTicketsUsed() - Utilisation de la valeur stockée dans l'intervention: " . ($requiresTravel ? 'OUI' : 'NON'), "DEBUG");
+    //     } else {
+    //         // Récupérer le type d'intervention pour savoir s'il y a déplacement
+    //         $type = $this->interventionModel->getTypeInfo($typeId);
+    //         $requiresTravel = $type['requires_travel'] ?? false;
+    //         custom_log("DEBUG - calculateTicketsUsed() - Type: " . print_r($type, true), "DEBUG");
+    //         custom_log("DEBUG - calculateTicketsUsed() - Déplacement requis (depuis type): " . ($requiresTravel ? 'OUI' : 'NON'), "DEBUG");
+    //     }
 
-        // Récupérer le coefficient d'intervention depuis les paramètres
-        $stmt = $this->db->prepare("SELECT setting_value FROM settings WHERE setting_key = 'coef_intervention'");
-        $stmt->execute();
-        $coefIntervention = floatval($stmt->fetchColumn()) ?? 0;
-        custom_log("DEBUG - calculateTicketsUsed() - Coef intervention: $coefIntervention", "DEBUG");
+    //     // Récupérer le coefficient d'intervention depuis les paramètres
+    //     $stmt = $this->db->prepare("SELECT setting_value FROM settings WHERE setting_key = 'coef_intervention'");
+    //     $stmt->execute();
+    //     $coefIntervention = floatval($stmt->fetchColumn()) ?? 0;
+    //     custom_log("DEBUG - calculateTicketsUsed() - Coef intervention: $coefIntervention", "DEBUG");
 
-        // Calculer les tickets selon la formule
-        if ($requiresTravel) {
-            // Avec déplacement : durée + coef_utilisateur + 1 + coef_intervention
-            $tickets = $duration + $coefUtilisateur + 1 + $coefIntervention;
-            custom_log("DEBUG - calculateTicketsUsed() - Calcul avec déplacement: $duration + $coefUtilisateur + 1 + $coefIntervention = $tickets", "DEBUG");
-        } else {
-            // Sans déplacement : durée + coef_utilisateur + coef_intervention
-            $tickets = $duration + $coefUtilisateur + $coefIntervention;
-            custom_log("DEBUG - calculateTicketsUsed() - Calcul sans déplacement: $duration + $coefUtilisateur + $coefIntervention = $tickets", "DEBUG");
-        }
+    //     // Calculer les tickets selon la formule
+    //     if ($requiresTravel) {
+    //         // Avec déplacement : durée + coef_utilisateur + 1 + coef_intervention
+    //         $tickets = $duration + $coefUtilisateur + 1 + $coefIntervention;
+    //         custom_log("DEBUG - calculateTicketsUsed() - Calcul avec déplacement: $duration + $coefUtilisateur + 1 + $coefIntervention = $tickets", "DEBUG");
+    //     } else {
+    //         // Sans déplacement : durée + coef_utilisateur + coef_intervention
+    //         $tickets = $duration + $coefUtilisateur + $coefIntervention;
+    //         custom_log("DEBUG - calculateTicketsUsed() - Calcul sans déplacement: $duration + $coefUtilisateur + $coefIntervention = $tickets", "DEBUG");
+    //     }
 
-        // Arrondir à l'entier supérieur
-        $result = ceil($tickets);
-        custom_log("DEBUG - calculateTicketsUsed() - Résultat final (arrondi): $result", "DEBUG");
-        return $result;
-    }
+    //     // Arrondir à l'entier supérieur
+    //     $result = ceil($tickets);
+    //     custom_log("DEBUG - calculateTicketsUsed() - Résultat final (arrondi): $result", "DEBUG");
+    //     return $result;
+    // }
 
     /**
      * Enregistre les modifications dans l'historique

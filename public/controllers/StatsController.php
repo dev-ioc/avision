@@ -99,13 +99,16 @@ class StatsController
         $where = ['i.id IS NOT NULL'];
         $params = [];
         $this->applyTypeCondition($filters['type'] ?? 'all', $where, $params);
-        if (!empty($filters['technician_id'])) {
+
+        $technicianFilter = !empty($filters['technician_id']) ? (int) $filters['technician_id'] : null;
+
+        if ($technicianFilter !== null) {
             $where[] = 'EXISTS (
-                SELECT 1 FROM intervention_techniciens it2 
-                WHERE it2.intervention_id = i.id 
-                AND it2.technicien_id = :technician_id
-            )';
-            $params[':technician_id'] = (int) $filters['technician_id'];
+            SELECT 1 FROM intervention_techniciens it2 
+            WHERE it2.intervention_id = i.id 
+            AND it2.technicien_id = :technician_id
+        )';
+            $params[':technician_id'] = $technicianFilter;
         }
         if (!empty($filters['status_id'])) {
             $where[] = 'i.status_id = :status_id';
@@ -125,6 +128,27 @@ class StatsController
         }
         $whereClause = implode(' AND ', $where);
 
+        // Quand un technicien est filtré, la jointure ET les sous-requêtes
+        // "temps_passe"/"planned_start_time" doivent être restreintes à SA ligne
+        // dans intervention_techniciens, sinon on mélange les données de tous
+        // les techniciens affectés à l'intervention.
+        //
+        // IMPORTANT : chaque sous-requête a besoin de SON PROPRE placeholder.
+        // En prepared statements natifs (PDO::ATTR_EMULATE_PREPARES = false),
+        // un même nom de paramètre ne peut apparaître qu'une seule fois dans
+        // le texte SQL, sinon -> SQLSTATE[HY093] Invalid parameter number.
+        $techJoinCondition = 'i.id = it.intervention_id';
+        $techSubFilterStart = '';
+        $techSubFilterTemps = '';
+        if ($technicianFilter !== null) {
+            $techJoinCondition .= ' AND it.technicien_id = :technician_id_join';
+            $techSubFilterStart = ' AND it2.technicien_id = :technician_id_sub_start';
+            $techSubFilterTemps = ' AND it2.technicien_id = :technician_id_sub_temps';
+            $params[':technician_id_join'] = $technicianFilter;
+            $params[':technician_id_sub_start'] = $technicianFilter;
+            $params[':technician_id_sub_temps'] = $technicianFilter;
+        }
+
         $sql = "
     SELECT
         i.id,
@@ -139,57 +163,57 @@ class StatsController
         istatus.color AS status_color,
         ipriority.name AS priority_name,
         ipriority.color AS priority_color,
-        
-        -- Client
         c.name AS client_name,
-        
-        -- Site
         s.name AS site_name,
         s.address AS site_address,
-        
-        -- Salle
         r.name AS room_name,
-        
-        -- Date planifiée (premier start_time du technicien)
+
+        -- Date planifiée : celle du technicien filtré si un filtre est actif,
+        -- sinon la première ligne trouvée (comportement inchangé sans filtre)
         (
             SELECT start_time
             FROM intervention_techniciens it2
             WHERE it2.intervention_id = i.id
+            $techSubFilterStart
             LIMIT 1
         ) AS planned_start_time,
-        -- Temps passé
+
+        -- Temps passé : idem, scopé au technicien filtré si applicable.
+        -- Repli sur i.duration (heures -> minutes) pour les anciennes
+        -- interventions où temps_passe n'a jamais été saisi par technicien.
         (
-            SELECT temps_passe
+            SELECT COALESCE(it2.temps_passe, i.duration * 60)
             FROM intervention_techniciens it2
             WHERE it2.intervention_id = i.id
+            $techSubFilterTemps
             LIMIT 1
         ) AS temps_passe,
-                
-        -- Temps sur site (deplacement = 1)
+
+        -- Temps sur site (deplacement = 1) — restreint au technicien filtré via le JOIN ci-dessous
+        -- Repli sur i.duration si temps_passe n'est pas renseigné (anciennes données)
         COALESCE(
             SUM(
                 CASE
                     WHEN COALESCE(it.deplacement, 0) = 1
-                    THEN COALESCE(it.temps_passe, 0)
+                    THEN COALESCE(it.temps_passe, i.duration * 60, 0)
                     ELSE 0
                 END
             ),
             0
         ) AS on_site_minutes,
 
-        -- Temps remote (deplacement = 0)
+        -- Temps remote (deplacement = 0) — idem
         COALESCE(
             SUM(
                 CASE
                     WHEN COALESCE(it.deplacement, 0) = 0
-                    THEN COALESCE(it.temps_passe, 0)
+                    THEN COALESCE(it.temps_passe, i.duration * 60, 0)
                     ELSE 0
                 END
             ),
             0
         ) AS remote_minutes,
-        
-        -- Liste des techniciens
+
         (
             SELECT GROUP_CONCAT(CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ')
             FROM intervention_techniciens it2
@@ -204,16 +228,16 @@ class StatsController
     LEFT JOIN clients                   c ON i.client_id         = c.id
     LEFT JOIN sites                     s ON i.site_id           = s.id
     LEFT JOIN rooms                     r ON i.room_id           = r.id
-    LEFT JOIN intervention_techniciens  it ON i.id               = it.intervention_id
+    LEFT JOIN intervention_techniciens  it ON $techJoinCondition
     LEFT JOIN intervention_types        t ON i.type_id           = t.id
 
     WHERE $whereClause
 
     GROUP BY i.id, i.reference, i.title, i.description, i.created_at, i.closed_at, i.is_preventive,
+             i.duration,
              itype.name, istatus.name, istatus.color,
              ipriority.name, ipriority.color,
-             c.name, s.name, s.address, r.name,
-             planned_start_time
+             c.name, s.name, s.address, r.name
     ORDER BY i.created_at DESC
 ";
 
@@ -250,7 +274,6 @@ class StatsController
             ];
         }, $rows);
     }
-
     private function applyTypeCondition(string $type, array &$where, array &$params): void
     {
         if ($type === 'curatives') {
