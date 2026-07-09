@@ -313,22 +313,22 @@ include_once __DIR__ . '/../../includes/navbar.php';
                   <tr>
                     <th style="width: 30%">Nom</th>
                     <td>
-                      <?php echo htmlspecialchars($client['name'] ?? ''); ?>很少
+                      <?php echo htmlspecialchars($client['name'] ?? ''); ?>
                   </tr>
                   <tr>
                     <th>Ville</th>
                     <td>
-                      <?php echo htmlspecialchars($client['city'] ?? ''); ?>很少
+                      <?php echo htmlspecialchars($client['city'] ?? ''); ?>
                   </tr>
                   <tr>
                     <th>Adresse</th>
                     <td>
-                      <?php echo htmlspecialchars($client['address'] ?? ''); ?>很少
+                      <?php echo htmlspecialchars($client['address'] ?? ''); ?>
                   </tr>
                   <tr>
                     <th>Code Postal</th>
                     <td>
-                      <?php echo htmlspecialchars($client['postal_code'] ?? ''); ?>很少
+                      <?php echo htmlspecialchars($client['postal_code'] ?? ''); ?>
                   </tr>
                 </table>
               </div>
@@ -337,17 +337,17 @@ include_once __DIR__ . '/../../includes/navbar.php';
                   <tr>
                     <th style="width: 30%">Email</th>
                     <td>
-                      <?php echo htmlspecialchars($client['email'] ?? ''); ?>很少
+                      <?php echo htmlspecialchars($client['email'] ?? ''); ?>
                   </tr>
                   <tr>
                     <th>Téléphone</th>
                     <td>
-                      <?php echo htmlspecialchars($client['phone'] ?? ''); ?>很少
+                      <?php echo htmlspecialchars($client['phone'] ?? ''); ?>
                   </tr>
                   <tr>
                     <th>Site Web</th>
                     <td>
-                      <?php echo htmlspecialchars($client['website'] ?? ''); ?>很少
+                      <?php echo htmlspecialchars($client['website'] ?? ''); ?>
                   </tr>
                 </table>
               </div>
@@ -875,8 +875,19 @@ include_once __DIR__ . '/../../includes/navbar.php';
       <!-- Onglet Matériel -->
       <div class="tab-pane fade show active" id="materiel" role="tabpanel" aria-labelledby="materiel-tab">
         <div class="card">
-          <div class="card-header py-2">
+          <div class="card-header py-2 d-flex justify-content-between align-items-center">
             <h5 class="card-title mb-0">Liste du matériel</h5>
+            <?php if (!empty($materielList)): ?>
+              <div class="d-flex align-items-center gap-2">
+                <label for="materielPerPage" class="mb-0 small text-muted">Afficher</label>
+                <select class="form-select form-select-sm" id="materielPerPage" style="width: auto;">
+                  <option value="10" selected>10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </div>
+            <?php endif; ?>
           </div>
           <div class="card-body py-2">
             <?php if (!empty($materielList)): ?>
@@ -942,6 +953,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     <?php endforeach; ?>
                   </tbody>
                 </table>
+              </div>
+              <div class="d-flex justify-content-end mt-3">
+                <nav aria-label="Pagination matériel">
+                  <ul class="pagination pagination-sm mb-0" id="materielPagination"></ul>
+                </nav>
               </div>
             <?php else: ?>
               <div class="alert alert-info">
@@ -1023,7 +1039,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
   }
 </style>
 
-<!-- Script pour la confirmation de suppression -->
 <script>
   function confirmDelete(contractId, contractName) {
     if (confirm('Êtes-vous sûr de vouloir supprimer le contrat "' + contractName + '" ?')) {
@@ -1032,35 +1047,26 @@ include_once __DIR__ . '/../../includes/navbar.php';
   }
 </script>
 
-<!-- Scripts JavaScript -->
 <script>
-  // Initialiser BASE_URL pour JavaScript
   initBaseUrl('<?php echo BASE_URL; ?>');
 
-  // Debug des données
   console.log('Client:', <?php echo json_encode($client); ?>);
   console.log('Sites:', <?php echo json_encode($sites); ?>);
   console.log('Stats:', <?php echo json_encode($stats); ?>);
   console.log('Interventions Grouped:', <?php echo json_encode($interventionsGrouped); ?>);
 
-  // Fonction pour charger les salles d'un site via AJAX si nécessaire
   function loadRoomsForSite(siteId, callback) {
     if (typeof loadRooms === 'function') {
       loadRooms(siteId, null, null, callback);
     }
   }
-
-  // Script de tri pour les tables
   document.addEventListener('DOMContentLoaded', function () {
-    // Fonction de tri générique
     function initSortableTable(tableId) {
       const table = document.getElementById(tableId);
       if (!table) return;
 
       let currentSortColumn = null;
       let currentSortDirection = 'asc';
-
-      // Fonction de tri
       function sortTable(columnIndex, direction) {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
@@ -1069,7 +1075,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
           const aValue = a.cells[columnIndex].getAttribute('data-sort-value') || a.cells[columnIndex].textContent.trim();
           const bValue = b.cells[columnIndex].getAttribute('data-sort-value') || b.cells[columnIndex].textContent.trim();
 
-          // Gestion des valeurs numériques
           const aNum = parseFloat(aValue);
           const bNum = parseFloat(bValue);
 
@@ -1077,7 +1082,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             return direction === 'asc' ? aNum - bNum : bNum - aNum;
           }
 
-          // Gestion des dates (timestamp)
           if (aValue.length === 10 && bValue.length === 10) {
             const aDate = parseInt(aValue);
             const bDate = parseInt(bValue);
@@ -1086,7 +1090,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             }
           }
 
-          // Tri alphabétique
           const aLower = aValue.toLowerCase();
           const bLower = bValue.toLowerCase();
 
@@ -1095,44 +1098,33 @@ include_once __DIR__ . '/../../includes/navbar.php';
           return 0;
         });
 
-        // Réorganiser les lignes
         rows.forEach(row => tbody.appendChild(row));
       }
-
-      // Gestionnaire d'événements pour les en-têtes triables
       table.querySelectorAll('th.sortable').forEach((header, index) => {
         header.addEventListener('click', function () {
           const sortType = this.getAttribute('data-sort');
 
-          // Réinitialiser tous les en-têtes de cette table
           table.querySelectorAll('th.sortable').forEach(th => {
             th.classList.remove('sort-asc', 'sort-desc');
           });
 
-          // Déterminer la direction de tri
           let direction = 'asc';
           if (currentSortColumn === index && currentSortDirection === 'asc') {
             direction = 'desc';
           }
 
-          // Appliquer le tri
           sortTable(index, direction);
 
-          // Mettre à jour l'état visuel
           this.classList.add(direction === 'asc' ? 'sort-asc' : 'sort-desc');
-
-          // Mettre à jour les variables globales
           currentSortColumn = index;
           currentSortDirection = direction;
         });
       });
     }
 
-    // Initialiser le tri pour les tables
     initSortableTable('contractsTable');
     initSortableTable('contactsTable');
 
-    // Gestion des boutons déplier/replier tout pour les interventions
     const expandAllBtn = document.getElementById('expandAllInterventions');
     const collapseAllBtn = document.getElementById('collapseAllInterventions');
 
@@ -1160,7 +1152,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             if (bsCollapse) {
               bsCollapse.hide();
             } else {
-              // Si l'instance n'existe pas, créer une nouvelle instance et cacher
               const newBsCollapse = new bootstrap.Collapse(collapse, {
                 show: false
               });
@@ -1170,8 +1161,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         }
       });
     }
-
-    // Gestion des boutons déplier/replier tout pour les sites
     const expandAllSitesBtn = document.getElementById('expandAllSites');
     const collapseAllSitesBtn = document.getElementById('collapseAllSites');
 
@@ -1199,7 +1188,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             if (bsCollapse) {
               bsCollapse.hide();
             } else {
-              // Si l'instance n'existe pas, créer une nouvelle instance et cacher
               const newBsCollapse = new bootstrap.Collapse(collapse, {
                 show: false
               });
@@ -1210,25 +1198,18 @@ include_once __DIR__ . '/../../includes/navbar.php';
       });
     }
 
-    // Récupérer le paramètre active_tab de l'URL au chargement
     const urlParams = new URLSearchParams(window.location.search);
     const activeTabFromUrl = urlParams.get('active_tab');
-
-    // Activer l'onglet spécifié dans l'URL si présent
     if (activeTabFromUrl) {
       const targetCard = document.getElementById(activeTabFromUrl);
       if (targetCard) {
-        // Retirer la classe active de toutes les cards
         document.querySelectorAll('.tab-card').forEach(c => {
           c.classList.remove('active');
           c.style.border = '2px solid transparent';
         });
 
-        // Ajouter la classe active à la card ciblée
         targetCard.classList.add('active');
         targetCard.style.border = '2px solid #007bff';
-
-        // Activer le contenu de l'onglet correspondant
         const targetPane = document.querySelector(targetCard.getAttribute('data-bs-target'));
         if (targetPane) {
           document.querySelectorAll('.tab-pane').forEach(pane => {
@@ -1238,41 +1219,29 @@ include_once __DIR__ . '/../../includes/navbar.php';
         }
       }
     }
-
-    // Gestion des cards d'onglets
     document.querySelectorAll('.tab-card').forEach(card => {
       card.addEventListener('click', function () {
-        // Retirer la classe active de toutes les cards
         document.querySelectorAll('.tab-card').forEach(c => {
           c.classList.remove('active');
           c.style.border = '2px solid transparent';
         });
 
-        // Ajouter la classe active à la card cliquée
         this.classList.add('active');
         this.style.border = '2px solid #007bff';
 
-        // Stocker l'onglet actif dans le localStorage
         const activeTab = this.id;
         localStorage.setItem('clientActiveTab', activeTab);
       });
     });
 
-    // Gestion du bouton Modifier avec persistance de l'onglet
     const editBtn = document.getElementById('editClientBtn');
     if (editBtn) {
       editBtn.addEventListener('click', function (e) {
         e.preventDefault();
-
-        // Récupérer l'onglet actif
         const activeTab = document.querySelector('.tab-card.active')?.id || 'materiel-tab';
-
-        // Construire l'URL avec le paramètre de l'onglet
         const baseUrl = this.href;
         const separator = baseUrl.includes('?') ? '&' : '?';
         const newUrl = baseUrl + separator + 'active_tab=' + activeTab;
-
-        // Rediriger vers la page d'édition
         window.location.href = newUrl;
       });
     }
@@ -1283,4 +1252,93 @@ include_once __DIR__ . '/../../includes/navbar.php';
       window.location.href = '<?php echo BASE_URL; ?>clients/delete/' + clientId;
     }
   }
+  (function () {
+    const perPageSelect = document.getElementById('materielPerPage');
+    const table = document.getElementById('materielTable');
+    const paginationContainer = document.getElementById('materielPagination');
+    if (!table || !perPageSelect || !paginationContainer) return;
+
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    let currentPage = 1;
+    let perPage = parseInt(perPageSelect.value, 10);
+
+    function renderPage() {
+      const totalRows = rows.length;
+      const totalPages = Math.max(1, Math.ceil(totalRows / perPage));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const start = (currentPage - 1) * perPage;
+      const end = start + perPage;
+
+      rows.forEach((row, index) => {
+        row.style.display = (index >= start && index < end) ? '' : 'none';
+      });
+
+      renderPagination(totalPages);
+    }
+
+    function createPageItem(label, page, disabled, active) {
+      const li = document.createElement('li');
+      li.className = 'page-item' + (disabled ? ' disabled' : '') + (active ? ' active' : '');
+      const a = document.createElement('a');
+      a.className = 'page-link';
+      a.href = '#';
+      a.textContent = label;
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (!disabled && page !== currentPage) {
+          currentPage = page;
+          renderPage();
+        }
+      });
+      li.appendChild(a);
+      return li;
+    }
+
+    function createEllipsis() {
+      const li = document.createElement('li');
+      li.className = 'page-item disabled';
+      li.innerHTML = '<span class="page-link">…</span>';
+      return li;
+    }
+
+    function renderPagination(totalPages) {
+      paginationContainer.innerHTML = '';
+      if (totalPages <= 1) return;
+
+      paginationContainer.appendChild(createPageItem('«', currentPage - 1, currentPage === 1, false));
+
+      const maxButtons = 5;
+      let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+      let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+      if (endPage - startPage < maxButtons - 1) {
+        startPage = Math.max(1, endPage - maxButtons + 1);
+      }
+
+      if (startPage > 1) {
+        paginationContainer.appendChild(createPageItem('1', 1, false, false));
+        if (startPage > 2) paginationContainer.appendChild(createEllipsis());
+      }
+
+      for (let p = startPage; p <= endPage; p++) {
+        paginationContainer.appendChild(createPageItem(p, p, false, p === currentPage));
+      }
+
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) paginationContainer.appendChild(createEllipsis());
+        paginationContainer.appendChild(createPageItem(totalPages, totalPages, false, false));
+      }
+
+      paginationContainer.appendChild(createPageItem('»', currentPage + 1, currentPage === totalPages, false));
+    }
+
+    perPageSelect.addEventListener('change', function () {
+      perPage = parseInt(this.value, 10);
+      currentPage = 1;
+      renderPage();
+    });
+
+    renderPage();
+  })();
 </script>
