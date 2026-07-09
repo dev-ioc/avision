@@ -783,7 +783,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                       <?php echo h($intervention['created_at'] ?? '-'); ?>
                                     </td>
                                     <td>
-                                      <a href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>">
+                                      <a
+                                        href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>?return_to=client&client_id=<?= $client['id'] ?>&active_tab=interventions-tab">
                                         <?= htmlspecialchars($intervention['reference'] ?? '-') ?>
                                       </a>
                                     </td>
@@ -833,7 +834,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                   <tr>
                                     <td><?php echo h($intervention['created_at'] ?? '-'); ?></td>
                                     <td>
-                                      <a href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>">
+                                      <a
+                                        href="<?= BASE_URL ?>interventions/view/<?= $intervention['id'] ?>?return_to=client&client_id=<?= $client['id'] ?>&active_tab=interventions-tab">
                                         <?= htmlspecialchars($intervention['reference'] ?? '-') ?>
                                       </a>
                                     </td>
@@ -1217,8 +1219,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     const urlParams = new URLSearchParams(window.location.search);
     const activeTabFromUrl = urlParams.get('active_tab');
-    if (activeTabFromUrl) {
-      const targetCard = document.getElementById(activeTabFromUrl);
+    const activeTabToUse = activeTabFromUrl || localStorage.getItem('clientActiveTab');
+    if (activeTabToUse) {
+      const targetCard = document.getElementById(activeTabToUse);
       if (targetCard) {
         document.querySelectorAll('.tab-card').forEach(c => {
           c.classList.remove('active');
@@ -1234,6 +1237,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
           });
           targetPane.classList.add('show', 'active');
         }
+        localStorage.setItem('clientActiveTab', activeTabToUse);
       }
     }
     document.querySelectorAll('.tab-card').forEach(card => {
