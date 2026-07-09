@@ -892,18 +892,18 @@ include_once __DIR__ . '/../../includes/navbar.php';
           <div class="card-body py-2">
             <?php if (!empty($materielList)): ?>
               <div class="table-responsive">
-                <table class="table table-striped table-hover" id="materielTable">
+                <table class="table table-stripe table-hover" id="materielTable">
                   <thead>
                     <tr>
                       <!-- <th>Site</th>
                                             <th>Bâtiment</th> -->
-                      <th>Salle</th>
-                      <th>Marque</th>
-                      <th>Modèle</th>
-                      <th>Type</th>
-                      <th>S/N</th>
-                      <th>IP</th>
-                      <th>MAC</th>
+                      <th class="sortable" data-sort="salle_nom">Salle <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                      <th class="sortable" data-sort="marque">Marque <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                      <th class="sortable" data-sort="modele">Modèle <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                      <th class="sortable" data-sort="type_materiel">Type <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                      <th class="sortable" data-sort="numero_serie">S/N <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                      <th class="sortable" data-sort="adresse_ip">IP <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                      <th class="sortable" data-sort="adresse_mac">MAC <i class="bi bi-arrow-down-up sort-icon"></i></th>
                       <!-- <th>Actions</th> -->
                     </tr>
                   </thead>
@@ -916,41 +916,31 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 <td>
                                                     <?php echo htmlspecialchars($item['building_nom'] ?? '-'); ?>
                                                 </td> -->
-                        <td>
+                        <td data-sort-value="<?php echo htmlspecialchars(strtolower($item['salle_nom'] ?? '')); ?>">
                           <?php echo htmlspecialchars($item['salle_nom'] ?? '-'); ?>
                         </td>
-                        <td><a
-                            href="<?php echo BASE_URL; ?>materiel/view/<?php echo $item['id']; ?>?return_to=client&client_id=<?php echo $client['id']; ?>"
+                        <td data-sort-value="<?php echo htmlspecialchars(strtolower($item['marque'] ?? '')); ?>">
+                          <a href="<?php echo BASE_URL; ?>materiel/view/<?php echo $item['id']; ?>?return_to=client&client_id=<?php echo $client['id']; ?>"
                             class="text-decoration-none fw-bold">
                             <?php echo htmlspecialchars($item['marque'] ?? '-'); ?>
-                          </a></td>
-                        <td>
+                          </a>
+                        </td>
+                        <td data-sort-value="<?php echo htmlspecialchars(strtolower($item['modele'] ?? '')); ?>">
                           <?php echo htmlspecialchars($item['modele'] ?? '-'); ?>
                         </td>
-                        <td>
+                        <td data-sort-value="<?php echo htmlspecialchars(strtolower($item['type_materiel'] ?? '')); ?>">
                           <?php echo htmlspecialchars($item['type_materiel'] ?? '-'); ?>
                         </td>
-                        <td>
+                        <td data-sort-value="<?php echo htmlspecialchars(strtolower($item['numero_serie'] ?? '')); ?>">
                           <?php echo htmlspecialchars($item['numero_serie'] ?? '-'); ?>
                         </td>
-                        <td>
+                        <td data-sort-value="<?php echo htmlspecialchars(strtolower($item['adresse_ip'] ?? '')); ?>">
                           <?php echo htmlspecialchars($item['adresse_ip'] ?? '-'); ?>
                         </td>
-                        <td>
+                        <td data-sort-value="<?php echo htmlspecialchars(strtolower($item['adresse_mac'] ?? '')); ?>">
                           <?php echo htmlspecialchars($item['adresse_mac'] ?? '-'); ?>
                         </td>
-                        <!-- <td>
-                                                    <a href="<?php echo BASE_URL; ?>materiel/view/<?php echo $item['id']; ?>?return_to=client&client_id=<?php echo $client['id']; ?>"
-                                                        class="btn btn-sm btn-outline-primary" title="Voir"><i
-                                                            class="bi bi-eye"></i></a>
-                                                    <?php if ($canModifyClient): ?>
-                                                        <a href="<?php echo BASE_URL; ?>materiel/edit/<?php echo $item['id']; ?>?return_to=client&client_id=<?php echo $client['id']; ?>"
-                                                            class="btn btn-sm btn-outline-warning" title="Modifier"><i
-                                                                class="bi bi-pencil"></i></a>
-                                                    <?php endif; ?>
-                                                </td> -->
-                      </tr>
-                    <?php endforeach; ?>
+                      <?php endforeach; ?>
                   </tbody>
                 </table>
               </div>
@@ -1036,6 +1026,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
   .tab-card.active:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 123, 255, 0.2);
+  }
+
+  .filter-row th {
+    padding: 4px 6px;
+    background-color: #fff;
+  }
+
+  .filter-row input {
+    font-weight: normal;
   }
 </style>
 
@@ -1124,6 +1123,18 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     initSortableTable('contractsTable');
     initSortableTable('contactsTable');
+    initSortableTable('materielTable');
+
+    const materielTableEl = document.getElementById('materielTable');
+    if (materielTableEl) {
+      materielTableEl.querySelectorAll('th.sortable').forEach(th => {
+        th.addEventListener('click', function () {
+          if (typeof window.__materielRenderPage === 'function') {
+            window.__materielRenderPage();
+          }
+        });
+      });
+    }
 
     const expandAllBtn = document.getElementById('expandAllInterventions');
     const collapseAllBtn = document.getElementById('collapseAllInterventions');
@@ -1259,23 +1270,54 @@ include_once __DIR__ . '/../../includes/navbar.php';
     if (!table || !perPageSelect || !paginationContainer) return;
 
     const tbody = table.querySelector('tbody');
-    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const filterInputs = table.querySelectorAll('.materiel-filter');
     let currentPage = 1;
     let perPage = parseInt(perPageSelect.value, 10);
 
+    function getAllRows() {
+      return Array.from(tbody.querySelectorAll('tr'));
+    }
+
+    function getFilteredRows() {
+      const filters = Array.from(filterInputs).map(input => ({
+        col: parseInt(input.dataset.col, 10),
+        value: input.value.trim().toLowerCase()
+      })).filter(f => f.value !== '');
+
+      return getAllRows().filter(row => {
+        return filters.every(f => {
+          const cell = row.cells[f.col];
+          if (!cell) return false;
+          const cellValue = (cell.getAttribute('data-sort-value') || cell.textContent).toLowerCase();
+          return cellValue.includes(f.value);
+        });
+      });
+    }
+
     function renderPage() {
-      const totalRows = rows.length;
+      const allRows = getAllRows();
+      const filteredRows = getFilteredRows();
+      const filteredSet = new Set(filteredRows);
+
+      // Cacher toutes les lignes qui ne matchent pas les filtres
+      allRows.forEach(row => {
+        if (!filteredSet.has(row)) {
+          row.style.display = 'none';
+        }
+      });
+
+      const totalRows = filteredRows.length;
       const totalPages = Math.max(1, Math.ceil(totalRows / perPage));
       if (currentPage > totalPages) currentPage = totalPages;
 
       const start = (currentPage - 1) * perPage;
       const end = start + perPage;
 
-      rows.forEach((row, index) => {
+      filteredRows.forEach((row, index) => {
         row.style.display = (index >= start && index < end) ? '' : 'none';
       });
 
-      renderPagination(totalPages);
+      renderPagination(totalPages, totalRows);
     }
 
     function createPageItem(label, page, disabled, active) {
@@ -1303,8 +1345,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
       return li;
     }
 
-    function renderPagination(totalPages) {
+    function renderPagination(totalPages, totalRows) {
       paginationContainer.innerHTML = '';
+      if (totalRows === 0) {
+        const li = document.createElement('li');
+        li.className = 'page-item disabled';
+        li.innerHTML = '<span class="page-link">Aucun résultat</span>';
+        paginationContainer.appendChild(li);
+        return;
+      }
       if (totalPages <= 1) return;
 
       paginationContainer.appendChild(createPageItem('«', currentPage - 1, currentPage === 1, false));
@@ -1339,6 +1388,16 @@ include_once __DIR__ . '/../../includes/navbar.php';
       renderPage();
     });
 
+    filterInputs.forEach(input => {
+      input.addEventListener('input', function () {
+        currentPage = 1;
+        renderPage();
+      });
+      input.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    });
+    window.__materielRenderPage = renderPage;
     renderPage();
   })();
 </script>
