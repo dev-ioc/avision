@@ -117392,3 +117392,18 @@ Quant à l’écran n°1, il est HS
 [2026-07-09 10:54:23][INFO] 109 
 [2026-07-09 11:11:53][INFO] 81 
 [2026-07-09 11:12:08][INFO] 81 
+[2026-07-09 11:14:07][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+    ...' at line 11 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":92}
+[2026-07-09 11:15:07][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM interventions i
+        LEFT JOIN sites s ON i.site_id = s.id
+        ...' at line 11 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":91}
+[2026-07-09 11:16:44][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: dqnm1pp2mtm4ir8q17r5ivjj3s) 
+[2026-07-09 11:16:49][DEBUG] CSRF: Token trouvé dans la requête - Token: d18853767161eddbf688... 
+[2026-07-09 11:16:49][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-09 11:16:49][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-09 11:16:49][DEBUG] Login réussi - Session ID: dqnm1pp2mtm4ir8q17r5ivjj3s 
+[2026-07-09 11:16:49][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-07-09 11:16:49][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-09 11:16:49][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-07-09 11:16:49][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 

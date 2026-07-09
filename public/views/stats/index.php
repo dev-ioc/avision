@@ -227,6 +227,7 @@ function minutesToHuman(int $minutes): string
                     <table id="statsTable" class="table table-hover mb-0">
                         <thead class="table-light">
                             <tr>
+                                <th style="width:9%">DATE CRÉATION</th>
                                 <th style="width:9%">RÉFÉRENCE</th>
                                 <th style="width:18%">TITRE</th>
                                 <th style="width:10%">CLIENT</th>
@@ -236,12 +237,18 @@ function minutesToHuman(int $minutes): string
                                 <th style="width:7%">PRIORITÉ</th>
                                 <th style="width:9%">DATE PLANIFIÉE</th>
                                 <th style="width:10%">TECHNICIEN</th>
-                                <th style="width:9%">DATE CRÉATION</th>
                             </tr>
                         </thead>
                         <tbody id="statsTableBody">
                             <?php foreach ($interventionsStats as $interv): ?>
                                 <tr class="stats-row">
+                                    <td>
+                                        <?php if (!empty($interv['created_at'])): ?>
+                                            <?= date('d/m/Y H:i', strtotime($interv['created_at'])) ?>
+                                        <?php else: ?>
+                                            <span class="text-muted">-</span>
+                                        <?php endif; ?>
+                                    </td>
                                     <td>
                                         <a href="<?= BASE_URL ?>interventions/view/<?= $interv['id'] ?>"
                                             class="text-decoration-none fw-bold text-primary">
@@ -301,13 +308,7 @@ function minutesToHuman(int $minutes): string
                                             <span class="text-muted">-</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td>
-                                        <?php if (!empty($interv['created_at'])): ?>
-                                            <?= date('d/m/Y H:i', strtotime($interv['created_at'])) ?>
-                                        <?php else: ?>
-                                            <span class="text-muted">-</span>
-                                        <?php endif; ?>
-                                    </td>
+
                                     <!-- <td>
                                         <div class="d-flex gap-1">
                                             <a href="<?= BASE_URL ?>interventions/view/<?= $interv['id'] ?>"
