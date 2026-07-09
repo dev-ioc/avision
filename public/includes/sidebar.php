@@ -167,8 +167,6 @@ require_once __DIR__ . '/functions.php';
         </a>
       </li>
     <?php endif; ?>
-
-
     <?php if (isAdmin()): ?>
 
       <li class="menu-header small">
