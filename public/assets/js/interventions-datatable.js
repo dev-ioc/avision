@@ -126,7 +126,6 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 
-  // Sauvegarder le nombre d'entrées sélectionné par l'utilisateur
   dt.on("length.dt", function (e, settings, len) {
     if (window.DataTablePersistence) {
       DataTablePersistence.setSetting("interventionsTable", "pageLength", len);
