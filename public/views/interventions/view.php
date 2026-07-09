@@ -254,7 +254,6 @@ $closeReason = [];
 			</div>
 			<div class="card-body py-2">
 				<div class="row g-3">
-
 					<!-- Col 1 : Client / Site / Salle -->
 					<div class="col-md-3">
 						<div class="d-flex flex-column gap-2">
