@@ -225,10 +225,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
             return $rowData;
           }, $materiels);
           ?>
-          createSalleTable('excelTable-
-          <?= $salle_id ?>',
-          <?= json_encode($rows) ?>,
-          <?= json_encode($materiels[0]['salle_id'] ?? null) ?>);
+          createSalleTable(<?= json_encode('excelTable-' . $salle_id) ?>, <?= json_encode($rows) ?>, <?= json_encode($materiels[0]['salle_id'] ?? null) ?>);
           <?php
         endforeach;
       endforeach;
