@@ -35,8 +35,6 @@ class PreferencesController
         $key = $input['key'] ?? '';
         $value = $input['value'] ?? '';
 
-        // On restreint les clés acceptées à un format prévisible
-        // (préfixe "datatable_" + tableId + setting, sans underscore interne)
         if (!preg_match('/^datatable_[a-zA-Z0-9]+_[a-zA-Z0-9]+$/', $key)) {
             http_response_code(400);
             echo json_encode(['success' => false, 'error' => 'Clé de préférence invalide']);
