@@ -214,6 +214,7 @@ require_once CONTROLLERS_PATH . '/ExcelController.php';
 require_once CONTROLLERS_PATH . '/BuildingsController.php';
 require_once CONTROLLERS_PATH . '/MaterielDocumentationController.php';
 require_once CONTROLLERS_PATH . '/StatsController.php';
+require_once CONTROLLERS_PATH . '/PreferencesController.php';
 // Récupération de l'URL demandée
 $request_uri = $_SERVER['REQUEST_URI'];
 $base_path = parse_url(BASE_URL, PHP_URL_PATH);
@@ -2120,6 +2121,19 @@ try {
                     break;
                 default:
                     header('Location: ' . BASE_URL);
+                    break;
+            }
+            break;
+        case 'preferences':
+            $preferencesController = new PreferencesController($db);
+            switch ($action) {
+                case 'save':
+                    $preferencesController->save();
+                    break;
+                default:
+                    http_response_code(404);
+                    header('Content-Type: application/json');
+                    echo json_encode(['success' => false, 'error' => 'Action non trouvée']);
                     break;
             }
             break;

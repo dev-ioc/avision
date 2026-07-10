@@ -1,24 +1,34 @@
 /**
  * DataTable Persistence Utility
  * Gère la persistance des configurations DataTable (pageLength, etc.)
+ *
+ * Stratégie à deux niveaux :
+ * 1. localStorage : cache instantané, mais peut être vidé par le navigateur
+ *    (Chrome "effacer à la fermeture", politique d'entreprise, extension, etc.)
+ * 2. Base de données (via window.serverSavedSettings, injecté par PHP au
+ *    chargement de la page) : source de vérité durable, liée au compte utilisateur.
  */
 
 window.DataTablePersistence = {
-  /**
-   * Clé de base pour localStorage
-   */
   STORAGE_PREFIX: "datatable_",
 
   /**
-   * Récupère la configuration sauvegardée pour une table spécifique
-   * @param {string} tableId - ID de la table
-   * @param {string} setting - Nom du paramètre (pageLength, order, etc.)
-   * @param {*} defaultValue - Valeur par défaut si aucune sauvegarde
-   * @returns {*} Valeur sauvegardée ou valeur par défaut
+   * Récupère la configuration sauvegardée pour une table spécifique.
+   * Priorité : valeur serveur (la plus fiable) > localStorage > valeur par défaut.
    */
   getSetting: function (tableId, setting, defaultValue) {
+    const settingKey = tableId + "_" + setting;
+
+    if (
+      window.serverSavedSettings &&
+      window.serverSavedSettings[settingKey] !== undefined &&
+      window.serverSavedSettings[settingKey] !== null
+    ) {
+      return window.serverSavedSettings[settingKey];
+    }
+
     try {
-      const key = this.STORAGE_PREFIX + tableId + "_" + setting;
+      const key = this.STORAGE_PREFIX + settingKey;
       const stored = localStorage.getItem(key);
       return stored !== null ? JSON.parse(stored) : defaultValue;
     } catch (e) {
@@ -28,10 +38,8 @@ window.DataTablePersistence = {
   },
 
   /**
-   * Sauvegarde une configuration pour une table spécifique
-   * @param {string} tableId - ID de la table
-   * @param {string} setting - Nom du paramètre
-   * @param {*} value - Valeur à sauvegarder
+   * Sauvegarde une configuration pour une table spécifique.
+   * Écrit en localStorage (immédiat) puis synchronise en base (durable).
    */
   setSetting: function (tableId, setting, value) {
     try {
@@ -40,12 +48,37 @@ window.DataTablePersistence = {
     } catch (e) {
       console.warn("Erreur lors de la sauvegarde du paramètre DataTable:", e);
     }
+
+    this.syncToServer(tableId, setting, value);
+  },
+
+  /**
+   * Envoie la préférence au serveur pour un stockage durable en base.
+   * Échec silencieux (log uniquement) : le localStorage reste la valeur
+   * courante même si la synchronisation serveur échoue.
+   */
+  syncToServer: function (tableId, setting, value) {
+    if (!window.BASE_URL) return;
+
+    const key = this.STORAGE_PREFIX + tableId + "_" + setting;
+
+    fetch(window.BASE_URL + "preferences/save", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": window.csrfToken || window.CSRF_TOKEN || "",
+      },
+      body: JSON.stringify({ key: key, value: value }),
+    }).catch(function (e) {
+      console.warn(
+        "Impossible de synchroniser la préférence avec le serveur:",
+        e,
+      );
+    });
   },
 
   /**
    * Récupère la configuration complète pour une table
-   * @param {string} tableId - ID de la table
-   * @returns {object} Configuration complète
    */
   getTableConfig: function (tableId) {
     return {
@@ -58,8 +91,6 @@ window.DataTablePersistence = {
 
   /**
    * Sauvegarde la configuration complète d'une table
-   * @param {string} tableId - ID de la table
-   * @param {object} config - Configuration à sauvegarder
    */
   saveTableConfig: function (tableId, config) {
     if (config.pageLength !== undefined) {
@@ -77,7 +108,7 @@ window.DataTablePersistence = {
   },
 
   /**
-   * Efface toutes les configurations sauvegardées
+   * Efface toutes les configurations sauvegardées (localStorage uniquement)
    */
   clearAllSettings: function () {
     try {
@@ -96,8 +127,7 @@ window.DataTablePersistence = {
   },
 
   /**
-   * Efface la configuration d'une table spécifique
-   * @param {string} tableId - ID de la table
+   * Efface la configuration d'une table spécifique (localStorage uniquement)
    */
   clearTableSettings: function (tableId) {
     try {

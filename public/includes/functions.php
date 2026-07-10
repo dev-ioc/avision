@@ -90,3 +90,40 @@ function csrf_verify(?string $token = null): bool
 
     return hash_equals($_SESSION['csrf_token'], $token);
 }
+function getUserPreference(string $key, $default = null)
+{
+    if (empty($_SESSION['user']['id'])) {
+        return $default;
+    }
+
+    try {
+        $stmt = $GLOBALS['db']->prepare(
+            "SELECT pref_value FROM user_preferences WHERE user_id = ? AND pref_key = ?"
+        );
+        $stmt->execute([$_SESSION['user']['id'], $key]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row !== false ? $row['pref_value'] : $default;
+    } catch (\Throwable $e) {
+        error_log('getUserPreference error: ' . $e->getMessage());
+        return $default;
+    }
+}
+
+function setUserPreference(string $key, string $value): bool
+{
+    if (empty($_SESSION['user']['id'])) {
+        return false;
+    }
+
+    try {
+        $stmt = $GLOBALS['db']->prepare(
+            "INSERT INTO user_preferences (user_id, pref_key, pref_value)
+             VALUES (?, ?, ?)
+             ON DUPLICATE KEY UPDATE pref_value = VALUES(pref_value), updated_at = CURRENT_TIMESTAMP"
+        );
+        return $stmt->execute([$_SESSION['user']['id'], $key, $value]);
+    } catch (\Throwable $e) {
+        error_log('setUserPreference error: ' . $e->getMessage());
+        return false;
+    }
+}

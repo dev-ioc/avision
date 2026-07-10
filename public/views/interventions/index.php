@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../includes/functions.php';
+require_once __DIR__ . '/../../controllers/PreferencesController.php';
 
 /**
  * Vue de la liste des interventions
@@ -347,9 +348,26 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
   window.BASE_URL = '<?= BASE_URL ?>';
   window.csrfToken = '<?= $_SESSION['csrf_token'] ?>';
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const pageSelect = document.getElementById('mobilePageSelect');
+    if (pageSelect) {
+      pageSelect.addEventListener('change', function () {
+        window.location.href = '<?= $baseUrlWithParams ?>' + this.value;
+      });
+    }
+  });
 
+  window.BASE_URL = '<?= BASE_URL ?>';
+  window.csrfToken = '<?= $_SESSION['csrf_token'] ?>';
+  window.serverSavedSettings = {
+    interventionsTable_pageLength:
+      <?= json_encode((int) getUserPreference('datatable_interventionsTable_pageLength', 10)) ?>
+  };
+</script>
 <script src="<?= BASE_URL ?>assets/js/interventions-datatable.js"></script>
 <script src="<?= BASE_URL ?>assets/js/datatable-persistence.js"></script>
+
 <?php if (!$isPreventivePage && canModifyInterventions()): ?>
   <div class="modal fade" id="flashInterventionModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -541,5 +559,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
       });
     });
   </script>
+
 <?php endif; ?>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
