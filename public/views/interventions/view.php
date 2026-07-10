@@ -1924,7 +1924,6 @@ $closeReason = [];
 	document.getElementById('pdfResetZoomBtn')?.addEventListener('click', function () { if (pdfDoc) { pdfScale = 1.5; renderPdfPage(currentPdfPage); } });
 	document.getElementById('pdfViewerModal')?.addEventListener('hidden.bs.modal', function () { pdfDoc = null; currentPdfPage = 1; pdfScale = 1.5; });
 </script>
-
 <script>
 	(function () {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
