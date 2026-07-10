@@ -117879,3 +117879,5 @@ Quant à l’écran n°1, il est HS
 [2026-07-10 11:04:14][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-07-10 11:04:14][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
 [2026-07-10 11:04:14][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-10 14:14:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 14:14:11][INFO] Technicien 10 mis à jour pour l'intervention 337 

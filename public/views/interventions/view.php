@@ -1381,10 +1381,10 @@ $closeReason = [];
 					</div>
 
 					<div class="d-flex gap-2">
-						<button type="button" class="btn btn-danger" onclick="removeCurrentTechnician()"
-							id="btnRemoveCurrent" style="display:none;">
-							<i class="bi bi-trash"></i> Retirer ce technicien
-						</button>
+						<label type="text" onclick="removeCurrentTechnician()" id="btnRemoveCurrent"
+							style="display:none;">
+							<!-- <i class="bi bi-trash"></i> Retirer ce technicien -->
+						</label>
 					</div>
 					<hr>
 				</div>
@@ -2154,7 +2154,7 @@ $closeReason = [];
 					var tp = tech.temps_passe ? tech.temps_passe + ' min' : 'Non défini';
 					var dep = tech.deplacement == 1 ? 'Oui' : 'Non';
 					var qual = tech.is_qualified == 1 ? '<span class="badge bg-success text-dark">Qualifié</span>' : '<span class="badge bg-secondary">Non qualifié</span>';
-					html += '<div class="list-group-item"><div class="d-flex justify-content-between align-items-start"><div style="flex:1;"><strong>' + escapeHtml(name) + '</strong> ' + qual + '<br><small>Début: ' + st + '<br>Fin: ' + et + '<br>Durée: ' + tp + '<br>Déplacement: ' + dep + '</small>' + (tech.commentaire ? '<br><small class="text-info">' + escapeHtml(tech.commentaire.substring(0, 100)) + '</small>' : '') + '</div><div class="d-flex gap-1"><button class="btn btn-sm btn-outline-primary" onclick="sendEmailToTechnician(' + tech.technicien_id + ',\'' + escapeHtml(name) + '\')"><i class="bi bi-envelope"></i></button><button class="btn btn-sm btn-outline-danger" onclick="removeTechnicianFromPage(' + tech.technicien_id + ')"><i class="bi bi-trash"></i></button></div></div></div>';
+					html += '<div class="list-group-item"><div class="d-flex justify-content-between align-items-start"><div style="flex:1;"><strong>' + escapeHtml(name) + '</strong> ' + qual + '<br><small>Début: ' + st + '<br>Fin: ' + et + '<br>Durée: ' + tp + '<br>Déplacement: ' + dep + '</small>' + (tech.commentaire ? '<br><small class="text-info">' + escapeHtml(tech.commentaire.substring(0, 100)) + '</small>' : '') + '</div><div class="d-flex gap-1"><button class="btn btn-sm btn-outline-warning" onclick="editTechnician(' + tech.technicien_id + ')" title="Modifier"><i class="bi bi-pencil"></i></button><button class="btn btn-sm btn-outline-primary" onclick="sendEmailToTechnician(' + tech.technicien_id + ',\'' + escapeHtml(name) + '\')"><i class="bi bi-envelope"></i></button><button class="btn btn-sm btn-outline-danger" onclick="removeTechnicianFromPage(' + tech.technicien_id + ')"><i class="bi bi-trash"></i></button></div></div></div>';
 				});
 				html += '</div>';
 				container.innerHTML = html;
@@ -2182,8 +2182,16 @@ $closeReason = [];
 			})
 			.catch(function (error) { alert('Erreur réseau'); loadTechniciansInPage(); });
 	}
-
-	function openTechModal(id) {
+	function editTechnician(technicianId) {
+		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
+		var interventionStatus = <?= (int) ($intervention['status_id'] ?? 0) ?>;
+		if (interventionStatus === 6) {
+			alert('Impossible de modifier un technicien d\'une intervention fermée. Veuillez la réouvrir d\'abord.');
+			return;
+		}
+		openTechModal(interventionId, technicianId);
+	}
+	function openTechModal(id, preselectTechnicianId) {
 		if (!id) { alert('ID intervention manquant'); return; }
 		assignedTechnicians = []; currentEditId = null;
 		document.getElementById('intervention_id').value = id;
@@ -2214,6 +2222,14 @@ $closeReason = [];
 				else { technicians.forEach(function (t) { var o = document.createElement('option'); o.value = t.id; o.text = t.full_name || (t.first_name + ' ' + t.last_name); sel.appendChild(o); }); }
 				if (typeof $ !== 'undefined' && $('#techSelect').select2) { $('#techSelect').select2({ placeholder: 'Rechercher un technicien', allowClear: true, width: '100%', dropdownParent: $('#techModal') }); }
 				var me = document.getElementById('techModal'); if (me) new bootstrap.Modal(me).show();
+				if (preselectTechnicianId) {
+					if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+						$('#techSelect').val(String(preselectTechnicianId)).trigger('change');
+					} else {
+						sel.value = String(preselectTechnicianId);
+						sel.dispatchEvent(new Event('change'));
+					}
+				}
 			})
 			.catch(function (e) { alert('Erreur chargement: ' + e.message); sel.innerHTML = '<option value="">Erreur</option>'; });
 	}
