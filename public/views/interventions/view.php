@@ -2154,7 +2154,6 @@ $closeReason = [];
 					container.innerHTML = '<div class="text-center py-3 text-muted">Aucun technicien affecté</div>';
 					return;
 				}
-
 				var disabledAttr = canEdit ? '' : ' disabled';
 				var disabledClass = canEdit ? '' : ' disabled';
 
