@@ -152,8 +152,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </script>
 <script src="<?php echo BASE_URL; ?>assets/js/datatable-persistence.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/clients-datatable.js"></script>
-
 <?php
-// Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';
 ?>
