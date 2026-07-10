@@ -117905,3 +117905,55 @@ Quant à l’écran n°1, il est HS
 [2026-07-10 14:35:21][INFO] RÉOUVERTURE RÉUSSIE - Intervention 325 
 [2026-07-10 14:36:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
 [2026-07-10 14:36:49][INFO] Technicien 5 mis à jour pour l'intervention 325 
+[2026-07-10 15:10:46][WARNING] Undefined variable $attachment {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:10:46][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:11:45][WARNING] Undefined variable $attachment {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:11:45][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:12:15][WARNING] Undefined variable $attachment {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:12:15][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:12:22][WARNING] Undefined variable $attachment {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:12:22][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:12:53][WARNING] Undefined variable $attachment {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:12:53][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:13:03][WARNING] Undefined variable $attachment {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:13:03][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:13:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 15:13:09][INFO] Technicien 5 supprimé de l'intervention 325 
+[2026-07-10 15:13:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 15:13:41][INFO] Technicien 5 ajouté à l'intervention 325 
+[2026-07-10 15:13:42][WARNING] Undefined variable $attachment {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:13:42][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:13:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 15:13:50][INFO] Technicien 5 mis à jour pour l'intervention 325 
+[2026-07-10 15:13:51][WARNING] Undefined variable $attachment {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:13:51][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:14:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 15:14:15][INFO] Technicien 5 supprimé de l'intervention 325 
+[2026-07-10 15:15:33][WARNING] Undefined variable $attachment {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:15:33][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:15:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 15:15:49][DEBUG] AttachmentService::normalizeFilesArray - Tableau de fichiers détecté, count: 1 
+[2026-07-10 15:15:49][DEBUG] AttachmentService::upload - Type: intervention, EntityId: 325, Files count: 1, UploadDir: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/325 
+[2026-07-10 15:15:49][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\php1543.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/325/1783689349_coursUML_compressed_1.pdf 
+[2026-07-10 15:15:49][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/325/1783689349_coursUML_compressed_1.pdf 
+[2026-07-10 15:15:49][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML_compressed (1).pdf (ID: 509) 
+[2026-07-10 15:15:49][WARNING] Undefined variable $attachment {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:15:49][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:15:58][WARNING] Undefined variable $attachment {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:15:58][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:17:24][WARNING] Undefined variable $attachment {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:17:24][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:21:22][WARNING] Undefined variable $attachment {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:21:22][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\view.php","line":487,"errno":2}
+[2026-07-10 15:27:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 15:28:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 15:28:51][INFO] Technicien 5 mis à jour pour l'intervention 330 
+[2026-07-10 15:28:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 15:28:59][INFO] Technicien 5 supprimé de l'intervention 330 
+[2026-07-10 15:29:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 15:29:16][DEBUG] AttachmentService::normalizeFilesArray - Tableau de fichiers détecté, count: 1 
+[2026-07-10 15:29:16][DEBUG] AttachmentService::upload - Type: intervention, EntityId: 330, Files count: 1, UploadDir: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/330 
+[2026-07-10 15:29:16][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\php67A0.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/330/1783690156_coursUML_compressed_1.pdf 
+[2026-07-10 15:29:16][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/330/1783690156_coursUML_compressed_1.pdf 
+[2026-07-10 15:29:16][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML_compressed (1).pdf (ID: 510) 
+[2026-07-10 15:29:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 

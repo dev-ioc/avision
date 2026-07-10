@@ -486,7 +486,8 @@ $closeReason = [];
 												</button>
 												<a href="<?= BASE_URL ?>interventions/deleteComment/<?= $comment['id'] ?>"
 													class="btn btn-sm btn-outline-danger btn-action"
-													onclick="return confirm('Supprimer ce commentaire ?')" title="Supprimer">
+													onclick="return confirmDeleteLink(event, this, 'Supprimer le commentaire', 'Voulez-vous vraiment supprimer ce commentaire ? Cette action est irréversible.');"
+													title="Supprimer">
 													<i class="bi bi-trash"></i>
 												</a>
 											<?php endif; ?>
@@ -638,7 +639,7 @@ $closeReason = [];
 											<?php if (canDelete()): ?>
 												<a href="<?= BASE_URL ?>interventions/deleteAttachment/<?= $attachment['id'] ?>"
 													class="btn btn-sm btn-outline-danger btn-action" title="Supprimer"
-													onclick="return confirm('Supprimer cette pièce jointe ?');">
+													onclick="return confirmDeleteLink(event, this, 'Supprimer la pièce jointe', 'Voulez-vous vraiment supprimer cette pièce jointe ? Cette action est irréversible.');">
 													<i class="bi bi-trash"></i>
 												</a>
 											<?php endif; ?>
@@ -1398,7 +1399,28 @@ $closeReason = [];
 		</div>
 	</div>
 </div>
-
+<!-- Modale de confirmation générique (remplace confirm()) -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content confirm-modal-content">
+			<div class="modal-header border-0 pb-0">
+				<h5 class="modal-title d-flex align-items-center gap-2" id="confirmModalTitle">
+					<i class="bi bi-question-circle-fill text-warning fs-4"></i>
+					<span>Confirmation</span>
+				</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body pt-2">
+				<p class="mb-0 text-secondary" id="confirmModalMessage">Êtes-vous sûr ?</p>
+			</div>
+			<div class="modal-footer border-0 pt-0">
+				<button type="button" class="btn btn-light" id="confirmModalCancelBtn"
+					data-bs-dismiss="modal">Annuler</button>
+				<button type="button" class="btn btn-warning" id="confirmModalConfirmBtn">Confirmer</button>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="modal fade" id="sendEmailModal" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -1735,6 +1757,111 @@ $closeReason = [];
 <script>
 	window.CSRF_TOKEN = '<?= addslashes(csrf_token()) ?>';
 	window.BASE_URL = '<?= addslashes(BASE_URL) ?>';
+	if (!document.getElementById('toast-confirm-styles')) {
+		var toastStyle = document.createElement('style');
+		toastStyle.id = 'toast-confirm-styles';
+		toastStyle.textContent = `
+			@keyframes toastSlideIn { from { transform: translateX(110%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+			@keyframes toastSlideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(110%); opacity: 0; } }
+			.custom-toast {
+				position: fixed; top: 20px; right: 20px; min-width: 320px; max-width: 420px;
+				z-index: 99999; border-radius: 10px; padding: 14px 16px; overflow: hidden;
+				background: var(--bs-body-bg); box-shadow: 0 8px 24px rgba(0,0,0,.18);
+				border-left: 4px solid; animation: toastSlideIn .3s ease-out; cursor: pointer;
+			}
+			.custom-toast:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,.22); }
+			.custom-toast .toast-progress {
+				position: absolute; bottom: 0; left: 0; height: 3px; width: 100%; transition: width 4s linear;
+			}
+			.confirm-modal-content { border-radius: 14px; border: none; box-shadow: 0 12px 32px rgba(0,0,0,.2); }
+		`;
+		document.head.appendChild(toastStyle);
+	}
+
+	function showToast(message, type) {
+		type = type || 'info';
+		document.querySelectorAll('.custom-toast').forEach(function (t) { t.remove(); });
+
+		var config = {
+			success: { icon: 'bi-check-circle-fill', title: 'Succès', color: '#28a745' },
+			danger: { icon: 'bi-exclamation-triangle-fill', title: 'Erreur', color: '#dc3545' },
+			warning: { icon: 'bi-exclamation-circle-fill', title: 'Attention', color: '#ffc107' },
+			info: { icon: 'bi-info-circle-fill', title: 'Information', color: '#17a2b8' }
+		}[type] || { icon: 'bi-info-circle-fill', title: 'Information', color: '#17a2b8' };
+
+		var toast = document.createElement('div');
+		toast.className = 'custom-toast';
+		toast.style.borderLeftColor = config.color;
+		toast.innerHTML =
+			'<div class="d-flex align-items-start">' +
+			'<i class="bi ' + config.icon + ' me-2 fs-5" style="color:' + config.color + ';"></i>' +
+			'<div class="flex-grow-1"><strong>' + config.title + '</strong>' +
+			'<div class="small mt-1 text-secondary">' + message + '</div></div>' +
+			'<button type="button" class="btn-close ms-2" aria-label="Fermer"></button>' +
+			'</div><div class="toast-progress" style="background:' + config.color + ';"></div>';
+
+		document.body.appendChild(toast);
+		var progress = toast.querySelector('.toast-progress');
+		requestAnimationFrame(function () { progress.style.width = '0%'; });
+
+		function dismiss() {
+			toast.style.animation = 'toastSlideOut .3s ease-out forwards';
+			setTimeout(function () { if (toast.parentNode) toast.remove(); }, 280);
+		}
+		toast.querySelector('.btn-close').addEventListener('click', function (e) { e.stopPropagation(); dismiss(); });
+		toast.addEventListener('click', dismiss);
+		setTimeout(dismiss, 4000);
+	}
+
+	function showConfirm(options) {
+		options = options || {};
+		return new Promise(function (resolve) {
+			var modalEl = document.getElementById('confirmModal');
+			var titleEl = document.getElementById('confirmModalTitle');
+			var msgEl = document.getElementById('confirmModalMessage');
+			var confirmBtn = document.getElementById('confirmModalConfirmBtn');
+			var cancelBtn = document.getElementById('confirmModalCancelBtn');
+
+			var type = options.type || 'warning';
+			var presets = {
+				danger: { icon: 'bi-exclamation-triangle-fill text-danger', btn: 'btn-danger' },
+				warning: { icon: 'bi-question-circle-fill text-warning', btn: 'btn-warning' },
+				primary: { icon: 'bi-info-circle-fill text-primary', btn: 'btn-primary' },
+				success: { icon: 'bi-check-circle-fill text-success', btn: 'btn-success' }
+			};
+			var preset = presets[type] || presets.warning;
+
+			titleEl.innerHTML = '<i class="bi ' + (options.icon || preset.icon) + ' fs-4"></i><span>' + (options.title || 'Confirmation') + '</span>';
+			msgEl.textContent = options.message || 'Êtes-vous sûr ?';
+			confirmBtn.textContent = options.confirmText || 'Confirmer';
+			cancelBtn.textContent = options.cancelText || 'Annuler';
+			confirmBtn.className = 'btn ' + preset.btn;
+
+			var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+			var settled = false;
+
+			function cleanup() {
+				confirmBtn.removeEventListener('click', onConfirm);
+				modalEl.removeEventListener('hidden.bs.modal', onHidden);
+			}
+			function onConfirm() {
+				if (settled) return;
+				settled = true;
+				cleanup();
+				modal.hide();
+				resolve(true);
+			}
+			function onHidden() {
+				if (settled) return;
+				settled = true;
+				cleanup();
+				resolve(false);
+			}
+			confirmBtn.addEventListener('click', onConfirm);
+			modalEl.addEventListener('hidden.bs.modal', onHidden);
+			modal.show();
+		});
+	}
 </script>
 
 <script src="<?= BASE_URL ?>assets/js/pages/interventions.js?v=<?= time() ?>"
@@ -1850,8 +1977,15 @@ $closeReason = [];
 			fetch(baseUrl + 'interventions/sendEmail/' + interventionId, { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': token } })
 				.then(function (r) { return r.json(); })
 				.then(function (data) {
-					if (data.success) { var mi = typeof bootstrap !== 'undefined' && bootstrap.Modal && bootstrap.Modal.getInstance(modalEl); if (mi) mi.hide(); if (typeof Swal !== 'undefined') { Swal.fire({ icon: 'success', title: 'Envoyé', text: data.message || 'Email envoyé.' }); } else alert(data.message || 'Email envoyé.'); }
-					else { document.getElementById('sendEmailModalError').textContent = data.error || 'Échec'; document.getElementById('sendEmailModalError').style.display = 'block'; btn.disabled = false; }
+					if (data.success) {
+						var mi = typeof bootstrap !== 'undefined' && bootstrap.Modal && bootstrap.Modal.getInstance(modalEl);
+						if (mi) mi.hide();
+						showToast(data.message || 'Email envoyé.', 'success');
+					} else {
+						document.getElementById('sendEmailModalError').textContent = data.error || 'Échec';
+						document.getElementById('sendEmailModalError').style.display = 'block';
+						btn.disabled = false;
+					}
 				})
 				.catch(function () { document.getElementById('sendEmailModalError').textContent = 'Erreur réseau.'; document.getElementById('sendEmailModalError').style.display = 'block'; btn.disabled = false; });
 		});
@@ -2015,7 +2149,7 @@ $closeReason = [];
 				if (!isTicketContract) {
 					var token = getCsrfToken();
 					if (!token) {
-						alert('Token CSRF manquant. Rechargez la page et réessayez.');
+						showToast('Token CSRF manquant. Rechargez la page et réessayez.', 'danger');
 						return;
 					}
 
@@ -2038,7 +2172,7 @@ $closeReason = [];
 						})
 						.then(function (result) {
 							if (result && result.success === false) {
-								alert('Erreur : ' + (result.error || 'Fermeture impossible.'));
+								showToast('Erreur : ' + (result.error || 'Fermeture impossible.'), 'danger');
 								document.getElementById('fermetureConfirmer').disabled = false;
 								document.getElementById('fermetureConfirmer').innerHTML = '<i class="bi bi-lock me-1"></i>Confirmer la fermeture';
 							} else {
@@ -2054,7 +2188,7 @@ $closeReason = [];
 					var token = getCsrfToken();
 
 					if (!token) {
-						alert('Token CSRF manquant. Rechargez la page et réessayez.');
+						showToast('Token CSRF manquant. Rechargez la page et réessayez.', 'danger');
 						return;
 					}
 
@@ -2077,7 +2211,7 @@ $closeReason = [];
 						})
 						.then(function (result) {
 							if (result && result.success === false) {
-								alert('Erreur : ' + (result.error || 'Fermeture impossible.'));
+								showToast('Erreur : ' + (result.error || 'Fermeture impossible.'), 'danger');
 								document.getElementById('fermetureConfirmer').disabled = false;
 								document.getElementById('fermetureConfirmer').innerHTML = '<i class="bi bi-lock me-1"></i>Confirmer la fermeture';
 							} else {
@@ -2181,14 +2315,22 @@ $closeReason = [];
 				container.innerHTML = '<div class="text-center py-3 text-danger">Erreur de chargement</div>';
 			});
 	}
-	function removeTechnicianFromPage(technicianId) {
+	async function removeTechnicianFromPage(technicianId) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 		var interventionStatus = <?= (int) ($intervention['status_id'] ?? 0) ?>;
 		if (interventionStatus === 6) {
-			alert('Impossible de retirer un technicien d\'une intervention fermée. Veuillez la réouvrir d\'abord.');
+			showToast('Impossible de retirer un technicien d\'une intervention fermée. Veuillez la réouvrir d\'abord.', 'warning');
 			return;
 		}
-		if (!confirm('Retirer ce technicien de cette intervention ?')) return;
+		var confirmed = await showConfirm({
+			title: 'Retirer le technicien',
+			message: 'Voulez-vous vraiment retirer ce technicien de cette intervention ?',
+			type: 'danger',
+			icon: 'bi-person-dash-fill text-danger',
+			confirmText: 'Retirer'
+		});
+		if (!confirmed) return;
+
 		fetch(window.BASE_URL + 'interventions/removeTechnician', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': window.CSRF_TOKEN || '' },
@@ -2196,16 +2338,16 @@ $closeReason = [];
 		})
 			.then(function (r) { return r.json(); })
 			.then(function (result) {
-				if (result.success) { loadTechniciansInPage(); alert(result.message); }
-				else { alert('Erreur: ' + (result.error || 'Suppression impossible')); loadTechniciansInPage(); }
+				if (result.success) { loadTechniciansInPage(); showToast(result.message || 'Technicien retiré avec succès.', 'success'); }
+				else { showToast('Erreur : ' + (result.error || 'Suppression impossible'), 'danger'); loadTechniciansInPage(); }
 			})
-			.catch(function (error) { alert('Erreur réseau'); loadTechniciansInPage(); });
+			.catch(function () { showToast('Erreur réseau.', 'danger'); loadTechniciansInPage(); });
 	}
 	function editTechnician(technicianId) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 		var interventionStatus = <?= (int) ($intervention['status_id'] ?? 0) ?>;
 		if (interventionStatus === 6) {
-			alert('Impossible de modifier un technicien d\'une intervention fermée. Veuillez la réouvrir d\'abord.');
+			showToast('Impossible de modifier un technicien d\'une intervention fermée. Veuillez la réouvrir d\'abord.', 'warning');
 			return;
 		}
 		openTechModal(interventionId, technicianId);
@@ -2309,11 +2451,20 @@ $closeReason = [];
 		document.getElementById('technicianDetails').style.display = 'block';
 	});
 
-	function removeCurrentTechnician() {
+	async function removeCurrentTechnician() {
 		var tid = document.getElementById('selected_technician_id').value;
 		if (!tid) return;
 		var tech = assignedTechnicians.find(function (t) { return t.id == tid; });
-		if (tech && confirm('Retirer ' + tech.name + ' de cette intervention ?')) {
+		if (!tech) return;
+
+		var confirmed = await showConfirm({
+			title: 'Retirer le technicien',
+			message: 'Retirer ' + tech.name + ' de cette intervention ?',
+			type: 'danger',
+			icon: 'bi-person-dash-fill text-danger',
+			confirmText: 'Retirer'
+		});
+		if (confirmed) {
 			assignedTechnicians = assignedTechnicians.filter(function (t) { return t.id != tid; });
 			resetTechnicianForm();
 			document.getElementById('techSelect').value = '';
@@ -2326,10 +2477,11 @@ $closeReason = [];
 		var interventionId = document.getElementById('intervention_id').value;
 		var interventionStatus = <?= (int) ($intervention['status_id'] ?? 0) ?>;
 		if (interventionStatus === 6) {
-			alert('Impossible de modifier les techniciens d\'une intervention fermée. Veuillez la réouvrir d\'abord.');
+			showToast('Impossible de modifier les techniciens d\'une intervention fermée. Veuillez la réouvrir d\'abord.', 'warning');
 			return;
 		}
-		if (!interventionId) { alert('ID intervention manquant'); return; }
+		if (!interventionId) { showToast('ID intervention manquant.', 'danger'); return; }
+
 		var toSave = [];
 		for (var i = 0; i < assignedTechnicians.length; i++) {
 			var existingTech = assignedTechnicians[i];
@@ -2339,16 +2491,18 @@ $closeReason = [];
 		var selectedValue = sel.value;
 		if (selectedValue) {
 			var st = document.getElementById('start_time').value, et = document.getElementById('end_time').value, tp = parseInt(document.getElementById('temps_passe').value) || 0, dep = parseInt(document.getElementById('deplacement').value) || 0, iq = parseInt(document.getElementById('is_qualified').value) || 0, comment = document.getElementById('commentaire').value;
-			if (st && et && new Date(st) >= new Date(et)) { alert('La date de fin doit être postérieure à la date de début.'); return; }
+			if (st && et && new Date(st) >= new Date(et)) { showToast('La date de fin doit être postérieure à la date de début.', 'warning'); return; }
 			if (tp > 0) tp = roundToHalfHour(tp) || 30;
 			var existingIndex = toSave.findIndex(function (t) { return t.technicien_id == selectedValue; });
 			var techData = { technicien_id: parseInt(selectedValue), start_time: st || null, end_time: et || null, temps_passe: tp || null, deplacement: dep, is_qualified: iq, commentaire: comment, notify_technician: 1 };
 			if (existingIndex >= 0) { toSave[existingIndex] = techData; } else { toSave.push(techData); }
 		}
-		if (toSave.length === 0) { alert('Veuillez sélectionner au moins un technicien'); return; }
+		if (toSave.length === 0) { showToast('Veuillez sélectionner au moins un technicien.', 'warning'); return; }
+
 		var saveBtn = document.querySelector('#techModal .btn-primary');
 		var originalText = saveBtn ? saveBtn.innerHTML : '';
 		if (saveBtn) { saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status"></span>Enregistrement...'; saveBtn.disabled = true; }
+
 		fetch(window.BASE_URL + 'interventions/assignTechnicians', {
 			method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': window.CSRF_TOKEN || '' },
 			body: JSON.stringify({ intervention_id: parseInt(interventionId), technicians: toSave, replace: true })
@@ -2356,20 +2510,33 @@ $closeReason = [];
 			.then(function (r) { return r.json(); })
 			.then(function (result) {
 				if (saveBtn) { saveBtn.innerHTML = originalText; saveBtn.disabled = false; }
-				if (result.success) { alert('Techniciens affectés avec succès !'); var m = bootstrap.Modal.getInstance(document.getElementById('techModal')); if (m) m.hide(); location.reload(); }
-				else { alert('Erreur: ' + (result.error || 'Inconnue')); }
+				if (result.success) {
+					showToast('Techniciens affectés avec succès !', 'success');
+					var m = bootstrap.Modal.getInstance(document.getElementById('techModal'));
+					if (m) m.hide();
+					setTimeout(function () { location.reload(); }, 900);
+				} else {
+					showToast('Erreur : ' + (result.error || 'Inconnue'), 'danger');
+				}
 			})
-			.catch(function (e) { if (saveBtn) { saveBtn.innerHTML = originalText; saveBtn.disabled = false; } alert('Erreur réseau: ' + e.message); });
+			.catch(function (e) { if (saveBtn) { saveBtn.innerHTML = originalText; saveBtn.disabled = false; } showToast('Erreur réseau : ' + e.message, 'danger'); });
 	}
-
 	async function sendEmailToTechnician(technicianId, technicianName) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
-		if (!confirm('Envoyer un email de notification à ' + technicianName + ' ?')) return;
 		var interventionStatus = <?= (int) ($intervention['status_id'] ?? 0) ?>;
 		if (interventionStatus === 6) {
-			alert('Impossible d\'envoyer un mail au technicien d\'une intervention fermée. Veuillez la réouvrir d\'abord.');
+			showToast('Impossible d\'envoyer un mail au technicien d\'une intervention fermée. Veuillez la réouvrir d\'abord.', 'warning');
 			return;
 		}
+		var confirmed = await showConfirm({
+			title: 'Envoyer un email',
+			message: 'Envoyer un email de notification à ' + technicianName + ' ?',
+			type: 'primary',
+			icon: 'bi-envelope-fill text-primary',
+			confirmText: 'Envoyer'
+		});
+		if (!confirmed) return;
+
 		try {
 			var fd = new URLSearchParams();
 			fd.append('intervention_id', interventionId);
@@ -2377,11 +2544,22 @@ $closeReason = [];
 			fd.append('csrf_token', window.CSRF_TOKEN || '');
 			var r = await fetch(window.BASE_URL + 'interventions/sendTechnicianEmail', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' }, body: fd });
 			var data = await r.json();
-			if (data.success) alert('Email envoyé à ' + technicianName);
-			else alert('Erreur: ' + (data.error || 'Échec'));
-		} catch (e) { alert(' Erreur: ' + e.message); }
+			if (data.success) showToast('Email envoyé à ' + technicianName + '.', 'success');
+			else showToast('Erreur : ' + (data.error || 'Échec'), 'danger');
+		} catch (e) { showToast('Erreur : ' + e.message, 'danger'); }
 	}
-
+	async function confirmDeleteLink(event, link, title, message) {
+		event.preventDefault();
+		var confirmed = await showConfirm({
+			title: title,
+			message: message,
+			type: 'danger',
+			icon: 'bi-trash-fill text-danger',
+			confirmText: 'Supprimer'
+		});
+		if (confirmed) window.location.href = link.href;
+		return false;
+	}
 	function escapeHtml(s) { if (!s) return ''; return s.replace(/[&<>]/g, function (m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
 
 	document.addEventListener('DOMContentLoaded', function () {
