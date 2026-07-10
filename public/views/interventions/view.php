@@ -1399,7 +1399,6 @@ $closeReason = [];
 	</div>
 </div>
 
-<!-- Envoyer un email -->
 <div class="modal fade" id="sendEmailModal" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
