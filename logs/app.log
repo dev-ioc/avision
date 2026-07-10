@@ -117881,3 +117881,25 @@ Quant à l’écran n°1, il est HS
 [2026-07-10 11:04:14][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
 [2026-07-10 14:14:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
 [2026-07-10 14:14:11][INFO] Technicien 10 mis à jour pour l'intervention 337 
+[2026-07-10 14:33:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 14:33:49][INFO] === FERMETURE INTERVENTION 325 === 
+[2026-07-10 14:33:49][INFO] Tickets à déduire: 0 
+[2026-07-10 14:33:49][INFO] Contrat ID: 122 
+[2026-07-10 14:33:49][INFO] isContractTicketById(122) = false 
+[2026-07-10 14:33:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 14:33:59][INFO] === RÉOUVERTURE INTERVENTION 325 === 
+[2026-07-10 14:33:59][INFO] Tickets à recréditer: 0 
+[2026-07-10 14:33:59][INFO] Contrat ID: 122 
+[2026-07-10 14:33:59][INFO] Had tickets: non 
+[2026-07-10 14:33:59][INFO] RÉOUVERTURE RÉUSSIE - Intervention 325 
+[2026-07-10 14:35:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 14:35:14][INFO] === FERMETURE INTERVENTION 325 === 
+[2026-07-10 14:35:14][INFO] Tickets à déduire: 0 
+[2026-07-10 14:35:14][INFO] Contrat ID: 122 
+[2026-07-10 14:35:14][INFO] isContractTicketById(122) = false 
+[2026-07-10 14:35:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 14:35:21][INFO] === RÉOUVERTURE INTERVENTION 325 === 
+[2026-07-10 14:35:21][INFO] Tickets à recréditer: 0 
+[2026-07-10 14:35:21][INFO] Contrat ID: 122 
+[2026-07-10 14:35:21][INFO] Had tickets: non 
+[2026-07-10 14:35:21][INFO] RÉOUVERTURE RÉUSSIE - Intervention 325 

@@ -2140,11 +2140,24 @@ $closeReason = [];
 		var container = document.getElementById('techniciansListContainer');
 		if (!container) return;
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
-		fetch(window.BASE_URL + 'interventions/interventionsTechnician?id=' + interventionId, { method: 'GET', headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }, credentials: 'same-origin' })
+		var canEdit = <?= ($intervention['status_id'] != 6) ? 'true' : 'false' ?>;
+
+		fetch(window.BASE_URL + 'interventions/interventionsTechnician?id=' + interventionId, {
+			method: 'GET',
+			headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+			credentials: 'same-origin'
+		})
 			.then(function (r) { return r.json(); })
 			.then(function (data) {
 				var assigned = data.data?.assigned || data.assigned || [];
-				if (assigned.length === 0) { container.innerHTML = '<div class="text-center py-3 text-muted">Aucun technicien affecté</div>'; return; }
+				if (assigned.length === 0) {
+					container.innerHTML = '<div class="text-center py-3 text-muted">Aucun technicien affecté</div>';
+					return;
+				}
+
+				var disabledAttr = canEdit ? '' : ' disabled';
+				var disabledClass = canEdit ? '' : ' disabled';
+
 				var html = '<div class="list-group list-group-flush">';
 				assigned.forEach(function (tech) {
 					var name = tech.full_name || (tech.first_name + ' ' + tech.last_name);
@@ -2152,15 +2165,23 @@ $closeReason = [];
 					var et = tech.end_time ? new Date(tech.end_time).toLocaleString('fr-FR') : 'Non défini';
 					var tp = tech.temps_passe ? tech.temps_passe + ' min' : 'Non défini';
 					var dep = tech.deplacement == 1 ? 'Oui' : 'Non';
-					var qual = tech.is_qualified == 1 ? '<span class="badge bg-success text-dark">Qualifié</span>' : '<span class="badge bg-secondary">Non qualifié</span>';
-					html += '<div class="list-group-item"><div class="d-flex justify-content-between align-items-start"><div style="flex:1;"><strong>' + escapeHtml(name) + '</strong> ' + qual + '<br><small>Début: ' + st + '<br>Fin: ' + et + '<br>Durée: ' + tp + '<br>Déplacement: ' + dep + '</small>' + (tech.commentaire ? '<br><small class="text-info">' + escapeHtml(tech.commentaire.substring(0, 100)) + '</small>' : '') + '</div><div class="d-flex gap-1"><button class="btn btn-sm btn-outline-warning" onclick="editTechnician(' + tech.technicien_id + ')" title="Modifier"><i class="bi bi-pencil"></i></button><button class="btn btn-sm btn-outline-primary" onclick="sendEmailToTechnician(' + tech.technicien_id + ',\'' + escapeHtml(name) + '\')"><i class="bi bi-envelope"></i></button><button class="btn btn-sm btn-outline-danger" onclick="removeTechnicianFromPage(' + tech.technicien_id + ')"><i class="bi bi-trash"></i></button></div></div></div>';
+					var qual = tech.is_qualified == 1
+						? '<span class="badge bg-success text-dark">Qualifié</span>'
+						: '<span class="badge bg-secondary">Non qualifié</span>';
+
+					html += '<div class="list-group-item"><div class="d-flex justify-content-between align-items-start"><div style="flex:1;"><strong>' + escapeHtml(name) + '</strong> ' + qual + '<br><small>Début: ' + st + '<br>Fin: ' + et + '<br>Durée: ' + tp + '<br>Déplacement: ' + dep + '</small>' + (tech.commentaire ? '<br><small class="text-info">' + escapeHtml(tech.commentaire.substring(0, 100)) + '</small>' : '') + '</div><div class="d-flex gap-1">' +
+						'<button class="btn btn-sm btn-outline-warning' + disabledClass + '"' + disabledAttr + ' onclick="editTechnician(' + tech.technicien_id + ')" title="Modifier"><i class="bi bi-pencil"></i></button>' +
+						'<button class="btn btn-sm btn-outline-primary' + disabledClass + '"' + disabledAttr + ' onclick="sendEmailToTechnician(' + tech.technicien_id + ',\'' + escapeHtml(name) + '\')" title="Envoyer un email"><i class="bi bi-envelope"></i></button>' +
+						'<button class="btn btn-sm btn-outline-danger' + disabledClass + '"' + disabledAttr + ' onclick="removeTechnicianFromPage(' + tech.technicien_id + ')" title="Supprimer"><i class="bi bi-trash"></i></button>' +
+						'</div></div></div>';
 				});
 				html += '</div>';
 				container.innerHTML = html;
 			})
-			.catch(function (e) { container.innerHTML = '<div class="text-center py-3 text-danger">Erreur de chargement</div>'; });
+			.catch(function (e) {
+				container.innerHTML = '<div class="text-center py-3 text-danger">Erreur de chargement</div>';
+			});
 	}
-
 	function removeTechnicianFromPage(technicianId) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 		var interventionStatus = <?= (int) ($intervention['status_id'] ?? 0) ?>;
