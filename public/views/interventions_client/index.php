@@ -140,11 +140,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 
 </div>
-
-<!-- DataTable Persistence -->
+<script>
+    window.serverSavedSettings = {
+        interventionsTable_pageLength:
+            <?= json_encode((int) getUserPreference('datatable_interventionsTable_pageLength', 10)) ?>
+    };
+</script>
 <script src="<?php echo BASE_URL; ?>assets/js/datatable-persistence.js"></script>
-
-<!-- Page JS -->
 <script src="<?php echo BASE_URL; ?>assets/js/interventions-datatable.js"></script>
 
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

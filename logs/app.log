@@ -117829,3 +117829,53 @@ Quant à l’écran n°1, il est HS
 [2026-07-10 10:10:45][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-07-10 10:10:45][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
 [2026-07-10 10:10:45][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-10 10:30:58][DEBUG] Redirection vers login - URL sauvegardée: interventions_client (Session ID: m2n1n3lkaco92a3qsv1loqdghb) 
+[2026-07-10 10:31:32][DEBUG] CSRF: Token trouvé dans la requête - Token: a37e4fe9bae475c4b9cf... 
+[2026-07-10 10:31:33][DEBUG] Permissions chargées pour Fncaaudiovisuel : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":22,"site_id":35,"room_id":72},{"client_id":22,"site_id":35,"room_id":73},{"client_id":22,"site_id":35,"room_id":74},{"client_id":22,"site_id":35,"room_id":75},{"client_id":22,"site_id":35,"room_id":76},{"client_id":22,"site_id":35,"room_id":77},{"client_id":22,"site_id":35,"room_id":78},{"client_id":22,"site_id":35,"room_id":79},{"client_id":22,"site_id":35,"room_id":80},{"client_id":22,"site_id":35,"room_id":81},{"client_id":22,"site_id":35,"room_id":82},{"client_id":22,"site_id":35,"room_id":83},{"client_id":22,"site_id":35,"room_id":84},{"client_id":22,"site_id":35,"room_id":297}],"coefficients":{"user_coef":null}} 
+[2026-07-10 10:31:33][INFO] Utilisateur connecté : Fncaaudiovisuel {"user_id":26,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":22}
+[2026-07-10 10:31:33][DEBUG] Login réussi - Session ID: m2n1n3lkaco92a3qsv1loqdghb 
+[2026-07-10 10:31:33][DEBUG] Login réussi - redirect_after_login: interventions_client 
+[2026-07-10 10:31:33][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-10 10:31:33][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-07-10 10:31:33][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions_client 
+[2026-07-10 10:47:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 6d564411cb1066c09db1... 
+[2026-07-10 10:47:52][DEBUG] Permissions chargées pour Fncaaudiovisuel : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":22,"site_id":35,"room_id":72},{"client_id":22,"site_id":35,"room_id":73},{"client_id":22,"site_id":35,"room_id":74},{"client_id":22,"site_id":35,"room_id":75},{"client_id":22,"site_id":35,"room_id":76},{"client_id":22,"site_id":35,"room_id":77},{"client_id":22,"site_id":35,"room_id":78},{"client_id":22,"site_id":35,"room_id":79},{"client_id":22,"site_id":35,"room_id":80},{"client_id":22,"site_id":35,"room_id":81},{"client_id":22,"site_id":35,"room_id":82},{"client_id":22,"site_id":35,"room_id":83},{"client_id":22,"site_id":35,"room_id":84},{"client_id":22,"site_id":35,"room_id":297}],"coefficients":{"user_coef":null}} 
+[2026-07-10 10:47:52][INFO] Utilisateur connecté : Fncaaudiovisuel {"user_id":26,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":22}
+[2026-07-10 10:47:52][DEBUG] Login réussi - Session ID: 5rfbuo8np6b2hsbsq9i51c5l6d 
+[2026-07-10 10:47:52][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-10 10:47:52][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-10 10:47:52][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-10 10:47:52][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-10 11:00:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 79e05a678fc105f539cd... 
+[2026-07-10 11:00:37][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-10 11:00:37][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-10 11:00:37][DEBUG] Login réussi - Session ID: qokcj2pbn11ivm33gtcd1q4941 
+[2026-07-10 11:00:37][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-10 11:00:37][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-10 11:00:37][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-10 11:00:37][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-10 11:01:09][DEBUG] Redirection vers login - URL sauvegardée: interventions/preventives (Session ID: 3sbieea1aig3avbapu680sd3o4) 
+[2026-07-10 11:01:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 11:01:13][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-10 11:01:13][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-10 11:01:13][DEBUG] Login réussi - Session ID: 3sbieea1aig3avbapu680sd3o4 
+[2026-07-10 11:01:13][DEBUG] Login réussi - redirect_after_login: interventions/preventives 
+[2026-07-10 11:01:13][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-10 11:01:13][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-07-10 11:01:13][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/preventives 
+[2026-07-10 11:02:18][DEBUG] CSRF: Token trouvé dans la requête - Token: ed0d6797c9a37c8e06c2... 
+[2026-07-10 11:02:18][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-10 11:02:18][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-10 11:02:18][DEBUG] Login réussi - Session ID: 96th63riq0b5n5fi8u4d4f4ed4 
+[2026-07-10 11:02:18][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-10 11:02:18][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-10 11:02:18][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-10 11:02:18][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-10 11:04:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 237a6843b4ec67630bef... 
+[2026-07-10 11:04:14][DEBUG] Permissions chargées pour Fncaaudiovisuel : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":22,"site_id":35,"room_id":72},{"client_id":22,"site_id":35,"room_id":73},{"client_id":22,"site_id":35,"room_id":74},{"client_id":22,"site_id":35,"room_id":75},{"client_id":22,"site_id":35,"room_id":76},{"client_id":22,"site_id":35,"room_id":77},{"client_id":22,"site_id":35,"room_id":78},{"client_id":22,"site_id":35,"room_id":79},{"client_id":22,"site_id":35,"room_id":80},{"client_id":22,"site_id":35,"room_id":81},{"client_id":22,"site_id":35,"room_id":82},{"client_id":22,"site_id":35,"room_id":83},{"client_id":22,"site_id":35,"room_id":84},{"client_id":22,"site_id":35,"room_id":297}],"coefficients":{"user_coef":null}} 
+[2026-07-10 11:04:14][INFO] Utilisateur connecté : Fncaaudiovisuel {"user_id":26,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":22}
+[2026-07-10 11:04:14][DEBUG] Login réussi - Session ID: al7mddrj318b9k444nouh7csqc 
+[2026-07-10 11:04:14][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-10 11:04:14][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-10 11:04:14][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-10 11:04:14][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
