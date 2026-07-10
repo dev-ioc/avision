@@ -33,7 +33,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     <?php if (isset($_SESSION['error'])): ?>
         <div class="alert alert-danger">
-            <?php 
+            <?php
             echo $_SESSION['error'];
             unset($_SESSION['error']);
             ?>
@@ -42,7 +42,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success">
-            <?php 
+            <?php
             echo $_SESSION['success'];
             unset($_SESSION['success']);
             ?>
@@ -69,12 +69,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <td data-label="Client"><?= h($contract['client_name'] ?? '-') ?></td>
                             <td data-label="Type de contrat"><?= h($contract['contract_type_name'] ?? '-') ?></td>
                             <td data-label="Nom">
-                                <a href="<?= BASE_URL ?>contracts_client/view/<?= $contract['id']; ?>" class="text-decoration-none">
+                                <a href="<?= BASE_URL ?>contracts_client/view/<?= $contract['id']; ?>"
+                                    class="text-decoration-none">
                                     <?= h($contract['name'] ?? '-') ?>
                                 </a>
                             </td>
-                                            <td data-label="Date de fin" data-order="<?= strtotime($contract['end_date']); ?>">
-                    <?= formatDateFrench($contract['end_date']); ?>
+                            <td data-label="Date de fin" data-order="<?= strtotime($contract['end_date']); ?>">
+                                <?= formatDateFrench($contract['end_date']); ?>
                             </td>
                             <td data-label="Tickets restants" data-order="<?= $contract['tickets_remaining']; ?>">
                                 <?php if (isContractTicketById($contract['id'])): ?>
@@ -106,7 +107,23 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </table>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const pageSelect = document.getElementById('mobilePageSelect');
+        if (pageSelect) {
+            pageSelect.addEventListener('change', function () {
+                window.location.href = '<?= $baseUrlWithParams ?>' + this.value;
+            });
+        }
+    });
 
+    window.BASE_URL = '<?= BASE_URL ?>';
+    window.csrfToken = '<?= $_SESSION['csrf_token'] ?>';
+    window.serverSavedSettings = {
+        interventionsTable_pageLength:
+                  <?= json_encode((int) getUserPreference('datatable_interventionsTable_pageLength', 10)) ?>
+    };
+</script>
 <!-- DataTable Persistence -->
 <script src="<?= BASE_URL ?>assets/js/datatable-persistence.js"></script>
 
@@ -116,4 +133,4 @@ include_once __DIR__ . '/../../includes/navbar.php';
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';
-?> 
+?>

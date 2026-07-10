@@ -133,8 +133,23 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </table>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const pageSelect = document.getElementById('mobilePageSelect');
+        if (pageSelect) {
+            pageSelect.addEventListener('change', function () {
+                window.location.href = '<?= $baseUrlWithParams ?>' + this.value;
+            });
+        }
+    });
 
-
+    window.BASE_URL = '<?= BASE_URL ?>';
+    window.csrfToken = '<?= $_SESSION['csrf_token'] ?>';
+    window.serverSavedSettings = {
+        interventionsTable_pageLength:
+                  <?= json_encode((int) getUserPreference('datatable_interventionsTable_pageLength', 10)) ?>
+    };
+</script>
 
 <!-- DataTable Persistence -->
 <script src="<?php echo BASE_URL; ?>assets/js/datatable-persistence.js"></script>
