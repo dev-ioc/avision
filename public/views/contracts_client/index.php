@@ -120,14 +120,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
     window.BASE_URL = '<?= BASE_URL ?>';
     window.csrfToken = '<?= $_SESSION['csrf_token'] ?>';
     window.serverSavedSettings = {
-        interventionsTable_pageLength:
-                  <?= json_encode((int) getUserPreference('datatable_interventionsTable_pageLength', 10)) ?>
+        contractsTable_pageLength:
+            <?= json_encode((int) getUserPreference('datatable_contractsTable_pageLength', 10)) ?>
     };
 </script>
-<!-- DataTable Persistence -->
 <script src="<?= BASE_URL ?>assets/js/datatable-persistence.js"></script>
-
-<!-- Page JS -->
 <script src="<?= BASE_URL ?>assets/js/contracts-datatable.js"></script>
 
 <?php

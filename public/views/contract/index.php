@@ -34,13 +34,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
 <div class="container-fluid flex-grow-1 container-p-y">
     <!-- En-tête avec actions -->
     <div class="d-flex bd-highlight mb-3">
-        <div class="p-2 bd-highlight"><h4 class="py-4 mb-6">Gestion des Contrats</h4></div>
+        <div class="p-2 bd-highlight">
+            <h4 class="py-4 mb-6">Gestion des Contrats</h4>
+        </div>
 
         <div class="ms-auto p-2 bd-highlight">
             <?php if (canManageContracts()): ?>
-            <a href="<?php echo BASE_URL; ?>contracts/add" class="btn btn-primary">
-                <i class="bi bi-plus me-1"></i> Nouveau contrat
-            </a>
+                <a href="<?php echo BASE_URL; ?>contracts/add" class="btn btn-primary">
+                    <i class="bi bi-plus me-1"></i> Nouveau contrat
+                </a>
             <?php endif; ?>
         </div>
     </div>
@@ -53,24 +55,24 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     <!-- Filtres rapides par statut -->
                     <div class="d-flex flex-wrap gap-2">
                         <!-- Tous les contrats -->
-                        <?php 
+                        <?php
                         $totalCount = 0;
                         foreach ($statsByStatus as $stat) {
                             $totalCount += $stat['count'];
                         }
                         ?>
-                        <a href="<?php echo BASE_URL; ?>contracts?show_status=all" 
-                           class="btn btn-outline-secondary btn-sm status-filter-btn <?php echo ($current_filter_view ?? 'actif') === 'all' ? 'active' : ''; ?>">
+                        <a href="<?php echo BASE_URL; ?>contracts?show_status=all"
+                            class="btn btn-outline-secondary btn-sm status-filter-btn <?php echo ($current_filter_view ?? 'actif') === 'all' ? 'active' : ''; ?>">
                             <span class="badge bg-secondary me-1">
                                 <?php echo $totalCount; ?>
                             </span>
                             Tous
                         </a>
-                        
+
                         <!-- Filtres par statut -->
                         <?php foreach ($statsByStatus as $stat): ?>
-                            <a href="<?php echo BASE_URL; ?>contracts?show_status=<?php echo $stat['status']; ?>" 
-                               class="btn btn-outline-secondary btn-sm status-filter-btn <?php echo ($current_filter_view ?? 'actif') === $stat['status'] ? 'active' : ''; ?>">
+                            <a href="<?php echo BASE_URL; ?>contracts?show_status=<?php echo $stat['status']; ?>"
+                                class="btn btn-outline-secondary btn-sm status-filter-btn <?php echo ($current_filter_view ?? 'actif') === $stat['status'] ? 'active' : ''; ?>">
                                 <span class="badge <?php echo $stat['color']; ?> me-1">
                                     <?php echo $stat['count']; ?>
                                 </span>
@@ -94,22 +96,22 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     </h6>
                     <div class="d-flex flex-wrap gap-2">
                         <!-- Tous les types de tickets -->
-                        <a href="<?php echo BASE_URL; ?>contracts?show_status=<?php echo $current_filter_view ?? 'actif'; ?>&ticket_type=all" 
-                           class="btn btn-outline-secondary btn-sm ticket-filter-btn <?php echo ($current_ticket_filter ?? 'all') === 'all' ? 'active' : ''; ?>">
+                        <a href="<?php echo BASE_URL; ?>contracts?show_status=<?php echo $current_filter_view ?? 'actif'; ?>&ticket_type=all"
+                            class="btn btn-outline-secondary btn-sm ticket-filter-btn <?php echo ($current_ticket_filter ?? 'all') === 'all' ? 'active' : ''; ?>">
                             <i class="bi bi-funnel me-1"></i>
                             Tous les types
                         </a>
-                        
+
                         <!-- Contrats avec tickets -->
-                        <a href="<?php echo BASE_URL; ?>contracts?show_status=<?php echo $current_filter_view ?? 'actif'; ?>&ticket_type=with_tickets" 
-                           class="btn btn-outline-info btn-sm ticket-filter-btn <?php echo ($current_ticket_filter ?? 'all') === 'with_tickets' ? 'active' : ''; ?>">
+                        <a href="<?php echo BASE_URL; ?>contracts?show_status=<?php echo $current_filter_view ?? 'actif'; ?>&ticket_type=with_tickets"
+                            class="btn btn-outline-info btn-sm ticket-filter-btn <?php echo ($current_ticket_filter ?? 'all') === 'with_tickets' ? 'active' : ''; ?>">
                             <i class="bi bi-ticket-perforated me-1"></i>
                             Avec tickets
                         </a>
-                        
+
                         <!-- Contrats sans tickets -->
-                        <a href="<?php echo BASE_URL; ?>contracts?show_status=<?php echo $current_filter_view ?? 'actif'; ?>&ticket_type=without_tickets" 
-                           class="btn btn-outline-warning btn-sm ticket-filter-btn <?php echo ($current_ticket_filter ?? 'all') === 'without_tickets' ? 'active' : ''; ?>">
+                        <a href="<?php echo BASE_URL; ?>contracts?show_status=<?php echo $current_filter_view ?? 'actif'; ?>&ticket_type=without_tickets"
+                            class="btn btn-outline-warning btn-sm ticket-filter-btn <?php echo ($current_ticket_filter ?? 'all') === 'without_tickets' ? 'active' : ''; ?>">
                             <i class="bi bi-ticket-perforated-fill me-1"></i>
                             Sans tickets
                         </a>
@@ -121,7 +123,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     <?php if (isset($_SESSION['error'])): ?>
         <div class="alert alert-danger">
-            <?php 
+            <?php
             echo $_SESSION['error'];
             unset($_SESSION['error']);
             ?>
@@ -130,89 +132,104 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success">
-            <?php 
+            <?php
             echo $_SESSION['success'];
             unset($_SESSION['success']);
             ?>
         </div>
     <?php endif; ?>
 
-       
- 
-                    <div class="table-responsive">
-                        <table id="contractsTable" class="table table-striped table-hover dt-responsive">
-                            <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Client</th>
-                                    <th>Type de contrat</th>
-                                    <th>Date de fin</th>
-                                    <th>Tickets restants</th>
-                                    <th>Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (!empty($contracts)): ?>
-                                    <?php foreach ($contracts as $contract): ?>
-                                        <tr>
-                                            <td data-label="Nom">
-                                                <a href="<?php echo BASE_URL; ?>contracts/view/<?php echo $contract['id']; ?>" 
-                                                   class="text-decoration-none fw-bold" 
-                                                   title="Voir le contrat">
-                                                    <?php echo htmlspecialchars($contract['name'] ?? '-'); ?>
-                                                </a>
-                                            </td>
-                                            <td data-label="Client">
-                                                <a href="<?php echo BASE_URL; ?>clients/view/<?php echo $contract['client_id']; ?>?return_to=contracts&active_tab=contracts-tab" 
-                                                   class="text-decoration-none" 
-                                                   title="Voir le client">
-                                                    <?php echo htmlspecialchars($contract['client_name'] ?? '-'); ?>
-                                                </a>
-                                            </td>
-                                            <td data-label="Type de contrat"><?php echo htmlspecialchars($contract['contract_type_name'] ?? '-'); ?></td>
-                                            <td data-label="Date de fin" data-order="<?php echo strtotime($contract['end_date']); ?>"><?php echo formatDateFrench($contract['end_date']); ?></td>
-                                            <td data-label="Tickets restants" data-order="<?php echo $contract['tickets_remaining']; ?>">
-                                                <?php if (isContractTicketById($contract['id'])): ?>
-                                                    <span class="badge bg-<?php echo $contract['tickets_remaining'] > 3 ? 'success' : 'danger'; ?>">
-                                                        <?php echo $contract['tickets_remaining']; ?>
-                                                    </span>
-                                                <?php else: ?>
-                                                    <span class="no-tickets-indicator" title="Sans tickets">
-                                                        <i class="no-tickets-icon"></i>
-                                                    </span>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td data-label="Statut">
-                                                <span class="badge bg-<?php 
-                                                    echo $contract['status'] === 'actif' ? 'success' : 
-                                                        ($contract['status'] === 'inactif' ? 'danger' : 
-                                                        ($contract['status'] === 'en_attente' ? 'warning' : 'secondary')); 
-                                                ?>">
-                                                    <?php echo ucfirst(str_replace('_', ' ', $contract['status'])); ?>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
+
+
+    <div class="table-responsive">
+        <table id="contractsTable" class="table table-striped table-hover dt-responsive">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Client</th>
+                    <th>Type de contrat</th>
+                    <th>Date de fin</th>
+                    <th>Tickets restants</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($contracts)): ?>
+                    <?php foreach ($contracts as $contract): ?>
+                        <tr>
+                            <td data-label="Nom">
+                                <a href="<?php echo BASE_URL; ?>contracts/view/<?php echo $contract['id']; ?>"
+                                    class="text-decoration-none fw-bold" title="Voir le contrat">
+                                    <?php echo htmlspecialchars($contract['name'] ?? '-'); ?>
+                                </a>
+                            </td>
+                            <td data-label="Client">
+                                <a href="<?php echo BASE_URL; ?>clients/view/<?php echo $contract['client_id']; ?>?return_to=contracts&active_tab=contracts-tab"
+                                    class="text-decoration-none" title="Voir le client">
+                                    <?php echo htmlspecialchars($contract['client_name'] ?? '-'); ?>
+                                </a>
+                            </td>
+                            <td data-label="Type de contrat">
+                                <?php echo htmlspecialchars($contract['contract_type_name'] ?? '-'); ?>
+                            </td>
+                            <td data-label="Date de fin" data-order="<?php echo strtotime($contract['end_date']); ?>">
+                                <?php echo formatDateFrench($contract['end_date']); ?>
+                            </td>
+                            <td data-label="Tickets restants" data-order="<?php echo $contract['tickets_remaining']; ?>">
+                                <?php if (isContractTicketById($contract['id'])): ?>
+                                    <span class="badge bg-<?php echo $contract['tickets_remaining'] > 3 ? 'success' : 'danger'; ?>">
+                                        <?php echo $contract['tickets_remaining']; ?>
+                                    </span>
                                 <?php else: ?>
-                                    <?php // Laisser tbody vide. DataTables utilisera language.emptyTable ?>
+                                    <span class="no-tickets-indicator" title="Sans tickets">
+                                        <i class="no-tickets-icon"></i>
+                                    </span>
                                 <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
-            
+                            </td>
+                            <td data-label="Statut">
+                                <span class="badge bg-<?php
+                                echo $contract['status'] === 'actif' ? 'success' :
+                                    ($contract['status'] === 'inactif' ? 'danger' :
+                                        ($contract['status'] === 'en_attente' ? 'warning' : 'secondary'));
+                                ?>">
+                                    <?php echo ucfirst(str_replace('_', ' ', $contract['status'])); ?>
+                                </span>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <?php // Laisser tbody vide. DataTables utilisera language.emptyTable ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+
 
 
 
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const pageSelect = document.getElementById('mobilePageSelect');
+        if (pageSelect) {
+            pageSelect.addEventListener('change', function () {
+                window.location.href = '<?= $baseUrlWithParams ?>' + this.value;
+            });
+        }
+    });
 
+    window.BASE_URL = '<?= BASE_URL ?>';
+    window.csrfToken = '<?= $_SESSION['csrf_token'] ?>';
+    window.serverSavedSettings = {
+        contractsTable_pageLength:
+            <?= json_encode((int) getUserPreference('datatable_contractsTable_pageLength', 10)) ?>
+    };
+</script>
 
-<!-- DataTable Persistence -->
 <script src="<?php echo BASE_URL; ?>assets/js/datatable-persistence.js"></script>
-
-<!-- Page JS -->
 <script src="<?php echo BASE_URL; ?>assets/js/contracts-datatable.js"></script>
 
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';
-?> 
+?>

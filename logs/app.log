@@ -117957,3 +117957,147 @@ Quant à l’écran n°1, il est HS
 [2026-07-10 15:29:16][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/330/1783690156_coursUML_compressed_1.pdf 
 [2026-07-10 15:29:16][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML_compressed (1).pdf (ID: 510) 
 [2026-07-10 15:29:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 31b45f678e8eb8152062... 
+[2026-07-10 16:23:08][DEBUG] CSRF: Token trouvé dans la requête - Token: ffff520109c9aa0a1ab7... 
+[2026-07-10 16:23:08][DEBUG] Permissions chargées pour Fncaaudiovisuel : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":22,"site_id":35,"room_id":72},{"client_id":22,"site_id":35,"room_id":73},{"client_id":22,"site_id":35,"room_id":74},{"client_id":22,"site_id":35,"room_id":75},{"client_id":22,"site_id":35,"room_id":76},{"client_id":22,"site_id":35,"room_id":77},{"client_id":22,"site_id":35,"room_id":78},{"client_id":22,"site_id":35,"room_id":79},{"client_id":22,"site_id":35,"room_id":80},{"client_id":22,"site_id":35,"room_id":81},{"client_id":22,"site_id":35,"room_id":82},{"client_id":22,"site_id":35,"room_id":83},{"client_id":22,"site_id":35,"room_id":84},{"client_id":22,"site_id":35,"room_id":297}],"coefficients":{"user_coef":null}} 
+[2026-07-10 16:23:08][INFO] Utilisateur connecté : Fncaaudiovisuel {"user_id":26,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":22}
+[2026-07-10 16:23:08][DEBUG] Login réussi - Session ID: 82ifanl4sbh7977bagv9itd122 
+[2026-07-10 16:23:08][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-10 16:23:08][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-10 16:23:08][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-10 16:23:08][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-10 16:23:11][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-07-10 16:23:12][DEBUG] CSRF: Token trouvé dans la requête - Token: ffff520109c9aa0a1ab7... 
+[2026-07-10 16:23:12][DEBUG] CSRF: Token trouvé dans la requête - Token: ffff520109c9aa0a1ab7... 
+[2026-07-10 16:23:12][DEBUG] CSRF: Token trouvé dans la requête - Token: ffff520109c9aa0a1ab7... 
+[2026-07-10 16:23:12][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-10 16:23:14][DEBUG] CSRF: Token trouvé dans la requête - Token: ffff520109c9aa0a1ab7... 
+[2026-07-10 16:23:14][DEBUG] CSRF: Token trouvé dans la requête - Token: ffff520109c9aa0a1ab7... 
+[2026-07-10 16:23:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-10 16:23:14][DEBUG] CSRF: Token trouvé dans la requête - Token: ffff520109c9aa0a1ab7... 
+[2026-07-10 16:24:04][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-07-10 16:24:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 77ae62363ba46c74ec7b... 
+[2026-07-10 16:24:04][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-10 16:24:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 77ae62363ba46c74ec7b... 
+[2026-07-10 16:24:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 77ae62363ba46c74ec7b... 
+[2026-07-10 16:24:10][DEBUG] CSRF: Token trouvé dans la requête - Token: b77bb7c1d4005ef6b863... 
+[2026-07-10 16:24:10][DEBUG] Permissions chargées pour Fncaaudiovisuel : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":22,"site_id":35,"room_id":72},{"client_id":22,"site_id":35,"room_id":73},{"client_id":22,"site_id":35,"room_id":74},{"client_id":22,"site_id":35,"room_id":75},{"client_id":22,"site_id":35,"room_id":76},{"client_id":22,"site_id":35,"room_id":77},{"client_id":22,"site_id":35,"room_id":78},{"client_id":22,"site_id":35,"room_id":79},{"client_id":22,"site_id":35,"room_id":80},{"client_id":22,"site_id":35,"room_id":81},{"client_id":22,"site_id":35,"room_id":82},{"client_id":22,"site_id":35,"room_id":83},{"client_id":22,"site_id":35,"room_id":84},{"client_id":22,"site_id":35,"room_id":297}],"coefficients":{"user_coef":null}} 
+[2026-07-10 16:24:10][INFO] Utilisateur connecté : Fncaaudiovisuel {"user_id":26,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":22}
+[2026-07-10 16:24:10][DEBUG] Login réussi - Session ID: iet5rgm4opfrbg13nb5k6bbhu4 
+[2026-07-10 16:24:10][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-10 16:24:10][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-10 16:24:10][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-10 16:24:10][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-10 16:24:13][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-07-10 16:24:14][DEBUG] CSRF: Token trouvé dans la requête - Token: b77bb7c1d4005ef6b863... 
+[2026-07-10 16:24:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-10 16:24:14][DEBUG] CSRF: Token trouvé dans la requête - Token: b77bb7c1d4005ef6b863... 
+[2026-07-10 16:24:14][DEBUG] CSRF: Token trouvé dans la requête - Token: b77bb7c1d4005ef6b863... 
+[2026-07-10 16:24:45][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-07-10 16:24:46][DEBUG] CSRF: Token trouvé dans la requête - Token: ffff520109c9aa0a1ab7... 
+[2026-07-10 16:24:46][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-10 16:24:46][DEBUG] CSRF: Token trouvé dans la requête - Token: ffff520109c9aa0a1ab7... 
+[2026-07-10 16:24:46][DEBUG] CSRF: Token trouvé dans la requête - Token: ffff520109c9aa0a1ab7... 
+[2026-07-10 16:25:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 51b666cf5d8809ca8166... 
+[2026-07-10 16:25:19][DEBUG] Permissions chargées pour Fncaaudiovisuel : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":22,"site_id":35,"room_id":72},{"client_id":22,"site_id":35,"room_id":73},{"client_id":22,"site_id":35,"room_id":74},{"client_id":22,"site_id":35,"room_id":75},{"client_id":22,"site_id":35,"room_id":76},{"client_id":22,"site_id":35,"room_id":77},{"client_id":22,"site_id":35,"room_id":78},{"client_id":22,"site_id":35,"room_id":79},{"client_id":22,"site_id":35,"room_id":80},{"client_id":22,"site_id":35,"room_id":81},{"client_id":22,"site_id":35,"room_id":82},{"client_id":22,"site_id":35,"room_id":83},{"client_id":22,"site_id":35,"room_id":84},{"client_id":22,"site_id":35,"room_id":297}],"coefficients":{"user_coef":null}} 
+[2026-07-10 16:25:19][INFO] Utilisateur connecté : Fncaaudiovisuel {"user_id":26,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":22}
+[2026-07-10 16:25:19][DEBUG] Login réussi - Session ID: 9t9nj9ormvf5916mojre82glir 
+[2026-07-10 16:25:19][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-10 16:25:19][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-10 16:25:19][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-10 16:25:19][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-10 16:25:21][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-07-10 16:25:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 51b666cf5d8809ca8166... 
+[2026-07-10 16:25:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 51b666cf5d8809ca8166... 
+[2026-07-10 16:25:21][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-10 16:25:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 51b666cf5d8809ca8166... 
+[2026-07-10 16:25:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 51b666cf5d8809ca8166... 
+[2026-07-10 16:25:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 51b666cf5d8809ca8166... 
+[2026-07-10 16:25:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 51b666cf5d8809ca8166... 
+[2026-07-10 16:25:26][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-10 16:26:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 59aba693f18f1eebc0f6... 
+[2026-07-10 16:26:47][DEBUG] Permissions chargées pour Fncaaudiovisuel : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":22,"site_id":35,"room_id":72},{"client_id":22,"site_id":35,"room_id":73},{"client_id":22,"site_id":35,"room_id":74},{"client_id":22,"site_id":35,"room_id":75},{"client_id":22,"site_id":35,"room_id":76},{"client_id":22,"site_id":35,"room_id":77},{"client_id":22,"site_id":35,"room_id":78},{"client_id":22,"site_id":35,"room_id":79},{"client_id":22,"site_id":35,"room_id":80},{"client_id":22,"site_id":35,"room_id":81},{"client_id":22,"site_id":35,"room_id":82},{"client_id":22,"site_id":35,"room_id":83},{"client_id":22,"site_id":35,"room_id":84},{"client_id":22,"site_id":35,"room_id":297}],"coefficients":{"user_coef":null}} 
+[2026-07-10 16:26:47][INFO] Utilisateur connecté : Fncaaudiovisuel {"user_id":26,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":22}
+[2026-07-10 16:26:47][DEBUG] Login réussi - Session ID: ue0thtr1il9p8ofl02thj822dh 
+[2026-07-10 16:26:47][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-10 16:26:47][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-10 16:26:47][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-10 16:26:47][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-10 16:26:49][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-07-10 16:26:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 59aba693f18f1eebc0f6... 
+[2026-07-10 16:26:50][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-10 16:26:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 59aba693f18f1eebc0f6... 
+[2026-07-10 16:26:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 59aba693f18f1eebc0f6... 
+[2026-07-10 16:27:14][DEBUG] SiteClientController::index - DB set: yes 
+[2026-07-10 16:27:14][DEBUG] SiteClientController::index - clientId from session: 22 
+[2026-07-10 16:27:14][DEBUG] SiteClientController::index - userLocations: {"22":[{"site_id":35,"building_id":25,"room_id":77},{"site_id":35,"building_id":25,"room_id":72},{"site_id":35,"building_id":25,"room_id":73},{"site_id":35,"building_id":25,"room_id":74},{"site_id":35,"building_id":25,"room_id":75},{"site_id":35,"building_id":25,"room_id":76},{"site_id":35,"building_id":25,"room_id":78},{"site_id":35,"building_id":25,"room_id":79},{"site_id":35,"building_id":25,"room_id":80},{"site_id":35,"building_id":25,"room_id":81},{"site_id":35,"building_id":25,"room_id":82},{"site_id":35,"building_id":25,"room_id":83},{"site_id":35,"building_id":25,"room_id":84},{"site_id":35,"building_id":25,"room_id":297}]} 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - START 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - userLocations: {"22":[{"site_id":35,"building_id":25,"room_id":77},{"site_id":35,"building_id":25,"room_id":72},{"site_id":35,"building_id":25,"room_id":73},{"site_id":35,"building_id":25,"room_id":74},{"site_id":35,"building_id":25,"room_id":75},{"site_id":35,"building_id":25,"room_id":76},{"site_id":35,"building_id":25,"room_id":78},{"site_id":35,"building_id":25,"room_id":79},{"site_id":35,"building_id":25,"room_id":80},{"site_id":35,"building_id":25,"room_id":81},{"site_id":35,"building_id":25,"room_id":82},{"site_id":35,"building_id":25,"room_id":83},{"site_id":35,"building_id":25,"room_id":84},{"site_id":35,"building_id":25,"room_id":297}]} 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Traitement du clientId: 22 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - locations: [{"site_id":35,"building_id":25,"room_id":77},{"site_id":35,"building_id":25,"room_id":72},{"site_id":35,"building_id":25,"room_id":73},{"site_id":35,"building_id":25,"room_id":74},{"site_id":35,"building_id":25,"room_id":75},{"site_id":35,"building_id":25,"room_id":76},{"site_id":35,"building_id":25,"room_id":78},{"site_id":35,"building_id":25,"room_id":79},{"site_id":35,"building_id":25,"room_id":80},{"site_id":35,"building_id":25,"room_id":81},{"site_id":35,"building_id":25,"room_id":82},{"site_id":35,"building_id":25,"room_id":83},{"site_id":35,"building_id":25,"room_id":84},{"site_id":35,"building_id":25,"room_id":297}] 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - clientSites trouvés: 1 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site: ID=35, name=48 BOETIE 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - allowedSiteIds: {"35":true} 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - Ajout du site 35 dans la map (accès restreint) 
+[2026-07-10 16:27:14][DEBUG] getSitesByLocations - résultat FINAL: [35] 
+[2026-07-10 16:27:14][DEBUG] SiteClientController::index - sites après dédoublonnage: [35] 
+[2026-07-10 16:27:14][INFO] 35 
+[2026-07-10 16:27:14][DEBUG] SiteClientController::index - sites count: 1 
+[2026-07-10 16:27:16][DEBUG] MaterielClientController::index - userLocations: [{"client_id":22,"site_id":35,"building_id":25,"room_id":77},{"client_id":22,"site_id":35,"building_id":25,"room_id":72},{"client_id":22,"site_id":35,"building_id":25,"room_id":73},{"client_id":22,"site_id":35,"building_id":25,"room_id":74},{"client_id":22,"site_id":35,"building_id":25,"room_id":75},{"client_id":22,"site_id":35,"building_id":25,"room_id":76},{"client_id":22,"site_id":35,"building_id":25,"room_id":78},{"client_id":22,"site_id":35,"building_id":25,"room_id":79},{"client_id":22,"site_id":35,"building_id":25,"room_id":80},{"client_id":22,"site_id":35,"building_id":25,"room_id":81},{"client_id":22,"site_id":35,"building_id":25,"room_id":82},{"client_id":22,"site_id":35,"building_id":25,"room_id":83},{"client_id":22,"site_id":35,"building_id":25,"room_id":84},{"client_id":22,"site_id":35,"building_id":25,"room_id":297}] 
+[2026-07-10 16:27:16][ERROR] Erreur lors du chargement du matériel client : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room_id' in 'where clause' 
+[2026-07-10 16:27:18][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":22,"site_id":35,"building_id":25,"room_id":77},{"client_id":22,"site_id":35,"building_id":25,"room_id":72},{"client_id":22,"site_id":35,"building_id":25,"room_id":73},{"client_id":22,"site_id":35,"building_id":25,"room_id":74},{"client_id":22,"site_id":35,"building_id":25,"room_id":75},{"client_id":22,"site_id":35,"building_id":25,"room_id":76},{"client_id":22,"site_id":35,"building_id":25,"room_id":78},{"client_id":22,"site_id":35,"building_id":25,"room_id":79},{"client_id":22,"site_id":35,"building_id":25,"room_id":80},{"client_id":22,"site_id":35,"building_id":25,"room_id":81},{"client_id":22,"site_id":35,"building_id":25,"room_id":82},{"client_id":22,"site_id":35,"building_id":25,"room_id":83},{"client_id":22,"site_id":35,"building_id":25,"room_id":84},{"client_id":22,"site_id":35,"building_id":25,"room_id":297}] 
+[2026-07-10 16:27:18][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-10 16:27:18][DEBUG] DocumentationClientController::index - Paramètres: [22,35,25,77,22,35,25,72,22,35,25,73,22,35,25,74,22,35,25,75,22,35,25,76,22,35,25,78,22,35,25,79,22,35,25,80,22,35,25,81,22,35,25,82,22,35,25,83,22,35,25,84,22,35,25,297] 
+[2026-07-10 16:27:18][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 17 
