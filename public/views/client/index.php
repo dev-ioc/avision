@@ -5,13 +5,10 @@ require_once __DIR__ . '/../../includes/functions.php';
  * Affiche la liste de tous les clients avec leurs statistiques
  */
 
-// Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['user'])) {
     header('Location: ' . BASE_URL . 'auth/login');
     exit;
 }
-
-// Définir le type d'utilisateur pour le menu
 $userType = $_SESSION['user']['user_type'] ?? null;
 
 setPageVariables(
@@ -19,10 +16,7 @@ setPageVariables(
     'clients'
 );
 
-// Définir la page courante pour le menu
 $currentPage = 'clients';
-
-// Inclure le header qui contient le menu latéral
 
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
@@ -44,10 +38,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <?php endif; ?>
         </div>
     </div>
-
-
-
-    <!-- Liste des clients -->
 
     <div class="table-responsive">
         <table id="clientsTable" class="table table-striped table-hover dt-responsive">
