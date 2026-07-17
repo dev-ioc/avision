@@ -38,7 +38,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <?php endif; ?>
         </div>
     </div>
-
     <div class="table-responsive">
         <table id="clientsTable" class="table table-striped table-hover dt-responsive">
             <thead>
