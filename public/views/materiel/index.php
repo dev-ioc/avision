@@ -225,7 +225,8 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
             return $rowData;
           }, $materiels);
           ?>
-          createSalleTable(<?= json_encode('excelTable-' . $salle_id) ?>, <?= json_encode($rows) ?>, <?= json_encode($materiels[0]['salle_id'] ?? null) ?>);
+          createSalleTable(<?= json_encode('excelTable-' . $salle_id) ?>, <?= json_encode($rows) ?>,
+          <?= json_encode($materiels[0]['salle_id'] ?? null) ?>);
           <?php
         endforeach;
       endforeach;
@@ -1217,6 +1218,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       'date_fin_maintenance': 'YYYY-MM-DD',
       'date_fin_garantie': 'YYYY-MM-DD',
       'date_derniere_inter': 'YYYY-MM-DD',
+      'numero_serie': 'Ex: 21MX2237200108',
       'adresse_ip': '192.168.1.1',
       'ip_primaire': '192.168.1.1',
       'ip_secondaire': '192.168.1.1',
@@ -1234,6 +1236,9 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         Handsontable.renderers.TextRenderer.apply(this, arguments);
         if (!value || value === '') {
           td.innerHTML = `<span style="color:#adb5bd;font-style:italic;pointer-events:none;">${placeholder}</span>`;
+        } else {
+          td.style.color = '#000000';
+          td.style.fontStyle = 'normal';
         }
       };
     }
