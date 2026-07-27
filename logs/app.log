@@ -119074,3 +119074,100 @@ Quant à l’écran n°1, il est HS
 [2026-07-27 16:07:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
 [2026-07-27 16:08:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
 [2026-07-27 16:10:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:21:28][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-07-27 16:21:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:21:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:21:28][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-27 16:21:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:21:30][INFO] 81 
+[2026-07-27 16:22:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:23:04][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-07-27 16:23:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:23:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:23:05][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-27 16:23:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:23:06][INFO] 81 
+[2026-07-27 16:27:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":447,"errno":2}
+[2026-07-27 16:27:31][WARNING] Trying to access array offset on value of type bool {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":448,"errno":2}
+[2026-07-27 16:27:31][WARNING] Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\avision\public\classes\Error\ErrorHandler.php:76) {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":527,"errno":2}
+[2026-07-27 16:34:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:34:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:34:20][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-07-27 16:34:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:34:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:34:21][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-27 16:34:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:34:23][INFO] 81 
+[2026-07-27 16:34:40][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-07-27 16:34:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:34:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:34:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 16:34:41][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-27 16:34:44][INFO] 81 

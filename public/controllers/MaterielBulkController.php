@@ -13,6 +13,7 @@ class MaterielBulkController
     private $siteModel;
     private $roomModel;
     private $materielModel;
+    private $buildingModel;
 
     public function __construct()
     {
@@ -25,12 +26,14 @@ class MaterielBulkController
         require_once MODELS_PATH . '/ClientModel.php';
         require_once MODELS_PATH . '/SiteModel.php';
         require_once MODELS_PATH . '/RoomModel.php';
+        require_once MODELS_PATH . '/BuildingModel.php';
         require_once MODELS_PATH . '/AccessLevelModel.php';
 
         $this->materielModel = new MaterielModel($this->db);
         $this->clientModel = new ClientModel($this->db);
         $this->siteModel = new SiteModel($this->db);
         $this->roomModel = new RoomModel($this->db);
+        $this->buildingModel = new BuildingModel($this->db);
     }
 
     /**
@@ -433,19 +436,23 @@ class MaterielBulkController
                 }
 
                 // Vérifier que la salle existe et appartient au client/site sélectionné
+                // Vérifier que la salle existe et appartient au client/site sélectionné
                 if (!empty($data['salle_id'])) {
                     $salle = $this->roomModel->getRoomById($data['salle_id']);
                     if (!$salle) {
                         $rowErrors[] = "Salle ID {$data['salle_id']} n'existe pas";
                     } else {
-                        // Vérifier que la salle appartient au bon client/site
+                        // Vérifier que la salle appartient au bon client/bâtiment
                         if ($site_id) {
-                            if ($salle['building_id'] != $site_id) {
+                            // Since rooms now have building_id, check via building
+                            $building = $this->buildingModel->getBuildingById($salle['building_id'] ?? null);
+                            if (!$building || $building['site_id'] != $site_id) {
                                 $rowErrors[] = "Salle ID {$data['salle_id']} n'appartient pas au site sélectionné";
                             }
                         } else {
-                            $site = $this->siteModel->getSiteById($salle['building_id']);
-                            if ($site['client_id'] != $client_id) {
+                            // Check via building's client_id
+                            $building = $this->buildingModel->getBuildingById($salle['building_id'] ?? null);
+                            if (!$building || $building['client_id'] != $client_id) {
                                 $rowErrors[] = "Salle ID {$data['salle_id']} n'appartient pas au client sélectionné";
                             }
                         }
