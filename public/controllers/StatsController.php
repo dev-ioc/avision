@@ -170,13 +170,13 @@ class StatsController
 
         -- Date planifiée : celle du technicien filtré si un filtre est actif,
         -- sinon la première ligne trouvée (comportement inchangé sans filtre)
-        (
-            SELECT start_time
-            FROM intervention_techniciens it2
-            WHERE it2.intervention_id = i.id
-            $techSubFilterStart
-            LIMIT 1
-        ) AS planned_start_time,
+      (
+        SELECT start_time
+        FROM intervention_techniciens it2
+        WHERE it2.intervention_id = i.id
+        $techSubFilterStart
+        LIMIT 1
+      ) AS planned_start_time,
 
         -- Temps passé : idem, scopé au technicien filtré si applicable.
         -- Repli sur i.duration (heures -> minutes) pour les anciennes
@@ -195,19 +195,34 @@ class StatsController
             SUM(
                 CASE
                     WHEN COALESCE(it.deplacement, 0) = 1
-                    THEN COALESCE(it.temps_passe, i.duration * 60, 0)
+                    THEN COALESCE(
+                            it.temps_passe,
+                            CASE
+                                WHEN (SELECT COUNT(*) FROM intervention_techniciens it3
+                                    WHERE it3.intervention_id = i.id) = 1
+                                THEN i.duration * 60
+                                ELSE 0
+                            END
+                        )
                     ELSE 0
                 END
             ),
             0
         ) AS on_site_minutes,
 
-        -- Temps remote (deplacement = 0) — idem
         COALESCE(
             SUM(
                 CASE
                     WHEN COALESCE(it.deplacement, 0) = 0
-                    THEN COALESCE(it.temps_passe, i.duration * 60, 0)
+                    THEN COALESCE(
+                            it.temps_passe,
+                            CASE
+                                WHEN (SELECT COUNT(*) FROM intervention_techniciens it3
+                                    WHERE it3.intervention_id = i.id) = 1
+                                THEN i.duration * 60
+                                ELSE 0
+                            END
+                        )
                     ELSE 0
                 END
             ),
