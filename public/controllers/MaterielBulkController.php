@@ -440,11 +440,11 @@ class MaterielBulkController
                     } else {
                         // Vérifier que la salle appartient au bon client/site
                         if ($site_id) {
-                            if ($salle['site_id'] != $site_id) {
+                            if ($salle['building_id'] != $site_id) {
                                 $rowErrors[] = "Salle ID {$data['salle_id']} n'appartient pas au site sélectionné";
                             }
                         } else {
-                            $site = $this->siteModel->getSiteById($salle['site_id']);
+                            $site = $this->siteModel->getSiteById($salle['building_id']);
                             if ($site['client_id'] != $client_id) {
                                 $rowErrors[] = "Salle ID {$data['salle_id']} n'appartient pas au client sélectionné";
                             }
@@ -829,7 +829,7 @@ class MaterielBulkController
             if ($site_id) {
                 // Filtrer les salles par site si spécifié
                 $salles = array_filter($salles, function ($salle) use ($site_id) {
-                    return $salle['site_id'] == $site_id;
+                    return $salle['building_id'] == $site_id;
                 });
             }
 
