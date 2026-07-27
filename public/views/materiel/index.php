@@ -54,28 +54,74 @@ if (isset($materielModel)) {
 
 // Organiser le matériel par client -> site -> bâtiment -> salle
 $materiel_organise = [];
+$salle_ids_map = [];
 foreach ($materiel_list as $materiel) {
   $client_nom = $materiel['client_nom'] ?? 'Sans client';
   $site_nom = $materiel['site_nom'] ?? 'Sans site';
   $building_nom = $materiel['building_nom'] ?? 'Sans bâtiment';
   $salle_nom = $materiel['salle_nom'] ?? 'Sans salle';
 
-  if (!isset($materiel_organise[$client_nom])) {
+  if (!isset($materiel_organise[$client_nom]))
     $materiel_organise[$client_nom] = [];
-  }
-  if (!isset($materiel_organise[$client_nom][$site_nom])) {
+  if (!isset($materiel_organise[$client_nom][$site_nom]))
     $materiel_organise[$client_nom][$site_nom] = [];
-  }
-  if (!isset($materiel_organise[$client_nom][$site_nom][$building_nom])) {
+  if (!isset($materiel_organise[$client_nom][$site_nom][$building_nom]))
     $materiel_organise[$client_nom][$site_nom][$building_nom] = [];
-  }
-  if (!isset($materiel_organise[$client_nom][$site_nom][$building_nom][$salle_nom])) {
+  if (!isset($materiel_organise[$client_nom][$site_nom][$building_nom][$salle_nom]))
     $materiel_organise[$client_nom][$site_nom][$building_nom][$salle_nom] = [];
-  }
 
   $materiel_organise[$client_nom][$site_nom][$building_nom][$salle_nom][] = $materiel;
-}
 
+  $salle_key = md5($client_nom . $site_nom . $building_nom . $salle_nom);
+  if (!empty($materiel['salle_id'])) {
+    $salle_ids_map[$salle_key] = $materiel['salle_id'];
+  }
+}
+if (!empty($filters['salle_id'])) {
+  $salleDejaPresente = in_array($filters['salle_id'], $salle_ids_map);
+  if (!$salleDejaPresente) {
+    $selectedSalle = null;
+    foreach ($salles as $s) {
+      if ($s['id'] == $filters['salle_id']) {
+        $selectedSalle = $s;
+        break;
+      }
+    }
+    if ($selectedSalle) {
+      $selectedClient = null;
+      foreach ($clients as $c) {
+        if ($c['id'] == ($filters['client_id'] ?? null)) {
+          $selectedClient = $c;
+          break;
+        }
+      }
+      $selectedSite = null;
+      foreach ($sites as $s) {
+        if ($s['id'] == ($filters['site_id'] ?? null)) {
+          $selectedSite = $s;
+          break;
+        }
+      }
+      $selectedBuilding = null;
+      if (!empty($buildings)) {
+        foreach ($buildings as $b) {
+          if ($b['id'] == ($filters['building_id'] ?? null)) {
+            $selectedBuilding = $b;
+            break;
+          }
+        }
+      }
+
+      $client_nom = $selectedClient['name'] ?? 'Sans client';
+      $site_nom = $selectedSite['name'] ?? 'Sans site';
+      $building_nom = $selectedBuilding['name'] ?? 'Sans bâtiment';
+      $salle_nom = $selectedSalle['name'] ?? 'Sans salle';
+
+      $materiel_organise[$client_nom][$site_nom][$building_nom][$salle_nom] = [];
+      $salle_ids_map[md5($client_nom . $site_nom . $building_nom . $salle_nom)] = $selectedSalle['id'];
+    }
+  }
+}
 // Définir toutes les colonnes disponibles avec leurs configurations
 $allColumns = [
   ['label' => 'Marque', 'field' => 'marque', 'default' => true],
@@ -135,7 +181,7 @@ $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, '
  * (utilisé pour l'affichage initial côté PHP — la recherche AJAX régénère
  * la même structure côté JS via renderSearchResults()).
  */
-function renderMaterielAccordions(array $materiel_organise): void
+function renderMaterielAccordions(array $materiel_organise, array $salle_ids_map = []): void
 {
   foreach ($materiel_organise as $client_nom => $sites): ?>
     <div class="card mb-4">
@@ -153,9 +199,11 @@ function renderMaterielAccordions(array $materiel_organise): void
         <?php foreach ($sites as $site_nom => $buildings): ?>
           <?php foreach ($buildings as $building_nom => $salles): ?>
             <?php foreach ($salles as $salle_nom => $materiels):
-              $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
+              $salle_key = md5($client_nom . $site_nom . $building_nom . $salle_nom);
+              $salle_id = 'salle_' . $salle_key;
               $accordion_id = 'accordion_' . $salle_id;
               $locationString = h($site_nom) . ' - ' . h($building_nom) . ' - ' . h($salle_nom);
+              $dbSalleId = $materiels[0]['salle_id'] ?? ($salle_ids_map[$salle_key] ?? null);
               ?>
               <div class="accordion mb-3" id="<?= $accordion_id ?>">
                 <div class="accordion-item">
@@ -179,7 +227,7 @@ function renderMaterielAccordions(array $materiel_organise): void
                     <div class="accordion-body p-0">
                       <div class="d-flex justify-content-end p-2 border-bottom bg-light">
                         <button type="button" class="btn btn-sm btn-success"
-                          onclick="addNewRowToTable('excelTable-<?= $salle_id ?>', '<?= addslashes($locationString) ?>', <?= $materiels[0]['salle_id'] ?? 'null' ?>)">
+                          onclick="addNewRowToTable('excelTable-<?= $salle_id ?>', '<?= addslashes($locationString) ?>', <?= json_encode($dbSalleId) ?>)">
                           <i class="bi bi-plus-circle me-1"></i>Ajouter un équipement
                         </button>
                       </div>
@@ -202,13 +250,14 @@ function renderMaterielAccordions(array $materiel_organise): void
  * Émet le JS d'initialisation Handsontable (appels à createSalleTable) pour
  * la structure $materiel_organise donnée. Doit être appelé DANS un <script>.
  */
-function renderMaterielTableInitJs(array $materiel_organise, array $pieces_jointes_count, array $allColumns): void
+function renderMaterielTableInitJs(array $materiel_organise, array $pieces_jointes_count, array $allColumns, array $salle_ids_map = []): void
 {
   foreach ($materiel_organise as $client_nom => $sites):
     foreach ($sites as $site_nom => $buildings):
       foreach ($buildings as $building_nom => $salles):
         foreach ($salles as $salle_nom => $materiels):
           $salle_id = 'salle_' . md5($client_nom . $site_nom . $building_nom . $salle_nom);
+          $dbSalleId = $materiels[0]['salle_id'] ?? ($salle_ids_map[md5($client_nom . $site_nom . $building_nom . $salle_nom)] ?? null);
           $rows = array_map(function ($m) use ($allColumns, $pieces_jointes_count) {
             $rowData = [];
             foreach ($allColumns as $col) {
@@ -225,9 +274,9 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
             return $rowData;
           }, $materiels);
           ?>
-          createSalleTable(<?= json_encode('excelTable-' . $salle_id) ?>, <?= json_encode($rows) ?>,
-          <?= json_encode($materiels[0]['salle_id'] ?? null) ?>);
-          <?php
+                    createSalleTable(<?= json_encode('excelTable-' . $salle_id) ?>, <?= json_encode($rows) ?>,
+                    <?= json_encode($dbSalleId) ?>);
+                    <?php
         endforeach;
       endforeach;
     endforeach;
