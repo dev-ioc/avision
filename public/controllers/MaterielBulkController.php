@@ -265,8 +265,8 @@ class MaterielBulkController
             'masque',
             'passerelle',
             'id_materiel_tech',
-            'login',
-            'password',
+            // 'login',
+            // 'password',
             'ip_primaire',
             'mac_primaire',
             'ip_secondaire',
@@ -390,42 +390,40 @@ class MaterielBulkController
 
                 // Mapping des colonnes selon l'ordre exact du template Excel
                 $data = [
-                    'id_materiel' => $row[0] ?? null, // ID_MATERIEL (colonne A)
-                    'salle_id' => $row[1] ?? null, // ID_SALLE (colonne B)
-                    'type_materiel' => $row[3] ?? null, // TYPE_MATERIEL (colonne D)
-                    'marque' => $row[4] ?? null, // MARQUE (colonne E)
-                    'modele' => $row[5] ?? null, // MODELE (colonne F)
-                    'reference' => $row[6] ?? null, // REFERENCE (colonne G)
-                    'usage_materiel' => $row[7] ?? null, // USAGE_MATERIEL (colonne H)
-                    'numero_serie' => $row[8] ?? null, // NUMERO_SERIE (colonne I)
-                    'version_firmware' => $row[9] ?? null, // VERSION_FIRMWARE (colonne J)
-                    'ancien_firmware' => $row[10] ?? null, // ANCIEN_FIRMWARE (colonne K)
-                    'url_github' => $row[11] ?? null, // URL_GITHUB (colonne L) - NOUVEAU CHAMP
-                    'adresse_mac' => $row[12] ?? null, // ADRESSE_MAC (colonne M) - DÉCALÉ
-                    'adresse_ip' => $row[13] ?? null, // ADRESSE_IP (colonne N) - DÉCALÉ
-                    'masque' => $row[14] ?? null, // MASQUE (colonne O) - DÉCALÉ
-                    'passerelle' => $row[15] ?? null, // PASSERELLE (colonne P) - DÉCALÉ
-                    'id_materiel_tech' => $row[16] ?? null, // ID_MATERIEL_TECH (colonne Q) - DÉCALÉ
-                    'login' => $row[17] ?? null, // LOGIN (colonne R) - DÉCALÉ
-                    'password' => $row[18] ?? null, // PASSWORD (colonne S) - DÉCALÉ
-                    'ip_primaire' => $row[19] ?? null, // IP_PRIMAIRE (colonne T) - DÉCALÉ
-                    'mac_primaire' => $row[20] ?? null, // MAC_PRIMAIRE (colonne U) - DÉCALÉ
-                    'ip_secondaire' => $row[21] ?? null, // IP_SECONDAIRE (colonne V) - DÉCALÉ
-                    'mac_secondaire' => $row[22] ?? null, // MAC_SECONDAIRE (colonne W) - DÉCALÉ
-                    'stream_aes67_recu' => $row[23] ?? null, // STREAM_AES67_RECU (colonne X) - DÉCALÉ
-                    'stream_aes67_transmis' => $row[24] ?? null, // STREAM_AES67_TRANSMIS (colonne Y) - DÉCALÉ
-                    'ssid' => $row[25] ?? null, // SSID (colonne Z) - DÉCALÉ
-                    'type_cryptage' => $row[26] ?? null, // TYPE_CRYPTAGE (colonne AA) - DÉCALÉ
-                    'password_wifi' => $row[27] ?? null, // PASSWORD_WIFI (colonne AB) - DÉCALÉ
-                    'libelle_pa_salle' => $row[28] ?? null, // LIBELLE_PA_SALLE (colonne AC) - DÉCALÉ
-                    'numero_port_switch' => $row[29] ?? null, // NUMERO_PORT_SWITCH (colonne AD) - DÉCALÉ
-                    'vlan' => $row[30] ?? null, // VLAN (colonne AE) - DÉCALÉ
-                    'date_fin_maintenance' => $this->convertExcelDate($row[31] ?? null), // DATE_FIN_MAINTENANCE (colonne AF) - DÉCALÉ
-                    'date_fin_garantie' => $this->convertExcelDate($row[32] ?? null), // DATE_FIN_GARANTIE (colonne AG) - DÉCALÉ
-                    'date_derniere_inter' => $this->convertExcelDate($row[33] ?? null), // DATE_DERNIERE_INTER (colonne AH) - DÉCALÉ
-                    'commentaire' => $row[34] ?? null // COMMENTAIRE (colonne AI) - DÉCALÉ
+                    'id_materiel' => $row[0] ?? null,
+                    'salle_id' => $row[1] ?? null,
+                    'type_materiel' => $row[3] ?? null,
+                    'marque' => $row[4] ?? null,
+                    'modele' => $row[5] ?? null,
+                    'reference' => $row[6] ?? null,
+                    'usage_materiel' => $row[7] ?? null,
+                    'numero_serie' => $row[8] ?? null,
+                    'version_firmware' => $row[9] ?? null,
+                    'ancien_firmware' => $row[10] ?? null,
+                    'url_github' => $row[11] ?? null,
+                    'adresse_mac' => $row[12] ?? null,
+                    'adresse_ip' => $row[13] ?? null,
+                    'masque' => $row[14] ?? null,
+                    'passerelle' => $row[15] ?? null,
+                    'id_materiel_tech' => $row[16] ?? null,
+                    // login et password retirés — plus de colonne dans le template
+                    'ip_primaire' => $row[17] ?? null,          // était 19
+                    'mac_primaire' => $row[18] ?? null,          // était 20
+                    'ip_secondaire' => $row[19] ?? null,         // était 21
+                    'mac_secondaire' => $row[20] ?? null,        // était 22
+                    'stream_aes67_recu' => $row[21] ?? null,     // était 23
+                    'stream_aes67_transmis' => $row[22] ?? null, // était 24
+                    'ssid' => $row[23] ?? null,                  // était 25
+                    'type_cryptage' => $row[24] ?? null,         // était 26
+                    'password_wifi' => $row[25] ?? null,         // était 27
+                    'libelle_pa_salle' => $row[26] ?? null,      // était 28
+                    'numero_port_switch' => $row[27] ?? null,    // était 29
+                    'vlan' => $row[28] ?? null,                  // était 30
+                    'date_fin_maintenance' => $this->convertExcelDate($row[29] ?? null), // était 31
+                    'date_fin_garantie' => $this->convertExcelDate($row[30] ?? null),    // était 32
+                    'date_derniere_inter' => $this->convertExcelDate($row[31] ?? null),  // était 33
+                    'commentaire' => $row[32] ?? null            // était 34
                 ];
-
                 $rowErrors = [];
                 $rowWarnings = [];
 
@@ -802,8 +800,8 @@ class MaterielBulkController
                     $materiel['masque'], // MASQUE (colonne O) - DÉCALÉ
                     $materiel['passerelle'], // PASSERELLE (colonne P) - DÉCALÉ
                     $materiel['id_materiel'], // ID_MATERIEL_TECH (colonne Q) - DÉCALÉ
-                    $materiel['login'], // LOGIN (colonne R) - DÉCALÉ
-                    $materiel['password'], // PASSWORD (colonne S) - DÉCALÉ
+                    // $materiel['login'], // LOGIN (colonne R) - DÉCALÉ
+                    // $materiel['password'], // PASSWORD (colonne S) - DÉCALÉ
                     $materiel['ip_primaire'], // IP_PRIMAIRE (colonne T) - DÉCALÉ
                     $materiel['mac_primaire'], // MAC_PRIMAIRE (colonne U) - DÉCALÉ
                     $materiel['ip_secondaire'], // IP_SECONDAIRE (colonne V) - DÉCALÉ

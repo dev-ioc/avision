@@ -119033,3 +119033,41 @@ Quant à l’écran n°1, il est HS
 [2026-07-27 13:30:49][INFO] Champs remplis (4/33): salle_id, type_materiel, modele, marque 
 [2026-07-27 13:30:49][INFO] === FIN DES DONNEES === 
 [2026-07-27 13:30:49][INFO] MATERIEL CREE AVEC SUCCES - ID: 3440 
+[2026-07-27 14:39:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 14:39:33][DEBUG] AttachmentService::normalizeFilesArray - Tableau de fichiers détecté, count: 1 
+[2026-07-27 14:39:33][DEBUG] AttachmentService::upload - Type: intervention, EntityId: 345, Files count: 1, UploadDir: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/345 
+[2026-07-27 14:39:33][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\phpC222.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/345/materiel.png 
+[2026-07-27 14:39:33][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/345/materiel.png 
+[2026-07-27 14:39:33][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: materiel.PNG (ID: 512) 
+[2026-07-27 14:39:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 14:39:39][INFO] Pièces jointes sélectionnées : Array
+(
+    [0] => Array
+        (
+            [id] => 512
+            [nom_fichier] => materiel.PNG
+            [version] => 1
+            [is_signed] => 0
+            [signature_status] => non_signe
+            [nom_personnalise] => materiel.PNG
+            [chemin_fichier] => uploads/interventions/345/materiel.png
+            [type_fichier] => png
+            [category_id] => 
+            [content] => 
+            [taille_fichier] => 152439
+            [commentaire] => 
+            [date_creation] => 2026-07-27 15:39:33
+            [masque_client] => 0
+            [type_id] => 
+            [created_by] => 40
+            [created_by_name] => Dev WW
+            [type_liaison] => intervention
+        )
+
+)
+ 
+[2026-07-27 14:39:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 14:39:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 14:40:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 14:40:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
+[2026-07-27 15:54:17][DEBUG] Redirection vers login - URL sauvegardée: materiel_bulk?client_id=35&site_id= (Session ID: 15t3p21ivfna0tihkggc80se6g) 

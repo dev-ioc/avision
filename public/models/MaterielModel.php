@@ -741,8 +741,8 @@ class MaterielModel extends BaseModel
             'masque' => 'Masque réseau',
             'passerelle' => 'Passerelle',
             'id_materiel_tech' => 'ID Matériel Tech',
-            'login' => 'Login',
-            'password' => 'Mot de passe',
+            // 'login' => 'Login',
+            // 'password' => 'Mot de passe',
             'ip_primaire' => 'IP Primaire',
             'mac_primaire' => 'MAC Primaire',
             'ip_secondaire' => 'IP Secondaire',
@@ -829,8 +829,8 @@ class MaterielModel extends BaseModel
             'masque' => false,
             'passerelle' => false,
             'id_materiel_tech' => false,
-            'login' => false,
-            'password' => false,
+            // 'login' => false,
+            // 'password' => false,
             'ip_primaire' => false,
             'mac_primaire' => false,
             'ip_secondaire' => false,
@@ -922,8 +922,8 @@ class MaterielModel extends BaseModel
             'masque',
             'passerelle',
             'id_materiel_tech',
-            'login',
-            'password',
+            // 'login',
+            // 'password',
             'ip_primaire',
             'mac_primaire',
             'ip_secondaire',
@@ -1024,8 +1024,6 @@ class MaterielModel extends BaseModel
         OR m.commentaire LIKE :keyword 
         OR m.version_firmware LIKE :keyword
         OR m.ancien_firmware LIKE :keyword
-        OR m.login LIKE :keyword
-        OR m.password LIKE :keyword
         OR m.ssid LIKE :keyword
         OR m.libelle_pa_salle LIKE :keyword
         OR m.id_materiel LIKE :keyword
