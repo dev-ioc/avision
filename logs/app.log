@@ -120516,3 +120516,76 @@ Quant à l’écran n°1, il est HS
 [2026-07-28 08:05:42][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
 [2026-07-28 08:05:42][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
 [2026-07-28 08:05:43][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:12:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 62758f2fc56e451bfb4b... 
+[2026-07-28 08:12:28][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 08:12:28][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 08:12:28][DEBUG] DocumentationClientController::index - Paramètres: [36,36,36,36,56,56,56] 
+[2026-07-28 08:12:28][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 11 
+[2026-07-28 08:12:28][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:12:28][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:12:28][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:12:28][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:12:29][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:12:29][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:17:15][DEBUG] CSRF: Token trouvé dans la requête - Token: e2594de0c3756e99a453... 
+[2026-07-28 08:17:15][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-28 08:17:15][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-28 08:17:15][DEBUG] Login réussi - Session ID: 5spnuns1r8mk4datmlal2f9t4h 
+[2026-07-28 08:17:15][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-28 08:17:15][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-28 08:17:15][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-28 08:17:15][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
