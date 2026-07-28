@@ -119171,3 +119171,1348 @@ Quant à l’écran n°1, il est HS
 [2026-07-27 16:34:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 40a86a65ae12ab1debf3... 
 [2026-07-27 16:34:41][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
 [2026-07-27 16:34:44][INFO] 81 
+[2026-07-28 07:35:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:35:12][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-28 07:35:12][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-28 07:35:12][DEBUG] Login réussi - Session ID: vsq7ekoo9l4dllvdrlqgmkht0j 
+[2026-07-28 07:35:12][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-28 07:35:12][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-28 07:35:12][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-28 07:35:12][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-28 07:36:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:36:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:36:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:37:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:37:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:37:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:37:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:37:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:37:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:37:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:37:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:37:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:38:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:38:02][DEBUG] load_permissions - Session ID: vsq7ekoo9l4dllvdrlqgmkht0j, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-07-28 07:38:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 7a687b14ad0c10a4198a... 
+[2026-07-28 07:38:02][DEBUG] load_client_locations - Session ID: vsq7ekoo9l4dllvdrlqgmkht0j, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-07-28 07:38:02][ERROR] Erreur lors de la récupération des localisations du client 36: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause' 
+[2026-07-28 07:40:31][DEBUG] CSRF: Token trouvé dans la requête - Token: fc8c4aba9beb985f493b... 
+[2026-07-28 07:40:32][DEBUG] Permissions chargées pour Cyril-CDC : {"role":"client","rights":{"client_view_interventions":true,"client_view_materiel":true,"client_view_documentation":true,"client_add_documentation":true,"client_view_contracts":true,"client_modify_info":true},"locations":[{"client_id":36,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-07-28 07:40:32][INFO] Utilisateur connecté : Cyril-CDC {"user_id":35,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":36}
+[2026-07-28 07:40:32][DEBUG] Login réussi - Session ID: 3ak1fte3ed9ndjborhb21cvh2g 
+[2026-07-28 07:40:32][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-28 07:40:32][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-28 07:40:32][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-28 07:40:32][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-28 07:40:34][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:40:34][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 07:40:34][DEBUG] DocumentationClientController::index - Paramètres: [36] 
+[2026-07-28 07:40:34][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 07:40:34][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=, building_id=, salle_id= 
+[2026-07-28 07:40:55][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:40:55][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 07:40:55][DEBUG] DocumentationClientController::index - Paramètres: [36,56,56,56] 
+[2026-07-28 07:40:55][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 07:40:55][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=56, building_id=, salle_id= 
+[2026-07-28 07:40:57][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:40:57][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 07:40:57][DEBUG] DocumentationClientController::index - Paramètres: [36,56,56,56,46,46] 
+[2026-07-28 07:40:57][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 07:40:57][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=56, building_id=46, salle_id= 
+[2026-07-28 07:40:59][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:40:59][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND lpj2.entite_id = ?
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 07:40:59][DEBUG] DocumentationClientController::index - Paramètres: [36,56,56,56,46,46,160] 
+[2026-07-28 07:40:59][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 07:40:59][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=56, building_id=46, salle_id=160 
+[2026-07-28 07:41:33][DEBUG] CSRF: Token trouvé dans la requête - Token: fc8c4aba9beb985f493b... 
+[2026-07-28 07:41:33][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:41:33][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 07:41:33][DEBUG] DocumentationClientController::index - Paramètres: [36,56,56,56] 
+[2026-07-28 07:41:33][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 07:41:33][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=56, building_id=, salle_id= 
+[2026-07-28 07:41:41][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:41:41][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 07:41:41][DEBUG] DocumentationClientController::index - Paramètres: [36,56,56,56,46,46] 
+[2026-07-28 07:41:41][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 07:41:41][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=56, building_id=46, salle_id= 
+[2026-07-28 07:41:43][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:41:43][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND lpj2.entite_id = ?
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 07:41:43][DEBUG] DocumentationClientController::index - Paramètres: [36,56,56,56,46,46,161] 
+[2026-07-28 07:41:43][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 07:41:43][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=56, building_id=46, salle_id=161 
+[2026-07-28 07:41:44][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:41:44][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND lpj2.entite_id = ?
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 07:41:44][DEBUG] DocumentationClientController::index - Paramètres: [36,56,56,56,46,46,160] 
+[2026-07-28 07:41:44][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 07:41:44][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=56, building_id=46, salle_id=160 
+[2026-07-28 07:41:46][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:41:46][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND lpj2.entite_id = ?
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 07:41:46][DEBUG] DocumentationClientController::index - Paramètres: [36,56,56,56,46,46,162] 
+[2026-07-28 07:41:46][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 07:41:46][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=56, building_id=46, salle_id=162 
+[2026-07-28 07:42:52][DEBUG] MaterielClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:42:52][DEBUG] getSitesByLocations - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:42:52][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 36)) 
+[2026-07-28 07:42:52][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 36)) AND s.status = 1
+                ORDER BY s.name 
+[2026-07-28 07:42:52][DEBUG] getSitesByLocations - result count: 8 
+[2026-07-28 07:42:52][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:42:52][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 36)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-07-28 07:42:52][DEBUG] getBuildingsByLocations - result count: 8 
+[2026-07-28 07:42:52][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 36)) 
+[2026-07-28 07:42:52][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 36)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-28 07:42:52][DEBUG] getAllByLocations - Params: [] 
+[2026-07-28 07:42:52][DEBUG] getAllByLocations - Results count: 697 
+[2026-07-28 07:43:09][DEBUG] getBuildingsBySiteAndLocations - siteId: 56, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:09][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 36)) AND b.status = 1
+            ORDER BY b.name 
+[2026-07-28 07:43:09][DEBUG] MaterielClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:09][DEBUG] getSitesByLocations - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:09][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 36)) 
+[2026-07-28 07:43:09][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 36)) AND s.status = 1
+                ORDER BY s.name 
+[2026-07-28 07:43:09][DEBUG] getSitesByLocations - result count: 8 
+[2026-07-28 07:43:09][DEBUG] getBuildingsBySiteAndLocations - siteId: 56, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:09][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 36)) AND b.status = 1
+            ORDER BY b.name 
+[2026-07-28 07:43:09][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 36)) 
+[2026-07-28 07:43:09][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 36)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-28 07:43:09][DEBUG] getAllByLocations - Params: [56] 
+[2026-07-28 07:43:09][DEBUG] getAllByLocations - Results count: 60 
+[2026-07-28 07:43:11][DEBUG] getRoomsByBuildingAndLocations - buildingId: 46, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:11][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 36)) AND r.status = 1
+            ORDER BY r.name 
+[2026-07-28 07:43:11][DEBUG] MaterielClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:11][DEBUG] getSitesByLocations - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:11][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 36)) 
+[2026-07-28 07:43:11][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 36)) AND s.status = 1
+                ORDER BY s.name 
+[2026-07-28 07:43:11][DEBUG] getSitesByLocations - result count: 8 
+[2026-07-28 07:43:11][DEBUG] getBuildingsBySiteAndLocations - siteId: 56, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:11][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 36)) AND b.status = 1
+            ORDER BY b.name 
+[2026-07-28 07:43:11][DEBUG] getRoomsByBuildingAndLocations - buildingId: 46, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:11][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 36)) AND r.status = 1
+            ORDER BY r.name 
+[2026-07-28 07:43:11][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 36)) 
+[2026-07-28 07:43:11][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 36)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-28 07:43:11][DEBUG] getAllByLocations - Params: [56,46] 
+[2026-07-28 07:43:11][DEBUG] getAllByLocations - Results count: 60 
+[2026-07-28 07:43:13][DEBUG] MaterielClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:13][DEBUG] getSitesByLocations - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:13][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 36)) 
+[2026-07-28 07:43:13][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 36)) AND s.status = 1
+                ORDER BY s.name 
+[2026-07-28 07:43:13][DEBUG] getSitesByLocations - result count: 8 
+[2026-07-28 07:43:13][DEBUG] getBuildingsBySiteAndLocations - siteId: 56, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:13][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 36)) AND b.status = 1
+            ORDER BY b.name 
+[2026-07-28 07:43:13][DEBUG] getRoomsByBuildingAndLocations - buildingId: 46, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:13][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 36)) AND r.status = 1
+            ORDER BY r.name 
+[2026-07-28 07:43:13][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 36)) 
+[2026-07-28 07:43:13][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 36)) AND s.id = ? AND b.id = ? AND m.salle_id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-28 07:43:13][DEBUG] getAllByLocations - Params: [56,46,160] 
+[2026-07-28 07:43:13][DEBUG] getAllByLocations - Results count: 20 
+[2026-07-28 07:43:21][DEBUG] MaterielClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:21][DEBUG] getSitesByLocations - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:21][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 36)) 
+[2026-07-28 07:43:21][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 36)) AND s.status = 1
+                ORDER BY s.name 
+[2026-07-28 07:43:21][DEBUG] getSitesByLocations - result count: 8 
+[2026-07-28 07:43:21][DEBUG] getBuildingsBySiteAndLocations - siteId: 56, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:21][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 36)) AND b.status = 1
+            ORDER BY b.name 
+[2026-07-28 07:43:21][DEBUG] getRoomsByBuildingAndLocations - buildingId: 46, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:21][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 36)) AND r.status = 1
+            ORDER BY r.name 
+[2026-07-28 07:43:21][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 36)) 
+[2026-07-28 07:43:21][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 36)) AND s.id = ? AND b.id = ? AND m.salle_id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-28 07:43:21][DEBUG] getAllByLocations - Params: [56,46,161] 
+[2026-07-28 07:43:21][DEBUG] getAllByLocations - Results count: 21 
+[2026-07-28 07:43:26][DEBUG] MaterielClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:26][DEBUG] getSitesByLocations - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:26][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 36)) 
+[2026-07-28 07:43:26][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 36)) AND s.status = 1
+                ORDER BY s.name 
+[2026-07-28 07:43:26][DEBUG] getSitesByLocations - result count: 8 
+[2026-07-28 07:43:26][DEBUG] getBuildingsBySiteAndLocations - siteId: 56, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:26][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 36)) AND b.status = 1
+            ORDER BY b.name 
+[2026-07-28 07:43:26][DEBUG] getRoomsByBuildingAndLocations - buildingId: 46, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:26][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 36)) AND r.status = 1
+            ORDER BY r.name 
+[2026-07-28 07:43:26][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 36)) 
+[2026-07-28 07:43:26][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 36)) AND s.id = ? AND b.id = ? AND m.salle_id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-28 07:43:26][DEBUG] getAllByLocations - Params: [56,46,162] 
+[2026-07-28 07:43:26][DEBUG] getAllByLocations - Results count: 19 
+[2026-07-28 07:43:32][DEBUG] MaterielClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:32][DEBUG] getSitesByLocations - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:32][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 36)) 
+[2026-07-28 07:43:32][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 36)) AND s.status = 1
+                ORDER BY s.name 
+[2026-07-28 07:43:32][DEBUG] getSitesByLocations - result count: 8 
+[2026-07-28 07:43:32][DEBUG] getBuildingsBySiteAndLocations - siteId: 56, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:32][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 36)) AND b.status = 1
+            ORDER BY b.name 
+[2026-07-28 07:43:32][DEBUG] getRoomsByBuildingAndLocations - buildingId: 46, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:32][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 36)) AND r.status = 1
+            ORDER BY r.name 
+[2026-07-28 07:43:32][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 36)) 
+[2026-07-28 07:43:32][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 36)) AND s.id = ? AND b.id = ? AND m.salle_id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-28 07:43:32][DEBUG] getAllByLocations - Params: [56,46,161] 
+[2026-07-28 07:43:32][DEBUG] getAllByLocations - Results count: 21 
+[2026-07-28 07:43:35][DEBUG] MaterielClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:35][DEBUG] getSitesByLocations - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:35][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 36)) 
+[2026-07-28 07:43:35][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 36)) AND s.status = 1
+                ORDER BY s.name 
+[2026-07-28 07:43:35][DEBUG] getSitesByLocations - result count: 8 
+[2026-07-28 07:43:35][DEBUG] getBuildingsBySiteAndLocations - siteId: 56, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:35][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 36)) AND b.status = 1
+            ORDER BY b.name 
+[2026-07-28 07:43:35][DEBUG] getRoomsByBuildingAndLocations - buildingId: 46, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:35][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 36)) AND r.status = 1
+            ORDER BY r.name 
+[2026-07-28 07:43:35][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 36)) 
+[2026-07-28 07:43:35][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 36)) AND s.id = ? AND b.id = ? AND m.salle_id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-28 07:43:35][DEBUG] getAllByLocations - Params: [56,46,160] 
+[2026-07-28 07:43:35][DEBUG] getAllByLocations - Results count: 20 
+[2026-07-28 07:43:39][DEBUG] getBuildingsBySiteAndLocations - siteId: 72, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:39][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 36)) AND b.status = 1
+            ORDER BY b.name 
+[2026-07-28 07:43:39][DEBUG] MaterielClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:39][DEBUG] getSitesByLocations - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:39][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 36)) 
+[2026-07-28 07:43:39][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 36)) AND s.status = 1
+                ORDER BY s.name 
+[2026-07-28 07:43:39][DEBUG] getSitesByLocations - result count: 8 
+[2026-07-28 07:43:39][DEBUG] getBuildingsBySiteAndLocations - siteId: 72, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:39][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 36)) AND b.status = 1
+            ORDER BY b.name 
+[2026-07-28 07:43:39][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 36)) 
+[2026-07-28 07:43:39][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 36)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-28 07:43:39][DEBUG] getAllByLocations - Params: [72] 
+[2026-07-28 07:43:39][DEBUG] getAllByLocations - Results count: 43 
+[2026-07-28 07:43:44][DEBUG] getBuildingsBySiteAndLocations - siteId: 59, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:44][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 36)) AND b.status = 1
+            ORDER BY b.name 
+[2026-07-28 07:43:44][DEBUG] MaterielClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:44][DEBUG] getSitesByLocations - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:44][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 36)) 
+[2026-07-28 07:43:44][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 36)) AND s.status = 1
+                ORDER BY s.name 
+[2026-07-28 07:43:44][DEBUG] getSitesByLocations - result count: 8 
+[2026-07-28 07:43:44][DEBUG] getBuildingsBySiteAndLocations - siteId: 59, userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:44][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 36)) AND b.status = 1
+            ORDER BY b.name 
+[2026-07-28 07:43:44][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 36)) 
+[2026-07-28 07:43:44][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 36)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-07-28 07:43:44][DEBUG] getAllByLocations - Params: [59] 
+[2026-07-28 07:43:44][DEBUG] getAllByLocations - Results count: 157 
+[2026-07-28 07:43:46][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:46][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 07:43:46][DEBUG] DocumentationClientController::index - Paramètres: [36] 
+[2026-07-28 07:43:46][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 07:43:46][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=, building_id=, salle_id= 
+[2026-07-28 07:43:48][DEBUG] SiteClientController::index - DB set: yes 
+[2026-07-28 07:43:48][DEBUG] SiteClientController::index - clientId from session: 36 
+[2026-07-28 07:43:48][DEBUG] SiteClientController::index - userLocations: {"36":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - START 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - userLocations: {"36":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Traitement du clientId: 36 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - locations: [{"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - clientSites trouvés: 8 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Site: ID=56, name=CDC ANGERS EBLE 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Site: ID=72, name=CDC ANGERS QUATUOR 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Site: ID=59, name=CDC AUSTERLITZ 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Site: ID=57, name=CDC BORDEAUX 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Site: ID=58, name=CDC PARIS 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Site: ID=60, name=CDC QAF 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Site: ID=69, name=ICDC BAGNEUX 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Site: ID=67, name=IRCANTEC 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - fullClientAccess devient true (accès client complet) 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Accès complet au client 36 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Ajout du site 56 dans la map (accès complet) 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Ajout du site 72 dans la map (accès complet) 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Ajout du site 59 dans la map (accès complet) 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Ajout du site 57 dans la map (accès complet) 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Ajout du site 58 dans la map (accès complet) 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Ajout du site 60 dans la map (accès complet) 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Ajout du site 69 dans la map (accès complet) 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - Ajout du site 67 dans la map (accès complet) 
+[2026-07-28 07:43:48][DEBUG] getSitesByLocations - résultat FINAL: [56,72,59,57,58,60,69,67] 
+[2026-07-28 07:43:48][DEBUG] SiteClientController::index - sites après dédoublonnage: [56,72,59,57,58,60,69,67] 
+[2026-07-28 07:43:48][INFO] 56 
+[2026-07-28 07:43:48][INFO] 72 
+[2026-07-28 07:43:48][INFO] 59 
+[2026-07-28 07:43:48][INFO] 57 
+[2026-07-28 07:43:48][INFO] 58 
+[2026-07-28 07:43:48][INFO] 60 
+[2026-07-28 07:43:48][INFO] 69 
+[2026-07-28 07:43:48][INFO] 67 
+[2026-07-28 07:43:48][DEBUG] SiteClientController::index - sites count: 8 
+[2026-07-28 07:43:56][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:43:56][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 07:43:56][DEBUG] DocumentationClientController::index - Paramètres: [36] 
+[2026-07-28 07:43:56][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 07:43:56][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=, building_id=, salle_id= 
+[2026-07-28 07:47:27][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-07-28 07:47:27][DEBUG] CSRF: Token trouvé dans la requête - Token: fc8c4aba9beb985f493b... 
+[2026-07-28 07:47:27][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-28 07:47:27][DEBUG] CSRF: Token trouvé dans la requête - Token: fc8c4aba9beb985f493b... 
+[2026-07-28 07:47:27][DEBUG] CSRF: Token trouvé dans la requête - Token: fc8c4aba9beb985f493b... 
+[2026-07-28 07:51:25][DEBUG] CSRF: Token trouvé dans la requête - Token: c4038b64b95bbef649db... 
+[2026-07-28 07:51:25][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-28 07:51:25][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-28 07:51:25][DEBUG] Login réussi - Session ID: 2aqmvl0j886vgif1fhclfbijfs 
+[2026-07-28 07:51:25][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-28 07:51:25][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-28 07:51:25][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-28 07:51:25][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-28 07:51:29][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-07-28 07:51:30][DEBUG] CSRF: Token trouvé dans la requête - Token: c4038b64b95bbef649db... 
+[2026-07-28 07:51:30][DEBUG] CSRF: Token trouvé dans la requête - Token: c4038b64b95bbef649db... 
+[2026-07-28 07:51:30][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-28 07:51:30][DEBUG] CSRF: Token trouvé dans la requête - Token: c4038b64b95bbef649db... 
+[2026-07-28 07:51:34][INFO] 56 
+[2026-07-28 07:51:34][INFO] 72 
+[2026-07-28 07:51:34][INFO] 59 
+[2026-07-28 07:51:34][INFO] 57 
+[2026-07-28 07:51:34][INFO] 58 
+[2026-07-28 07:51:34][INFO] 60 
+[2026-07-28 07:51:34][INFO] 69 
+[2026-07-28 07:51:34][INFO] 67 
+[2026-07-28 07:51:50][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:50][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:50][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:51][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:51][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:51][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:51][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:51][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:51][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:51][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:51][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:53][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:53][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:53][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:53][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:53][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:51:53][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 07:53:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 62758f2fc56e451bfb4b... 
+[2026-07-28 07:53:36][DEBUG] Permissions chargées pour Cyril-CDC : {"role":"client","rights":{"client_view_interventions":true,"client_view_materiel":true,"client_view_documentation":true,"client_add_documentation":true,"client_view_contracts":true,"client_modify_info":true},"locations":[{"client_id":36,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-07-28 07:53:36][INFO] Utilisateur connecté : Cyril-CDC {"user_id":35,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":36}
+[2026-07-28 07:53:36][DEBUG] Login réussi - Session ID: jeoj3m2alhm66mebaelkkhkrib 
+[2026-07-28 07:53:36][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-28 07:53:36][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-28 07:53:36][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-28 07:53:36][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-28 07:53:42][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 07:53:42][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 07:53:42][DEBUG] DocumentationClientController::index - Paramètres: [36] 
+[2026-07-28 07:53:42][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 07:53:42][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=, building_id=, salle_id= 
+[2026-07-28 08:05:13][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 08:05:13][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 08:05:13][DEBUG] DocumentationClientController::index - Paramètres: [36,36,36,36] 
+[2026-07-28 08:05:13][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 47 
+[2026-07-28 08:05:13][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:14][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:14][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:14][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:14][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:14][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:14][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:14][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:14][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:14][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:14][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:16][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:16][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:16][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:16][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:23][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 08:05:23][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 08:05:23][DEBUG] DocumentationClientController::index - Paramètres: [36,36,36,36,72,72,72] 
+[2026-07-28 08:05:23][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 3 
+[2026-07-28 08:05:24][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:42][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 08:05:42][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 08:05:42][DEBUG] DocumentationClientController::index - Paramètres: [36,36,36,36,56,56,56] 
+[2026-07-28 08:05:42][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 10 
+[2026-07-28 08:05:42][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:42][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:42][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:42][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:42][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 08:05:43][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 

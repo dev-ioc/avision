@@ -76,12 +76,32 @@ class DocumentationClientController
                 $conditions[] = "(lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)";
                 $params[] = $clientId;
 
-                // Document lié au site
-                if ($locationSiteId !== null) {
-                    $conditions[] = "(lpj.type_liaison = 'documentation_site' AND lpj.entite_id = ?)";
-                    $params[] = $locationSiteId;
-                }
+                if ($locationSiteId === null) {
+                    // Accès à tout le client : inclure sites, bâtiments et salles de ce client
+                    $conditions[] = "(lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?))";
+                    $params[] = $clientId;
 
+                    $conditions[] = "(lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))";
+                    $params[] = $clientId;
+
+                    $conditions[] = "(lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))";
+                    $params[] = $clientId;
+                } else {
+                    if ($locationSiteId !== null) { /* condition site existante */
+                    }
+                    if ($locationBuildingId !== null) { /* condition bâtiment existante */
+                    }
+                    if ($locationRoomId !== null) { /* condition salle existante */
+                    }
+                }
                 // Document lié au bâtiment
                 if ($locationBuildingId !== null) {
                     $conditions[] = "(lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?)";
