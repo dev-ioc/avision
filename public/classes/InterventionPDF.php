@@ -652,8 +652,8 @@ class InterventionPDF extends TCPDF
         }
 
         $this->SetY(min($this->GetY() + 2, $bottomLimit));
-        $this->SetFont('helvetica', '', 9); // reset pour les sections suivantes
-        $this->SetLineWidth(0.2); // reset épaisseur de trait par défaut
+        $this->SetFont('helvetica', '', 9);
+        $this->SetLineWidth(0.2);
     }
     /**
      * Cellule avec troncature automatique et réduction de police si texte long
