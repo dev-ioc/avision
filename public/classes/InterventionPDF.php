@@ -11,7 +11,7 @@ class InterventionPDF extends TCPDF
     private $mainColor = [58, 89, 99];
     private $headerText = [42, 74, 92];
     private $border = [210, 210, 210];
-    private $light = [247, 247, 247];
+    private $currentIntervention = [];
 
     public function __construct()
     {
@@ -61,7 +61,7 @@ class InterventionPDF extends TCPDF
         // =====================================================
         // PAGE 1
         // =====================================================
-
+        $this->currentIntervention = $intervention;
         $this->AddPage();
 
         $this->renderHeader($intervention);
@@ -524,46 +524,122 @@ class InterventionPDF extends TCPDF
      */
     private function renderEquipment($equipment)
     {
-        $this->sectionTitle('3. ÉQUIPEMENTS CONCERNÉS');
+        $count = is_array($equipment) ? count($equipment) : 0;
 
-        $w = 47.5;
+        $this->sectionTitle('3. ÉQUIPEMENTS CONCERNÉS' . ($count > 0 ? ' (' . $count . ')' : ''));
 
-        $this->headCell($w, 'Désignation équipement');
-        $this->headCell($w, 'Réf. interne AVision');
-        $this->headCell($w, 'N° de série');
-        $this->headCell($w, 'Marque / Modèle');
-        $this->Ln();
-
-        if (!empty($equipment) && is_array($equipment)) {
-            foreach ($equipment as $eq) {
-                $brand = trim($eq['marque'] ?? '');
-                $model = trim($eq['modele'] ?? '');
-                $brandModel = trim(
-                    $brand .
-                    (!empty($brand) && !empty($model) ? ' / ' : '') .
-                    $model
-                );
-
-                $designation = $eq['designation'] ?? ($eq['modele'] ?? '');
-                $refAvision = $eq['ref_avision'] ?? ($eq['reference'] ?? '');
-                $numSerie = $eq['numero_serie'] ?? ($eq['serial_number'] ?? '');
-
-                $this->bodyCellTruncated($w, $designation);
-                $this->bodyCellTruncated($w, $refAvision);
-                $this->bodyCellTruncated($w, $numSerie);
-                $this->bodyCellTruncated($w, $brandModel);
-                $this->Ln();
-            }
-        } else {
+        if (empty($equipment) || !is_array($equipment)) {
+            // Cas vide : 3 lignes de tableau classiques comme avant
+            $w = 47.5;
+            $this->headCell($w, 'Désignation équipement');
+            $this->headCell($w, 'Réf. interne AVision');
+            $this->headCell($w, 'N° de série');
+            $this->headCell($w, 'Marque / Modèle');
+            $this->Ln();
             for ($i = 0; $i < 3; $i++) {
                 $this->Cell($w, 7, '', 1, 0);
                 $this->Cell($w, 7, '', 1, 0);
                 $this->Cell($w, 7, '', 1, 0);
                 $this->Cell($w, 7, '', 1, 1);
             }
+            return;
         }
-    }
 
+        // =====================================================
+        // Préparer les libellés compacts (une ligne par équipement)
+        // Format : "Désignation (Marque) — SN:xxxxxx"
+        // =====================================================
+        $lines = [];
+        foreach ($equipment as $eq) {
+            $brand = trim($eq['marque'] ?? '');
+            $model = trim($eq['modele'] ?? '');
+            $designation = trim($eq['designation'] ?? $model);
+            $serial = trim($eq['numero_serie'] ?? ($eq['serial_number'] ?? ''));
+
+            $label = $designation !== '' ? $designation : ($model !== '' ? $model : '—');
+            if ($brand !== '' && stripos($label, $brand) === false) {
+                $label .= ' (' . $brand . ')';
+            }
+            if ($serial !== '') {
+                $label .= ' — SN:' . $serial;
+            }
+            $lines[] = $label;
+        }
+
+        // =====================================================
+        // Disposition en 3 colonnes bordées, hauteur budgétée
+        // =====================================================
+        $numColumns = 3;
+        $pageX = 10;
+        $pageWidth = 190;
+        $colWidth = $pageWidth / $numColumns;
+
+        $maxSectionHeight = 130; // mm — ajustable
+        $rowsPerColumn = (int) ceil($count / $numColumns);
+
+        $lineHeight = $rowsPerColumn > 0 ? $maxSectionHeight / $rowsPerColumn : 4.2;
+        $lineHeight = max(2.8, min(5, $lineHeight));
+
+        if ($lineHeight >= 4.2) {
+            $fontSize = 6.5;
+        } elseif ($lineHeight >= 3.6) {
+            $fontSize = 5.5;
+        } elseif ($lineHeight >= 3.1) {
+            $fontSize = 5;
+        } else {
+            $fontSize = 4.3;
+        }
+
+        $this->SetFont('helvetica', '', $fontSize);
+        $this->SetTextColor(0, 0, 0);
+        $this->SetDrawColor($this->border[0], $this->border[1], $this->border[2]);
+        $this->SetLineWidth(0.1);
+
+        $startY = $this->GetY();
+        $bottomLimit = 270;
+
+        // Largeur max de texte en caractères, approximative selon la police
+        $charWidthMm = $fontSize * 0.19;
+        $maxChars = max(10, (int) (($colWidth - 2) / $charWidthMm));
+
+        // Compléter les colonnes pour qu'elles aient toutes le même nombre de lignes
+        // (nécessaire pour dessiner des bordures propres et alignées)
+        $totalCells = $rowsPerColumn * $numColumns;
+        while (count($lines) < $totalCells) {
+            $lines[] = '';
+        }
+
+        for ($row = 0; $row < $rowsPerColumn; $row++) {
+
+            // Saut de page si la ligne suivante dépasse le bas de page
+            if ($startY + ($row + 1) * $lineHeight > $bottomLimit) {
+                $this->AddPage();
+                $this->renderHeader($this->currentIntervention);
+                $startY = $this->GetY() + 3;
+                $row = 0;
+                $bottomLimit = 270;
+            }
+
+            $y = $startY + $row * $lineHeight;
+            $this->SetXY($pageX, $y);
+
+            for ($col = 0; $col < $numColumns; $col++) {
+                $index = $col * $rowsPerColumn + $row;
+                $label = $lines[$index] ?? '';
+
+                if (mb_strlen($label) > $maxChars) {
+                    $label = mb_substr($label, 0, $maxChars - 1) . '…';
+                }
+
+                $this->Cell($colWidth, $lineHeight, $label, 1, 0, 'L');
+            }
+            $this->Ln($lineHeight);
+        }
+
+        $this->SetY(min($this->GetY() + 2, $bottomLimit));
+        $this->SetFont('helvetica', '', 9); // reset pour les sections suivantes
+        $this->SetLineWidth(0.2); // reset épaisseur de trait par défaut
+    }
     /**
      * Cellule avec troncature automatique et réduction de police si texte long
      */
