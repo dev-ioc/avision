@@ -569,8 +569,7 @@ class InterventionPDF extends TCPDF
      */
     private function bodyCellTruncated($w, $text = '', $h = 7)
     {
-        // Calculer la largeur max en caractères approximatifs
-        // à 9pt helvetica, ~1 char ≈ 2mm → $w mm / 2 = nb chars max
+
         $maxChars = (int) ($w / 2);
 
         // Réduire la police si le texte est trop long
