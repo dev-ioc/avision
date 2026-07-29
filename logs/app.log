@@ -122297,3 +122297,266 @@ Quant à l’écran n°1, il est HS
 (
 )
  
+[2026-07-29 13:32:32][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:33:28][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:35:02][CRITICAL] Allowed memory size of 536870912 bytes exhausted (tried to allocate 81920 bytes) {"file":"C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php","line":10406,"type":1}
+[2026-07-29 13:35:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 750ae1da69c07f409b45... 
+[2026-07-29 13:35:02][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:36:40][CRITICAL] Allowed memory size of 536870912 bytes exhausted (tried to allocate 81920 bytes) {"file":"C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php","line":10406,"type":1}
+[2026-07-29 13:38:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 750ae1da69c07f409b45... 
+[2026-07-29 13:38:35][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:43:23][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:44:30][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":622,"errno":2}
+[2026-07-29 13:44:30][WARNING] Undefined variable $rowOffset {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":614,"errno":2}
+[2026-07-29 13:44:31][WARNING] Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\avision\public\classes\Error\ErrorHandler.php:77) {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":4146,"errno":2}
+[2026-07-29 13:44:31][WARNING] Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\avision\public\classes\Error\ErrorHandler.php:77) {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":4147,"errno":2}
+[2026-07-29 13:44:31][WARNING] Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\avision\public\classes\Error\ErrorHandler.php:77) {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":4148,"errno":2}
+[2026-07-29 13:44:31][WARNING] Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\avision\public\classes\Error\ErrorHandler.php:77) {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":4149,"errno":2}
+[2026-07-29 13:44:41][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:52:31][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:59:35][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:02:48][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:06:06][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:09:48][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:10:35][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:10:44][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:14:37][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:16:47][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:19:44][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:20:24][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:20:39][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:21:07][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:21:26][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:22:17][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:25:35][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:32:28][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:33:09][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:34:58][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:35:14][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:36:20][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:37:17][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:37:34][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:37:56][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:38:44][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:41:18][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:43:03][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:45:48][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:50:58][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:52:12][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:52:44][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:53:32][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:53:36][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:55:16][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:57:34][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:57:34][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1527,"errno":2}
+[2026-07-29 14:57:34][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1527,"errno":2}
+[2026-07-29 14:57:34][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1527,"errno":2}
+[2026-07-29 14:57:34][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1527,"errno":2}
+[2026-07-29 14:58:55][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:58:55][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1525,"errno":2}
+[2026-07-29 14:58:55][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1525,"errno":2}
+[2026-07-29 14:58:55][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1525,"errno":2}
+[2026-07-29 14:58:55][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1525,"errno":2}
+[2026-07-29 14:59:03][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 14:59:03][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1525,"errno":2}
+[2026-07-29 14:59:03][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1525,"errno":2}
+[2026-07-29 14:59:03][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1525,"errno":2}
+[2026-07-29 14:59:03][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1525,"errno":2}
+[2026-07-29 15:00:16][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 15:00:16][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1528,"errno":2}
+[2026-07-29 15:00:16][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1528,"errno":2}
+[2026-07-29 15:00:16][WARNING] Undefined property: InterventionPDF::$showFooterOnLastPage {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1528,"errno":2}
+[2026-07-29 15:00:16][INFO] Creation of dynamic property InterventionPDF::$showFooterOnLastPage is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":107,"errno":8192}
+[2026-07-29 15:00:16][ERROR] Call to undefined method InterventionPDF::getAliasNumPages() {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1534,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php(3663): InterventionPDF->Footer()\n#1 C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php(3209): TCPDF->setFooter()\n#2 C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php(3057): TCPDF->endPage()\n#3 C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php(7643): TCPDF->Close()\n#4 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4224): TCPDF->Output('C:\\\\xampp\\\\htdocs...', 'F')\n#5 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4129): InterventionController->generateBonInterventionPdf(Array, Array, Array, Array, Array, Array)\n#6 C:\\xampp\\htdocs\\avision\\public\\index.php(1031): InterventionController->generateBonPdf('370')\n#7 {main}","type":"Error"}
+[2026-07-29 15:00:47][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 15:00:47][ERROR] Call to undefined method InterventionPDF::getAliasNumPages() {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":1535,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php(3663): InterventionPDF->Footer()\n#1 C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php(3209): TCPDF->setFooter()\n#2 C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php(3057): TCPDF->endPage()\n#3 C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php(7643): TCPDF->Close()\n#4 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4224): TCPDF->Output('C:\\\\xampp\\\\htdocs...', 'F')\n#5 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4129): InterventionController->generateBonInterventionPdf(Array, Array, Array, Array, Array, Array)\n#6 C:\\xampp\\htdocs\\avision\\public\\index.php(1031): InterventionController->generateBonPdf('370')\n#7 {main}","type":"Error"}
+[2026-07-29 15:02:17][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 

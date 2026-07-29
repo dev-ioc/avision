@@ -12,7 +12,7 @@ class InterventionPDF extends TCPDF
     private $headerText = [42, 74, 92];
     private $border = [210, 210, 210];
     private $currentIntervention = [];
-
+    private $showFooterOnLastPage = false;
     public function __construct()
     {
         parent::__construct(
@@ -27,11 +27,10 @@ class InterventionPDF extends TCPDF
         $this->SetAuthor('VIDEOSONIC');
 
         $this->setPrintHeader(false);
-        $this->setPrintFooter(false);
+        $this->setPrintFooter(true);
 
         $this->SetMargins(10, 10, 10);
-        $this->SetAutoPageBreak(true, 12);
-
+        $this->SetAutoPageBreak(true, 20);
         $this->SetFont('helvetica', '', 9);
 
         $this->SetLineWidth(0.2);
@@ -78,12 +77,14 @@ class InterventionPDF extends TCPDF
 
         $this->renderEquipment($equipment);
 
-        $this->Ln(3);
+        // Nouvelle page pour la section 4
+        $this->AddPage();
+        $this->Ln(2);
 
-        // SECTION 4 avec affichage complet sans découpage
+        // SECTION 4
         $this->renderDetails($intervention, $comments);
 
-        $this->Ln(3);
+        $this->Ln(2);
 
         // SECTION 5
         $this->renderParts($replacedParts);
@@ -102,14 +103,10 @@ class InterventionPDF extends TCPDF
         // Tableau prêt matériel séparé avec bordures complètes
         $this->renderLoanEquipment($equipment);
 
-        $this->Ln(5);
-
         // Section 6
         $this->renderClosure($intervention, $technicians, $selectedAttachments, $signatures);
-
-        $this->Ln(2);
-
-        $this->renderFooter();
+        $this->showFooterOnLastPage = true;
+        $this->setPrintFooter(true);
 
         return $this;
     }
@@ -514,7 +511,7 @@ class InterventionPDF extends TCPDF
         $this->SetFont('helvetica', 'I', 7);
         $this->Cell(18, 4, 'Fiche salle', 0);
 
-        $this->Ln(22);
+        $this->Ln(12);
     }
 
     /**
@@ -524,46 +521,159 @@ class InterventionPDF extends TCPDF
      */
     private function renderEquipment($equipment)
     {
-        $this->sectionTitle('3. ÉQUIPEMENTS CONCERNÉS');
+        $count = is_array($equipment) ? count($equipment) : 0;
 
-        $w = 47.5;
+        $this->sectionTitle('3. ÉQUIPEMENTS CONCERNÉS' . ($count > 0 ? ' (' . $count . ')' : ''));
 
-        $this->headCell($w, 'Désignation équipement');
-        $this->headCell($w, 'Réf. interne AVision');
-        $this->headCell($w, 'N° de série');
-        $this->headCell($w, 'Marque / Modèle');
-        $this->Ln();
-
-        if (!empty($equipment) && is_array($equipment)) {
-            foreach ($equipment as $eq) {
-                $brand = trim($eq['marque'] ?? '');
-                $model = trim($eq['modele'] ?? '');
-                $brandModel = trim(
-                    $brand .
-                    (!empty($brand) && !empty($model) ? ' / ' : '') .
-                    $model
-                );
-
-                $designation = $eq['designation'] ?? ($eq['modele'] ?? '');
-                $refAvision = $eq['ref_avision'] ?? ($eq['reference'] ?? '');
-                $numSerie = $eq['numero_serie'] ?? ($eq['serial_number'] ?? '');
-
-                $this->bodyCellTruncated($w, $designation);
-                $this->bodyCellTruncated($w, $refAvision);
-                $this->bodyCellTruncated($w, $numSerie);
-                $this->bodyCellTruncated($w, $brandModel);
-                $this->Ln();
-            }
-        } else {
+        if (empty($equipment) || !is_array($equipment)) {
+            $w = 47.5;
+            $this->headCell($w, 'Désignation équipement');
+            $this->headCell($w, 'Réf. interne AVision');
+            $this->headCell($w, 'N° de série');
+            $this->headCell($w, 'Marque / Modèle');
+            $this->Ln();
             for ($i = 0; $i < 3; $i++) {
                 $this->Cell($w, 7, '', 1, 0);
                 $this->Cell($w, 7, '', 1, 0);
                 $this->Cell($w, 7, '', 1, 0);
                 $this->Cell($w, 7, '', 1, 1);
             }
+            return;
         }
-    }
 
+        // Libellés compacts
+        $lines = [];
+        foreach ($equipment as $eq) {
+            $brand = trim($eq['marque'] ?? '');
+            $model = trim($eq['modele'] ?? '');
+            $designation = trim($eq['designation'] ?? $model);
+            // $serial = trim($eq['numero_serie'] ?? ($eq['serial_number'] ?? ''));
+
+            $label = $designation !== '' ? $designation : ($model !== '' ? $model : '—');
+            if ($brand !== '' && stripos($label, $brand) === false) {
+                $label .= ' (' . $brand . ')';
+            }
+            // if ($serial !== '') {
+            //     $label .= ' SN:' . $serial; // un peu plus court que " — SN:"
+            // }
+            $lines[] = $label;
+        }
+
+        $pageX = 10;
+        $pageWidth = 190;
+
+        // Nombre de colonnes adapté au volume d'équipements
+        if ($count > 400) {
+            $numColumns = 5;
+        } elseif ($count > 150) {
+            $numColumns = 4;
+        } else {
+            $numColumns = 3;
+        }
+
+        $colWidth = $pageWidth / $numColumns;
+
+        // ================================================================
+        // Contrainte dure : le tableau doit tenir sur 2 PAGES MAXIMUM
+        // ================================================================
+        $maxPages = 2;
+        $startYInit = $this->GetY();
+        $bottomLimit = 270;
+        $budgetCurrentPage = max(20, $bottomLimit - $startYInit); // place restante sur la page en cours
+        $budgetFullPage = 270 - 40;                                // place dispo sur une page complète après un saut
+        $totalBudgetHeight = $budgetCurrentPage + ($maxPages - 1) * $budgetFullPage;
+
+        $rowsPerColumn = (int) ceil($count / $numColumns);
+
+        $lineHeight = $rowsPerColumn > 0 ? $totalBudgetHeight / $rowsPerColumn : 5;
+        $lineHeight = max(1.8, min(5, $lineHeight));
+
+        if ($lineHeight >= 4.2) {
+            $fontSize = 6.5;
+        } elseif ($lineHeight >= 3.6) {
+            $fontSize = 5.5;
+        } elseif ($lineHeight >= 3.0) {
+            $fontSize = 5;
+        } elseif ($lineHeight >= 2.4) {
+            $fontSize = 4.3;
+        } elseif ($lineHeight >= 2.0) {
+            $fontSize = 3.8;
+        } else {
+            $fontSize = 3.3;
+        }
+
+        // On gère nous-mêmes la pagination du tableau
+        $this->SetAutoPageBreak(false, 0);
+
+        $headerHeight = 5;
+        $headerFontSize = max(4.2, min(6.5, $fontSize + 0.5));
+
+        $drawColumnHeaders = function () use ($pageX, $colWidth, $numColumns, $headerHeight, $headerFontSize) {
+            $this->SetFont('helvetica', 'B', $headerFontSize);
+            $this->SetFillColor(233, 238, 241);
+            $this->SetTextColor($this->headerText[0], $this->headerText[1], $this->headerText[2]);
+            for ($c = 0; $c < $numColumns; $c++) {
+                $this->Cell($colWidth, $headerHeight, 'Désignation / Marque', 1, 0, 'L', true);
+            }
+            $this->Ln($headerHeight);
+            $this->SetTextColor(0, 0, 0);
+        };
+
+        $this->SetFont('helvetica', '', $fontSize);
+        $this->SetTextColor(0, 0, 0);
+        $this->SetDrawColor($this->border[0], $this->border[1], $this->border[2]);
+        $this->SetLineWidth(0.1);
+
+        $drawColumnHeaders();
+
+        $startY = $this->GetY();
+        $bottomLimit = 270;
+        $rowOffset = 0;
+
+        $charWidthMm = $fontSize * 0.19;
+        $maxChars = max(6, (int) (($colWidth - 2) / $charWidthMm));
+
+        $totalCells = $rowsPerColumn * $numColumns;
+        while (count($lines) < $totalCells) {
+            $lines[] = '';
+        }
+
+        for ($row = 0; $row < $rowsPerColumn; $row++) {
+
+            if ($startY + ($row - $rowOffset + 1) * $lineHeight > $bottomLimit) {
+                $this->AddPage();
+
+                $this->SetY(15);
+
+                $this->SetFont('helvetica', '', $fontSize);
+                $drawColumnHeaders();
+
+                $startY = $this->GetY();
+                $rowOffset = $row;
+                $bottomLimit = 270;
+            }
+
+            $y = $startY + ($row - $rowOffset) * $lineHeight;
+            $this->SetXY($pageX, $y);
+
+            for ($col = 0; $col < $numColumns; $col++) {
+                $index = $col * $rowsPerColumn + $row;
+                $label = $lines[$index] ?? '';
+
+                if (mb_strlen($label) > $maxChars) {
+                    $label = mb_substr($label, 0, $maxChars - 1) . '…';
+                }
+
+                $this->Cell($colWidth, $lineHeight, $label, 1, 0, 'L');
+            }
+            $this->Ln($lineHeight);
+        }
+        $this->SetY(min($this->GetY() + 2, $bottomLimit));
+        $this->SetFont('helvetica', '', 9);
+        $this->SetLineWidth(0.2);
+
+        $this->SetAutoPageBreak(true, 12);
+    }
     /**
      * Cellule avec troncature automatique et réduction de police si texte long
      */
@@ -751,10 +861,21 @@ class InterventionPDF extends TCPDF
         );
 
         // =====================================================
-        // DESCRIPTION
-        // =====================================================
+// DESCRIPTION
+// =====================================================
 
-        $this->Cell(190, 35, '', 1);
+        $this->SetFont('helvetica', '', 9);
+        $descriptionText = $intervention['description'] ?? '';
+
+        // Hauteur réelle du texte selon son contenu (largeur utile = 180mm, comme le MultiCell plus bas)
+        $textHeight = $this->getStringHeight(180, $descriptionText, false, true, '', 0);
+
+        $topPadding = 10;   // espace réservé pour le titre "Description du problème :"
+        $bottomPadding = 4; // marge en bas de l'encadré
+        $boxHeight = $topPadding + $textHeight + $bottomPadding;
+        $boxHeight = max($boxHeight, 20); // hauteur minimale si description vide/très courte
+
+        $this->Cell(190, $boxHeight, '', 1);
 
         $y = $this->GetY();
 
@@ -776,13 +897,11 @@ class InterventionPDF extends TCPDF
         $this->MultiCell(
             180,
             5,
-            $intervention['description'] ?? '',
+            $descriptionText,
             0,
             'L'
         );
-
-        $this->Ln();
-
+        $this->SetY($y + $boxHeight);
         // =====================================================
         // COMMENTAIRES
         // =====================================================
@@ -826,7 +945,9 @@ class InterventionPDF extends TCPDF
             'L'
         );
 
-        $this->Ln();
+        // // Marge inférieure de la section 4
+        // $this->SetY($this->GetY() + 8);
+        // $this->Ln(12);
     }
 
     /**
@@ -840,7 +961,7 @@ class InterventionPDF extends TCPDF
         // =====================================================
         // TITRE SECTION
         // =====================================================
-
+        $this->Ln(8);
         $this->sectionTitle('5. PIÈCES REMPLACÉES & MATÉRIEL PRÊTÉ');
 
         // =====================================================
@@ -1357,7 +1478,7 @@ class InterventionPDF extends TCPDF
         );
 
         // Petit espace
-        $this->Ln(1.5);
+        $this->SetY($this->GetY() + 2);
 
         // Style texte footer
         $this->SetFont('helvetica', '', 7);
@@ -1396,9 +1517,70 @@ class InterventionPDF extends TCPDF
      * FOOTER TCPDF AUTO
      * =========================================================
      */
+    /**
+     * =========================================================
+     * FOOTER TCPDF AUTO
+     * Affiché uniquement sur la dernière page
+     * =========================================================
+     */
+    /**
+     * =========================================================
+     * FOOTER TCPDF AUTO
+     * Affiché uniquement sur la dernière page
+     * =========================================================
+     */
     public function Footer()
     {
-        $this->renderFooter();
+        // Ne rien afficher si ce n'est pas activé
+        if (!$this->showFooterOnLastPage) {
+            return;
+        }
+
+        // Afficher uniquement sur la dernière page
+        if ($this->PageNo() != $this->getNumPages()) {
+            return;
+        }
+
+        $this->SetY(-16);
+
+        $y = $this->GetY();
+
+        // Ligne horizontale
+        $this->SetDrawColor(170, 170, 170);
+
+        $this->Line(
+            13,
+            $y,
+            197,
+            $y
+        );
+
+        // Position texte
+        $this->SetXY(13, $y + 2);
+
+        // Style texte footer
+        $this->SetFont('helvetica', '', 7);
+        $this->SetTextColor(55, 55, 55);
+
+        // Ligne 1
+        $this->Cell(
+            184,
+            3,
+            "VIDEOSONIC | 326 rue Henri Becquerel Porte B2 – Parc d'activités des Portes de l'Oise – 60230 CHAMBLY",
+            0,
+            1,
+            'C'
+        );
+
+        // Ligne 2
+        $this->Cell(
+            184,
+            3,
+            "Tél : 01 75 01 60 40 | info@videosonic.fr | www.videosonic.fr | SARL 100 000€ – RCS COMPIÈGNE 437 689 185 – APE 4778C",
+            0,
+            1,
+            'C'
+        );
     }
     /**
      * Génère un bon d'intervention avec les signatures intégrées
