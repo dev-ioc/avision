@@ -1480,7 +1480,6 @@ class InterventionPDF extends TCPDF
         // Petit espace
         $this->SetY($this->GetY() + 2);
 
-        // Style texte footer
         $this->SetFont('helvetica', '', 7);
 
         $this->SetTextColor(55, 55, 55);
