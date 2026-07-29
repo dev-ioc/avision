@@ -2639,7 +2639,7 @@ $closeReason = [];
 		document.getElementById('principalEmail').textContent = principalContact.email || '(email manquant)';
 		document.getElementById('signerPhone').value = principalContact.phone || '';
 
-		if (!principalContact.email) {
+		if (principalContact.email) {
 			document.getElementById('signerPrincipal').checked = true;
 			document.getElementById('contactFields').style.display = '';
 		} else {

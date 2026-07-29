@@ -2499,6 +2499,9 @@ class InterventionController
             'contact_client' => !empty($_POST['contact_client']) ? $_POST['contact_client'] : null,
             'contract_id' => !empty($_POST['contract_id']) ? $_POST['contract_id'] : null,
             'is_preventive' => $isPreventive,
+            'planned_date' => !empty($_POST['planned_date'])
+                ? $_POST['planned_date']
+                : null,
         ];
         $technicienIds = array_filter(array_map('intval', $_POST['technicien_ids'] ?? []));
         $notifyTechnician = isset($_POST['notify_technician']) && $_POST['notify_technician'] == '1';
@@ -2564,11 +2567,11 @@ class InterventionController
         $sql = "INSERT INTO interventions (
             title, client_id, site_id,building_id, room_id, status_id, 
             priority_id, type_id, description, demande_par, ref_client, contact_client, 
-            contract_id, reference, tickets_used, closed_at, created_at, is_preventive
+            contract_id, reference, tickets_used, closed_at, created_at, is_preventive,  planned_date
         ) VALUES (
             :title, :client_id, :site_id, :building_id, :room_id, :status_id, 
             :priority_id, :type_id, :description, :demande_par, :ref_client, :contact_client, 
-            :contract_id, :reference, :tickets_used, :closed_at, :created_at, :is_preventive
+            :contract_id, :reference, :tickets_used, :closed_at, :created_at, :is_preventive, :planned_date
         )";
 
         $stmt = $this->db->prepare($sql);
@@ -2590,7 +2593,8 @@ class InterventionController
             ':tickets_used' => $data['tickets_used'] ?? null,
             ':closed_at' => $data['closed_at'] ?? null,
             ':created_at' => $data['created_at'],
-            ':is_preventive' => $data['is_preventive']
+            ':is_preventive' => $data['is_preventive'],
+            ':planned_date' => $data['planned_date']
         ]);
 
         if ($result) {
