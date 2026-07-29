@@ -39,12 +39,9 @@ class ContractController
     {
         $this->checkAccess();
 
-        // Les administrateurs ont toujours accès
         if (isAdmin()) {
             return;
         }
-
-        // Vérifier la permission spécifique
         if (!canManageContracts()) {
             $_SESSION['error'] = "Vous n'avez pas les permissions pour gérer les contrats.";
             header('Location: ' . BASE_URL . 'dashboard');
@@ -59,82 +56,59 @@ class ContractController
     {
         $this->checkAccess();
 
-        // Si un ID est fourni, rediriger vers la page d'édition du client
         if ($id) {
             header('Location: ' . BASE_URL . 'clients/edit/' . $id);
             exit;
         }
+        $this->contractModel->updateExpiredContractsStatus();
+        $show_status = $_GET['show_status'] ?? 'all';
 
-        // Récupérer le filtre d'affichage des statuts
-        $show_status = $_GET['show_status'] ?? 'actif'; // Par défaut: 'actif'
+        $ticket_type = $_GET['ticket_type'] ?? 'all';
 
-        // Récupérer le filtre d'affichage des types de tickets
-        $ticket_type = $_GET['ticket_type'] ?? 'all'; // Par défaut: 'all'
-
-        // Récupérer les autres filtres
         $filters = [
             'client_id' => $_GET['client_id'] ?? null,
             'site_id' => $_GET['site_id'] ?? null,
             'room_id' => $_GET['room_id'] ?? null,
             'contract_type_id' => $_GET['contract_type_id'] ?? null,
-            // Le filtre 'status' sera ajouté ci-dessous basé sur $show_status
-            // Le filtre 'ticket_type' sera ajouté ci-dessous basé sur $ticket_type
         ];
 
-        // Appliquer le filtre de statut pour la requête SQL
         if ($show_status === 'actif') {
             $filters['status'] = 'actif';
         } elseif ($show_status === 'inactif') {
-            $filters['status'] = 'inactif'; // Assurez-vous que 'inactif' est la valeur DB pour les contrats non actifs
+            $filters['status'] = 'inactif';
         } elseif ($show_status === 'en_attente') {
-            $filters['status'] = 'en_attente'; // Filtre pour les contrats en attente
+            $filters['status'] = 'en_attente';
+        } elseif ($show_status === 'expire') {          // <-- AJOUT
+            $filters['status'] = 'expire';
         }
-        // Si $show_status est 'all' (ou autre chose), $filters['status'] reste non défini,
-        // et le modèle getAllContracts ne filtrera pas par statut si $filters['status'] est vide.
-
-        // Appliquer le filtre de type de tickets pour la requête SQL
         if ($ticket_type === 'with_tickets') {
-            $filters['ticket_type'] = 'with_tickets'; // Contrats avec tickets
+            $filters['ticket_type'] = 'with_tickets';
         } elseif ($ticket_type === 'without_tickets') {
-            $filters['ticket_type'] = 'without_tickets'; // Contrats sans tickets
+            $filters['ticket_type'] = 'without_tickets';
         }
-        // Si $ticket_type est 'all' (ou autre chose), $filters['ticket_type'] reste non défini,
-        // et le modèle getAllContracts ne filtrera pas par type de tickets si $filters['ticket_type'] est vide.
-
-        // Récupérer les contrats filtrés
         $contracts = $this->contractModel->getAllContracts($filters);
 
-        // Récupérer les statistiques par statut (pour les badges des filtres)
         $statsByStatus = $this->contractModel->getContractStatsByStatus();
 
-        // Récupérer les clients pour le filtre
         $clients = $this->clientModel->getAllClientsWithStats();
 
-        // Récupérer les sites pour le filtre (si un client est sélectionné)
         $sites = [];
         if ($filters['client_id']) {
             $sites = $this->siteModel->getSitesByClientId($filters['client_id']);
         }
 
-        // Récupérer les salles pour le filtre (si un site est sélectionné)
         $rooms = [];
         if ($filters['site_id']) {
             $rooms = $this->roomModel->getRoomsByBuildingId($filters['site_id']);
         }
 
-        // Récupérer les types de contrats
         $contractTypes = $this->contractModel->getContractTypes();
 
-        // Passer la vue de filtre actuelle au template pour l'affichage des boutons
         $current_filter_view = $show_status;
 
-        // Passer le filtre de type de tickets au template
         $current_ticket_filter = $ticket_type;
 
-        // Définir isAdmin pour la vue
         $isAdmin = isAdmin();
-
-        // Charger la vue
         require_once VIEWS_PATH . '/contract/index.php';
     }
 

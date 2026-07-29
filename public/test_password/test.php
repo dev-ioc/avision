@@ -1,2 +1,2 @@
 <?php
-echo password_hash("PWPEric01", PASSWORD_DEFAULT);
+echo password_hash("PWDEric01", PASSWORD_DEFAULT);

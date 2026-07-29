@@ -62,9 +62,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         }
                         ?>
                         <a href="<?php echo BASE_URL; ?>contracts?show_status=all"
-                            class="btn btn-outline-secondary btn-sm status-filter-btn <?php echo ($current_filter_view ?? 'actif') === 'all' ? 'active' : ''; ?>">
+                            class="btn btn-outline-secondary btn-sm status-filter-btn <?php echo ($current_filter_view ?? 'all') === 'all' ? 'active' : ''; ?>">
                             <span class="badge bg-secondary me-1">
-                                <?php echo $totalCount; ?>
+                                                        <?php echo $totalCount; ?>
                             </span>
                             Tous
                         </a>
@@ -187,12 +187,17 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <?php endif; ?>
                             </td>
                             <td data-label="Statut">
-                                <span class="badge bg-<?php
-                                echo $contract['status'] === 'actif' ? 'success' :
-                                    ($contract['status'] === 'inactif' ? 'danger' :
-                                        ($contract['status'] === 'en_attente' ? 'warning' : 'secondary'));
-                                ?>">
-                                    <?php echo ucfirst(str_replace('_', ' ', $contract['status'])); ?>
+                                <?php
+                                $statusConfig = [
+                                    'actif' => ['label' => 'Actif', 'color' => 'success'],
+                                    'inactif' => ['label' => 'Inactif', 'color' => 'danger'],
+                                    'en_attente' => ['label' => 'En attente', 'color' => 'warning'],
+                                    'expire' => ['label' => 'Expiré', 'color' => 'dark'],
+                                ];
+                                $config = $statusConfig[$contract['status']] ?? ['label' => ucfirst($contract['status']), 'color' => 'secondary'];
+                                ?>
+                                <span class="badge bg-<?php echo $config['color']; ?>">
+                                    <?php echo $config['label']; ?>
                                 </span>
                             </td>
                         </tr>

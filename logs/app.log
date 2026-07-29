@@ -120589,3 +120589,1292 @@ Quant à l’écran n°1, il est HS
 [2026-07-28 08:17:15][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-07-28 08:17:15][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
 [2026-07-28 08:17:15][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-28 11:40:40][DEBUG] CSRF: Token trouvé dans la requête - Token: 7694b03f64e3df4a3897... 
+[2026-07-28 11:40:41][DEBUG] Permissions chargées pour Cyril-CDC : {"role":"client","rights":{"client_view_interventions":true,"client_view_materiel":true,"client_view_documentation":true,"client_add_documentation":true,"client_view_contracts":true,"client_modify_info":true},"locations":[{"client_id":36,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-07-28 11:40:41][INFO] Utilisateur connecté : Cyril-CDC {"user_id":35,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":36}
+[2026-07-28 11:40:41][DEBUG] Login réussi - Session ID: 6hajnt88p6d3narq80nkrc2pjf 
+[2026-07-28 11:40:41][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-28 11:40:41][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-28 11:40:41][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-28 11:40:41][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-28 11:40:50][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":36,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 11:40:50][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:40:50][DEBUG] DocumentationClientController::index - Paramètres: [36,36,36,36] 
+[2026-07-28 11:40:50][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 48 
+[2026-07-28 11:40:50][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:50][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:50][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:50][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:50][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:50][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:51][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:51][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:51][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:51][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:51][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:51][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:51][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:51][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:51][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:53][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:40:53][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-07-28 11:41:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 93657fc2059f7c3777ed... 
+[2026-07-28 11:41:10][WARNING] Tentative de connexion échouée pour l'utilisateur : FOLyia 
+[2026-07-28 11:41:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 93657fc2059f7c3777ed... 
+[2026-07-28 11:41:14][DEBUG] Permissions chargées pour Reynald : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-28 11:41:14][INFO] Utilisateur connecté : Reynald {"user_id":3,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-28 11:41:14][DEBUG] Login réussi - Session ID: 77itghm2jgmv4r7c16ljjm3757 
+[2026-07-28 11:41:14][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-28 11:41:14][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-28 11:41:14][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-28 11:41:14][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-28 11:41:21][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 11:41:21][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-07-28 11:41:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 3fdec3d342dff9fc9ade... 
+[2026-07-28 11:41:32][DEBUG] Permissions chargées pour Fncaaudiovisuel : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":22,"site_id":35,"room_id":72},{"client_id":22,"site_id":35,"room_id":73},{"client_id":22,"site_id":35,"room_id":74},{"client_id":22,"site_id":35,"room_id":75},{"client_id":22,"site_id":35,"room_id":76},{"client_id":22,"site_id":35,"room_id":77},{"client_id":22,"site_id":35,"room_id":78},{"client_id":22,"site_id":35,"room_id":79},{"client_id":22,"site_id":35,"room_id":80},{"client_id":22,"site_id":35,"room_id":81},{"client_id":22,"site_id":35,"room_id":82},{"client_id":22,"site_id":35,"room_id":83},{"client_id":22,"site_id":35,"room_id":84},{"client_id":22,"site_id":35,"room_id":297}],"coefficients":{"user_coef":null}} 
+[2026-07-28 11:41:32][INFO] Utilisateur connecté : Fncaaudiovisuel {"user_id":26,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":22}
+[2026-07-28 11:41:32][DEBUG] Login réussi - Session ID: 5rbrlqel5r03kg56h2j4i2ji0e 
+[2026-07-28 11:41:32][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-28 11:41:32][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-28 11:41:32][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-28 11:41:32][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-28 11:41:35][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":22,"site_id":35,"building_id":25,"room_id":77},{"client_id":22,"site_id":35,"building_id":25,"room_id":72},{"client_id":22,"site_id":35,"building_id":25,"room_id":73},{"client_id":22,"site_id":35,"building_id":25,"room_id":74},{"client_id":22,"site_id":35,"building_id":25,"room_id":75},{"client_id":22,"site_id":35,"building_id":25,"room_id":76},{"client_id":22,"site_id":35,"building_id":25,"room_id":78},{"client_id":22,"site_id":35,"building_id":25,"room_id":79},{"client_id":22,"site_id":35,"building_id":25,"room_id":80},{"client_id":22,"site_id":35,"building_id":25,"room_id":81},{"client_id":22,"site_id":35,"building_id":25,"room_id":82},{"client_id":22,"site_id":35,"building_id":25,"room_id":83},{"client_id":22,"site_id":35,"building_id":25,"room_id":84},{"client_id":22,"site_id":35,"building_id":25,"room_id":297}] 
+[2026-07-28 11:41:35][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:41:35][DEBUG] DocumentationClientController::index - Paramètres: [22,25,77,22,25,72,22,25,73,22,25,74,22,25,75,22,25,76,22,25,78,22,25,79,22,25,80,22,25,81,22,25,82,22,25,83,22,25,84,22,25,297] 
+[2026-07-28 11:41:35][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 17 
+[2026-07-28 11:41:42][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":22,"site_id":35,"building_id":25,"room_id":77},{"client_id":22,"site_id":35,"building_id":25,"room_id":72},{"client_id":22,"site_id":35,"building_id":25,"room_id":73},{"client_id":22,"site_id":35,"building_id":25,"room_id":74},{"client_id":22,"site_id":35,"building_id":25,"room_id":75},{"client_id":22,"site_id":35,"building_id":25,"room_id":76},{"client_id":22,"site_id":35,"building_id":25,"room_id":78},{"client_id":22,"site_id":35,"building_id":25,"room_id":79},{"client_id":22,"site_id":35,"building_id":25,"room_id":80},{"client_id":22,"site_id":35,"building_id":25,"room_id":81},{"client_id":22,"site_id":35,"building_id":25,"room_id":82},{"client_id":22,"site_id":35,"building_id":25,"room_id":83},{"client_id":22,"site_id":35,"building_id":25,"room_id":84},{"client_id":22,"site_id":35,"building_id":25,"room_id":297}] 
+[2026-07-28 11:41:42][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:41:42][DEBUG] DocumentationClientController::index - Paramètres: [22,25,77,22,25,72,22,25,73,22,25,74,22,25,75,22,25,76,22,25,78,22,25,79,22,25,80,22,25,81,22,25,82,22,25,83,22,25,84,22,25,297,35,35,35] 
+[2026-07-28 11:41:42][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 17 
+[2026-07-28 11:41:44][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":22,"site_id":35,"building_id":25,"room_id":77},{"client_id":22,"site_id":35,"building_id":25,"room_id":72},{"client_id":22,"site_id":35,"building_id":25,"room_id":73},{"client_id":22,"site_id":35,"building_id":25,"room_id":74},{"client_id":22,"site_id":35,"building_id":25,"room_id":75},{"client_id":22,"site_id":35,"building_id":25,"room_id":76},{"client_id":22,"site_id":35,"building_id":25,"room_id":78},{"client_id":22,"site_id":35,"building_id":25,"room_id":79},{"client_id":22,"site_id":35,"building_id":25,"room_id":80},{"client_id":22,"site_id":35,"building_id":25,"room_id":81},{"client_id":22,"site_id":35,"building_id":25,"room_id":82},{"client_id":22,"site_id":35,"building_id":25,"room_id":83},{"client_id":22,"site_id":35,"building_id":25,"room_id":84},{"client_id":22,"site_id":35,"building_id":25,"room_id":297}] 
+[2026-07-28 11:41:44][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:41:44][DEBUG] DocumentationClientController::index - Paramètres: [22,25,77,22,25,72,22,25,73,22,25,74,22,25,75,22,25,76,22,25,78,22,25,79,22,25,80,22,25,81,22,25,82,22,25,83,22,25,84,22,25,297,35,35,35,25,25] 
+[2026-07-28 11:41:44][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 17 
+[2026-07-28 11:41:46][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":22,"site_id":35,"building_id":25,"room_id":77},{"client_id":22,"site_id":35,"building_id":25,"room_id":72},{"client_id":22,"site_id":35,"building_id":25,"room_id":73},{"client_id":22,"site_id":35,"building_id":25,"room_id":74},{"client_id":22,"site_id":35,"building_id":25,"room_id":75},{"client_id":22,"site_id":35,"building_id":25,"room_id":76},{"client_id":22,"site_id":35,"building_id":25,"room_id":78},{"client_id":22,"site_id":35,"building_id":25,"room_id":79},{"client_id":22,"site_id":35,"building_id":25,"room_id":80},{"client_id":22,"site_id":35,"building_id":25,"room_id":81},{"client_id":22,"site_id":35,"building_id":25,"room_id":82},{"client_id":22,"site_id":35,"building_id":25,"room_id":83},{"client_id":22,"site_id":35,"building_id":25,"room_id":84},{"client_id":22,"site_id":35,"building_id":25,"room_id":297}] 
+[2026-07-28 11:41:46][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND lpj2.entite_id = ?
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:41:46][DEBUG] DocumentationClientController::index - Paramètres: [22,25,77,22,25,72,22,25,73,22,25,74,22,25,75,22,25,76,22,25,78,22,25,79,22,25,80,22,25,81,22,25,82,22,25,83,22,25,84,22,25,297,35,35,35,25,25,75] 
+[2026-07-28 11:41:46][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 5 
+[2026-07-28 11:41:49][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":22,"site_id":35,"building_id":25,"room_id":77},{"client_id":22,"site_id":35,"building_id":25,"room_id":72},{"client_id":22,"site_id":35,"building_id":25,"room_id":73},{"client_id":22,"site_id":35,"building_id":25,"room_id":74},{"client_id":22,"site_id":35,"building_id":25,"room_id":75},{"client_id":22,"site_id":35,"building_id":25,"room_id":76},{"client_id":22,"site_id":35,"building_id":25,"room_id":78},{"client_id":22,"site_id":35,"building_id":25,"room_id":79},{"client_id":22,"site_id":35,"building_id":25,"room_id":80},{"client_id":22,"site_id":35,"building_id":25,"room_id":81},{"client_id":22,"site_id":35,"building_id":25,"room_id":82},{"client_id":22,"site_id":35,"building_id":25,"room_id":83},{"client_id":22,"site_id":35,"building_id":25,"room_id":84},{"client_id":22,"site_id":35,"building_id":25,"room_id":297}] 
+[2026-07-28 11:41:49][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND lpj2.entite_id = ?
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:41:49][DEBUG] DocumentationClientController::index - Paramètres: [22,25,77,22,25,72,22,25,73,22,25,74,22,25,75,22,25,76,22,25,78,22,25,79,22,25,80,22,25,81,22,25,82,22,25,83,22,25,84,22,25,297,35,35,35,25,25,81] 
+[2026-07-28 11:41:49][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 1 
+[2026-07-28 11:41:51][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":22,"site_id":35,"building_id":25,"room_id":77},{"client_id":22,"site_id":35,"building_id":25,"room_id":72},{"client_id":22,"site_id":35,"building_id":25,"room_id":73},{"client_id":22,"site_id":35,"building_id":25,"room_id":74},{"client_id":22,"site_id":35,"building_id":25,"room_id":75},{"client_id":22,"site_id":35,"building_id":25,"room_id":76},{"client_id":22,"site_id":35,"building_id":25,"room_id":78},{"client_id":22,"site_id":35,"building_id":25,"room_id":79},{"client_id":22,"site_id":35,"building_id":25,"room_id":80},{"client_id":22,"site_id":35,"building_id":25,"room_id":81},{"client_id":22,"site_id":35,"building_id":25,"room_id":82},{"client_id":22,"site_id":35,"building_id":25,"room_id":83},{"client_id":22,"site_id":35,"building_id":25,"room_id":84},{"client_id":22,"site_id":35,"building_id":25,"room_id":297}] 
+[2026-07-28 11:41:51][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND lpj2.entite_id = ?
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:41:51][DEBUG] DocumentationClientController::index - Paramètres: [22,25,77,22,25,72,22,25,73,22,25,74,22,25,75,22,25,76,22,25,78,22,25,79,22,25,80,22,25,81,22,25,82,22,25,83,22,25,84,22,25,297,35,35,35,25,25,82] 
+[2026-07-28 11:41:51][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 1 
+[2026-07-28 11:41:54][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":22,"site_id":35,"building_id":25,"room_id":77},{"client_id":22,"site_id":35,"building_id":25,"room_id":72},{"client_id":22,"site_id":35,"building_id":25,"room_id":73},{"client_id":22,"site_id":35,"building_id":25,"room_id":74},{"client_id":22,"site_id":35,"building_id":25,"room_id":75},{"client_id":22,"site_id":35,"building_id":25,"room_id":76},{"client_id":22,"site_id":35,"building_id":25,"room_id":78},{"client_id":22,"site_id":35,"building_id":25,"room_id":79},{"client_id":22,"site_id":35,"building_id":25,"room_id":80},{"client_id":22,"site_id":35,"building_id":25,"room_id":81},{"client_id":22,"site_id":35,"building_id":25,"room_id":82},{"client_id":22,"site_id":35,"building_id":25,"room_id":83},{"client_id":22,"site_id":35,"building_id":25,"room_id":84},{"client_id":22,"site_id":35,"building_id":25,"room_id":297}] 
+[2026-07-28 11:41:54][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND lpj2.entite_id = ?
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:41:54][DEBUG] DocumentationClientController::index - Paramètres: [22,25,77,22,25,72,22,25,73,22,25,74,22,25,75,22,25,76,22,25,78,22,25,79,22,25,80,22,25,81,22,25,82,22,25,83,22,25,84,22,25,297,35,35,35,25,25,76] 
+[2026-07-28 11:41:54][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 1 
+[2026-07-28 11:41:57][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":22,"site_id":35,"building_id":25,"room_id":77},{"client_id":22,"site_id":35,"building_id":25,"room_id":72},{"client_id":22,"site_id":35,"building_id":25,"room_id":73},{"client_id":22,"site_id":35,"building_id":25,"room_id":74},{"client_id":22,"site_id":35,"building_id":25,"room_id":75},{"client_id":22,"site_id":35,"building_id":25,"room_id":76},{"client_id":22,"site_id":35,"building_id":25,"room_id":78},{"client_id":22,"site_id":35,"building_id":25,"room_id":79},{"client_id":22,"site_id":35,"building_id":25,"room_id":80},{"client_id":22,"site_id":35,"building_id":25,"room_id":81},{"client_id":22,"site_id":35,"building_id":25,"room_id":82},{"client_id":22,"site_id":35,"building_id":25,"room_id":83},{"client_id":22,"site_id":35,"building_id":25,"room_id":84},{"client_id":22,"site_id":35,"building_id":25,"room_id":297}] 
+[2026-07-28 11:41:57][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND lpj2.entite_id = ?
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:41:57][DEBUG] DocumentationClientController::index - Paramètres: [22,25,77,22,25,72,22,25,73,22,25,74,22,25,75,22,25,76,22,25,78,22,25,79,22,25,80,22,25,81,22,25,82,22,25,83,22,25,84,22,25,297,35,35,35,25,25,72] 
+[2026-07-28 11:41:57][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 1 
+[2026-07-28 11:42:08][DEBUG] CSRF: Token trouvé dans la requête - Token: f2bf73953e1aea1bd685... 
+[2026-07-28 11:42:09][DEBUG] Permissions chargées pour TEST : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-07-28 11:42:09][INFO] Utilisateur connecté : TEST {"user_id":41,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":46}
+[2026-07-28 11:42:09][DEBUG] Login réussi - Session ID: r0mrintk56fe4ei4fneltg5rpd 
+[2026-07-28 11:42:09][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-28 11:42:09][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-28 11:42:09][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-28 11:42:09][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-28 11:42:11][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":46,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 11:42:11][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:42:11][DEBUG] DocumentationClientController::index - Paramètres: [46,46,46,46] 
+[2026-07-28 11:42:11][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 3 
+[2026-07-28 11:42:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 7b33041c9193460a2645... 
+[2026-07-28 11:42:22][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-07-28 11:42:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 7b33041c9193460a2645... 
+[2026-07-28 11:42:27][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-28 11:42:27][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-28 11:42:27][DEBUG] Login réussi - Session ID: j0us8qnptvufu9hne0dis1of3s 
+[2026-07-28 11:42:27][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-28 11:42:27][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-28 11:42:27][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-28 11:42:27][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-28 11:44:18][DEBUG] CSRF: Token trouvé dans la requête - Token: cdfc6351ca7d531a3c30... 
+[2026-07-28 11:44:18][WARNING] Tentative de connexion échouée pour l'utilisateur : FOLyia 
+[2026-07-28 11:45:35][DEBUG] CSRF: Token trouvé dans la requête - Token: cdfc6351ca7d531a3c30... 
+[2026-07-28 11:45:35][DEBUG] Permissions chargées pour FOlyia : {"role":"client","rights":{"client_modify_info":true,"client_view_materiel":true,"client_view_interventions":true,"client_view_documentation":true,"client_view_contracts":true,"client_manage_contacts":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-07-28 11:45:35][INFO] Utilisateur connecté : FOlyia {"user_id":16,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-07-28 11:45:35][DEBUG] Login réussi - Session ID: cjbmrucbo3anraklm6rs6v8naf 
+[2026-07-28 11:45:35][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-28 11:45:35][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-28 11:45:35][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-28 11:45:35][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-28 11:45:40][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 11:45:40][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:45:40][DEBUG] DocumentationClientController::index - Paramètres: [35,35,35,35] 
+[2026-07-28 11:45:40][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 1 
+[2026-07-28 11:45:54][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 11:45:54][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:45:54][DEBUG] DocumentationClientController::index - Paramètres: [35,35,35,35,109,109,109] 
+[2026-07-28 11:45:54][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 11:45:54][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=109, building_id=, salle_id= 
+[2026-07-28 11:45:56][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 11:45:56][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:45:56][DEBUG] DocumentationClientController::index - Paramètres: [35,35,35,35,109,109,109,96,96] 
+[2026-07-28 11:45:56][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 11:45:56][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=109, building_id=96, salle_id= 
+[2026-07-28 11:45:58][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 11:45:58][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND lpj2.entite_id = ?
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:45:58][DEBUG] DocumentationClientController::index - Paramètres: [35,35,35,35,109,109,109,96,96,369] 
+[2026-07-28 11:45:58][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-07-28 11:45:58][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=109, building_id=96, salle_id=369 
+[2026-07-28 11:46:49][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-07-28 11:46:49][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-07-28 11:46:49][DEBUG] DocumentationClientController::index - Paramètres: [35,35,35,35,55,55,55] 
+[2026-07-28 11:46:49][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 1 
+[2026-07-28 14:39:15][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: arm2qsjdnv0h6ofvs1t2hgqucm) 
+[2026-07-29 07:51:29][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 07:51:29][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-29 07:51:29][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-29 07:51:29][DEBUG] Login réussi - Session ID: e8s8bt65f7ic92hovf6j691ql8 
+[2026-07-29 07:51:29][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-29 07:51:29][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-29 07:51:29][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-29 07:51:29][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-29 11:52:16][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":216,"errno":2}
+[2026-07-29 11:52:16][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:16][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:16][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 11:52:16][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:28][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:29][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:29][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 11:52:29][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:33][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:33][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:33][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 11:52:33][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:36][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:36][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 11:52:36][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:36][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:44][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:44][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 11:52:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 11:52:44][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:30][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:03:30][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:30][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:30][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:30][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:03:35][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:35][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:35][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:03:35][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:38][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:38][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:38][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:38][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:03:40][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:40][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:41][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:03:41][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:43][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:43][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:43][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:43][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:03:45][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:46][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:03:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:49][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:49][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:49][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:49][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:03:51][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:51][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:03:51][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:51][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:53][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:53][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:03:53][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:53][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:57][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:57][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:03:57][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:03:57][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:00][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:00][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:00][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:04:00][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:03][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:03][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:03][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:04:03][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:21][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:21][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:04:21][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:21][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:24][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:24][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:04:24][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:24][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:27][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:27][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:27][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:04:27][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:29][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:29][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:04:29][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:29][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:31][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:31][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:04:31][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:31][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:35][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:35][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:35][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:35][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:04:51][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:04:51][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:51][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:51][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:04:51][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:56][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:56][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:04:56][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:56][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:57][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:58][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:58][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:04:58][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:59][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:59][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:59][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:04:59][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:05:02][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:05:02][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:05:02][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:05:02][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:05:04][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:05:04][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:05:04][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:05:04][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:05:07][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:05:07][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:05:07][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:05:07][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:08][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:06:09][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:09][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:06:09][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:09][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:16][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:16][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:16][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:06:16][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:18][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:18][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:06:18][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:18][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:19][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:19][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:06:19][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:19][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:22][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:22][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:22][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:22][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:06:25][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:25][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:25][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:06:25][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:28][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:28][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:28][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:06:28][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:08:36][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:08:36][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:08:36][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:08:36][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:08:36][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:36][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:11:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:37][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:11:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:40][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:40][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:40][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:11:40][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:41][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:42][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:11:42][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:42][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:43][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:43][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:11:43][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:43][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:44][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:44][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:11:44][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:45][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:45][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:45][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:11:45][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:46][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:11:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:48][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:48][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:11:48][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:48][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:49][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:49][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:49][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:49][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:11:50][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:50][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:11:50][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:50][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:53][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:53][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:53][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:53][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:11:56][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:56][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:11:56][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:11:56][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:11][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:12:12][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:12][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:12:12][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:12][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:17][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:17][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:17][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:12:17][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:19][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:19][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:12:19][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:19][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:20][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:20][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:20][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:12:20][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:22][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:22][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:22][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:12:22][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:22][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:22][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:12:22][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:22][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:26][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:26][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:26][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:26][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:12:28][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:28][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:12:28][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:28][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:30][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:30][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:30][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:30][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:12:32][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:32][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:32][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:12:32][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:34][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:34][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:12:34][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:34][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:36][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:36][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:36][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:36][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:12:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:37][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:12:44][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:58][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:12:58][DEBUG] [DEBUG] Données reçues pour updateContract : {"id":"174","client_id":"51","rooms":["284"],"contract_type_id":"2","access_level_id":"5","name":"AMBASSADE DE SUEDE","start_date":"2025-10-06","end_date":"2025-12-31","tickets_number":"0","tickets_remaining":"0","comment":"","reminder_enabled":0,"reminder_days":"30","status":"actif"} 
+[2026-07-29 12:13:01][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:13:01][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:01][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:13:01][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:01][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:05][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:05][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:06][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:13:06][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:06][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:06][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:13:06][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:06][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:07][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:07][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:07][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:13:07][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:08][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:08][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:13:08][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:08][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:08][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:08][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:09][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:13:09][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:16:00][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:16:01][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:16:01][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:16:01][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:16:01][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:16:13][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:16:14][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:16:14][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:16:14][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:16:14][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:16:17][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:16:17][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:16:17][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:16:17][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:16:17][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:17:49][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:17:50][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:17:50][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:17:50][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:17:50][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:37][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:18:38][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:38][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:38][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:38][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:18:48][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:18:48][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:48][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:18:48][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:48][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:50][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:18:50][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:50][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:50][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:50][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:18:51][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:18:51][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:52][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:52][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:18:52][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:53][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:18:53][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:54][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:54][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-07-29 12:18:54][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:56][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contract\\index.php","line":221,"errno":2}
+[2026-07-29 12:18:56][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:56][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:57][DEBUG] CSRF: Token trouvé dans la requête - Token: d5733cfad83b251dbcd9... 
+[2026-07-29 12:18:57][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}

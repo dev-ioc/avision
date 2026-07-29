@@ -63,7 +63,23 @@ class ContractModel extends BaseModel
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
+    /**
+     * Met à jour automatiquement le statut des contrats dont la date de fin
+     * est dépassée. Ne touche que les contrats actuellement "actif" pour ne
+     * pas écraser un statut "inactif" ou "en_attente" positionné manuellement.
+     *
+     * @return int Nombre de contrats mis à jour
+     */
+    public function updateExpiredContractsStatus()
+    {
+        $sql = "UPDATE contracts 
+            SET status = 'expire', updated_at = NOW() 
+            WHERE end_date < CURDATE() 
+            AND status = 'actif'";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
     public function getContractCountByClientId($clientId)
     {
         $query = "SELECT COUNT(*) as count 
@@ -1179,18 +1195,19 @@ class ContractModel extends BaseModel
     public function getContractStatsByStatus()
     {
         $sql = "SELECT 
-                    status,
-                    COUNT(*) as count
-                FROM contracts 
-                WHERE contract_type_id IS NOT NULL
-                GROUP BY status
-                ORDER BY 
-                    CASE status 
-                        WHEN 'actif' THEN 1
-                        WHEN 'en_attente' THEN 2
-                        WHEN 'inactif' THEN 3
-                        ELSE 4
-                    END";
+            status,
+            COUNT(*) as count
+        FROM contracts 
+        WHERE contract_type_id IS NOT NULL
+        GROUP BY status
+        ORDER BY 
+            CASE status 
+                WHEN 'actif' THEN 1
+                WHEN 'en_attente' THEN 2
+                WHEN 'expire' THEN 3
+                WHEN 'inactif' THEN 4
+                ELSE 5
+            END";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
@@ -1201,27 +1218,28 @@ class ContractModel extends BaseModel
         foreach ($results as $result) {
             $status = $result['status'];
             $count = $result['count'];
-
-            // Définir les couleurs et noms d'affichage
             switch ($status) {
                 case 'actif':
-                    $color = 'bg-success'; // Vert Bootstrap
+                    $color = 'bg-success';
                     $displayName = 'Actifs';
                     break;
                 case 'en_attente':
-                    $color = 'bg-warning'; // Orange Bootstrap
+                    $color = 'bg-warning';
                     $displayName = 'En attente';
                     break;
                 case 'inactif':
-                    $color = 'bg-danger'; // Rouge Bootstrap
+                    $color = 'bg-danger';
                     $displayName = 'Inactifs';
                     break;
+                case 'expire':
+                    $color = 'bg-dark';
+                    $displayName = 'Expirés';
+                    break;
                 default:
-                    $color = 'bg-secondary'; // Gris Bootstrap
+                    $color = 'bg-secondary';
                     $displayName = ucfirst(str_replace('_', ' ', $status));
                     break;
             }
-
             $formattedResults[] = [
                 'status' => $status,
                 'display_name' => $displayName,
