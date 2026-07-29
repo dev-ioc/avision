@@ -652,23 +652,35 @@ class InterventionPDF extends TCPDF
         }
 
         $this->SetY(min($this->GetY() + 2, $bottomLimit));
-        $this->SetFont('helvetica', '', 9);
-        $this->SetLineWidth(0.2);
+        $this->SetFont('helvetica', '', 9); // reset pour les sections suivantes
+        $this->SetLineWidth(0.2); // reset épaisseur de trait par défaut
     }
     /**
      * Cellule avec troncature automatique et réduction de police si texte long
      */
-    private function bodyCellTruncated($w, $text = '', $h = 7, $fontSize = null)
+    private function bodyCellTruncated($w, $text = '', $h = 7)
     {
-        $currentSize = $fontSize ?? 9;
-        $maxChars = (int) ($w / ($currentSize * 0.19));
+        // Calculer la largeur max en caractères approximatifs
+        // à 9pt helvetica, ~1 char ≈ 2mm → $w mm / 2 = nb chars max
+        $maxChars = (int) ($w / 2);
 
+        // Réduire la police si le texte est trop long
+        $fontSize = 9;
         if (mb_strlen($text) > $maxChars) {
-            $text = mb_substr($text, 0, max(1, $maxChars - 1)) . '…';
+            $fontSize = 7;
+            // Recalculer maxChars avec la police réduite (~1 char ≈ 1.6mm à 7pt)
+            $maxCharsSmall = (int) ($w / 1.6);
+            if (mb_strlen($text) > $maxCharsSmall) {
+                // Tronquer avec ellipse si toujours trop long
+                $text = mb_substr($text, 0, $maxCharsSmall - 3) . '...';
+            }
         }
 
-        $this->SetFont('helvetica', '', $currentSize);
+        $this->SetFont('helvetica', '', $fontSize);
         $this->Cell($w, $h, $text, 1, 0, 'L');
+
+        // Remettre la police par défaut
+        $this->SetFont('helvetica', '', 9);
     }
     /**
      * =========================================================

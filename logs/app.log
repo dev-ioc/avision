@@ -122160,3 +122160,97 @@ Quant à l’écran n°1, il est HS
 (
 )
  
+[2026-07-29 13:10:09][CRITICAL] Allowed memory size of 536870912 bytes exhausted (tried to allocate 77824 bytes) {"file":"C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php","line":10406,"type":1}
+[2026-07-29 13:13:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 3112708cb17e781f9b7a... 
+[2026-07-29 13:13:23][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:13:42][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:13:52][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:15:33][CRITICAL] Allowed memory size of 536870912 bytes exhausted (tried to allocate 77824 bytes) {"file":"C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php","line":10406,"type":1}
+[2026-07-29 13:15:33][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:15:55][CRITICAL] Maximum execution time of 120 seconds exceeded {"file":"C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\include\\tcpdf_fonts.php","line":2112,"type":1}
+[2026-07-29 13:15:55][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:16:34][CRITICAL] Maximum execution time of 120 seconds exceeded {"file":"C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php","line":5689,"type":1}
+[2026-07-29 13:16:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 3112708cb17e781f9b7a... 
+[2026-07-29 13:16:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 3112708cb17e781f9b7a... 
+[2026-07-29 13:16:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 3112708cb17e781f9b7a... 
+[2026-07-29 13:16:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 1f9773356fd7fdb7b8bb... 
+[2026-07-29 13:16:48][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-29 13:16:48][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-29 13:16:48][DEBUG] Login réussi - Session ID: qjjekv275qjj036avjlepnqmh6 
+[2026-07-29 13:16:48][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-29 13:16:48][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-29 13:16:48][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-29 13:16:48][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-29 13:17:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 1f9773356fd7fdb7b8bb... 
+[2026-07-29 13:17:11][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-07-29 13:18:41][CRITICAL] Allowed memory size of 536870912 bytes exhausted (tried to allocate 81920 bytes) {"file":"C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php","line":10406,"type":1}
+[2026-07-29 13:18:44][INFO] Pièces jointes sélectionnées : Array
+(
+    [0] => Array
+        (
+            [id] => 512
+            [nom_fichier] => materiel.PNG
+            [version] => 1
+            [is_signed] => 0
+            [signature_status] => non_signe
+            [nom_personnalise] => materiel.PNG
+            [chemin_fichier] => uploads/interventions/345/materiel.png
+            [type_fichier] => png
+            [category_id] => 
+            [content] => 
+            [taille_fichier] => 152439
+            [commentaire] => 
+            [date_creation] => 2026-07-27 15:39:33
+            [masque_client] => 0
+            [type_id] => 
+            [created_by] => 40
+            [created_by_name] => Dev WW
+            [type_liaison] => intervention
+        )
+
+)
+ 
+[2026-07-29 13:19:13][INFO] Pièces jointes sélectionnées : Array
+(
+    [0] => Array
+        (
+            [id] => 512
+            [nom_fichier] => materiel.PNG
+            [version] => 1
+            [is_signed] => 0
+            [signature_status] => non_signe
+            [nom_personnalise] => materiel.PNG
+            [chemin_fichier] => uploads/interventions/345/materiel.png
+            [type_fichier] => png
+            [category_id] => 
+            [content] => 
+            [taille_fichier] => 152439
+            [commentaire] => 
+            [date_creation] => 2026-07-27 15:39:33
+            [masque_client] => 0
+            [type_id] => 
+            [created_by] => 40
+            [created_by_name] => Dev WW
+            [type_liaison] => intervention
+        )
+
+)
+ 
