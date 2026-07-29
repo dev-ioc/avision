@@ -547,7 +547,6 @@ class InterventionPDF extends TCPDF
 
         // =====================================================
         // Préparer les libellés compacts (une ligne par équipement)
-        // Format : "Désignation (Marque) — SN:xxxxxx"
         // =====================================================
         $lines = [];
         foreach ($equipment as $eq) {
@@ -574,7 +573,16 @@ class InterventionPDF extends TCPDF
         $pageWidth = 190;
         $colWidth = $pageWidth / $numColumns;
 
-        $maxSectionHeight = 130; // mm — ajustable
+        // =====================================================
+        // LIGNE D'EN-TÊTE (AJOUT)
+        // =====================================================
+        $headerHeight = 6;
+        $this->headCell($colWidth, 'Équipement (Marque) — N° série', $headerHeight);
+        $this->headCell($colWidth, 'Équipement (Marque) — N° série', $headerHeight);
+        $this->headCell($colWidth, 'Équipement (Marque) — N° série', $headerHeight);
+        $this->Ln();
+
+        $maxSectionHeight = 130 - $headerHeight; // on retire la hauteur du header du budget total
         $rowsPerColumn = (int) ceil($count / $numColumns);
 
         $lineHeight = $rowsPerColumn > 0 ? $maxSectionHeight / $rowsPerColumn : 4.2;
@@ -598,12 +606,9 @@ class InterventionPDF extends TCPDF
         $startY = $this->GetY();
         $bottomLimit = 270;
 
-        // Largeur max de texte en caractères, approximative selon la police
         $charWidthMm = $fontSize * 0.19;
         $maxChars = max(10, (int) (($colWidth - 2) / $charWidthMm));
 
-        // Compléter les colonnes pour qu'elles aient toutes le même nombre de lignes
-        // (nécessaire pour dessiner des bordures propres et alignées)
         $totalCells = $rowsPerColumn * $numColumns;
         while (count($lines) < $totalCells) {
             $lines[] = '';
@@ -615,7 +620,17 @@ class InterventionPDF extends TCPDF
             if ($startY + ($row + 1) * $lineHeight > $bottomLimit) {
                 $this->AddPage();
                 $this->renderHeader($this->currentIntervention);
-                $startY = $this->GetY() + 3;
+                $this->Ln(2);
+
+                // Ré-afficher le titre de section + en-tête sur la nouvelle page
+                $this->sectionTitle('3. ÉQUIPEMENTS CONCERNÉS (suite)');
+                $this->headCell($colWidth, 'Équipement (Marque) — N° série', $headerHeight);
+                $this->headCell($colWidth, 'Équipement (Marque) — N° série', $headerHeight);
+                $this->headCell($colWidth, 'Équipement (Marque) — N° série', $headerHeight);
+                $this->Ln();
+
+                $this->SetFont('helvetica', '', $fontSize);
+                $startY = $this->GetY();
                 $row = 0;
                 $bottomLimit = 270;
             }
@@ -643,29 +658,17 @@ class InterventionPDF extends TCPDF
     /**
      * Cellule avec troncature automatique et réduction de police si texte long
      */
-    private function bodyCellTruncated($w, $text = '', $h = 7)
+    private function bodyCellTruncated($w, $text = '', $h = 7, $fontSize = null)
     {
-        // Calculer la largeur max en caractères approximatifs
-        // à 9pt helvetica, ~1 char ≈ 2mm → $w mm / 2 = nb chars max
-        $maxChars = (int) ($w / 2);
+        $currentSize = $fontSize ?? 9;
+        $maxChars = (int) ($w / ($currentSize * 0.19));
 
-        // Réduire la police si le texte est trop long
-        $fontSize = 9;
         if (mb_strlen($text) > $maxChars) {
-            $fontSize = 7;
-            // Recalculer maxChars avec la police réduite (~1 char ≈ 1.6mm à 7pt)
-            $maxCharsSmall = (int) ($w / 1.6);
-            if (mb_strlen($text) > $maxCharsSmall) {
-                // Tronquer avec ellipse si toujours trop long
-                $text = mb_substr($text, 0, $maxCharsSmall - 3) . '...';
-            }
+            $text = mb_substr($text, 0, max(1, $maxChars - 1)) . '…';
         }
 
-        $this->SetFont('helvetica', '', $fontSize);
+        $this->SetFont('helvetica', '', $currentSize);
         $this->Cell($w, $h, $text, 1, 0, 'L');
-
-        // Remettre la police par défaut
-        $this->SetFont('helvetica', '', 9);
     }
     /**
      * =========================================================
