@@ -24,8 +24,7 @@ class InterventionController
     private $mailService;
     private $clientController;
 
-    // Constantes pour la configuration du PDF
-    const PDF_PAGE_ORIENTATION = 'P'; // P = Portrait, L = Landscape
+    const PDF_PAGE_ORIENTATION = 'P';
     const PDF_UNIT = 'mm';
     const PDF_PAGE_FORMAT = 'A4';
     const PDF_CREATOR = 'VideoSonic Support';
@@ -48,7 +47,6 @@ class InterventionController
     {
         $this->db = $db;
 
-        // Charger les modèles nécessaires
         require_once __DIR__ . '/../models/InterventionModel.php';
         require_once __DIR__ . '/../models/ClientModel.php';
         require_once __DIR__ . '/../models/SiteModel.php';
@@ -73,7 +71,6 @@ class InterventionController
         $this->buildingModel = new BuildingModel($db);
         $this->clientController = new ClientController();
 
-        // Charger le fichier d'autoload de TCPDF
         require_once __DIR__ . '/../vendor/TCPDF-6.6.2/tcpdf.php';
     }
 
@@ -88,7 +85,6 @@ class InterventionController
      */
     private function getInterventionsListUrl($priorityId = null)
     {
-        // Si une priorité est fournie, vérifier si c'est préventive
         if ($priorityId) {
             $sql = "SELECT id, name, color, created_at FROM intervention_priorities WHERE id = ?";
             $stmt = $this->db->prepare($sql);
@@ -100,7 +96,6 @@ class InterventionController
             }
         }
 
-        // Par défaut, retourner vers les curatives
         return BASE_URL . 'interventions/curatives';
     }
     // /**
@@ -255,7 +250,6 @@ class InterventionController
      */
     public function view($id)
     {
-        // Vérifier les permissions
         $this->checkAccess();
 
         $intervention = $this->interventionModel->getById($id);
@@ -344,7 +338,6 @@ class InterventionController
         }
         checkInterventionManagementAccess();
 
-        // Récupérer l'intervention
         $intervention = $this->interventionModel->getById($id);
 
         if (!$intervention) {
@@ -352,12 +345,10 @@ class InterventionController
             exit;
         }
 
-        // Vérifier si c'est une intervention flash et ajouter un message
         if (isset($intervention['is_flash']) && $intervention['is_flash'] == 1 && $intervention['needs_completion'] == 1) {
             $_SESSION['info'] = "⚠️ Cette intervention a été créée rapidement. Veuillez compléter les informations manquantes : Site, Bâtiment, Salle, Description.";
         }
 
-        // S'assurer que toutes les clés nécessaires existent
         $intervention = array_merge([
             'site_id' => null,
             'building_id' => null,
@@ -372,48 +363,39 @@ class InterventionController
             ':planned_date' => null,
         ], $intervention);
 
-        // Vérifier si l'intervention est fermée
-        if ($intervention['status_id'] == 6 && !isAdmin()) { // 6 = Fermé
+        if ($intervention['status_id'] == 6 && !isAdmin()) {
             $_SESSION['error'] = "Impossible de modifier une intervention fermée.";
             header('Location: ' . BASE_URL . 'interventions/view/' . $id);
             exit;
         }
 
-        // Récupérer le contrat associé directement via contract_id
         $contract = null;
         if (!empty($intervention['contract_id'])) {
             $contract = $this->contractModel->getContractById($intervention['contract_id']);
         }
 
-        // Définir les variables pour les formulaires
         $client_id = isset($intervention['client_id']) ? $intervention['client_id'] : null;
         $site_id = isset($intervention['site_id']) ? $intervention['site_id'] : null;
         $building_id = isset($intervention['building_id']) ? $intervention['building_id'] : null;
         $room_id = isset($intervention['room_id']) ? $intervention['room_id'] : null;
 
-        // Récupérer les données pour les formulaires
         $clients = $this->clientModel->getAllClientsWithStats();
 
-        // Récupérer les sites du client
         $sites = [];
         if ($client_id) {
             $sites = $this->siteModel->getSitesByClientId($client_id);
         }
 
-        // Récupérer les bâtiments du site (tous les bâtiments du site, pas seulement celui sélectionné)
         $buildings = [];
         if ($site_id) {
             $buildings = $this->buildingModel->getBuildingsBySiteId($site_id);
         }
 
-        // Récupérer les salles - priorité au bâtiment sélectionné, sinon au site
         $rooms = [];
         if ($building_id) {
-            // Si un bâtiment est sélectionné, récupérer uniquement les salles de ce bâtiment
             $rooms = $this->roomModel->getRoomsByBuildingId($building_id);
         }
 
-        // Récupérer les informations du bâtiment sélectionné pour l'affichage (même s'il n'est pas dans la liste)
         $selectedBuilding = null;
         if ($building_id && !empty($buildings)) {
             foreach ($buildings as $building) {
@@ -423,8 +405,6 @@ class InterventionController
                 }
             }
         }
-
-        // Récupérer les informations de la salle sélectionnée pour l'affichage
         $selectedRoom = null;
         if ($room_id && !empty($rooms)) {
             foreach ($rooms as $room) {
@@ -436,14 +416,11 @@ class InterventionController
         }
 
         $technicians = $this->userModel->getTechnicians();
-
-        // Récupérer les contrats du client pour le formulaire
         $contracts = [];
         if (!empty($client_id)) {
             $contracts = $this->contractModel->getContractsByClientId($client_id, $site_id, $room_id);
         }
 
-        // Récupérer les statuts, priorités et types
         $statuses = $this->getAllStatuses();
 
         $sql = "SELECT id, name, color, created_at FROM intervention_priorities ORDER BY id";
@@ -456,19 +433,14 @@ class InterventionController
         $stmt->execute();
         $types = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Récupérer les durées
         $durations = $this->durationModel->getAll();
 
-        // Récupérer les commentaires
         $comments = $this->getComments($id);
 
-        // Récupérer les pièces jointes
         $attachments = $this->getAttachments($id);
 
-        // Récupérer l'historique
         $history = $this->getHistory($id);
 
-        // Charger la vue avec toutes les variables nécessaires
         require_once __DIR__ . '/../views/interventions/edit.php';
     }
 
@@ -479,7 +451,6 @@ class InterventionController
      */
     private function generateInterventionReport($intervention)
     {
-        // Récupérer les commentaires marqués comme solution
         $sql = "SELECT id, intervention_id, comment, visible_by_client, is_solution, is_observation, pour_bon_intervention, created_by, created_at FROM intervention_comments 
                 WHERE intervention_id = ? AND is_solution = 1 
                 ORDER BY created_at DESC";
@@ -487,39 +458,31 @@ class InterventionController
         $stmt->execute([$intervention['id']]);
         $solutions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Créer le dossier de stockage s'il n'existe pas
         $uploadDir = __DIR__ . '/../../uploads/interventions/' . $intervention['id'];
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-
-        // Générer un nom de fichier unique
         $fileName = 'bon_intervention_' . $intervention['id'] . '_' . date('Y-m-d_H-i-s') . '.pdf';
         $filePath = $uploadDir . '/' . $fileName;
 
-        // Charger la classe InterventionPDF
         require_once __DIR__ . '/../classes/InterventionPDF.php';
 
-        // Créer et générer le PDF
         $pdf = new InterventionPDF();
         $pdf->generate($intervention, $solutions);
         $pdf->Output($filePath, 'F');
 
-        // Ajouter le PDF comme pièce jointe via le modèle
         $data = [
             'nom_fichier' => $fileName,
             'chemin_fichier' => 'uploads/interventions/' . $intervention['id'] . '/' . $fileName,
             'type_fichier' => 'pdf',
             'taille_fichier' => filesize($filePath),
             'commentaire' => 'Bon d\'intervention généré automatiquement',
-            'masque_client' => 0, // Visible par les clients
+            'masque_client' => 0,
             'created_by' => $_SESSION['user']['id']
         ];
 
-        // Ajouter la pièce jointe avec le type de liaison 'bi' (Bon d'Intervention)
         $pieceJointeId = $this->interventionModel->addPieceJointeWithType($intervention['id'], $data, 'bi');
 
-        // Enregistrer l'action dans l'historique
         $sql = "INSERT INTO intervention_history (
                     intervention_id, field_name, old_value, new_value, changed_by, description
                 ) VALUES (
@@ -776,7 +739,6 @@ class InterventionController
      */
     private function recordChanges($interventionId, $oldData, $newData)
     {
-        // Code de débogage temporaire
         error_log("DEBUG - recordChanges() - oldData: " . print_r($oldData, true));
         error_log("DEBUG - recordChanges() - newData: " . print_r($newData, true));
         error_log("DEBUG - site_id existe dans oldData? " . (array_key_exists('site_id', $oldData) ? 'OUI' : 'NON'));
@@ -799,18 +761,10 @@ class InterventionController
             'created_at' => 'Date de création'
         ];
 
-        // OPTIMISATION N+1 : Précharger toutes les données nécessaires en une seule fois
-        // Au lieu de faire une requête SQL pour chaque appel à getDisplayValue(),
-        // on collecte tous les IDs et on fait des requêtes batch
         $lookupData = $this->preloadDisplayValues($oldData, $newData);
-
-        $changes = [];
         foreach ($fieldsToTrack as $field => $label) {
-            // Vérifier si le champ existe dans les nouvelles données
             if (isset($newData[$field])) {
-                // Traitement spécial pour le champ description
                 if ($field === 'description') {
-                    // Pour la description, on vérifie simplement si elle a changé
                     if (!isset($oldData[$field]) || $oldData[$field] !== $newData[$field]) {
                         $changes[] = "Description modifiée";
 
@@ -831,15 +785,9 @@ class InterventionController
                         ]);
                     }
                 } else {
-                    // S'assurer que la clé existe dans oldData avant d'y accéder
                     $oldFieldValue = array_key_exists($field, $oldData) ? $oldData[$field] : null;
-
-                    // Pour les autres champs, on compare les valeurs d'affichage
-                    // Utiliser les données préchargées pour éviter les requêtes N+1
                     $oldValue = $this->getDisplayValue($field, $oldFieldValue, $lookupData);
                     $newValue = $this->getDisplayValue($field, $newData[$field], $lookupData);
-
-                    // Ne créer une entrée que si la valeur a réellement changé
                     if ($oldValue !== $newValue) {
                         $changes[] = "$label : $oldValue → $newValue";
 
@@ -883,7 +831,6 @@ class InterventionController
             'contracts' => []
         ];
 
-        // Collecter tous les IDs nécessaires
         $clientIds = [];
         $siteIds = [];
         $roomIds = [];
@@ -912,7 +859,6 @@ class InterventionController
                 $contractIds[] = $data['contract_id'];
         }
 
-        // Supprimer les doublons
         $clientIds = array_unique($clientIds);
         $siteIds = array_unique($siteIds);
         $roomIds = array_unique($roomIds);
@@ -922,7 +868,6 @@ class InterventionController
         $typeIds = array_unique($typeIds);
         $contractIds = array_unique($contractIds);
 
-        // Précharger les clients
         if (!empty($clientIds)) {
             $placeholders = implode(',', array_fill(0, count($clientIds), '?'));
             $stmt = $this->db->prepare("SELECT id, name FROM clients WHERE id IN ($placeholders)");
@@ -932,7 +877,6 @@ class InterventionController
             }
         }
 
-        // Précharger les sites
         if (!empty($siteIds)) {
             $placeholders = implode(',', array_fill(0, count($siteIds), '?'));
             $stmt = $this->db->prepare("SELECT id, name FROM sites WHERE id IN ($placeholders)");
@@ -942,7 +886,6 @@ class InterventionController
             }
         }
 
-        // Précharger les salles
         if (!empty($roomIds)) {
             $placeholders = implode(',', array_fill(0, count($roomIds), '?'));
             $stmt = $this->db->prepare("SELECT id, name FROM rooms WHERE id IN ($placeholders)");
@@ -952,7 +895,6 @@ class InterventionController
             }
         }
 
-        // Précharger les techniciens
         if (!empty($technicianIds)) {
             $placeholders = implode(',', array_fill(0, count($technicianIds), '?'));
             $stmt = $this->db->prepare("SELECT id, CONCAT(first_name, ' ', last_name) as name FROM users WHERE id IN ($placeholders)");
@@ -962,7 +904,6 @@ class InterventionController
             }
         }
 
-        // Précharger les statuts
         if (!empty($statusIds)) {
             $placeholders = implode(',', array_fill(0, count($statusIds), '?'));
             $stmt = $this->db->prepare("SELECT id, name FROM intervention_statuses WHERE id IN ($placeholders)");
@@ -972,7 +913,6 @@ class InterventionController
             }
         }
 
-        // Précharger les priorités
         if (!empty($priorityIds)) {
             $placeholders = implode(',', array_fill(0, count($priorityIds), '?'));
             $stmt = $this->db->prepare("SELECT id, name FROM intervention_priorities WHERE id IN ($placeholders)");
@@ -982,7 +922,6 @@ class InterventionController
             }
         }
 
-        // Précharger les types
         if (!empty($typeIds)) {
             $placeholders = implode(',', array_fill(0, count($typeIds), '?'));
             $stmt = $this->db->prepare("SELECT id, name FROM intervention_types WHERE id IN ($placeholders)");
@@ -991,8 +930,6 @@ class InterventionController
                 $lookupData['types'][$row['id']] = $row['name'];
             }
         }
-
-        // Précharger les contrats
         if (!empty($contractIds)) {
             $placeholders = implode(',', array_fill(0, count($contractIds), '?'));
             $stmt = $this->db->prepare("SELECT id, name FROM contracts WHERE id IN ($placeholders)");
@@ -1013,7 +950,6 @@ class InterventionController
      */
     private function getDisplayValue($field, $value, $lookupData = [])
     {
-        // Code de débogage temporaire
         error_log("DEBUG - getDisplayValue() - field: $field, value: " . var_export($value, true));
 
         if ($value === null) {
@@ -1025,7 +961,6 @@ class InterventionController
                 if (!empty($lookupData) && isset($lookupData['clients'][$value])) {
                     return $lookupData['clients'][$value];
                 }
-                // Fallback si lookupData n'est pas fourni (compatibilité)
                 $sql = "SELECT name FROM clients WHERE id = ?";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([$value]);
@@ -1039,7 +974,6 @@ class InterventionController
                 if (!empty($lookupData) && isset($lookupData['sites'][$value])) {
                     return $lookupData['sites'][$value];
                 }
-                // Fallback si lookupData n'est pas fourni (compatibilité)
                 $sql = "SELECT name FROM sites WHERE id = ?";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([$value]);
@@ -1053,7 +987,6 @@ class InterventionController
                 if (!empty($lookupData) && isset($lookupData['rooms'][$value])) {
                     return $lookupData['rooms'][$value];
                 }
-                // Fallback si lookupData n'est pas fourni (compatibilité)
                 $sql = "SELECT name FROM rooms WHERE id = ?";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([$value]);
@@ -1064,7 +997,6 @@ class InterventionController
                 if (!empty($lookupData) && isset($lookupData['technicians'][$value])) {
                     return $lookupData['technicians'][$value];
                 }
-                // Fallback si lookupData n'est pas fourni (compatibilité)
                 $sql = "SELECT CONCAT(first_name, ' ', last_name) as name FROM users WHERE id = ?";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([$value]);
@@ -1075,7 +1007,6 @@ class InterventionController
                 if (!empty($lookupData) && isset($lookupData['statuses'][$value])) {
                     return $lookupData['statuses'][$value];
                 }
-                // Fallback si lookupData n'est pas fourni (compatibilité)
                 $sql = "SELECT name FROM intervention_statuses WHERE id = ?";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([$value]);
@@ -1086,7 +1017,6 @@ class InterventionController
                 if (!empty($lookupData) && isset($lookupData['priorities'][$value])) {
                     return $lookupData['priorities'][$value];
                 }
-                // Fallback si lookupData n'est pas fourni (compatibilité)
                 $sql = "SELECT name FROM intervention_priorities WHERE id = ?";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([$value]);
@@ -1097,7 +1027,6 @@ class InterventionController
                 if (!empty($lookupData) && isset($lookupData['types'][$value])) {
                     return $lookupData['types'][$value];
                 }
-                // Fallback si lookupData n'est pas fourni (compatibilité)
                 $sql = "SELECT name FROM intervention_types WHERE id = ?";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([$value]);
@@ -1110,7 +1039,6 @@ class InterventionController
                 if (!empty($lookupData) && isset($lookupData['contracts'][$value])) {
                     return $lookupData['contracts'][$value];
                 }
-                // Fallback si lookupData n'est pas fourni (compatibilité)
                 $sql = "SELECT name FROM contracts WHERE id = ?";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([$value]);
@@ -1384,7 +1312,6 @@ class InterventionController
      */
     public function addMultipleAttachments($interventionId)
     {
-        // Vérifier les permissions
         if (!isset($_SESSION['user']) || (!isStaff() && !isAdmin())) {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'error' => 'Non autorisé']);
@@ -1398,32 +1325,24 @@ class InterventionController
         }
 
         try {
-            // Récupérer l'intervention
             $intervention = $this->interventionModel->getById($interventionId);
 
             if (!$intervention) {
                 throw new Exception("Intervention non trouvée");
             }
 
-            // Vérifier si l'intervention est fermée
-            if ($intervention['status_id'] == 6) { // 6 = Fermé
+            if ($intervention['status_id'] == 6) {
                 throw new Exception("Impossible d'ajouter une pièce jointe à une intervention fermée");
             }
 
-            // Vérifier qu'il y a des fichiers
             if (!isset($_FILES['attachments']) || empty($_FILES['attachments']['name'][0])) {
                 throw new Exception("Aucun fichier à uploader");
             }
 
-            // Utiliser AttachmentService pour gérer l'upload
             $attachmentService = new AttachmentService($this->db);
-
-            // Préparer les options
             $options = [
                 'custom_names' => $_POST['custom_names'] ?? []
             ];
-
-            // Upload des fichiers
             $result = $attachmentService->upload(
                 AttachmentService::TYPE_INTERVENTION,
                 $interventionId,
@@ -1432,7 +1351,6 @@ class InterventionController
                 $_SESSION['user']['id']
             );
 
-            // Enregistrer dans l'historique pour chaque fichier uploadé
             if ($result['success'] && !empty($result['attachment_ids'])) {
                 foreach ($result['uploaded_files'] as $index => $displayName) {
                     $sql = "INSERT INTO intervention_history (
@@ -1450,7 +1368,6 @@ class InterventionController
                 }
             }
 
-            // Retourner le résultat
             header('Content-Type: application/json');
             if ($result['success']) {
                 echo json_encode([
@@ -1569,7 +1486,6 @@ class InterventionController
             exit;
         }
 
-        // Supprimer le commentaire
         $sql = "DELETE FROM intervention_comments WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([$commentId]);
@@ -1623,11 +1539,9 @@ class InterventionController
 
             $interventionId = $attachment['entite_id'];
 
-            // Utiliser AttachmentService pour gérer la suppression
             $attachmentService = new AttachmentService($this->db);
             $attachmentService->delete($attachmentId, $attachment['type_liaison'], $interventionId);
 
-            // Enregistrer l'action dans l'historique
             $sql = "INSERT INTO intervention_history (
                         intervention_id, field_name, old_value, new_value, changed_by, description
                     ) VALUES (
@@ -1685,7 +1599,6 @@ class InterventionController
     {
         $this->checkAccess();
 
-        // Récupérer les sites
         $sites = $this->siteModel->getSitesByClientId($clientId);
 
         header('Content-Type: application/json');
@@ -1701,10 +1614,8 @@ class InterventionController
         // Vérifier les permissions
         $this->checkAccess();
 
-        // Récupérer les salles
         $rooms = $this->roomModel->getRoomsByBuildingId($siteId);
 
-        // Retourner les salles au format JSON
         header('Content-Type: application/json');
         echo json_encode(['rooms' => $rooms]);
     }
@@ -1723,7 +1634,6 @@ class InterventionController
 
         $permission = 'tech_' . $action;
 
-        // Log temporaire pour debug
         custom_log("Vérification permission pour {$permission} : " . json_encode($_SESSION['user']['permissions']), 'DEBUG');
 
         return isset($_SESSION['user']['permissions']['rights'][$permission]) && $_SESSION['user']['permissions']['rights'][$permission] === true;
@@ -1736,11 +1646,7 @@ class InterventionController
     {
         // Vérifier les permissions
         $this->checkAccess();
-
-        // Récupérer tous les contrats du client
         $contracts = $this->contractModel->getContractsByClientId($clientId, $siteId, $roomId);
-
-        // Retourner les contrats au format JSON
         header('Content-Type: application/json');
         echo json_encode($contracts);
     }
@@ -1753,10 +1659,8 @@ class InterventionController
         // Vérifier les permissions
         $this->checkAccess();
 
-        // Récupérer le contrat
         $contract = $this->contractModel->getContractByRoomId($roomId);
 
-        // Retourner le contrat au format JSON
         header('Content-Type: application/json');
         echo json_encode($contract);
     }
@@ -1766,15 +1670,12 @@ class InterventionController
      */
     public function getContractInfo($contractId)
     {
-        // Nettoyer tous les buffers existants
         while (ob_get_level() > 0) {
             ob_end_clean();
         }
 
-        // Démarrer un buffer propre
         ob_start();
 
-        // Vérifier que c'est une requête AJAX
         if (
             empty($_SERVER['HTTP_X_REQUESTED_WITH']) ||
             strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest'
@@ -1785,7 +1686,6 @@ class InterventionController
             exit;
         }
 
-        // Désactiver l'affichage des erreurs
         ini_set('display_errors', 0);
         error_reporting(E_ALL);
 
@@ -1793,7 +1693,6 @@ class InterventionController
         header('Cache-Control: no-cache, must-revalidate');
 
         try {
-            // Démarrer la session si nécessaire
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
@@ -1824,7 +1723,6 @@ class InterventionController
                 throw new Exception("Contrat non trouvé");
             }
 
-            // Nettoyer le buffer avant d'envoyer la réponse
             ob_clean();
 
             $json = json_encode($contract, JSON_UNESCAPED_UNICODE);
@@ -1836,7 +1734,6 @@ class InterventionController
             echo $json;
 
         } catch (Exception $e) {
-            // Nettoyer le buffer en cas d'erreur
             ob_clean();
 
             http_response_code(500);
@@ -1856,20 +1753,17 @@ class InterventionController
         header('Content-Type: application/json');
 
         try {
-            // Valider l'ID du client
             if (!is_numeric($clientId) || $clientId <= 0) {
                 http_response_code(400);
                 echo json_encode(['error' => 'ID client invalide']);
                 return;
             }
 
-            // Récupérer les contacts du client avec index optimisé
-            // L'index composite (client_id, status) optimise cette requête
             $sql = "SELECT id, first_name, last_name, email 
                     FROM contacts 
                     WHERE client_id = ? AND status = 1 
                     ORDER BY last_name, first_name
-                    LIMIT 1000"; // Limite de sécurité pour éviter les résultats trop volumineux
+                    LIMIT 1000";
 
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$clientId]);
@@ -1877,7 +1771,6 @@ class InterventionController
 
             echo json_encode($contacts);
         } catch (PDOException $e) {
-            // Log l'erreur pour le débogage
             custom_log("Erreur getContacts pour client_id $clientId: " . $e->getMessage(), 'ERROR');
             http_response_code(500);
             echo json_encode(['error' => 'Erreur lors de la récupération des contacts']);
@@ -1895,8 +1788,6 @@ class InterventionController
     {
         // Vérifier les permissions
         $this->checkAccess();
-
-        // Vérifier si l'utilisateur a les droits d'ajout
         if (!canModifyClients()) {
             http_response_code(403);
             echo json_encode(['error' => "Vous n'avez pas les droits nécessaires pour ajouter un client."]);
@@ -1906,7 +1797,6 @@ class InterventionController
         header('Content-Type: application/json');
 
         try {
-            // Récupérer les données du formulaire
             $clientData = [
                 'name' => $_POST['name'] ?? '',
                 'email' => $_POST['email'] ?? '',
@@ -1916,17 +1806,15 @@ class InterventionController
                 'postal_code' => $_POST['postal_code'] ?? '',
                 'city' => $_POST['city'] ?? '',
                 'comment' => $_POST['comment'] ?? '',
-                'status' => 1 // Par défaut actif
+                'status' => 1
             ];
 
-            // Valider les données essentielles
             if (empty($clientData['name'])) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Le nom du client est obligatoire']);
                 return;
             }
 
-            // Vérifier si un client avec ce nom existe déjà
             $sql = "SELECT id FROM clients WHERE name = ? AND status = 1";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$clientData['name']]);
@@ -1936,13 +1824,8 @@ class InterventionController
                 return;
             }
 
-            // Créer le client
             $clientId = $this->clientModel->createClient($clientData);
-
-            // Créer automatiquement les contrats "hors contrat"
             $this->createDefaultContractsForClient($clientId);
-
-            // Récupérer les données du client créé
             $client = $this->clientModel->getClientById($clientId);
 
             echo json_encode([
@@ -1969,7 +1852,6 @@ class InterventionController
         // Vérifier les permissions
         $this->checkAccess();
 
-        // Vérifier si l'utilisateur a les droits d'ajout
         if (!canModifyClients()) {
             http_response_code(403);
             echo json_encode(['error' => "Vous n'avez pas les droits nécessaires pour ajouter un site."]);
@@ -1979,7 +1861,6 @@ class InterventionController
         header('Content-Type: application/json');
 
         try {
-            // Récupérer les données du formulaire
             $siteData = [
                 'client_id' => $_POST['client_id'] ?? '',
                 'name' => $_POST['name'] ?? '',
@@ -1989,10 +1870,9 @@ class InterventionController
                 'phone' => $_POST['phone'] ?? '',
                 'email' => $_POST['email'] ?? '',
                 'comment' => $_POST['comment'] ?? '',
-                'status' => 1 // Par défaut actif
+                'status' => 1
             ];
 
-            // Valider les données essentielles
             if (empty($siteData['client_id'])) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Aucun client sélectionné']);
@@ -2005,7 +1885,6 @@ class InterventionController
                 return;
             }
 
-            // Vérifier si le client existe
             $sql = "SELECT id FROM clients WHERE id = ? AND status = 1";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$siteData['client_id']]);
@@ -2015,7 +1894,6 @@ class InterventionController
                 return;
             }
 
-            // Vérifier si un site avec ce nom existe déjà pour ce client
             $sql = "SELECT id FROM sites WHERE name = ? AND client_id = ? AND status = 1";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$siteData['name'], $siteData['client_id']]);
@@ -2025,16 +1903,13 @@ class InterventionController
                 return;
             }
 
-            // Créer le site
             $success = $this->siteModel->createSite($siteData);
             if (!$success) {
                 throw new Exception('Erreur lors de la création du site');
             }
 
-            // Récupérer l'ID du site créé
             $siteId = $this->db->lastInsertId();
 
-            // Récupérer les données du site créé
             $site = $this->siteModel->getSiteById($siteId);
 
             echo json_encode([
@@ -2061,7 +1936,6 @@ class InterventionController
         // Vérifier les permissions
         $this->checkAccess();
 
-        // Vérifier si l'utilisateur a les droits d'ajout
         if (!canModifyClients()) {
             http_response_code(403);
             echo json_encode(['error' => "Vous n'avez pas les droits nécessaires pour ajouter un bâtiment."]);
@@ -2071,16 +1945,14 @@ class InterventionController
         header('Content-Type: application/json');
 
         try {
-            // Récupérer les données du formulaire
             $buildingData = [
                 'client_id' => $_POST['client_id'] ?? '',
                 'site_id' => $_POST['site_id'] ?? '',
                 'name' => $_POST['name'] ?? '',
                 'comment' => $_POST['comment'] ?? '',
-                'status' => 1 // Par défaut actif
+                'status' => 1
             ];
 
-            // Valider les données essentielles
             if (empty($buildingData['client_id'])) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Aucun client sélectionné']);
@@ -2099,7 +1971,6 @@ class InterventionController
                 return;
             }
 
-            // Vérifier si le site existe et appartient au client
             $sql = "SELECT id FROM sites WHERE id = ? AND client_id = ? AND status = 1";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$buildingData['site_id'], $buildingData['client_id']]);
@@ -2108,8 +1979,6 @@ class InterventionController
                 echo json_encode(['error' => 'Site introuvable ou ne correspond pas au client']);
                 return;
             }
-
-            // Vérifier si un bâtiment avec ce nom existe déjà pour ce site
             $sql = "SELECT id FROM buildings WHERE name = ? AND site_id = ? AND status = 1";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$buildingData['name'], $buildingData['site_id']]);
@@ -2119,16 +1988,13 @@ class InterventionController
                 return;
             }
 
-            // Créer le bâtiment
             $success = $this->buildingModel->createBuilding($buildingData);
             if (!$success) {
                 throw new Exception('Erreur lors de la création du bâtiment');
             }
 
-            // Récupérer l'ID du bâtiment créé
             $buildingId = $this->db->lastInsertId();
 
-            // Récupérer les données du bâtiment créé
             $building = $this->buildingModel->getBuildingById($buildingId);
 
             echo json_encode([
@@ -2153,8 +2019,6 @@ class InterventionController
     {
         // Vérifier les permissions
         $this->checkAccess();
-
-        // Vérifier si l'utilisateur a les droits d'ajout
         if (!canModifyClients()) {
             http_response_code(403);
             echo json_encode(['error' => "Vous n'avez pas les droits nécessaires pour ajouter une salle."]);
@@ -2164,7 +2028,6 @@ class InterventionController
         header('Content-Type: application/json');
 
         try {
-            // Récupérer les données du formulaire
             $roomData = [
                 'client_id' => $_POST['client_id'] ?? '',
                 'building_id' => $_POST['building_id'] ?? '',
@@ -2172,8 +2035,6 @@ class InterventionController
                 'comment' => $_POST['comment'] ?? '',
                 'status' => 1
             ];
-
-            // Valider les données essentielles
             if (empty($roomData['client_id'])) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Aucun client sélectionné']);
@@ -2191,8 +2052,6 @@ class InterventionController
                 echo json_encode(['error' => 'Le nom de la salle est obligatoire']);
                 return;
             }
-
-            // Vérifier si le bâtiment existe et appartient au client via le site
             $sql = "SELECT b.id, b.site_id, s.client_id 
                 FROM buildings b 
                 JOIN sites s ON b.site_id = s.id 
@@ -2206,8 +2065,6 @@ class InterventionController
                 echo json_encode(['error' => 'Bâtiment introuvable ou ne correspond pas au client']);
                 return;
             }
-
-            // Vérifier si la salle avec ce nom existe déjà pour ce bâtiment
             $sql = "SELECT id FROM rooms WHERE name = ? AND building_id = ? ";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$roomData['name'], $roomData['building_id']]);
@@ -2216,8 +2073,6 @@ class InterventionController
                 echo json_encode(['error' => 'Une salle avec ce nom existe déjà pour ce bâtiment']);
                 return;
             }
-
-            // Créer la salle
             $sql = "INSERT INTO rooms (name, building_id, comment, status, created_at, updated_at) 
                 VALUES (:name, :building_id, :comment, :status, NOW(), NOW())";
             $stmt = $this->db->prepare($sql);
@@ -2231,8 +2086,6 @@ class InterventionController
             if (!$success) {
                 throw new Exception('Erreur lors de la création de la salle');
             }
-
-            // Récupérer l'ID de la salle créée
             $roomId = $this->db->lastInsertId();
 
             echo json_encode([
@@ -5183,13 +5036,11 @@ class InterventionController
                 throw new Exception('Ce technicien n\'est pas assigné à cette intervention');
             }
 
-            // Récupérer le nom du technicien avant suppression
             $stmt = $this->db->prepare("SELECT CONCAT(first_name, ' ', last_name) as name FROM users WHERE id = ?");
             $stmt->execute([$technicianId]);
             $technician = $stmt->fetch(PDO::FETCH_ASSOC);
             $technicianName = $technician['name'] ?? '#' . $technicianId;
 
-            // Supprimer le technicien
             $stmt = $this->db->prepare(
                 'DELETE FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?'
             );
@@ -5199,7 +5050,6 @@ class InterventionController
                 throw new Exception('Erreur lors de la suppression en base de données');
             }
 
-            // Enregistrer dans l'historique de l'intervention
             $sql = "INSERT INTO intervention_history (
                     intervention_id, field_name, old_value, new_value, changed_by, description
                 ) VALUES (
@@ -6505,8 +6355,6 @@ class InterventionController
 
             $techPath = null;
             $clientPath = null;
-
-            // Conserver les signatures existantes
             if ($existingSignature) {
                 if (!empty($existingSignature['technicien_signature_path'])) {
                     $techPath = $existingSignature['technicien_signature_path'];
@@ -6543,10 +6391,6 @@ class InterventionController
                 ':tid' => $_SESSION['user']['id'],
                 ':ip' => $_SERVER['REMOTE_ADDR'] ?? null,
             ]);
-
-            // ============================================================
-            // ÉTAPE 4 : Déterminer le statut de signature final
-            // ============================================================
             $signatureStatus = 'non_signe';
             if ($techPath && $clientPath) {
                 $signatureStatus = 'signe_tech_client';
@@ -6556,9 +6400,6 @@ class InterventionController
                 $signatureStatus = 'signe_client';
             }
 
-            // ============================================================
-            // ÉTAPE 5 : Mettre à jour le PDF avec TOUTES les signatures
-            // ============================================================
             $pdfData = $this->prepareBonInterventionData($interventionId);
 
             require_once __DIR__ . '/../classes/InterventionPDF.php';
@@ -6575,8 +6416,6 @@ class InterventionController
                     'client' => $clientPath,
                 ]
             );
-
-            // Sauvegarder dans un fichier temporaire
             $tempDir = __DIR__ . '/../../uploads/interventions/' . $interventionId . '/temp/';
             if (!file_exists($tempDir)) {
                 mkdir($tempDir, 0777, true);
@@ -6584,7 +6423,6 @@ class InterventionController
             $tempFilePath = $tempDir . 'temp_signed_' . time() . '.pdf';
             $pdf->Output($tempFilePath, 'F');
 
-            // Remplacer l'ancien PDF par le nouveau
             if (file_exists($tempFilePath)) {
                 if (file_exists($pdfPath)) {
                     unlink($pdfPath);
@@ -6595,10 +6433,6 @@ class InterventionController
                     rmdir($tempDir);
                 }
             }
-
-            // ============================================================
-            // ÉTAPE 6 : Mettre à jour le statut dans pieces_jointes
-            // ============================================================
             $sql = "UPDATE pieces_jointes 
                 SET signature_status = :signature_status,
                     nom_personnalise = :nom_personnalise
