@@ -195,5 +195,18 @@ $calendarEvents = [];
   window.technicians = <?= json_encode($technicians ?? []) ?>;
 </script>
 <script src="<?= BASE_URL ?>assets/js/app-calendar.js"></script>
+<style>
+  .event-not-scheduled {
+    border: 2px dashed rgba(238, 25, 25, 0.85) !important;
+    opacity: 0.85;
+  }
 
+  .event-not-scheduled {
+    font-weight: 600;
+  }
+
+  .event-not-scheduled::before {
+    content: "⏳ ";
+  }
+</style>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
