@@ -385,6 +385,8 @@ class AgendaController
                     'end_time' => $endDateTime,
                     'duration' => $intervention['duration'],
                     'deplacement' => $intervention['deplacement'],
+                    'planned_date' => $intervention['planned_date'],
+                    'planned_time' => $intervention['planned_time'] ?? '09:00',
                     'technician_comment' => $intervention['technician_comment']
                 ]
             ];
