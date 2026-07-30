@@ -338,8 +338,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const modal = new bootstrap.Offcanvas(addEventSidebar);
       modal.show();
     }
-
-    // Initialize components
     initSidebar();
     initFilters();
   })();
