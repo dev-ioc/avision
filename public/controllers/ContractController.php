@@ -118,32 +118,25 @@ class ContractController
     public function add($clientId = null)
     {
         checkContractManagementAccess();
-
-        // echo "Debug: Entered add method.<br>"; // Temporary debug
-
         $client = null;
         $sites = [];
         $rooms = [];
         $allClientsForDropdown = null;
 
         try {
-            // echo "Debug: Inside try block.<br>"; // Temporary debug
 
             if ($clientId !== null) {
-                // Un ID client est fourni, valider et charger les données spécifiques au client
                 if (!is_numeric($clientId) || $clientId <= 0) {
                     $_SESSION['error'] = "ID de client invalide fourni.";
                     header('Location: ' . BASE_URL . 'contracts');
                     exit;
                 }
-                // echo "Debug: Client ID is $clientId.<br>"; // Temporary debug
                 $client = $this->clientModel->getClientById($clientId);
                 if (!$client) {
                     $_SESSION['error'] = "Client non trouvé pour l'ID fourni.";
                     header('Location: ' . BASE_URL . 'contracts');
                     exit;
                 }
-                // echo "Debug: Client data fetched.<br>"; // Temporary debug
                 $sites = $this->siteModel->getSitesByClientId($clientId);
                 foreach ($sites as $site) {
                     $siteRooms = $this->roomModel->getRoomsByBuildingId($site['id']);
@@ -151,37 +144,21 @@ class ContractController
                         $rooms[] = $room;
                     }
                 }
-                // echo "Debug: Sites and rooms fetched for client.<br>"; // Temporary debug
             } else {
-                // Aucun ID client fourni
-                // echo "Debug: clientId is null, fetching all clients.<br>"; // Temporary debug
                 $allClientsForDropdown = $this->clientModel->getAllClients();
-                // if ($allClientsForDropdown === null) { echo "Debug: getAllClients returned null.<br>"; } // Temporary debug
-                // else { echo "Debug: getAllClients returned " . count($allClientsForDropdown) . " clients.<br>"; } // Temporary debug
             }
 
-            // echo "Debug: Fetching contract types.<br>"; // Temporary debug
             $contractTypes = $this->contractModel->getContractTypes();
-            // if ($contractTypes === null) { echo "Debug: getContractTypes returned null.<br>"; } // Temporary debug
-            // else { echo "Debug: getContractTypes returned " . count($contractTypes) . " types.<br>"; } // Temporary debug
-
-            // Récupérer les niveaux d'accès disponibles
             $accessLevels = $this->accessLevelModel->getAllAccessLevels();
 
-            // echo "Debug: About to load view /contract/add.php.<br>"; // Temporary debug
-            // exit; // <<< ADD THIS EXIT TEMPORARILY TO SEE IF WE REACH HERE
-
             require_once VIEWS_PATH . '/contract/add.php';
-            // echo "Debug: View /contract/add.php loaded.<br>"; // Temporary debug (won't see if view exits)
-            // exit;
 
-        } catch (Throwable $t) { // Catch Throwable to get more error types
+
+        } catch (Throwable $t) {
             custom_log("Erreur Throwable dans ContractController::add : " . $t->getMessage() . "\nStack Trace:\n" . $t->getTraceAsString(), 'ERROR');
             $_SESSION['error'] = "Une erreur critique est survenue (add): " . $t->getMessage();
-            // Temporarily echo error for immediate visibility during debug
-            // echo "<pre>Caught Throwable: " . $t->getMessage() . "\n" . $t->getTraceAsString() . "</pre>";
-            // exit; // Halt execution after printing error
-            header('Location: ' . BASE_URL . 'contracts'); // Redirect to contracts index
+
+            header('Location: ' . BASE_URL . 'contracts');
             exit;
         }
     }
@@ -247,7 +224,7 @@ class ContractController
                 'tarif' => $tarif,
                 'indice' => $indice,
                 'isticketcontract' => $isticketcontract,
-                'status' => $status
+                'status' => $status,
             ]);
 
             if ($result) {

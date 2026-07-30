@@ -368,7 +368,8 @@ class InterventionController
             'type_id' => null,
             'description' => null,
             'title' => null,
-            'is_preventive' => 0
+            'is_preventive' => 0,
+            ':planned_date' => null,
         ], $intervention);
 
         // Vérifier si l'intervention est fermée
@@ -601,10 +602,12 @@ class InterventionController
             'ref_client' => $_POST['ref_client'] ?? $intervention['ref_client'],
             'contact_client' => $_POST['contact_client'] ?? $intervention['contact_client'],
             'is_preventive' => isset($_POST['is_preventive']) ? 1 : 0,
+            'planned_date' => $_POST['planned_date'] ?? $intervention['planned_date'],
         ];
 
         $createdDate = $_POST['created_date'] ?? date('Y-m-d', strtotime($intervention['created_at']));
         $createdTime = $_POST['created_time'] ?? date('H:i', strtotime($intervention['created_at']));
+        $plannedDate = $_POST['planned_date'] ?? date('Y-m-d', strtotime($intervention['planned_date']));
         $data['created_at'] = $createdDate . ' ' . $createdTime . ':00';
         if (isset($_POST['contract_id']) && $_POST['contract_id'] !== '') {
             $data['contract_id'] = $_POST['contract_id'];

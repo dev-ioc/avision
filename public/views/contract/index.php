@@ -64,7 +64,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <a href="<?php echo BASE_URL; ?>contracts?show_status=all"
                             class="btn btn-outline-secondary btn-sm status-filter-btn <?php echo ($current_filter_view ?? 'all') === 'all' ? 'active' : ''; ?>">
                             <span class="badge bg-secondary me-1">
-                                                        <?php echo $totalCount; ?>
+                                <?php echo $totalCount; ?>
                             </span>
                             Tous
                         </a>
@@ -145,6 +145,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
         <table id="contractsTable" class="table table-striped table-hover dt-responsive">
             <thead>
                 <tr>
+                    <th>Référence</th>
                     <th>Nom</th>
                     <th>Client</th>
                     <th>Type de contrat</th>
@@ -157,6 +158,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <?php if (!empty($contracts)): ?>
                     <?php foreach ($contracts as $contract): ?>
                         <tr>
+                            <td data-label="Référence">
+                                <?php if (!empty($contract['reference'])): ?>
+
+                                    <?php echo htmlspecialchars($contract['reference']); ?>
+
+                                <?php else: ?>
+                                    <span class="text-muted">-</span>
+                                <?php endif; ?>
+                            </td>
                             <td data-label="Nom">
                                 <a href="<?php echo BASE_URL; ?>contracts/view/<?php echo $contract['id']; ?>"
                                     class="text-decoration-none fw-bold" title="Voir le contrat">

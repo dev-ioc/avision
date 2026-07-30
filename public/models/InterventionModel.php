@@ -353,7 +353,10 @@ class InterventionModel extends BaseModel
             $updates[] = "created_at = :created_at";
             $params[':created_at'] = $data['created_at'];
         }
-
+        if (array_key_exists('planned_date', $data)) {
+            $updates[] = "planned_date = :planned_date";
+            $params[':planned_date'] = $data['planned_date'];
+        }
         if (array_key_exists('ref_client', $data)) {
             $updates[] = "ref_client = :ref_client";
             $params[':ref_client'] = $data['ref_client'];

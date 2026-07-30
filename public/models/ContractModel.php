@@ -150,46 +150,48 @@ class ContractModel extends BaseModel
 
         try {
             $query = "INSERT INTO contracts (
-                        client_id,
-                        contract_type_id,
-                        access_level_id,
-                        name,
-                        start_date,
-                        end_date,
-                        tickets_number,
-                        tickets_remaining,
-                        comment,
-                        status,
-                        reminder_enabled,
-                        reminder_days,
-                        renouvellement_tacite,
-                        num_facture,
-                        tarif,
-                        indice,
-                        isticketcontract,
-                        created_at,
-                        updated_at
-                    ) VALUES (
-                        :client_id,
-                        :contract_type_id,
-                        :access_level_id,
-                        :name,
-                        :start_date,
-                        :end_date,
-                        :tickets_number,
-                        :tickets_remaining,
-                        :comment,
-                        :status,
-                        :reminder_enabled,
-                        :reminder_days,
-                        :renouvellement_tacite,
-                        :num_facture,
-                        :tarif,
-                        :indice,
-                        :isticketcontract,
-                        NOW(),
-                        NOW()
-                    )";
+                    reference,
+                    client_id,
+                    contract_type_id,
+                    access_level_id,
+                    name,
+                    start_date,
+                    end_date,
+                    tickets_number,
+                    tickets_remaining,
+                    comment,
+                    status,
+                    reminder_enabled,
+                    reminder_days,
+                    renouvellement_tacite,
+                    num_facture,
+                    tarif,
+                    indice,
+                    isticketcontract,
+                    created_at,
+                    updated_at
+                ) VALUES (
+                    :reference,
+                    :client_id,
+                    :contract_type_id,
+                    :access_level_id,
+                    :name,
+                    :start_date,
+                    :end_date,
+                    :tickets_number,
+                    :tickets_remaining,
+                    :comment,
+                    :status,
+                    :reminder_enabled,
+                    :reminder_days,
+                    :renouvellement_tacite,
+                    :num_facture,
+                    :tarif,
+                    :indice,
+                    :isticketcontract,
+                    NOW(),
+                    NOW()
+                )";
 
             // Préparer les valeurs avec des valeurs par défaut
             $comment = $data['comment'] ?? null;
@@ -200,8 +202,10 @@ class ContractModel extends BaseModel
             $tarif = !empty($data['tarif']) ? $data['tarif'] : null;
             $indice = $data['indice'] ?? null;
             $isticketcontract = $data['isticketcontract'] ?? 0;
+            $reference = $this->generateReference();
 
             $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':reference', $reference, PDO::PARAM_STR);
             $stmt->bindParam(':client_id', $data['client_id'], PDO::PARAM_INT);
             $stmt->bindParam(':contract_type_id', $data['contract_type_id'], PDO::PARAM_INT);
             $stmt->bindParam(':access_level_id', $data['access_level_id'], PDO::PARAM_INT);
@@ -225,7 +229,6 @@ class ContractModel extends BaseModel
             }
 
             $contractId = $this->db->lastInsertId();
-
             // Enregistrer la création du contrat dans l'historique
             $this->recordContractCreation($contractId, $data);
 
@@ -1561,5 +1564,31 @@ class ContractModel extends BaseModel
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function generateReference()
+    {
+        try {
+            $year = date('Y');
+            $prefix = "CTR-{$year}-";
+            $sql = "SELECT reference FROM contracts 
+                WHERE reference LIKE ? 
+                ORDER BY reference DESC 
+                LIMIT 1";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$prefix . '%']);
+            $lastReference = $stmt->fetchColumn();
+
+            if ($lastReference) {
+                $lastNumber = (int) substr($lastReference, -6);
+                $nextNumber = $lastNumber + 1;
+            } else {
+                $nextNumber = 1;
+            }
+
+            return $prefix . str_pad($nextNumber, 6, '0', STR_PAD_LEFT);
+        } catch (PDOException $e) {
+            custom_log("Erreur génération référence contrat : " . $e->getMessage(), 'ERROR');
+            return false;
+        }
     }
 }

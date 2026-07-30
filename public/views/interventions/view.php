@@ -346,6 +346,7 @@ $closeReason = [];
 									<?= formatDateFrench($intervention['created_at']) ?>
 								</p>
 							</div>
+
 							<?php if (!empty($intervention['closed_at'])): ?>
 								<div>
 									<label class="form-label fw-bold mb-0">Date de fermeture</label>
@@ -375,6 +376,16 @@ $closeReason = [];
 									}
 									?>
 								</p>
+							</div>
+							<div>
+								<?php if (!empty($intervention['planned_date'])): ?>
+									<div>
+										<label class="form-label fw-bold mb-0">Date prévisionnelle</label>
+										<p class="form-control-static mb-0">
+													<?= formatDateFrench($intervention['planned_date']) ?>
+										</p>
+									</div>
+										<?php endif; ?>
 							</div>
 						</div>
 					</div>

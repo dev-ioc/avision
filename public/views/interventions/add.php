@@ -122,15 +122,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     <label class="form-label fw-bold mb-0 text-white">Heure de création</label>
                     <input type="time" class="form-control bg-body text-body" id="created_time"
                         name="created_time" value="<?= date('H:i') ?>" form="interventionForm">
-                    <div>
-                        <label>Date prévisionnelle</label>
-
-                    <input 
-                        type="date" 
-                        name="planned_date"
-                        class="form-control"
-                        >
-                    </div>
+                    
                 </div>
 
             </div>
@@ -306,7 +298,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                         </div>
                     </div>
-
+                   <div class="col-md-3" id="plannedDateContainer" style="display: none;">
+                        <label class="form-label fw-bold">Date prévisionnelle</label>
+                        <input
+                            type="date"
+                            name="planned_date"
+                            id="planned_date"
+                            class="form-control">
+                    </div>
                     <!-- Description -->
                     <div class="col-12 mt-3">
                         <div class="card">
@@ -1541,5 +1540,22 @@ include_once __DIR__ . '/../../includes/navbar.php';
         });
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const preventiveCheckbox = document.getElementById('is_preventive');
+    const plannedDateContainer = document.getElementById('plannedDateContainer');
+    const plannedDateInput = document.getElementById('planned_date');
 
+    function togglePlannedDate() {
+        if (preventiveCheckbox.checked) {
+            plannedDateContainer.style.display = 'block';
+        } else {
+            plannedDateContainer.style.display = 'none';
+            plannedDateInput.value = '';
+        }
+    }
+    togglePlannedDate();
+    preventiveCheckbox.addEventListener('change', togglePlannedDate);
+});
+</script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

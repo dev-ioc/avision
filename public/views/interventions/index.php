@@ -86,7 +86,8 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
     <table id="interventionsTable" class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>Date</th>
+          <th>Date de création</th>
+          <th>Date prévisionnelle</th>
           <th>Référence</th>
           <th>Titre</th>
           <th>Client</th>
@@ -107,6 +108,11 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
               <td>
                 <?= !empty($intervention['created_at'])
                   ? date('d/m/Y', strtotime($intervention['created_at']))
+                  : '-' ?>
+              </td>
+              <td>
+                <?= !empty($intervention['planned_date'])
+                  ? date('d/m/Y', strtotime($intervention['planned_date']))
                   : '-' ?>
               </td>
               <td>
