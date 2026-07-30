@@ -454,7 +454,8 @@ class ContractController
                     'contact_client' => null,
                     'contract_id' => $contractId,
                     'duration' => 2.0,
-                    'is_preventive' => 1
+                    'is_preventive' => 1,
+                    'planned_date' => $date
                 ];
 
                 custom_log("Tentative de création d'intervention: " . json_encode($interventionData), 'DEBUG');

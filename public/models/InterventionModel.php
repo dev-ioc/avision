@@ -462,12 +462,12 @@ class InterventionModel extends BaseModel
             reference, title, client_id, site_id, building_id, room_id, 
             status_id, type_id, 
             description, demande_par, ref_client, contact_client, 
-            contract_id, is_preventive, created_at, duration
+            contract_id, is_preventive, created_at, duration, planned_date
         ) VALUES (
             :reference, :title, :client_id, :site_id, :building_id, :room_id, 
             :status_id, :type_id, 
             :description, :demande_par, :ref_client, :contact_client, 
-            :contract_id, :is_preventive, NOW(), :duration
+            :contract_id, :is_preventive, NOW(), :duration, :planned_date
         )";
 
             $stmt = $this->db->prepare($sql);
@@ -486,7 +486,8 @@ class InterventionModel extends BaseModel
                 ':contact_client' => $data['contact_client'] ?? null,
                 ':contract_id' => $data['contract_id'] ?? null,
                 ':is_preventive' => $data['is_preventive'] ?? 0,
-                'duration' => $data['duration'] ?? null
+                'duration' => $data['duration'] ?? null,
+                'planned_date' => $data['planned_date'] ?? null
             ];
 
             $result = $stmt->execute($params);
