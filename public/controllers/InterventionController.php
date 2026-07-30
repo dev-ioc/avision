@@ -6702,6 +6702,7 @@ class InterventionController
                 " - Statut: " . $signatureStatus .
                 " - Version " . ($pj['version'] ?? 1)
             );
+            // Fermeture automatique pour les préventives, une fois le BI signé par le technicien ET le client
             if (
                 $signatureStatus === 'signe_tech_client'
                 && (int) ($intervention['is_preventive'] ?? 0) === 1
@@ -6781,18 +6782,98 @@ class InterventionController
     private function prepareBonInterventionData($interventionId)
     {
         $intervention = $this->interventionModel->getById($interventionId);
-        // ... (reprendre exactement la même logique d'enrichissement que dans generateBonPdf :
-        // contrat, client, contact, site, bâtiment, salle, dates, urgence)
+
+        if (!$intervention) {
+            throw new Exception("Intervention introuvable (ID: $interventionId)");
+        }
+
+        if (!empty($intervention['contract_id'])) {
+            $contract = $this->contractModel->getContractById($intervention['contract_id']);
+            if (!empty($contract)) {
+                $intervention['tickets_remaining'] = $contract['tickets_remaining'] ?? 0;
+                $intervention['contract_end_date'] = $contract['end_date'] ?? null;
+                $intervention['contract_status'] = (($contract['status']) === "actif") ? 'Actif' : 'Inactif';
+            }
+        }
+
+        if (!empty($intervention['client_id'])) {
+            $client = $this->clientModel->getClientById($intervention['client_id']);
+            if ($client) {
+                $intervention['client_name'] = $client['name'] ?? '';
+                $intervention['client_email'] = $client['email'] ?? '';
+            }
+        }
+
+        if (!empty($intervention['contact_client'])) {
+            $contact = $this->contactModel->getContactByEmail($intervention['contact_client']);
+            if ($contact) {
+                $intervention['contact_first_name'] = $contact['first_name'] ?? '';
+                $intervention['contact_last_name'] = $contact['last_name'] ?? '';
+                $intervention['contact_phone'] = $contact['phone1'] ?? '';
+                $intervention['contact_email'] = $contact['email'] ?? '';
+            }
+        }
+        if (!empty($intervention['site_id'])) {
+            $site = $this->siteModel->getSiteById($intervention['site_id']);
+            if ($site) {
+                $intervention['site_name'] = $site['name'] ?? '';
+                $intervention['site_address'] = $site['address'] ?? '';
+                $intervention['site_postal_code'] = $site['postal_code'] ?? '';
+                $intervention['site_city'] = $site['city'] ?? '';
+                $intervention['site_email'] = $site['email'] ?? '';
+            }
+        }
+
+        if (!empty($intervention['building_id'])) {
+            $building = $this->buildingModel->getBuildingById($intervention['building_id']);
+            if ($building) {
+                $intervention['building_name'] = $building['name'] ?? '';
+                $intervention['floor_level'] = $building['floor_level'] ?? '';
+            }
+        }
+
+        if (!empty($intervention['room_id'])) {
+            $room = $this->roomModel->getRoomById($intervention['room_id']);
+            if ($room) {
+                $intervention['room_name'] = $room['name'] ?? '';
+                $intervention['avision_ref'] = $room['avision_ref'] ?? '';
+            }
+        }
+
+        $dateRange = $this->getInterventionDateRange($interventionId);
+        $intervention['planned_date'] = $dateRange['start'];
+        $intervention['end_date'] = $dateRange['end'];
+
+        if (!empty($intervention['priority_id'])) {
+            $sql = "SELECT name FROM intervention_priorities WHERE id = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$intervention['priority_id']]);
+            $priority = $stmt->fetch(PDO::FETCH_ASSOC);
+            $priorityName = strtolower(trim($priority['name'] ?? ''));
+
+            if (strpos($priorityName, 'urgente') !== false || strpos($priorityName, 'haute') !== false) {
+                $intervention['urgence'] = 'critical';
+            } elseif (strpos($priorityName, 'normale') !== false) {
+                $intervention['urgence'] = 'normal';
+            } elseif (strpos($priorityName, 'préventif') !== false || strpos($priorityName, 'preventif') !== false) {
+                $intervention['urgence'] = 'planned';
+            } elseif (strpos($priorityName, 'basse') !== false) {
+                $intervention['urgence'] = 'low';
+            } else {
+                $intervention['urgence'] = 'normal';
+            }
+        } else {
+            $intervention['urgence'] = 'normal';
+        }
+        $materielClient = $this->clientController->getMaterielByClientId($intervention['client_id']);
 
         return [
             'intervention' => $intervention,
             'comments' => $this->getComments($interventionId),
             'attachments' => $this->getAttachmentsForBon($interventionId),
             'technicians' => $this->getInterventionTechnicians($interventionId),
-            'equipment' => $this->clientController->getMaterielByClientId($intervention['client_id']),
-            'replacedParts' => $this->getReplacedPartsFromMaterials(
-                $this->clientController->getMaterielByClientId($intervention['client_id'])
-            ),
+            'equipment' => $materielClient,
+            'replacedParts' => $this->getReplacedPartsFromMaterials($materielClient),
         ];
     }
 }
