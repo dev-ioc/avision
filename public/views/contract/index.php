@@ -138,9 +138,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             ?>
         </div>
     <?php endif; ?>
-
-
-
     <div class="table-responsive">
         <table id="contractsTable" class="table table-striped table-hover dt-responsive">
             <thead>
