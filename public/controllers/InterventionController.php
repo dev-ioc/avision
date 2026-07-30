@@ -1481,11 +1481,9 @@ class InterventionController
      */
     public function download($attachmentId)
     {
-        // Vérifier les permissions
         $this->checkAccess();
 
         try {
-            // Récupérer la pièce jointe pour vérifier les permissions
             $attachment = $this->interventionModel->getPieceJointeById($attachmentId);
 
             if (!$attachment || ($attachment['type_liaison'] !== 'intervention' && $attachment['type_liaison'] !== 'bi')) {
@@ -1493,16 +1491,11 @@ class InterventionController
                 header('Location: ' . $this->getInterventionsListUrl());
                 exit;
             }
-
-            // Récupérer l'intervention
             $intervention = $this->interventionModel->getById($attachment['entite_id']);
 
-            // Vérifier si l'utilisateur est autorisé à télécharger
-            // Soit il a la permission 'view_interventions', soit il est assigné comme technicien à cette intervention
             $isAuthorized = $this->checkPermission('technicien', 'view_interventions');
 
             if (!$isAuthorized) {
-                // Vérifier si l'utilisateur est assigné comme technicien à cette intervention
                 $sql = "SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = :intervention_id AND technicien_id = :user_id";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([
@@ -1517,8 +1510,6 @@ class InterventionController
                     exit;
                 }
             }
-
-            // Utiliser AttachmentService pour gérer le téléchargement
             $attachmentService = new AttachmentService($this->db);
             $attachmentService->download($attachmentId, true);
 
@@ -1536,11 +1527,9 @@ class InterventionController
      */
     public function preview($attachmentId)
     {
-        // Vérifier les permissions
         $this->checkAccess();
 
         try {
-            // Récupérer la pièce jointe pour vérifier les permissions
             $attachment = $this->interventionModel->getPieceJointeById($attachmentId);
 
             if (!$attachment || ($attachment['type_liaison'] !== 'intervention' && $attachment['type_liaison'] !== 'bi')) {
@@ -1548,8 +1537,6 @@ class InterventionController
                 header('Location: ' . $this->getInterventionsListUrl());
                 exit;
             }
-
-            // Utiliser AttachmentService pour gérer l'aperçu
             $attachmentService = new AttachmentService($this->db);
             $attachmentService->preview($attachmentId);
 
@@ -1566,13 +1553,11 @@ class InterventionController
      */
     public function deleteComment($commentId)
     {
-        // Vérifier les permissions
         if (!isset($_SESSION['user']) || !isAdmin()) {
             header('Location: ' . BASE_URL . 'auth/login');
             exit;
         }
 
-        // Récupérer le commentaire
         $sql = "SELECT id, intervention_id, comment, visible_by_client, is_solution, is_observation, pour_bon_intervention, created_by, created_at FROM intervention_comments WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$commentId]);
@@ -1590,7 +1575,6 @@ class InterventionController
         $result = $stmt->execute([$commentId]);
 
         if ($result) {
-            // Enregistrer l'action dans l'historique
             $sql = "INSERT INTO intervention_history (
                         intervention_id, field_name, old_value, new_value, changed_by, description
                     ) VALUES (
@@ -1629,7 +1613,6 @@ class InterventionController
         }
 
         try {
-            // Récupérer la pièce jointe pour vérifier et obtenir l'ID de l'intervention
             $attachment = $this->interventionModel->getPieceJointeById($attachmentId);
 
             if (!$attachment || ($attachment['type_liaison'] !== 'intervention' && $attachment['type_liaison'] !== 'bi')) {
@@ -1680,7 +1663,6 @@ class InterventionController
         // Vérifier les permissions
         $this->checkAccess();
 
-        // Récupérer les informations du type
         $sql = "SELECT id, name, requires_travel, created_at FROM intervention_types WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$typeId]);
@@ -1692,7 +1674,6 @@ class InterventionController
             exit;
         }
 
-        // Retourner les informations au format JSON
         header('Content-Type: application/json');
         echo json_encode($type);
     }
@@ -1702,7 +1683,6 @@ class InterventionController
      */
     public function getSites($clientId)
     {
-        // Vérifier les permissions
         $this->checkAccess();
 
         // Récupérer les sites
@@ -1737,14 +1717,11 @@ class InterventionController
         if (!isset($_SESSION['user'])) {
             return false;
         }
-
-        // Les administrateurs ont toutes les permissions
         if (isAdmin()) {
             return true;
         }
 
-        // Vérifier les permissions spécifiques
-        $permission = 'tech_' . $action; // Utiliser le préfixe 'tech_' au lieu de 'technicien_'
+        $permission = 'tech_' . $action;
 
         // Log temporaire pour debug
         custom_log("Vérification permission pour {$permission} : " . json_encode($_SESSION['user']['permissions']), 'DEBUG');
@@ -4915,15 +4892,6 @@ class InterventionController
             echo json_encode(['success' => false, 'error' => 'Erreur serveur : ' . $e->getMessage()]);
         }
     }
-
-    /**
-     * API: Assigner des techniciens à une intervention
-     * POST /api/interventions/assignTechnicians
-     */
-    /**
-     * API: Assigner des techniciens à une intervention
-     * POST /api/interventions/assignTechnicians
-     */
     /**
      * API: Assigner des techniciens à une intervention
      * POST /api/interventions/assignTechnicians
@@ -4944,7 +4912,7 @@ class InterventionController
 
             $interventionId = $input['intervention_id'] ?? null;
             $technicians = $input['technicians'] ?? [];
-            $replace = (bool) ($input['replace'] ?? false); // Si true, on remplace complètement la liste
+            $replace = (bool) ($input['replace'] ?? false);
 
             if (!$interventionId) {
                 http_response_code(400);
@@ -4953,18 +4921,12 @@ class InterventionController
             }
 
             $this->db->beginTransaction();
-
-            // 1. Récupérer les IDs actuellement assignés
             $stmt = $this->db->prepare(
                 'SELECT technicien_id FROM intervention_techniciens WHERE intervention_id = ?'
             );
             $stmt->execute([$interventionId]);
             $currentIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-            // 2. IDs dans la nouvelle liste
             $newIds = array_column($technicians, 'technicien_id');
-
-            // 3. Si mode replace = true, supprimer ceux qui ne sont plus dans la liste
             if ($replace) {
                 $toDelete = array_diff($currentIds, $newIds);
                 if (!empty($toDelete)) {
@@ -4978,7 +4940,6 @@ class InterventionController
                 }
             }
 
-            // 4. Insérer ou mettre à jour les techniciens
             $checkStmt = $this->db->prepare(
                 'SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?'
             );
@@ -5020,7 +4981,6 @@ class InterventionController
                 $exists = (int) $checkStmt->fetchColumn() > 0;
 
                 if ($exists) {
-                    // Mise à jour du technicien existant
                     $updateStmt->execute([
                         $startTime,
                         $endTime,
@@ -5033,7 +4993,6 @@ class InterventionController
                     ]);
                     custom_log("Technicien $technicienId mis à jour pour l'intervention $interventionId", 'INFO');
                 } else {
-                    // Ajout d'un nouveau technicien
                     $insertStmt->execute([
                         $interventionId,
                         $technicienId,
@@ -5049,7 +5008,6 @@ class InterventionController
 
                 $assignedCount++;
 
-                // Email si demandé
                 if ($notify === 1 && !empty($technicienId)) {
                     try {
                         $this->mailService->sendTechnicianAssigned($interventionId, $technicienId);
@@ -5059,7 +5017,7 @@ class InterventionController
                     }
                 }
             }
-            $this->maybeMarkPreventiveAsRealisee($interventionId);
+
             $this->db->commit();
 
             $message = $assignedCount . ' technicien(s) affecté(s) avec succès';
@@ -5082,51 +5040,71 @@ class InterventionController
         }
     }
     /**
-     * Passe automatiquement une intervention préventive au statut "Réalisée"
-     * dès qu'au moins un technicien a une date/heure de fin renseignée.
-     * Ne touche jamais une intervention déjà fermée ou déjà marquée réalisée.
+     * Action manuelle du bouton "Marquer comme réalisée" (POST + CSRF).
+     * Contrairement à maybeMarkPreventiveAsRealisee() (déclencheur automatique
+     * silencieux), celle-ci force le passage de statut même sans end_time
+     * renseigné, et donne un retour clair à l'utilisateur.
      */
-    private function maybeMarkPreventiveAsRealisee($interventionId)
+    public function markPreventiveAsRealisee($id)
     {
-        $intervention = $this->interventionModel->getById($interventionId);
+        if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+            $_SESSION['error'] = "Token CSRF invalide. Veuillez réessayer.";
+            header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+            exit;
+        }
+
+        checkInterventionManagementAccess();
+
+        $intervention = $this->interventionModel->getById($id);
+
         if (!$intervention) {
-            return;
+            $_SESSION['error'] = "Intervention introuvable.";
+            header('Location: ' . $this->getInterventionsListUrl());
+            exit;
         }
 
         if ((int) ($intervention['is_preventive'] ?? 0) !== 1) {
-            return;
+            $_SESSION['error'] = "Cette action n'est disponible que pour les interventions préventives.";
+            header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+            exit;
         }
+
         if ((int) $intervention['status_id'] === 6) {
-            return; // déjà fermée
+            $_SESSION['error'] = "Impossible de modifier une intervention fermée.";
+            header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+            exit;
         }
 
         $realiseeId = $this->getDefaultStatusId('Réalisée');
-        if (!$realiseeId || (int) $intervention['status_id'] === (int) $realiseeId) {
-            return; // statut introuvable ou déjà réalisée
+        if (!$realiseeId) {
+            $_SESSION['error'] = "Le statut 'Réalisée' n'existe pas en base. Contactez l'administrateur.";
+            header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+            exit;
         }
 
-        $stmt = $this->db->prepare(
-            "SELECT COUNT(*) FROM intervention_techniciens 
-         WHERE intervention_id = ? 
-         AND end_time IS NOT NULL AND end_time != '0000-00-00 00:00:00'"
-        );
-        $stmt->execute([$interventionId]);
-        if ((int) $stmt->fetchColumn() === 0) {
-            return; // aucun technicien n'a encore de date de fin
+        if ((int) $intervention['status_id'] === (int) $realiseeId) {
+            $_SESSION['info'] = "Cette intervention est déjà marquée comme Réalisée.";
+            header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+            exit;
         }
 
         $oldStatusName = $this->getStatusName($intervention['status_id']);
 
         $stmt = $this->db->prepare("UPDATE interventions SET status_id = :sid, updated_at = NOW() WHERE id = :id");
-        $stmt->execute([':sid' => $realiseeId, ':id' => $interventionId]);
+        $stmt->execute([':sid' => $realiseeId, ':id' => $id]);
 
+        $userName = trim(($_SESSION['user']['first_name'] ?? '') . ' ' . ($_SESSION['user']['last_name'] ?? ''));
         $this->insertHistory(
-            $interventionId,
+            $id,
             'Statut',
             $oldStatusName,
             'Réalisée',
-            "Intervention préventive marquée automatiquement comme Réalisée (date de fin de visite renseignée)"
+            "Intervention préventive marquée manuellement comme Réalisée" . ($userName ? " par $userName" : "")
         );
+
+        $_SESSION['success'] = "Intervention marquée comme Réalisée.";
+        header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+        exit;
     }
     public function interventionsTechnician($id)
     {
@@ -5138,16 +5116,8 @@ class InterventionController
     {
         $this->apiAssignTechnicians();
     }
-    /**
-     * Supprime un technicien d'une intervention
-     * POST /api/interventions/removeTechnician
-     */
-    /**
-     * Supprime un technicien d'une intervention
-     * POST /api/interventions/removeTechnician
-     */
-    /**
-     * Supprime un technicien d'une intervention
+
+    /** Supprime un technicien d'une intervention
      * POST /interventions/removeTechnician
      */
     public function removeTechnician()
@@ -5280,27 +5250,22 @@ class InterventionController
      */
     public function flash()
     {
-        // Désactiver l'affichage des erreurs pour l'API
         error_reporting(0);
         ini_set('display_errors', 0);
 
-        // Nettoyer les buffers
         while (ob_get_level()) {
             ob_end_clean();
         }
 
-        // Définir les headers pour l'API
         header('Content-Type: application/json; charset=UTF-8');
         header('Cache-Control: no-cache, must-revalidate');
 
-        // Vérifier l'authentification et les permissions
         if (!isset($_SESSION['user']) || !canModifyInterventions()) {
             http_response_code(403);
             echo json_encode(['success' => false, 'error' => 'Permissions insuffisantes']);
             exit;
         }
 
-        // Récupérer les données
         $clientId = $_POST['client_id'] ?? null;
         $title = trim($_POST['title'] ?? '');
 
@@ -5311,7 +5276,6 @@ class InterventionController
         }
 
         try {
-            // Vérifier que le client existe
             $stmt = $this->db->prepare("SELECT id, name FROM clients WHERE id = ? AND status = 1");
             $stmt->execute([$clientId]);
             $client = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -5321,23 +5285,15 @@ class InterventionController
                 echo json_encode(['success' => false, 'error' => 'Client introuvable']);
                 exit;
             }
-
-            // Générer une référence unique
             $reference = $this->generateReference();
 
-            // Définir les valeurs par défaut
             $now = date('Y-m-d H:i:s');
             $defaultTitle = $title ?: 'Flash Intervention - ' . $client['name'];
-
-            // Récupérer les IDs par défaut
             $typeId = $this->getDefaultTypeId('Assistance téléphonique');
-            $statusId = $this->getDefaultStatusId('En cours'); // Statut "En cours" ou "Nouveau"
+            $statusId = $this->getDefaultStatusId('En cours');
             $priorityId = $this->getDefaultPriorityId('Moyenne');
-
-            // Durée par défaut : 30 minutes
             $duration = 30;
 
-            // Insérer l'intervention avec les flags flash
             $sql = "INSERT INTO interventions (
                     reference, title, client_id, type_id, status_id, priority_id,
                     duration, created_at, updated_at, is_flash, needs_completion
@@ -5365,7 +5321,6 @@ class InterventionController
 
             $interventionId = $this->db->lastInsertId();
 
-            // Enregistrer l'action dans l'historique
             $sql = "INSERT INTO intervention_history (
                     intervention_id, field_name, old_value, new_value, changed_by, description
                 ) VALUES (
@@ -5409,7 +5364,6 @@ class InterventionController
         $userId = $user['id'];
         $userType = $user['user_type'] ?? null;
 
-        // Récupérer les interventions flash incomplètes
         $flashInterventions = [];
 
         try {
@@ -6187,10 +6141,6 @@ class InterventionController
 
         $data = json_decode($payload, true);
 
-        // =====================================================
-        // SIGNNOW PAYLOAD
-        // =====================================================
-
         $event =
             $data['meta']['event'] ?? null;
 
@@ -6205,9 +6155,6 @@ class InterventionController
             FILE_APPEND
         );
 
-        // =====================================================
-        // DOCUMENT SIGNÉ
-        // =====================================================
 
         if (
             $event === 'document.complete'
@@ -6282,10 +6229,6 @@ class InterventionController
                         '/' .
                         $fileName;
 
-                    // =====================================================
-                    // AJOUT PIÈCE JOINTE
-                    // =====================================================
-
                     $dataPj = [
                         'nom_fichier' => $fileName,
                         'nom_personnalise' =>
@@ -6308,10 +6251,6 @@ class InterventionController
                             $dataPj,
                             'bi'
                         );
-
-                    // =====================================================
-                    // UPDATE STATUS
-                    // =====================================================
 
                     $updateSig = "
                     UPDATE intervention_signatures
@@ -6526,7 +6465,6 @@ class InterventionController
         }
 
         try {
-            // Récupérer la pièce jointe BI ciblée
             $sql = "SELECT pj.*, lpj.entite_id AS intervention_id
         FROM pieces_jointes pj
         INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
@@ -6553,8 +6491,6 @@ class InterventionController
             if (empty($techSignatureData) && empty($clientSignatureData)) {
                 throw new Exception('Aucune signature reçue');
             }
-
-            // Chemin du PDF existant
             $pdfPath = __DIR__ . '/../../' . $pj['chemin_fichier'];
 
             if (!file_exists($pdfPath)) {
@@ -6565,10 +6501,6 @@ class InterventionController
             if (!file_exists($signatureDir)) {
                 mkdir($signatureDir, 0777, true);
             }
-
-            // ============================================================
-            // ÉTAPE 1 : Récupérer les signatures EXISTANTES pour ce BI
-            // ============================================================
             $existingSignature = $this->getExistingSignatureByAttachment($attachmentId);
 
             $techPath = null;
@@ -6584,22 +6516,14 @@ class InterventionController
                 }
             }
 
-            // ============================================================
-            // ÉTAPE 2 : Ajouter les NOUVELLES signatures (sans écraser)
-            // ============================================================
             if ($techSignatureData) {
-                // Si une nouvelle signature tech est fournie, on l'ajoute
                 $techPath = $this->saveBase64Signature($techSignatureData, $signatureDir, 'tech');
             }
 
             if ($clientSignatureData) {
-                // Si une nouvelle signature client est fournie, on l'ajoute
                 $clientPath = $this->saveBase64Signature($clientSignatureData, $signatureDir, 'client');
             }
 
-            // ============================================================
-            // ÉTAPE 3 : Mettre à jour les signatures en base
-            // ============================================================
             $sql = "INSERT INTO intervention_local_signatures 
         (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path, technicien_id, signed_at, ip_address)
         VALUES (:iid, :source_id, :tech, :client, :tid, NOW(), :ip)

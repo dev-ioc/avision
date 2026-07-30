@@ -110,15 +110,20 @@ $closeReason = [];
 					</a>
 
 					<?php
-					/* ── Conditions de fermeture ── */
-
-
 					if (empty($intervention['contract_id'])) {
 						$canClose = false;
 						$closeReason[] = "Aucun contrat sélectionné";
 					}
 					?>
-
+					<?php if (!empty($intervention['is_preventive']) && $intervention['status_id'] != 6): ?>
+						<form action="<?= BASE_URL ?>interventions/MarkPreventiveAsRealisee/<?= $intervention['id'] ?>"
+							method="POST" class="d-inline">
+							<?= csrf_field() ?>
+							<button type="submit" class="btn btn-primary">
+								Marquer comme réalisée
+							</button>
+						</form>
+					<?php endif; ?>
 					<?php if ($canClose): ?>
 						<button type="button" class="btn btn-danger" id="btnOuvrirFermeture">
 							<i class="bi bi-lock me-1"></i> Fermer l'intervention
@@ -382,10 +387,10 @@ $closeReason = [];
 									<div>
 										<label class="form-label fw-bold mb-0">Date prévisionnelle</label>
 										<p class="form-control-static mb-0">
-													<?= formatDateFrench($intervention['planned_date']) ?>
+											<?= formatDateFrench($intervention['planned_date']) ?>
 										</p>
 									</div>
-										<?php endif; ?>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>

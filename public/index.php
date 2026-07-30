@@ -1284,6 +1284,13 @@ try {
                 case 'webhookSignature':
                     $interventionController->webhookSignature();
                     break;
+                case 'MarkPreventiveAsRealisee':
+                    if ($id) {
+                        $interventionController->markPreventiveAsRealisee($id);
+                    } else {
+                        header('Location: ' . BASE_URL . 'interventions');
+                    }
+                    break;
                 case 'sendForSignature':
                     if ($id) {
 
