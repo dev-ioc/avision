@@ -6764,7 +6764,6 @@ class InterventionController
             throw new Exception('Décodage de la signature échoué');
         }
 
-        // Limite de taille raisonnable (ex: 2 Mo) pour éviter les abus
         if (strlen($binary) > 2 * 1024 * 1024) {
             throw new Exception('Signature trop volumineuse');
         }
@@ -6775,8 +6774,6 @@ class InterventionController
         if (file_put_contents($fullPath, $binary) === false) {
             throw new Exception("Impossible d'écrire le fichier de signature");
         }
-
-        // Chemin relatif stocké en base (depuis la racine publique du projet)
         return 'uploads/interventions/' . basename(dirname($directory)) . '/signatures/' . $fileName;
     }
     private function prepareBonInterventionData($interventionId)
