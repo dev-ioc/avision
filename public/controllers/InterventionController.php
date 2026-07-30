@@ -3166,14 +3166,10 @@ class InterventionController
             exit;
         }
 
-        // ── GUARD : déjà fermée → impossible de re-déduire ──────────────────────
         if ((int) $intervention['status_id'] === 6) {
             if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
                 header('Content-Type: application/json');
-                echo json_encode([
-                    'success' => false,
-                    'error' => 'Cette intervention est déjà fermée.',
-                ]);
+                echo json_encode(['success' => false, 'error' => 'Cette intervention est déjà fermée.']);
                 exit;
             }
             $_SESSION['info'] = 'Cette intervention est déjà fermée.';
@@ -3181,105 +3177,72 @@ class InterventionController
             exit;
         }
 
-        // Vérifier qu'au moins un technicien est assigné
-        $stmt = $this->db->prepare('SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ?');
-        $stmt->execute([$id]);
-        if ((int) $stmt->fetchColumn() === 0) {
-            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-                header('Content-Type: application/json');
-                echo json_encode([
-                    'success' => false,
-                    'error' => "Impossible de fermer l'intervention sans technicien assigné.",
-                ]);
-                exit;
-            }
-            $_SESSION['error'] = "Impossible de fermer l'intervention sans technicien assigné.";
-            header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+        $ticketsUsed = (isset($_POST['tickets_used']) && is_numeric($_POST['tickets_used']))
+            ? max(0.0, (float) $_POST['tickets_used'])
+            : null;
+        $sendEmail = !empty($_POST['send_email']) && (int) $_POST['send_email'] === 1;
+
+        $result = $this->performClose($id, $intervention, $ticketsUsed, $sendEmail);
+
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+            header('Content-Type: application/json');
+            echo json_encode($result);
             exit;
+        }
+
+        if ($result['success']) {
+            $_SESSION['success'] = $result['message'];
+        } else {
+            $_SESSION['error'] = $result['error'];
+        }
+        header('Location: ' . BASE_URL . 'interventions/view/' . $id);
+        exit;
+    }
+
+    /**
+     * Logique interne de fermeture, réutilisable depuis close() (HTTP)
+     * et depuis les déclencheurs automatiques (ex: signature BI complète).
+     */
+    private function performClose($id, array $intervention, $ticketsUsedOverride = null, $sendEmail = false)
+    {
+        $stmtTechCheck = $this->db->prepare('SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ?');
+        $stmtTechCheck->execute([$id]);
+        if ((int) $stmtTechCheck->fetchColumn() === 0) {
+            return ['success' => false, 'error' => "Impossible de fermer l'intervention sans technicien assigné."];
         }
 
         try {
             $this->db->beginTransaction();
 
-            // Nombre de tickets : priorité au POST (choix de l'opérateur dans la modale)
-            $ticketsUsed = 0.0;
-            if (isset($_POST['tickets_used']) && is_numeric($_POST['tickets_used'])) {
-                $ticketsUsed = max(0.0, (float) $_POST['tickets_used']);
-            } else {
-                // Fallback automatique (ne devrait pas arriver si la modale est utilisée)
-                $ticketsUsed = $this->calculateTotalTicketsUsed($id, null, $intervention['type_id']);
-            }
+            $ticketsUsed = $ticketsUsedOverride !== null
+                ? $ticketsUsedOverride
+                : $this->calculateTotalTicketsUsed($id, null, $intervention['type_id']);
 
-            custom_log("=== FERMETURE INTERVENTION $id ===", 'INFO');
-            custom_log("Tickets à déduire: $ticketsUsed", 'INFO');
-            custom_log("Contrat ID: " . ($intervention['contract_id'] ?? 'aucun'), 'INFO');
-
-            // ── VÉRIFICATION DU SOLDE CONTRAT AVANT DÉDUCTION ──────────────────────
             if ($ticketsUsed > 0 && !empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
                 $stmtCheck = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = ?");
                 $stmtCheck->execute([$intervention['contract_id']]);
                 $currentRemaining = (float) $stmtCheck->fetchColumn();
 
-                custom_log("Solde contrat AVANT déduction: $currentRemaining", 'INFO');
-
                 if ($currentRemaining <= 0) {
                     $this->db->rollBack();
-                    $errorMsg = "Fermeture impossible : le contrat ne dispose plus de tickets (solde actuel : {$currentRemaining}).";
-                    custom_log($errorMsg, 'WARNING');
-
-                    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-                        header('Content-Type: application/json');
-                        echo json_encode(['success' => false, 'error' => $errorMsg]);
-                        exit;
-                    }
-                    $_SESSION['error'] = $errorMsg;
-                    header('Location: ' . BASE_URL . 'interventions/view/' . $id);
-                    exit;
+                    return ['success' => false, 'error' => "Fermeture impossible : le contrat ne dispose plus de tickets (solde actuel : {$currentRemaining})."];
                 }
             }
-            $closedAt = date('Y-m-d H:i:s');
 
-            // Fermer l'intervention
-            $sql = "UPDATE interventions
-            SET status_id       = 6,
-                closed_at       = :ca,
-                tickets_used    = :tu,
-                needs_completion= 0,
-                updated_at      = NOW()
-            WHERE id = :id";
-            $stmt = $this->db->prepare($sql);
+            $closedAt = date('Y-m-d H:i:s');
+            $stmt = $this->db->prepare(
+                "UPDATE interventions SET status_id = 6, closed_at = :ca, tickets_used = :tu, needs_completion = 0, updated_at = NOW() WHERE id = :id"
+            );
             $stmt->execute([':ca' => $closedAt, ':tu' => $ticketsUsed, ':id' => $id]);
 
-            // Déduire les tickets du contrat (seulement si contrat à tickets)
             if ($ticketsUsed > 0 && !empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
                 $this->deductTicketsFromContract($intervention['contract_id'], $ticketsUsed, $id);
             }
-            custom_log("isContractTicketById(" . $intervention['contract_id'] . ") = " . (isContractTicketById($intervention['contract_id']) ? 'true' : 'false'), 'INFO');
-            // Vérifier le nouveau solde du contrat
-            if (!empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id'])) {
-                $stmtCheck = $this->db->prepare("SELECT tickets_remaining FROM contracts WHERE id = ?");
-                $stmtCheck->execute([$intervention['contract_id']]);
-                $newRemaining = $stmtCheck->fetchColumn();
-                custom_log("NOUVEAU SOLDE CONTRAT APRÈS FERMETURE: $newRemaining", 'INFO');
 
-                // Alerter si le solde est négatif
-                if ($newRemaining < 0) {
-                    custom_log("⚠️ ATTENTION: Solde contrat négatif: $newRemaining", 'WARNING');
-                }
-            }
-
-            // Historique intervention
             $oldStatusName = $this->getStatusName($intervention['status_id']);
-            $this->insertHistory(
-                $id,
-                'Statut',
-                $oldStatusName,
-                'Fermé',
-                "Intervention fermée — {$ticketsUsed} ticket(s) déduit(s)"
-            );
+            $this->insertHistory($id, 'Statut', $oldStatusName, 'Fermé', "Intervention fermée — {$ticketsUsed} ticket(s) déduit(s)");
 
-            // Email optionnel
-            if (!empty($_POST['send_email']) && (int) $_POST['send_email'] === 1) {
+            if ($sendEmail) {
                 try {
                     $this->mailService->sendInterventionClosed($id, true);
                 } catch (\Exception $e) {
@@ -3293,33 +3256,16 @@ class InterventionController
             if ($ticketsUsed > 0) {
                 $msg .= " {$ticketsUsed} ticket(s) déduit(s) du contrat.";
             }
-
-            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-                header('Content-Type: application/json');
-                echo json_encode(['success' => true, 'message' => $msg]);
-                exit;
-            }
-
-            $_SESSION['success'] = $msg;
+            return ['success' => true, 'message' => $msg];
 
         } catch (\Exception $e) {
             if ($this->db->inTransaction()) {
                 $this->db->rollBack();
             }
-            custom_log("Erreur close() intervention $id : " . $e->getMessage(), 'ERROR');
-
-            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-                header('Content-Type: application/json');
-                echo json_encode(['success' => false, 'error' => "Erreur lors de la fermeture."]);
-                exit;
-            }
-            $_SESSION['error'] = "Erreur lors de la fermeture de l'intervention.";
+            custom_log("Erreur performClose() intervention $id : " . $e->getMessage(), 'ERROR');
+            return ['success' => false, 'error' => "Erreur lors de la fermeture."];
         }
-
-        header('Location: ' . BASE_URL . 'interventions/view/' . $id);
-        exit;
     }
-
     /**
      * Insère une ligne dans intervention_history.
      */
@@ -5113,7 +5059,7 @@ class InterventionController
                     }
                 }
             }
-
+            $this->maybeMarkPreventiveAsRealisee($interventionId);
             $this->db->commit();
 
             $message = $assignedCount . ' technicien(s) affecté(s) avec succès';
@@ -5134,6 +5080,53 @@ class InterventionController
             http_response_code(500);
             echo json_encode(['success' => false, 'error' => 'Erreur serveur : ' . $e->getMessage()]);
         }
+    }
+    /**
+     * Passe automatiquement une intervention préventive au statut "Réalisée"
+     * dès qu'au moins un technicien a une date/heure de fin renseignée.
+     * Ne touche jamais une intervention déjà fermée ou déjà marquée réalisée.
+     */
+    private function maybeMarkPreventiveAsRealisee($interventionId)
+    {
+        $intervention = $this->interventionModel->getById($interventionId);
+        if (!$intervention) {
+            return;
+        }
+
+        if ((int) ($intervention['is_preventive'] ?? 0) !== 1) {
+            return;
+        }
+        if ((int) $intervention['status_id'] === 6) {
+            return; // déjà fermée
+        }
+
+        $realiseeId = $this->getDefaultStatusId('Réalisée');
+        if (!$realiseeId || (int) $intervention['status_id'] === (int) $realiseeId) {
+            return; // statut introuvable ou déjà réalisée
+        }
+
+        $stmt = $this->db->prepare(
+            "SELECT COUNT(*) FROM intervention_techniciens 
+         WHERE intervention_id = ? 
+         AND end_time IS NOT NULL AND end_time != '0000-00-00 00:00:00'"
+        );
+        $stmt->execute([$interventionId]);
+        if ((int) $stmt->fetchColumn() === 0) {
+            return; // aucun technicien n'a encore de date de fin
+        }
+
+        $oldStatusName = $this->getStatusName($intervention['status_id']);
+
+        $stmt = $this->db->prepare("UPDATE interventions SET status_id = :sid, updated_at = NOW() WHERE id = :id");
+        $stmt->execute([':sid' => $realiseeId, ':id' => $interventionId]);
+
+        $this->insertHistory(
+            $interventionId,
+            'Statut',
+            $oldStatusName,
+            'Réalisée',
+            "Intervention préventive marquée automatiquement comme Réalisée (date de fin de visite renseignée)"
+        );
     }
     public function interventionsTechnician($id)
     {
@@ -6709,7 +6702,18 @@ class InterventionController
                 " - Statut: " . $signatureStatus .
                 " - Version " . ($pj['version'] ?? 1)
             );
-
+            if (
+                $signatureStatus === 'signe_tech_client'
+                && (int) ($intervention['is_preventive'] ?? 0) === 1
+                && (int) $intervention['status_id'] !== 6
+            ) {
+                $closeResult = $this->performClose($interventionId, $intervention, null, false);
+                if ($closeResult['success']) {
+                    custom_log("Intervention préventive $interventionId fermée automatiquement (BI signé tech+client).", 'INFO');
+                } else {
+                    custom_log("Échec fermeture auto intervention préventive $interventionId : " . ($closeResult['error'] ?? ''), 'WARNING');
+                }
+            }
             echo json_encode([
                 'success' => true,
                 'message' => 'Signature(s) enregistrée(s) et PDF mis à jour',

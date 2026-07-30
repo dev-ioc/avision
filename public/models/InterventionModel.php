@@ -1115,4 +1115,5 @@ class InterventionModel extends BaseModel
 
         return (int) ($ticketResult['total'] ?? 0);
     }
+
 }
