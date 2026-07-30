@@ -423,7 +423,7 @@ class ContractController
                     ? (int) $_POST['technician_id'][$index]
                     : null;
                 $date = $_POST['date'][$index] ?? null;
-                $heure = $_POST['heure'][$index] ?? '09:00';
+                $heure = $_POST['heure'][$index] ?? null;
 
                 if (isset($intervention['comment']) && !empty($intervention['comment'])) {
                     $description .= "\n\n" . $intervention['comment'];
@@ -455,7 +455,8 @@ class ContractController
                     'contract_id' => $contractId,
                     'duration' => 2.0,
                     'is_preventive' => 1,
-                    'planned_date' => $date
+                    'planned_date' => $date,
+                    'planned_time' => $heure,
                 ];
 
                 custom_log("Tentative de création d'intervention: " . json_encode($interventionData), 'DEBUG');
@@ -2003,7 +2004,7 @@ class ContractController
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Traitement du formulaire de génération
                 $nbInterventions = (int) ($_POST['nb_interventions'] ?? 4);
-                $defaultHour = $_POST['default_hour'] ?? '09:00';
+                $defaultHour = $_POST['heure'] ?? null;
                 $interventionComment = $_POST['intervention_comment'] ?? '';
 
                 // Valider les données

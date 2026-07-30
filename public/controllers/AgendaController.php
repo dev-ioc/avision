@@ -121,6 +121,19 @@ class AgendaController
 
             $start = $_GET['start'] ?? null;
             $end = $_GET['end'] ?? null;
+            $filters = json_decode($_GET['filters'] ?? '[]', true);
+
+            $sql = "SELECT i.id, i.title, i.planned_date as start, i.planned_date as end,
+                   i.planned_time, i.reference, i.description,
+                   c.name as client_name, s.name as site_name, r.name as room_name,
+                   ist.name as status_name, p.color as priority_color
+            FROM interventions i
+            LEFT JOIN clients c ON i.client_id = c.id
+            LEFT JOIN sites s ON i.site_id = s.id
+            LEFT JOIN rooms r ON i.room_id = r.id
+            LEFT JOIN intervention_statuses ist ON i.status_id = ist.id
+            -- ... autres jointures
+            WHERE i.planned_date BETWEEN ? AND ?";
 
             $technicianFilter = [];
             if (!empty($_GET['technician_ids'])) {
@@ -155,39 +168,36 @@ class AgendaController
      */
     private function getPlannedInterventionsWithoutSchedule($start = null, $end = null, $technicianFilter = [])
     {
-        // Si un filtre technicien précis est actif SANS "sans affectation",
-        // ces interventions (par définition non affectées) ne doivent pas apparaître.
         if (!empty($technicianFilter['technician_ids']) && empty($technicianFilter['show_unassigned'])) {
             return [];
         }
 
         $sql = "SELECT 
-            i.id, i.reference, i.title, i.description, i.client_id, i.site_id, i.room_id,
-            i.status_id, i.priority_id, i.type_id, i.planned_date, i.is_preventive,
-            c.name as client_name,
-            s.name as site_name,
-            r.name as room_name,
-            its.name as status_name,
-            its.color as status_color,
-            ip.name as priority_name,
-            ip.color as priority_color,
-            it.name as type_name
-        FROM interventions i
-        LEFT JOIN clients c ON i.client_id = c.id
-        LEFT JOIN sites s ON i.site_id = s.id
-        LEFT JOIN rooms r ON i.room_id = r.id
-        LEFT JOIN intervention_statuses its ON i.status_id = its.id
-        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
-        LEFT JOIN intervention_types it ON i.type_id = it.id
-        WHERE i.planned_date IS NOT NULL
-          AND i.status_id != 6
-          AND NOT EXISTS (
-              SELECT 1 FROM intervention_techniciens ite2
-              WHERE ite2.intervention_id = i.id AND ite2.start_time IS NOT NULL
-          )";
+        i.id, i.reference, i.title, i.description, i.client_id, i.site_id, i.room_id,
+        i.status_id, i.priority_id, i.type_id, i.planned_date, i.planned_time, i.is_preventive,
+        c.name as client_name,
+        s.name as site_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        it.name as type_name
+    FROM interventions i
+    LEFT JOIN clients c ON i.client_id = c.id
+    LEFT JOIN sites s ON i.site_id = s.id
+    LEFT JOIN rooms r ON i.room_id = r.id
+    LEFT JOIN intervention_statuses its ON i.status_id = its.id
+    LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+    LEFT JOIN intervention_types it ON i.type_id = it.id
+    WHERE i.planned_date IS NOT NULL
+      AND i.status_id != 6
+      AND NOT EXISTS (
+          SELECT 1 FROM intervention_techniciens ite2
+          WHERE ite2.intervention_id = i.id AND ite2.start_time IS NOT NULL
+      )";
 
         $params = [];
-
         if ($start) {
             $sql .= " AND i.planned_date >= ?";
             $params[] = $start;
@@ -197,7 +207,7 @@ class AgendaController
             $params[] = $end;
         }
 
-        $sql .= " ORDER BY i.planned_date ASC";
+        $sql .= " ORDER BY i.planned_date ASC, i.planned_time ASC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
@@ -208,43 +218,40 @@ class AgendaController
             $clientName = $intervention['client_name'] ?? 'Client inconnu';
             $interventionNumber = $intervention['reference'] ?? '#' . $intervention['id'];
 
+            // On combine la date et l'heure pour le calendrier
+            $startDateTime = $intervention['planned_date'];
+            if (!empty($intervention['planned_time'])) {
+                $startDateTime .= 'T' . $intervention['planned_time'];
+            }
+
             $events[] = [
                 'id' => 'planned_' . $intervention['id'],
-                'title' => 'À planifier : ' . $clientName . ' - ' . $interventionNumber,
-                'start' => $intervention['planned_date'],
-                'allDay' => true,
-                'backgroundColor' => '#fd7e14',
+                'title' => $intervention['title'], // Le JS formatera le titre avec client et heure
+                'start' => $startDateTime,
+                'allDay' => false, // Mettre à false pour que l'heure soit prise en compte
+                'backgroundColor' => '#fd7e14', // Orange pour "À réaliser"
                 'borderColor' => '#c2570a',
                 'textColor' => '#ffffff',
-                'classNames' => ['event-not-scheduled'],
                 'extendedProps' => [
                     'reference' => $intervention['reference'],
-                    'reference_number' => $interventionNumber,
                     'client' => $intervention['client_name'],
-                    'client_id' => $intervention['client_id'],
                     'site' => $intervention['site_name'],
-                    'site_id' => $intervention['site_id'],
                     'room' => $intervention['room_name'],
-                    'room_id' => $intervention['room_id'],
-                    'technician' => null,
-                    'technician_id' => null,
                     'status' => $intervention['status_name'],
-                    'status_color' => $intervention['status_color'],
                     'priority' => $intervention['priority_name'],
                     'priority_color' => $intervention['priority_color'],
                     'type' => $intervention['type_name'],
                     'original_title' => $intervention['title'],
                     'description' => $intervention['description'],
-                    'is_preventive' => (bool) ($intervention['is_preventive'] ?? false),
-                    'not_yet_scheduled' => true,
                     'planned_date' => $intervention['planned_date'],
-                    'intervention_id' => $intervention['id'],
+                    'planned_time' => $intervention['planned_time'] ? substr($intervention['planned_time'], 0, 5) : '09:00',
+                    'intervention_id' => $intervention['id']
                 ]
             ];
         }
-
         return $events;
     }
+
 
     /**
      * Récupère les interventions planifiées depuis la table intervention_techniciens
