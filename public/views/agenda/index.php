@@ -1,37 +1,30 @@
 <?php
 require_once __DIR__ . '/../../includes/functions.php';
 
-// Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['user'])) {
   header('Location: ' . BASE_URL . 'auth/login');
   exit;
 }
 
-// Définir le type d'utilisateur pour le menu
 $userType = $_SESSION['user']['user_type'] ?? null;
 
 setPageVariables('Agenda des Interventions', 'agenda');
 
-// Définir la page courante pour le menu
 $currentPage = 'agenda';
 
-// Inclure le header qui contient le menu latéral
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
 
-// Initialiser calendarEvents vide (sera chargé via AJAX)
 $calendarEvents = [];
 ?>
 
-<!-- Page CSS -->
 <link rel="stylesheet" href="<?= BASE_URL ?>assets/vendor/libs/flatpickr/flatpickr.css" />
 <link rel="stylesheet" href="<?= BASE_URL ?>assets/vendor/libs/select2/select2.css" />
 <link rel="stylesheet" href="<?= BASE_URL ?>assets/vendor/libs/quill/editor.css" />
 <link rel="stylesheet" href="<?= BASE_URL ?>assets/vendor/libs/@form-validation/form-validation.css" />
 <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/fr.js"></script>
 
-<!-- Content -->
 <div class="container-fluid flex-grow-1 container-p-y">
   <div class="row">
     <div class="col-12">
@@ -40,24 +33,20 @@ $calendarEvents = [];
           <h4 class="py-4 mb-6">Agenda des Interventions</h4>
         </div>
         <div class="ms-auto p-2 bd-highlight">
-          <!-- Bouton supprimé - lecture seule -->
         </div>
       </div>
     </div>
   </div>
 
   <div class="row">
-    <!-- Calendar Sidebar -->
     <div class="col-md-3">
       <div class="card">
         <div class="card-body">
           <div class="px-3 pt-2">
-            <!-- inline calendar (flatpicker) -->
             <div class="inline-calendar"></div>
           </div>
           <hr class="mb-4 mt-3" />
           <div class="px-3 pb-2">
-            <!-- Filter -->
             <div>
               <h5>Filtres d'Interventions</h5>
             </div>
@@ -93,22 +82,16 @@ $calendarEvents = [];
         </div>
       </div>
     </div>
-    <!-- /Calendar Sidebar -->
-
-    <!-- Calendar Content -->
     <div class="col-md-9">
       <div class="card">
         <div class="card-body pb-0">
-          <!-- FullCalendar -->
+          <div id="calendarMessage" class="alert alert-info d-none mx-3 mt-3" role="alert"></div>
           <div id="calendar"></div>
         </div>
       </div>
     </div>
-    <!-- /Calendar Content -->
   </div>
 </div>
-
-<!-- FullCalendar Offcanvas -->
 <div class="offcanvas offcanvas-end event-sidebar" tabindex="-1" id="addEventSidebar"
   aria-labelledby="addEventSidebarLabel">
   <div class="offcanvas-header border-bottom">

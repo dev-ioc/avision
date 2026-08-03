@@ -83,13 +83,10 @@ class AgendaController
      */
     public function index()
     {
-        // Vérifier les permissions
         checkInterventionManagementAccess();
 
-        // Récupérer les techniciens pour les filtres
         $technicians = $this->getTechniciansWithScheduledInterventions();
 
-        // Récupérer les données pour les filtres supplémentaires
         $clients = $this->clientModel->getAllClients();
         $sites = $this->siteModel->getAllSites();
         $rooms = $this->roomModel->getAllRooms();
@@ -97,7 +94,6 @@ class AgendaController
         $priorities = $this->getAllPriorities();
         $types = $this->getAllTypes();
 
-        // Rendre les variables disponibles dans la vue
         extract([
             'clients' => $clients,
             'sites' => $sites,
@@ -108,7 +104,6 @@ class AgendaController
             'types' => $types
         ]);
 
-        // Inclure la vue
         require_once __DIR__ . '/../views/agenda/index.php';
     }
 
@@ -121,36 +116,29 @@ class AgendaController
 
             $start = $_GET['start'] ?? null;
             $end = $_GET['end'] ?? null;
-            $filters = json_decode($_GET['filters'] ?? '[]', true);
+            $filtersParam = $_GET['filters'] ?? null;
+            $filtersProvided = ($filtersParam !== null);
 
-            $sql = "SELECT i.id, i.title, i.planned_date as start, i.planned_date as end,
-                   i.planned_time, i.reference, i.description,
-                   c.name as client_name, s.name as site_name, r.name as room_name,
-                   ist.name as status_name, p.color as priority_color
-            FROM interventions i
-            LEFT JOIN clients c ON i.client_id = c.id
-            LEFT JOIN sites s ON i.site_id = s.id
-            LEFT JOIN rooms r ON i.room_id = r.id
-            LEFT JOIN intervention_statuses ist ON i.status_id = ist.id
-            -- ... autres jointures
-            WHERE i.planned_date BETWEEN ? AND ?";
+            $technicianFilter = [
+                'technician_ids' => [],
+                'show_unassigned' => false,
+            ];
 
-            $technicianFilter = [];
-            if (!empty($_GET['technician_ids'])) {
-                $technicianFilter['technician_ids'] = array_filter(
-                    array_map('intval', explode(',', $_GET['technician_ids']))
-                );
+            if ($filtersProvided) {
+                $decoded = json_decode($filtersParam, true);
+                if (is_array($decoded)) {
+                    foreach ($decoded as $value) {
+                        if (strpos($value, 'technician_') === 0) {
+                            $technicianFilter['technician_ids'][] = (int) str_replace('technician_', '', $value);
+                        } elseif ($value === 'sans_affectation') {
+                            $technicianFilter['show_unassigned'] = true;
+                        }
+                    }
+                }
             }
-            if (isset($_GET['show_unassigned'])) {
-                $technicianFilter['show_unassigned'] =
-                    in_array($_GET['show_unassigned'], ['1', 'true'], true);
-            }
+            $technicianFilter['_explicit'] = $filtersProvided;
 
-            // Interventions déjà planifiées avec un technicien (heure précise)
             $scheduledEvents = $this->getScheduledInterventionsFromTechnicians($start, $end, $technicianFilter);
-
-            // Interventions préventives avec une date prévisionnelle mais pas encore
-            // de technicien affecté avec une heure — "à planifier / à réaliser"
             $plannedEvents = $this->getPlannedInterventionsWithoutSchedule($start, $end, $technicianFilter);
 
             echo json_encode(array_merge($scheduledEvents, $plannedEvents));
@@ -164,14 +152,12 @@ class AgendaController
     /**
      * Récupère les interventions ayant une date prévisionnelle (planned_date)
      * mais n'ayant pas encore de technicien avec une heure de début fixée.
-     * Permet la vue d'ensemble "ce qui est à réaliser" demandée par le client.
+     * Prend en compte le(s) technicien(s) déjà assigné(s) à l'intervention
+     * (même sans start_time) pour les afficher sous le bon filtre plutôt
+     * que systématiquement sous "Sans affectation".
      */
     private function getPlannedInterventionsWithoutSchedule($start = null, $end = null, $technicianFilter = [])
     {
-        if (!empty($technicianFilter['technician_ids']) && empty($technicianFilter['show_unassigned'])) {
-            return [];
-        }
-
         $sql = "SELECT 
         i.id, i.reference, i.title, i.description, i.client_id, i.site_id, i.room_id,
         i.status_id, i.priority_id, i.type_id, i.planned_date, i.planned_time, i.is_preventive,
@@ -182,7 +168,9 @@ class AgendaController
         its.color as status_color,
         ip.name as priority_name,
         ip.color as priority_color,
-        it.name as type_name
+        it.name as type_name,
+        GROUP_CONCAT(DISTINCT ite.technicien_id) as assigned_technician_ids,
+        GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') as assigned_technician_names
     FROM interventions i
     LEFT JOIN clients c ON i.client_id = c.id
     LEFT JOIN sites s ON i.site_id = s.id
@@ -190,6 +178,8 @@ class AgendaController
     LEFT JOIN intervention_statuses its ON i.status_id = its.id
     LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
     LEFT JOIN intervention_types it ON i.type_id = it.id
+    LEFT JOIN intervention_techniciens ite ON ite.intervention_id = i.id
+    LEFT JOIN users u ON u.id = ite.technicien_id
     WHERE i.planned_date IS NOT NULL
       AND i.status_id != 6
       AND NOT EXISTS (
@@ -207,18 +197,34 @@ class AgendaController
             $params[] = $end;
         }
 
-        $sql .= " ORDER BY i.planned_date ASC, i.planned_time ASC";
+        $sql .= " GROUP BY i.id ORDER BY i.planned_date ASC, i.planned_time ASC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        $filterIsExplicit = !empty($technicianFilter['_explicit']);
+        $filteredTechIds = $technicianFilter['technician_ids'] ?? [];
+        $showUnassigned = !empty($technicianFilter['show_unassigned']);
+
         $events = [];
         foreach ($results as $intervention) {
-            $clientName = $intervention['client_name'] ?? 'Client inconnu';
-            $interventionNumber = $intervention['reference'] ?? '#' . $intervention['id'];
+            $assignedIds = $intervention['assigned_technician_ids']
+                ? array_map('intval', explode(',', $intervention['assigned_technician_ids']))
+                : [];
 
-            // On combine la date et l'heure pour le calendrier
+            if ($filterIsExplicit) {
+                if (empty($assignedIds)) {
+                    if (!$showUnassigned) {
+                        continue;
+                    }
+                } else {
+                    if (empty(array_intersect($assignedIds, $filteredTechIds))) {
+                        continue;
+                    }
+                }
+            }
+
             $startDateTime = $intervention['planned_date'];
             if (!empty($intervention['planned_time'])) {
                 $startDateTime .= 'T' . $intervention['planned_time'];
@@ -226,10 +232,10 @@ class AgendaController
 
             $events[] = [
                 'id' => 'planned_' . $intervention['id'],
-                'title' => $intervention['title'], // Le JS formatera le titre avec client et heure
+                'title' => $intervention['title'],
                 'start' => $startDateTime,
-                'allDay' => false, // Mettre à false pour que l'heure soit prise en compte
-                'backgroundColor' => '#fd7e14', // Orange pour "À réaliser"
+                'allDay' => false,
+                'backgroundColor' => '#fd7e14',
                 'borderColor' => '#c2570a',
                 'textColor' => '#ffffff',
                 'extendedProps' => [
@@ -245,7 +251,8 @@ class AgendaController
                     'description' => $intervention['description'],
                     'planned_date' => $intervention['planned_date'],
                     'planned_time' => $intervention['planned_time'] ? substr($intervention['planned_time'], 0, 5) : '09:00',
-                    'intervention_id' => $intervention['id']
+                    'intervention_id' => $intervention['id'],
+                    'technician' => $intervention['assigned_technician_names'] ?: 'Non attribué',
                 ]
             ];
         }
@@ -270,6 +277,7 @@ class AgendaController
                 i.priority_id,
                 i.type_id,
                 i.created_at,
+                i.planned_date,
                 c.name as client_name,
                 s.name as site_name,
                 r.name as room_name,
@@ -298,7 +306,6 @@ class AgendaController
 
         $params = [];
 
-        // Filtrer par plage de dates
         if ($start) {
             $sql .= " AND ite.start_time >= ?";
             $params[] = $start;
@@ -307,9 +314,7 @@ class AgendaController
             $sql .= " AND ite.start_time <= ?";
             $params[] = $end;
         }
-
-        // Filtrer par techniciens
-        if (!empty($technicianFilter)) {
+        if (!empty($technicianFilter['_explicit'])) {
             $conditions = [];
 
             if (!empty($technicianFilter['technician_ids'])) {
@@ -324,6 +329,8 @@ class AgendaController
 
             if (!empty($conditions)) {
                 $sql .= " AND (" . implode(" OR ", $conditions) . ")";
+            } else {
+                $sql .= " AND 1=0";
             }
         }
 
@@ -333,27 +340,22 @@ class AgendaController
         $stmt->execute($params);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Formater pour FullCalendar
         $events = [];
         foreach ($results as $intervention) {
             $startDateTime = $intervention['start_time'];
             $endDateTime = $intervention['end_time'];
 
-            // Si pas de date de fin, calculer basée sur la durée
             if (!$endDateTime && $intervention['duration']) {
                 $endDateTime = date('Y-m-d H:i:s', strtotime($startDateTime . ' + ' . $intervention['duration'] . ' minutes'));
             }
 
-            // Créer le titre
             $clientName = $intervention['client_name'] ?? 'Client inconnu';
             $interventionNumber = $intervention['reference'] ?? '#' . $intervention['id'];
             $displayTitle = $clientName . ' - ' . $interventionNumber;
             if ($intervention['technician_name']) {
                 $displayTitle .= ' (' . $intervention['technician_name'] . ')';
             }
-
-            // Déterminer la couleur selon le statut
-            $color = $intervention['status_color'] ?? '#6c757d';
+            $color = $intervention['status_color'] ?? '#f82213';
 
             $events[] = [
                 'id' => $intervention['id'],
@@ -377,7 +379,7 @@ class AgendaController
                     'status' => $intervention['status_name'],
                     'status_color' => $intervention['status_color'],
                     'priority' => $intervention['priority_name'],
-                    'priority_color' => $intervention['priority_color'],
+                    'priority_color' => $intervention['priority_color'] ?? $color,
                     'type' => $intervention['type_name'],
                     'original_title' => $intervention['title'],
                     'description' => $intervention['description'],
@@ -393,5 +395,87 @@ class AgendaController
         }
 
         return $events;
+    }
+
+    /**
+     * Trouve la date la plus proche (future en priorité, sinon passée) où
+     * une intervention existe pour les filtres actifs. Permet de retrouver
+     * un technicien même sans connaître la date de son intervention.
+     */
+    public function getNearestEventDate()
+    {
+        header('Content-Type: application/json');
+        try {
+            checkInterventionManagementAccess();
+
+            $referenceDate = $_GET['reference'] ?? date('Y-m-d');
+            $filtersParam = $_GET['filters'] ?? null;
+
+            $technicianFilter = [
+                'technician_ids' => [],
+                'show_unassigned' => false,
+            ];
+            if ($filtersParam !== null) {
+                $decoded = json_decode($filtersParam, true);
+                if (is_array($decoded)) {
+                    foreach ($decoded as $value) {
+                        if (strpos($value, 'technician_') === 0) {
+                            $technicianFilter['technician_ids'][] = (int) str_replace('technician_', '', $value);
+                        } elseif ($value === 'sans_affectation') {
+                            $technicianFilter['show_unassigned'] = true;
+                        }
+                    }
+                }
+            }
+
+            if (empty($technicianFilter['technician_ids']) && empty($technicianFilter['show_unassigned'])) {
+                echo json_encode(['date' => null]);
+                exit;
+            }
+
+            $unionParts = [];
+            $params = [];
+
+            if (!empty($technicianFilter['technician_ids'])) {
+                $placeholders = str_repeat('?,', count($technicianFilter['technician_ids']) - 1) . '?';
+                $unionParts[] = "SELECT DATE(ite.start_time) as event_date
+                              FROM intervention_techniciens ite
+                              WHERE ite.start_time IS NOT NULL
+                                AND ite.technicien_id IN ($placeholders)";
+                $params = array_merge($params, $technicianFilter['technician_ids']);
+            }
+
+            if (!empty($technicianFilter['show_unassigned'])) {
+                $unionParts[] = "SELECT i.planned_date as event_date
+                              FROM interventions i
+                              WHERE i.planned_date IS NOT NULL
+                                AND i.status_id != 6
+                                AND NOT EXISTS (
+                                    SELECT 1 FROM intervention_techniciens ite2
+                                    WHERE ite2.intervention_id = i.id AND ite2.start_time IS NOT NULL
+                                )";
+            }
+
+            $unionSql = implode(' UNION ALL ', $unionParts);
+            $stmt = $this->db->prepare("SELECT MIN(event_date) FROM ($unionSql) t WHERE event_date >= ?");
+            $stmt->execute(array_merge($params, [$referenceDate]));
+            $next = $stmt->fetchColumn();
+
+            if ($next) {
+                echo json_encode(['date' => $next, 'direction' => 'future']);
+                exit;
+            }
+
+            $stmt = $this->db->prepare("SELECT MAX(event_date) FROM ($unionSql) t WHERE event_date < ?");
+            $stmt->execute(array_merge($params, [$referenceDate]));
+            $prev = $stmt->fetchColumn();
+
+            echo json_encode(['date' => $prev ?: null, 'direction' => $prev ? 'past' : null]);
+        } catch (Exception $e) {
+            error_log("Erreur dans AgendaController::getNearestEventDate: " . $e->getMessage());
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+        exit;
     }
 }

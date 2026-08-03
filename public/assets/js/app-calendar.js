@@ -4,36 +4,46 @@
 
 "use strict";
 import moment from "moment";
-// DOM is ready
+let lastAutoJumpFilters = null;
+
+function showCalendarMessage(text) {
+  const el = document.getElementById("calendarMessage");
+  if (!el) return;
+  el.textContent = text;
+  el.classList.remove("d-none");
+}
+
+function hideCalendarMessage() {
+  const el = document.getElementById("calendarMessage");
+  if (!el) return;
+  el.classList.add("d-none");
+}
+
+function formatDateFr(isoDate) {
+  const [y, m, d] = isoDate.split("-");
+  return d + "/" + m + "/" + y;
+}
 document.addEventListener("DOMContentLoaded", function () {
   (function () {
     const calendarEl = document.getElementById("calendar");
     const addEventSidebar = document.getElementById("addEventSidebar");
 
-    // Initialize FullCalendar
     if (calendarEl) {
       if (typeof Calendar === "undefined") {
-        console.error("❌ FullCalendar non disponible !");
         calendarEl.innerHTML =
           '<div class="alert alert-danger">Erreur : FullCalendar n\'est pas chargé. Vérifiez votre connexion internet.</div>';
         return;
       }
-
-      console.log("✅ FullCalendar disponible:", typeof Calendar);
-
-      // Vérifier que les plugins sont disponibles
       if (
         typeof dayGridPlugin === "undefined" ||
         typeof timegridPlugin === "undefined" ||
         typeof listPlugin === "undefined" ||
         typeof interactionPlugin === "undefined"
       ) {
-        console.error("❌ Plugins FullCalendar non disponibles !");
         calendarEl.innerHTML =
           '<div class="alert alert-danger">Erreur : Les plugins FullCalendar ne sont pas chargés.</div>';
         return;
       }
-
       const calendar = new Calendar(calendarEl, {
         plugins: [dayGridPlugin, timegridPlugin, listPlugin, interactionPlugin],
         initialView: "dayGridMonth",
@@ -57,18 +67,9 @@ document.addEventListener("DOMContentLoaded", function () {
           };
         },
         events: function (info, successCallback, failureCallback) {
-          console.log(
-            "🔍 Chargement des événements pour:",
-            info.startStr,
-            "à",
-            info.endStr,
-          );
-
           const activeFilters = Array.from(
             document.querySelectorAll(".input-filter:checked"),
           ).map((filter) => filter.dataset.value);
-
-          console.log("🔍 Filtres actifs:", activeFilters);
 
           fetch(
             BASE_URL +
@@ -80,20 +81,10 @@ document.addEventListener("DOMContentLoaded", function () {
               }),
           )
             .then((response) => {
-              console.log("📡 Réponse API reçue:", response.status);
               return response.json();
             })
             .then((data) => {
-              console.log("📋 Données reçues:", data);
-
               const events = data.map((event) => {
-                console.log(
-                  "🎯 Traitement événement:",
-                  event.id,
-                  event.extendedProps,
-                );
-
-                // Créer le titre avec heure, numéro d'intervention et client
                 let time = event.extendedProps?.planned_time || "09:00";
                 if (time && time.length > 5) {
                   time = time.substring(0, 5);
@@ -105,30 +96,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 const displayTitle =
                   time + " " + interventionNumber + "<br>" + clientName;
 
-                // === FORMATAGE DE LA DATE EN JJ/MM/AAAA ===
                 let formattedDate = "-";
                 const rawDate = event.extendedProps?.planned_date;
 
                 if (rawDate) {
-                  // Si c'est une chaîne
                   if (typeof rawDate === "string") {
-                    // Si c'est au format YYYY-MM-DD
                     if (rawDate.includes("-")) {
                       const parts = rawDate.split("-");
                       if (parts.length === 3) {
                         formattedDate =
                           parts[2] + "/" + parts[1] + "/" + parts[0];
-                        console.log("📅 Date formatée:", formattedDate);
                       }
                     } else {
                       formattedDate = rawDate;
                     }
                   } else {
-                    // Si ce n'est pas une chaîne, la convertir
                     formattedDate = String(rawDate);
                   }
                 }
-                // === FIN FORMATAGE ===
 
                 return {
                   id: event.id,
@@ -136,8 +121,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   start: event.start,
                   end: event.end,
                   backgroundColor:
-                    event.extendedProps?.priority_color || "#6c757d",
-                  borderColor: event.extendedProps?.priority_color || "#6c757d",
+                    event.extendedProps?.priority_color || "#0b88f7",
+                  borderColor: event.extendedProps?.priority_color || "#0b88f7",
                   extendedProps: {
                     status: event.extendedProps?.status,
                     client: event.extendedProps?.client,
@@ -151,26 +136,69 @@ document.addEventListener("DOMContentLoaded", function () {
                     room: event.extendedProps?.room,
                     priority: event.extendedProps?.priority,
                     type: event.extendedProps?.type,
-                    planned_date: formattedDate, // ← Date formatée
+                    planned_date: formattedDate,
                     planned_time: event.extendedProps?.planned_time,
                     duration: event.extendedProps?.duration,
                   },
                 };
               });
-
-              console.log("✅ Événements traités:", events);
               successCallback(events);
+              hideCalendarMessage();
+
+              const totalFilters =
+                document.querySelectorAll(".input-filter").length;
+              const filtersKey = JSON.stringify(activeFilters);
+              const isRestrictedSelection =
+                activeFilters.length > 0 && activeFilters.length < totalFilters;
+
+              if (
+                events.length === 0 &&
+                isRestrictedSelection &&
+                lastAutoJumpFilters !== filtersKey
+              ) {
+                fetch(
+                  BASE_URL +
+                    "agenda/getNearestEventDate?" +
+                    new URLSearchParams({
+                      reference: info.startStr,
+                      filters: filtersKey,
+                    }),
+                )
+                  .then((r) => r.json())
+                  .then((result) => {
+                    lastAutoJumpFilters = filtersKey;
+                    if (result && result.date) {
+                      const label =
+                        result.direction === "past"
+                          ? "la dernière intervention connue"
+                          : "la prochaine intervention";
+                      showCalendarMessage(
+                        "Aucune intervention dans cette période pour la sélection. Affichage de " +
+                          label +
+                          " : " +
+                          formatDateFr(result.date),
+                      );
+                      window.calendar.gotoDate(result.date);
+                    } else {
+                      showCalendarMessage(
+                        "Aucune intervention trouvée pour cette sélection.",
+                      );
+                    }
+                  })
+                  .catch((err) =>
+                    console.warn(
+                      "Erreur lors de la recherche de date proche:",
+                      err,
+                    ),
+                  );
+              }
             })
             .catch((error) => {
-              console.error(
-                "❌ Erreur lors du chargement des événements:",
-                error,
-              );
+              console.error("Erreur lors du chargement des événements:", error);
               failureCallback(error);
             });
         },
         eventClick: function (info) {
-          // Ouvrir le modal d'édition
           openEventModal(info.event);
         },
         selectable: false,
@@ -180,9 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
       window.calendar = calendar;
     }
 
-    // Initialize sidebar
     function initSidebar() {
-      // Initialize inline calendar (optionnel)
       const inlineCalendar = document.querySelector(".inline-calendar");
       if (inlineCalendar && typeof flatpickr !== "undefined") {
         try {
@@ -196,34 +222,29 @@ document.addEventListener("DOMContentLoaded", function () {
               }
             },
           });
-          console.log("✅ Flatpickr initialisé avec succès");
+          console.log("Flatpickr initialisé avec succès");
         } catch (error) {
-          console.warn("⚠️ Erreur Flatpickr:", error.message);
+          console.warn("Erreur Flatpickr:", error.message);
         }
       } else {
-        console.log(
-          "ℹ️ Flatpickr non disponible - calendrier inline désactivé",
-        );
+        console.log("Flatpickr non disponible - calendrier inline désactivé");
       }
 
-      // Initialize Select2 (optionnel)
       if (typeof $ !== "undefined" && typeof $.fn.select2 !== "undefined") {
         try {
           $(".select2").select2({
             dropdownParent: $("#addEventSidebar"),
           });
-          console.log("✅ Select2 initialisé avec succès");
         } catch (error) {
-          console.warn("⚠️ Erreur Select2:", error.message);
+          console.warn("Erreur Select2:", error.message);
         }
       } else {
         console.log(
-          "ℹ️ Select2 non disponible - utilisation des dropdowns natifs",
+          "Select2 non disponible - utilisation des dropdowns natifs",
         );
       }
     }
 
-    // Initialize filters
     function initFilters() {
       const selectAll = document.getElementById("selectAll");
       const filters = document.querySelectorAll(".input-filter");
@@ -254,16 +275,15 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".input-filter:checked"),
       ).map((filter) => filter.dataset.value);
 
+      lastAutoJumpFilters = null;
+      hideCalendarMessage();
+
       if (window.calendar) {
         window.calendar.refetchEvents();
       }
     }
 
     function openEventModal(event) {
-      console.log("🔍 Ouverture modal pour événement:", event);
-      console.log("📋 ExtendedProps:", event.extendedProps);
-
-      // Fill details with event data
       const eventReferenceEl = document.getElementById("eventReference");
       const eventTitleEl = document.getElementById("eventTitle");
       const eventStatusEl = document.getElementById("eventStatus");
@@ -280,8 +300,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const viewInterventionLink = document.getElementById(
         "viewInterventionLink",
       );
-
-      // Fill the fields with data from extendedProps
       const reference = event.extendedProps.reference || "#" + event.id;
       const title =
         event.extendedProps.original_title ||
@@ -298,23 +316,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const plannedTime = event.extendedProps.planned_time || "-";
       const duration = (event.extendedProps.duration || 0) + "h";
       const description = event.extendedProps.description || "-";
-
-      console.log("📝 Valeurs à afficher:", {
-        reference,
-        title,
-        status,
-        priority,
-        type,
-        client,
-        site,
-        room,
-        technician,
-        plannedDate,
-        plannedTime,
-        duration,
-        description,
-      });
-
       if (eventReferenceEl) eventReferenceEl.textContent = reference;
       if (eventTitleEl) eventTitleEl.textContent = title;
       if (eventStatusEl) eventStatusEl.textContent = status;
@@ -329,12 +330,10 @@ document.addEventListener("DOMContentLoaded", function () {
       if (eventDurationEl) eventDurationEl.textContent = duration;
       if (eventDescriptionEl) eventDescriptionEl.textContent = description;
 
-      // Set link to intervention view
       if (viewInterventionLink) {
         viewInterventionLink.href = BASE_URL + "interventions/view/" + event.id;
       }
 
-      // Show modal
       const modal = new bootstrap.Offcanvas(addEventSidebar);
       modal.show();
     }

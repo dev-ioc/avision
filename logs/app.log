@@ -124882,3 +124882,248 @@ Quant à l’écran n°1, il est HS
 [2026-07-30 16:24:59][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
 [2026-07-30 16:25:10][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
 [2026-07-30 16:25:14][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-07-31 08:07:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 14459e9d0af8dafdfe16... 
+[2026-07-31 08:07:55][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-07-31 08:07:55][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-07-31 08:07:55][DEBUG] Login réussi - Session ID: eegi5kdm2u6bpki3noilja8g7a 
+[2026-07-31 08:07:55][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-07-31 08:07:55][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-07-31 08:07:55][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-07-31 08:07:55][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-07-31 11:37:43][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-07-31 11:37:43][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-07-31 11:37:43][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-07-31 11:37:43][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-07-31 11:37:43][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-07-31 11:37:43][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-07-31 11:37:43][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-08-03 08:35:58][DEBUG] CSRF: Token trouvé dans la requête - Token: d993b5a2baa64a7b9f6a... 
+[2026-08-03 08:35:58][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-03 08:35:58][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-03 08:35:58][DEBUG] Login réussi - Session ID: vltjugoji3c6j7f21s4oa874bi 
+[2026-08-03 08:35:58][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-03 08:35:58][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-03 08:35:58][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-03 08:35:58][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-03 08:42:19][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-08-03 08:42:19][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-08-03 08:42:19][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-08-03 08:42:19][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-08-03 08:42:19][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-08-03 08:42:19][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":388,"errno":2}
+[2026-08-03 13:29:29][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:29][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:29][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:29][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:29][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:29][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:32][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:32][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:32][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:32][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:32][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:32][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:32][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:32][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:32][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:32][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:32][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:32][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:34][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:34][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:34][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:34][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:34][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:29:34][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":381,"errno":2}
+[2026-08-03 13:30:38][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:38][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:38][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:38][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:38][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:38][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:48][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:49][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:49][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:49][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:49][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:49][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:51][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:51][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:51][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:51][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:53][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:54][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:54][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:54][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:54][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:54][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:54][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:55][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:55][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:30:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:43:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:43:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:43:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:43:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:43:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:43:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:44:02][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:44:05][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:44:05][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:44:05][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:44:05][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:44:05][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:45:52][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:45:52][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:45:52][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:45:52][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:45:52][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:45:52][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:46:21][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:46:21][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:46:21][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:46:21][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:46:21][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:46:21][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:47:15][DEBUG] CSRF: Token trouvé dans la requête - Token: d993b5a2baa64a7b9f6a... 
+[2026-08-03 13:47:15][INFO] Technicien 15 ajouté à l'intervention 391 
+[2026-08-03 13:47:18][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:47:18][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:47:18][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:47:18][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:47:18][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:47:18][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:47:18][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:47:25][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:47:25][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:20][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:20][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:20][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:20][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:20][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:20][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:20][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:35][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:35][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:35][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:35][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:35][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:35][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:49:35][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:29][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:29][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:29][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:29][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:29][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:29][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:29][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:54][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:54][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:54][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:56][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:58][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:51:58][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:01][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:01][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:01][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:05][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:05][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:05][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:05][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:05][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:07][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:52:50][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:53:23][DEBUG] CSRF: Token trouvé dans la requête - Token: d993b5a2baa64a7b9f6a... 
+[2026-08-03 13:53:23][INFO] Technicien 15 supprimé de l'intervention 391 
+[2026-08-03 13:53:26][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:53:26][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:53:26][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:53:26][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:53:26][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:53:26][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:53:43][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:53:43][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:53:43][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:53:43][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:53:43][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 13:53:43][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":382,"errno":2}
+[2026-08-03 14:04:15][DEBUG] CSRF: Token trouvé dans la requête - Token: d993b5a2baa64a7b9f6a... 
+[2026-08-03 14:04:15][INFO] Technicien 15 ajouté à l'intervention 391 
+[2026-08-03 14:06:15][DEBUG] CSRF: Token trouvé dans la requête - Token: d993b5a2baa64a7b9f6a... 
+[2026-08-03 14:06:15][INFO] Technicien 15 supprimé de l'intervention 391 
+[2026-08-03 14:07:37][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":403,"errno":2}
+[2026-08-03 14:07:37][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":403,"errno":2}
+[2026-08-03 14:07:37][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":403,"errno":2}
+[2026-08-03 14:07:37][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":403,"errno":2}
+[2026-08-03 14:07:37][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":403,"errno":2}
+[2026-08-03 14:07:37][WARNING] Undefined array key "planned_date" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AgendaController.php","line":403,"errno":2}
+[2026-08-03 14:10:06][DEBUG] CSRF: Token trouvé dans la requête - Token: d993b5a2baa64a7b9f6a... 
+[2026-08-03 14:10:06][INFO] Technicien 15 ajouté à l'intervention 391 
+[2026-08-03 14:28:07][DEBUG] CSRF: Token trouvé dans la requête - Token: d993b5a2baa64a7b9f6a... 
+[2026-08-03 14:28:07][INFO] Technicien 15 mis à jour pour l'intervention 391 
+[2026-08-03 14:28:07][INFO] Technicien 5 ajouté à l'intervention 391 
