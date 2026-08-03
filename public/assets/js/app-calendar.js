@@ -3,7 +3,6 @@
  */
 
 "use strict";
-import moment from "moment";
 let lastAutoJumpFilters = null;
 
 function showCalendarMessage(text) {
