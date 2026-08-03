@@ -356,7 +356,6 @@ class AgendaController
                 $displayTitle .= ' (' . $intervention['technician_name'] . ')';
             }
             $color = $intervention['status_color'] ?? '#f82213';
-
             $events[] = [
                 'id' => $intervention['id'],
                 'title' => $displayTitle,
