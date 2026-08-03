@@ -4,7 +4,6 @@
 
 "use strict";
 let lastAutoJumpFilters = null;
-
 function showCalendarMessage(text) {
   const el = document.getElementById("calendarMessage");
   if (!el) return;
@@ -17,7 +16,6 @@ function hideCalendarMessage() {
   if (!el) return;
   el.classList.add("d-none");
 }
-
 function formatDateFr(isoDate) {
   const [y, m, d] = isoDate.split("-");
   return d + "/" + m + "/" + y;
