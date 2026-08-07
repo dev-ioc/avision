@@ -1578,11 +1578,23 @@ try {
                 case 'get_buildings':
                     $materielController->get_buildings();
                     break;
-                case 'get_rooms_by_building':
-                    $materielController->get_rooms_by_building();
-                    break;
+                // case 'get_rooms_by_building':
+                //     $materielController->get_rooms_by_building();
+                //     break;
+                // case 'get_rooms_by_site':
+                //     $materielController->get_rooms_by_site();
+                //     break;
                 case 'get_rooms_by_site':
                     $materielController->get_rooms_by_site();
+                    break;
+                case 'get_all_sites':
+                    $materielController->get_all_sites();
+                    break;
+                case 'get_all_buildings':
+                    $materielController->get_all_buildings();
+                    break;
+                case 'get_all_rooms':
+                    $materielController->get_all_rooms();
                     break;
                 case 'toggleAttachmentVisibility':
                     if ($id) {

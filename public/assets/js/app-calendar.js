@@ -95,7 +95,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 let formattedDate = "-";
                 const rawDate = event.extendedProps?.planned_date;
-
+                console.log(
+                  "rawDate:",
+                  JSON.stringify(rawDate),
+                  typeof rawDate,
+                );
                 if (rawDate) {
                   if (typeof rawDate === "string") {
                     if (rawDate.includes("-")) {

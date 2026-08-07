@@ -125127,3 +125127,82 @@ Quant à l’écran n°1, il est HS
 [2026-08-03 14:28:07][DEBUG] CSRF: Token trouvé dans la requête - Token: d993b5a2baa64a7b9f6a... 
 [2026-08-03 14:28:07][INFO] Technicien 15 mis à jour pour l'intervention 391 
 [2026-08-03 14:28:07][INFO] Technicien 5 ajouté à l'intervention 391 
+[2026-08-03 14:53:25][DEBUG] Redirection vers login - URL sauvegardée: agenda (Session ID: bnsc8n3d794mai14r6qgommvud) 
+[2026-08-03 14:53:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 43608e7f36a81a738b64... 
+[2026-08-03 14:53:30][WARNING] Tentative de connexion échouée pour l'utilisateur : admin 
+[2026-08-03 14:53:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 43608e7f36a81a738b64... 
+[2026-08-03 14:53:35][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-03 14:53:35][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-03 14:53:35][DEBUG] Login réussi - Session ID: bnsc8n3d794mai14r6qgommvud 
+[2026-08-03 14:53:35][DEBUG] Login réussi - redirect_after_login: agenda 
+[2026-08-03 14:53:35][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-03 14:53:35][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-08-03 14:53:35][DEBUG] Redirection après login vers: http://localhost/avision/public/agenda 
+[2026-08-04 07:46:06][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: 951iqk9hln5vojsrlqqjlp9qfl) 
+[2026-08-04 07:46:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 8940454876e28702a063... 
+[2026-08-04 07:46:11][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-04 07:46:11][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-04 07:46:11][DEBUG] Login réussi - Session ID: 951iqk9hln5vojsrlqqjlp9qfl 
+[2026-08-04 07:46:11][DEBUG] Login réussi - redirect_after_login: dashboard 
+[2026-08-04 07:46:11][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-04 07:46:11][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-08-04 07:46:11][DEBUG] Redirection après login vers: http://localhost/avision/public/dashboard 
+[2026-08-05 07:56:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ac9d70f4370ff4f25bc9... 
+[2026-08-05 07:56:45][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-05 07:56:45][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-05 07:56:45][DEBUG] Login réussi - Session ID: n6s78amekva56ooc9pch9moa1k 
+[2026-08-05 07:56:45][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-05 07:56:45][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-05 07:56:45][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-05 07:56:45][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-06 07:54:15][DEBUG] CSRF: Token trouvé dans la requête - Token: d7522cecc15ed2d19aea... 
+[2026-08-06 07:54:15][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-06 07:54:15][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-06 07:54:15][DEBUG] Login réussi - Session ID: squtmm67m2sc8fjuicadsu90fp 
+[2026-08-06 07:54:15][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-06 07:54:15][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-06 07:54:15][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-06 07:54:15][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-07 07:56:41][DEBUG] Redirection vers login - URL sauvegardée: interventions/generateBonPdf/370 (Session ID: 40nqp2kfvkfnsqq1hhqqkle29p) 
+[2026-08-07 07:56:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 4013f1119dd0d5e986a7... 
+[2026-08-07 07:56:45][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-07 07:56:45][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-07 07:56:45][DEBUG] Login réussi - Session ID: 40nqp2kfvkfnsqq1hhqqkle29p 
+[2026-08-07 07:56:45][DEBUG] Login réussi - redirect_after_login: interventions/generateBonPdf/370 
+[2026-08-07 07:56:45][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-07 07:56:45][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-08-07 07:56:45][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/generateBonPdf/370 
+[2026-08-07 07:56:46][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-07 12:58:12][INFO] 109 
+[2026-08-07 12:58:13][INFO] 109 
+[2026-08-07 12:58:20][INFO] 109 
+[2026-08-07 12:58:20][INFO] 109 
+[2026-08-07 12:58:24][INFO] 109 
+[2026-08-07 12:58:24][INFO] 109 
+[2026-08-07 12:58:27][INFO] 109 
+[2026-08-07 12:58:27][INFO] 109 
+[2026-08-07 12:58:31][INFO] 109 
+[2026-08-07 12:58:31][INFO] 109 
+[2026-08-07 13:16:57][INFO] 55 
+[2026-08-07 13:16:57][INFO] 55 
+[2026-08-07 13:17:00][INFO] 55 
+[2026-08-07 13:17:10][INFO] 55 
+[2026-08-07 13:17:15][INFO] 55 
+[2026-08-07 13:17:41][INFO] 55 
+[2026-08-07 13:17:50][INFO] 55 
+[2026-08-07 13:17:59][INFO] 109 
+[2026-08-07 13:18:20][INFO] 109 
+[2026-08-07 13:18:46][INFO] 109 
+[2026-08-07 13:23:24][INFO] 109 
+[2026-08-07 13:29:14][INFO] 55 
+[2026-08-07 13:29:20][INFO] 55 
+[2026-08-07 13:29:20][INFO] 55 
+[2026-08-07 13:29:24][INFO] 109 
+[2026-08-07 13:29:24][INFO] 109 
+[2026-08-07 13:29:27][INFO] 81 
+[2026-08-07 13:29:27][INFO] 81 
+[2026-08-07 13:29:32][INFO] 87 
+[2026-08-07 13:29:32][INFO] 87 

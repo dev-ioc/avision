@@ -40,8 +40,12 @@ $globalSearchTerm = $globalSearchTerm ?? '';
 if (isset($filters) && !empty($filters)) {
   $GLOBALS['customBreadcrumbs'] = generateMaterielIndexBreadcrumbs($filters, $clients, $sites, $salles);
 }
+$hasAnyFilter = $isGlobalSearch
+    || !empty($filters['client_id'])
+    || !empty($filters['site_id'])
+    || !empty($filters['building_id'])
+    || !empty($filters['salle_id']);
 
-// Inclure le header qui contient le menu latéral
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
@@ -274,9 +278,9 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
             return $rowData;
           }, $materiels);
           ?>
-                    createSalleTable(<?= json_encode('excelTable-' . $salle_id) ?>, <?= json_encode($rows) ?>,
-                    <?= json_encode($dbSalleId) ?>);
-                    <?php
+          createSalleTable(<?= json_encode('excelTable-' . $salle_id) ?>, <?= json_encode($rows) ?>,
+          <?= json_encode($dbSalleId) ?>);
+          <?php
         endforeach;
       endforeach;
     endforeach;
@@ -292,6 +296,8 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css">
   <script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 </head>
 
 <body>
@@ -474,58 +480,30 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           <div class="row g-3 align-items-end">
             <div class="col-md-2">
               <label for="client_id" class="form-label fw-bold mb-0">Client</label>
-              <select class="form-select bg-body text-body" id="client_id" name="client_id"
-                onchange="updateSitesAndSubmit()">
-                <option value="">Tous les clients</option>
-                <?php if (isset($clients) && is_array($clients)): ?>
-                  <?php foreach ($clients as $client): ?>
+              <select class="form-select bg-body text-body" id="client_id" name="client_id">
+                <option value="" placeholder="saisir le client"></option>
+                            <?php if (isset($clients) && is_array($clients)): ?>
+                              <?php foreach ($clients as $client): ?>
                     <option value="<?= $client['id'] ?>" <?= ($filters['client_id'] ?? '') == $client['id'] ? 'selected' : '' ?>>
-                      <?= h($client['name']) ?>
+                                  <?= h($client['name']) ?>
                     </option>
-                  <?php endforeach; ?>
-                <?php endif; ?>
+                              <?php endforeach; ?>
+                            <?php endif; ?>
               </select>
             </div>
             <div class="col-md-2">
               <label for="site_id" class="form-label fw-bold mb-0">Site</label>
-              <select class="form-select bg-body text-body" id="site_id" name="site_id"
-                onchange="updateBuildingsAndSubmit()">
-                <option value="">Tous les sites</option>
-                <?php if (isset($sites) && is_array($sites)): ?>
-                  <?php foreach ($sites as $site): ?>
-                    <option value="<?= $site['id'] ?>" <?= ($filters['site_id'] ?? '') == $site['id'] ? 'selected' : '' ?>>
-                      <?= h($site['name']) ?>
-                    </option>
-                  <?php endforeach; ?>
-                <?php endif; ?>
+              <select class="form-select bg-body text-body" id="site_id" name="site_id">
               </select>
             </div>
             <div class="col-md-2">
               <label for="building_id" class="form-label fw-bold mb-0">Bâtiment</label>
-              <select class="form-select bg-body text-body" id="building_id" name="building_id"
-                onchange="updateRoomsAndSubmit()">
-                <option value="">Tous les bâtiments</option>
-                <?php if (isset($buildings) && is_array($buildings)): ?>
-                  <?php foreach ($buildings as $building): ?>
-                    <option value="<?= $building['id'] ?>" <?= ($filters['building_id'] ?? '') == $building['id'] ? 'selected' : '' ?>>
-                      <?= h($building['name']) ?>
-                    </option>
-                  <?php endforeach; ?>
-                <?php endif; ?>
+              <select class="form-select bg-body text-body" id="building_id" name="building_id">
               </select>
             </div>
             <div class="col-md-2">
               <label for="salle_id" class="form-label fw-bold mb-0">Salle</label>
-              <select class="form-select bg-body text-body" id="salle_id" name="salle_id"
-                onchange="document.getElementById('filterForm').submit();">
-                <option value="">Toutes les salles</option>
-                <?php if (isset($salles) && is_array($salles)): ?>
-                  <?php foreach ($salles as $salle): ?>
-                    <option value="<?= $salle['id'] ?>" <?= ($filters['salle_id'] ?? '') == $salle['id'] ? 'selected' : '' ?>>
-                      <?= h($salle['name']) ?>
-                    </option>
-                  <?php endforeach; ?>
-                <?php endif; ?>
+              <select class="form-select bg-body text-body" id="salle_id" name="salle_id">
               </select>
             </div>
             <div class="col-md-4 d-flex justify-content-end gap-2">
@@ -560,7 +538,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
     </style>
 
     <div class="card mb-4" id="columnControlsCard"
-      style="display: <?= (!empty($filters['client_id']) || $isGlobalSearch) ? 'block' : 'none' ?>;">
+     style="display: <?= $hasAnyFilter ? 'block' : 'none' ?>;">
       <div class="card-body">
         <div class="row align-items-center">
           <div class="col-md-12 text-end">
@@ -592,33 +570,28 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         </div>
       </div>
     </div>
-
     <div id="materielResultsContainer">
-      <?php if (empty($filters['client_id']) && !$isGlobalSearch): ?>
-        <div class="card">
-          <div class="card-body text-center py-5">
-            <i class="fas fa-filter fa-3x text-muted mb-3"></i>
-            <h5 class="text-muted">Sélectionnez un client pour voir le matériel</h5>
-            <p class="text-muted mb-3">Choisissez un client dans le filtre ci-dessus pour afficher le matériel associé,
-              ou utilisez la recherche globale ci-dessous.</p>
-          </div>
+    <?php if (!$hasAnyFilter): ?>
+      <div class="card">
+        <div class="card-body text-center py-5">
+          <i class="fas fa-filter fa-3x text-muted mb-3"></i>
+          <h5 class="text-muted">Sélectionnez un filtre pour voir le matériel</h5>
+          <p class="text-muted mb-3">Choisissez un client, un site, un bâtiment ou une salle
+            ci-dessus pour afficher le matériel correspondant, ou utilisez la recherche globale.</p>
         </div>
-
-      <?php elseif ($isGlobalSearch && !empty($materiel_organise)): ?>
-        <div id="accordionContainer">
-          <?php renderMaterielAccordions($materiel_organise); ?>
-        </div>
-
-      <?php elseif (empty($materiel_organise) && ($isGlobalSearch || !empty($filters['client_id']))): ?>
+      </div>
+    <?php elseif (!empty($materiel_organise)): ?>
+      <div id="accordionContainer">
+        <?php renderMaterielAccordions($materiel_organise); ?>
+      </div>
+      <?php else: ?>
         <div class="card">
           <div class="card-body text-center py-5">
             <i class="bi bi-hdd-network fa-3x text-muted mb-3 me-1"></i>
             <h5 class="text-muted">Aucun matériel trouvé</h5>
             <p class="text-muted mb-3">
               <?php if ($isGlobalSearch): ?>
-                Aucun équipement ne correspond à votre recherche "<strong>
-                  <?= h($globalSearchTerm) ?>
-                </strong>".
+                Aucun équipement ne correspond à votre recherche "<strong><?= h($globalSearchTerm) ?></strong>".
               <?php else: ?>
                 Aucun matériel ne correspond aux critères sélectionnés.
               <?php endif; ?>
@@ -629,15 +602,8 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
             </a>
           </div>
         </div>
-
-      <?php elseif (!empty($materiel_organise) && !$isGlobalSearch && !empty($filters['client_id'])): ?>
-        <div id="accordionContainer">
-          <?php renderMaterielAccordions($materiel_organise); ?>
-        </div>
-
       <?php endif; ?>
     </div>
-
   </div>
 
   <!-- Modales -->
@@ -942,85 +908,79 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       window.location.href = url + params.join('&');
     }
 
-    function updateSitesAndSubmit() {
-      const clientId = document.getElementById('client_id').value;
-      if (clientId) {
-        fetch(baseUrl + 'materiel/get_sites?client_id=' + clientId)
-          .then(res => res.json())
-          .then(data => {
-            const siteSelect = document.getElementById('site_id');
-            siteSelect.innerHTML = '<option value="">Tous les sites</option>';
-            if (Array.isArray(data)) data.forEach(site => {
-              const o = document.createElement('option');
-              o.value = site.id; o.textContent = site.name;
-              siteSelect.appendChild(o);
-            });
-            document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
-            document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-            submitFilters();
-          })
-          .catch(err => console.error('Erreur chargement sites:', err));
-      } else {
-        document.getElementById('site_id').innerHTML = '<option value="">Tous les sites</option>';
-        document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
-        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-        submitFilters();
-      }
+   const tomSelects = {}; 
+
+    function formatLocationOption(mainLabel, contextParts) {
+      return function (data, escape) {
+        const ctx = contextParts(data).filter(Boolean).join(' — ');
+        return `<div>
+          <span class="fw-bold">${escape(data.text)}</span>
+          ${ctx ? `<br><small class="text-muted">${escape(ctx)}</small>` : ''}
+        </div>`;
+      };
     }
 
-    function updateBuildingsAndSubmit() {
-      const clientId = document.getElementById('client_id').value;
-      const siteId = document.getElementById('site_id').value;
-      if (siteId && clientId) {
-        fetch(baseUrl + 'materiel/get_buildings?site_id=' + siteId)
-          .then(res => res.json())
-          .then(data => {
-            const buildingSelect = document.getElementById('building_id');
-            buildingSelect.innerHTML = '<option value="">Tous les bâtiments</option>';
-            if (Array.isArray(data)) data.forEach(b => {
-              const o = document.createElement('option');
-              o.value = b.id; o.textContent = b.name;
-              buildingSelect.appendChild(o);
-            });
-            document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-            submitFilters();
-          })
-          .catch(err => console.error('Erreur chargement bâtiments:', err));
-      } else {
-        document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
-        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-        submitFilters();
-      }
+    function initFilterTomSelect(fieldId, searchFields, renderFn) {
+      if (tomSelects[fieldId]) { tomSelects[fieldId].destroy(); }
+      tomSelects[fieldId] = new TomSelect('#' + fieldId, {
+        valueField: 'value',
+        labelField: 'text',
+        searchField: searchFields,
+        placeholder: 'Rechercher...',
+        allowEmptyOption: true,
+        render: {
+          option: renderFn,
+          item: (data, escape) => `<div>${escape(data.text)}</div>`
+        },
+        onChange: submitFilters
+      });
     }
 
-    function updateRoomsAndSubmit() {
-      const clientId = document.getElementById('client_id').value;
-      const siteId = document.getElementById('site_id').value;
-      const buildingId = document.getElementById('building_id').value;
-      const loadRooms = (url) => fetch(url)
+    function loadOptionsInto(fieldId, url, mapFn, preserveSelection) {
+      fetch(url)
         .then(res => res.json())
-        .then(data => {
-          const roomSelect = document.getElementById('salle_id');
-          roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
-          if (Array.isArray(data)) data.forEach(r => {
-            const o = document.createElement('option');
-            o.value = r.id; o.textContent = r.name;
-            roomSelect.appendChild(o);
-          });
-          submitFilters();
+        .then(rows => {
+          if (!Array.isArray(rows)) return;
+          const ts = tomSelects[fieldId];
+          ts.clearOptions();
+          ts.addOption({ value: '', text: ts.settings.placeholderText || 'Tous' });
+          rows.forEach(r => ts.addOption(mapFn(r)));
+          ts.refreshOptions(false);
+          if (preserveSelection) ts.setValue(preserveSelection, true);
         })
-        .catch(err => console.error('Erreur chargement salles:', err));
-
-      if (buildingId && siteId && clientId) {
-        loadRooms(baseUrl + 'materiel/get_rooms_by_building?building_id=' + buildingId);
-      } else if (siteId && clientId) {
-        loadRooms(baseUrl + 'materiel/get_rooms_by_site?site_id=' + siteId);
-      } else {
-        document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-        submitFilters();
-      }
+        .catch(err => console.error('Erreur chargement ' + fieldId + ':', err));
     }
 
+    function initAllFilters() {
+      const currentValues = {
+        client_id: document.getElementById('client_id').value,
+        site_id: '<?= h($filters['site_id'] ?? '') ?>',
+        building_id: '<?= h($filters['building_id'] ?? '') ?>',
+        salle_id: '<?= h($filters['salle_id'] ?? '') ?>',
+      };
+
+      initFilterTomSelect('client_id', ['text'], (data, escape) =>
+        `<div>${escape(data.text)}</div>`);
+
+      initFilterTomSelect('site_id', ['text', 'client_name'],
+        formatLocationOption('text', d => [d.client_name]));
+      loadOptionsInto('site_id', baseUrl + 'materiel/get_all_sites', r => ({
+        value: r.id, text: r.name, client_id: r.client_id, client_name: r.client_name
+      }), currentValues.site_id);
+
+      initFilterTomSelect('building_id', ['text', 'site_name', 'client_name'],
+        formatLocationOption('text', d => [d.client_name, d.site_name]));
+      loadOptionsInto('building_id', baseUrl + 'materiel/get_all_buildings', r => ({
+        value: r.id, text: r.name, site_id: r.site_id, site_name: r.site_name,
+        client_id: r.client_id, client_name: r.client_name
+      }), currentValues.building_id);
+      initFilterTomSelect('salle_id', ['text', 'building_name', 'site_name', 'client_name'],
+        formatLocationOption('text', d => [d.client_name, d.site_name, d.building_name]));
+      loadOptionsInto('salle_id', baseUrl + 'materiel/get_all_rooms', r => ({
+        value: r.id, text: r.name, building_id: r.building_id, building_name: r.building_name,
+        site_id: r.site_id, site_name: r.site_name, client_id: r.client_id, client_name: r.client_name
+      }), currentValues.salle_id);
+    }
     let searchDebounceTimer = null;
     let searchAbortController = null;
     let initialResultsHtml = null;
@@ -1837,10 +1797,8 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
     };
 
     document.addEventListener('DOMContentLoaded', function () {
-
-      <?php if (!empty($filters['client_id']) && !empty($materiel_organise) && !$isGlobalSearch): ?>
-      <?php renderMaterielTableInitJs($materiel_organise, $pieces_jointes_count, $allColumns); ?>
-      <?php elseif ($isGlobalSearch && !empty($materiel_organise)): ?>
+      initAllFilters();
+      <?php if ($hasAnyFilter && !empty($materiel_organise)): ?>
       <?php renderMaterielTableInitJs($materiel_organise, $pieces_jointes_count, $allColumns); ?>
       <?php endif; ?>
 

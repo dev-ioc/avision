@@ -2145,4 +2145,91 @@ class MaterielController
             echo json_encode(['error' => 'Erreur de recherche: ' . $e->getMessage()]);
         }
     }
+
+    /**
+     * Retourne TOUS les sites, avec le nom du client en info complémentaire.
+     * Utilisé pour la recherche libre du filtre "Site" (indépendant du client).
+     */
+    public function get_all_sites()
+    {
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            return;
+        }
+        try {
+            $sql = "SELECT s.id, s.name, s.client_id, c.name AS client_name
+                FROM sites s
+                INNER JOIN clients c ON s.client_id = c.id
+                ORDER BY c.name, s.name";
+            $stmt = $this->db->query($sql);
+            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+        } catch (Exception $e) {
+            custom_log("Erreur get_all_sites : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur lors de la récupération des sites']);
+        }
+    }
+
+    /**
+     * Retourne TOUS les bâtiments, avec site + client en info complémentaire.
+     */
+    public function get_all_buildings()
+    {
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            return;
+        }
+        try {
+            $sql = "SELECT b.id, b.name, b.site_id,
+                       s.name AS site_name, s.client_id, c.name AS client_name
+                FROM buildings b
+                INNER JOIN sites s ON b.site_id = s.id
+                INNER JOIN clients c ON s.client_id = c.id
+                ORDER BY c.name, s.name, b.name";
+            $stmt = $this->db->query($sql);
+            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+        } catch (Exception $e) {
+            custom_log("Erreur get_all_buildings : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur lors de la récupération des bâtiments']);
+        }
+    }
+    /**
+     * Retourne les salles, avec client/site/bâtiment en info complémentaire.
+     * Si client_id est fourni, restreint à ce client (utilisé par ex. par
+     * add()/import()) ; sinon retourne TOUTES les salles (filtre indépendant).
+     */
+    public function get_all_rooms()
+    {
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            return;
+        }
+        try {
+            $clientId = $_GET['client_id'] ?? null;
+            $sql = "SELECT r.id, r.name, r.building_id,
+                       b.name AS building_name, b.site_id,
+                       s.name AS site_name, s.client_id, c.name AS client_name
+                FROM rooms r
+                INNER JOIN buildings b ON r.building_id = b.id
+                INNER JOIN sites s ON b.site_id = s.id
+                INNER JOIN clients c ON s.client_id = c.id";
+            $params = [];
+            if ($clientId) {
+                $sql .= " WHERE s.client_id = :client_id";
+                $params[':client_id'] = $clientId;
+            }
+            $sql .= " ORDER BY c.name, s.name, b.name, r.name";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+        } catch (Exception $e) {
+            custom_log("Erreur get_all_rooms : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur lors de la récupération des salles']);
+        }
+    }
 }
