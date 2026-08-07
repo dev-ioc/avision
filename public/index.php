@@ -621,6 +621,16 @@ try {
                 case 'get_rooms_by_building':
                     $documentationController->get_rooms_by_building();
                     break;
+
+                case 'get_all_sites':
+                    $documentationController->get_all_sites();
+                    break;
+                case 'get_all_buildings':
+                    $documentationController->get_all_buildings();
+                    break;
+                case 'get_all_rooms':
+                    $documentationController->get_all_rooms();
+                    break;
                 case 'search_api':
                     $documentationController->searchApi();
                     break;
@@ -1578,9 +1588,9 @@ try {
                 case 'get_buildings':
                     $materielController->get_buildings();
                     break;
-                // case 'get_rooms_by_building':
-                //     $materielController->get_rooms_by_building();
-                //     break;
+                case 'get_rooms_by_building':
+                    $materielController->get_rooms_by_building();
+                    break;
                 // case 'get_rooms_by_site':
                 //     $materielController->get_rooms_by_site();
                 //     break;

@@ -21,7 +21,10 @@ setPageVariables(
 
 // Définir la page courante pour le menu
 $currentPage = 'documentation';
-
+$hasAnyFilter = !empty($filters['client_id'])
+  || !empty($filters['site_id'])
+  || !empty($filters['building_id'])
+  || !empty($filters['salle_id']);
 // Inclure le header qui contient le menu latéral
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
@@ -128,7 +131,10 @@ foreach ($documentation_list as $doc) {
     text-decoration: underline;
   }
 </style>
-
+<header>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+</header>
 <div class="container-fluid flex-grow-1 container-p-y">
   <!-- En-tête avec titre et bouton d'ajout -->
   <div class="row mb-4">
@@ -202,9 +208,8 @@ foreach ($documentation_list as $doc) {
         <div class="row g-3 align-items-end">
           <div class="col-md-2">
             <label for="client_id" class="form-label fw-bold mb-0">Client</label>
-            <select class="form-select bg-body text-body" id="client_id" name="client_id"
-              onchange="updateSitesAndSubmit()">
-              <option value="">Tous les clients</option>
+            <select class="form-select bg-body text-body" id="client_id" name="client_id">
+              <option value=""></option>
               <?php if (isset($clients) && is_array($clients)): ?>
                 <?php foreach ($clients as $client): ?>
                   <option value="<?= $client['id'] ?>" <?= ($filters['client_id'] ?? '') == $client['id'] ? 'selected' : '' ?>>
@@ -217,46 +222,19 @@ foreach ($documentation_list as $doc) {
 
           <div class="col-md-2">
             <label for="site_id" class="form-label fw-bold mb-0">Site</label>
-            <select class="form-select bg-body text-body" id="site_id" name="site_id"
-              onchange="updateBuildingsAndSubmit()">
-              <option value="">Tous les sites</option>
-              <?php if (isset($sites) && is_array($sites)): ?>
-                <?php foreach ($sites as $site): ?>
-                  <option value="<?= $site['id'] ?>" <?= ($filters['site_id'] ?? '') == $site['id'] ? 'selected' : '' ?>>
-                    <?= h($site['name']) ?>
-                  </option>
-                <?php endforeach; ?>
-              <?php endif; ?>
+            <select class="form-select bg-body text-body" id="site_id" name="site_id">
             </select>
           </div>
 
           <div class="col-md-2">
             <label for="building_id" class="form-label fw-bold mb-0">Bâtiment</label>
-            <select class="form-select bg-body text-body" id="building_id" name="building_id"
-              onchange="updateRoomsAndSubmit()">
-              <option value="">Tous les bâtiments</option>
-              <?php if (isset($buildings) && is_array($buildings)): ?>
-                <?php foreach ($buildings as $building): ?>
-                  <option value="<?= $building['id'] ?>" <?= ($filters['building_id'] ?? '') == $building['id'] ? 'selected' : '' ?>>
-                    <?= h($building['name']) ?>
-                  </option>
-                <?php endforeach; ?>
-              <?php endif; ?>
+            <select class="form-select bg-body text-body" id="building_id" name="building_id">
             </select>
           </div>
 
           <div class="col-md-2">
             <label for="salle_id" class="form-label fw-bold mb-0">Salle</label>
-            <select class="form-select bg-body text-body" id="salle_id" name="salle_id"
-              onchange="document.getElementById('filterForm').submit();">
-              <option value="">Toutes les salles</option>
-              <?php if (isset($salles) && is_array($salles)): ?>
-                <?php foreach ($salles as $salle): ?>
-                  <option value="<?= $salle['id'] ?>" <?= ($filters['salle_id'] ?? '') == $salle['id'] ? 'selected' : '' ?>>
-                    <?= h($salle['name']) ?>
-                  </option>
-                <?php endforeach; ?>
-              <?php endif; ?>
+            <select class="form-select bg-body text-body" id="salle_id" name="salle_id">
             </select>
           </div>
 
@@ -272,21 +250,20 @@ foreach ($documentation_list as $doc) {
 
   <!-- Liste de la documentation organisée -->
   <div id="documentationResultsContainer">
-    <?php if (empty($filters['client_id'])): ?>
+    <?php if (!$hasAnyFilter): ?>
       <div class="card">
         <div class="card-body text-center py-5">
           <i class="fas fa-filter fa-3x text-muted mb-3"></i>
-          <h5 class="text-muted">Sélectionnez un client pour voir la documentation</h5>
-          <p class="text-muted mb-3">Choisissez un client dans le filtre ci-dessus pour afficher la documentation
-            associée.
-          </p>
+          <h5 class="text-muted">Sélectionnez un filtre pour voir la documentation</h5>
+          <p class="text-muted mb-3">Choisissez un client, un site, un bâtiment ou une salle
+            dans le filtre ci-dessus pour afficher la documentation correspondante.</p>
           <div class="row justify-content-center">
             <div class="col-md-6">
               <div class="alert alert-info">
                 <i class="bi bi-info-circle me-2 me-1"></i>
-                <strong>Astuce :</strong> Commencez par sélectionner un client, puis un site, un bâtiment et enfin une
-                salle
-                pour affiner votre recherche.
+                <strong>Astuce :</strong> chaque filtre fonctionne indépendamment —
+                vous pouvez chercher directement une salle sans connaître son
+                client ni son site.
               </div>
             </div>
           </div>
@@ -537,87 +514,94 @@ foreach ($documentation_list as $doc) {
 <script>
   const baseUrl = '<?= BASE_URL ?>';
 
-  function updateSitesAndSubmit() {
+  const tomSelectsDoc = {};
+
+  function formatDocLocationOption(contextParts) {
+    return function (data, escape) {
+      const ctx = contextParts(data).filter(Boolean).join(' — ');
+      return `<div>
+      <span class="fw-bold">${escape(data.text)}</span>
+      ${ctx ? `<br><small class="text-muted">${escape(ctx)}</small>` : ''}
+    </div>`;
+    };
+  }
+
+  function initDocFilterTomSelect(fieldId, searchFields, renderFn) {
+    if (tomSelectsDoc[fieldId]) { tomSelectsDoc[fieldId].destroy(); }
+    tomSelectsDoc[fieldId] = new TomSelect('#' + fieldId, {
+      valueField: 'value',
+      labelField: 'text',
+      searchField: searchFields,
+      placeholder: 'Rechercher...',
+      allowEmptyOption: true,
+      render: {
+        option: renderFn,
+        item: (data, escape) => `<div>${escape(data.text)}</div>`
+      },
+      onChange: submitDocFilters
+    });
+  }
+
+  function loadDocOptionsInto(fieldId, url, mapFn, preserveSelection) {
+    fetch(url)
+      .then(res => res.json())
+      .then(rows => {
+        if (!Array.isArray(rows)) return;
+        const ts = tomSelectsDoc[fieldId];
+        ts.clearOptions();
+        ts.addOption({ value: '', text: 'Tous' });
+        rows.forEach(r => ts.addOption(mapFn(r)));
+        ts.refreshOptions(false);
+        if (preserveSelection) ts.setValue(preserveSelection, true);
+      })
+      .catch(err => console.error('Erreur chargement ' + fieldId + ':', err));
+  }
+
+  function submitDocFilters() {
     const clientId = document.getElementById('client_id').value;
-    if (clientId) {
-      fetch('<?= BASE_URL ?>documentation/get_sites?client_id=' + clientId)
-        .then(response => response.json())
-        .then(data => {
-          const siteSelect = document.getElementById('site_id');
-          siteSelect.innerHTML = '<option value="">Tous les sites</option>';
-          if (Array.isArray(data)) {
-            data.forEach(site => {
-              const option = document.createElement('option');
-              option.value = site.id;
-              option.textContent = site.name;
-              siteSelect.appendChild(option);
-            });
-          }
-          document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
-          document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-          document.getElementById('filterForm').submit();
-        })
-        .catch(error => console.error('Erreur:', error));
-    } else {
-      document.getElementById('site_id').innerHTML = '<option value="">Tous les sites</option>';
-      document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
-      document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-      document.getElementById('filterForm').submit();
-    }
-  }
-
-  function updateBuildingsAndSubmit() {
     const siteId = document.getElementById('site_id').value;
-    if (siteId) {
-      fetch('<?= BASE_URL ?>documentation/get_buildings?site_id=' + siteId)
-        .then(response => response.json())
-        .then(data => {
-          const buildingSelect = document.getElementById('building_id');
-          buildingSelect.innerHTML = '<option value="">Tous les bâtiments</option>';
-          if (Array.isArray(data)) {
-            data.forEach(building => {
-              const option = document.createElement('option');
-              option.value = building.id;
-              option.textContent = building.name;
-              buildingSelect.appendChild(option);
-            });
-          }
-          document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-          document.getElementById('filterForm').submit();
-        })
-        .catch(error => console.error('Erreur:', error));
-    } else {
-      document.getElementById('building_id').innerHTML = '<option value="">Tous les bâtiments</option>';
-      document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-      document.getElementById('filterForm').submit();
-    }
-  }
-
-  function updateRoomsAndSubmit() {
     const buildingId = document.getElementById('building_id').value;
-    if (buildingId) {
-      fetch('<?= BASE_URL ?>documentation/get_rooms_by_building?building_id=' + buildingId)
-        .then(response => response.json())
-        .then(data => {
-          const roomSelect = document.getElementById('salle_id');
-          roomSelect.innerHTML = '<option value="">Toutes les salles</option>';
-          if (Array.isArray(data)) {
-            data.forEach(room => {
-              const option = document.createElement('option');
-              option.value = room.id;
-              option.textContent = room.name;
-              roomSelect.appendChild(option);
-            });
-          }
-          document.getElementById('filterForm').submit();
-        })
-        .catch(error => console.error('Erreur:', error));
-    } else {
-      document.getElementById('salle_id').innerHTML = '<option value="">Toutes les salles</option>';
-      document.getElementById('filterForm').submit();
-    }
+    const salleId = document.getElementById('salle_id').value;
+    let url = baseUrl + 'documentation?';
+    const params = [];
+    if (clientId) params.push('client_id=' + clientId);
+    if (siteId) params.push('site_id=' + siteId);
+    if (buildingId) params.push('building_id=' + buildingId);
+    if (salleId) params.push('salle_id=' + salleId);
+    window.location.href = url + params.join('&');
   }
 
+  function initAllDocFilters() {
+    const currentValues = {
+      client_id: document.getElementById('client_id').value,
+      site_id: '<?= h($filters['site_id'] ?? '') ?>',
+      building_id: '<?= h($filters['building_id'] ?? '') ?>',
+      salle_id: '<?= h($filters['salle_id'] ?? '') ?>',
+    };
+
+    initDocFilterTomSelect('client_id', ['text'], (data, escape) =>
+      `<div>${escape(data.text)}</div>`);
+
+    initDocFilterTomSelect('site_id', ['text', 'client_name'],
+      formatDocLocationOption(d => [d.client_name]));
+    loadDocOptionsInto('site_id', baseUrl + 'documentation/get_all_sites', r => ({
+      value: r.id, text: r.name, client_id: r.client_id, client_name: r.client_name
+    }), currentValues.site_id);
+
+    initDocFilterTomSelect('building_id', ['text', 'site_name', 'client_name'],
+      formatDocLocationOption(d => [d.client_name, d.site_name]));
+    loadDocOptionsInto('building_id', baseUrl + 'documentation/get_all_buildings', r => ({
+      value: r.id, text: r.name, site_id: r.site_id, site_name: r.site_name,
+      client_id: r.client_id, client_name: r.client_name
+    }), currentValues.building_id);
+
+    initDocFilterTomSelect('salle_id', ['text', 'building_name', 'site_name', 'client_name'],
+      formatDocLocationOption(d => [d.client_name, d.site_name, d.building_name]));
+    loadDocOptionsInto('salle_id', baseUrl + 'documentation/get_all_rooms', r => ({
+      value: r.id, text: r.name, building_id: r.building_id, building_name: r.building_name,
+      site_id: r.site_id, site_name: r.site_name, client_id: r.client_id, client_name: r.client_name
+    }), currentValues.salle_id);
+  }
   function handleImageError(img, attachmentId, fileName) {
     const container = img.parentElement;
     container.innerHTML = `
@@ -767,14 +751,12 @@ foreach ($documentation_list as $doc) {
 
   document.addEventListener('DOMContentLoaded', function () {
 
-    // Initialiser les wrappers PDF
     document.querySelectorAll('.pdf-preview-wrapper').forEach(function (wrapper) {
       const previewUrl = wrapper.dataset.previewUrl;
       const downloadUrl = wrapper.dataset.downloadUrl;
       const filename = wrapper.dataset.filename;
 
       if (isIOS()) {
-        // iOS ne supporte pas les iframes PDF — afficher un lien d'ouverture direct
         wrapper.innerHTML = `
         <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; padding:2rem; text-align:center; background:#f8f9fa;">
           <div style="font-size:3rem; margin-bottom:1rem;">📄</div>
@@ -790,7 +772,6 @@ foreach ($documentation_list as $doc) {
           </a>
         </div>`;
       } else {
-        // Desktop et Android : iframe standard avec toolbar PDF native (zoom inclus)
         wrapper.innerHTML = `
         <iframe 
           src="${previewUrl}#toolbar=1&navpanes=0&scrollbar=1&zoom=page-fit"
@@ -805,7 +786,6 @@ foreach ($documentation_list as $doc) {
       }
     });
 
-    // Zoom sur les images (toggle)
     document.querySelectorAll('.preview-container img').forEach(function (img) {
       let zoomed = false;
       img.addEventListener('click', function () {
@@ -823,7 +803,6 @@ foreach ($documentation_list as $doc) {
       });
     });
 
-    // ... vos listeners existants (delete, editable-name, etc.) 
     document.querySelectorAll('.delete-document').forEach(btn => {
       btn.addEventListener('click', function () {
         confirmDeleteDocument(this.dataset.id, this.dataset.name);
@@ -1055,6 +1034,7 @@ foreach ($documentation_list as $doc) {
   }
 
   document.addEventListener('DOMContentLoaded', function () {
+    initAllDocFilters();
     initialDocResultsHtml = document.getElementById('documentationResultsContainer').innerHTML;
 
     const searchInput = document.getElementById('globalSearch');
