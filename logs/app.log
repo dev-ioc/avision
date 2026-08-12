@@ -125595,3 +125595,30 @@ Quant à l’écran n°1, il est HS
 [2026-08-12 16:11:32][INFO] 109 
 [2026-08-12 16:12:10][INFO] 109 
 [2026-08-12 16:12:10][INFO] 109 
+[2026-08-12 16:16:41][DEBUG] Redirection vers login - URL sauvegardée: materiel?salle_id=369 (Session ID: kch5ecvfmfehldqct0ogludk7o) 
+[2026-08-12 16:16:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fc3699932d1fb1ac4a7... 
+[2026-08-12 16:16:46][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-12 16:16:46][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-12 16:16:46][DEBUG] Login réussi - Session ID: kch5ecvfmfehldqct0ogludk7o 
+[2026-08-12 16:16:46][DEBUG] Login réussi - redirect_after_login: materiel?salle_id=369 
+[2026-08-12 16:16:46][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-12 16:16:46][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-08-12 16:16:46][DEBUG] Redirection après login vers: http://localhost/avision/public/materiel?salle_id=369 
+[2026-08-12 16:20:16][DEBUG] Redirection vers login - URL sauvegardée: materiel (Session ID: mrkdf7fil9v82thg329rst60fa) 
+[2026-08-12 16:20:20][DEBUG] CSRF: Token trouvé dans la requête - Token: ee58f16c789c9fd3a3a5... 
+[2026-08-12 16:20:21][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-12 16:20:21][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-12 16:20:21][DEBUG] Login réussi - Session ID: mrkdf7fil9v82thg329rst60fa 
+[2026-08-12 16:20:21][DEBUG] Login réussi - redirect_after_login: materiel 
+[2026-08-12 16:20:21][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-12 16:20:21][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-08-12 16:20:21][DEBUG] Redirection après login vers: http://localhost/avision/public/materiel 
+[2026-08-12 16:26:14][DEBUG] Redirection vers login - URL sauvegardée: materiel (Session ID: g5fr33g8e77ct3c1u4h6ihs785) 
+[2026-08-12 16:26:17][DEBUG] CSRF: Token trouvé dans la requête - Token: e0785b30d3f611a7970f... 
+[2026-08-12 16:26:18][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-12 16:26:18][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-12 16:26:18][DEBUG] Login réussi - Session ID: g5fr33g8e77ct3c1u4h6ihs785 
+[2026-08-12 16:26:18][DEBUG] Login réussi - redirect_after_login: materiel 
+[2026-08-12 16:26:18][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-12 16:26:18][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-08-12 16:26:18][DEBUG] Redirection après login vers: http://localhost/avision/public/materiel 

@@ -529,54 +529,23 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       }
 
       /* =========================================================
-   TOM SELECT - DROPDOWNS REDIMENSIONNABLES
+   TOM SELECT
    ========================================================= */
 
       .ts-wrapper {
         width: 100%;
       }
 
-      /*
- * Le contenu ne doit PAS imposer sa propre hauteur.
- */
-      .ts-dropdown .ts-dropdown-content {
-        height: auto !important;
-        max-height: none !important;
-
-        overflow-x: auto !important;
-        overflow-y: auto !important;
-
-        box-sizing: border-box;
-      }
-
-      /*
- * Les options peuvent prendre toute la largeur.
- */
-      .ts-dropdown .option {
-        white-space: normal !important;
-        word-break: break-word;
-      }
-
-      /*
- * Évite que le dropdown soit coupé par un parent.
- */
-      #filterForm,
-      #filterForm .row,
-      #filterForm .col-md-2,
-      #filterForm .ts-wrapper {
-        overflow: visible !important;
-      }
-
-      /* =========================================================
-   DROPDOWN TOM SELECT REDIMENSIONNABLE
-   ========================================================= */
-
       .ts-dropdown {
         z-index: 99999 !important;
         box-sizing: border-box !important;
 
+        /* Taille par défaut au premier chargement */
+        width: 350px !important;
+        height: 300px !important;
+
         min-width: 100px !important;
-        min-height: 10px !important;
+        min-height: 50px !important;
 
         max-width: none !important;
         max-height: none !important;
@@ -596,6 +565,21 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
 
         box-sizing: border-box !important;
       }
+
+      /* Options */
+      .ts-dropdown .option {
+        white-space: normal !important;
+        word-break: break-word;
+      }
+
+      /* Ne pas couper le dropdown */
+      #filterForm,
+      #filterForm .row,
+      #filterForm .col-md-2,
+      #filterForm .ts-wrapper {
+        overflow: visible !important;
+      }
+
 
       /* =========================================================
    POIGNÉE DE REDIMENSIONNEMENT
@@ -1019,8 +1003,9 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
 
       if (!dropdown) return;
 
-      // Éviter d'ajouter plusieurs poignées
-      let resizer = dropdown.querySelector('.filter-dropdown-resizer');
+      let resizer = dropdown.querySelector(
+        '.filter-dropdown-resizer'
+      );
 
       if (!resizer) {
 
@@ -1031,7 +1016,9 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         dropdown.appendChild(resizer);
       }
 
-      // Récupérer la taille sauvegardée
+      /*
+       * Dimensions sauvegardées
+       */
       const savedWidth = localStorage.getItem(
         'filter-dropdown-width-' + fieldId
       );
@@ -1040,15 +1027,28 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         'filter-dropdown-height-' + fieldId
       );
 
-      if (savedWidth) {
-        dropdown.style.width = savedWidth + 'px';
-      }
+      /*
+       * Dimensions par défaut
+       * utilisées uniquement au premier chargement
+       */
+      const DEFAULT_WIDTH = 350;
+      const DEFAULT_HEIGHT = 300;
 
-      if (savedHeight) {
-        dropdown.style.height = savedHeight + 'px';
-      }
+      dropdown.style.setProperty(
+        'width',
+        (savedWidth || DEFAULT_WIDTH) + 'px',
+        'important'
+      );
 
-      // Éviter plusieurs listeners
+      dropdown.style.setProperty(
+        'height',
+        (savedHeight || DEFAULT_HEIGHT) + 'px',
+        'important'
+      );
+
+      /*
+       * Éviter de créer plusieurs événements
+       */
       if (resizer.dataset.initialized === 'true') {
         return;
       }
@@ -1074,27 +1074,44 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           let newWidth = startWidth + deltaX;
           let newHeight = startHeight + deltaY;
 
-          // Limites minimales
+          /*
+           * Taille minimale
+           */
           newWidth = Math.max(100, newWidth);
           newHeight = Math.max(50, newHeight);
 
-          // Limites par rapport à l'écran
+          /*
+           * Taille maximale selon l'écran
+           */
+          const rect = dropdown.getBoundingClientRect();
+
           const maxWidth =
-            window.innerWidth - dropdown.getBoundingClientRect().left - 20;
+            window.innerWidth - rect.left - 20;
 
           const maxHeight =
-            window.innerHeight - dropdown.getBoundingClientRect().top - 20;
+            window.innerHeight - rect.top - 20;
 
           newWidth = Math.min(newWidth, maxWidth);
           newHeight = Math.min(newHeight, maxHeight);
 
-          dropdown.style.width = newWidth + 'px';
-          dropdown.style.height = newHeight + 'px';
+          dropdown.style.setProperty(
+            'width',
+            newWidth + 'px',
+            'important'
+          );
+
+          dropdown.style.setProperty(
+            'height',
+            newHeight + 'px',
+            'important'
+          );
         }
 
         function onMouseUp() {
 
-          // Sauvegarder la nouvelle taille
+          /*
+           * Sauvegarder la nouvelle taille
+           */
           localStorage.setItem(
             'filter-dropdown-width-' + fieldId,
             Math.round(dropdown.offsetWidth)
