@@ -949,8 +949,6 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         building_id: '<?= h($filters['building_id'] ?? '') ?>',
         salle_id: '<?= h($filters['salle_id'] ?? '') ?>',
       };
-
-      // Client — narrowé par site/bâtiment/salle si posés
       initFilterTomSelect('client_id', ['text'], (data, escape) =>
         `<div>${escape(data.text)}</div>`);
       {
@@ -962,8 +960,6 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           value: r.id, text: r.name
         }), currentValues.client_id);
       }
-
-      // Site — narrowé par client/bâtiment/salle si posés
       initFilterTomSelect('site_id', ['text', 'client_name'],
         formatLocationOption('text', d => [d.client_name]));
       {
@@ -975,8 +971,6 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           value: r.id, text: r.name, client_id: r.client_id, client_name: r.client_name
         }), currentValues.site_id);
       }
-
-      // Bâtiment — narrowé par client/site/salle si posés
       initFilterTomSelect('building_id', ['text', 'site_name', 'client_name'],
         formatLocationOption('text', d => [d.client_name, d.site_name]));
       {

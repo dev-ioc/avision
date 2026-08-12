@@ -569,7 +569,6 @@ foreach ($documentation_list as $doc) {
       building_id: '<?= h($filters['building_id'] ?? '') ?>',
       salle_id: '<?= h($filters['salle_id'] ?? '') ?>',
     };
-
     initDocFilterTomSelect('client_id', ['text'], (data, escape) =>
       `<div>${escape(data.text)}</div>`);
     {
@@ -581,7 +580,6 @@ foreach ($documentation_list as $doc) {
         value: r.id, text: r.name
       }), currentValues.client_id);
     }
-
     initDocFilterTomSelect('site_id', ['text', 'client_name'],
       formatDocLocationOption(d => [d.client_name]));
     {
@@ -593,7 +591,6 @@ foreach ($documentation_list as $doc) {
         value: r.id, text: r.name, client_id: r.client_id, client_name: r.client_name
       }), currentValues.site_id);
     }
-
     initDocFilterTomSelect('building_id', ['text', 'site_name', 'client_name'],
       formatDocLocationOption(d => [d.client_name, d.site_name]));
     {
