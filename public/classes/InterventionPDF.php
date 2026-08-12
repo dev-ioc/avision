@@ -677,7 +677,6 @@ class InterventionPDF extends TCPDF
                 $rowOffset = $row;
                 $bottomLimit = 270;
             }
-
             $y = $startY + ($row - $rowOffset) * $lineHeight;
             $this->SetXY($pageX, $y);
 
