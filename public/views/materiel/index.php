@@ -675,7 +675,6 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       </div>
     </div>
   </div>
-
   <style>
     body {
       background: #f4f6f9;
@@ -792,7 +791,6 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       background-color: var(--bs-danger-bg-subtle);
     }
   </style>
-
   <script>
     const baseUrl = '<?= BASE_URL ?>';
     let hotInstances = {};
@@ -1213,6 +1211,30 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       });
       localStorage.setItem('materiel_columns_visibility', JSON.stringify(state));
     }
+    function getResizeStorage(key) {
+      const saved = localStorage.getItem(key);
+      try { return saved ? JSON.parse(saved) : {}; } catch (e) { return {}; }
+    }
+    function getRowHeightsFromStorage(tableId) {
+      const all = getResizeStorage('materiel_row_heights');
+      return all[tableId] || null;
+    }
+    function saveRowHeight(tableId, row, height) {
+      const all = getResizeStorage('materiel_row_heights');
+      if (!all[tableId]) all[tableId] = {};
+      all[tableId][row] = height;
+      localStorage.setItem('materiel_row_heights', JSON.stringify(all));
+    }
+    function getColumnWidthsFromStorage(tableId) {
+      const all = getResizeStorage('materiel_column_widths');
+      return all[tableId] || null;
+    }
+    function saveColumnWidth(tableId, col, width) {
+      const all = getResizeStorage('materiel_column_widths');
+      if (!all[tableId]) all[tableId] = {};
+      all[tableId][col] = width;
+      localStorage.setItem('materiel_column_widths', JSON.stringify(all));
+    }
     function restoreColumnVisibility() {
       const saved = localStorage.getItem('materiel_columns_visibility');
       if (!saved) return null;
@@ -1225,6 +1247,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         return state;
       } catch (e) { return null; }
     }
+
     function applyColumnVisibility(colIndex, isVisible) {
       Object.values(hotInstances).forEach(hot => {
         const p = hot.getPlugin('hiddenColumns');
@@ -1369,6 +1392,9 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       const container = document.getElementById(tableId);
       if (!container) return null;
 
+      const savedHeights = getRowHeightsFromStorage(tableId);
+      const savedWidths = getColumnWidthsFromStorage(tableId);
+
       const hot = new Handsontable(container, {
         data: rows,
         colHeaders: colHeadersGlobal,
@@ -1378,14 +1404,24 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         licenseKey: 'non-commercial-and-evaluation',
         stretchH: 'all',
         height: 'auto',
-        cells: hotCellsFn
+        manualRowResize: true,
+        manualColumnResize: true,
+        rowHeights: savedHeights ? (row => savedHeights[row]) : undefined,
+        colWidths: savedWidths ? (col => savedWidths[col]) : undefined,
+        wordWrap: true,
+        cells: hotCellsFn,
+        afterRowResize: function (newSize, row) {
+          saveRowHeight(tableId, row, newSize);
+        },
+        afterColumnResize: function (newSize, column) {
+          saveColumnWidth(tableId, column, newSize);
+        }
       });
 
       hot.__salleId = dbSalleId ?? null;
       hotInstances[tableId] = hot;
       return hot;
     }
-
     function openAttachmentsModal(materielId, materielName) {
       const modal = new bootstrap.Modal(document.getElementById('attachmentsModal'));
       document.getElementById('attachmentsModalLabel').textContent = `Pièces jointes - ${materielName}`;
@@ -1894,7 +1930,6 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       });
     });
   </script>
-
   <style>
     @keyframes spin {
       from {

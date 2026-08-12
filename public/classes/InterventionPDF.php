@@ -77,30 +77,21 @@ class InterventionPDF extends TCPDF
 
         $this->renderEquipment($equipment);
 
-        // Nouvelle page pour la section 4
-        $this->AddPage();
-        $this->Ln(2);
+        $this->Ln(4);
 
         // SECTION 4
         $this->renderDetails($intervention, $comments);
 
-        $this->Ln(2);
-
         // SECTION 5
         $this->renderParts($replacedParts);
-
-        // =====================================================
-        // PAGE 2
-        // =====================================================
 
         $this->AddPage();
 
         // Header nouvelle page
         $this->renderHeader($intervention);
 
-        $this->Ln(15);
+        $this->Ln(2);
 
-        // Tableau prêt matériel séparé avec bordures complètes
         $this->renderLoanEquipment($equipment);
 
         // Section 6
@@ -155,7 +146,6 @@ class InterventionPDF extends TCPDF
         $this->SetFont('helvetica', '', 10);
         $this->Cell(25, 5, $ticket, 'B', 1, 'R');
 
-        // Version du bon
         $bonVersion = '#VS' . ($intervention['id'] ?? '0000') . '-' . date('ymd');
         $this->SetX(135);
         $this->SetFont('helvetica', 'B', 11);
@@ -165,18 +155,15 @@ class InterventionPDF extends TCPDF
         $this->SetFont('helvetica', 'B', 11);
         $this->Cell(30, 5, $bonVersion, 'B', 1, 'R');
 
-        // Date de création
         $this->SetTextColor(255, 255, 255);
         $this->SetX(135);
         $this->SetFont('helvetica', '', 9);
         $this->Cell(25, 5, 'Date de création :', 0, 0, 'L');
 
-        // Position pour la date
         $this->SetX(135 + 28);
         $this->SetFont('helvetica', 'I', 7);
-        $this->SetDrawColor(255, 255, 255);  // Soulignement BLANC uniquement pour cette date
+        $this->SetDrawColor(255, 255, 255);
 
-        // Extraire le jour, mois et année
         if (!empty($intervention['created_at'])) {
             $dateObj = new DateTime($intervention['created_at']);
             $day = $dateObj->format('d');
@@ -189,15 +176,12 @@ class InterventionPDF extends TCPDF
         }
 
         $slash = '/';
-
-        // Afficher la date avec soulignements blancs
         $this->Cell(5, 5, $day, 'B', 0, 'L');
         $this->Cell(2, 5, $slash, 0, 0, 'L');
         $this->Cell(5, 5, $month, 'B', 0, 'L');
         $this->Cell(2, 5, $slash, 0, 0, 'L');
         $this->Cell(8, 5, $year, 'B', 0, 'L');
 
-        // Restaurer la couleur de bordure par défaut (NOIRE) pour les tableaux
         $this->SetDrawColor($this->border[0], $this->border[1], $this->border[2]);
 
         $this->Ln();
@@ -541,28 +525,77 @@ class InterventionPDF extends TCPDF
             return;
         }
 
+        $detailedThreshold = 35;
+        if ($count <= $detailedThreshold) {
+            $this->renderEquipmentDetailed($equipment);
+            return;
+        }
+
+        $this->renderEquipmentCompact($equipment, $count);
+    }
+
+    /**
+     * Tableau détaillé : 1 ligne par équipement, colonnes lisibles.
+     * Utilisé quand la liste est de taille raisonnable (filtrée par salle).
+     */
+    private function renderEquipmentDetailed($equipment)
+    {
+        $w1 = 65; // Désignation
+        $w2 = 35; // Réf. interne AVision
+        $w3 = 40; // N° de série
+        $w4 = 50; // Marque / Modèle
+
+        $this->headCell($w1, 'Désignation équipement');
+        $this->headCell($w2, 'Réf. interne AVision');
+        $this->headCell($w3, 'N° de série');
+        $this->headCell($w4, 'Marque / Modèle');
+        $this->Ln();
+
+        foreach ($equipment as $eq) {
+            $designation = trim($eq['designation'] ?? ($eq['modele'] ?? ''));
+            $designation = $designation !== '' ? $designation : '—';
+
+            $reference = trim($eq['reference'] ?? '');
+            $reference = $reference !== '' ? $reference : '—';
+
+            $serial = trim($eq['numero_serie'] ?? '');
+            $serial = $serial !== '' ? $serial : '—';
+
+            $marqueModele = trim(($eq['marque'] ?? '') . ' / ' . ($eq['modele'] ?? ''));
+            $marqueModele = trim($marqueModele, ' /');
+            $marqueModele = $marqueModele !== '' ? $marqueModele : '—';
+
+            $this->bodyCellTruncated($w1, $designation, 7);
+            $this->bodyCellTruncated($w2, $reference, 7);
+            $this->bodyCellTruncated($w3, $serial, 7);
+            $this->bodyCellTruncated($w4, $marqueModele, 7);
+            $this->Ln();
+        }
+    }
+
+    /**
+     * Ancien algorithme compact multi-colonnes (jusqu'à 2 pages max),
+     * conservé en repli pour les très grosses listes non filtrées par salle.
+     */
+    private function renderEquipmentCompact($equipment, $count)
+    {
         // Libellés compacts
         $lines = [];
         foreach ($equipment as $eq) {
             $brand = trim($eq['marque'] ?? '');
             $model = trim($eq['modele'] ?? '');
             $designation = trim($eq['designation'] ?? $model);
-            // $serial = trim($eq['numero_serie'] ?? ($eq['serial_number'] ?? ''));
 
             $label = $designation !== '' ? $designation : ($model !== '' ? $model : '—');
             if ($brand !== '' && stripos($label, $brand) === false) {
                 $label .= ' (' . $brand . ')';
             }
-            // if ($serial !== '') {
-            //     $label .= ' SN:' . $serial; // un peu plus court que " — SN:"
-            // }
             $lines[] = $label;
         }
 
         $pageX = 10;
         $pageWidth = 190;
 
-        // Nombre de colonnes adapté au volume d'équipements
         if ($count > 400) {
             $numColumns = 5;
         } elseif ($count > 150) {
@@ -573,14 +606,11 @@ class InterventionPDF extends TCPDF
 
         $colWidth = $pageWidth / $numColumns;
 
-        // ================================================================
-        // Contrainte dure : le tableau doit tenir sur 2 PAGES MAXIMUM
-        // ================================================================
         $maxPages = 2;
         $startYInit = $this->GetY();
         $bottomLimit = 270;
-        $budgetCurrentPage = max(20, $bottomLimit - $startYInit); // place restante sur la page en cours
-        $budgetFullPage = 270 - 40;                                // place dispo sur une page complète après un saut
+        $budgetCurrentPage = max(20, $bottomLimit - $startYInit);
+        $budgetFullPage = 270 - 40;
         $totalBudgetHeight = $budgetCurrentPage + ($maxPages - 1) * $budgetFullPage;
 
         $rowsPerColumn = (int) ceil($count / $numColumns);
@@ -602,7 +632,6 @@ class InterventionPDF extends TCPDF
             $fontSize = 3.3;
         }
 
-        // On gère nous-mêmes la pagination du tableau
         $this->SetAutoPageBreak(false, 0);
 
         $headerHeight = 5;
@@ -639,15 +668,11 @@ class InterventionPDF extends TCPDF
         }
 
         for ($row = 0; $row < $rowsPerColumn; $row++) {
-
             if ($startY + ($row - $rowOffset + 1) * $lineHeight > $bottomLimit) {
                 $this->AddPage();
-
                 $this->SetY(15);
-
                 $this->SetFont('helvetica', '', $fontSize);
                 $drawColumnHeaders();
-
                 $startY = $this->GetY();
                 $rowOffset = $row;
                 $bottomLimit = 270;
@@ -788,7 +813,7 @@ class InterventionPDF extends TCPDF
         $this->Cell(30, 5, 'Distancielle');
 
         // margin-bottom
-        $this->Ln(12);
+        $this->Ln(6);
 
         // =====================================================
         // HORAIRES
@@ -944,10 +969,6 @@ class InterventionPDF extends TCPDF
             0,
             'L'
         );
-
-        // // Marge inférieure de la section 4
-        // $this->SetY($this->GetY() + 8);
-        // $this->Ln(12);
     }
 
     /**
@@ -1283,13 +1304,21 @@ class InterventionPDF extends TCPDF
         // =====================================================
         // BLOC SIGNATURES — un seul rendu des cadres, fond + bordure
         // =====================================================
+        $signatureBorderWidth = 0.2;
+        $this->SetLineWidth($signatureBorderWidth);
+        $this->SetDrawColor($this->border[0], $this->border[1], $this->border[2]);
 
-        // Cadre gauche (technicien) : bordure simple, fond blanc
         $this->Rect(10, $signY, 95, 52);
 
-        // Cadre droit (client) : fond beige + bordure, dessinés UNE SEULE FOIS ici
         $this->SetFillColor(248, 243, 226);
-        $this->Rect(105, $signY, 95, 52, 'DF'); // 'DF' = Draw + Fill en un seul appel, évite le double-dessin
+        $this->Rect(105, $signY, 95, 52, 'DF');
+
+        // Restaurer l'épaisseur par défaut pour la suite du document
+        $this->SetLineWidth(0.2);
+        $this->Rect(10, $signY, 95, 52);
+
+        $this->SetFillColor(248, 243, 226);
+        $this->Rect(105, $signY, 95, 52, 'DF');
 
         // -------------------------
         // SIGNATURE TECHNICIEN
@@ -1455,75 +1484,7 @@ class InterventionPDF extends TCPDF
 
         $this->SetY($bottomY + 28);
     }
-
-    /**
-     * =========================================================
-     * FOOTER CONFORME À LA MAQUETTE CLIENT
-     * =========================================================
-     */
-    private function renderFooter()
-    {
-        // Position fixe en bas
-        $this->SetY(-16);
-
-        // Couleur ligne
-        $this->SetDrawColor(170, 170, 170);
-
-        // Ligne horizontale
-        $this->Line(
-            13,
-            $this->GetY(),
-            197,
-            $this->GetY()
-        );
-
-        // Petit espace
-        $this->SetY($this->GetY() + 2);
-
-        $this->SetFont('helvetica', '', 7);
-
-        $this->SetTextColor(55, 55, 55);
-
-        // Première ligne
-        $footerLine1 =
-            "VIDEOSONIC | 326 rue Henri Becquerel Porte B2 – Parc d'activités des Portes de l'Oise – 60230 CHAMBLY";
-
-        $this->Cell(
-            0,
-            3,
-            $footerLine1,
-            0,
-            1,
-            'C'
-        );
-
-        // Deuxième ligne
-        $footerLine2 =
-            "Tél : 01 75 01 60 40 | info@videosonic.fr | www.videosonic.fr | SARL 100 000€ – RCS COMPIÈGNE 437 689 185 – APE 4778C";
-
-        $this->Cell(
-            0,
-            3,
-            $footerLine2,
-            0,
-            1,
-            'C'
-        );
-    }
-
-    /**
-     * =========================================================
-     * FOOTER TCPDF AUTO
-     * =========================================================
-     */
-    /**
-     * =========================================================
-     * FOOTER TCPDF AUTO
-     * Affiché uniquement sur la dernière page
-     * =========================================================
-     */
-    /**
-     * =========================================================
+    /* =========================================================
      * FOOTER TCPDF AUTO
      * Affiché uniquement sur la dernière page
      * =========================================================

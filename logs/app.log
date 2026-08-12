@@ -125229,3 +125229,349 @@ Quant à l’écran n°1, il est HS
 [2026-08-12 10:24:44][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
 [2026-08-12 10:24:44][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
 [2026-08-12 10:24:44][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-12 10:30:21][INFO] 59 
+[2026-08-12 10:30:21][INFO] 59 
+[2026-08-12 10:30:42][INFO] 59 
+[2026-08-12 10:30:46][INFO] 59 
+[2026-08-12 10:30:48][INFO] 59 
+[2026-08-12 12:40:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 88659ba8b18a88d9477a... 
+[2026-08-12 12:40:16][INFO] === STORE CALLED FROM EXCEL === 
+[2026-08-12 12:40:16][INFO] POST data: Array
+(
+    [salle_id] => 181
+    [marque] => sfgg
+    [modele] => gdgfdfgd
+    [type_materiel] => dfgdg
+    [numero_serie] => 
+    [version_firmware] => 
+    [adresse_ip] => 
+    [adresse_mac] => 
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [id] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 46
+)
+ 
+[2026-08-12 12:40:16][INFO] FILES: Array
+(
+)
+ 
+[2026-08-12 12:40:16][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-08-12 12:40:16][INFO] Données complètes reçues: 
+[2026-08-12 12:40:16][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-08-12 12:40:16][INFO] Array 
+[2026-08-12 12:40:16][INFO] INSERTION MATERIEL - Salle: 181 | Type: dfgdg | Modèle: gdgfdfgd | Marque: sfgg | N° Série:  | MAC:  | IP:  
+[2026-08-12 12:40:16][INFO] JSON DATA: {
+    "timestamp": "2026-08-12 12:40:16",
+    "user": "Karija",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "181",
+        "type_materiel": "dfgdg",
+        "modele": "gdgfdfgd",
+        "marque": "sfgg",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "",
+        "version_firmware": "",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "",
+        "adresse_ip": "",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-08-12 12:40:16][INFO] Champs remplis (4/33): salle_id, type_materiel, modele, marque 
+[2026-08-12 12:40:16][INFO] === FIN DES DONNEES === 
+[2026-08-12 12:40:16][INFO] MATERIEL CREE AVEC SUCCES - ID: 3441 
+[2026-08-12 12:40:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 88659ba8b18a88d9477a... 
+[2026-08-12 12:40:50][INFO] === STORE CALLED FROM EXCEL === 
+[2026-08-12 12:40:50][INFO] POST data: Array
+(
+    [salle_id] => 181
+    [marque] => tesrt
+    [modele] => azerty
+    [type_materiel] => azertyu
+    [numero_serie] => 
+    [version_firmware] => 
+    [adresse_ip] => 
+    [adresse_mac] => 
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [id] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 46
+)
+ 
+[2026-08-12 12:40:50][INFO] FILES: Array
+(
+)
+ 
+[2026-08-12 12:40:50][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-08-12 12:40:50][INFO] Données complètes reçues: 
+[2026-08-12 12:40:50][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-08-12 12:40:50][INFO] Array 
+[2026-08-12 12:40:50][INFO] INSERTION MATERIEL - Salle: 181 | Type: azertyu | Modèle: azerty | Marque: tesrt | N° Série:  | MAC:  | IP:  
+[2026-08-12 12:40:50][INFO] JSON DATA: {
+    "timestamp": "2026-08-12 12:40:50",
+    "user": "Karija",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "181",
+        "type_materiel": "azertyu",
+        "modele": "azerty",
+        "marque": "tesrt",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "",
+        "version_firmware": "",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "",
+        "adresse_ip": "",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-08-12 12:40:50][INFO] Champs remplis (4/33): salle_id, type_materiel, modele, marque 
+[2026-08-12 12:40:50][INFO] === FIN DES DONNEES === 
+[2026-08-12 12:40:50][INFO] MATERIEL CREE AVEC SUCCES - ID: 3442 
+[2026-08-12 13:03:19][DEBUG] CSRF: Token trouvé dans la requête - Token: f018d347592ba241c30f... 
+[2026-08-12 13:03:19][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-12 13:03:19][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-12 13:03:19][DEBUG] Login réussi - Session ID: 566k2pprqco3nl2t01q4vr2oqn 
+[2026-08-12 13:03:19][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-12 13:03:19][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-12 13:03:19][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-12 13:03:19][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-12 13:04:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 03efc378ee53b74d357a... 
+[2026-08-12 13:04:27][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-12 13:04:27][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-12 13:04:27][DEBUG] Login réussi - Session ID: 0e2nm2ucsj8r1cr9vj892fr0a3 
+[2026-08-12 13:04:27][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-12 13:04:27][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-12 13:04:27][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-12 13:04:27][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-12 13:04:36][INFO] 109 
+[2026-08-12 13:04:36][INFO] 109 
+[2026-08-12 13:24:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 03efc378ee53b74d357a... 
+[2026-08-12 13:24:21][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:25:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 03efc378ee53b74d357a... 
+[2026-08-12 13:25:07][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:26:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 03efc378ee53b74d357a... 
+[2026-08-12 13:26:53][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:28:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 03efc378ee53b74d357a... 
+[2026-08-12 13:28:02][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:28:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 03efc378ee53b74d357a... 
+[2026-08-12 13:28:48][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:36:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 03efc378ee53b74d357a... 
+[2026-08-12 13:36:27][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:37:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 03efc378ee53b74d357a... 
+[2026-08-12 13:37:37][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:38:09][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:38:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 03efc378ee53b74d357a... 
+[2026-08-12 13:38:26][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:38:35][DEBUG] Redirection vers login - URL sauvegardée: interventions/generateBonPdf/370 (Session ID: slqhdr72mp5vffkagtbmcn3jga) 
+[2026-08-12 13:38:42][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:39:35][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:39:53][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:40:15][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:40:34][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:41:21][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:41:36][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:41:49][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:42:34][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:43:24][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:45:19][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:45:47][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:46:46][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:47:05][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:49:28][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:50:14][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:50:37][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:56:10][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:56:55][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:57:15][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:57:41][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 13:59:57][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-12 14:01:18][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 

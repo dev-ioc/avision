@@ -3900,11 +3900,10 @@ class InterventionController
             // 11. Récupérer les techniciens assignés
             $technicians = $this->getInterventionTechnicians($interventionId);
 
-            $materielClient = [];
             $materielClient = $this->clientController->getMaterielByClientId($intervention['client_id']);
+            $materielClient = $this->filterMaterielForIntervention($materielClient, $intervention);
 
             // 13. Récupérer les pièces remplacées 
-            $materielClient = $this->clientController->getMaterielByClientId($intervention['client_id']);
             $replacedParts = $this->getReplacedPartsFromMaterials($materielClient);
 
             // Générer le PDF
@@ -6621,6 +6620,7 @@ class InterventionController
             $intervention['urgence'] = 'normal';
         }
         $materielClient = $this->clientController->getMaterielByClientId($intervention['client_id']);
+        $materielClient = $this->filterMaterielForIntervention($materielClient, $intervention);
 
         return [
             'intervention' => $intervention,
@@ -6630,5 +6630,29 @@ class InterventionController
             'equipment' => $materielClient,
             'replacedParts' => $this->getReplacedPartsFromMaterials($materielClient),
         ];
+    }
+
+    /**
+     * Restreint la liste du matériel client à celui concerné par l'intervention
+     * (salle si connue, sinon site) pour éviter des BI à rallonge.
+     */
+    private function filterMaterielForIntervention(array $materielClient, array $intervention): array
+    {
+        if (!empty($intervention['room_id'])) {
+            $filtered = array_values(array_filter($materielClient, function ($m) use ($intervention) {
+                return isset($m['salle_id']) && $m['salle_id'] == $intervention['room_id'];
+            }));
+            if (!empty($filtered)) {
+                return $filtered;
+            }
+        }
+
+        if (!empty($intervention['site_id'])) {
+            return array_values(array_filter($materielClient, function ($m) use ($intervention) {
+                return isset($m['site_id']) && $m['site_id'] == $intervention['site_id'];
+            }));
+        }
+
+        return $materielClient;
     }
 }
