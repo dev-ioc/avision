@@ -389,8 +389,6 @@ class ContractController
                 header('Location: ' . BASE_URL . 'contracts');
                 exit;
             }
-
-            // Vérifier que les données de session existent
             if (!isset($_SESSION['scheduled_interventions']) || !isset($_SESSION['contract_id'])) {
                 $_SESSION['error'] = "Données de session manquantes pour la création des interventions.";
                 header('Location: ' . BASE_URL . 'contracts');
@@ -406,8 +404,6 @@ class ContractController
                 header('Location: ' . BASE_URL . 'contracts');
                 exit;
             }
-
-            // Créer les interventions
             require_once __DIR__ . '/../models/InterventionModel.php';
             $interventionModel = new InterventionModel($this->db);
 
