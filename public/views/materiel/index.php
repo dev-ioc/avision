@@ -1073,7 +1073,6 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
 
           let newWidth = startWidth + deltaX;
           let newHeight = startHeight + deltaY;
-
           /*
            * Taille minimale
            */
