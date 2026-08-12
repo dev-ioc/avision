@@ -2390,7 +2390,65 @@ class DocumentationController
         }
         exit;
     }
+    /**
+     * Retourne les clients, optionnellement restreints par site/bâtiment/salle
+     * déjà sélectionnés (narrowing mutuel des filtres).
+     */
+    public function get_all_clients()
+    {
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            return;
+        }
+        try {
+            $siteId = $_GET['site_id'] ?? null;
+            $buildingId = $_GET['building_id'] ?? null;
+            $salleId = $_GET['salle_id'] ?? null;
 
+            $sql = "SELECT DISTINCT c.id, c.name
+                FROM clients c
+                INNER JOIN sites s ON s.client_id = c.id";
+            $conditions = [];
+            $params = [];
+
+            if ($buildingId || $salleId) {
+                $sql .= " INNER JOIN buildings b ON b.site_id = s.id";
+            }
+            if ($salleId) {
+                $sql .= " INNER JOIN rooms r ON r.building_id = b.id";
+            }
+            if ($siteId) {
+                $conditions[] = "s.id = :site_id";
+                $params[':site_id'] = $siteId;
+            }
+            if ($buildingId) {
+                $conditions[] = "b.id = :building_id";
+                $params[':building_id'] = $buildingId;
+            }
+            if ($salleId) {
+                $conditions[] = "r.id = :salle_id";
+                $params[':salle_id'] = $salleId;
+            }
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(' AND ', $conditions);
+            }
+            $sql .= " ORDER BY c.name";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+        } catch (Exception $e) {
+            custom_log("Erreur get_all_clients : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur lors de la récupération des clients']);
+        }
+    }
+
+    /**
+     * Retourne les sites, optionnellement restreints par client/bâtiment/salle
+     * déjà sélectionnés.
+     */
     public function get_all_sites()
     {
         if (!isset($_SESSION['user'])) {
@@ -2399,19 +2457,53 @@ class DocumentationController
             return;
         }
         try {
-            $sql = "SELECT s.id, s.name, s.client_id, c.name AS client_name
+            $clientId = $_GET['client_id'] ?? null;
+            $buildingId = $_GET['building_id'] ?? null;
+            $salleId = $_GET['salle_id'] ?? null;
+
+            $sql = "SELECT DISTINCT s.id, s.name, s.client_id, c.name AS client_name
                 FROM sites s
-                INNER JOIN clients c ON s.client_id = c.id
-                ORDER BY c.name, s.name";
-            $stmt = $this->db->query($sql);
+                INNER JOIN clients c ON s.client_id = c.id";
+            $conditions = [];
+            $params = [];
+
+            if ($buildingId || $salleId) {
+                $sql .= " INNER JOIN buildings b ON b.site_id = s.id";
+            }
+            if ($salleId) {
+                $sql .= " INNER JOIN rooms r ON r.building_id = b.id";
+            }
+            if ($clientId) {
+                $conditions[] = "s.client_id = :client_id";
+                $params[':client_id'] = $clientId;
+            }
+            if ($buildingId) {
+                $conditions[] = "b.id = :building_id";
+                $params[':building_id'] = $buildingId;
+            }
+            if ($salleId) {
+                $conditions[] = "r.id = :salle_id";
+                $params[':salle_id'] = $salleId;
+            }
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(' AND ', $conditions);
+            }
+            $sql .= " ORDER BY c.name, s.name";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
             echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
-            custom_log("Erreur get_all_sites (documentation) : " . $e->getMessage(), 'ERROR');
+            custom_log("Erreur get_all_sites : " . $e->getMessage(), 'ERROR');
             http_response_code(500);
             echo json_encode(['error' => 'Erreur lors de la récupération des sites']);
         }
     }
 
+    /**
+     * Retourne les bâtiments, optionnellement restreints par client/site/salle
+     * déjà sélectionnés.
+     */
     public function get_all_buildings()
     {
         if (!isset($_SESSION['user'])) {
@@ -2420,21 +2512,50 @@ class DocumentationController
             return;
         }
         try {
-            $sql = "SELECT b.id, b.name, b.site_id,
+            $clientId = $_GET['client_id'] ?? null;
+            $siteId = $_GET['site_id'] ?? null;
+            $salleId = $_GET['salle_id'] ?? null;
+
+            $sql = "SELECT DISTINCT b.id, b.name, b.site_id,
                        s.name AS site_name, s.client_id, c.name AS client_name
                 FROM buildings b
                 INNER JOIN sites s ON b.site_id = s.id
-                INNER JOIN clients c ON s.client_id = c.id
-                ORDER BY c.name, s.name, b.name";
-            $stmt = $this->db->query($sql);
+                INNER JOIN clients c ON s.client_id = c.id";
+            $conditions = [];
+            $params = [];
+
+            if ($salleId) {
+                $sql .= " INNER JOIN rooms r ON r.building_id = b.id";
+                $conditions[] = "r.id = :salle_id";
+                $params[':salle_id'] = $salleId;
+            }
+            if ($clientId) {
+                $conditions[] = "s.client_id = :client_id";
+                $params[':client_id'] = $clientId;
+            }
+            if ($siteId) {
+                $conditions[] = "b.site_id = :site_id";
+                $params[':site_id'] = $siteId;
+            }
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(' AND ', $conditions);
+            }
+            $sql .= " ORDER BY c.name, s.name, b.name";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
             echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
-            custom_log("Erreur get_all_buildings (documentation) : " . $e->getMessage(), 'ERROR');
+            custom_log("Erreur get_all_buildings : " . $e->getMessage(), 'ERROR');
             http_response_code(500);
             echo json_encode(['error' => 'Erreur lors de la récupération des bâtiments']);
         }
     }
 
+    /**
+     * Retourne les salles, optionnellement restreintes par client/site/bâtiment
+     * déjà sélectionnés.
+     */
     public function get_all_rooms()
     {
         if (!isset($_SESSION['user'])) {
@@ -2443,18 +2564,42 @@ class DocumentationController
             return;
         }
         try {
+            $clientId = $_GET['client_id'] ?? null;
+            $siteId = $_GET['site_id'] ?? null;
+            $buildingId = $_GET['building_id'] ?? null;
+
             $sql = "SELECT r.id, r.name, r.building_id,
                        b.name AS building_name, b.site_id,
                        s.name AS site_name, s.client_id, c.name AS client_name
                 FROM rooms r
                 INNER JOIN buildings b ON r.building_id = b.id
                 INNER JOIN sites s ON b.site_id = s.id
-                INNER JOIN clients c ON s.client_id = c.id
-                ORDER BY c.name, s.name, b.name, r.name";
-            $stmt = $this->db->query($sql);
+                INNER JOIN clients c ON s.client_id = c.id";
+            $conditions = [];
+            $params = [];
+
+            if ($clientId) {
+                $conditions[] = "s.client_id = :client_id";
+                $params[':client_id'] = $clientId;
+            }
+            if ($siteId) {
+                $conditions[] = "b.site_id = :site_id";
+                $params[':site_id'] = $siteId;
+            }
+            if ($buildingId) {
+                $conditions[] = "r.building_id = :building_id";
+                $params[':building_id'] = $buildingId;
+            }
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(' AND ', $conditions);
+            }
+            $sql .= " ORDER BY c.name, s.name, b.name, r.name";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
             echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
-            custom_log("Erreur get_all_rooms (documentation) : " . $e->getMessage(), 'ERROR');
+            custom_log("Erreur get_all_rooms : " . $e->getMessage(), 'ERROR');
             http_response_code(500);
             echo json_encode(['error' => 'Erreur lors de la récupération des salles']);
         }

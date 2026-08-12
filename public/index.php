@@ -621,7 +621,9 @@ try {
                 case 'get_rooms_by_building':
                     $documentationController->get_rooms_by_building();
                     break;
-
+                case 'get_all_clients':
+                    $documentationController->get_all_clients();
+                    break;
                 case 'get_all_sites':
                     $documentationController->get_all_sites();
                     break;
@@ -1591,9 +1593,6 @@ try {
                 case 'get_rooms_by_building':
                     $materielController->get_rooms_by_building();
                     break;
-                // case 'get_rooms_by_site':
-                //     $materielController->get_rooms_by_site();
-                //     break;
                 case 'get_rooms_by_site':
                     $materielController->get_rooms_by_site();
                     break;
@@ -1605,6 +1604,9 @@ try {
                     break;
                 case 'get_all_rooms':
                     $materielController->get_all_rooms();
+                    break;
+                case 'get_all_clients':
+                    $materielController->get_all_clients();
                     break;
                 case 'toggleAttachmentVisibility':
                     if ($id) {

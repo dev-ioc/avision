@@ -41,10 +41,10 @@ if (isset($filters) && !empty($filters)) {
   $GLOBALS['customBreadcrumbs'] = generateMaterielIndexBreadcrumbs($filters, $clients, $sites, $salles);
 }
 $hasAnyFilter = $isGlobalSearch
-    || !empty($filters['client_id'])
-    || !empty($filters['site_id'])
-    || !empty($filters['building_id'])
-    || !empty($filters['salle_id']);
+  || !empty($filters['client_id'])
+  || !empty($filters['site_id'])
+  || !empty($filters['building_id'])
+  || !empty($filters['salle_id']);
 
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
@@ -481,14 +481,6 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
             <div class="col-md-2">
               <label for="client_id" class="form-label fw-bold mb-0">Client</label>
               <select class="form-select bg-body text-body" id="client_id" name="client_id">
-                <option value="" placeholder="saisir le client"></option>
-                            <?php if (isset($clients) && is_array($clients)): ?>
-                              <?php foreach ($clients as $client): ?>
-                    <option value="<?= $client['id'] ?>" <?= ($filters['client_id'] ?? '') == $client['id'] ? 'selected' : '' ?>>
-                                  <?= h($client['name']) ?>
-                    </option>
-                              <?php endforeach; ?>
-                            <?php endif; ?>
               </select>
             </div>
             <div class="col-md-2">
@@ -537,8 +529,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       }
     </style>
 
-    <div class="card mb-4" id="columnControlsCard"
-     style="display: <?= $hasAnyFilter ? 'block' : 'none' ?>;">
+    <div class="card mb-4" id="columnControlsCard" style="display: <?= $hasAnyFilter ? 'block' : 'none' ?>;">
       <div class="card-body">
         <div class="row align-items-center">
           <div class="col-md-12 text-end">
@@ -571,19 +562,19 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       </div>
     </div>
     <div id="materielResultsContainer">
-    <?php if (!$hasAnyFilter): ?>
-      <div class="card">
-        <div class="card-body text-center py-5">
-          <i class="fas fa-filter fa-3x text-muted mb-3"></i>
-          <h5 class="text-muted">Sélectionnez un filtre pour voir le matériel</h5>
-          <p class="text-muted mb-3">Choisissez un client, un site, un bâtiment ou une salle
-            ci-dessus pour afficher le matériel correspondant, ou utilisez la recherche globale.</p>
+      <?php if (!$hasAnyFilter): ?>
+        <div class="card">
+          <div class="card-body text-center py-5">
+            <i class="fas fa-filter fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">Sélectionnez un filtre pour voir le matériel</h5>
+            <p class="text-muted mb-3">Choisissez un client, un site, un bâtiment ou une salle
+              ci-dessus pour afficher le matériel correspondant, ou utilisez la recherche globale.</p>
+          </div>
         </div>
-      </div>
-    <?php elseif (!empty($materiel_organise)): ?>
-      <div id="accordionContainer">
-        <?php renderMaterielAccordions($materiel_organise); ?>
-      </div>
+      <?php elseif (!empty($materiel_organise)): ?>
+        <div id="accordionContainer">
+          <?php renderMaterielAccordions($materiel_organise); ?>
+        </div>
       <?php else: ?>
         <div class="card">
           <div class="card-body text-center py-5">
@@ -908,7 +899,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       window.location.href = url + params.join('&');
     }
 
-   const tomSelects = {}; 
+    const tomSelects = {};
 
     function formatLocationOption(mainLabel, contextParts) {
       return function (data, escape) {
@@ -953,33 +944,63 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
 
     function initAllFilters() {
       const currentValues = {
-        client_id: document.getElementById('client_id').value,
+        client_id: '<?= h($filters['client_id'] ?? '') ?>',
         site_id: '<?= h($filters['site_id'] ?? '') ?>',
         building_id: '<?= h($filters['building_id'] ?? '') ?>',
         salle_id: '<?= h($filters['salle_id'] ?? '') ?>',
       };
 
+      // Client — narrowé par site/bâtiment/salle si posés
       initFilterTomSelect('client_id', ['text'], (data, escape) =>
         `<div>${escape(data.text)}</div>`);
+      {
+        const params = new URLSearchParams();
+        if (currentValues.site_id) params.set('site_id', currentValues.site_id);
+        if (currentValues.building_id) params.set('building_id', currentValues.building_id);
+        if (currentValues.salle_id) params.set('salle_id', currentValues.salle_id);
+        loadOptionsInto('client_id', baseUrl + 'materiel/get_all_clients?' + params.toString(), r => ({
+          value: r.id, text: r.name
+        }), currentValues.client_id);
+      }
 
+      // Site — narrowé par client/bâtiment/salle si posés
       initFilterTomSelect('site_id', ['text', 'client_name'],
         formatLocationOption('text', d => [d.client_name]));
-      loadOptionsInto('site_id', baseUrl + 'materiel/get_all_sites', r => ({
-        value: r.id, text: r.name, client_id: r.client_id, client_name: r.client_name
-      }), currentValues.site_id);
+      {
+        const params = new URLSearchParams();
+        if (currentValues.client_id) params.set('client_id', currentValues.client_id);
+        if (currentValues.building_id) params.set('building_id', currentValues.building_id);
+        if (currentValues.salle_id) params.set('salle_id', currentValues.salle_id);
+        loadOptionsInto('site_id', baseUrl + 'materiel/get_all_sites?' + params.toString(), r => ({
+          value: r.id, text: r.name, client_id: r.client_id, client_name: r.client_name
+        }), currentValues.site_id);
+      }
 
+      // Bâtiment — narrowé par client/site/salle si posés
       initFilterTomSelect('building_id', ['text', 'site_name', 'client_name'],
         formatLocationOption('text', d => [d.client_name, d.site_name]));
-      loadOptionsInto('building_id', baseUrl + 'materiel/get_all_buildings', r => ({
-        value: r.id, text: r.name, site_id: r.site_id, site_name: r.site_name,
-        client_id: r.client_id, client_name: r.client_name
-      }), currentValues.building_id);
+      {
+        const params = new URLSearchParams();
+        if (currentValues.client_id) params.set('client_id', currentValues.client_id);
+        if (currentValues.site_id) params.set('site_id', currentValues.site_id);
+        if (currentValues.salle_id) params.set('salle_id', currentValues.salle_id);
+        loadOptionsInto('building_id', baseUrl + 'materiel/get_all_buildings?' + params.toString(), r => ({
+          value: r.id, text: r.name, site_id: r.site_id, site_name: r.site_name,
+          client_id: r.client_id, client_name: r.client_name
+        }), currentValues.building_id);
+      }
       initFilterTomSelect('salle_id', ['text', 'building_name', 'site_name', 'client_name'],
         formatLocationOption('text', d => [d.client_name, d.site_name, d.building_name]));
-      loadOptionsInto('salle_id', baseUrl + 'materiel/get_all_rooms', r => ({
-        value: r.id, text: r.name, building_id: r.building_id, building_name: r.building_name,
-        site_id: r.site_id, site_name: r.site_name, client_id: r.client_id, client_name: r.client_name
-      }), currentValues.salle_id);
+      {
+        const params = new URLSearchParams();
+        if (currentValues.client_id) params.set('client_id', currentValues.client_id);
+        if (currentValues.site_id) params.set('site_id', currentValues.site_id);
+        if (currentValues.building_id) params.set('building_id', currentValues.building_id);
+        loadOptionsInto('salle_id', baseUrl + 'materiel/get_all_rooms?' + params.toString(), r => ({
+          value: r.id, text: r.name, building_id: r.building_id, building_name: r.building_name,
+          site_id: r.site_id, site_name: r.site_name, client_id: r.client_id, client_name: r.client_name
+        }), currentValues.salle_id);
+      }
     }
     let searchDebounceTimer = null;
     let searchAbortController = null;

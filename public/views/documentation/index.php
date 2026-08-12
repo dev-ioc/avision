@@ -209,14 +209,6 @@ foreach ($documentation_list as $doc) {
           <div class="col-md-2">
             <label for="client_id" class="form-label fw-bold mb-0">Client</label>
             <select class="form-select bg-body text-body" id="client_id" name="client_id">
-              <option value=""></option>
-              <?php if (isset($clients) && is_array($clients)): ?>
-                <?php foreach ($clients as $client): ?>
-                  <option value="<?= $client['id'] ?>" <?= ($filters['client_id'] ?? '') == $client['id'] ? 'selected' : '' ?>>
-                    <?= h($client['name']) ?>
-                  </option>
-                <?php endforeach; ?>
-              <?php endif; ?>
             </select>
           </div>
 
@@ -570,10 +562,9 @@ foreach ($documentation_list as $doc) {
     if (salleId) params.push('salle_id=' + salleId);
     window.location.href = url + params.join('&');
   }
-
   function initAllDocFilters() {
     const currentValues = {
-      client_id: document.getElementById('client_id').value,
+      client_id: '<?= h($filters['client_id'] ?? '') ?>',
       site_id: '<?= h($filters['site_id'] ?? '') ?>',
       building_id: '<?= h($filters['building_id'] ?? '') ?>',
       salle_id: '<?= h($filters['salle_id'] ?? '') ?>',
@@ -581,27 +572,55 @@ foreach ($documentation_list as $doc) {
 
     initDocFilterTomSelect('client_id', ['text'], (data, escape) =>
       `<div>${escape(data.text)}</div>`);
+    {
+      const params = new URLSearchParams();
+      if (currentValues.site_id) params.set('site_id', currentValues.site_id);
+      if (currentValues.building_id) params.set('building_id', currentValues.building_id);
+      if (currentValues.salle_id) params.set('salle_id', currentValues.salle_id);
+      loadDocOptionsInto('client_id', baseUrl + 'documentation/get_all_clients?' + params.toString(), r => ({
+        value: r.id, text: r.name
+      }), currentValues.client_id);
+    }
 
     initDocFilterTomSelect('site_id', ['text', 'client_name'],
       formatDocLocationOption(d => [d.client_name]));
-    loadDocOptionsInto('site_id', baseUrl + 'documentation/get_all_sites', r => ({
-      value: r.id, text: r.name, client_id: r.client_id, client_name: r.client_name
-    }), currentValues.site_id);
+    {
+      const params = new URLSearchParams();
+      if (currentValues.client_id) params.set('client_id', currentValues.client_id);
+      if (currentValues.building_id) params.set('building_id', currentValues.building_id);
+      if (currentValues.salle_id) params.set('salle_id', currentValues.salle_id);
+      loadDocOptionsInto('site_id', baseUrl + 'documentation/get_all_sites?' + params.toString(), r => ({
+        value: r.id, text: r.name, client_id: r.client_id, client_name: r.client_name
+      }), currentValues.site_id);
+    }
 
     initDocFilterTomSelect('building_id', ['text', 'site_name', 'client_name'],
       formatDocLocationOption(d => [d.client_name, d.site_name]));
-    loadDocOptionsInto('building_id', baseUrl + 'documentation/get_all_buildings', r => ({
-      value: r.id, text: r.name, site_id: r.site_id, site_name: r.site_name,
-      client_id: r.client_id, client_name: r.client_name
-    }), currentValues.building_id);
+    {
+      const params = new URLSearchParams();
+      if (currentValues.client_id) params.set('client_id', currentValues.client_id);
+      if (currentValues.site_id) params.set('site_id', currentValues.site_id);
+      if (currentValues.salle_id) params.set('salle_id', currentValues.salle_id);
+      loadDocOptionsInto('building_id', baseUrl + 'documentation/get_all_buildings?' + params.toString(), r => ({
+        value: r.id, text: r.name, site_id: r.site_id, site_name: r.site_name,
+        client_id: r.client_id, client_name: r.client_name
+      }), currentValues.building_id);
+    }
 
     initDocFilterTomSelect('salle_id', ['text', 'building_name', 'site_name', 'client_name'],
       formatDocLocationOption(d => [d.client_name, d.site_name, d.building_name]));
-    loadDocOptionsInto('salle_id', baseUrl + 'documentation/get_all_rooms', r => ({
-      value: r.id, text: r.name, building_id: r.building_id, building_name: r.building_name,
-      site_id: r.site_id, site_name: r.site_name, client_id: r.client_id, client_name: r.client_name
-    }), currentValues.salle_id);
+    {
+      const params = new URLSearchParams();
+      if (currentValues.client_id) params.set('client_id', currentValues.client_id);
+      if (currentValues.site_id) params.set('site_id', currentValues.site_id);
+      if (currentValues.building_id) params.set('building_id', currentValues.building_id);
+      loadDocOptionsInto('salle_id', baseUrl + 'documentation/get_all_rooms?' + params.toString(), r => ({
+        value: r.id, text: r.name, building_id: r.building_id, building_name: r.building_name,
+        site_id: r.site_id, site_name: r.site_name, client_id: r.client_id, client_name: r.client_name
+      }), currentValues.salle_id);
+    }
   }
+
   function handleImageError(img, attachmentId, fileName) {
     const container = img.parentElement;
     container.innerHTML = `
