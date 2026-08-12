@@ -527,6 +527,113 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       .handsontable tr.hidden-row {
         display: none !important;
       }
+
+      /* =========================================================
+   TOM SELECT - DROPDOWNS REDIMENSIONNABLES
+   ========================================================= */
+
+      .ts-wrapper {
+        width: 100%;
+      }
+
+      /*
+ * Le contenu ne doit PAS imposer sa propre hauteur.
+ */
+      .ts-dropdown .ts-dropdown-content {
+        height: auto !important;
+        max-height: none !important;
+
+        overflow-x: auto !important;
+        overflow-y: auto !important;
+
+        box-sizing: border-box;
+      }
+
+      /*
+ * Les options peuvent prendre toute la largeur.
+ */
+      .ts-dropdown .option {
+        white-space: normal !important;
+        word-break: break-word;
+      }
+
+      /*
+ * Évite que le dropdown soit coupé par un parent.
+ */
+      #filterForm,
+      #filterForm .row,
+      #filterForm .col-md-2,
+      #filterForm .ts-wrapper {
+        overflow: visible !important;
+      }
+
+      /* =========================================================
+   DROPDOWN TOM SELECT REDIMENSIONNABLE
+   ========================================================= */
+
+      .ts-dropdown {
+        z-index: 99999 !important;
+        box-sizing: border-box !important;
+
+        min-width: 100px !important;
+        min-height: 10px !important;
+
+        max-width: none !important;
+        max-height: none !important;
+
+        overflow: hidden !important;
+      }
+
+      /* Contenu du dropdown */
+      .ts-dropdown .ts-dropdown-content {
+        width: 100% !important;
+        height: 100% !important;
+
+        max-height: none !important;
+
+        overflow-x: auto !important;
+        overflow-y: auto !important;
+
+        box-sizing: border-box !important;
+      }
+
+      /* =========================================================
+   POIGNÉE DE REDIMENSIONNEMENT
+   ========================================================= */
+
+      .filter-dropdown-resizer {
+        position: absolute;
+
+        right: 0;
+        bottom: 0;
+
+        width: 18px;
+        height: 18px;
+
+        cursor: nwse-resize;
+
+        z-index: 100000;
+
+        background:
+          linear-gradient(135deg,
+            transparent 0%,
+            transparent 45%,
+            #999 46%,
+            #999 52%,
+            transparent 53%),
+          linear-gradient(135deg,
+            transparent 0%,
+            transparent 62%,
+            #999 63%,
+            #999 69%,
+            transparent 70%);
+
+        opacity: 0.7;
+      }
+
+      .filter-dropdown-resizer:hover {
+        opacity: 1;
+      }
     </style>
 
     <div class="card mb-4" id="columnControlsCard" style="display: <?= $hasAnyFilter ? 'block' : 'none' ?>;">
@@ -908,20 +1015,176 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         </div>`;
       };
     }
+    function makeFilterDropdownResizable(fieldId, dropdown) {
 
+      if (!dropdown) return;
+
+      // Éviter d'ajouter plusieurs poignées
+      let resizer = dropdown.querySelector('.filter-dropdown-resizer');
+
+      if (!resizer) {
+
+        resizer = document.createElement('div');
+
+        resizer.className = 'filter-dropdown-resizer';
+
+        dropdown.appendChild(resizer);
+      }
+
+      // Récupérer la taille sauvegardée
+      const savedWidth = localStorage.getItem(
+        'filter-dropdown-width-' + fieldId
+      );
+
+      const savedHeight = localStorage.getItem(
+        'filter-dropdown-height-' + fieldId
+      );
+
+      if (savedWidth) {
+        dropdown.style.width = savedWidth + 'px';
+      }
+
+      if (savedHeight) {
+        dropdown.style.height = savedHeight + 'px';
+      }
+
+      // Éviter plusieurs listeners
+      if (resizer.dataset.initialized === 'true') {
+        return;
+      }
+
+      resizer.dataset.initialized = 'true';
+
+      resizer.addEventListener('mousedown', function (event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const startX = event.clientX;
+        const startY = event.clientY;
+
+        const startWidth = dropdown.offsetWidth;
+        const startHeight = dropdown.offsetHeight;
+
+        function onMouseMove(moveEvent) {
+
+          const deltaX = moveEvent.clientX - startX;
+          const deltaY = moveEvent.clientY - startY;
+
+          let newWidth = startWidth + deltaX;
+          let newHeight = startHeight + deltaY;
+
+          // Limites minimales
+          newWidth = Math.max(100, newWidth);
+          newHeight = Math.max(50, newHeight);
+
+          // Limites par rapport à l'écran
+          const maxWidth =
+            window.innerWidth - dropdown.getBoundingClientRect().left - 20;
+
+          const maxHeight =
+            window.innerHeight - dropdown.getBoundingClientRect().top - 20;
+
+          newWidth = Math.min(newWidth, maxWidth);
+          newHeight = Math.min(newHeight, maxHeight);
+
+          dropdown.style.width = newWidth + 'px';
+          dropdown.style.height = newHeight + 'px';
+        }
+
+        function onMouseUp() {
+
+          // Sauvegarder la nouvelle taille
+          localStorage.setItem(
+            'filter-dropdown-width-' + fieldId,
+            Math.round(dropdown.offsetWidth)
+          );
+
+          localStorage.setItem(
+            'filter-dropdown-height-' + fieldId,
+            Math.round(dropdown.offsetHeight)
+          );
+
+          document.removeEventListener(
+            'mousemove',
+            onMouseMove
+          );
+
+          document.removeEventListener(
+            'mouseup',
+            onMouseUp
+          );
+
+          document.body.style.userSelect = '';
+          document.body.style.cursor = '';
+        }
+
+        document.body.style.userSelect = 'none';
+        document.body.style.cursor = 'nwse-resize';
+
+        document.addEventListener(
+          'mousemove',
+          onMouseMove
+        );
+
+        document.addEventListener(
+          'mouseup',
+          onMouseUp
+        );
+      });
+    }
     function initFilterTomSelect(fieldId, searchFields, renderFn) {
-      if (tomSelects[fieldId]) { tomSelects[fieldId].destroy(); }
+
+      if (tomSelects[fieldId]) {
+        tomSelects[fieldId].destroy();
+      }
+
       tomSelects[fieldId] = new TomSelect('#' + fieldId, {
+
         valueField: 'value',
+
         labelField: 'text',
+
         searchField: searchFields,
+
         placeholder: 'Rechercher...',
+
         allowEmptyOption: true,
+
         render: {
+
           option: renderFn,
-          item: (data, escape) => `<div>${escape(data.text)}</div>`
+
+          item: (data, escape) =>
+            `<div>${escape(data.text)}</div>`
         },
-        onChange: submitFilters
+
+        onChange: submitFilters,
+
+        onDropdownOpen: function (dropdown) {
+
+          requestAnimationFrame(() => {
+
+            if (!dropdown) return;
+
+            dropdown.style.setProperty(
+              'box-sizing',
+              'border-box',
+              'important'
+            );
+
+            dropdown.style.setProperty(
+              'overflow',
+              'hidden',
+              'important'
+            );
+
+            makeFilterDropdownResizable(
+              fieldId,
+              dropdown
+            );
+          });
+        }
       });
     }
 
