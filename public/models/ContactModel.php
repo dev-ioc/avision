@@ -120,32 +120,34 @@ class ContactModel extends BaseModel
     public function createContact($data)
     {
         $query = "INSERT INTO contacts (
-                    client_id,
-                    first_name,
-                    last_name,
-                    fonction,
-                    phone1,
-                    phone2,
-                    email,
-                    comment,
-                    has_user_account,
-                    status,
-                    created_at,
-                    updated_at
-                ) VALUES (
-                    :client_id,
-                    :first_name,
-                    :last_name,
-                    :fonction,
-                    :phone1,
-                    :phone2,
-                    :email,
-                    :comment,
-                    :has_user_account,
-                    :status,
-                    NOW(),
-                    NOW()
-                )";
+                client_id,
+                first_name,
+                last_name,
+                fonction,
+                phone1,
+                phone2,
+                email,
+                comment,
+                has_user_account,
+                is_vip,
+                status,
+                created_at,
+                updated_at
+            ) VALUES (
+                :client_id,
+                :first_name,
+                :last_name,
+                :fonction,
+                :phone1,
+                :phone2,
+                :email,
+                :comment,
+                :has_user_account,
+                :is_vip,
+                :status,
+                NOW(),
+                NOW()
+            )";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':client_id', $data['client_id'], PDO::PARAM_INT);
@@ -157,6 +159,7 @@ class ContactModel extends BaseModel
         $stmt->bindParam(':email', $data['email'], PDO::PARAM_STR);
         $stmt->bindParam(':comment', $data['comment'], PDO::PARAM_STR);
         $stmt->bindParam(':has_user_account', $data['has_user_account'], PDO::PARAM_INT);
+        $stmt->bindValue(':is_vip', $data['is_vip'] ?? 0, PDO::PARAM_INT);
         $stmt->bindParam(':status', $data['status'], PDO::PARAM_INT);
 
         return $stmt->execute();
@@ -166,15 +169,16 @@ class ContactModel extends BaseModel
     {
         try {
             $query = "UPDATE contacts SET 
-                        first_name = :first_name,
-                        last_name = :last_name,
-                        fonction = :fonction,
-                        phone1 = :phone1,
-                        phone2 = :phone2,
-                        email = :email,
-                        comment = :comment,
-                        updated_at = NOW()
-                    WHERE id = :id";
+                    first_name = :first_name,
+                    last_name = :last_name,
+                    fonction = :fonction,
+                    phone1 = :phone1,
+                    phone2 = :phone2,
+                    email = :email,
+                    comment = :comment,
+                    is_vip = :is_vip,
+                    updated_at = NOW()
+                WHERE id = :id";
 
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -185,6 +189,7 @@ class ContactModel extends BaseModel
             $stmt->bindParam(':phone2', $data['phone2'], PDO::PARAM_STR);
             $stmt->bindParam(':email', $data['email'], PDO::PARAM_STR);
             $stmt->bindParam(':comment', $data['comment'], PDO::PARAM_STR);
+            $stmt->bindValue(':is_vip', $data['is_vip'] ?? 0, PDO::PARAM_INT);
 
             return $stmt->execute();
         } catch (PDOException $e) {
@@ -192,7 +197,6 @@ class ContactModel extends BaseModel
             return false;
         }
     }
-
     public function deleteContact($id)
     {
         try {

@@ -120,7 +120,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <label class="form-check-label" for="has_user_account">Ce contact a un compte utilisateur</label>
                                 </div>
                             </div>
-                            
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="is_vip" name="is_vip" value="1"
+                                    <?php echo (!empty($contact['is_vip'])) ? 'checked' : ''; ?>>
+                                <label class="form-check-label" for="is_vip">
+                                    <i class="bi bi-star-fill text-warning me-1"></i> Contact VIP
+                                </label>
+                            </div>
                             <!-- Sous-formulaire pour la création de compte utilisateur -->
                             <div id="userAccountForm" class="card mt-3 mb-3" style="display: none;">
                                 <div class="card-header py-2">

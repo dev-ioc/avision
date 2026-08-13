@@ -393,6 +393,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                       <th class="sortable" data-sort="email">Email <i class="bi bi-arrow-down-up sort-icon"></i></th>
                       <th class="sortable" data-sort="has_user_account">Compte utilisateur <i
                           class="bi bi-arrow-down-up sort-icon"></i></th>
+                      <th class="sortable" data-sort="is_vip">VIP <i class="bi bi-arrow-down-up sort-icon"></i></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -433,6 +434,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <?php endif; ?>
                           <?php else: ?>
                             <span class="badge bg-secondary">Non</span>
+                          <?php endif; ?>
+                        </td>
+                        <td data-label="VIP" data-sort-value="<?php echo !empty($contact['is_vip']) ? '1' : '0'; ?>">
+                          <?php if (!empty($contact['is_vip'])): ?>
+                            <i class="bi bi-check-circle-fill text-success" title="Contact VIP"></i>
                           <?php endif; ?>
                         </td>
                       </tr>

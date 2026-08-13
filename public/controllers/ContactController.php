@@ -1,14 +1,16 @@
 <?php
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 
-class ContactController {
+class ContactController
+{
     use AccessControlTrait;
     private $db;
     private $contactModel;
     private $clientModel;
     private $userModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         global $db;
         $this->db = $db;
         $this->contactModel = new ContactModel($this->db);
@@ -20,12 +22,13 @@ class ContactController {
      * Vérifie l'accès avec vérification optionnelle d'un client spécifique
      * Utilise AccessControlTrait::checkAccessWithClient() et checkClientManagementAccess()
      */
-    private function checkAccess($clientId = null) {
+    private function checkAccess($clientId = null)
+    {
         $this->checkAccessWithClient($clientId);
-        
+
         if (!canModifyClients()) {
             $_SESSION['error'] = "Vous n'avez pas les permissions nécessaires pour accéder à cette page.";
-            
+
             // Rediriger vers la page d'édition du client si l'ID du client est fourni
             if ($clientId) {
                 header('Location: ' . BASE_URL . 'clients/edit/' . $clientId);
@@ -36,7 +39,8 @@ class ContactController {
         }
     }
 
-    public function add($clientId = null) {
+    public function add($clientId = null)
+    {
         $this->checkAccess($clientId);
 
         if (!$clientId) {
@@ -56,7 +60,7 @@ class ContactController {
             // Validation des champs obligatoires
             if (empty($_POST['first_name']) || empty($_POST['last_name']) || empty($_POST['email'])) {
                 $_SESSION['error'] = "Le prénom, le nom et l'email sont obligatoires.";
-                
+
                 // Gérer le retour en cas d'erreur
                 $returnTo = $_GET['return_to'] ?? 'edit';
                 if ($returnTo === 'view') {
@@ -76,6 +80,7 @@ class ContactController {
                     'email' => $_POST['email'],
                     'comment' => $_POST['comment'] ?? '',
                     'has_user_account' => isset($_POST['has_user_account']) ? 1 : 0,
+                    'is_vip' => isset($_POST['is_vip']) ? 1 : 0,
                     'status' => 1
                 ];
 
@@ -87,7 +92,7 @@ class ContactController {
                         // Validation du mot de passe
                         $password = $_POST['password'];
                         $errors = [];
-                        
+
                         if (strlen($password) < 8) {
                             $errors[] = "Le mot de passe doit contenir au moins 8 caractères";
                         }
@@ -122,7 +127,7 @@ class ContactController {
                             'status' => 1,
                             'client_id' => $clientId
                         ];
-                        
+
                         // Log des données utilisateur pour debug
                         custom_log("CONTACT_USER_CREATION: Tentative de création d'utilisateur pour contact", 'INFO', [
                             'client_id' => $clientId,
@@ -130,10 +135,10 @@ class ContactController {
                             'email' => $userData['email'],
                             'type' => $userData['type']
                         ]);
-                        
+
                         // Créer l'utilisateur et récupérer son ID
                         $userId = $this->userModel->createUser($userData);
-                        
+
                         // Log du résultat
                         custom_log("CONTACT_USER_CREATION: Résultat création utilisateur", 'INFO', [
                             'success' => $userId ? true : false,
@@ -152,7 +157,7 @@ class ContactController {
 
                 if (!isset($_SESSION['error']) && $this->contactModel->createContact($data)) {
                     $_SESSION['success'] = "Contact ajouté avec succès.";
-                    
+
                     // Gérer le retour intelligent
                     $returnTo = $_GET['return_to'] ?? 'edit';
                     if ($returnTo === 'view') {
@@ -172,13 +177,14 @@ class ContactController {
     }
 
 
-    public function edit($id = null) {
+    public function edit($id = null)
+    {
         // Récupérer d'abord le contact pour obtenir l'ID du client
         $contact = null;
         if ($id) {
             $contact = $this->contactModel->getContactById($id);
         }
-        
+
         // Vérifier les permissions avec l'ID du client
         $this->checkAccess($contact ? $contact['client_id'] : null);
 
@@ -202,7 +208,8 @@ class ContactController {
                 'phone1' => $_POST['phone1'] ?? '',
                 'phone2' => $_POST['phone2'] ?? '',
                 'email' => $_POST['email'] ?? '',
-                'comment' => $_POST['comment'] ?? ''
+                'comment' => $_POST['comment'] ?? '',
+                'is_vip' => isset($_POST['is_vip']) ? 1 : 0
             ];
 
             if ($this->contactModel->updateContact($id, $data)) {
@@ -218,7 +225,8 @@ class ContactController {
         require_once VIEWS_PATH . '/contact/edit.php';
     }
 
-    public function delete($id = null) {
+    public function delete($id = null)
+    {
         // Récupérer d'abord le contact pour obtenir l'ID du client
         $contact = null;
         if ($id) {
@@ -259,10 +267,11 @@ class ContactController {
         exit;
     }
 
-    public function index() {
+    public function index()
+    {
         // Récupérer l'ID du client depuis les paramètres GET si disponible
         $clientId = isset($_GET['client_id']) ? $_GET['client_id'] : null;
-        
+
         // Vérifier les permissions avec l'ID du client
         $this->checkAccess($clientId);
 
@@ -277,4 +286,4 @@ class ContactController {
         header('Location: ' . BASE_URL . 'dashboard');
         exit;
     }
-} 
+}

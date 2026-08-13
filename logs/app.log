@@ -125746,3 +125746,167 @@ Quant à l’écran n°1, il est HS
 [2026-08-13 13:53:11][INFO] 109 
 [2026-08-13 13:53:15][INFO] 109 
 [2026-08-13 13:53:20][INFO] 109 
+[2026-08-13 14:18:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 616498bde3c6246cb8b5... 
+[2026-08-13 14:18:22][DEBUG] Permissions chargées pour Fncaaudiovisuel : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":22,"site_id":35,"room_id":72},{"client_id":22,"site_id":35,"room_id":73},{"client_id":22,"site_id":35,"room_id":74},{"client_id":22,"site_id":35,"room_id":75},{"client_id":22,"site_id":35,"room_id":76},{"client_id":22,"site_id":35,"room_id":77},{"client_id":22,"site_id":35,"room_id":78},{"client_id":22,"site_id":35,"room_id":79},{"client_id":22,"site_id":35,"room_id":80},{"client_id":22,"site_id":35,"room_id":81},{"client_id":22,"site_id":35,"room_id":82},{"client_id":22,"site_id":35,"room_id":83},{"client_id":22,"site_id":35,"room_id":84},{"client_id":22,"site_id":35,"room_id":297}],"coefficients":{"user_coef":null}} 
+[2026-08-13 14:18:22][INFO] Utilisateur connecté : Fncaaudiovisuel {"user_id":26,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":22}
+[2026-08-13 14:18:22][DEBUG] Login réussi - Session ID: e706f0chvajk350r2tpnjeojbm 
+[2026-08-13 14:18:22][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-13 14:18:22][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-13 14:18:22][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-13 14:18:22][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-13 14:18:24][DEBUG] SiteClientController::index - DB set: yes 
+[2026-08-13 14:18:24][DEBUG] SiteClientController::index - clientId from session: 22 
+[2026-08-13 14:18:24][DEBUG] SiteClientController::index - userLocations: {"22":[{"site_id":35,"building_id":25,"room_id":77},{"site_id":35,"building_id":25,"room_id":72},{"site_id":35,"building_id":25,"room_id":73},{"site_id":35,"building_id":25,"room_id":74},{"site_id":35,"building_id":25,"room_id":75},{"site_id":35,"building_id":25,"room_id":76},{"site_id":35,"building_id":25,"room_id":78},{"site_id":35,"building_id":25,"room_id":79},{"site_id":35,"building_id":25,"room_id":80},{"site_id":35,"building_id":25,"room_id":81},{"site_id":35,"building_id":25,"room_id":82},{"site_id":35,"building_id":25,"room_id":83},{"site_id":35,"building_id":25,"room_id":84},{"site_id":35,"building_id":25,"room_id":297}]} 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - START 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - userLocations: {"22":[{"site_id":35,"building_id":25,"room_id":77},{"site_id":35,"building_id":25,"room_id":72},{"site_id":35,"building_id":25,"room_id":73},{"site_id":35,"building_id":25,"room_id":74},{"site_id":35,"building_id":25,"room_id":75},{"site_id":35,"building_id":25,"room_id":76},{"site_id":35,"building_id":25,"room_id":78},{"site_id":35,"building_id":25,"room_id":79},{"site_id":35,"building_id":25,"room_id":80},{"site_id":35,"building_id":25,"room_id":81},{"site_id":35,"building_id":25,"room_id":82},{"site_id":35,"building_id":25,"room_id":83},{"site_id":35,"building_id":25,"room_id":84},{"site_id":35,"building_id":25,"room_id":297}]} 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Traitement du clientId: 22 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - locations: [{"site_id":35,"building_id":25,"room_id":77},{"site_id":35,"building_id":25,"room_id":72},{"site_id":35,"building_id":25,"room_id":73},{"site_id":35,"building_id":25,"room_id":74},{"site_id":35,"building_id":25,"room_id":75},{"site_id":35,"building_id":25,"room_id":76},{"site_id":35,"building_id":25,"room_id":78},{"site_id":35,"building_id":25,"room_id":79},{"site_id":35,"building_id":25,"room_id":80},{"site_id":35,"building_id":25,"room_id":81},{"site_id":35,"building_id":25,"room_id":82},{"site_id":35,"building_id":25,"room_id":83},{"site_id":35,"building_id":25,"room_id":84},{"site_id":35,"building_id":25,"room_id":297}] 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - clientSites trouvés: 1 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site: ID=35, name=48 BOETIE 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - allowedSiteIds: {"35":true} 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - Ajout du site 35 dans la map (accès restreint) 
+[2026-08-13 14:18:24][DEBUG] getSitesByLocations - résultat FINAL: [35] 
+[2026-08-13 14:18:24][DEBUG] SiteClientController::index - sites après dédoublonnage: [35] 
+[2026-08-13 14:18:24][INFO] 35 
+[2026-08-13 14:18:24][DEBUG] SiteClientController::index - sites count: 1 
+[2026-08-13 14:18:37][INFO] 35 
+[2026-08-13 14:20:01][DEBUG] SiteClientController::index - DB set: yes 
+[2026-08-13 14:20:01][DEBUG] SiteClientController::index - clientId from session: 22 
+[2026-08-13 14:20:01][DEBUG] SiteClientController::index - userLocations: {"22":[{"site_id":35,"building_id":25,"room_id":77},{"site_id":35,"building_id":25,"room_id":72},{"site_id":35,"building_id":25,"room_id":73},{"site_id":35,"building_id":25,"room_id":74},{"site_id":35,"building_id":25,"room_id":75},{"site_id":35,"building_id":25,"room_id":76},{"site_id":35,"building_id":25,"room_id":78},{"site_id":35,"building_id":25,"room_id":79},{"site_id":35,"building_id":25,"room_id":80},{"site_id":35,"building_id":25,"room_id":81},{"site_id":35,"building_id":25,"room_id":82},{"site_id":35,"building_id":25,"room_id":83},{"site_id":35,"building_id":25,"room_id":84},{"site_id":35,"building_id":25,"room_id":297}]} 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - START 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - userLocations: {"22":[{"site_id":35,"building_id":25,"room_id":77},{"site_id":35,"building_id":25,"room_id":72},{"site_id":35,"building_id":25,"room_id":73},{"site_id":35,"building_id":25,"room_id":74},{"site_id":35,"building_id":25,"room_id":75},{"site_id":35,"building_id":25,"room_id":76},{"site_id":35,"building_id":25,"room_id":78},{"site_id":35,"building_id":25,"room_id":79},{"site_id":35,"building_id":25,"room_id":80},{"site_id":35,"building_id":25,"room_id":81},{"site_id":35,"building_id":25,"room_id":82},{"site_id":35,"building_id":25,"room_id":83},{"site_id":35,"building_id":25,"room_id":84},{"site_id":35,"building_id":25,"room_id":297}]} 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Traitement du clientId: 22 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - locations: [{"site_id":35,"building_id":25,"room_id":77},{"site_id":35,"building_id":25,"room_id":72},{"site_id":35,"building_id":25,"room_id":73},{"site_id":35,"building_id":25,"room_id":74},{"site_id":35,"building_id":25,"room_id":75},{"site_id":35,"building_id":25,"room_id":76},{"site_id":35,"building_id":25,"room_id":78},{"site_id":35,"building_id":25,"room_id":79},{"site_id":35,"building_id":25,"room_id":80},{"site_id":35,"building_id":25,"room_id":81},{"site_id":35,"building_id":25,"room_id":82},{"site_id":35,"building_id":25,"room_id":83},{"site_id":35,"building_id":25,"room_id":84},{"site_id":35,"building_id":25,"room_id":297}] 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - clientSites trouvés: 1 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site: ID=35, name=48 BOETIE 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - allowedSiteIds: {"35":true} 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - Ajout du site 35 dans la map (accès restreint) 
+[2026-08-13 14:20:01][DEBUG] getSitesByLocations - résultat FINAL: [35] 
+[2026-08-13 14:20:01][DEBUG] SiteClientController::index - sites après dédoublonnage: [35] 
+[2026-08-13 14:20:01][INFO] 35 
+[2026-08-13 14:20:01][DEBUG] SiteClientController::index - sites count: 1 
+[2026-08-13 14:20:04][INFO] 35 
+[2026-08-13 14:22:04][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:22:05][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-13 14:22:05][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-13 14:22:05][DEBUG] Login réussi - Session ID: kn2l7qntbtt6g7knq2u6ue63tk 
+[2026-08-13 14:22:05][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-13 14:22:05][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-13 14:22:05][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-13 14:22:05][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-13 14:22:09][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-13 14:22:10][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:22:10][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:22:10][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-13 14:22:10][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:22:13][INFO] 55 
+[2026-08-13 14:22:13][INFO] 109 
+[2026-08-13 14:22:37][INFO] 55 
+[2026-08-13 14:23:45][INFO] 55 
+[2026-08-13 14:23:45][INFO] 109 
+[2026-08-13 14:31:39][INFO] 109 
+[2026-08-13 14:33:09][INFO] 55 
+[2026-08-13 14:33:09][INFO] 109 
+[2026-08-13 14:48:55][INFO] 55 
+[2026-08-13 14:48:55][INFO] 109 
+[2026-08-13 14:49:21][INFO] 55 
+[2026-08-13 14:49:21][INFO] 109 
+[2026-08-13 14:49:49][INFO] 55 
+[2026-08-13 14:49:49][INFO] 109 
+[2026-08-13 14:51:31][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-13 14:51:31][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:51:32][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:51:32][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-13 14:51:32][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:51:33][INFO] 55 
+[2026-08-13 14:51:33][INFO] 109 
+[2026-08-13 14:53:57][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:54:01][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-13 14:54:02][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:54:02][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:54:02][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:54:02][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-13 14:54:04][INFO] 55 
+[2026-08-13 14:54:04][INFO] 109 
+[2026-08-13 14:54:29][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-13 14:54:29][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:54:29][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:54:29][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-13 14:54:29][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:54:31][INFO] 81 
+[2026-08-13 14:54:37][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-13 14:54:38][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:54:38][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:54:38][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-13 14:54:38][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:54:40][INFO] 55 
+[2026-08-13 14:54:40][INFO] 109 
+[2026-08-13 14:57:10][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:57:14][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-13 14:57:15][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:57:15][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:57:15][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-13 14:57:15][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:57:16][INFO] 55 
+[2026-08-13 14:57:16][INFO] 109 
+[2026-08-13 14:57:25][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-13 14:57:25][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:57:25][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:57:25][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-13 14:57:25][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:57:26][INFO] 81 
+[2026-08-13 14:57:32][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-13 14:57:32][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:57:32][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:57:33][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-13 14:57:33][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:57:34][INFO] 37 
+[2026-08-13 14:57:34][INFO] 38 
+[2026-08-13 14:57:34][INFO] 36 
+[2026-08-13 14:57:39][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-13 14:57:39][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:57:39][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:57:39][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:57:39][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-13 14:57:40][INFO] 55 
+[2026-08-13 14:57:40][INFO] 109 
+[2026-08-13 14:58:11][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:58:11][INFO] 55 
+[2026-08-13 14:58:11][INFO] 109 
+[2026-08-13 14:58:25][INFO] 55 
+[2026-08-13 14:58:25][INFO] 109 
+[2026-08-13 14:58:40][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 14:58:45][INFO] 55 
+[2026-08-13 14:58:45][INFO] 109 
+[2026-08-13 14:59:50][INFO] 55 
+[2026-08-13 14:59:50][INFO] 109 
