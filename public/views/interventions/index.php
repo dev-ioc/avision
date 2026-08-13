@@ -492,7 +492,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
       });
     }
   });
-
   window.BASE_URL = '<?= BASE_URL ?>';
   window.csrfToken = '<?= $_SESSION['csrf_token'] ?>';
 </script>
