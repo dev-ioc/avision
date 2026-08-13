@@ -125947,3 +125947,23 @@ Quant à l’écran n°1, il est HS
 [2026-08-13 15:36:55][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
 [2026-08-13 15:36:59][INFO] 55 
 [2026-08-13 15:36:59][INFO] 109 
+[2026-08-13 15:42:09][INFO] 55 
+[2026-08-13 15:42:09][INFO] 109 
+[2026-08-13 15:42:17][INFO] 55 
+[2026-08-13 15:42:17][INFO] 109 
+[2026-08-13 15:42:55][INFO] 55 
+[2026-08-13 15:42:55][INFO] 109 
+[2026-08-13 15:43:00][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 15:43:01][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 15:43:03][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 15:43:04][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 15:43:29][INFO] 55 
+[2026-08-13 15:43:29][INFO] 109 
+[2026-08-13 15:43:51][INFO] 55 
+[2026-08-13 15:43:51][INFO] 109 
+[2026-08-13 15:44:08][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 15:44:10][INFO] 55 
+[2026-08-13 15:44:10][INFO] 109 
+[2026-08-13 15:44:15][DEBUG] CSRF: Token trouvé dans la requête - Token: d7f1318b6cbe8ebc847b... 
+[2026-08-13 15:44:17][INFO] 55 
+[2026-08-13 15:44:17][INFO] 109 

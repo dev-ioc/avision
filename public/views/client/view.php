@@ -569,7 +569,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <th>Nom</th>
                                             <th>Contact principal</th>
                                             <th>Statut</th>
-                                            <th>QR Code édité</th>
+                                            <th class="text-center">QR Code édité</th>
                                             <th>Commentaire</th>
                                           </tr>
                                         </thead>
@@ -588,11 +588,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 </span>
                                               </td>
                                               <td class="text-center">
-                                                <div class="form-check form-switch d-flex justify-content-center">
                                                   <input class="form-check-input qr-code-toggle" type="checkbox"
                                                     data-room-id="<?php echo $room['id']; ?>" <?php echo !empty($room['qr_code_edited']) ? 'checked' : ''; ?>
                                                   <?php echo !$canModifyClient ? 'disabled title="Vous n\'avez pas les droits pour modifier ce champ"' : ''; ?>>
-                                                </div>
                                               </td>
                                               <td>
                                                 <?php echo !empty($room['comment']) ? h($room['comment']) : '<span class="text-muted">Aucun commentaire</span>'; ?>
@@ -1091,7 +1089,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
   const roomId = this.dataset.roomId;
   const edited = this.checked;
   const originalState = !edited;
-  const csrfToken = '<?= csrf_token() ?>'; // grab it once as a JS string
+  const csrfToken = '<?= csrf_token() ?>'; 
 
   this.disabled = true;
 
