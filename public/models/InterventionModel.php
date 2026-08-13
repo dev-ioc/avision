@@ -13,30 +13,27 @@ class InterventionModel extends BaseModel
         $this->table = 'interventions';
     }
 
-    /**
-     * Récupère toutes les interventions avec filtres
-     */
     public function getAll($filters = [])
     {
         $sql = "SELECT i.*, 
-        c.name as client_name,
-        s.name as site_name,
-        b.name as building_name,
-        r.name as room_name,
-        its.name as status_name,
-        its.color as status_color,
-        it.name as type_name,
-        ip.name as priority_name,
-        ip.color as priority_color
-        FROM " . $this->table . " i
-        LEFT JOIN clients c ON i.client_id = c.id
-        LEFT JOIN sites s ON i.site_id = s.id
-        LEFT JOIN buildings b ON i.building_id = b.id
-        LEFT JOIN rooms r ON i.room_id = r.id
-        LEFT JOIN intervention_statuses its ON i.status_id = its.id
-        LEFT JOIN intervention_types it ON i.type_id = it.id
-        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
-        WHERE 1=1";
+    c.name as client_name,
+    s.name as site_name,
+    b.name as building_name,
+    r.name as room_name,
+    its.name as status_name,
+    its.color as status_color,
+    it.name as type_name,
+    ip.name as priority_name,
+    ip.color as priority_color
+    FROM " . $this->table . " i
+    LEFT JOIN clients c ON i.client_id = c.id
+    LEFT JOIN sites s ON i.site_id = s.id
+    LEFT JOIN buildings b ON i.building_id = b.id
+    LEFT JOIN rooms r ON i.room_id = r.id
+    LEFT JOIN intervention_statuses its ON i.status_id = its.id
+    LEFT JOIN intervention_types it ON i.type_id = it.id
+    LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+    WHERE 1=1";
 
         $params = [];
 
@@ -69,8 +66,8 @@ class InterventionModel extends BaseModel
             $params[] = $filters['created_at'];
         }
         if (isset($filters['is_preventive'])) {
-            $sql .= " AND i.is_preventive = :is_preventive";
-            $params[':is_preventive'] = $filters['is_preventive'];
+            $sql .= " AND i.is_preventive = ?";
+            $params[] = $filters['is_preventive'];
         }
         if (!empty($filters['search'])) {
             $sql .= " AND (i.title LIKE ? OR c.name LIKE ? OR s.name LIKE ? OR r.name LIKE ? OR i.reference LIKE ?)";
@@ -95,7 +92,6 @@ class InterventionModel extends BaseModel
 
         return $results;
     }
-
     /**
      * Récupère une intervention par son ID
      */

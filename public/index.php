@@ -1324,6 +1324,18 @@ try {
                 case 'createSignNowWebhook':
                     $interventionController->createSignNowWebhook();
                     break;
+                case 'get_all_clients':
+                    $interventionController->get_all_clients();
+                    break;
+                case 'get_all_sites':
+                    $interventionController->get_all_sites();
+                    break;
+                case 'get_all_buildings':
+                    $interventionController->get_all_buildings();
+                    break;
+                case 'get_all_rooms':
+                    $interventionController->get_all_rooms();
+                    break;
                 case 'saveLocalSignature':
                     if ($id) {
                         $interventionController->saveLocalSignature($id);

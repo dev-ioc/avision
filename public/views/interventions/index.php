@@ -82,6 +82,57 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
       <?php endif; ?>
     </div>
   </div>
+  <header>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+  </header>
+  <div class="card mb-4">
+    <div class="card-header py-2">
+      <h6 class="card-title mb-0">Filtres</h6>
+    </div>
+    <div class="card-body py-2">
+      <form method="get" action="" id="interventionFilterForm">
+        <div class="row g-2 align-items-end">
+          <div class="col-12 col-md-3 col-lg-2">
+            <label for="client_id" class="form-label fw-bold mb-1">
+              Client
+            </label>
+            <select class="form-select bg-body text-body" id="client_id" name="client_id">
+            </select>
+          </div>
+          <div class="col-12 col-md-3 col-lg-2">
+            <label for="site_id" class="form-label fw-bold mb-1">
+              Site
+            </label>
+            <select class="form-select bg-body text-body" id="site_id" name="site_id">
+            </select>
+          </div>
+          <div class="col-12 col-md-3 col-lg-2">
+            <label for="building_id" class="form-label fw-bold mb-1">
+              Bâtiment
+            </label>
+            <select class="form-select bg-body text-body" id="building_id" name="building_id">
+            </select>
+          </div>
+          <div class="col-12 col-md-3 col-lg-2">
+            <label for="room_id" class="form-label fw-bold mb-1">
+              Salle
+            </label>
+            <select class="form-select bg-body text-body" id="room_id" name="room_id">
+            </select>
+          </div>
+          <div class="col-12 col-md-auto">
+            <a href="<?= BASE_URL ?><?= $isPreventivePage ? 'interventions/preventives' : 'interventions/curatives' ?>"
+              class="btn btn-outline-secondary">
+              <i class="bi bi-x-lg me-1"></i>
+              Réinitialiser
+            </a>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
   <div class="table-responsive d-none d-md-block">
     <table id="interventionsTable" class="table table-striped table-hover">
       <thead>
@@ -339,6 +390,97 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
       max-width: 150px;
     }
   }
+
+  /* =========================================================
+   TOM SELECT
+   ========================================================= */
+
+  .ts-wrapper {
+    width: 100%;
+  }
+
+  .ts-dropdown {
+    z-index: 99999 !important;
+    box-sizing: border-box !important;
+
+    /* Taille par défaut au premier chargement */
+    width: 350px !important;
+    height: 300px !important;
+
+    min-width: 250px !important;
+    min-height: 50px !important;
+
+    max-width: none !important;
+    max-height: none !important;
+
+    overflow: hidden !important;
+  }
+
+  /* Contenu du dropdown */
+  .ts-dropdown .ts-dropdown-content {
+    width: 100% !important;
+    height: 100% !important;
+
+    max-height: none !important;
+
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+
+    box-sizing: border-box !important;
+  }
+
+  /* Options */
+  .ts-dropdown .option {
+    white-space: normal !important;
+    word-break: break-word;
+  }
+
+  /* Ne pas couper le dropdown */
+  #filterForm,
+  #filterForm .row,
+  #filterForm .col-md-2,
+  #filterForm .ts-wrapper {
+    overflow: visible !important;
+  }
+
+
+  /* =========================================================
+   POIGNÉE DE REDIMENSIONNEMENT
+   ========================================================= */
+
+  .filter-dropdown-resizer {
+    position: absolute;
+
+    right: 0;
+    bottom: 0;
+
+    width: 18px;
+    height: 18px;
+
+    cursor: nwse-resize;
+
+    z-index: 100000;
+
+    background:
+      linear-gradient(135deg,
+        transparent 0%,
+        transparent 45%,
+        #999 46%,
+        #999 52%,
+        transparent 53%),
+      linear-gradient(135deg,
+        transparent 0%,
+        transparent 62%,
+        #999 63%,
+        #999 69%,
+        transparent 70%);
+
+    opacity: 0.7;
+  }
+
+  .filter-dropdown-resizer:hover {
+    opacity: 1;
+  }
 </style>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -370,6 +512,199 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
     interventionsTable_pageLength:
       <?= json_encode((int) getUserPreference('datatable_interventionsTable_pageLength', 10)) ?>
   };
+</script>
+<script>
+  (function () {
+    const tomSelects = {};
+
+    function formatLocationOption(contextParts) {
+      return function (data, escape) {
+        const ctx = contextParts(data).filter(Boolean).join(' — ');
+        return `<div>
+          <span class="fw-bold">${escape(data.text)}</span>
+          ${ctx ? `<br><small class="text-muted">${escape(ctx)}</small>` : ''}
+        </div>`;
+      };
+    }
+
+    function makeFilterDropdownResizable(fieldId, dropdown) {
+      if (!dropdown) return;
+
+      let resizer = dropdown.querySelector('.filter-dropdown-resizer');
+      if (!resizer) {
+        resizer = document.createElement('div');
+        resizer.className = 'filter-dropdown-resizer';
+        dropdown.appendChild(resizer);
+      }
+
+      const savedWidth = localStorage.getItem('filter-dropdown-width-' + fieldId);
+      const savedHeight = localStorage.getItem('filter-dropdown-height-' + fieldId);
+
+      const DEFAULT_WIDTH = 350;
+      const DEFAULT_HEIGHT = 300;
+
+      dropdown.style.setProperty('width', (savedWidth || DEFAULT_WIDTH) + 'px', 'important');
+      dropdown.style.setProperty('height', (savedHeight || DEFAULT_HEIGHT) + 'px', 'important');
+
+      if (resizer.dataset.initialized === 'true') {
+        return;
+      }
+      resizer.dataset.initialized = 'true';
+
+      resizer.addEventListener('mousedown', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const startX = event.clientX;
+        const startY = event.clientY;
+        const startWidth = dropdown.offsetWidth;
+        const startHeight = dropdown.offsetHeight;
+
+        function onMouseMove(moveEvent) {
+          const dx = moveEvent.clientX - startX;
+          const dy = moveEvent.clientY - startY;
+
+          let newWidth = startWidth + dx;
+          let newHeight = startHeight + dy;
+
+          newWidth = Math.max(250, newWidth);
+          newHeight = Math.max(50, newHeight);
+
+          const rect = dropdown.getBoundingClientRect();
+          const maxWidth = window.innerWidth - rect.left - 20;
+          const maxHeight = window.innerHeight - rect.top - 20;
+
+          newWidth = Math.min(newWidth, maxWidth);
+          newHeight = Math.min(newHeight, maxHeight);
+
+          dropdown.style.setProperty('width', newWidth + 'px', 'important');
+          dropdown.style.setProperty('height', newHeight + 'px', 'important');
+        }
+
+        function onMouseUp() {
+          localStorage.setItem('filter-dropdown-width-' + fieldId, Math.round(dropdown.offsetWidth));
+          localStorage.setItem('filter-dropdown-height-' + fieldId, Math.round(dropdown.offsetHeight));
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('mouseup', onMouseUp);
+          document.body.style.userSelect = '';
+          document.body.style.cursor = '';
+        }
+
+        document.body.style.userSelect = 'none';
+        document.body.style.cursor = 'nwse-resize';
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+      });
+    }
+
+    function initFilterTomSelect(fieldId, searchFields, renderFn) {
+      if (tomSelects[fieldId]) {
+        tomSelects[fieldId].destroy();
+      }
+
+      tomSelects[fieldId] = new TomSelect('#' + fieldId, {
+        valueField: 'value',
+        labelField: 'text',
+        searchField: searchFields,
+        placeholder: 'Rechercher...',
+        allowEmptyOption: true,
+        render: {
+          option: renderFn,
+          item: (data, escape) => `<div>${escape(data.text)}</div>`
+        },
+        onChange: submitInterventionFilters,
+        onDropdownOpen: function (dropdown) {
+          requestAnimationFrame(() => {
+            if (!dropdown) return;
+            dropdown.style.setProperty('box-sizing', 'border-box', 'important');
+            dropdown.style.setProperty('overflow', 'hidden', 'important');
+            makeFilterDropdownResizable(fieldId, dropdown);
+          });
+        }
+      });
+    }
+
+    function loadOptionsInto(fieldId, url, mapFn, preserveSelection) {
+      fetch(url)
+        .then(res => res.json())
+        .then(rows => {
+          if (!Array.isArray(rows)) return;
+          const ts = tomSelects[fieldId];
+          ts.clearOptions();
+          ts.addOption({ value: '', text: 'Tous' });
+          rows.forEach(r => ts.addOption(mapFn(r)));
+          ts.refreshOptions(false);
+          if (preserveSelection) ts.setValue(preserveSelection, true);
+        })
+        .catch(err => console.error('Erreur chargement ' + fieldId + ':', err));
+    }
+
+    function initAllInterventionFilters() {
+      const currentValues = {
+        client_id: <?= json_encode($_GET['client_id'] ?? '') ?>,
+        site_id: <?= json_encode($_GET['site_id'] ?? '') ?>,
+        building_id: <?= json_encode($_GET['building_id'] ?? '') ?>,
+        room_id: <?= json_encode($_GET['room_id'] ?? '') ?>,
+      };
+      const baseUrl = window.BASE_URL;
+
+      initFilterTomSelect('client_id', ['text'], (data, escape) => `<div>${escape(data.text)}</div>`);
+      {
+        const params = new URLSearchParams();
+        if (currentValues.site_id) params.set('site_id', currentValues.site_id);
+        if (currentValues.building_id) params.set('building_id', currentValues.building_id);
+        if (currentValues.room_id) params.set('room_id', currentValues.room_id);
+        loadOptionsInto('client_id', baseUrl + 'interventions/get_all_clients?' + params.toString(),
+          r => ({ value: r.id, text: r.name }), currentValues.client_id);
+      }
+
+      initFilterTomSelect('site_id', ['text', 'client_name'], formatLocationOption(d => [d.client_name]));
+      {
+        const params = new URLSearchParams();
+        if (currentValues.client_id) params.set('client_id', currentValues.client_id);
+        if (currentValues.building_id) params.set('building_id', currentValues.building_id);
+        if (currentValues.room_id) params.set('room_id', currentValues.room_id);
+        loadOptionsInto('site_id', baseUrl + 'interventions/get_all_sites?' + params.toString(),
+          r => ({ value: r.id, text: r.name, client_id: r.client_id, client_name: r.client_name }), currentValues.site_id);
+      }
+
+      initFilterTomSelect('building_id', ['text', 'site_name', 'client_name'], formatLocationOption(d => [d.client_name, d.site_name]));
+      {
+        const params = new URLSearchParams();
+        if (currentValues.client_id) params.set('client_id', currentValues.client_id);
+        if (currentValues.site_id) params.set('site_id', currentValues.site_id);
+        if (currentValues.room_id) params.set('room_id', currentValues.room_id);
+        loadOptionsInto('building_id', baseUrl + 'interventions/get_all_buildings?' + params.toString(),
+          r => ({ value: r.id, text: r.name, site_id: r.site_id, site_name: r.site_name, client_id: r.client_id, client_name: r.client_name }), currentValues.building_id);
+      }
+
+      initFilterTomSelect('room_id', ['text', 'building_name', 'site_name', 'client_name'], formatLocationOption(d => [d.client_name, d.site_name, d.building_name]));
+      {
+        const params = new URLSearchParams();
+        if (currentValues.client_id) params.set('client_id', currentValues.client_id);
+        if (currentValues.site_id) params.set('site_id', currentValues.site_id);
+        if (currentValues.building_id) params.set('building_id', currentValues.building_id);
+        loadOptionsInto('room_id', baseUrl + 'interventions/get_all_rooms?' + params.toString(),
+          r => ({ value: r.id, text: r.name, building_id: r.building_id, building_name: r.building_name, site_id: r.site_id, site_name: r.site_name, client_id: r.client_id, client_name: r.client_name }), currentValues.room_id);
+      }
+    }
+
+    function submitInterventionFilters() {
+      const clientId = document.getElementById('client_id').value;
+      const siteId = document.getElementById('site_id').value;
+      const buildingId = document.getElementById('building_id').value;
+      const roomId = document.getElementById('room_id').value;
+      const basePath = <?= json_encode($isPreventivePage ? 'interventions/preventives' : 'interventions/curatives') ?>;
+      const params = [];
+      if (clientId) params.push('client_id=' + clientId);
+      if (siteId) params.push('site_id=' + siteId);
+      if (buildingId) params.push('building_id=' + buildingId);
+      if (roomId) params.push('room_id=' + roomId);
+      window.location.href = window.BASE_URL + basePath + (params.length ? '?' + params.join('&') : '');
+    }
+
+    document.addEventListener('DOMContentLoaded', initAllInterventionFilters);
+  })();
 </script>
 <script src="<?= BASE_URL ?>assets/js/interventions-datatable.js"></script>
 <script src="<?= BASE_URL ?>assets/js/datatable-persistence.js"></script>

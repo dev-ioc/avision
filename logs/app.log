@@ -125735,3 +125735,14 @@ Quant à l’écran n°1, il est HS
 (
 )
  
+[2026-08-13 10:10:52][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-13 10:10:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 0932846798cff4c5bc48... 
+[2026-08-13 10:10:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 0932846798cff4c5bc48... 
+[2026-08-13 10:10:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 0932846798cff4c5bc48... 
+[2026-08-13 10:10:54][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-13 10:10:56][INFO] 55 
+[2026-08-13 10:10:56][INFO] 109 
+[2026-08-13 13:22:15][ERROR] Erreur : SQLSTATE[HY093]: Invalid parameter number: mixed named and positional parameters {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":92}
+[2026-08-13 13:53:11][INFO] 109 
+[2026-08-13 13:53:15][INFO] 109 
+[2026-08-13 13:53:20][INFO] 109 
