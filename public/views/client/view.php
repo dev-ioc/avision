@@ -623,8 +623,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
           </div>
         </div>
       </div>
-
-      <!-- Onglet Contrats -->
       <div class="tab-pane fade" id="contracts" role="tabpanel" aria-labelledby="contracts-tab">
         <div class="card">
           <div class="card-header py-2">
