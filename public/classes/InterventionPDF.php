@@ -73,28 +73,36 @@ class InterventionPDF extends TCPDF
 
         $this->renderClient($intervention);
 
-        $this->Ln(3);
+        $this->Ln(6);
 
-        $this->renderEquipment($equipment);
+        // SECTION 3 — Équipements concernés — désactivée à la demande du
+        // client (VS2026-0893) : rallongeait trop le BI. Le numéro "3." lui
+        // reste réservé (voir renderEquipment()) pour rester aligné sur la
+        // maquette client si elle est réactivée, avec le futur module SAV
+        // (sélection des machines en panne par le technicien).
+        // $this->renderEquipment($equipment);
 
-        $this->Ln(4);
-
-        // SECTION 4
+        // SECTION 4 — Détail de l'intervention
         $this->renderDetails($intervention, $comments);
 
-        // SECTION 5
-        $this->renderParts($replacedParts);
+        $this->renderParts($replacedParts, $equipment);
 
-        $this->AddPage();
+        // =====================================================
+        // SECTION 6 — Clôture & signatures
+        // =====================================================
+        $closureBlockHeight = 115;
+        $headerHeight = 27;
+        $bottomLimit = $this->getPageHeight() - $this->getMargins()['bottom'];
 
-        // Header nouvelle page
+        if ($this->GetY() + $headerHeight + $closureBlockHeight > $bottomLimit) {
+            $this->AddPage();
+        } else {
+            $this->Ln(6);
+        }
+
         $this->renderHeader($intervention);
-
         $this->Ln(2);
 
-        $this->renderLoanEquipment($equipment);
-
-        // Section 6
         $this->renderClosure($intervention, $technicians, $selectedAttachments, $signatures);
         $this->showFooterOnLastPage = true;
         $this->setPrintFooter(true);
@@ -110,6 +118,7 @@ class InterventionPDF extends TCPDF
     private function renderHeader($intervention)
     {
         $width = 190;
+        $y = $this->GetY();
 
         $this->SetFillColor(
             $this->mainColor[0],
@@ -117,16 +126,16 @@ class InterventionPDF extends TCPDF
             $this->mainColor[2]
         );
 
-        $this->Rect(10, 10, $width, 26, 'F');
+        $this->Rect(10, $y, $width, 26, 'F');
 
         // Titre
         $this->SetTextColor(255, 255, 255);
-        $this->SetXY(14, 14);
+        $this->SetXY(14, $y + 4);
         $this->SetFont('helvetica', 'B', 20);
         $this->Cell(90, 8, "BON D'INTERVENTION");
 
         // Sous titre
-        $this->SetXY(14, 23);
+        $this->SetXY(14, $y + 13);
         $this->SetFont('helvetica', 'I', 10);
         $this->SetTextColor(255, 204, 0);
         $this->Cell(90, 5, 'Généré par AVision  •  VIDEOSONIC');
@@ -139,7 +148,7 @@ class InterventionPDF extends TCPDF
 
         // N° Ticket
         $ticket = $intervention['reference'] ?? '';
-        $this->SetXY(135, 12);
+        $this->SetXY(135, $y + 2);
         $this->SetFont('helvetica', '', 10);
         $this->Cell(15, 5, 'N° Ticket :', 0, 0, 'L');
         $this->SetX(135 + 25);
@@ -186,7 +195,7 @@ class InterventionPDF extends TCPDF
 
         $this->Ln();
 
-        $this->SetY(37);
+        $this->SetY($y + 27);
     }
     /**
      * =========================================================
@@ -500,7 +509,8 @@ class InterventionPDF extends TCPDF
 
     /**
      * =========================================================
-     * SECTION 3
+     * SECTION ÉQUIPEMENTS (désactivée pour l'instant, conservée
+     * intacte pour réactivation future — voir generateBonIntervention())
      * =========================================================
      */
     private function renderEquipment($equipment)
@@ -726,7 +736,7 @@ class InterventionPDF extends TCPDF
     }
     /**
      * =========================================================
-     * SECTION 4 (COMPLÈTE SANS DÉCOUPAGE)
+     * SECTION 4 — DÉTAIL DE L'INTERVENTION
      * =========================================================
      */
     private function renderDetails($intervention, $comments)
@@ -885,65 +895,15 @@ class InterventionPDF extends TCPDF
         );
 
         // =====================================================
-// DESCRIPTION
-// =====================================================
+        // DESCRIPTION
+        // =====================================================
 
-        $this->SetFont('helvetica', '', 9);
         $descriptionText = $intervention['description'] ?? '';
+        $this->renderTextBox('Description du problème :', $descriptionText);
 
-        // Hauteur réelle du texte selon son contenu (largeur utile = 180mm, comme le MultiCell plus bas)
-        $textHeight = $this->getStringHeight(180, $descriptionText, false, true, '', 0);
-
-        $topPadding = 10;   // espace réservé pour le titre "Description du problème :"
-        $bottomPadding = 4; // marge en bas de l'encadré
-        $boxHeight = $topPadding + $textHeight + $bottomPadding;
-        $boxHeight = max($boxHeight, 20); // hauteur minimale si description vide/très courte
-
-        $this->Cell(190, $boxHeight, '', 1);
-
-        $y = $this->GetY();
-
-        $this->SetXY(13, $y + 2);
-
-        $this->SetFont('helvetica', 'B', 10);
-
-        $this->Cell(
-            60,
-            5,
-            'Description du problème :',
-            0
-        );
-
-        $this->SetXY(13, $y + 10);
-
-        $this->SetFont('helvetica', '', 9);
-
-        $this->MultiCell(
-            180,
-            5,
-            $descriptionText,
-            0,
-            'L'
-        );
-        $this->SetY($y + $boxHeight);
         // =====================================================
         // COMMENTAIRES
         // =====================================================
-
-        $this->Cell(190, 40, '', 1);
-
-        $y = $this->GetY();
-
-        $this->SetXY(13, $y + 2);
-
-        $this->SetFont('helvetica', 'B', 10);
-
-        $this->Cell(
-            80,
-            5,
-            'Solution apportée / Commentaires :',
-            0
-        );
 
         $commentText = '';
 
@@ -957,26 +917,84 @@ class InterventionPDF extends TCPDF
             }
         }
 
-        $this->SetXY(13, $y + 10);
-
-        $this->SetFont('helvetica', '', 9);
-
-        $this->MultiCell(
-            180,
-            5,
-            trim($commentText),
-            0,
-            'L'
-        );
+        $this->renderTextBox('Solution apportée / Commentaires :', trim($commentText));
     }
 
     /**
      * =========================================================
-     * SECTION 5
-     * PIÈCES REMPLACÉES
+     * ENCADRÉ TITRE + TEXTE À HAUTEUR AUTOMATIQUE
+     * On écrit d'abord le contenu (le vrai déclencheur de saut de page
+     * de TCPDF s'applique alors normalement), on mesure la position Y
+     * réellement atteinte, puis on dessine le cadre autour — au lieu
+     * de deviner la hauteur à l'avance avec getStringHeight(), ce qui
+     * sous-estime systématiquement pour les textes longs.
      * =========================================================
      */
-    private function renderParts($replacedParts)
+    private function renderTextBox($title, $text, $minHeight = 20)
+    {
+        $x = 10;
+        $width = 190;
+        $innerX = $x + 3;
+        $innerWidth = $width - 6;
+
+        $startY = $this->GetY();
+        $startPage = $this->getPage();
+
+        // Réserve l'espace du titre
+        $this->SetXY($innerX, $startY + 2);
+        $this->SetFont('helvetica', 'B', 10);
+        $this->Cell(80, 5, $title, 0);
+
+        // Contenu (peut déclencher un saut de page automatique si trop long)
+        $this->SetXY($innerX, $startY + 10);
+        $this->SetFont('helvetica', '', 9);
+        $this->MultiCell($innerWidth, 5, $text, 0, 'L');
+
+        $endY = $this->GetY();
+        $endPage = $this->getPage();
+
+        if ($endPage === $startPage) {
+            // Cas normal : le contenu tient sur la page courante —
+            // on encadre exactement la hauteur réellement utilisée.
+            $boxHeight = max($minHeight, ($endY - $startY) + 4);
+            $this->Rect($x, $startY, $width, $boxHeight);
+            $this->SetY($startY + $boxHeight);
+        } else {
+            // Le texte était trop long pour la page courante : TCPDF a
+            // lui-même inséré un saut de page pendant le MultiCell, donc on
+            // se retrouve déjà sur la page suivante. Pour encadrer chaque
+            // portion sur la bonne page, il faut explicitement y retourner
+            // avec setPage() avant de dessiner — Rect() dessine toujours
+            // sur la page courante, pas sur celle où était le curseur.
+            $bottomLimit = $this->getPageHeight() - $this->getMargins()['bottom'];
+            $topMargin = $this->getMargins()['top'];
+
+            // Portion sur la page de départ : du haut du bloc jusqu'en bas
+            // de la zone imprimable.
+            $this->setPage($startPage);
+            $this->Rect($x, $startY, $width, $bottomLimit - $startY);
+
+            // Pages intermédiaires éventuelles (texte très long) : cadre
+            // plein sur toute la hauteur imprimable.
+            for ($p = $startPage + 1; $p < $endPage; $p++) {
+                $this->setPage($p);
+                $this->Rect($x, $topMargin, $width, $bottomLimit - $topMargin);
+            }
+
+            // Portion sur la page finale : du haut de la zone imprimable
+            // jusqu'à la fin réelle du texte.
+            $this->setPage($endPage);
+            $this->Rect($x, $topMargin, $width, $endY - $topMargin + 4);
+            $this->SetY($endY + 4);
+        }
+    }
+
+    /**
+     * =========================================================
+     * SECTION 5 — PIÈCES REMPLACÉES & MATÉRIEL PRÊTÉ
+     * =========================================================
+     */
+    private function renderParts($replacedParts, $equipment = [])
     {
         // =====================================================
         // TITRE SECTION
@@ -1031,107 +1049,39 @@ class InterventionPDF extends TCPDF
                 $this->Cell($w5, 12, '', 1, 1);
             }
         }
+
+        // =====================================================
+        // LIGNE "PRÊT DE MATÉRIEL" (rattachée à la section 5,
+        // conformément à la maquette client)
+        // =====================================================
+        $this->renderLoanRow($equipment);
     }
 
     /**
      * =========================================================
-     * TABLEAU INTERMÉDIAIRE + PRÊT DE MATÉRIEL
+     * LIGNE PRÊT DE MATÉRIEL — intégrée à la section 5
      * =========================================================
      */
-    private function renderLoanEquipment($equipment)
+    private function renderLoanRow($equipment = [])
     {
-        // Collé juste sous le header
-        $startY = 36;
+        $this->Ln(2);
 
-        // =====================================================
-        // TABLEAU INTERMÉDIAIRE VIDE
-        // 2 LIGNES × 3 COLONNES
-        // =====================================================
-
-        $col1 = 95;
-        $col2 = 47.5;
-        $col3 = 47.5;
-
-        $rowHeight = 12;
-
-        // Bordures
-        $this->SetDrawColor(
-            $this->border[0],
-            $this->border[1],
-            $this->border[2]
-        );
-
-        // =========================
-        // LIGNE 1
-        // =========================
-
-        $this->Rect(
-            10,
-            $startY,
-            $col1,
-            $rowHeight
-        );
-
-        $this->Rect(
-            10 + $col1,
-            $startY,
-            $col2,
-            $rowHeight
-        );
-
-        $this->Rect(
-            10 + $col1 + $col2,
-            $startY,
-            $col3,
-            $rowHeight
-        );
-
-        // =========================
-        // LIGNE 2
-        // =========================
-
-        $this->Rect(
-            10,
-            $startY + $rowHeight,
-            $col1,
-            $rowHeight
-        );
-
-        $this->Rect(
-            10 + $col1,
-            $startY + $rowHeight,
-            $col2,
-            $rowHeight
-        );
-
-        $this->Rect(
-            10 + $col1 + $col2,
-            $startY + $rowHeight,
-            $col3,
-            $rowHeight
-        );
-
-        // =====================================================
-        // TABLEAU PRÊT DE MATÉRIEL
-        // =====================================================
-
-        $loanY = $startY + ($rowHeight * 2);
+        $loanY = $this->GetY();
+        $rowHeight = 22;
 
         // Fond beige principal
         $this->SetFillColor(248, 243, 226);
 
         // Cadre principal
-        $this->Rect(10, $loanY, 190, 22, 'FD');
-
-        // Bordure principale
-        $this->Rect(10, $loanY, 190, 22, 'D');
+        $this->Rect(10, $loanY, 190, $rowHeight, 'FD');
+        $this->Rect(10, $loanY, 190, $rowHeight, 'D');
 
         // =====================================================
         // COLONNE 1
         // =====================================================
 
-        $this->Rect(10, $loanY, 45, 22, 'FD');
-        $this->Rect(10, $loanY, 45, 22, 'D');
+        $this->Rect(10, $loanY, 45, $rowHeight, 'FD');
+        $this->Rect(10, $loanY, 45, $rowHeight, 'D');
 
         $this->SetXY(12, $loanY + 4);
 
@@ -1156,8 +1106,8 @@ class InterventionPDF extends TCPDF
         // COLONNE 2
         // =====================================================
 
-        $this->Rect(55, $loanY, 42, 22, 'FD');
-        $this->Rect(55, $loanY, 42, 22, 'D');
+        $this->Rect(55, $loanY, 42, $rowHeight, 'FD');
+        $this->Rect(55, $loanY, 42, $rowHeight, 'D');
 
         $this->SetFont('helvetica', '', 9);
         $this->SetTextColor(0, 0, 0);
@@ -1171,12 +1121,13 @@ class InterventionPDF extends TCPDF
         $this->Rect(78, $loanY + 5, 4, 4);
         $this->SetXY(84, $loanY + 4);
         $this->Cell(12, 5, 'Non', 0, 0);
+
         // =====================================================
         // COLONNE 3
         // =====================================================
 
-        $this->Rect(97, $loanY, 103, 22, 'FD');
-        $this->Rect(97, $loanY, 103, 22, 'D');
+        $this->Rect(97, $loanY, 103, $rowHeight, 'FD');
+        $this->Rect(97, $loanY, 103, $rowHeight, 'D');
 
         $this->SetXY(100, $loanY + 3);
 
@@ -1209,7 +1160,7 @@ class InterventionPDF extends TCPDF
         );
 
         // Position suivante
-        $this->SetY($loanY + 28);
+        $this->SetY($loanY + $rowHeight + 2);
     }
     /**
      * =========================================================
@@ -1303,21 +1254,15 @@ class InterventionPDF extends TCPDF
         // =====================================================
         // BLOC SIGNATURES — un seul rendu des cadres, fond + bordure
         // =====================================================
-        $signatureBorderWidth = 0.2;
-        $this->SetLineWidth($signatureBorderWidth);
+        $this->SetLineWidth(0.2);
         $this->SetDrawColor($this->border[0], $this->border[1], $this->border[2]);
 
+        // Cadre gauche (technicien) : bordure simple, fond blanc
         $this->Rect(10, $signY, 95, 52);
 
+        // Cadre droit (client) : fond beige + bordure, dessinés UNE SEULE FOIS ici
         $this->SetFillColor(248, 243, 226);
-        $this->Rect(105, $signY, 95, 52, 'DF');
-
-        // Restaurer l'épaisseur par défaut pour la suite du document
-        $this->SetLineWidth(0.2);
-        $this->Rect(10, $signY, 95, 52);
-
-        $this->SetFillColor(248, 243, 226);
-        $this->Rect(105, $signY, 95, 52, 'DF');
+        $this->Rect(105, $signY, 95, 52, 'DF'); // 'DF' = Draw + Fill en un seul appel, évite le double-dessin
 
         // -------------------------
         // SIGNATURE TECHNICIEN
@@ -1483,7 +1428,8 @@ class InterventionPDF extends TCPDF
 
         $this->SetY($bottomY + 28);
     }
-    /* =========================================================
+    /**
+     * =========================================================
      * FOOTER TCPDF AUTO
      * Affiché uniquement sur la dernière page
      * =========================================================
@@ -1570,11 +1516,8 @@ class InterventionPDF extends TCPDF
 
         $fileName = 'temp_BI_signe_' . $intervention['reference'] . '_' . date('Ymd_His') . '.pdf';
         $filePath = $tempDir . '/' . $fileName;
-
-        // Appeler la méthode existante generateBonIntervention avec les signatures
         $this->generateBonIntervention($intervention, $comments, $attachments, $technicians, $equipment, $replacedParts, $signatures);
 
-        // Sauvegarder dans le fichier temporaire
         $this->Output($filePath, 'F');
 
         return $filePath;

@@ -125622,3 +125622,104 @@ Quant à l’écran n°1, il est HS
 [2026-08-12 16:26:18][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-08-12 16:26:18][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
 [2026-08-12 16:26:18][DEBUG] Redirection après login vers: http://localhost/avision/public/materiel 
+[2026-08-13 08:04:43][DEBUG] CSRF: Token trouvé dans la requête - Token: c6395c7cb407ebe51136... 
+[2026-08-13 08:04:44][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-13 08:04:44][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-13 08:04:44][DEBUG] Login réussi - Session ID: l8epkdrn030tsbalrjbd558vmc 
+[2026-08-13 08:04:44][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-13 08:04:44][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-13 08:04:44][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-13 08:04:44][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-13 08:45:45][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: 1t9tebdso8mrlgpghm9bt0rfn9) 
+[2026-08-13 08:45:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 0932846798cff4c5bc48... 
+[2026-08-13 08:45:50][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-13 08:45:50][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-13 08:45:50][DEBUG] Login réussi - Session ID: 1t9tebdso8mrlgpghm9bt0rfn9 
+[2026-08-13 08:45:50][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-08-13 08:45:50][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-13 08:45:50][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-08-13 08:45:50][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-08-13 08:45:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 0932846798cff4c5bc48... 
+[2026-08-13 08:45:59][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 08:47:29][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 08:53:42][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:02:02][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:02:50][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:21:59][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:31:01][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:31:01][ERROR] Unsupported operand types: string + int {"file":"C:\\xampp\\htdocs\\avision\\public\\vendor\\TCPDF-6.6.2\\tcpdf.php","line":5106,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php(910): TCPDF->Cell(190, 'auto', '', 1)\n#1 C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php(86): InterventionPDF->renderDetails(Array, Array)\n#2 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4005): InterventionPDF->generateBonIntervention(Array, Array, Array, Array, Array, Array, Array)\n#3 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(3911): InterventionController->generateBonInterventionPdf(Array, Array, Array, Array, Array, Array)\n#4 C:\\xampp\\htdocs\\avision\\public\\index.php(1043): InterventionController->generateBonPdf('370')\n#5 {main}","type":"TypeError"}
+[2026-08-13 09:32:15][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:35:50][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:36:12][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:36:12][ERROR] Call to undefined method InterventionPDF::getPageBreakTrigger() {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":966,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php(900): InterventionPDF->renderTextBox('Description du ...', 'Nous avons cons...')\n#1 C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php(86): InterventionPDF->renderDetails(Array, Array)\n#2 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4005): InterventionPDF->generateBonIntervention(Array, Array, Array, Array, Array, Array, Array)\n#3 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(3911): InterventionController->generateBonInterventionPdf(Array, Array, Array, Array, Array, Array)\n#4 C:\\xampp\\htdocs\\avision\\public\\index.php(1043): InterventionController->generateBonPdf('370')\n#5 {main}","type":"Error"}
+[2026-08-13 09:36:22][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:36:22][ERROR] Call to undefined method InterventionPDF::getPageBreakTrigger() {"file":"C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php","line":966,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php(900): InterventionPDF->renderTextBox('Description du ...', 'Nous avons cons...')\n#1 C:\\xampp\\htdocs\\avision\\public\\classes\\InterventionPDF.php(86): InterventionPDF->renderDetails(Array, Array)\n#2 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(4005): InterventionPDF->generateBonIntervention(Array, Array, Array, Array, Array, Array, Array)\n#3 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(3911): InterventionController->generateBonInterventionPdf(Array, Array, Array, Array, Array, Array)\n#4 C:\\xampp\\htdocs\\avision\\public\\index.php(1043): InterventionController->generateBonPdf('370')\n#5 {main}","type":"Error"}
+[2026-08-13 09:37:32][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:40:39][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:41:10][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:43:43][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:44:36][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:44:46][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:45:39][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:47:41][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-13 09:52:09][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
