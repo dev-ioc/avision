@@ -300,4 +300,55 @@ class RoomController
         echo json_encode($rooms);
         exit;
     }
+    public function toggleQrCode($id = null)
+    {
+        header('Content-Type: application/json');
+
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Non authentifié.']);
+            exit;
+        }
+
+        if (!$id || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Requête invalide.']);
+            exit;
+        }
+
+        $rawInput = file_get_contents('php://input');
+        $input = json_decode($rawInput, true) ?? [];
+
+        // Accept token from header first, fall back to JSON body
+        $csrfToken = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? ($input['csrf_token'] ?? null);
+
+        if (!$csrfToken || !hash_equals($_SESSION['csrf_token'] ?? '', $csrfToken)) {
+            http_response_code(419); // or 403
+            echo json_encode(['success' => false, 'message' => 'Jeton CSRF invalide.']);
+            exit;
+        }
+
+        $room = $this->roomModel->getRoomById($id);
+        if (!$room) {
+            http_response_code(404);
+            echo json_encode(['success' => false, 'message' => 'Salle introuvable.']);
+            exit;
+        }
+
+        if (!canModifyClients()) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => "Vous n'avez pas les droits nécessaires."]);
+            exit;
+        }
+
+        $edited = isset($input['edited']) ? (bool) $input['edited'] : false;
+
+        if ($this->roomModel->updateQrCodeStatus($id, $edited)) {
+            echo json_encode(['success' => true, 'edited' => $edited]);
+        } else {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Erreur lors de la mise à jour.']);
+        }
+        exit;
+    }
 }

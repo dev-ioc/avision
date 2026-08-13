@@ -740,6 +740,9 @@ try {
                 case 'getRoomsBySite':
                     $roomController->getRoomsBySite();
                     break;
+                case 'toggle-qr':
+                    $roomController->toggleQrCode($id);
+                    break;
                 default:
                     header('Location: ' . BASE_URL . 'dashboard');
                     break;

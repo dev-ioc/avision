@@ -32,12 +32,12 @@ class RoomModel extends BaseModel
      */
     public function getRoomsByBuildingId($buildingId, $activeOnly = false)
     {
-        $query = "SELECT DISTINCT r.id, r.building_id, r.name, r.comment, r.status, r.created_at, r.updated_at,
-                        c.first_name, c.last_name, b.client_id 
-                 FROM rooms r 
-                 LEFT JOIN contacts c ON r.main_contact_id = c.id 
-                 JOIN buildings b ON r.building_id = b.id 
-                 WHERE r.building_id = :building_id";
+        $query = "SELECT DISTINCT r.id, r.building_id, r.name, r.comment, r.status, r.qr_code_edited, r.created_at, r.updated_at,
+                    c.first_name, c.last_name, b.client_id 
+             FROM rooms r 
+             LEFT JOIN contacts c ON r.main_contact_id = c.id 
+             JOIN buildings b ON r.building_id = b.id 
+             WHERE r.building_id = :building_id";
 
         if ($activeOnly) {
             $query .= " AND r.status = 1";
@@ -227,5 +227,23 @@ class RoomModel extends BaseModel
         }
 
         return $duplicates;
+    }
+    public function updateQrCodeStatus($id, $edited)
+    {
+        try {
+            $query = "UPDATE rooms SET 
+                    qr_code_edited = :qr_code_edited,
+                    updated_at = NOW()
+                WHERE id = :id";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':qr_code_edited', $edited ? 1 : 0, PDO::PARAM_INT);
+
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Erreur lors de la mise à jour du statut QR Code: " . $e->getMessage());
+            return false;
+        }
     }
 }
