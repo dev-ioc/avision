@@ -340,8 +340,8 @@ class InterventionPDF extends TCPDF
         $y = $this->GetY();
         $x = 55;
         // =========================
-// Critique
-// =========================
+        // Critique
+        // =========================
 
         $boxY = $y + 2;
         $textY = $y + 1;
@@ -360,8 +360,8 @@ class InterventionPDF extends TCPDF
         $this->Cell(22, 5, 'Critique', 0, 0);
 
         // =========================
-// Normal
-// =========================
+        // Normal
+        // =========================
 
         $normalBoxX = $x + 38;
 
@@ -377,8 +377,8 @@ class InterventionPDF extends TCPDF
         $this->Cell(20, 5, 'Normal', 0, 0);
 
         // =========================
-// Planifié
-// =========================
+        // Planifié
+        // =========================
 
         $plannedBoxX = $x + 68;
 
@@ -744,8 +744,8 @@ class InterventionPDF extends TCPDF
         $this->sectionTitle("4. DÉTAIL DE L'INTERVENTION");
 
         // =====================================================
-// NATURE
-// =====================================================
+        // NATURE
+        // =====================================================
 
         $this->headCell(45, 'Nature');
 
@@ -764,8 +764,8 @@ class InterventionPDF extends TCPDF
         $textY = $natureY + 1;
 
         // =====================================================
-// SUR SITE
-// =====================================================
+        // SUR SITE
+        // =====================================================
 
         $surSiteBoxX = 58;
 
@@ -793,8 +793,8 @@ class InterventionPDF extends TCPDF
         $this->Cell(22, 5, 'Sur site');
 
         // =====================================================
-// DISTANCIELLE
-// =====================================================
+        // DISTANCIELLE
+        // =====================================================
 
         $remoteBoxX = 90;
 
@@ -954,35 +954,20 @@ class InterventionPDF extends TCPDF
         $endPage = $this->getPage();
 
         if ($endPage === $startPage) {
-            // Cas normal : le contenu tient sur la page courante —
-            // on encadre exactement la hauteur réellement utilisée.
             $boxHeight = max($minHeight, ($endY - $startY) + 4);
             $this->Rect($x, $startY, $width, $boxHeight);
             $this->SetY($startY + $boxHeight);
         } else {
-            // Le texte était trop long pour la page courante : TCPDF a
-            // lui-même inséré un saut de page pendant le MultiCell, donc on
-            // se retrouve déjà sur la page suivante. Pour encadrer chaque
-            // portion sur la bonne page, il faut explicitement y retourner
-            // avec setPage() avant de dessiner — Rect() dessine toujours
-            // sur la page courante, pas sur celle où était le curseur.
             $bottomLimit = $this->getPageHeight() - $this->getMargins()['bottom'];
             $topMargin = $this->getMargins()['top'];
-
-            // Portion sur la page de départ : du haut du bloc jusqu'en bas
-            // de la zone imprimable.
             $this->setPage($startPage);
             $this->Rect($x, $startY, $width, $bottomLimit - $startY);
 
-            // Pages intermédiaires éventuelles (texte très long) : cadre
-            // plein sur toute la hauteur imprimable.
             for ($p = $startPage + 1; $p < $endPage; $p++) {
                 $this->setPage($p);
                 $this->Rect($x, $topMargin, $width, $bottomLimit - $topMargin);
             }
 
-            // Portion sur la page finale : du haut de la zone imprimable
-            // jusqu'à la fin réelle du texte.
             $this->setPage($endPage);
             $this->Rect($x, $topMargin, $width, $endY - $topMargin + 4);
             $this->SetY($endY + 4);
@@ -1006,7 +991,6 @@ class InterventionPDF extends TCPDF
         // TABLEAU PIÈCES REMPLACÉES
         // =====================================================
 
-        // Définir les largeurs des colonnes
         $w1 = 60;
         $w2 = 40;
         $w3 = 40;
@@ -1257,12 +1241,10 @@ class InterventionPDF extends TCPDF
         $this->SetLineWidth(0.2);
         $this->SetDrawColor($this->border[0], $this->border[1], $this->border[2]);
 
-        // Cadre gauche (technicien) : bordure simple, fond blanc
         $this->Rect(10, $signY, 95, 52);
 
-        // Cadre droit (client) : fond beige + bordure, dessinés UNE SEULE FOIS ici
         $this->SetFillColor(248, 243, 226);
-        $this->Rect(105, $signY, 95, 52, 'DF'); // 'DF' = Draw + Fill en un seul appel, évite le double-dessin
+        $this->Rect(105, $signY, 95, 52, 'DF');
 
         // -------------------------
         // SIGNATURE TECHNICIEN
@@ -1357,9 +1339,8 @@ class InterventionPDF extends TCPDF
         // Insérées EN DERNIER, après tout le texte/fond, pour ne pas
         // être recouvertes par un remplissage ultérieur du cadre.
         // =========================================================
-        $uploadRoot = __DIR__ . '/../../'; // adapter selon l'emplacement réel de InterventionPDF.php
+        $uploadRoot = __DIR__ . '/../../';
 
-        // Signature technicien : sous "Date :", dans l'espace libre du cadre gauche
         if (!empty($signatures['technicien'])) {
             $techImgPath = $uploadRoot . $signatures['technicien'];
             if (file_exists($techImgPath)) {
