@@ -81,7 +81,7 @@ class InterventionPDF extends TCPDF
         // maquette client si elle est réactivée, avec le futur module SAV
         // (sélection des machines en panne par le technicien).
         // $this->renderEquipment($equipment);
-
+        // $this->Ln(4);
         // SECTION 4 — Détail de l'intervention
         $this->renderDetails($intervention, $comments);
 
