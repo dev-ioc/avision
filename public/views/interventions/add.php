@@ -2127,17 +2127,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     btn.disabled = false;
                 });
         });
-
-
-
         document.getElementById('confirmNotifyBtn').addEventListener('click', function () {
             const form = document.getElementById('interventionForm');
             if (form) {
                 form.requestSubmit();
             }
         });
-
-
         const flashBtn = document.getElementById('confirmFlashBtn');
         const flashClient = document.getElementById('flash_client_id');
         const flashSpinner = document.getElementById('flashSpinner');
