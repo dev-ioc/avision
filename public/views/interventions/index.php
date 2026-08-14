@@ -82,7 +82,7 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
       <?php endif; ?>
     </div>
   </div>
-  <header>
+  <!-- <header>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css">
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
   </header>
@@ -132,7 +132,7 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
         </div>
       </form>
     </div>
-  </div>
+  </div> -->
   <div class="table-responsive d-none d-md-block">
     <table id="interventionsTable" class="table table-striped table-hover">
       <thead>
@@ -512,7 +512,7 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
       <?= json_encode((int) getUserPreference('datatable_interventionsTable_pageLength', 10)) ?>
   };
 </script>
-<script>
+<!-- <script>
   (function () {
     const tomSelects = {};
 
@@ -704,7 +704,7 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
 
     document.addEventListener('DOMContentLoaded', initAllInterventionFilters);
   })();
-</script>
+</script> -->
 <script src="<?= BASE_URL ?>assets/js/interventions-datatable.js"></script>
 <script src="<?= BASE_URL ?>assets/js/datatable-persistence.js"></script>
 
