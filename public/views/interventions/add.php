@@ -47,8 +47,8 @@ include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
 ?>
 <header>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 </header>
 <div class="container-fluid flex-grow-1 container-p-y">
 
@@ -84,6 +84,87 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 font-size: 0.875rem;
                 padding: 0.375rem 0.75rem;
             }
+        }
+
+        /* =========================================================
+           TOM SELECT
+           ========================================================= */
+        .ts-wrapper {
+            width: 100%;
+        }
+
+        .ts-dropdown {
+            z-index: 99999 !important;
+            box-sizing: border-box !important;
+            width: 350px !important;
+            height: 300px !important;
+            min-width: 100px !important;
+            min-height: 50px !important;
+            max-width: none !important;
+            max-height: none !important;
+            overflow: hidden !important;
+        }
+
+        .ts-dropdown .ts-dropdown-content {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: none !important;
+            overflow-x: auto !important;
+            overflow-y: auto !important;
+            box-sizing: border-box !important;
+        }
+
+        .ts-dropdown .option {
+            white-space: normal !important;
+            word-break: break-word;
+        }
+
+        /* Poignée de redimensionnement */
+        .filter-dropdown-resizer {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 18px;
+            height: 18px;
+            cursor: nwse-resize;
+            z-index: 100000;
+            background:
+                linear-gradient(135deg,
+                    transparent 0%,
+                    transparent 45%,
+                    #999 46%,
+                    #999 52%,
+                    transparent 53%),
+                linear-gradient(135deg,
+                    transparent 0%,
+                    transparent 62%,
+                    #999 63%,
+                    #999 69%,
+                    transparent 70%);
+            opacity: 0.7;
+        }
+
+        .filter-dropdown-resizer:hover {
+            opacity: 1;
+        }
+
+        /* Ne pas couper le dropdown */
+        #filterForm,
+        #filterForm .row,
+        #filterForm .col-md-2,
+        #filterForm .ts-wrapper {
+            overflow: visible !important;
+        }
+
+        /* Style pour le champ contrat en warning */
+        .is-warning {
+            border-color: #ffc107 !important;
+            border-width: 2px !important;
+        }
+
+        .is-warning:focus {
+            border-color: #ffc107 !important;
+            box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
         }
     </style>
 
@@ -153,11 +234,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
-
-                                    <button type="button" class="btn btn-outline-secondary btn-sm"
-                                        id="quickCreateClientBtn" title="Créer un nouveau client">
-                                        <i class="bi bi-plus"></i>
-                                    </button>
                                 </div>
                                 <small id="clientError" class="text-danger d-none">Le client est obligatoire.</small>
                             </div>
@@ -167,12 +243,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <label class="form-label fw-bold mb-0">Site</label>
                                 <div class="input-group">
                                     <select class="form-select bg-body text-body" id="site_id" name="site_id">
-                                        <option value="">Sélectionner un site</option>
                                     </select>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm"
-                                        id="quickCreateSiteBtn" title="Créer un nouveau site">
-                                        <i class="bi bi-plus"></i>
-                                    </button>
                                 </div>
                             </div>
 
@@ -181,12 +252,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <label class="form-label fw-bold mb-0">Bâtiment</label>
                                 <div class="input-group">
                                     <select class="form-select bg-body text-body" id="building_id" name="building_id">
-                                        <option value="">Sélectionner un bâtiment</option>
                                     </select>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm"
-                                        id="quickCreateBuildingBtn" title="Créer un nouveau bâtiment">
-                                        <i class="bi bi-plus"></i>
-                                    </button>
                                 </div>
                             </div>
 
@@ -195,19 +261,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <label class="form-label fw-bold mb-0">Salle</label>
                                 <div class="input-group">
                                     <select class="form-select bg-body text-body" id="room_id" name="room_id">
-                                        <option value="">Sélectionner une salle</option>
                                     </select>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm"
-                                        id="quickCreateRoomBtn" title="Créer une nouvelle salle">
-                                        <i class="bi bi-plus"></i>
-                                    </button>
                                 </div>
                             </div>
 
                         </div>
                     </div>
 
-                    <!-- Colonne 2 : Type, Contrat -->
                     <div class="col-md-3">
                         <div class="d-flex flex-column gap-2">
 
@@ -217,7 +277,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <select class="form-select bg-body text-body" id="type_id" name="type_id" required>
                                     <option value="">Sélectionner un type</option>
                                     <?php foreach ($types as $type): ?>
-                                        <option value="<?= $type['id'] ?>"><?= h($type['name'] ?? '') ?></option>
+                                        <option value="<?= $type['id'] ?>">
+                                            <?= h($type['name'] ?? '') ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                                 <small id="typeError" class="text-danger d-none">Le type d'intervention est
@@ -226,12 +288,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                             <!-- Contrat -->
                             <div>
-                                <label class="form-label fw-bold mb-0">Contrat associé *</label>
-                                <select class="form-select bg-body text-body" id="contract_id" name="contract_id"
-                                    required>
+                                <label class="form-label fw-bold mb-0">Contrat associé</label>
+                                <select class="form-select bg-body text-body" id="contract_id" name="contract_id">
                                     <option value="">Sélectionner un contrat</option>
                                 </select>
                                 <small id="contractError" class="text-danger d-none">Le contrat est obligatoire.</small>
+                                <small id="contractWarning" class="text-warning d-none">Aucun contrat associé à cette
+                                    salle.</small>
                             </div>
                             <div>
                                 <label class="form-label fw-bold mb-0">Technicien(s) à affecter</label>
@@ -292,8 +355,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 </select>
                                 <small id="prioriError" class="text-danger d-none">La priorité est obligatoire.</small>
                             </div>
-
-                            <!-- Case à cocher Intervention préventive -->
                             <div class="mt-2 pt-1">
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="is_preventive"
@@ -309,14 +370,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                         </div>
                     </div>
-                    <!-- <div class="col-md-3" id="plannedDateContainer" style="display: none;">
-                        <label class="form-label fw-bold">Date prévisionnelle</label>
-                        <input
-                            type="date"
-                            name="planned_date"
-                            id="planned_date"
-                            class="form-control">
-                    </div> -->
                     <!-- Description -->
                     <div class="col-12 mt-3">
                         <div class="card">
@@ -330,7 +383,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </div>
                     </div>
 
-                    <!-- Informations de contact -->
                     <div class="col-12 mt-3">
                         <div class="card contact-info-card">
                             <div class="card-header py-2 contact-info-header">
@@ -380,9 +432,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 </div>
 
-<!-- ===== MODALES ===== -->
-
-<!-- Modale client -->
 <div class="modal fade" id="quickCreateClientModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -682,7 +731,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     }
 </style>
 
-<!-- ===== SCRIPTS ===== -->
 <script>
     window.BASE_URL = '<?= BASE_URL ?>';
     window.csrfToken = '<?= csrf_token() ?>';
@@ -693,30 +741,94 @@ include_once __DIR__ . '/../../includes/navbar.php';
         initBaseUrl('<?php echo BASE_URL; ?>');
 
         const canModifyClients = <?php echo canModifyClients() ? 'true' : 'false'; ?>;
-        // ============================================================
-        // FILTRES CLIENT / SITE / BÂTIMENT / SALLE
-        // ============================================================
 
         const clientSelect = document.getElementById('client_id');
         const siteSelect = document.getElementById('site_id');
         const buildingSelect = document.getElementById('building_id');
         const roomSelect = document.getElementById('room_id');
         const contractSelect = document.getElementById('contract_id');
+        const contractError = document.getElementById('contractError');
+        const contractWarning = document.getElementById('contractWarning');
+        const tomSelectConfig = {
+            plugins: ['dropdown_input'],
+            placeholder: 'Rechercher...',
+            allowEmptyOption: true,
+            render: {
+                option: function (data, escape) {
+                    return `<div>${escape(data.text)}</div>`;
+                },
+                item: function (data, escape) {
+                    return `<div>${escape(data.text)}</div>`;
+                }
+            },
+            onDropdownOpen: function (dropdown) {
+                if (!dropdown) return;
 
+                let resizer = dropdown.querySelector('.filter-dropdown-resizer');
+                if (!resizer) {
+                    resizer = document.createElement('div');
+                    resizer.className = 'filter-dropdown-resizer';
+                    dropdown.appendChild(resizer);
+                }
+            }
+        };
 
-        // ============================================================
-        // UTILITAIRES
-        // ============================================================
+        function initTomSelect(selectId, placeholder, searchFields = ['text']) {
+            const select = document.getElementById(selectId);
+            if (!select) return null;
 
+            if (select.tomselect) {
+                select.tomselect.destroy();
+            }
+
+            return new TomSelect('#' + selectId, {
+                ...tomSelectConfig,
+                placeholder: placeholder || 'Rechercher...',
+                searchField: searchFields,
+                valueField: 'value',
+                labelField: 'text'
+            });
+        }
+        const tomClients = initTomSelect('client_id', 'Rechercher un client...');
+        const tomSites = initTomSelect('site_id', 'Rechercher un site...');
+        const tomBuildings = initTomSelect('building_id', 'Rechercher un bâtiment...');
+        const tomRooms = initTomSelect('room_id', 'Rechercher une salle...');
+        const tomTypes = initTomSelect('type_id', 'Rechercher un type...');
+        const tomContracts = initTomSelect('contract_id', 'Rechercher un contrat...');
+        const tomStatuses = initTomSelect('status_id', 'Rechercher un statut...');
+        const tomPriorities = initTomSelect('priority_id', 'Rechercher une priorité...');
+        const tomContacts = initTomSelect('contact_client_select', 'Rechercher un contact...');
+
+        window.tomSelectInstances = {
+            client_id: tomClients,
+            site_id: tomSites,
+            building_id: tomBuildings,
+            room_id: tomRooms,
+            type_id: tomTypes,
+            contract_id: tomContracts,
+            status_id: tomStatuses,
+            priority_id: tomPriorities,
+            contact_client_select: tomContacts
+        };
         function getFilterValues() {
             return {
-                client_id: clientSelect?.value || '',
-                site_id: siteSelect?.value || '',
-                building_id: buildingSelect?.value || '',
-                room_id: roomSelect?.value || ''
+                client_id: clientSelect?.tomselect
+                    ? clientSelect.tomselect.getValue()
+                    : (clientSelect?.value || ''),
+
+                site_id: siteSelect?.tomselect
+                    ? siteSelect.tomselect.getValue()
+                    : (siteSelect?.value || ''),
+
+                building_id: buildingSelect?.tomselect
+                    ? buildingSelect.tomselect.getValue()
+                    : (buildingSelect?.value || ''),
+
+                room_id: roomSelect?.tomselect
+                    ? roomSelect.tomselect.getValue()
+                    : (roomSelect?.value || '')
             };
         }
-
 
         /**
          * Appel AJAX JSON pour les routes de filtrage.
@@ -786,87 +898,130 @@ include_once __DIR__ . '/../../includes/navbar.php';
             return await response.json();
         }
 
-
-        /**
-         * Remplit un select.
-         */
-        function fillFilterSelect(
-            select,
-            items,
-            placeholder
-        ) {
-
+        function fillFilterSelect(select, items) {
             if (!select) {
                 return;
             }
 
-
             select.innerHTML = '';
 
-
-            const defaultOption =
-                document.createElement('option');
-
-            defaultOption.value = '';
-            defaultOption.textContent = placeholder;
-
-            select.appendChild(defaultOption);
-
-
             if (!Array.isArray(items)) {
-                return;
+                items = [];
             }
 
-
             items.forEach(item => {
-
-                const option =
-                    document.createElement('option');
-
+                const option = document.createElement('option');
                 option.value = String(item.id);
-
-                option.textContent =
-                    item.name ?? '';
-
+                option.textContent = item.name ?? '';
                 select.appendChild(option);
-
             });
 
+            if (select.tomselect) {
+                const options = items.map(item => ({
+                    value: String(item.id),
+                    text: item.name || ''
+                }));
+                select.tomselect.clearOptions();
+                options.forEach(opt => select.tomselect.addOption(opt));
+                select.tomselect.refreshOptions(false);
+                // Aucune sélection par défaut tant qu'on ne l'a pas
+                // explicitement demandée via selectFilterValue().
+                select.tomselect.setValue('', true);
+            }
         }
 
-
-        /**
-         * Sélectionne une valeur dans un select.
-         */
-        function selectFilterValue(
-            select,
-            value
-        ) {
-
-            if (!select || !value) {
+        function selectFilterValue(select, value) {
+            if (!select) {
                 return false;
             }
 
+            if (select.tomselect) {
 
-            const option = Array.from(
-                select.options
-            ).find(
-                option =>
-                    String(option.value) ===
-                    String(value)
+                if (!value) {
+                    select.tomselect.setValue('', true);
+
+                    if (
+                        select.id === 'client_id' &&
+                        typeof window.validateClient === 'function'
+                    ) {
+                        window.validateClient();
+                    }
+
+                    return true;
+                }
+
+                const strValue = String(value);
+
+                if (!select.tomselect.options[strValue]) {
+                    const nativeOption = Array.from(select.options).find(
+                        option => String(option.value) === strValue
+                    );
+
+                    if (nativeOption) {
+                        select.tomselect.addOption({
+                            value: strValue,
+                            text: nativeOption.textContent
+                        });
+
+                        select.tomselect.refreshOptions(false);
+                    }
+                }
+
+                if (select.tomselect.options[strValue]) {
+                    select.tomselect.setValue(strValue, true);
+
+                    // Validation du client après sélection automatique
+                    if (
+                        select.id === 'client_id' &&
+                        typeof window.validateClient === 'function'
+                    ) {
+                        window.validateClient();
+                    }
+
+                    return true;
+                }
+
+                console.warn(
+                    'selectFilterValue: option introuvable pour Tom Select',
+                    select.id,
+                    strValue
+                );
+
+                return false;
+            }
+
+            if (!value) {
+                select.value = '';
+
+                if (
+                    select.id === 'client_id' &&
+                    typeof window.validateClient === 'function'
+                ) {
+                    window.validateClient();
+                }
+
+                return true;
+            }
+
+            const option = Array.from(select.options).find(
+                option => String(option.value) === String(value)
             );
-
 
             if (!option) {
                 return false;
             }
 
-
             select.value = String(value);
+
+            if (
+                select.id === 'client_id' &&
+                typeof window.validateClient === 'function'
+            ) {
+                window.validateClient();
+            }
 
             return true;
         }
-
 
         /**
          * Active / désactive les filtres pendant le chargement.
@@ -891,18 +1046,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
         }
 
-
-        // ============================================================
-        // CONTRAT
-        // ============================================================
-
-        /**
-         * Sélectionne le contrat après que updateSelectedContract()
-         * ait terminé de remplir le select.
-         *
-         * updateSelectedContract() est une fonction existante de ton
-         * projet. Elle charge les contrats de façon asynchrone.
-         */
         function selectContractWhenAvailable(
             contractId,
             attempt = 0
@@ -924,33 +1067,30 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
             if (option) {
 
-                contractSelect.value =
-                    String(contractId);
+                const selected = selectFilterValue(contractSelect, contractId);
 
-
-                // Déclenche la validation existante
+                if (!selected) {
+                    if (attempt < 30) {
+                        setTimeout(() => selectContractWhenAvailable(contractId, attempt + 1), 100);
+                    } else {
+                        console.warn('Impossible de sélectionner le contrat dans Tom Select :', contractId);
+                    }
+                    return;
+                }
                 contractSelect.dispatchEvent(
                     new Event('change', {
                         bubbles: true
                     })
                 );
 
-
-                console.log(
-                    'Contrat sélectionné automatiquement :',
-                    contractId
-                );
-
+                if (contractWarning) {
+                    contractWarning.classList.add('d-none');
+                }
+                if (contractError) {
+                    contractError.classList.add('d-none');
+                }
                 return;
             }
-
-
-            /*
-             * updateSelectedContract() peut encore être en train
-             * de charger les contrats.
-             *
-             * On réessaie pendant environ 3 secondes.
-             */
 
             if (attempt < 30) {
 
@@ -975,15 +1115,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
         }
 
-
-
-
         /**
- * Récupère le contrat associé directement à une salle.
- */
-        /**
- * Récupère le contrat associé directement à une salle.
- */
+         * Récupère le contrat associé directement à une salle.
+         */
         async function loadContractByRoom(roomId) {
 
             if (!roomId || !contractSelect) {
@@ -1012,25 +1146,20 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                 const contract = await response.json();
 
-                console.log(
-                    'Contrat associé à la salle :',
-                    contract
-                );
-
                 if (contract && contract.id) {
-                    // ✅ Contrat trouvé - le sélectionner
                     selectContractWhenAvailable(contract.id);
                 } else {
-                    // ✅ AUCUN contrat trouvé - réinitialiser ET afficher l'erreur
-                    console.log('Aucun contrat associé à cette salle, réinitialisation avec erreur');
+                    selectFilterValue(contractSelect, '');
 
-                    // Réinitialiser le select contrat à vide
-                    contractSelect.value = '';
+                    if (contractError) {
+                        contractError.classList.add('d-none');
+                    }
 
-                    // ✅ Déclencher la validation pour afficher le message d'erreur
-                    validateContract();
+                    if (contractWarning) {
+                        contractWarning.classList.remove('d-none');
+                    }
+                    contractSelect.classList.remove('is-invalid');
 
-                    // Déclencher l'événement change
                     contractSelect.dispatchEvent(new Event('change', { bubbles: true }));
                 }
 
@@ -1041,54 +1170,46 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     error
                 );
 
-                // En cas d'erreur, réinitialiser et afficher l'erreur
-                contractSelect.value = '';
-                validateContract();
+                // En cas d'erreur, réinitialiser SANS erreur
+                selectFilterValue(contractSelect, '');
+                if (contractError) {
+                    contractError.classList.add('d-none');
+                }
+                if (contractWarning) {
+                    contractWarning.classList.remove('d-none');
+                }
+                contractSelect.classList.remove('is-invalid');
 
             }
 
         }
+
         async function reloadLocationFilters() {
 
-            const values =
-                getFilterValues();
+            const values = getFilterValues();
 
-
-            console.log(
-                'Reload des filtres avec :',
-                values
-            );
-
+            console.log('Reload des filtres avec :', values);
 
             const params = {};
 
-
+            // On transmet uniquement les filtres réellement sélectionnés
             if (values.client_id) {
-                params.client_id =
-                    values.client_id;
+                params.client_id = values.client_id;
             }
-
 
             if (values.site_id) {
-                params.site_id =
-                    values.site_id;
+                params.site_id = values.site_id;
             }
-
 
             if (values.building_id) {
-                params.building_id =
-                    values.building_id;
+                params.building_id = values.building_id;
             }
-
 
             if (values.room_id) {
-                params.room_id =
-                    values.room_id;
+                params.room_id = values.room_id;
             }
 
-
             setFiltersLoading(true);
-
 
             try {
 
@@ -1118,97 +1239,73 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         'get_all_rooms',
                         params
                     )
-
                 ]);
 
-
-                // --------------------------------------------------------
-                // Sauvegarder les valeurs actuelles
-                // --------------------------------------------------------
-
-                const selectedClient =
-                    values.client_id;
-
-                const selectedSite =
-                    values.site_id;
-
-                const selectedBuilding =
-                    values.building_id;
-
-                const selectedRoom =
-                    values.room_id;
-
-
-                // --------------------------------------------------------
-                // Remplir les listes
-                // --------------------------------------------------------
-
-                fillFilterSelect(
-                    clientSelect,
+                console.log('Résultats des filtres :', {
                     clients,
-                    'Sélectionner un client'
-                );
-
-
-                fillFilterSelect(
-                    siteSelect,
                     sites,
-                    'Sélectionner un site'
-                );
-
-
-                fillFilterSelect(
-                    buildingSelect,
                     buildings,
-                    'Sélectionner un bâtiment'
-                );
+                    rooms
+                });
 
+                /*
+                 * IMPORTANT :
+                 * On mémorise les valeurs actuelles avant de
+                 * reconstruire les options.
+                 */
+                const selectedClient = values.client_id;
+                const selectedSite = values.site_id;
+                const selectedBuilding = values.building_id;
+                const selectedRoom = values.room_id;
 
-                fillFilterSelect(
-                    roomSelect,
-                    rooms,
-                    'Sélectionner une salle'
-                );
+                /*
+                 * Recharge les listes.
+                 */
+                fillFilterSelect(clientSelect, clients);
+                fillFilterSelect(siteSelect, sites);
+                fillFilterSelect(buildingSelect, buildings);
+                fillFilterSelect(roomSelect, rooms);
 
+                /*
+                 * Restaure les sélections existantes
+                 * uniquement si elles existent encore dans
+                 * les résultats filtrés.
+                 */
+                if (
+                    selectedClient &&
+                    clients.some(
+                        item => String(item.id) === String(selectedClient)
+                    )
+                ) {
+                    selectFilterValue(clientSelect, selectedClient);
+                }
 
-                // --------------------------------------------------------
-                // Restaurer les valeurs
-                // --------------------------------------------------------
+                if (
+                    selectedSite &&
+                    sites.some(
+                        item => String(item.id) === String(selectedSite)
+                    )
+                ) {
+                    selectFilterValue(siteSelect, selectedSite);
+                }
 
-                selectFilterValue(
-                    clientSelect,
-                    selectedClient
-                );
+                if (
+                    selectedBuilding &&
+                    buildings.some(
+                        item => String(item.id) === String(selectedBuilding)
+                    )
+                ) {
+                    selectFilterValue(buildingSelect, selectedBuilding);
+                }
 
-
-                selectFilterValue(
-                    siteSelect,
-                    selectedSite
-                );
-
-
-                selectFilterValue(
-                    buildingSelect,
-                    selectedBuilding
-                );
-
-
-                selectFilterValue(
-                    roomSelect,
-                    selectedRoom
-                );
-
-
-                console.log(
-                    'Filtres rechargés :',
-                    {
-                        clients: clients.length,
-                        sites: sites.length,
-                        buildings: buildings.length,
-                        rooms: rooms.length
-                    }
-                );
-
+                if (
+                    selectedRoom &&
+                    rooms.some(
+                        item => String(item.id) === String(selectedRoom)
+                    )
+                ) {
+                    selectFilterValue(roomSelect, selectedRoom);
+                }
 
             } catch (error) {
 
@@ -1220,171 +1317,78 @@ include_once __DIR__ . '/../../includes/navbar.php';
             } finally {
 
                 setFiltersLoading(false);
-
             }
-
         }
+        clientSelect.addEventListener('change', async function () {
 
+            const clientId = this.value;
 
-        // ============================================================
-        // CHANGEMENT DU CLIENT
-        // ============================================================
+            console.log('Client sélectionné :', clientId);
 
-        clientSelect.addEventListener(
-            'change',
-            async function () {
+            // Quand le client change, les filtres enfants
+            // doivent être recalculés à partir de ce client.
+            selectFilterValue(siteSelect, '');
+            selectFilterValue(buildingSelect, '');
+            selectFilterValue(roomSelect, '');
 
-                const clientId =
-                    this.value;
-
-
-                console.log(
-                    'Client sélectionné :',
-                    clientId
-                );
-
-
-                /*
-                 * Quand le client change, les niveaux inférieurs
-                 * doivent repartir de zéro.
-                 */
-
-                siteSelect.value = '';
-                buildingSelect.value = '';
-                roomSelect.value = '';
-
-
-                // Charger les contacts
-                if (clientId) {
-
-                    loadContacts(clientId);
-
-                } else {
-
-                    loadContacts('');
-
-                }
-
-
-                // Recharger les 4 listes
-                await reloadLocationFilters();
-
-
-                // Recharger les contrats du client
-                updateSelectedContract(
-                    'client_id',
-                    'site_id',
-                    'room_id',
-                    'contract_id'
-                );
-
+            if (clientId) {
+                loadContacts(clientId);
+            } else {
+                loadContacts('');
             }
-        );
 
+            await reloadLocationFilters();
 
-        // ============================================================
-        // CHANGEMENT DU SITE
-        // ============================================================
+            updateSelectedContract(
+                'client_id',
+                'site_id',
+                'room_id',
+                'contract_id'
+            );
+        });
 
-        siteSelect.addEventListener(
-            'change',
-            async function () {
+        siteSelect.addEventListener('change', async function () {
 
-                const siteId =
-                    this.value;
+            const siteId = this.value;
 
+            console.log('Site sélectionné :', siteId);
 
-                console.log(
-                    'Site sélectionné :',
-                    siteId
-                );
+            // Un changement de site invalide
+            // le bâtiment et la salle précédemment sélectionnés.
+            selectFilterValue(buildingSelect, '');
+            selectFilterValue(roomSelect, '');
 
+            await reloadLocationFilters();
 
-                /*
-                 * Si le site change, le bâtiment et la salle
-                 * précédemment sélectionnés ne sont plus valides.
-                 */
+            updateSelectedContract(
+                'client_id',
+                'site_id',
+                'room_id',
+                'contract_id'
+            );
+        });
+        buildingSelect.addEventListener('change', async function () {
 
-                buildingSelect.value = '';
-                roomSelect.value = '';
+            const buildingId = this.value;
 
+            console.log('Bâtiment sélectionné :', buildingId);
+            selectFilterValue(roomSelect, '');
 
-                await reloadLocationFilters();
+            await reloadLocationFilters();
 
-
-                // Recharger les contrats correspondant
-                updateSelectedContract(
-                    'client_id',
-                    'site_id',
-                    'room_id',
-                    'contract_id'
-                );
-
-            }
-        );
-
-
-        // ============================================================
-        // CHANGEMENT DU BÂTIMENT
-        // ============================================================
-
-        buildingSelect.addEventListener(
-            'change',
-            async function () {
-
-                const buildingId =
-                    this.value;
-
-
-                console.log(
-                    'Bâtiment sélectionné :',
-                    buildingId
-                );
-
-
-                /*
-                 * Une nouvelle sélection de bâtiment invalide
-                 * la salle précédemment sélectionnée.
-                 */
-
-                roomSelect.value = '';
-
-
-                await reloadLocationFilters();
-
-
-                updateSelectedContract(
-                    'client_id',
-                    'site_id',
-                    'room_id',
-                    'contract_id'
-                );
-
-            }
-        );
-
-
-        // ============================================================
-        // CHANGEMENT DE LA SALLE
-        // ============================================================
-
+            updateSelectedContract(
+                'client_id',
+                'site_id',
+                'room_id',
+                'contract_id'
+            );
+        });
         roomSelect.addEventListener(
             'change',
             async function () {
 
                 const roomId =
                     this.value;
-
-
-                console.log(
-                    'Salle sélectionnée :',
-                    roomId
-                );
-
-
-                // --------------------------------------------------------
-                // Si la salle est supprimée
-                // --------------------------------------------------------
 
                 if (!roomId) {
 
@@ -1400,25 +1404,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 
                 try {
-
-                    console.log(
-                        'Recherche des parents de la salle...'
-                    );
-
-
-                    /*
-                     * On part UNIQUEMENT de la salle.
-                     *
-                     * Le backend retrouve :
-                     *
-                     * Salle
-                     *   ↓
-                     * Bâtiment
-                     *   ↓
-                     * Site
-                     *   ↓
-                     * Client
-                     */
 
                     const [
                         clients,
@@ -1459,76 +1444,37 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         }
                     );
 
-
-                    // ----------------------------------------------------
-                    // Client
-                    // ----------------------------------------------------
-
                     fillFilterSelect(
                         clientSelect,
-                        clients,
-                        'Sélectionner un client'
+                        clients
                     );
-
 
                     if (clients.length > 0) {
-
-                        clientSelect.value =
-                            String(clients[0].id);
-
+                        selectFilterValue(clientSelect, String(clients[0].id));
+                    } else {
+                        selectFilterValue(clientSelect, '');
                     }
-
-
-                    // ----------------------------------------------------
-                    // Site
-                    // ----------------------------------------------------
-
                     fillFilterSelect(
                         siteSelect,
-                        sites,
-                        'Sélectionner un site'
+                        sites
                     );
 
-
                     if (sites.length > 0) {
-
-                        siteSelect.value =
-                            String(sites[0].id);
-
+                        selectFilterValue(siteSelect, String(sites[0].id));
+                    } else {
+                        selectFilterValue(siteSelect, '');
                     }
-
-
-                    // ----------------------------------------------------
-                    // Bâtiment
-                    // ----------------------------------------------------
 
                     fillFilterSelect(
                         buildingSelect,
-                        buildings,
-                        'Sélectionner un bâtiment'
+                        buildings
                     );
 
-
                     if (buildings.length > 0) {
-
-                        buildingSelect.value =
-                            String(buildings[0].id);
-
+                        selectFilterValue(buildingSelect, String(buildings[0].id));
+                    } else {
+                        selectFilterValue(buildingSelect, '');
                     }
-
-
-                    // ----------------------------------------------------
-                    // Salle
-                    // ----------------------------------------------------
-
-                    /*
-                     * IMPORTANT :
-                     *
-                     * On ne recharge pas les 441 salles ici.
-                     *
-                     * On conserve simplement la salle que
-                     * l'utilisateur vient de sélectionner.
-                     */
 
                     const roomStillExists =
                         Array.from(
@@ -1553,22 +1499,20 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                         roomSelect.appendChild(option);
 
+                        if (roomSelect.tomselect) {
+                            roomSelect.tomselect.addOption({
+                                value: String(roomId),
+                                text: 'Salle sélectionnée'
+                            });
+                        }
                     }
-
-
-                    roomSelect.value =
-                        String(roomId);
+                    selectFilterValue(roomSelect, String(roomId));
 
 
                     console.log(
                         'Filtres après sélection salle :',
                         getFilterValues()
                     );
-
-
-                    // ----------------------------------------------------
-                    // Contacts du client
-                    // ----------------------------------------------------
 
                     if (clientSelect.value) {
 
@@ -1578,31 +1522,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                     }
 
-
-                    // ----------------------------------------------------
-                    // CONTRATS
-                    // ----------------------------------------------------
-
-                    /*
-                     * Maintenant que client/site/salle sont réellement
-                     * renseignés dans les selects, on recharge les contrats.
-                     */
-
                     updateSelectedContract(
                         'client_id',
                         'site_id',
                         'room_id',
                         'contract_id'
                     );
-
-
-                    /*
-                     * Ensuite on récupère le contrat directement
-                     * associé à la salle.
-                     *
-                     * selectContractWhenAvailable() attend que
-                     * updateSelectedContract() ait rempli le select.
-                     */
 
                     await loadContractByRoom(
                         roomId
@@ -1622,10 +1547,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         );
 
 
-        // ============================================================
-        // CHARGEMENT INITIAL
-        // ============================================================
-
         (async function initializeLocationFilters() {
 
             try {
@@ -1638,15 +1559,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     'Initialisation des filtres :',
                     initialValues
                 );
-
-
-                /*
-                 * Si la page arrive avec un client déjà sélectionné,
-                 * on conserve ce client.
-                 *
-                 * Si une salle est déjà sélectionnée, on remonte
-                 * automatiquement vers ses parents.
-                 */
 
                 if (initialValues.room_id) {
 
@@ -1720,6 +1632,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
         function loadContacts(clientId) {
             if (!clientId) {
                 contactClientSelect.innerHTML = '<option value="">Sélectionner un contact existant</option>';
+                if (contactClientSelect.tomselect) {
+                    contactClientSelect.tomselect.clearOptions();
+                    contactClientSelect.tomselect.addOption({ value: '', text: 'Sélectionner un contact existant' });
+                    contactClientSelect.tomselect.refreshOptions(false);
+                }
                 return;
             }
             if (currentContactsRequest) contactsLoading = false;
@@ -1747,6 +1664,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             contactClientSelect.appendChild(opt);
                         });
                     }
+                    if (contactClientSelect.tomselect) {
+                        const options = Array.from(contactClientSelect.options).map(opt => ({
+                            value: opt.value,
+                            text: opt.textContent
+                        }));
+                        contactClientSelect.tomselect.clearOptions();
+                        options.forEach(opt => contactClientSelect.tomselect.addOption(opt));
+                        contactClientSelect.tomselect.refreshOptions(false);
+                    }
                 })
                 .catch(err => {
                     clearTimeout(timeoutId);
@@ -1761,12 +1687,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 });
         }
 
-        // ── Fonctions de chargement dynamique ────────────────────────────────────
-
         function loadBuildingsLocal(siteId, targetSelectId, selectedId = null, callback = null) {
             const targetSelect = document.getElementById(targetSelectId);
             if (!siteId) {
-                targetSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
+                targetSelect.innerHTML = '';
                 if (callback) callback();
                 return;
             }
@@ -1775,7 +1699,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             fetch(`${BASE_URL}interventions/getBuildings/${siteId}`)
                 .then(r => r.json())
                 .then(buildings => {
-                    targetSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
+                    targetSelect.innerHTML = '';
                     if (buildings && Array.isArray(buildings)) {
                         buildings.forEach(b => {
                             const opt = document.createElement('option');
@@ -1784,6 +1708,18 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             if (selectedId && selectedId == b.id) opt.selected = true;
                             targetSelect.appendChild(opt);
                         });
+                    }
+                    if (targetSelect.tomselect) {
+                        const options = Array.from(targetSelect.options).map(opt => ({
+                            value: opt.value,
+                            text: opt.textContent
+                        }));
+                        targetSelect.tomselect.clearOptions();
+                        options.forEach(opt => targetSelect.tomselect.addOption(opt));
+                        targetSelect.tomselect.refreshOptions(false);
+                        if (selectedId) {
+                            targetSelect.tomselect.setValue(String(selectedId), true);
+                        }
                     }
                     targetSelect.disabled = false;
                     if (callback) callback();
@@ -1798,7 +1734,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
         function loadRoomsByBuildingLocal(buildingId, targetSelectId, selectedId = null, callback = null) {
             const targetSelect = document.getElementById(targetSelectId);
             if (!buildingId) {
-                targetSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+                targetSelect.innerHTML = '';
                 if (callback) callback();
                 return;
             }
@@ -1807,7 +1743,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             fetch(`${BASE_URL}interventions/getRoomsByBuilding/${buildingId}`)
                 .then(r => r.json())
                 .then(rooms => {
-                    targetSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
+                    targetSelect.innerHTML = '';
                     if (rooms && Array.isArray(rooms)) {
                         rooms.forEach(r => {
                             const opt = document.createElement('option');
@@ -1816,6 +1752,18 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             if (selectedId && selectedId == r.id) opt.selected = true;
                             targetSelect.appendChild(opt);
                         });
+                    }
+                    if (targetSelect.tomselect) {
+                        const options = Array.from(targetSelect.options).map(opt => ({
+                            value: opt.value,
+                            text: opt.textContent
+                        }));
+                        targetSelect.tomselect.clearOptions();
+                        options.forEach(opt => targetSelect.tomselect.addOption(opt));
+                        targetSelect.tomselect.refreshOptions(false);
+                        if (selectedId) {
+                            targetSelect.tomselect.setValue(String(selectedId), true);
+                        }
                     }
                     targetSelect.disabled = false;
                     if (callback) callback();
@@ -1827,7 +1775,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 });
         }
 
-        // ── Validation email ──────────────────────────────────────────────────────
 
         const emailError = document.getElementById('email-error');
         contactClientInput.addEventListener('input', function () {
@@ -1859,8 +1806,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             }
         });
 
-        // ── Helpers ───────────────────────────────────────────────────────────────
-
         function validateEmailFormat(email) {
             return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
         }
@@ -1885,15 +1830,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
             }, 3000);
         }
 
-        // ── Références modales ────────────────────────────────────────────────────
-
         const quickCreateClientModal = new bootstrap.Modal(document.getElementById('quickCreateClientModal'));
         const quickCreateSiteModal = new bootstrap.Modal(document.getElementById('quickCreateSiteModal'));
         const quickCreateBuildingModal = new bootstrap.Modal(document.getElementById('quickCreateBuildingModal'));
         const quickCreateRoomModal = new bootstrap.Modal(document.getElementById('quickCreateRoomModal'));
         const quickCreateContactModal = new bootstrap.Modal(document.getElementById('quickCreateContactModal'));
 
-        // ── CRUD Client ───────────────────────────────────────────────────────────
 
         document.getElementById('quickCreateClientBtn').addEventListener('click', function () {
             if (!canModifyClients) {
@@ -1944,6 +1886,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         opt.textContent = data.client.name;
                         opt.selected = true;
                         clientSelect.appendChild(opt);
+                        if (clientSelect.tomselect) {
+                            clientSelect.tomselect.addOption({ value: String(data.client.id), text: data.client.name });
+                            clientSelect.tomselect.setValue(String(data.client.id), true);
+                            clientSelect.tomselect.refreshOptions(false);
+                        }
                         quickCreateClientModal.hide();
                         clientSelect.dispatchEvent(new Event('change'));
                         showSuccessMessage(data.message);
@@ -1958,9 +1905,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     btn.disabled = false;
                 });
         });
-
-        // ── CRUD Site ─────────────────────────────────────────────────────────────
-
         document.getElementById('quickCreateSiteBtn').addEventListener('click', function () {
             if (!canModifyClients) {
                 alert("Vous n'avez pas les permissions nécessaires pour créer un site.");
@@ -2015,6 +1959,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         opt.textContent = data.site.name;
                         opt.selected = true;
                         siteSelect.appendChild(opt);
+                        if (siteSelect.tomselect) {
+                            siteSelect.tomselect.addOption({ value: String(data.site.id), text: data.site.name });
+                            siteSelect.tomselect.setValue(String(data.site.id), true);
+                            siteSelect.tomselect.refreshOptions(false);
+                        }
                         quickCreateSiteModal.hide();
                         siteSelect.dispatchEvent(new Event('change'));
                         showSuccessMessage(data.message);
@@ -2030,7 +1979,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 });
         });
 
-        // ── CRUD Bâtiment ─────────────────────────────────────────────────────────
 
         document.getElementById('quickCreateBuildingBtn').addEventListener('click', function () {
             if (!canModifyClients) {
@@ -2086,6 +2034,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         opt.textContent = data.building.name;
                         opt.selected = true;
                         buildingSelect.appendChild(opt);
+                        if (buildingSelect.tomselect) {
+                            buildingSelect.tomselect.addOption({ value: String(data.building.id), text: data.building.name });
+                            buildingSelect.tomselect.setValue(String(data.building.id), true);
+                            buildingSelect.tomselect.refreshOptions(false);
+                        }
                         quickCreateBuildingModal.hide();
                         buildingSelect.dispatchEvent(new Event('change'));
                         showSuccessMessage(data.message);
@@ -2100,8 +2053,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     btn.disabled = false;
                 });
         });
-
-        // ── CRUD Salle ────────────────────────────────────────────────────────────
 
         document.getElementById('quickCreateRoomBtn').addEventListener('click', function () {
             if (!canModifyClients) {
@@ -2162,6 +2113,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         opt.textContent = data.room.name;
                         opt.selected = true;
                         roomSelect.appendChild(opt);
+                        if (roomSelect.tomselect) {
+                            roomSelect.tomselect.addOption({ value: String(data.room.id), text: data.room.name });
+                            roomSelect.tomselect.setValue(String(data.room.id), true);
+                            roomSelect.tomselect.refreshOptions(false);
+                        }
                         quickCreateRoomModal.hide();
                         roomSelect.dispatchEvent(new Event('change'));
                         showSuccessMessage(data.message);
@@ -2177,7 +2133,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 });
         });
 
-        // ── CRUD Contact ──────────────────────────────────────────────────────────
 
         document.getElementById('quickCreateContactBtn').addEventListener('click', function () {
             if (!canModifyClients) {
@@ -2252,6 +2207,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         opt.textContent = `${data.contact.first_name} ${data.contact.last_name} (${data.contact.email})`;
                         opt.selected = true;
                         contactClientSelect.appendChild(opt);
+                        if (contactClientSelect.tomselect) {
+                            contactClientSelect.tomselect.addOption({ value: data.contact.email, text: opt.textContent });
+                            contactClientSelect.tomselect.setValue(data.contact.email, true);
+                            contactClientSelect.tomselect.refreshOptions(false);
+                        }
                         quickCreateContactModal.hide();
                         showSuccessMessage(data.message);
                     } else {
@@ -2266,7 +2226,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 });
         });
 
-        // ── Boutons formulaire principal ──────────────────────────────────────────
 
         document.getElementById('createButton').addEventListener('click', function (e) {
             e.preventDefault();
@@ -2277,7 +2236,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             document.getElementById('interventionForm').submit();
         });
 
-        // ── Flash Intervention ────────────────────────────────────────────────────
 
         const flashBtn = document.getElementById('confirmFlashBtn');
         const flashClient = document.getElementById('flash_client_id');
@@ -2327,13 +2285,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
             });
         }
 
-    }); // fin DOMContentLoaded
+    }); 
 </script>
 
 <script>
-    // Validation JavaScript pour le formulaire d'intervention
     document.addEventListener('DOMContentLoaded', function () {
-        // Sélection des champs
         const titleInput = document.getElementById('title');
         const titleError = document.getElementById('titleError');
         const clientInput = document.getElementById('client_id');
@@ -2342,13 +2298,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
         const typeError = document.getElementById('typeError');
         const contractInput = document.getElementById('contract_id');
         const contractError = document.getElementById('contractError');
+        const contractWarning = document.getElementById('contractWarning');
         const statutInput = document.getElementById('status_id');
         const statutError = document.getElementById('statutError');
         const prioriInput = document.getElementById('priority_id');
         const prioriError = document.getElementById('prioriError');
         const form = document.getElementById('interventionForm');
 
-        // Fonctions de validation
+        let isValidating = false;
+
         function validateType() {
             const isValid = typeInput.value !== '';
             if (!isValid) {
@@ -2362,15 +2320,28 @@ include_once __DIR__ . '/../../includes/navbar.php';
         }
 
         function validateContract() {
-            const isValid = contractInput.value !== '';
-            if (!isValid) {
-                contractError.classList.remove('d-none');
-                contractInput.classList.add('is-invalid');
-            } else {
-                contractError.classList.add('d-none');
-                contractInput.classList.remove('is-invalid');
+            if (isValidating) return true;
+            isValidating = true;
+
+            try {
+                const isValid = contractInput.value !== '';
+                if (!isValid) {
+                    contractError.classList.add('d-none');
+                    contractInput.classList.remove('is-invalid');
+                    if (contractWarning) {
+                        contractWarning.classList.remove('d-none');
+                    }
+                } else {
+                    contractError.classList.add('d-none');
+                    contractInput.classList.remove('is-invalid');
+                    if (contractWarning) {
+                        contractWarning.classList.add('d-none');
+                    }
+                }
+                return true;
+            } finally {
+                isValidating = false;
             }
-            return isValid;
         }
 
         function validateStatus() {
@@ -2420,39 +2391,16 @@ include_once __DIR__ . '/../../includes/navbar.php';
             }
             return isValid;
         }
+        window.validateClient = validateClient;
+        window.validateContract = validateContract;
 
-        // ============================================
-        // INITIALISATION
-        // ============================================
+        validateTitle();
+        validateType();
+        validateStatus();
+        validatePriority();
+        validateContract();
+        validateClient();
 
-        // 1. Valider les champs qui ont des valeurs par défaut ou qui sont statiques
-        validateTitle();          // Titre - toujours visible
-        validateType();           // Type - toujours visible
-        validateStatus();         // Statut - a une valeur par défaut (Nouveau)
-        validatePriority();       // Priorité - a une valeur par défaut (Moyenne)
-
-        // 2. Contrat - peut être vide au chargement (rempli dynamiquement)
-        // On le valide uniquement s'il a une valeur
-        if (contractInput.value !== '') {
-            validateContract();
-        } else {
-            // Sinon on cache l'erreur par défaut
-            contractError.classList.add('d-none');
-            contractInput.classList.remove('is-invalid');
-        }
-
-        // 3. Client - rempli dynamiquement, on cache l'erreur par défaut
-        clientError.classList.add('d-none');
-        clientInput.classList.remove('is-invalid');
-
-        // Si un client est pré-sélectionné via l'URL, on valide après chargement
-        if (clientInput.value !== '') {
-            setTimeout(validateClient, 500);
-        }
-
-        // ============================================
-        // Écouteurs d'événements
-        // ============================================
         typeInput.addEventListener('change', validateType);
         contractInput.addEventListener('change', validateContract);
         statutInput.addEventListener('change', validateStatus);
@@ -2460,16 +2408,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
         titleInput.addEventListener('input', validateTitle);
         clientInput.addEventListener('change', validateClient);
 
-        // ============================================
-        // Validation à la soumission
-        // ============================================
         form.addEventListener('submit', function (e) {
             const isValid = validateType() &&
-                validateContract() &&
                 validateStatus() &&
                 validatePriority() &&
                 validateTitle() &&
                 validateClient();
+
+            validateContract();
 
             if (!isValid) {
                 e.preventDefault();
@@ -2481,28 +2427,63 @@ include_once __DIR__ . '/../../includes/navbar.php';
             }
         });
 
-        // ============================================
-        // Observer le contrat et le client pour les validations dynamiques
-        // ============================================
-
-        // Quand le contrat est chargé dynamiquement, on le valide
-        const contractObserver = new MutationObserver(function () {
-            if (contractInput.value !== '') {
+        const contractObserver = new MutationObserver(function (mutations) {
+            let shouldValidate = false;
+            for (const mutation of mutations) {
+                if (mutation.type === 'childList' && mutation.target === contractInput) {
+                    shouldValidate = true;
+                    break;
+                }
+                if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
+                    shouldValidate = true;
+                    break;
+                }
+            }
+            if (shouldValidate && !isValidating) {
                 validateContract();
             }
         });
 
-        // Observer les changements d'options du select contrat
         contractObserver.observe(contractInput, {
             childList: true,
-            subtree: true
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['value']
         });
 
-        // Écouter aussi l'événement change pour le contrat
-        contractInput.addEventListener('change', validateContract);
-
-        // Pour le client, on valide après chaque changement
         clientInput.addEventListener('change', validateClient);
+
+
+        window.resetContractWithError = function () {
+            if (!contractInput || isValidating) return;
+
+            contractInput.value = '';
+
+            if (typeof selectFilterValue === 'function') {
+                selectFilterValue(contractInput, '');
+            }
+
+            validateContract();
+
+            contractInput.dispatchEvent(new Event('change', { bubbles: true }));
+        };
+
+        window.resetContractWithoutError = function () {
+            if (!contractInput || isValidating) return;
+
+            contractInput.value = '';
+
+            if (typeof selectFilterValue === 'function') {
+                selectFilterValue(contractInput, '');
+            }
+            contractError.classList.add('d-none');
+            contractInput.classList.remove('is-invalid');
+            if (contractWarning) {
+                contractWarning.classList.remove('d-none');
+            }
+
+            contractInput.dispatchEvent(new Event('change', { bubbles: true }));
+        };
 
     });
 </script>
@@ -2510,7 +2491,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.modal').forEach(function (modal) {
 
-            // Réinitialiser la position à la fermeture
             modal.addEventListener('hidden.bs.modal', function () {
                 const dialog = modal.querySelector('.modal-dialog');
                 if (dialog) {
@@ -2528,7 +2508,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 const header = modal.querySelector('.modal-header');
                 if (!dialog || !header) return;
 
-                // Éviter d'attacher plusieurs fois le listener
                 if (header.dataset.draggable) return;
                 header.dataset.draggable = 'true';
 
@@ -2549,7 +2528,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     startLeft = rect.left;
                     startTop = rect.top;
 
-                    // Figer la largeur AVANT de passer en fixed
                     dialog.style.width = rect.width + 'px';
                     dialog.style.maxWidth = 'none';
                     dialog.style.position = 'fixed';
@@ -2577,8 +2555,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         });
     });
 </script>
-
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -2590,9 +2566,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
         const plannedDateInput =
             document.getElementById('planned_date');
-
-
-        // Les éléments peuvent ne pas exister sur cette page.
         if (!preventiveCheckbox) {
             return;
         }
