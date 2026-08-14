@@ -48,7 +48,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 ?>
 <header>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </header>
 <div class="container-fluid flex-grow-1 container-p-y">
 
@@ -101,36 +101,37 @@ include_once __DIR__ . '/../../includes/navbar.php';
     <?php endif; ?>
 
     <div class="card">
-       <div class="card-header py-2">
-    <div class="row align-items-center">
-        <div class="col-md-6">
-            <h5 class="card-title mb-0">
-                <span class="fw-bold me-3">Nouvelle référence</span>
-                <input type="text" class="form-control d-inline-block bg-body text-body" id="title" name="title"
-                    form="interventionForm" placeholder="Titre de l'intervention" required>
-                <small id="titleError" class="text-danger d-none">Le titre est obligatoire.</small>
-            </h5>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
+        <div class="card-header py-2">
+            <div class="row align-items-center">
                 <div class="col-md-6">
-                    <label class="form-label fw-bold mb-0 text-white">Date de création</label>
-                    <input type="date" class="form-control bg-body text-body" id="created_date"
-                        name="created_date" value="<?= date('Y-m-d') ?>" form="interventionForm">
+                    <h5 class="card-title mb-0">
+                        <span class="fw-bold me-3">Nouvelle référence</span>
+                        <input type="text" class="form-control d-inline-block bg-body text-body" id="title" name="title"
+                            form="interventionForm" placeholder="Titre de l'intervention" required>
+                        <small id="titleError" class="text-danger d-none">Le titre est obligatoire.</small>
+                    </h5>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label fw-bold mb-0 text-white">Heure de création</label>
-                    <input type="time" class="form-control bg-body text-body" id="created_time"
-                        name="created_time" value="<?= date('H:i') ?>" form="interventionForm">
-                    
-                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold mb-0 text-white">Date de création</label>
+                            <input type="date" class="form-control bg-body text-body" id="created_date"
+                                name="created_date" value="<?= date('Y-m-d') ?>" form="interventionForm">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold mb-0 text-white">Heure de création</label>
+                            <input type="time" class="form-control bg-body text-body" id="created_time"
+                                name="created_time" value="<?= date('H:i') ?>" form="interventionForm">
 
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
         <div class="card-body py-2">
-            <form action="<?php echo BASE_URL; ?>interventions/store<?php echo isset($_GET['return_to']) ? '?return_to=' . $_GET['return_to'] : ''; ?>"
+            <form
+                action="<?php echo BASE_URL; ?>interventions/store<?php echo isset($_GET['return_to']) ? '?return_to=' . $_GET['return_to'] : ''; ?>"
                 method="post" id="interventionForm">
                 <?= csrf_field() ?>
                 <div class="row g-3">
@@ -143,22 +144,22 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <div>
                                 <label class="form-label fw-bold mb-0">Client *</label>
                                 <div class="input-group">
-                                    <select class="form-select bg-body text-body" id="client_id" name="client_id" required>
+                                    <select class="form-select bg-body text-body" id="client_id" name="client_id"
+                                        required>
                                         <option value="">Sélectionner un client</option>
                                         <?php foreach ($clients as $client): ?>
-                                            <option value="<?= $client['id'] ?>"
-                                                <?= ($selectedClientId && $client['id'] == $selectedClientId) ? 'selected' : '' ?>>
+                                            <option value="<?= $client['id'] ?>" <?= ($selectedClientId && $client['id'] == $selectedClientId) ? 'selected' : '' ?>>
                                                 <?= h($client['name'] ?? '') ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
-                                
+
                                     <button type="button" class="btn btn-outline-secondary btn-sm"
                                         id="quickCreateClientBtn" title="Créer un nouveau client">
                                         <i class="bi bi-plus"></i>
                                     </button>
                                 </div>
-                                    <small id="clientError" class="text-danger d-none">Le client est obligatoire.</small>
+                                <small id="clientError" class="text-danger d-none">Le client est obligatoire.</small>
                             </div>
 
                             <!-- Site -->
@@ -219,20 +220,23 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         <option value="<?= $type['id'] ?>"><?= h($type['name'] ?? '') ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                <small id="typeError" class="text-danger d-none">Le type d'intervention est obligatoire.</small>
+                                <small id="typeError" class="text-danger d-none">Le type d'intervention est
+                                    obligatoire.</small>
                             </div>
 
                             <!-- Contrat -->
                             <div>
                                 <label class="form-label fw-bold mb-0">Contrat associé *</label>
-                                <select class="form-select bg-body text-body" id="contract_id" name="contract_id" required>
+                                <select class="form-select bg-body text-body" id="contract_id" name="contract_id"
+                                    required>
                                     <option value="">Sélectionner un contrat</option>
                                 </select>
                                 <small id="contractError" class="text-danger d-none">Le contrat est obligatoire.</small>
                             </div>
                             <div>
                                 <label class="form-label fw-bold mb-0">Technicien(s) à affecter</label>
-                                <select class="form-select bg-body text-body" id="technicien_ids" name="technicien_ids[]" multiple size="4">
+                                <select class="form-select bg-body text-body" id="technicien_ids"
+                                    name="technicien_ids[]" multiple size="4">
                                     <?php foreach ($technicians as $technician): ?>
                                         <option value="<?= $technician['id'] ?>">
                                             <?= h(($technician['first_name'] ?? '') . ' ' . ($technician['last_name'] ?? '')) ?>
@@ -243,7 +247,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     Ctrl + clic pour sélectionner plusieurs techniciens.
                                 </small>
                                 <div class="form-check mt-2">
-                                    <input class="form-check-input" type="checkbox" id="notify_technician" name="notify_technician" value="1" checked>
+                                    <input class="form-check-input" type="checkbox" id="notify_technician"
+                                        name="notify_technician" value="1" checked>
                                     <label class="form-check-label" for="notify_technician">
                                         Notifier le(s) technicien(s) par email
                                     </label>
@@ -264,7 +269,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <option value="">Sélectionner un statut</option>
                                     <?php foreach ($statuses as $status): ?>
                                         <?php $isSelected = ($status['name'] == 'Nouveau' || $status['id'] == 1) ? 'selected' : ''; ?>
-                                        <option value="<?= $status['id'] ?>" <?= $isSelected ?>><?= h($status['name'] ?? '') ?></option>
+                                        <option value="<?= $status['id'] ?>" <?= $isSelected ?>>
+                                            <?= h($status['name'] ?? '') ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                                 <small id="statutError" class="text-danger d-none">Le statut est obligatoire.</small>
@@ -273,11 +280,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <!-- Priorité -->
                             <div>
                                 <label class="form-label fw-bold mb-0">Priorité *</label>
-                                <select class="form-select bg-body text-body" id="priority_id" name="priority_id" required>
+                                <select class="form-select bg-body text-body" id="priority_id" name="priority_id"
+                                    required>
                                     <option value="">Sélectionner une priorité</option>
                                     <?php foreach ($priorities as $priority): ?>
                                         <?php $isSelected = ($priority['name'] == 'Moyenne' || $priority['id'] == 2) ? 'selected' : ''; ?>
-                                        <option value="<?= $priority['id'] ?>" <?= $isSelected ?>><?= h($priority['name'] ?? '') ?></option>
+                                        <option value="<?= $priority['id'] ?>" <?= $isSelected ?>>
+                                            <?= h($priority['name'] ?? '') ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                                 <small id="prioriError" class="text-danger d-none">La priorité est obligatoire.</small>
@@ -286,7 +296,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <!-- Case à cocher Intervention préventive -->
                             <div class="mt-2 pt-1">
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="is_preventive" name="is_preventive" value="1">
+                                    <input type="checkbox" class="form-check-input" id="is_preventive"
+                                        name="is_preventive" value="1">
                                     <label class="form-check-label fw-bold" for="is_preventive">
                                         Intervention préventive
                                     </label>
@@ -298,7 +309,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                         </div>
                     </div>
-                   <!-- <div class="col-md-3" id="plannedDateContainer" style="display: none;">
+                    <!-- <div class="col-md-3" id="plannedDateContainer" style="display: none;">
                         <label class="form-label fw-bold">Date prévisionnelle</label>
                         <input
                             type="date"
@@ -313,7 +324,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <h6 class="card-title mb-0">Demande/description du problème</h6>
                             </div>
                             <div class="card-body py-2">
-                                <textarea class="form-control bg-body text-body" id="description" name="description" rows="5"></textarea>
+                                <textarea class="form-control bg-body text-body" id="description" name="description"
+                                    rows="5"></textarea>
                             </div>
                         </div>
                     </div>
@@ -331,7 +343,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold">Demande par</label>
                                         <input type="text" class="form-control bg-body text-body" id="demande_par"
-                                            name="demande_par" placeholder="Nom de la personne qui a demandé l'intervention">
+                                            name="demande_par"
+                                            placeholder="Nom de la personne qui a demandé l'intervention">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold">Référence client</label>
@@ -382,11 +395,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label fw-bold">Nom du client *</label>
-                            <input type="text" class="form-control" name="name" required placeholder="Nom de l'entreprise">
+                            <input type="text" class="form-control" name="name" required
+                                placeholder="Nom de l'entreprise">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Email</label>
-                            <input type="email" class="form-control" id="client_email" name="email" placeholder="contact@entreprise.com">
+                            <input type="email" class="form-control" id="client_email" name="email"
+                                placeholder="contact@entreprise.com">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Téléphone</label>
@@ -394,7 +409,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Site web</label>
-                            <input type="url" class="form-control" id="client_website" name="website" placeholder="https://www.entreprise.com">
+                            <input type="url" class="form-control" id="client_website" name="website"
+                                placeholder="https://www.entreprise.com">
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Adresse</label>
@@ -410,7 +426,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Commentaire</label>
-                            <textarea class="form-control" name="comment" rows="3" placeholder="Commentaires ou notes sur ce client..."></textarea>
+                            <textarea class="form-control" name="comment" rows="3"
+                                placeholder="Commentaires ou notes sur ce client..."></textarea>
                         </div>
                     </div>
                 </form>
@@ -458,11 +475,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Email</label>
-                            <input type="email" class="form-control" id="site_email" name="email" placeholder="contact@site.com">
+                            <input type="email" class="form-control" id="site_email" name="email"
+                                placeholder="contact@site.com">
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Commentaire</label>
-                            <textarea class="form-control" name="comment" rows="2" placeholder="Commentaires sur ce site..."></textarea>
+                            <textarea class="form-control" name="comment" rows="2"
+                                placeholder="Commentaires sur ce site..."></textarea>
                         </div>
                     </div>
                 </form>
@@ -494,7 +513,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Commentaire</label>
-                            <textarea class="form-control" name="comment" rows="3" placeholder="Commentaires sur ce bâtiment..."></textarea>
+                            <textarea class="form-control" name="comment" rows="3"
+                                placeholder="Commentaires sur ce bâtiment..."></textarea>
                         </div>
                     </div>
                 </form>
@@ -526,7 +546,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Commentaire</label>
-                            <textarea class="form-control" name="comment" rows="3" placeholder="Commentaires sur cette salle..."></textarea>
+                            <textarea class="form-control" name="comment" rows="3"
+                                placeholder="Commentaires sur cette salle..."></textarea>
                         </div>
                     </div>
                 </form>
@@ -554,31 +575,38 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Prénom *</label>
-                            <input type="text" class="form-control" id="contact_first_name" name="first_name" required placeholder="Prénom">
+                            <input type="text" class="form-control" id="contact_first_name" name="first_name" required
+                                placeholder="Prénom">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Nom *</label>
-                            <input type="text" class="form-control" id="contact_last_name" name="last_name" required placeholder="Nom">
+                            <input type="text" class="form-control" id="contact_last_name" name="last_name" required
+                                placeholder="Nom">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Email</label>
-                            <input type="email" class="form-control" id="contact_email" name="email" placeholder="contact@exemple.com">
+                            <input type="email" class="form-control" id="contact_email" name="email"
+                                placeholder="contact@exemple.com">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Téléphone 1</label>
-                            <input type="tel" class="form-control" id="contact_phone1" name="phone1" placeholder="01 23 45 67 89">
+                            <input type="tel" class="form-control" id="contact_phone1" name="phone1"
+                                placeholder="01 23 45 67 89">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Téléphone 2</label>
-                            <input type="tel" class="form-control" id="contact_phone2" name="phone2" placeholder="01 23 45 67 89">
+                            <input type="tel" class="form-control" id="contact_phone2" name="phone2"
+                                placeholder="01 23 45 67 89">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Fonction</label>
-                            <input type="text" class="form-control" id="contact_fonction" name="fonction" placeholder="Directeur, Responsable IT, etc.">
+                            <input type="text" class="form-control" id="contact_fonction" name="fonction"
+                                placeholder="Directeur, Responsable IT, etc.">
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-bold">Commentaire</label>
-                            <textarea class="form-control" id="contact_comment" name="comment" rows="2" placeholder="Commentaires sur ce contact..."></textarea>
+                            <textarea class="form-control" id="contact_comment" name="comment" rows="2"
+                                placeholder="Commentaires sur ce contact..."></textarea>
                         </div>
                     </div>
                 </form>
@@ -602,10 +630,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Un technicien a été affecté à cette intervention. Souhaitez-vous lui envoyer un email de notification ?</p>
+                <p>Un technicien a été affecté à cette intervention. Souhaitez-vous lui envoyer un email de notification
+                    ?</p>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="notifyTechnicianCheckbox" checked>
-                    <label class="form-check-label" for="notifyTechnicianCheckbox">Envoyer un email au technicien</label>
+                    <label class="form-check-label" for="notifyTechnicianCheckbox">Envoyer un email au
+                        technicien</label>
                 </div>
             </div>
             <div class="modal-footer">
@@ -663,12 +693,1012 @@ include_once __DIR__ . '/../../includes/navbar.php';
         initBaseUrl('<?php echo BASE_URL; ?>');
 
         const canModifyClients = <?php echo canModifyClients() ? 'true' : 'false'; ?>;
+        // ============================================================
+        // FILTRES CLIENT / SITE / BÂTIMENT / SALLE
+        // ============================================================
+
         const clientSelect = document.getElementById('client_id');
         const siteSelect = document.getElementById('site_id');
         const buildingSelect = document.getElementById('building_id');
         const roomSelect = document.getElementById('room_id');
         const contractSelect = document.getElementById('contract_id');
-        const technicienSelect= document.getElementById('technician_id');
+
+
+        // ============================================================
+        // UTILITAIRES
+        // ============================================================
+
+        function getFilterValues() {
+            return {
+                client_id: clientSelect?.value || '',
+                site_id: siteSelect?.value || '',
+                building_id: buildingSelect?.value || '',
+                room_id: roomSelect?.value || ''
+            };
+        }
+
+
+        /**
+         * Appel AJAX JSON pour les routes de filtrage.
+         */
+        async function fetchFilterData(route, params = {}) {
+
+            const url = new URL(
+                `${BASE_URL}interventions/${route}`,
+                window.location.origin
+            );
+
+            Object.entries(params).forEach(([key, value]) => {
+
+                if (
+                    value !== null &&
+                    value !== undefined &&
+                    value !== ''
+                ) {
+                    url.searchParams.set(key, value);
+                }
+
+            });
+
+            console.log(
+                `GET ${url.pathname}${url.search}`
+            );
+
+            const response = await fetch(url.toString(), {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            });
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status} - ${url}`
+                );
+
+            }
+
+
+            const contentType =
+                response.headers.get('content-type') || '';
+
+
+            if (!contentType.includes('application/json')) {
+
+                const text = await response.text();
+
+                console.error(
+                    'Réponse non JSON :',
+                    text
+                );
+
+                throw new Error(
+                    'La réponse du serveur n’est pas au format JSON.'
+                );
+
+            }
+
+
+            return await response.json();
+        }
+
+
+        /**
+         * Remplit un select.
+         */
+        function fillFilterSelect(
+            select,
+            items,
+            placeholder
+        ) {
+
+            if (!select) {
+                return;
+            }
+
+
+            select.innerHTML = '';
+
+
+            const defaultOption =
+                document.createElement('option');
+
+            defaultOption.value = '';
+            defaultOption.textContent = placeholder;
+
+            select.appendChild(defaultOption);
+
+
+            if (!Array.isArray(items)) {
+                return;
+            }
+
+
+            items.forEach(item => {
+
+                const option =
+                    document.createElement('option');
+
+                option.value = String(item.id);
+
+                option.textContent =
+                    item.name ?? '';
+
+                select.appendChild(option);
+
+            });
+
+        }
+
+
+        /**
+         * Sélectionne une valeur dans un select.
+         */
+        function selectFilterValue(
+            select,
+            value
+        ) {
+
+            if (!select || !value) {
+                return false;
+            }
+
+
+            const option = Array.from(
+                select.options
+            ).find(
+                option =>
+                    String(option.value) ===
+                    String(value)
+            );
+
+
+            if (!option) {
+                return false;
+            }
+
+
+            select.value = String(value);
+
+            return true;
+        }
+
+
+        /**
+         * Active / désactive les filtres pendant le chargement.
+         */
+        function setFiltersLoading(loading) {
+
+            if (clientSelect) {
+                clientSelect.disabled = loading;
+            }
+
+            if (siteSelect) {
+                siteSelect.disabled = loading;
+            }
+
+            if (buildingSelect) {
+                buildingSelect.disabled = loading;
+            }
+
+            if (roomSelect) {
+                roomSelect.disabled = loading;
+            }
+
+        }
+
+
+        // ============================================================
+        // CONTRAT
+        // ============================================================
+
+        /**
+         * Sélectionne le contrat après que updateSelectedContract()
+         * ait terminé de remplir le select.
+         *
+         * updateSelectedContract() est une fonction existante de ton
+         * projet. Elle charge les contrats de façon asynchrone.
+         */
+        function selectContractWhenAvailable(
+            contractId,
+            attempt = 0
+        ) {
+
+            if (!contractSelect || !contractId) {
+                return;
+            }
+
+
+            const option =
+                Array.from(contractSelect.options)
+                    .find(
+                        option =>
+                            String(option.value) ===
+                            String(contractId)
+                    );
+
+
+            if (option) {
+
+                contractSelect.value =
+                    String(contractId);
+
+
+                // Déclenche la validation existante
+                contractSelect.dispatchEvent(
+                    new Event('change', {
+                        bubbles: true
+                    })
+                );
+
+
+                console.log(
+                    'Contrat sélectionné automatiquement :',
+                    contractId
+                );
+
+                return;
+            }
+
+
+            /*
+             * updateSelectedContract() peut encore être en train
+             * de charger les contrats.
+             *
+             * On réessaie pendant environ 3 secondes.
+             */
+
+            if (attempt < 30) {
+
+                setTimeout(
+                    () => {
+                        selectContractWhenAvailable(
+                            contractId,
+                            attempt + 1
+                        );
+                    },
+                    100
+                );
+
+            } else {
+
+                console.warn(
+                    'Le contrat n’a pas été trouvé dans le select :',
+                    contractId
+                );
+
+            }
+
+        }
+
+
+
+
+        /**
+ * Récupère le contrat associé directement à une salle.
+ */
+        /**
+ * Récupère le contrat associé directement à une salle.
+ */
+        async function loadContractByRoom(roomId) {
+
+            if (!roomId || !contractSelect) {
+                return;
+            }
+
+            try {
+
+                const response = await fetch(
+                    `${BASE_URL}interventions/getContractByRoom/${roomId}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        credentials: 'same-origin'
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        `HTTP ${response.status}`
+                    );
+                }
+
+                const contract = await response.json();
+
+                console.log(
+                    'Contrat associé à la salle :',
+                    contract
+                );
+
+                if (contract && contract.id) {
+                    // ✅ Contrat trouvé - le sélectionner
+                    selectContractWhenAvailable(contract.id);
+                } else {
+                    // ✅ AUCUN contrat trouvé - réinitialiser ET afficher l'erreur
+                    console.log('Aucun contrat associé à cette salle, réinitialisation avec erreur');
+
+                    // Réinitialiser le select contrat à vide
+                    contractSelect.value = '';
+
+                    // ✅ Déclencher la validation pour afficher le message d'erreur
+                    validateContract();
+
+                    // Déclencher l'événement change
+                    contractSelect.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+
+            } catch (error) {
+
+                console.error(
+                    'Erreur lors de la récupération du contrat de la salle :',
+                    error
+                );
+
+                // En cas d'erreur, réinitialiser et afficher l'erreur
+                contractSelect.value = '';
+                validateContract();
+
+            }
+
+        }
+        async function reloadLocationFilters() {
+
+            const values =
+                getFilterValues();
+
+
+            console.log(
+                'Reload des filtres avec :',
+                values
+            );
+
+
+            const params = {};
+
+
+            if (values.client_id) {
+                params.client_id =
+                    values.client_id;
+            }
+
+
+            if (values.site_id) {
+                params.site_id =
+                    values.site_id;
+            }
+
+
+            if (values.building_id) {
+                params.building_id =
+                    values.building_id;
+            }
+
+
+            if (values.room_id) {
+                params.room_id =
+                    values.room_id;
+            }
+
+
+            setFiltersLoading(true);
+
+
+            try {
+
+                const [
+                    clients,
+                    sites,
+                    buildings,
+                    rooms
+                ] = await Promise.all([
+
+                    fetchFilterData(
+                        'get_all_clients',
+                        params
+                    ),
+
+                    fetchFilterData(
+                        'get_all_sites',
+                        params
+                    ),
+
+                    fetchFilterData(
+                        'get_all_buildings',
+                        params
+                    ),
+
+                    fetchFilterData(
+                        'get_all_rooms',
+                        params
+                    )
+
+                ]);
+
+
+                // --------------------------------------------------------
+                // Sauvegarder les valeurs actuelles
+                // --------------------------------------------------------
+
+                const selectedClient =
+                    values.client_id;
+
+                const selectedSite =
+                    values.site_id;
+
+                const selectedBuilding =
+                    values.building_id;
+
+                const selectedRoom =
+                    values.room_id;
+
+
+                // --------------------------------------------------------
+                // Remplir les listes
+                // --------------------------------------------------------
+
+                fillFilterSelect(
+                    clientSelect,
+                    clients,
+                    'Sélectionner un client'
+                );
+
+
+                fillFilterSelect(
+                    siteSelect,
+                    sites,
+                    'Sélectionner un site'
+                );
+
+
+                fillFilterSelect(
+                    buildingSelect,
+                    buildings,
+                    'Sélectionner un bâtiment'
+                );
+
+
+                fillFilterSelect(
+                    roomSelect,
+                    rooms,
+                    'Sélectionner une salle'
+                );
+
+
+                // --------------------------------------------------------
+                // Restaurer les valeurs
+                // --------------------------------------------------------
+
+                selectFilterValue(
+                    clientSelect,
+                    selectedClient
+                );
+
+
+                selectFilterValue(
+                    siteSelect,
+                    selectedSite
+                );
+
+
+                selectFilterValue(
+                    buildingSelect,
+                    selectedBuilding
+                );
+
+
+                selectFilterValue(
+                    roomSelect,
+                    selectedRoom
+                );
+
+
+                console.log(
+                    'Filtres rechargés :',
+                    {
+                        clients: clients.length,
+                        sites: sites.length,
+                        buildings: buildings.length,
+                        rooms: rooms.length
+                    }
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    'Erreur lors du rechargement des filtres :',
+                    error
+                );
+
+            } finally {
+
+                setFiltersLoading(false);
+
+            }
+
+        }
+
+
+        // ============================================================
+        // CHANGEMENT DU CLIENT
+        // ============================================================
+
+        clientSelect.addEventListener(
+            'change',
+            async function () {
+
+                const clientId =
+                    this.value;
+
+
+                console.log(
+                    'Client sélectionné :',
+                    clientId
+                );
+
+
+                /*
+                 * Quand le client change, les niveaux inférieurs
+                 * doivent repartir de zéro.
+                 */
+
+                siteSelect.value = '';
+                buildingSelect.value = '';
+                roomSelect.value = '';
+
+
+                // Charger les contacts
+                if (clientId) {
+
+                    loadContacts(clientId);
+
+                } else {
+
+                    loadContacts('');
+
+                }
+
+
+                // Recharger les 4 listes
+                await reloadLocationFilters();
+
+
+                // Recharger les contrats du client
+                updateSelectedContract(
+                    'client_id',
+                    'site_id',
+                    'room_id',
+                    'contract_id'
+                );
+
+            }
+        );
+
+
+        // ============================================================
+        // CHANGEMENT DU SITE
+        // ============================================================
+
+        siteSelect.addEventListener(
+            'change',
+            async function () {
+
+                const siteId =
+                    this.value;
+
+
+                console.log(
+                    'Site sélectionné :',
+                    siteId
+                );
+
+
+                /*
+                 * Si le site change, le bâtiment et la salle
+                 * précédemment sélectionnés ne sont plus valides.
+                 */
+
+                buildingSelect.value = '';
+                roomSelect.value = '';
+
+
+                await reloadLocationFilters();
+
+
+                // Recharger les contrats correspondant
+                updateSelectedContract(
+                    'client_id',
+                    'site_id',
+                    'room_id',
+                    'contract_id'
+                );
+
+            }
+        );
+
+
+        // ============================================================
+        // CHANGEMENT DU BÂTIMENT
+        // ============================================================
+
+        buildingSelect.addEventListener(
+            'change',
+            async function () {
+
+                const buildingId =
+                    this.value;
+
+
+                console.log(
+                    'Bâtiment sélectionné :',
+                    buildingId
+                );
+
+
+                /*
+                 * Une nouvelle sélection de bâtiment invalide
+                 * la salle précédemment sélectionnée.
+                 */
+
+                roomSelect.value = '';
+
+
+                await reloadLocationFilters();
+
+
+                updateSelectedContract(
+                    'client_id',
+                    'site_id',
+                    'room_id',
+                    'contract_id'
+                );
+
+            }
+        );
+
+
+        // ============================================================
+        // CHANGEMENT DE LA SALLE
+        // ============================================================
+
+        roomSelect.addEventListener(
+            'change',
+            async function () {
+
+                const roomId =
+                    this.value;
+
+
+                console.log(
+                    'Salle sélectionnée :',
+                    roomId
+                );
+
+
+                // --------------------------------------------------------
+                // Si la salle est supprimée
+                // --------------------------------------------------------
+
+                if (!roomId) {
+
+                    updateSelectedContract(
+                        'client_id',
+                        'site_id',
+                        'room_id',
+                        'contract_id'
+                    );
+
+                    return;
+                }
+
+
+                try {
+
+                    console.log(
+                        'Recherche des parents de la salle...'
+                    );
+
+
+                    /*
+                     * On part UNIQUEMENT de la salle.
+                     *
+                     * Le backend retrouve :
+                     *
+                     * Salle
+                     *   ↓
+                     * Bâtiment
+                     *   ↓
+                     * Site
+                     *   ↓
+                     * Client
+                     */
+
+                    const [
+                        clients,
+                        sites,
+                        buildings
+                    ] = await Promise.all([
+
+                        fetchFilterData(
+                            'get_all_clients',
+                            {
+                                room_id: roomId
+                            }
+                        ),
+
+                        fetchFilterData(
+                            'get_all_sites',
+                            {
+                                room_id: roomId
+                            }
+                        ),
+
+                        fetchFilterData(
+                            'get_all_buildings',
+                            {
+                                room_id: roomId
+                            }
+                        )
+
+                    ]);
+
+
+                    console.log(
+                        'Parents de la salle :',
+                        {
+                            clients,
+                            sites,
+                            buildings
+                        }
+                    );
+
+
+                    // ----------------------------------------------------
+                    // Client
+                    // ----------------------------------------------------
+
+                    fillFilterSelect(
+                        clientSelect,
+                        clients,
+                        'Sélectionner un client'
+                    );
+
+
+                    if (clients.length > 0) {
+
+                        clientSelect.value =
+                            String(clients[0].id);
+
+                    }
+
+
+                    // ----------------------------------------------------
+                    // Site
+                    // ----------------------------------------------------
+
+                    fillFilterSelect(
+                        siteSelect,
+                        sites,
+                        'Sélectionner un site'
+                    );
+
+
+                    if (sites.length > 0) {
+
+                        siteSelect.value =
+                            String(sites[0].id);
+
+                    }
+
+
+                    // ----------------------------------------------------
+                    // Bâtiment
+                    // ----------------------------------------------------
+
+                    fillFilterSelect(
+                        buildingSelect,
+                        buildings,
+                        'Sélectionner un bâtiment'
+                    );
+
+
+                    if (buildings.length > 0) {
+
+                        buildingSelect.value =
+                            String(buildings[0].id);
+
+                    }
+
+
+                    // ----------------------------------------------------
+                    // Salle
+                    // ----------------------------------------------------
+
+                    /*
+                     * IMPORTANT :
+                     *
+                     * On ne recharge pas les 441 salles ici.
+                     *
+                     * On conserve simplement la salle que
+                     * l'utilisateur vient de sélectionner.
+                     */
+
+                    const roomStillExists =
+                        Array.from(
+                            roomSelect.options
+                        ).some(
+                            option =>
+                                String(option.value) ===
+                                String(roomId)
+                        );
+
+
+                    if (!roomStillExists) {
+
+                        const option =
+                            document.createElement('option');
+
+                        option.value =
+                            String(roomId);
+
+                        option.textContent =
+                            'Salle sélectionnée';
+
+                        roomSelect.appendChild(option);
+
+                    }
+
+
+                    roomSelect.value =
+                        String(roomId);
+
+
+                    console.log(
+                        'Filtres après sélection salle :',
+                        getFilterValues()
+                    );
+
+
+                    // ----------------------------------------------------
+                    // Contacts du client
+                    // ----------------------------------------------------
+
+                    if (clientSelect.value) {
+
+                        loadContacts(
+                            clientSelect.value
+                        );
+
+                    }
+
+
+                    // ----------------------------------------------------
+                    // CONTRATS
+                    // ----------------------------------------------------
+
+                    /*
+                     * Maintenant que client/site/salle sont réellement
+                     * renseignés dans les selects, on recharge les contrats.
+                     */
+
+                    updateSelectedContract(
+                        'client_id',
+                        'site_id',
+                        'room_id',
+                        'contract_id'
+                    );
+
+
+                    /*
+                     * Ensuite on récupère le contrat directement
+                     * associé à la salle.
+                     *
+                     * selectContractWhenAvailable() attend que
+                     * updateSelectedContract() ait rempli le select.
+                     */
+
+                    await loadContractByRoom(
+                        roomId
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        'Erreur lors de la récupération des parents de la salle :',
+                        error
+                    );
+
+                }
+
+            }
+        );
+
+
+        // ============================================================
+        // CHARGEMENT INITIAL
+        // ============================================================
+
+        (async function initializeLocationFilters() {
+
+            try {
+
+                const initialValues =
+                    getFilterValues();
+
+
+                console.log(
+                    'Initialisation des filtres :',
+                    initialValues
+                );
+
+
+                /*
+                 * Si la page arrive avec un client déjà sélectionné,
+                 * on conserve ce client.
+                 *
+                 * Si une salle est déjà sélectionnée, on remonte
+                 * automatiquement vers ses parents.
+                 */
+
+                if (initialValues.room_id) {
+
+                    roomSelect.dispatchEvent(
+                        new Event('change', {
+                            bubbles: true
+                        })
+                    );
+
+                    return;
+                }
+
+
+                if (initialValues.client_id) {
+
+                    await reloadLocationFilters();
+
+
+                    loadContacts(
+                        initialValues.client_id
+                    );
+
+
+                    updateSelectedContract(
+                        'client_id',
+                        'site_id',
+                        'room_id',
+                        'contract_id'
+                    );
+
+                    return;
+                }
+
+
+                /*
+                 * Aucun filtre :
+                 * charger toutes les possibilités.
+                 */
+
+                await reloadLocationFilters();
+
+
+            } catch (error) {
+
+                console.error(
+                    'Erreur lors de l\'initialisation des filtres : ',
+                    error
+                );
+
+            }
+
+        })();
         <?php if ($selectedClientId): ?>
             if (clientSelect.value) {
                 loadSites(clientSelect.value, 'site_id', null, null, function () {
@@ -676,48 +1706,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 });
             }
         <?php endif; ?>
-
-        clientSelect.addEventListener('change', function () {
-            loadSites(this.value, 'site_id', null, null, function () {
-                updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-                buildingSelect.innerHTML = '<option value="">Sélectionner un bâtiment</option>';
-                roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
-            });
-            loadContacts(clientSelect.value);
-        });
-
-        siteSelect.addEventListener('change', function () {
-            loadBuildingsLocal(this.value, 'building_id', null, function () {
-                updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-                roomSelect.innerHTML = '<option value="">Sélectionner une salle</option>';
-            });
-        });
-
-        buildingSelect.addEventListener('change', function () {
-            loadRoomsByBuildingLocal(this.value, 'room_id', null, function () {
-                updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-            });
-        });
-
-        roomSelect.addEventListener('change', function () {
-            updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
-            const roomId = this.value;
-            if (roomId) {
-                fetch(`${BASE_URL}interventions/getContractByRoom/${roomId}`)
-                    .then(r => r.json())
-                    .then(contract => {
-                        if (contract && contract.id) {
-                            setTimeout(() => {
-                                const opt = contractSelect.querySelector(`option[value="${contract.id}"]`);
-                                if (opt) opt.selected = true;
-                            }, 100);
-                        }
-                    })
-                    .catch(err => console.error('Erreur contrat salle:', err));
-            }
-        });
-        technicienSelect
-        // ── Contacts ─────────────────────────────────────────────────────────────
 
         const contactClientSelect = document.getElementById('contact_client_select');
         const contactClientInput = document.getElementById('contact_client');
@@ -742,8 +1730,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000);
             currentContactsRequest = fetch(`${BASE_URL}interventions/getContacts/${clientId}`, {
-                    signal: controller.signal
-                })
+                signal: controller.signal
+            })
                 .then(r => {
                     if (!r.ok) throw new Error(`HTTP ${r.status}`);
                     return r.json();
@@ -942,12 +1930,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
             btn.disabled = true;
 
             fetch(`${BASE_URL}interventions/quickCreateClient`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-Token': window.csrfToken
-                    },
-                    body: formData
-                })
+                method: 'POST',
+                headers: {
+                    'X-CSRF-Token': window.csrfToken
+                },
+                body: formData
+            })
                 .then(r => r.json())
                 .then(data => {
                     if (data.success) {
@@ -1013,12 +2001,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
             btn.disabled = true;
 
             fetch(`${BASE_URL}interventions/quickCreateSite`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-Token': window.csrfToken
-                    },
-                    body: formData
-                })
+                method: 'POST',
+                headers: {
+                    'X-CSRF-Token': window.csrfToken
+                },
+                body: formData
+            })
                 .then(r => r.json())
                 .then(data => {
                     if (data.success) {
@@ -1084,12 +2072,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
             btn.disabled = true;
 
             fetch(`${BASE_URL}interventions/quickCreateBuilding`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-Token': window.csrfToken
-                    },
-                    body: formData
-                })
+                method: 'POST',
+                headers: {
+                    'X-CSRF-Token': window.csrfToken
+                },
+                body: formData
+            })
                 .then(r => r.json())
                 .then(data => {
                     if (data.success) {
@@ -1160,12 +2148,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
             btn.disabled = true;
 
             fetch(`${BASE_URL}interventions/quickCreateRoom`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-Token': window.csrfToken
-                    },
-                    body: formData
-                })
+                method: 'POST',
+                headers: {
+                    'X-CSRF-Token': window.csrfToken
+                },
+                body: formData
+            })
                 .then(r => r.json())
                 .then(data => {
                     if (data.success) {
@@ -1250,12 +2238,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
             formData.append('csrf_token', window.csrfToken);
 
             fetch(`${BASE_URL}interventions/quickCreateContact`, {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: formData
-                })
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            })
                 .then(r => r.json())
                 .then(data => {
                     if (data.success) {
@@ -1313,14 +2301,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 formData.append('csrf_token', window.csrfToken);
 
                 fetch(`${window.BASE_URL}interventions/flash`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'X-CSRF-Token': window.csrfToken
-                        },
-                        body: formData
-                    })
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-Token': window.csrfToken
+                    },
+                    body: formData
+                })
                     .then(r => r.json())
                     .then(data => {
                         if (data.success) {
@@ -1341,8 +2329,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     }); // fin DOMContentLoaded
 </script>
+
 <script>
-       // Validation JavaScript pour le formulaire d'intervention
+    // Validation JavaScript pour le formulaire d'intervention
     document.addEventListener('DOMContentLoaded', function () {
         // Sélection des champs
         const titleInput = document.getElementById('title');
@@ -1432,34 +2421,58 @@ include_once __DIR__ . '/../../includes/navbar.php';
             return isValid;
         }
 
-        // Validation initiale (cache les erreurs par défaut)
-        validateType();
-        validateContract();
-        validateStatus();
-        validatePriority();
-        validateTitle();
-        validateClient();
+        // ============================================
+        // INITIALISATION
+        // ============================================
 
+        // 1. Valider les champs qui ont des valeurs par défaut ou qui sont statiques
+        validateTitle();          // Titre - toujours visible
+        validateType();           // Type - toujours visible
+        validateStatus();         // Statut - a une valeur par défaut (Nouveau)
+        validatePriority();       // Priorité - a une valeur par défaut (Moyenne)
+
+        // 2. Contrat - peut être vide au chargement (rempli dynamiquement)
+        // On le valide uniquement s'il a une valeur
+        if (contractInput.value !== '') {
+            validateContract();
+        } else {
+            // Sinon on cache l'erreur par défaut
+            contractError.classList.add('d-none');
+            contractInput.classList.remove('is-invalid');
+        }
+
+        // 3. Client - rempli dynamiquement, on cache l'erreur par défaut
+        clientError.classList.add('d-none');
+        clientInput.classList.remove('is-invalid');
+
+        // Si un client est pré-sélectionné via l'URL, on valide après chargement
+        if (clientInput.value !== '') {
+            setTimeout(validateClient, 500);
+        }
+
+        // ============================================
         // Écouteurs d'événements
+        // ============================================
         typeInput.addEventListener('change', validateType);
         contractInput.addEventListener('change', validateContract);
         statutInput.addEventListener('change', validateStatus);
         prioriInput.addEventListener('change', validatePriority);
-        titleInput.addEventListener('input', validateTitle); // 'input' réagit plus rapidement
+        titleInput.addEventListener('input', validateTitle);
         clientInput.addEventListener('change', validateClient);
 
-        // Validation lors de la soumission du formulaire
+        // ============================================
+        // Validation à la soumission
+        // ============================================
         form.addEventListener('submit', function (e) {
-            const isValid = validateType() && 
-                           validateContract() && 
-                           validateStatus() && 
-                           validatePriority() && 
-                           validateTitle() && 
-                           validateClient();
-            
+            const isValid = validateType() &&
+                validateContract() &&
+                validateStatus() &&
+                validatePriority() &&
+                validateTitle() &&
+                validateClient();
+
             if (!isValid) {
                 e.preventDefault();
-                // Optionnel : faire défiler jusqu'au premier champ invalide
                 const firstInvalid = document.querySelector('.is-invalid');
                 if (firstInvalid) {
                     firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1467,6 +2480,30 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 }
             }
         });
+
+        // ============================================
+        // Observer le contrat et le client pour les validations dynamiques
+        // ============================================
+
+        // Quand le contrat est chargé dynamiquement, on le valide
+        const contractObserver = new MutationObserver(function () {
+            if (contractInput.value !== '') {
+                validateContract();
+            }
+        });
+
+        // Observer les changements d'options du select contrat
+        contractObserver.observe(contractInput, {
+            childList: true,
+            subtree: true
+        });
+
+        // Écouter aussi l'événement change pour le contrat
+        contractInput.addEventListener('change', validateContract);
+
+        // Pour le client, on valide après chaque changement
+        clientInput.addEventListener('change', validateClient);
+
     });
 </script>
 <script>
@@ -1540,22 +2577,59 @@ include_once __DIR__ . '/../../includes/navbar.php';
         });
     });
 </script>
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const preventiveCheckbox = document.getElementById('is_preventive');
-    const plannedDateContainer = document.getElementById('plannedDateContainer');
-    const plannedDateInput = document.getElementById('planned_date');
 
-    function togglePlannedDate() {
-        if (preventiveCheckbox.checked) {
-            plannedDateContainer.style.display = 'block';
-        } else {
-            plannedDateContainer.style.display = 'none';
-            plannedDateInput.value = '';
+        const preventiveCheckbox =
+            document.getElementById('is_preventive');
+
+        const plannedDateContainer =
+            document.getElementById('plannedDateContainer');
+
+        const plannedDateInput =
+            document.getElementById('planned_date');
+
+
+        // Les éléments peuvent ne pas exister sur cette page.
+        if (!preventiveCheckbox) {
+            return;
         }
-    }
-    togglePlannedDate();
-    preventiveCheckbox.addEventListener('change', togglePlannedDate);
-});
+
+        if (!plannedDateContainer) {
+            return;
+        }
+
+
+        function togglePlannedDate() {
+
+            if (preventiveCheckbox.checked) {
+
+                plannedDateContainer.style.display = 'block';
+
+            } else {
+
+                plannedDateContainer.style.display = 'none';
+
+                if (plannedDateInput) {
+                    plannedDateInput.value = '';
+                }
+
+            }
+
+        }
+
+
+        togglePlannedDate();
+
+
+        preventiveCheckbox.addEventListener(
+            'change',
+            togglePlannedDate
+        );
+
+    });
 </script>
+
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
