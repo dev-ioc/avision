@@ -929,6 +929,23 @@ $closeReason = [];
 						</div>
 						<div class="tab-pane fade" id="tab-client">
 							<p class="text-muted small">Le client signe ici (bon pour accord)</p>
+
+							<div class="row mb-3">
+								<div class="col-md-6">
+									<label for="clientSignName" class="form-label fw-semibold">Nom du signataire</label>
+									<input type="text" class="form-control" id="clientSignName"
+										placeholder="Nom du client" readonly
+										value="<?= h($intervention['client_name'] ?? '') ?> ">
+								</div>
+								<div class="col-md-6">
+									<label for="clientSignEmail" class="form-label fw-semibold">Email du
+										signataire</label>
+									<input type="email" class="form-control" id="clientSignEmail"
+										placeholder="email@client.com" readonly
+										value="<?= htmlspecialchars($intervention['contact_client'] ?? '') ?>">
+								</div>
+							</div>
+
 							<canvas id="signature-client" width="700" height="200"
 								style="border:1px solid #ccc;border-radius:6px;touch-action:none;width:100%;height:200px;"></canvas>
 							<div class="mt-2">
@@ -1017,6 +1034,8 @@ $closeReason = [];
 			const payload = {
 				technicien_signature: padTech.isEmpty() ? null : padTech.toDataURL('image/png'),
 				client_signature: padClient.isEmpty() ? null : padClient.toDataURL('image/png'),
+				client_name: document.getElementById('clientSignName').value.trim(),
+				client_email: document.getElementById('clientSignEmail').value.trim(),
 			};
 
 			try {

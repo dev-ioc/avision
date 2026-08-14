@@ -6336,6 +6336,8 @@ class InterventionController
             $input = json_decode(file_get_contents('php://input'), true);
             $techSignatureData = $input['technicien_signature'] ?? null;
             $clientSignatureData = $input['client_signature'] ?? null;
+            $clientName = $input['client_name'] ?? null;
+            $clientEmail = $input['client_email'] ?? null;
 
             if (empty($techSignatureData) && empty($clientSignatureData)) {
                 throw new Exception('Aucune signature reçue');
@@ -6372,14 +6374,17 @@ class InterventionController
             }
 
             $sql = "INSERT INTO intervention_local_signatures 
-        (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path, technicien_id, signed_at, ip_address)
-        VALUES (:iid, :source_id, :tech, :client, :tid, NOW(), :ip)
-        ON DUPLICATE KEY UPDATE
-        technicien_signature_path = VALUES(technicien_signature_path),
-        client_signature_path = VALUES(client_signature_path),
-        technicien_id = VALUES(technicien_id),
-        signed_at = NOW(),
-        ip_address = VALUES(ip_address)";
+                (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path, 
+                client_name, client_email, technicien_id, signed_at, ip_address)
+                VALUES (:iid, :source_id, :tech, :client, :client_name, :client_email, :tid, NOW(), :ip)
+                ON DUPLICATE KEY UPDATE
+                technicien_signature_path = VALUES(technicien_signature_path),
+                client_signature_path = VALUES(client_signature_path),
+                client_name = VALUES(client_name),
+                client_email = VALUES(client_email),
+                technicien_id = VALUES(technicien_id),
+                signed_at = NOW(),
+                ip_address = VALUES(ip_address)";
 
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
@@ -6387,6 +6392,8 @@ class InterventionController
                 ':source_id' => $attachmentId,
                 ':tech' => $techPath,
                 ':client' => $clientPath,
+                ':client_name' => $clientName,
+                ':client_email' => $clientEmail,
                 ':tid' => $_SESSION['user']['id'],
                 ':ip' => $_SERVER['REMOTE_ADDR'] ?? null,
             ]);
