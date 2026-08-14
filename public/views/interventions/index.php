@@ -68,7 +68,6 @@ $baseUrlWithParams = $queryString ? '?' . $queryString . '&page=' : '?page=';
         <?php endif; ?>
       </h4>
     </div>
-
     <div>
       <?php if (canModifyInterventions()): ?>
         <?php if (!$isPreventivePage): ?>
