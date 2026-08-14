@@ -73,101 +73,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 
-    <style>
-        @media (max-width: 768px) {
-            .d-flex.gap-2 {
-                flex-wrap: wrap;
-                gap: 0.5rem !important;
-            }
-
-            .d-flex.gap-2 .btn {
-                font-size: 0.875rem;
-                padding: 0.375rem 0.75rem;
-            }
-        }
-
-        /* =========================================================
-           TOM SELECT
-           ========================================================= */
-        .ts-wrapper {
-            width: 100%;
-        }
-
-        .ts-dropdown {
-            z-index: 99999 !important;
-            box-sizing: border-box !important;
-            width: 350px !important;
-            height: 300px !important;
-            min-width: 100px !important;
-            min-height: 50px !important;
-            max-width: none !important;
-            max-height: none !important;
-            overflow: hidden !important;
-        }
-
-        .ts-dropdown .ts-dropdown-content {
-            width: 100% !important;
-            height: 100% !important;
-            max-height: none !important;
-            overflow-x: auto !important;
-            overflow-y: auto !important;
-            box-sizing: border-box !important;
-        }
-
-        .ts-dropdown .option {
-            white-space: normal !important;
-            word-break: break-word;
-        }
-
-        /* Poignée de redimensionnement */
-        .filter-dropdown-resizer {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            width: 18px;
-            height: 18px;
-            cursor: nwse-resize;
-            z-index: 100000;
-            background:
-                linear-gradient(135deg,
-                    transparent 0%,
-                    transparent 45%,
-                    #999 46%,
-                    #999 52%,
-                    transparent 53%),
-                linear-gradient(135deg,
-                    transparent 0%,
-                    transparent 62%,
-                    #999 63%,
-                    #999 69%,
-                    transparent 70%);
-            opacity: 0.7;
-        }
-
-        .filter-dropdown-resizer:hover {
-            opacity: 1;
-        }
-
-        /* Ne pas couper le dropdown */
-        #filterForm,
-        #filterForm .row,
-        #filterForm .col-md-2,
-        #filterForm .ts-wrapper {
-            overflow: visible !important;
-        }
-
-        /* Style pour le champ contrat en warning */
-        .is-warning {
-            border-color: #ffc107 !important;
-            border-width: 2px !important;
-        }
-
-        .is-warning:focus {
-            border-color: #ffc107 !important;
-            box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
-        }
-    </style>
-
     <?php if (isset($_SESSION['error'])): ?>
         <div class="alert alert-danger">
             <?php echo $_SESSION['error'];
@@ -696,46 +601,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 </div>
-
-<style>
-    .contact-info-card {
-        border-width: 2px !important;
-        border-style: solid !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-    }
-
-    .contact-info-header {
-        border-bottom: 2px solid !important;
-    }
-
-    [data-bs-theme="light"] .contact-info-card {
-        background-color: #f8f9fa !important;
-        border-color: #dee2e6 !important;
-    }
-
-    [data-bs-theme="light"] .contact-info-header {
-        background-color: #e9ecef !important;
-        border-bottom-color: #dee2e6 !important;
-        color: #495057 !important;
-    }
-
-    [data-bs-theme="dark"] .contact-info-card {
-        background-color: var(--bs-body-bg) !important;
-        border-color: var(--bs-border-color) !important;
-    }
-
-    [data-bs-theme="dark"] .contact-info-header {
-        background-color: var(--bs-secondary-bg) !important;
-        border-bottom-color: var(--bs-border-color) !important;
-        color: var(--bs-body-color) !important;
-    }
-</style>
-
 <script>
     window.BASE_URL = '<?= BASE_URL ?>';
     window.csrfToken = '<?= csrf_token() ?>';
 </script>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         initBaseUrl('<?php echo BASE_URL; ?>');
@@ -770,6 +639,36 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     resizer.className = 'filter-dropdown-resizer';
                     dropdown.appendChild(resizer);
                 }
+
+                // On ne rebranche pas les listeners si déjà fait sur cette poignée
+                if (resizer.dataset.bound) return;
+                resizer.dataset.bound = 'true';
+
+                resizer.addEventListener('mousedown', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const startX = e.clientX;
+                    const startY = e.clientY;
+                    const startWidth = dropdown.offsetWidth;
+                    const startHeight = dropdown.offsetHeight;
+
+                    function onMouseMove(e) {
+                        const newWidth = Math.max(150, startWidth + (e.clientX - startX));
+                        const newHeight = Math.max(80, startHeight + (e.clientY - startY));
+                        // setProperty(..., 'important') pour battre le !important du CSS
+                        dropdown.style.setProperty('width', newWidth + 'px', 'important');
+                        dropdown.style.setProperty('height', newHeight + 'px', 'important');
+                    }
+
+                    function onMouseUp() {
+                        document.removeEventListener('mousemove', onMouseMove);
+                        document.removeEventListener('mouseup', onMouseUp);
+                    }
+
+                    document.addEventListener('mousemove', onMouseMove);
+                    document.addEventListener('mouseup', onMouseUp);
+                });
             }
         };
 
@@ -1612,7 +1511,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
         })();
         <?php if ($selectedClientId): ?>
-            if (clientSelect.value) {
+                if (clientSelect.value) {
                 loadSites(clientSelect.value, 'site_id', null, null, function () {
                     updateSelectedContract('client_id', 'site_id', 'room_id', 'contract_id');
                 });
@@ -2287,7 +2186,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     }); 
 </script>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const titleInput = document.getElementById('title');
@@ -2604,5 +2502,131 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     });
 </script>
+<style>
+    .contact-info-card {
+        border-width: 2px !important;
+        border-style: solid !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .contact-info-header {
+        border-bottom: 2px solid !important;
+    }
+
+    [data-bs-theme="light"] .contact-info-card {
+        background-color: #f8f9fa !important;
+        border-color: #dee2e6 !important;
+    }
+
+    [data-bs-theme="light"] .contact-info-header {
+        background-color: #e9ecef !important;
+        border-bottom-color: #dee2e6 !important;
+        color: #495057 !important;
+    }
+
+    [data-bs-theme="dark"] .contact-info-card {
+        background-color: var(--bs-body-bg) !important;
+        border-color: var(--bs-border-color) !important;
+    }
+
+    [data-bs-theme="dark"] .contact-info-header {
+        background-color: var(--bs-secondary-bg) !important;
+        border-bottom-color: var(--bs-border-color) !important;
+        color: var(--bs-body-color) !important;
+    }
+
+    @media (max-width: 768px) {
+        .d-flex.gap-2 {
+            flex-wrap: wrap;
+            gap: 0.5rem !important;
+        }
+
+        .d-flex.gap-2 .btn {
+            font-size: 0.875rem;
+            padding: 0.375rem 0.75rem;
+        }
+    }
+
+    /* =========================================================
+           TOM SELECT
+           ========================================================= */
+    .ts-wrapper {
+        width: 100%;
+    }
+
+    .ts-dropdown {
+        z-index: 99999 !important;
+        box-sizing: border-box !important;
+        width: 350px !important;
+        height: 300px !important;
+        min-width: 100px !important;
+        min-height: 50px !important;
+        max-width: none !important;
+        max-height: none !important;
+        overflow: hidden !important;
+    }
+
+    .ts-dropdown .ts-dropdown-content {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: none !important;
+        overflow-x: auto !important;
+        overflow-y: auto !important;
+        box-sizing: border-box !important;
+    }
+
+    .ts-dropdown .option {
+        white-space: normal !important;
+        word-break: break-word;
+    }
+
+    /* Poignée de redimensionnement */
+    .filter-dropdown-resizer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 18px;
+        height: 18px;
+        cursor: nwse-resize;
+        z-index: 100000;
+        background:
+            linear-gradient(135deg,
+                transparent 0%,
+                transparent 45%,
+                #999 46%,
+                #999 52%,
+                transparent 53%),
+            linear-gradient(135deg,
+                transparent 0%,
+                transparent 62%,
+                #999 63%,
+                #999 69%,
+                transparent 70%);
+        opacity: 0.7;
+    }
+
+    .filter-dropdown-resizer:hover {
+        opacity: 1;
+    }
+
+    /* Ne pas couper le dropdown */
+    #filterForm,
+    #filterForm .row,
+    #filterForm .col-md-2,
+    #filterForm .ts-wrapper {
+        overflow: visible !important;
+    }
+
+    /* Style pour le champ contrat en warning */
+    .is-warning {
+        border-color: #ffc107 !important;
+        border-width: 2px !important;
+    }
+
+    .is-warning:focus {
+        border-color: #ffc107 !important;
+        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
+    }
+</style>
 
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
