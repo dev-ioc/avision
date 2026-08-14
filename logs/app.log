@@ -125968,3 +125968,44 @@ Quant à l’écran n°1, il est HS
 [2026-08-13 15:44:17][INFO] 55 
 [2026-08-13 15:44:17][INFO] 109 
 [2026-08-14 14:44:29][DEBUG] CSRF: Token trouvé dans la requête - Token: c93a1e79c8f47c461ed2... 
+[2026-08-14 08:07:21][DEBUG] CSRF: Token trouvé dans la requête - Token: a6754782d7267e17f6f3... 
+[2026-08-14 08:07:21][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-14 08:07:21][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-14 08:07:21][DEBUG] Login réussi - Session ID: 71kf4ub5fq0cdt55qifa1865j4 
+[2026-08-14 08:07:21][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-14 08:07:21][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-14 08:07:21][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-14 08:07:21][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-14 09:05:51][DEBUG] Redirection vers login - URL sauvegardée: interventions/add (Session ID: 3ini4r061jotmnoshv72qdnihg) 
+[2026-08-14 09:05:56][DEBUG] CSRF: Token trouvé dans la requête - Token: c93a1e79c8f47c461ed2... 
+[2026-08-14 09:05:56][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-14 09:05:56][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-14 09:05:56][DEBUG] Login réussi - Session ID: 3ini4r061jotmnoshv72qdnihg 
+[2026-08-14 09:05:56][DEBUG] Login réussi - redirect_after_login: interventions/add 
+[2026-08-14 09:05:56][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-14 09:05:56][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-08-14 09:05:56][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/add 
+[2026-08-14 09:12:28][WARNING] Undefined variable $isPreventivePage {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":1138,"errno":2}
+[2026-08-14 09:13:32][WARNING] Undefined variable $isPreventivePage {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":1149,"errno":2}
+[2026-08-14 10:10:21][WARNING] Undefined variable $db {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":52,"errno":2}
+[2026-08-14 10:10:21][WARNING] Undefined variable $db {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":53,"errno":2}
+[2026-08-14 10:10:21][WARNING] Undefined variable $db {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":54,"errno":2}
+[2026-08-14 10:10:21][ERROR] Call to a member function prepare() on null {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\SiteModel.php","line":205,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php(56): SiteModel->getAllSites()\n#1 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(2300): require_once('C:\\\\xampp\\\\htdocs...')\n#2 C:\\xampp\\htdocs\\avision\\public\\index.php(975): InterventionController->create()\n#3 {main}","type":"Error"}
+[2026-08-14 10:11:25][WARNING] Undefined variable $db {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":37,"errno":2}
+[2026-08-14 10:11:25][WARNING] Undefined variable $db {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":38,"errno":2}
+[2026-08-14 10:11:25][WARNING] Undefined variable $db {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":39,"errno":2}
+[2026-08-14 10:11:25][ERROR] Call to a member function prepare() on null {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\SiteModel.php","line":205,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php(41): SiteModel->getAllSites()\n#1 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(2300): require_once('C:\\\\xampp\\\\htdocs...')\n#2 C:\\xampp\\htdocs\\avision\\public\\index.php(975): InterventionController->create()\n#3 {main}","type":"Error"}
+[2026-08-14 10:12:14][WARNING] Undefined variable $db {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":37,"errno":2}
+[2026-08-14 10:12:14][WARNING] Undefined variable $db {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":38,"errno":2}
+[2026-08-14 10:12:14][WARNING] Undefined variable $db {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":39,"errno":2}
+[2026-08-14 10:12:14][ERROR] Call to a member function prepare() on null {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\SiteModel.php","line":205,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php(41): SiteModel->getAllSites()\n#1 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(2300): require_once('C:\\\\xampp\\\\htdocs...')\n#2 C:\\xampp\\htdocs\\avision\\public\\index.php(975): InterventionController->create()\n#3 {main}","type":"Error"}
+[2026-08-14 10:14:27][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\BuildingModel.php","line":166}
+[2026-08-14 10:15:02][WARNING] Undefined variable $allSites {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":176,"errno":2}
+[2026-08-14 10:15:02][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":176,"errno":2}
+[2026-08-14 10:15:02][WARNING] Undefined variable $allBuildings {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":195,"errno":2}
+[2026-08-14 10:15:02][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":195,"errno":2}
+[2026-08-14 10:15:02][WARNING] Undefined variable $allRooms {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":214,"errno":2}
+[2026-08-14 10:15:02][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\add.php","line":214,"errno":2}
+[2026-08-14 10:47:40][DEBUG] CSRF: Token trouvé dans la requête - Token: c93a1e79c8f47c461ed2... 
+[2026-08-14 15:00:13][DEBUG] CSRF: Token trouvé dans la requête - Token: c93a1e79c8f47c461ed2... 
+[2026-08-14 15:03:09][DEBUG] CSRF: Token trouvé dans la requête - Token: c93a1e79c8f47c461ed2... 
