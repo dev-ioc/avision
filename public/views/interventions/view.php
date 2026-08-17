@@ -2334,13 +2334,23 @@ $closeReason = [];
 				}
 				var disabledAttr = canEdit ? '' : ' disabled';
 				var disabledClass = canEdit ? '' : ' disabled';
-
+				function formatDurationMinutes(totalMinutes) {
+					totalMinutes = parseInt(totalMinutes) || 0;
+					if (totalMinutes > 0) {
+						var hours = Math.floor(totalMinutes / 60);
+						var minutes = totalMinutes % 60;
+						var result = hours > 0 ? hours + 'h ' : '';
+						result += minutes > 0 ? minutes + 'min' : (hours > 0 ? '00' : 'Non défini');
+						return result;
+					}
+					return 'Non défini';
+				}
 				var html = '<div class="list-group list-group-flush">';
 				assigned.forEach(function (tech) {
 					var name = tech.full_name || (tech.first_name + ' ' + tech.last_name);
 					var st = tech.start_time ? new Date(tech.start_time).toLocaleString('fr-FR') : 'Non défini';
 					var et = tech.end_time ? new Date(tech.end_time).toLocaleString('fr-FR') : 'Non défini';
-					var tp = tech.temps_passe ? tech.temps_passe + ' min' : 'Non défini';
+					var tp = tech.temps_passe ? formatDurationMinutes(tech.temps_passe) : 'Non défini';
 					var dep = tech.deplacement == 1 ? 'Oui' : 'Non';
 					var qual = tech.is_qualified == 1
 						? '<span class="badge bg-success text-dark">Qualifié</span>'
