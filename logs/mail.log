@@ -687,3 +687,30 @@
 [2026-08-14 14:44:29][INFO] Envoi automatique de création désactivé pour l'intervention 393 
 [2026-08-14 15:00:13][INFO] Envoi automatique de création désactivé pour l'intervention 394 
 [2026-08-14 15:03:09][INFO] Envoi automatique de création désactivé pour l'intervention 395 
+[2026-08-17 09:12:27][ERROR] Erreur envoi email fermeture intervention 7 : Aucun destinataire trouvé pour l'intervention 7 
+[2026-08-17 09:15:41][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"ec3f012c1c2ce14b043e7fed44ae9d1e24fc25799b4e2c857c07b36e49367f3c","template_id":"3","attachments":["124"]} 
+[2026-08-17 09:15:41][INFO] Pièces jointes sélectionnées reçues : [124] 
+[2026-08-17 09:15:41][ERROR] Erreur envoi email personnalisé intervention 7 : Aucun destinataire trouvé pour l'intervention 7 
+[2026-08-17 09:15:41][ERROR] Erreur lors de l'envoi de l'email pour intervention 7 : Aucun destinataire trouvé pour l'intervention 7 
+[2026-08-17 09:19:53][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"ec3f012c1c2ce14b043e7fed44ae9d1e24fc25799b4e2c857c07b36e49367f3c","template_id":"3","attachments":["507"]} 
+[2026-08-17 09:19:53][INFO] Pièces jointes sélectionnées reçues : [507] 
+[2026-08-17 09:19:53][ERROR] Erreur envoi email personnalisé intervention 323 : Aucun destinataire trouvé pour l'intervention 323 
+[2026-08-17 09:19:53][ERROR] Erreur lors de l'envoi de l'email pour intervention 323 : Aucun destinataire trouvé pour l'intervention 323 
+[2026-08-17 09:25:14][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"ec3f012c1c2ce14b043e7fed44ae9d1e24fc25799b4e2c857c07b36e49367f3c","template_id":"3","attachments":["507"]} 
+[2026-08-17 09:25:14][INFO] Pièces jointes sélectionnées reçues : [507] 
+[2026-08-17 09:25:14][ERROR] Erreur envoi email personnalisé intervention 323 : Aucun destinataire trouvé pour l'intervention 323 
+[2026-08-17 09:25:14][ERROR] Erreur lors de l'envoi de l'email pour intervention 323 : Aucun destinataire trouvé pour l'intervention 323 
+[2026-08-17 09:35:08][INFO] DEBUG sendEmail - POST reçu : {"csrf_token":"ec3f012c1c2ce14b043e7fed44ae9d1e24fc25799b4e2c857c07b36e49367f3c","template_id":"3","attachments":["507"]} 
+[2026-08-17 09:35:08][INFO] Pièces jointes sélectionnées reçues : [507] 
+[2026-08-17 09:35:08][INFO] Traitement de 1 pièce(s) jointe(s) sélectionnée(s) 
+[2026-08-17 09:35:08][INFO] Pièce jointe ajoutée : C:\xampp\htdocs\avision\uploads\interventions\323\BI_signe_#VS2226-8954_20260709_095630.pdf (chemin DB: uploads/interventions/323/BI_signe_#VS2226-8954_20260709_095630.pdf) 
+[2026-08-17 09:35:08][INFO] Nombre total de pièces jointes à envoyer : 1 
+[2026-08-17 09:35:08][INFO] Envoi email avec 1 pièce(s) jointe(s) pour intervention 323 
+[2026-08-17 09:35:08][INFO]   - Pièce jointe : C:\xampp\htdocs\avision\uploads\interventions\323\BI_signe_#VS2226-8954_20260709_095630.pdf (existe: OUI) 
+[2026-08-17 09:35:08][INFO] Envoi email à dev_mdg@caspeo.fr avec 1 pièce(s) jointe(s) 
+[2026-08-17 09:35:08][INFO]   PJ 1: C:\xampp\htdocs\avision\uploads\interventions\323\BI_signe_#VS2226-8954_20260709_095630.pdf (existe: OUI, taille: 16898 bytes) 
+[2026-08-17 09:35:29][ERROR] Erreur lors de l'envoi de l'email SMTP: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-08-17 09:35:29][ERROR] Erreur envoi email à dev_mdg@caspeo.fr : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-08-17 09:35:29][ERROR] Erreur lors de l'envoi de l'email : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) {"intervention_id":"323","mail_host":"172.20.64.14","mail_port":"587","mail_encryption":"tls","mail_from_address":"avision@caspeo.fr","oauth2_enabled":"0"}
+[2026-08-17 09:35:29][ERROR] Erreur envoi email personnalisé intervention 323 : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-08-17 09:35:29][ERROR] Erreur lors de l'envoi de l'email pour intervention 323 : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 

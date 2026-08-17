@@ -4328,11 +4328,6 @@ class InterventionController
             // Récupérer l'intervention
             $intervention = $this->interventionModel->getById($id);
 
-            if (!$intervention) {
-                echo json_encode(['success' => false, 'error' => 'Intervention introuvable']);
-                exit;
-            }
-
             // Récupérer les observations (commentaires avec is_observation = 1)
             $sql = "SELECT c.*, 
                     CONCAT(u.first_name, ' ', u.last_name) as created_by_name,
@@ -4348,6 +4343,7 @@ class InterventionController
 
             $recipientEmail = !empty($intervention['contact_client']) ? $intervention['contact_client'] :
                 (!empty($intervention['site_email']) ? $intervention['site_email'] : '');
+            custom_log($recipientEmail, $intervention['title'], $intervention['site_name']);
             // Récupérer l'email de test si configuré
             $config = Config::getInstance();
             $testEmail = $config->get('test_email', '');
@@ -4590,19 +4586,13 @@ class InterventionController
         exit;
     }
 
-    /**
-     * Prévise le template avec les variables remplacées
-     * @param int $id ID de l'intervention
-     */
     public function previewEmailTemplate($id)
     {
         header('Content-Type: application/json');
 
         try {
-            // Vérifier les permissions
             $this->checkAccess();
 
-            // Récupérer l'intervention
             $intervention = $this->interventionModel->getById($id);
 
             if (!$intervention) {
@@ -4610,7 +4600,6 @@ class InterventionController
                 exit;
             }
 
-            // Récupérer l'ID du template
             $templateId = $_GET['template_id'] ?? null;
 
             if (empty($templateId)) {
@@ -4618,7 +4607,6 @@ class InterventionController
                 exit;
             }
 
-            // Récupérer le template
             require_once __DIR__ . '/../models/MailTemplateModel.php';
             $mailTemplateModel = new MailTemplateModel($this->db);
             $template = $mailTemplateModel->getById($templateId);
@@ -4628,28 +4616,30 @@ class InterventionController
                 exit;
             }
 
-            // Récupérer les observations
             $sql = "SELECT c.*, 
-                    CONCAT(u.first_name, ' ', u.last_name) as created_by_name,
-                    DATE_FORMAT(c.created_at, '%d/%m/%Y %H:%i') as created_at
-                    FROM intervention_comments c
-                    LEFT JOIN users u ON c.created_by = u.id
-                    WHERE c.intervention_id = ? AND c.is_observation = 1
-                    ORDER BY c.created_at ASC";
+                CONCAT(u.first_name, ' ', u.last_name) as created_by_name,
+                DATE_FORMAT(c.created_at, '%d/%m/%Y %H:%i') as created_at
+                FROM intervention_comments c
+                LEFT JOIN users u ON c.created_by = u.id
+                WHERE c.intervention_id = ? AND c.is_observation = 1
+                ORDER BY c.created_at ASC";
 
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$id]);
             $observations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $assignedTechnicians = $this->getInterventionTechnicians($id);
+            $totalTempsPasseMinutes = $this->calculateTotalTempsPasse($id);
+            $totalTempsPasseHeures = round($totalTempsPasseMinutes / 60, 2);
 
-            // Préparer les données pour le remplacement (s'assurer que technician_name est défini)
-            if (!isset($intervention['technician_name'])) {
-                $intervention['technician_name'] = '';
-                if (!empty($intervention['technician_first_name']) && !empty($intervention['technician_last_name'])) {
-                    $intervention['technician_name'] = $intervention['technician_first_name'] . ' ' . $intervention['technician_last_name'];
-                }
-            }
+            $intervention['technician_name'] = !empty($assignedTechnicians)
+                ? implode(', ', array_map(function ($t) {
+                    return trim(($t['first_name'] ?? '') . ' ' . ($t['last_name'] ?? ''));
+                }, $assignedTechnicians))
+                : '';
 
-            // Remplacer les variables dans le sujet et le corps via MailService
+            $intervention['duration'] = $totalTempsPasseHeures;
+            $intervention['total_temps_passe'] = $totalTempsPasseHeures;
+
             $previewSubject = $this->mailService->previewTemplate($template['subject'], $intervention, $observations);
             $previewBody = $this->mailService->previewTemplate($template['body'], $intervention, $observations);
 
