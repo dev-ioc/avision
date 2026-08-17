@@ -6460,18 +6460,27 @@ class InterventionController
                 " - Version " . ($pj['version'] ?? 1)
             );
             // Fermeture automatique pour les préventives, une fois le BI signé par le technicien ET le client
-            if (
-                $signatureStatus === 'signe_tech_client'
-                && (int) ($intervention['is_preventive'] ?? 0) === 1
-                && (int) $intervention['status_id'] !== 6
-            ) {
-                $closeResult = $this->performClose($interventionId, $intervention, null, false);
-                if ($closeResult['success']) {
-                    custom_log("Intervention préventive $interventionId fermée automatiquement (BI signé tech+client).", 'INFO');
-                } else {
-                    custom_log("Échec fermeture auto intervention préventive $interventionId : " . ($closeResult['error'] ?? ''), 'WARNING');
-                }
+            // if (
+            //     $signatureStatus === 'signe_tech_client'
+            //     && (int) ($intervention['is_preventive'] ?? 0) === 1
+            //     && (int) $intervention['status_id'] !== 6
+            // ) {
+            //     $closeResult = $this->performClose($interventionId, $intervention, null, false);
+            //     if ($closeResult['success']) {
+            //         custom_log("Intervention préventive $interventionId fermée automatiquement (BI signé tech+client).", 'INFO');
+            //     } else {
+            //         custom_log("Échec fermeture auto intervention préventive $interventionId : " . ($closeResult['error'] ?? ''), 'WARNING');
+            //     }
+            // }
+
+            $hasSolution = false;
+            if ($signatureStatus === 'signe_tech_client') {
+                $sqlSol = "SELECT COUNT(*) FROM intervention_comments WHERE intervention_id = ? AND is_solution = 1";
+                $stmtSol = $this->db->prepare($sqlSol);
+                $stmtSol->execute([$interventionId]);
+                $hasSolution = (int) $stmtSol->fetchColumn() > 0;
             }
+
             echo json_encode([
                 'success' => true,
                 'message' => 'Signature(s) enregistrée(s) et PDF mis à jour',
@@ -6479,7 +6488,11 @@ class InterventionController
                 'version' => $pj['version'] ?? 1,
                 'signature_status' => $signatureStatus,
                 'has_tech_signature' => !empty($techPath),
-                'has_client_signature' => !empty($clientPath)
+                'has_client_signature' => !empty($clientPath),
+                'fully_signed' => $signatureStatus === 'signe_tech_client',
+                'has_solution' => $hasSolution,
+                'intervention_id' => $interventionId,
+                'is_closed' => (int) $intervention['status_id'] === 6
             ]);
 
         } catch (Exception $e) {
@@ -6951,6 +6964,127 @@ class InterventionController
 
         $result = $this->checkBiGenerationAllowed($id, $_SESSION['user']['id']);
         echo json_encode($result);
+        exit;
+    }
+
+    /**
+     * Liste du staff (techniciens + ADV + admins) pour le sélecteur de destinataires
+     * après signature d'un BI.
+     */
+    public function getStaffList()
+    {
+        $this->checkAccess();
+        header('Content-Type: application/json');
+
+        try {
+            $sql = "SELECT u.id, CONCAT(u.first_name, ' ', u.last_name) as name, u.email, ut.name as role
+                FROM users u
+                INNER JOIN user_types ut ON u.user_type_id = ut.id
+                WHERE ut.group_id = 1 AND u.status = 1 AND u.email IS NOT NULL AND u.email != ''
+                ORDER BY u.first_name, u.last_name";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            echo json_encode(['success' => true, 'staff' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur lors de la récupération du staff']);
+        }
+    }
+
+    /**
+     * Indique si l'intervention a déjà une solution documentée, et renvoie
+     * la liste des commentaires existants (pour proposer d'en marquer un comme solution).
+     */
+    public function getSolutionStatus($id)
+    {
+        $this->checkAccess();
+        header('Content-Type: application/json');
+
+        try {
+            $sql = "SELECT id, comment, is_solution, created_at,
+                CONCAT(u.first_name, ' ', u.last_name) as created_by_name
+                FROM intervention_comments c
+                LEFT JOIN users u ON c.created_by = u.id
+                WHERE c.intervention_id = ?
+                ORDER BY c.created_at DESC";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$id]);
+            $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $hasSolution = false;
+            foreach ($comments as $c) {
+                if ((int) $c['is_solution'] === 1) {
+                    $hasSolution = true;
+                    break;
+                }
+            }
+
+            echo json_encode([
+                'success' => true,
+                'has_solution' => $hasSolution,
+                'comments' => $comments
+            ]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur']);
+        }
+    }
+
+    /**
+     * Envoie la notification "Bon signé" (client + technicien(s) + staff choisi).
+     * Appelée depuis la modale post-signature.
+     */
+    public function sendBonSignedNotification($id)
+    {
+        $this->checkAccess();
+        header('Content-Type: application/json');
+
+        try {
+            $intervention = $this->interventionModel->getById($id);
+            if (!$intervention) {
+                throw new Exception('Intervention introuvable');
+            }
+
+            $includeClient = !empty($_POST['include_client']) && $_POST['include_client'] == '1';
+            $includeTechnicians = !empty($_POST['include_technicians']) && $_POST['include_technicians'] == '1';
+
+            $extraStaffIds = [];
+            if (!empty($_POST['staff_ids']) && is_array($_POST['staff_ids'])) {
+                $extraStaffIds = array_map('intval', $_POST['staff_ids']);
+            }
+
+            $extraRecipients = [];
+            if (!empty($extraStaffIds)) {
+                $placeholders = implode(',', array_fill(0, count($extraStaffIds), '?'));
+                $stmt = $this->db->prepare(
+                    "SELECT email, CONCAT(first_name, ' ', last_name) as name FROM users WHERE id IN ($placeholders)"
+                );
+                $stmt->execute($extraStaffIds);
+                $extraRecipients = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+
+            require_once __DIR__ . '/../models/MailTemplateModel.php';
+            $mailTemplateModel = new MailTemplateModel($this->db);
+            $templateId = $mailTemplateModel->getTemplateIdByType('intervention_closed');
+
+            if (!$templateId) {
+                throw new Exception("Aucun template 'intervention_closed' actif trouvé");
+            }
+
+            $success = $this->mailService->sendBonSignedNotification(
+                $id,
+                $templateId,
+                $includeClient,
+                $includeTechnicians,
+                $extraRecipients
+            );
+
+            echo json_encode(['success' => (bool) $success, 'message' => 'Notification envoyée']);
+
+        } catch (Exception $e) {
+            custom_log_mail("Erreur sendBonSignedNotification intervention $id : " . $e->getMessage(), 'ERROR');
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
         exit;
     }
 }

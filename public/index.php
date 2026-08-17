@@ -1357,6 +1357,27 @@ try {
                         exit;
                     }
                     break;
+                case 'getStaffList':
+                    $interventionController->getStaffList();
+                    break;
+                case 'getSolutionStatus':
+                    if ($id) {
+                        $interventionController->getSolutionStatus($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => false, 'error' => 'ID manquant']);
+                        exit;
+                    }
+                    break;
+                case 'sendBonSignedNotification':
+                    if ($id) {
+                        $interventionController->sendBonSignedNotification($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => false, 'error' => 'ID manquant']);
+                        exit;
+                    }
+                    break;
             }
             break;
 

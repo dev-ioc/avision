@@ -198,14 +198,14 @@ class MailService
     /**
      * Prépare la liste des destinataires pour une intervention
      * @param array $intervention Données de l'intervention
-     * @param bool $includeTechnician Si true, inclure le technicien affecté (envoi manuel)
+     * @param bool $includeTechnician Si true, inclure TOUS les techniciens assignés
+     * @param array $extraRecipients Destinataires additionnels [['email'=>, 'name'=>], ...]
      * @return array Liste des destinataires
      */
-    private function prepareRecipients($intervention, $includeTechnician = false)
+    private function prepareRecipients($intervention, $includeTechnician = false, $extraRecipients = [])
     {
         $recipients = [];
 
-        // Destinataire principal : site_email en priorité, puis contact_client
         $recipientEmail = !empty($intervention['site_email']) ? $intervention['site_email'] :
             (!empty($intervention['contact_client']) ? $intervention['contact_client'] : '');
 
@@ -216,32 +216,31 @@ class MailService
             ];
         }
 
-        // Option: inclure le technicien affecté (surtout pour l'envoi manuel depuis la modale)
+        // Tous les techniciens réellement assignés (intervention_techniciens)
         if ($includeTechnician) {
-            $techEmail = $intervention['technician_email'] ?? '';
-            $techEmail = is_string($techEmail) ? trim($techEmail) : '';
+            $sql = "SELECT u.email, CONCAT(u.first_name, ' ', u.last_name) as name
+                FROM intervention_techniciens it
+                INNER JOIN users u ON it.technicien_id = u.id
+                WHERE it.intervention_id = ? AND u.email IS NOT NULL AND u.email != ''";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$intervention['id']]);
+            $techRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Fallback si l'email n'est pas présent dans $intervention
-            if ($techEmail === '' && !empty($intervention['technician_id'])) {
-                try {
-                    require_once __DIR__ . '/../models/UserModel.php';
-                    $userModel = new UserModel($this->db);
-                    $technician = $userModel->getUserById((int) $intervention['technician_id']);
-                    if (!empty($technician['email'])) {
-                        $techEmail = trim($technician['email']);
-                    }
-                    if (empty($intervention['technician_name']) && (!empty($technician['first_name']) || !empty($technician['last_name']))) {
-                        $intervention['technician_name'] = trim(($technician['first_name'] ?? '') . ' ' . ($technician['last_name'] ?? ''));
-                    }
-                } catch (Exception $e) {
-                    // Ne pas bloquer l'envoi si on ne peut pas récupérer l'email du technicien
-                }
-            }
-
-            if ($techEmail !== '') {
+            foreach ($techRows as $tech) {
                 $recipients[] = [
-                    'email' => $techEmail,
-                    'name' => !empty($intervention['technician_name']) ? $intervention['technician_name'] : 'Technicien'
+                    'email' => trim($tech['email']),
+                    'name' => trim($tech['name'])
+                ];
+            }
+        }
+
+        // Destinataires additionnels choisis manuellement (staff picker)
+        foreach ($extraRecipients as $extra) {
+            $email = isset($extra['email']) && is_string($extra['email']) ? trim($extra['email']) : '';
+            if ($email !== '') {
+                $recipients[] = [
+                    'email' => $email,
+                    'name' => $extra['name'] ?? $email
                 ];
             }
         }
@@ -261,7 +260,6 @@ class MailService
             $recipients = array_values($unique);
         }
 
-        // Si aucun destinataire sur l'intervention, utiliser l'email de test si configuré (mode test prend le dessus)
         if (empty($recipients)) {
             $testEmail = $this->config->get('test_email', '');
             $testEmail = is_string($testEmail) ? trim($testEmail) : '';
@@ -1742,5 +1740,53 @@ class MailService
             return $result;
         }
         return 'Non défini';
+    }
+    /**
+     * Envoie la notification "Bon signé" après signature complète (tech+client).
+     * @param int $interventionId
+     * @param int $templateId Template à utiliser (ex: template de fermeture)
+     * @param bool $includeClient
+     * @param bool $includeTechnicians
+     * @param array $extraRecipients [['email'=>, 'name'=>], ...] (staff choisi manuellement)
+     * @return bool
+     */
+    public function sendBonSignedNotification($interventionId, $templateId, $includeClient = true, $includeTechnicians = false, $extraRecipients = [])
+    {
+        $intervention = $this->interventionModel->getById($interventionId);
+        if (!$intervention) {
+            throw new Exception("Intervention $interventionId introuvable");
+        }
+
+        $template = $this->mailTemplateModel->getById($templateId);
+        if (!$template) {
+            throw new Exception("Template introuvable");
+        }
+
+
+        $recipients = [];
+        if ($includeClient) {
+            $recipients = $this->prepareRecipients($intervention, $includeTechnicians, $extraRecipients);
+        } else {
+            // Reconstruire sans le contact client : on vide temporairement les champs email client
+            $interventionNoClient = $intervention;
+            $interventionNoClient['site_email'] = '';
+            $interventionNoClient['contact_client'] = '';
+            $recipients = $this->prepareRecipients($interventionNoClient, $includeTechnicians, $extraRecipients);
+        }
+
+        $subject = $this->replaceTemplateVariables($template['subject'], $intervention);
+        $body = $this->replaceTemplateVariables($template['body'], $intervention);
+
+        $attachmentPaths = [];
+        $lastBon = $this->getLastBonIntervention($interventionId);
+        if ($lastBon) {
+            $tentativePath = __DIR__ . '/../../' . $lastBon['chemin_fichier'];
+            $bonPath = realpath($tentativePath);
+            if ($bonPath && file_exists($bonPath)) {
+                $attachmentPaths[] = $bonPath;
+            }
+        }
+
+        return $this->sendEmail($recipients, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, $attachmentPaths);
     }
 }
