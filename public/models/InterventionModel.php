@@ -98,40 +98,50 @@ class InterventionModel extends BaseModel
     public function getById($id)
     {
         $sql = "SELECT i.*, 
-            c.name as client_name,
-            s.name as site_name,
-            s.address as site_address,
-            s.postal_code as site_postal_code,
-            s.city as site_city,
-            s.phone as site_phone,
-            s.email as site_email,
-            b.name as building_name,
-            r.name as room_name,
-            its.name as status_name,
-            its.color as status_color,
-            it.name as type_name,
-            ip.name as priority_name,
-            ip.color as priority_color,
-            co.name as contract_name,
-            co.contract_type_id,
-            ct.name as contract_type_name,
-            cont.first_name as contact_first_name,
-            cont.last_name as contact_last_name,
-            c.email as contact_email,
-            cont.phone1 as contact_phone,
-            i.is_preventive
-            FROM " . $this->table . " i
-            LEFT JOIN clients c ON i.client_id = c.id
-            LEFT JOIN sites s ON i.site_id = s.id
-            LEFT JOIN buildings b ON i.building_id = b.id
-            LEFT JOIN rooms r ON i.room_id = r.id
-            LEFT JOIN intervention_statuses its ON i.status_id = its.id
-            LEFT JOIN intervention_types it ON i.type_id = it.id
-            LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
-            LEFT JOIN contracts co ON i.contract_id = co.id
-            LEFT JOIN contract_types ct ON co.contract_type_id = ct.id
-            LEFT JOIN contacts cont ON s.main_contact_id = cont.id
-            WHERE i.id = ?";
+        c.name as client_name,
+        s.name as site_name,
+        s.address as site_address,
+        s.postal_code as site_postal_code,
+        s.city as site_city,
+        s.phone as site_phone,
+        s.email as site_email,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        it.name as type_name,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        co.name as contract_name,
+        co.contract_type_id,
+        ct.name as contract_type_name,
+        cont.first_name as contact_first_name,
+        cont.last_name as contact_last_name,
+        cont.email as contact_email,
+        cont.phone1 as contact_phone,
+        i.is_preventive,
+        COALESCE(techs.technician_name, '') as technician_name,
+        COALESCE(techs.total_duration_hours, 0) as duration
+        FROM " . $this->table . " i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_types it ON i.type_id = it.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        LEFT JOIN contracts co ON i.contract_id = co.id
+        LEFT JOIN contract_types ct ON co.contract_type_id = ct.id
+        LEFT JOIN contacts cont ON s.main_contact_id = cont.id
+        LEFT JOIN (
+            SELECT it2.intervention_id,
+                   GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') as technician_name,
+                   ROUND(SUM(COALESCE(it2.temps_passe, 0)) / 60, 2) as total_duration_hours
+            FROM intervention_techniciens it2
+            LEFT JOIN users u ON it2.technicien_id = u.id
+            GROUP BY it2.intervention_id
+        ) techs ON techs.intervention_id = i.id
+        WHERE i.id = ?";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);

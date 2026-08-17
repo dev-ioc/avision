@@ -4540,7 +4540,7 @@ class InterventionController
             if (!empty($templateId)) {
                 // Utiliser le template
                 try {
-                    $success = $this->mailService->sendCustomEmail($id, $templateId, $observations, $attachmentIds, true, true);
+                    $success = $this->mailService->sendCustomEmail($id, $templateId, $observations, $attachmentIds, true, false);
 
                     if ($success) {
                         custom_log_mail("Email envoyé avec succès pour l'intervention $id via template $templateId", 'INFO');
