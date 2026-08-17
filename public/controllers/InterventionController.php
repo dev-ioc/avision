@@ -6460,18 +6460,18 @@ class InterventionController
                 " - Version " . ($pj['version'] ?? 1)
             );
             // Fermeture automatique pour les préventives, une fois le BI signé par le technicien ET le client
-            // if (
-            //     $signatureStatus === 'signe_tech_client'
-            //     && (int) ($intervention['is_preventive'] ?? 0) === 1
-            //     && (int) $intervention['status_id'] !== 6
-            // ) {
-            //     $closeResult = $this->performClose($interventionId, $intervention, null, false);
-            //     if ($closeResult['success']) {
-            //         custom_log("Intervention préventive $interventionId fermée automatiquement (BI signé tech+client).", 'INFO');
-            //     } else {
-            //         custom_log("Échec fermeture auto intervention préventive $interventionId : " . ($closeResult['error'] ?? ''), 'WARNING');
-            //     }
-            // }
+            if (
+                $signatureStatus === 'signe_tech_client'
+                && (int) ($intervention['is_preventive'] ?? 0) === 1
+                && (int) $intervention['status_id'] !== 6
+            ) {
+                $closeResult = $this->performClose($interventionId, $intervention, null, false);
+                if ($closeResult['success']) {
+                    custom_log("Intervention préventive $interventionId fermée automatiquement (BI signé tech+client).", 'INFO');
+                } else {
+                    custom_log("Échec fermeture auto intervention préventive $interventionId : " . ($closeResult['error'] ?? ''), 'WARNING');
+                }
+            }
 
             $hasSolution = false;
             if ($signatureStatus === 'signe_tech_client') {
