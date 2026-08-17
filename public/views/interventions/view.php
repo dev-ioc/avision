@@ -2319,7 +2319,6 @@ $closeReason = [];
 		if (!container) return;
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 		var canEdit = <?= ($intervention['status_id'] != 6) ? 'true' : 'false' ?>;
-
 		fetch(window.BASE_URL + 'interventions/interventionsTechnician?id=' + interventionId, {
 			method: 'GET',
 			headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
