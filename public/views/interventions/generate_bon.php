@@ -532,7 +532,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 showAlert("Erreur lors de la vérification, merci de réessayer.", 'danger');
             });
     }
-    // Fonction pour afficher les alertes stylisées
     function showAlert(message, type) {
         // Supprimer les alertes existantes pour éviter les doublons
         const existingAlerts = document.querySelectorAll('.custom-alert-floating');
