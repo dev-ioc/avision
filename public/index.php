@@ -1296,6 +1296,15 @@ try {
                         echo json_encode(['error' => 'ID manquant']);
                     }
                     break;
+                case 'checkBiGeneration':
+                    if ($id) {
+                        $interventionController->checkBiGeneration($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['allowed' => false, 'error' => 'ID manquant']);
+                        exit;
+                    }
+                    break;
                 case 'webhookSignature':
                     $interventionController->webhookSignature();
                     break;

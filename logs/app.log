@@ -126127,3 +126127,121 @@ Quant à l’écran n°1, il est HS
 [2026-08-17 10:01:36][Intervention préventive 1/2]  
 [2026-08-17 10:12:48][Intervention préventive 1/2]  
 [2026-08-17 10:16:17][Intervention préventive 1/2]  
+[2026-08-17 10:33:05][Intervention préventive 1/2]  
+[2026-08-17 10:59:47][DEBUG] CSRF: Token trouvé dans la requête - Token: ec3f012c1c2ce14b043e... 
+[2026-08-17 10:59:48][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-17 11:00:01][DEBUG] CSRF: Token trouvé dans la requête - Token: ec3f012c1c2ce14b043e... 
+[2026-08-17 11:00:01][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-17 11:00:20][DEBUG] CSRF: Token trouvé dans la requête - Token: f00063008bf200482a65... 
+[2026-08-17 11:00:20][WARNING] Tentative de connexion échouée pour l'utilisateur : karija 
+[2026-08-17 11:00:25][DEBUG] CSRF: Token trouvé dans la requête - Token: f00063008bf200482a65... 
+[2026-08-17 11:00:25][WARNING] Tentative de connexion échouée pour l'utilisateur : Technicien 
+[2026-08-17 11:00:44][DEBUG] CSRF: Token trouvé dans la requête - Token: f00063008bf200482a65... 
+[2026-08-17 11:00:44][DEBUG] Permissions chargées pour Technicien : {"role":"technicien","rights":[],"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-17 11:00:44][INFO] Utilisateur connecté : Technicien {"user_id":41,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-08-17 11:00:44][DEBUG] Login réussi - Session ID: brf6mqh380mf7prcvoh6r992qa 
+[2026-08-17 11:00:44][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-17 11:00:44][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-17 11:00:44][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-17 11:00:44][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-17 11:02:15][DEBUG] CSRF: Token trouvé dans la requête - Token: c6975a8a264396efebc1... 
+[2026-08-17 11:02:15][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-17 11:02:15][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-08-17 11:02:15][DEBUG] Login réussi - Session ID: rh3cbahe3ad8o4i1aosdjjt9tv 
+[2026-08-17 11:02:15][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-17 11:02:15][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-17 11:02:15][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-17 11:02:15][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-17 11:02:24][DEBUG] CSRF: Token trouvé dans la requête - Token: c6975a8a264396efebc1... 
+[2026-08-17 11:02:32][DEBUG] CSRF: Token trouvé dans la requête - Token: c6975a8a264396efebc1... 
+[2026-08-17 11:03:03][DEBUG] CSRF: Token trouvé dans la requête - Token: c6975a8a264396efebc1... 
+[2026-08-17 11:04:54][DEBUG] CSRF: Token trouvé dans la requête - Token: c6975a8a264396efebc1... 
+[2026-08-17 11:19:50][DEBUG] CSRF: Token trouvé dans la requête - Token: f0ebc24bf9de2fd337fb... 
+[2026-08-17 11:19:51][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-17 11:19:51][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-17 11:19:51][DEBUG] Login réussi - Session ID: chps067mansqhtth4nkogs94t9 
+[2026-08-17 11:19:51][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-17 11:19:51][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-17 11:19:51][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-17 11:19:51][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-17 11:20:03][DEBUG] CSRF: Token trouvé dans la requête - Token: f0ebc24bf9de2fd337fb... 
+[2026-08-17 11:20:03][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-17 11:20:28][DEBUG] CSRF: Token trouvé dans la requête - Token: f0ebc24bf9de2fd337fb... 
+[2026-08-17 11:20:28][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-17 11:20:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 97760a0f0fba351a0c87... 
+[2026-08-17 11:20:36][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-17 11:20:36][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-08-17 11:20:36][DEBUG] Login réussi - Session ID: bonbavqqqu65ak04udtmmd2o4l 
+[2026-08-17 11:20:36][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-17 11:20:36][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-17 11:20:36][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-17 11:20:36][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-17 11:21:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 486a9cb8a4134360a260... 
+[2026-08-17 11:21:09][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-17 11:21:09][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-17 11:21:09][DEBUG] Login réussi - Session ID: 3ih57gfreorieah2b71its982f 
+[2026-08-17 11:21:09][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-17 11:21:09][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-17 11:21:09][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-17 11:21:09][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-17 11:21:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 7478b7c9e48941112e9d... 
+[2026-08-17 11:21:44][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-17 11:21:44][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-08-17 11:21:44][DEBUG] Login réussi - Session ID: dlsldh9evnljroqof9jp9qhhog 
+[2026-08-17 11:21:44][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-17 11:21:44][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-17 11:21:44][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-17 11:21:44][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-17 11:22:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 1fa0f525ed119b9fb43e... 
+[2026-08-17 11:22:14][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-17 11:22:14][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-17 11:22:14][DEBUG] Login réussi - Session ID: cickdmplg8kmbk2uejjfa2c4qj 
+[2026-08-17 11:22:14][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-17 11:22:14][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-17 11:22:14][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-17 11:22:14][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-17 11:22:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 84ea318a3bdc7e831c77... 
+[2026-08-17 11:22:37][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-17 11:22:37][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":0,"client_id":0}
+[2026-08-17 11:22:37][DEBUG] Login réussi - Session ID: 523babsahb5e9ua35ada02ij1i 
+[2026-08-17 11:22:37][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-17 11:22:37][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-17 11:22:37][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-17 11:22:37][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-17 11:22:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 84ea318a3bdc7e831c77... 
+[2026-08-17 11:22:45][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-17 11:23:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 84ea318a3bdc7e831c77... 
+[2026-08-17 11:23:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 84ea318a3bdc7e831c77... 
+[2026-08-17 11:23:08][DEBUG] Vérification permission pour tech_view_interventions : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-17 11:23:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 84ea318a3bdc7e831c77... 
+[2026-08-17 11:23:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 84ea318a3bdc7e831c77... 
+[2026-08-17 11:23:19][INFO] Intervention préventive 391 fermée automatiquement (BI signé tech+client). 
+[2026-08-17 11:23:19][DEBUG] Vérification permission pour tech_view_interventions : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-17 11:23:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 84ea318a3bdc7e831c77... 
+[2026-08-17 11:23:25][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-17 11:23:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf954d67032c99f9950... 
+[2026-08-17 11:23:43][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-17 11:23:43][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-17 11:23:43][DEBUG] Login réussi - Session ID: 9nv5mgtbh1igde5vpo652cji76 
+[2026-08-17 11:23:43][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-17 11:23:43][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-17 11:23:43][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-17 11:23:43][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 

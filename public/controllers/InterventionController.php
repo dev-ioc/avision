@@ -42,6 +42,7 @@ class InterventionController
     const K_CELL_HEIGHT_RATIO = 1.25;
     const K_TITLE_MAGNIFICATION = 1.3;
     const K_SMALL_RATIO = 2 / 3;
+    const MAX_BI_GENERATIONS_PER_TECH = 3;
 
     public function __construct($db)
     {
@@ -3201,7 +3202,14 @@ class InterventionController
             header('Location: ' . $this->getInterventionsListUrl());
             exit;
         }
-
+        if (!isAdmin()) {
+            $check = $this->checkBiGenerationAllowed($id, $_SESSION['user']['id']);
+            if (!$check['allowed']) {
+                $_SESSION['error'] = $check['error'];
+                header('Location: ' . BASE_URL . 'interventions/edit/' . $id);
+                exit;
+            }
+        }
         // Générer le PDF
         $pdfPath = $this->generateInterventionReport($intervention);
 
@@ -3759,7 +3767,15 @@ class InterventionController
                 header('Location: ' . $this->getInterventionsListUrl());
                 exit;
             }
-
+            // === Contrôle du nombre de générations de BI (hors admin/ADV) ===
+            if (!isAdmin()) {
+                $check = $this->checkBiGenerationAllowed($interventionId, $_SESSION['user']['id']);
+                if (!$check['allowed']) {
+                    $_SESSION['error'] = $check['error'];
+                    header('Location: ' . BASE_URL . 'interventions/generateBon/' . $interventionId);
+                    exit;
+                }
+            }
             // =====================================================
             // RÉCUPÉRER LES DONNÉES MANQUANTES
             // =====================================================
@@ -6838,5 +6854,103 @@ class InterventionController
             http_response_code(500);
             echo json_encode(['error' => 'Erreur lors de la récupération des salles']);
         }
+    }
+    /**
+     * Vérifie si le technicien connecté est autorisé à générer un nouveau
+     * bon d'intervention pour cette intervention.
+     *
+     * Règles (ne s'appliquent pas aux admins/ADV, qui peuvent toujours
+     * générer ou pré-générer un BI pour un technicien) :
+     *  - Bloqué si un BI existant pour l'intervention n'est pas encore
+     *    entièrement signé (tech + client), qu'il ait été généré par le
+     *    technicien lui-même ou pré-généré par un admin/ADV.
+     *  - Bloqué au-delà de self::MAX_BI_GENERATIONS_PER_TECH générations
+     *    personnelles pour cette intervention.
+     *
+     * @param int $interventionId
+     * @param int $userId
+     * @return array{allowed: bool, error: ?string}
+     */
+    private function checkBiGenerationAllowed($interventionId, $userId)
+    {
+        $sql = "SELECT pj.id, pj.created_by, pj.signature_status,
+                   CONCAT(u.first_name, ' ', u.last_name) AS created_by_name
+            FROM pieces_jointes pj
+            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+            LEFT JOIN users u ON pj.created_by = u.id
+            WHERE lpj.type_liaison = 'bi'
+              AND lpj.entite_id = :intervention_id
+            ORDER BY pj.date_creation DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':intervention_id' => $interventionId]);
+        $existingBis = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $unsignedBi = null;
+        $generatedByTechCount = 0;
+
+        foreach ($existingBis as $bi) {
+            $isFullySigned = (($bi['signature_status'] ?? null) === 'signe_tech_client');
+
+            if (!$isFullySigned && $unsignedBi === null) {
+                $unsignedBi = $bi; // le plus récent non signé
+            }
+
+            if ((int) $bi['created_by'] === (int) $userId) {
+                $generatedByTechCount++;
+            }
+        }
+
+        if ($unsignedBi !== null) {
+            $creatorLabel = $unsignedBi['created_by_name'] ?? 'un utilisateur';
+            return [
+                'allowed' => false,
+                'error' => "Un bon d'intervention non signé existe déjà pour cette intervention "
+                    . "(généré par {$creatorLabel}). Merci de le faire signer avant d'en générer un nouveau. "
+                    . "Si ce bon est erroné, contactez un administrateur pour le supprimer."
+            ];
+        }
+
+        if ($generatedByTechCount >= self::MAX_BI_GENERATIONS_PER_TECH) {
+            return [
+                'allowed' => false,
+                'error' => "Vous avez atteint la limite de " . self::MAX_BI_GENERATIONS_PER_TECH
+                    . " générations de bon d'intervention pour cette intervention. "
+                    . "Contactez un administrateur si une nouvelle génération est nécessaire."
+            ];
+        }
+
+        return ['allowed' => true, 'error' => null];
+    }
+    /**
+     * Vérifie en AJAX si l'utilisateur connecté peut générer un nouveau BI
+     * pour cette intervention. Appelé au clic sur "Générer le bon d'intervention",
+     * avant tout appel à saveSelection() / ouverture du PDF.
+     */
+    public function checkBiGeneration($id)
+    {
+        header('Content-Type: application/json');
+
+        if (!isset($_SESSION['user']) || !canModifyInterventions()) {
+            http_response_code(403);
+            echo json_encode(['allowed' => false, 'error' => 'Accès refusé']);
+            exit;
+        }
+
+        $intervention = $this->interventionModel->getById($id);
+        if (!$intervention) {
+            http_response_code(404);
+            echo json_encode(['allowed' => false, 'error' => 'Intervention introuvable']);
+            exit;
+        }
+
+        // Admin/ADV toujours autorisés (pré-génération pour un technicien, etc.)
+        if (isAdmin()) {
+            echo json_encode(['allowed' => true, 'error' => null]);
+            exit;
+        }
+
+        $result = $this->checkBiGenerationAllowed($id, $_SESSION['user']['id']);
+        echo json_encode($result);
+        exit;
     }
 }

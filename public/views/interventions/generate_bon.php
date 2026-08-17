@@ -62,7 +62,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     <!-- Cartes de récapitulatif -->
     <div class="row mb-3">
         <!-- Carte 1: Informations du ticket -->
-        <!-- Carte 1: Informations du ticket -->
         <div class="col-md-4 mb-2">
             <div class="card compact-card">
                 <div class="card-header py-1">
@@ -200,7 +199,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 
     <div class="row mb-3">
-        <!-- Carte 4: Durée et estimation -->
         <!-- Carte 4: Durée et estimation -->
         <div class="col-md-4 mb-2">
             <div class="card compact-card">
@@ -514,18 +512,26 @@ include_once __DIR__ . '/../../includes/navbar.php';
             });
     }
 
-    // Générer le bon d'intervention
     function generateBon() {
-        const selectedComments = Array.from(document.querySelectorAll('input[name="selected_comments[]"]:checked')).map(cb => cb.value);
-        const selectedAttachments = Array.from(document.querySelectorAll('input[name="selected_attachments[]"]:checked')).map(cb => cb.value);
+        fetch(`<?php echo BASE_URL; ?>interventions/checkBiGeneration/<?php echo $intervention['id']; ?>`, {
+            method: 'GET',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.allowed) {
+                    showAlert(data.error, 'warning');
+                    return;
+                }
 
-        // Sauvegarder d'abord la sélection
-        saveSelection().then(() => {
-            // Puis générer le bon dans une nouvelle fenêtre
-            window.open(`<?php echo BASE_URL; ?>interventions/generateBonPdf/<?php echo $intervention['id']; ?>`, '_blank');
-        });
+                saveSelection().then(() => {
+                    window.open(`<?php echo BASE_URL; ?>interventions/generateBonPdf/<?php echo $intervention['id']; ?>`, '_blank');
+                });
+            })
+            .catch(() => {
+                showAlert("Erreur lors de la vérification, merci de réessayer.", 'danger');
+            });
     }
-
     // Fonction pour afficher les alertes stylisées
     function showAlert(message, type) {
         // Supprimer les alertes existantes pour éviter les doublons
