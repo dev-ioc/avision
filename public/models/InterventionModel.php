@@ -121,7 +121,8 @@ class InterventionModel extends BaseModel
         cont.phone1 as contact_phone,
         i.is_preventive,
         COALESCE(techs.technician_name, '') as technician_name,
-        COALESCE(techs.total_duration_hours, 0) as duration
+        COALESCE(techs.total_duration_hours, 0) as duration,
+        COALESCE(techs.total_duration_minutes, 0) as total_temps_passe
         FROM " . $this->table . " i
         LEFT JOIN clients c ON i.client_id = c.id
         LEFT JOIN sites s ON i.site_id = s.id
@@ -136,6 +137,7 @@ class InterventionModel extends BaseModel
         LEFT JOIN (
             SELECT it2.intervention_id,
                    GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') as technician_name,
+                   SUM(COALESCE(it2.temps_passe, 0)) as total_duration_minutes,
                    ROUND(SUM(COALESCE(it2.temps_passe, 0)) / 60, 2) as total_duration_hours
             FROM intervention_techniciens it2
             LEFT JOIN users u ON it2.technicien_id = u.id

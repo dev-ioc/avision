@@ -1195,7 +1195,7 @@ class MailService
             '{room_name}' => $intervention['room_name'] ?? '',
             '{technician_name}' => $intervention['technician_name'] ?? '',
             '{intervention_description}' => $intervention['description'] ?? '',
-            '{intervention_duration}' => $intervention['duration'] ?? '',
+            '{intervention_duration}' => $this->formatDurationFromMinutes($intervention['total_temps_passe'] ?? 0),
             '{intervention_priority}' => $intervention['priority_name'] ?? '',
             '{intervention_type}' => $intervention['type_name'] ?? '',
             '{intervention_status}' => $intervention['status_name'] ?? '',
@@ -1220,8 +1220,7 @@ class MailService
             '#{room_name}' => $intervention['room_name'] ?? '',
             '#{technician_name}' => $intervention['technician_name'] ?? '',
             '#{intervention_description}' => $intervention['description'] ?? '',
-            '#{intervention_duration}' => $intervention['duration'] ?? '',
-            '#{intervention_priority}' => $intervention['priority_name'] ?? '',
+            '#{intervention_duration}' => $this->formatDurationFromMinutes($intervention['total_temps_passe'] ?? 0),
             '#{intervention_type}' => $intervention['type_name'] ?? '',
             '#{intervention_status}' => $intervention['status_name'] ?? '',
             '#{tickets_used}' => $intervention['tickets_used'] ?? '0',
@@ -1731,5 +1730,17 @@ class MailService
 
         custom_log_mail("Email reset MDP envoyé via Gmail à $to", 'INFO');
         return true;
+    }
+    private function formatDurationFromMinutes($totalMinutes)
+    {
+        $totalMinutes = (int) $totalMinutes;
+        if ($totalMinutes > 0) {
+            $hours = floor($totalMinutes / 60);
+            $minutes = $totalMinutes % 60;
+            $result = $hours > 0 ? $hours . 'h ' : '';
+            $result .= $minutes > 0 ? $minutes . 'min' : ($hours > 0 ? '00' : 'Non défini');
+            return $result;
+        }
+        return 'Non défini';
     }
 }

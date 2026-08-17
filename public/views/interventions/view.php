@@ -242,7 +242,17 @@ $closeReason = [];
 					<div class="d-flex align-items-center gap-2">
 						<div class="text-muted me-2">
 							<i class="bi bi-clock me-1"></i>
-							<?= h($intervention['duration'] ?? '0') ?>h
+							<?php
+							$totalMinutes = $intervention['total_temps_passe'] ?? 0;
+							if ($totalMinutes > 0) {
+								$hours = floor($totalMinutes / 60);
+								$minutes = $totalMinutes % 60;
+								echo $hours > 0 ? $hours . 'h ' : '';
+								echo $minutes > 0 ? $minutes . 'min' : ($hours > 0 ? '00' : 'Non défini');
+							} else {
+								echo 'Non défini';
+							}
+							?>
 						</div>
 						<?php if (isInterventionLinkedToTicketContract($intervention['id'])): ?>
 							<div class="text-muted me-2">

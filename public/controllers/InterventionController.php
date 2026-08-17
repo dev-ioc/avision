@@ -4485,7 +4485,6 @@ class InterventionController
         }
         exit;
     }
-
     /**
      * Envoie un email au client avec les données de l'intervention et des observations
      * @param int $id ID de l'intervention
@@ -4627,18 +4626,6 @@ class InterventionController
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$id]);
             $observations = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $assignedTechnicians = $this->getInterventionTechnicians($id);
-            $totalTempsPasseMinutes = $this->calculateTotalTempsPasse($id);
-            $totalTempsPasseHeures = round($totalTempsPasseMinutes / 60, 2);
-
-            $intervention['technician_name'] = !empty($assignedTechnicians)
-                ? implode(', ', array_map(function ($t) {
-                    return trim(($t['first_name'] ?? '') . ' ' . ($t['last_name'] ?? ''));
-                }, $assignedTechnicians))
-                : '';
-
-            $intervention['duration'] = $totalTempsPasseHeures;
-            $intervention['total_temps_passe'] = $totalTempsPasseHeures;
 
             $previewSubject = $this->mailService->previewTemplate($template['subject'], $intervention, $observations);
             $previewBody = $this->mailService->previewTemplate($template['body'], $intervention, $observations);
