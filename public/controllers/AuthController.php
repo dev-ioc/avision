@@ -229,4 +229,63 @@ class AuthController
         header('Location: ' . BASE_URL . 'auth/login');
         exit;
     }
+    /**
+     * Affiche le formulaire "mot de passe oublié"
+     */
+    public function showForgotPasswordForm()
+    {
+        if (isset($_SESSION['user'])) {
+            header('Location: ' . BASE_URL . 'dashboard');
+            exit;
+        }
+        require_once VIEWS_PATH . '/auth/forgot_password.php';
+    }
+
+    /**
+     * Traite la demande de réinitialisation faite par l'utilisateur lui-même
+     */
+    public function processForgotPassword()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . BASE_URL . 'auth/forgot-password');
+            exit;
+        }
+
+        $token = $_POST['csrf_token'] ?? null;
+        if (!csrf_verify($token)) {
+            $_SESSION['error'] = "Requête invalide, veuillez réessayer.";
+            header('Location: ' . BASE_URL . 'auth/forgot-password');
+            exit;
+        }
+
+        $email = trim($_POST['email'] ?? '');
+
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['error'] = "Veuillez saisir une adresse email valide.";
+            header('Location: ' . BASE_URL . 'auth/forgot-password');
+            exit;
+        }
+
+        $_SESSION['success'] = "Si un compte est associé à cette adresse, un email de réinitialisation vient de vous être envoyé.";
+
+        try {
+            $user = $this->userModel->getUserByEmail($email);
+
+            if ($user && !empty($user['status'])) {
+                $resetToken = bin2hex(random_bytes(32));
+                $expiresAt = date('Y-m-d H:i:s', time() + 3600);
+
+                $this->userModel->savePasswordResetToken($user['id'], $resetToken, $expiresAt, null);
+
+                require_once __DIR__ . '/../classes/MailService.php';
+                $mailService = new MailService($this->db);
+                $mailService->sendPasswordResetLink($user, $resetToken);
+            }
+        } catch (Exception $e) {
+            custom_log("Erreur dans processForgotPassword: " . $e->getMessage(), 'ERROR');
+        }
+
+        header('Location: ' . BASE_URL . 'auth/forgot-password');
+        exit;
+    }
 }

@@ -126939,3 +126939,5 @@ Quant à l’écran n°1, il est HS
         WHERE ((r.id = 77) OR (r.id = 72) OR (r.id = 73) OR (r.id = 74) OR (r.id = 75) OR (r.id = 76) OR (r.id = 78) OR (r.id = 79) OR (r.id = 80) OR (r.id = 81) OR (r.id = 82) OR (r.id = 83) OR (r.id = 84) OR (r.id = 297)) AND s.id = ? AND b.id = ? AND m.salle_id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
 [2026-08-18 14:05:51][DEBUG] getAllByLocations - Params: [35,25,77] 
 [2026-08-18 14:05:51][DEBUG] getAllByLocations - Results count: 0 
+[2026-08-18 16:33:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbc28fdd264d5717f4f... 
+[2026-08-18 16:33:27][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 

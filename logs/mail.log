@@ -715,3 +715,4 @@
 [2026-08-17 09:35:29][ERROR] Erreur envoi email personnalisé intervention 323 : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
 [2026-08-17 09:35:29][ERROR] Erreur lors de l'envoi de l'email pour intervention 323 : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
 [2026-08-17 14:16:44][ERROR] Erreur sendBonSignedNotification intervention 391 : Aucun destinataire trouvé pour l'intervention 391 
+[2026-08-18 16:33:27][INFO] ENVOI RESET MDP - Destinataire: dev_mdg@caspeo.fr (Dev WW) 

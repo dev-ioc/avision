@@ -1,5 +1,4 @@
 <?php
-// Vérification de l'accès direct
 if (!defined('BASE_URL')) {
     header('Location: ' . BASE_URL);
     exit;
@@ -11,10 +10,10 @@ if (!defined('BASE_URL')) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion - <?php echo SITE_NAME; ?></title>
-    <!-- Bootstrap CSS from CDN -->
+    <title>Mot de passe oublié -
+        <?php echo SITE_NAME; ?>
+    </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
     <style>
         body.login-page {
             background-color: #f8f9fa;
@@ -32,11 +31,6 @@ if (!defined('BASE_URL')) {
         .card-body {
             padding: 2rem;
         }
-
-        .btn-primary {
-            padding: 0.75rem;
-            font-weight: 500;
-        }
     </style>
 </head>
 
@@ -46,39 +40,41 @@ if (!defined('BASE_URL')) {
             <div class="col-md-6 col-lg-4">
                 <div class="card">
                     <div class="card-body">
-                        <h1 class="text-center mb-4">Connexion</h1>
+                        <h1 class="text-center mb-3">Mot de passe oublié</h1>
+                        <p class="text-muted text-center mb-4">
+                            Saisissez votre email, nous vous enverrons un lien pour choisir un nouveau mot de passe.
+                        </p>
 
                         <?php if (isset($_SESSION['error'])): ?>
                             <div class="alert alert-danger">
-                                <?php echo h($_SESSION['error']); ?>
-                                <?php unset($_SESSION['error']); ?>
-                            </div>
+                                    <?php echo h($_SESSION['error']);
+                                    unset($_SESSION['error']); ?>
+                                </div>
+                        <?php endif; ?>
+                        <?php if (isset($_SESSION['success'])): ?>
+                                <div class="alert alert-success">
+                                <?php echo h($_SESSION['success']);
+                                unset($_SESSION['success']); ?>
+                                </div>
                         <?php endif; ?>
 
-                        <form method="POST" action="<?php echo BASE_URL; ?>auth/login">
+                        <form method="POST" action="<?php echo BASE_URL; ?>auth/forgot-password">
                             <?= csrf_field() ?>
                             <div class="mb-3">
-                                <label for="username" class="form-label">Nom d'utilisateur</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required autofocus>
                             </div>
-
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Mot de passe</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+                            <button type="submit" class="btn btn-primary w-100">Envoyer le lien</button>
                         </form>
+
                         <div class="text-center mt-3">
-                            <a href="<?php echo BASE_URL; ?>auth/forgot-password">Mot de passe oublié ?</a>
+                            <a href="<?php echo BASE_URL; ?>auth/login">Retour à la connexion</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Bootstrap JS from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

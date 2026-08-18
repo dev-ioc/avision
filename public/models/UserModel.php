@@ -1300,4 +1300,12 @@ class UserModel extends BaseModel
         );
         $stmt->execute([$token]);
     }
+    public function getUserByEmail($email)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
+    }
 }
