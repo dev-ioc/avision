@@ -182,7 +182,7 @@ class MaterielClientModel extends BaseModel
      */
     public function getSitesByClientAndLocations($clientId, $userLocations)
     {
-        $locationWhere = buildLocationWhereClause($userLocations, 'c.id', 's.id', 'b.id', 'r.id');
+        $locationWhere = buildLocationWhereClause($userLocations, 's.client_id', 's.id', 'b.id', 'r.id');
 
         $sql = "SELECT DISTINCT s.* 
                 FROM sites s
@@ -204,7 +204,7 @@ class MaterielClientModel extends BaseModel
      */
     public function getRoomsBySiteAndLocations($siteId, $userLocations)
     {
-        $locationWhere = buildLocationWhereClause($userLocations, 'c.id', 's.id', 'b.id', 'r.id');
+        $locationWhere = buildLocationWhereClause($userLocations, 's.client_id', 's.id', 'b.id', 'r.id');
 
         $sql = "SELECT r.* 
                 FROM rooms r
@@ -226,7 +226,7 @@ class MaterielClientModel extends BaseModel
      */
     public function getRoomsByClientAndLocations($clientId, $userLocations)
     {
-        $locationWhere = buildLocationWhereClause($userLocations, 'c.id', 's.id', 'b.id', 'r.id');
+        $locationWhere = buildLocationWhereClause($userLocations, 's.client_id', 's.id', 'b.id', 'r.id');
 
         $sql = "SELECT r.* 
                 FROM rooms r
