@@ -118,7 +118,14 @@ class MaterielController
         }
 
         try {
-            $filters = ['search' => $term];
+            $filters = [
+                'search' => $term,
+                'client_id' => isset($_GET['client_id']) && $_GET['client_id'] !== '' ? (int) $_GET['client_id'] : null,
+                'site_id' => isset($_GET['site_id']) && $_GET['site_id'] !== '' ? (int) $_GET['site_id'] : null,
+                'building_id' => isset($_GET['building_id']) && $_GET['building_id'] !== '' ? (int) $_GET['building_id'] : null,
+                'salle_id' => isset($_GET['salle_id']) && $_GET['salle_id'] !== '' ? (int) $_GET['salle_id'] : null,
+            ];
+
             $materiel_list = $this->materielModel->getAllMateriel($filters);
 
             $pieces_jointes_count = [];

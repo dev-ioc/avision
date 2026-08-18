@@ -987,7 +987,57 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       if (salleId) params.push('salle_id=' + salleId);
       window.location.href = url + params.join('&');
     }
+    function refreshFilterOptions() {
+      const clientId = tomSelects['client_id'] ? tomSelects['client_id'].getValue() : '';
+      const siteId = tomSelects['site_id'] ? tomSelects['site_id'].getValue() : '';
+      const buildingId = tomSelects['building_id'] ? tomSelects['building_id'].getValue() : '';
+      const salleId = tomSelects['salle_id'] ? tomSelects['salle_id'].getValue() : '';
 
+      {
+        const params = new URLSearchParams();
+        if (siteId) params.set('site_id', siteId);
+        if (buildingId) params.set('building_id', buildingId);
+        if (salleId) params.set('salle_id', salleId);
+        loadOptionsInto('client_id', baseUrl + 'materiel/get_all_clients?' + params.toString(),
+          r => ({ value: r.id, text: r.name }), clientId);
+      }
+      {
+        const params = new URLSearchParams();
+        if (clientId) params.set('client_id', clientId);
+        if (buildingId) params.set('building_id', buildingId);
+        if (salleId) params.set('salle_id', salleId);
+        loadOptionsInto('site_id', baseUrl + 'materiel/get_all_sites?' + params.toString(),
+          r => ({ value: r.id, text: r.name, client_id: r.client_id, client_name: r.client_name }), siteId);
+      }
+      {
+        const params = new URLSearchParams();
+        if (clientId) params.set('client_id', clientId);
+        if (siteId) params.set('site_id', siteId);
+        if (salleId) params.set('salle_id', salleId);
+        loadOptionsInto('building_id', baseUrl + 'materiel/get_all_buildings?' + params.toString(),
+          r => ({ value: r.id, text: r.name, site_id: r.site_id, site_name: r.site_name, client_id: r.client_id, client_name: r.client_name }), buildingId);
+      }
+      {
+        const params = new URLSearchParams();
+        if (clientId) params.set('client_id', clientId);
+        if (siteId) params.set('site_id', siteId);
+        if (buildingId) params.set('building_id', buildingId);
+        loadOptionsInto('salle_id', baseUrl + 'materiel/get_all_rooms?' + params.toString(),
+          r => ({ value: r.id, text: r.name, building_id: r.building_id, building_name: r.building_name, site_id: r.site_id, site_name: r.site_name, client_id: r.client_id, client_name: r.client_name }), salleId);
+      }
+    }
+    function onFilterChange() {
+      refreshFilterOptions();
+
+      const searchInput = document.getElementById('globalSearch');
+      const term = searchInput ? searchInput.value.trim() : '';
+      if (term) {
+        if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+        performGlobalSearchAjax(term);
+      } else {
+        submitFilters();
+      }
+    }
     const tomSelects = {};
 
     function formatLocationOption(mainLabel, contextParts) {
@@ -1158,47 +1208,24 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       tomSelects[fieldId] = new TomSelect('#' + fieldId, {
 
         valueField: 'value',
-
         labelField: 'text',
-
         searchField: searchFields,
-
         placeholder: 'Rechercher...',
-
         allowEmptyOption: true,
 
         render: {
-
           option: renderFn,
-
-          item: (data, escape) =>
-            `<div>${escape(data.text)}</div>`
+          item: (data, escape) => `<div>${escape(data.text)}</div>`
         },
 
-        onChange: submitFilters,
+        onChange: onFilterChange,
 
         onDropdownOpen: function (dropdown) {
-
           requestAnimationFrame(() => {
-
             if (!dropdown) return;
-
-            dropdown.style.setProperty(
-              'box-sizing',
-              'border-box',
-              'important'
-            );
-
-            dropdown.style.setProperty(
-              'overflow',
-              'hidden',
-              'important'
-            );
-
-            makeFilterDropdownResizable(
-              fieldId,
-              dropdown
-            );
+            dropdown.style.setProperty('box-sizing', 'border-box', 'important');
+            dropdown.style.setProperty('overflow', 'hidden', 'important');
+            makeFilterDropdownResizable(fieldId, dropdown);
           });
         }
       });
@@ -1445,9 +1472,18 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           <p class="mt-2 text-muted">Recherche en cours...</p>
         </div>`;
 
-      fetch(baseUrl + 'materiel/search_api?search=' + encodeURIComponent(term), {
-        signal: searchAbortController.signal
-      })
+      const params = new URLSearchParams();
+      if (term) params.set('search', term);
+      const clientId = document.getElementById('client_id').value;
+      const siteId = document.getElementById('site_id').value;
+      const buildingId = document.getElementById('building_id').value;
+      const salleId = document.getElementById('salle_id').value;
+      if (clientId) params.set('client_id', clientId);
+      if (siteId) params.set('site_id', siteId);
+      if (buildingId) params.set('building_id', buildingId);
+      if (salleId) params.set('salle_id', salleId);
+
+      fetch(baseUrl + 'materiel/search_api?' + params.toString(), { signal: searchAbortController.signal })
         .then(res => res.json())
         .then(json => {
           if (!json.success) {
@@ -1459,10 +1495,10 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
 
           const url = new URL(window.location.href);
           url.searchParams.set('search', term);
-          url.searchParams.delete('client_id');
-          url.searchParams.delete('site_id');
-          url.searchParams.delete('building_id');
-          url.searchParams.delete('salle_id');
+          if (clientId) url.searchParams.set('client_id', clientId); else url.searchParams.delete('client_id');
+          if (siteId) url.searchParams.set('site_id', siteId); else url.searchParams.delete('site_id');
+          if (buildingId) url.searchParams.set('building_id', buildingId); else url.searchParams.delete('building_id');
+          if (salleId) url.searchParams.set('salle_id', salleId); else url.searchParams.delete('salle_id');
           history.pushState({ search: term }, '', url.toString());
         })
         .catch(err => {
