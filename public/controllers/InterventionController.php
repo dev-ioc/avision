@@ -6481,7 +6481,32 @@ class InterventionController
                 $hasSolution = (int) $stmtSol->fetchColumn() > 0;
             }
 
-            // Dans saveLocalSignature, dans la réponse JSON de succès :
+            $isClosed = (int) $intervention['status_id'] === 6; // déjà fermée avant cet appel ?
+            if (
+                $signatureStatus === 'signe_tech_client'
+                && (int) ($intervention['is_preventive'] ?? 0) === 1
+                && (int) $intervention['status_id'] !== 6
+            ) {
+                $closeResult = $this->performClose($interventionId, $intervention, null, false);
+                if ($closeResult['success']) {
+                    custom_log("Intervention préventive $interventionId fermée automatiquement (BI signé tech+client).", 'INFO');
+                    $isClosed = true;
+                } else {
+                    custom_log("Échec fermeture auto intervention préventive $interventionId : " . ($closeResult['error'] ?? ''), 'WARNING');
+                }
+            }
+
+            $hasSolution = false;
+            if ($signatureStatus === 'signe_tech_client') {
+                $sqlSol = "SELECT COUNT(*) FROM intervention_comments WHERE intervention_id = ? AND is_solution = 1";
+                $stmtSol = $this->db->prepare($sqlSol);
+                $stmtSol->execute([$interventionId]);
+                $hasSolution = (int) $stmtSol->fetchColumn() > 0;
+            }
+
+            $fullySigned = ($signatureStatus === 'signe_tech_client');
+            $pdfUrl = BASE_URL . 'interventions/download/' . $attachmentId;
+
             echo json_encode([
                 'success' => true,
                 'pdf_url' => $pdfUrl,
@@ -6489,9 +6514,8 @@ class InterventionController
                 'is_closed' => $isClosed,
                 'has_solution' => $hasSolution,
                 'intervention_id' => $intervention['id'],
-                'client_send_email' => $data['client_send_email'] ?? true,
+                'client_send_email' => $input['client_send_email'] ?? true,
             ]);
-
         } catch (Exception $e) {
             custom_log("Erreur saveLocalSignature : " . $e->getMessage(), 'ERROR');
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
