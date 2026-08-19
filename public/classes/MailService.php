@@ -1743,15 +1743,18 @@ class MailService
     }
     /**
      * Envoie la notification "Bon signé" après signature complète (tech+client).
+     * Le client, s'il est inclus, reçoit toujours l'email avec le PDF joint —
+     * la décision "envoyer ou pas au client" est binaire et fixée en amont
+     * (case cochée à la signature, reportée dans la modale post-signature).
+     *
      * @param int $interventionId
-     * @param int $templateId Template à utiliser (ex: template de fermeture)
+     * @param int $templateId Template à utiliser
      * @param bool $includeClient
      * @param bool $includeTechnicians
-     * @param array $extraRecipients [['email'=>, 'name'=>], ...] (staff choisi manuellement)
-     * @param bool $attachBonToClient Si false, le client reçoit la notification SANS le PDF joint
+     * @param array $extraRecipients [['email'=>, 'name'=>], ...]
      * @return bool
      */
-    public function sendBonSignedNotification($interventionId, $templateId, $includeClient = true, $includeTechnicians = false, $extraRecipients = [], $attachBonToClient = true)
+    public function sendBonSignedNotification($interventionId, $templateId, $includeClient = true, $includeTechnicians = false, $extraRecipients = [])
     {
         $intervention = $this->interventionModel->getById($interventionId);
         if (!$intervention) {
@@ -1776,56 +1779,14 @@ class MailService
             }
         }
 
-        if ($attachBonToClient || !$includeClient) {
-            $recipients = $includeClient
-                ? $this->prepareRecipients($intervention, $includeTechnicians, $extraRecipients)
-                : $this->prepareRecipients($this->stripClientContact($intervention), $includeTechnicians, $extraRecipients);
+        $sourceIntervention = $includeClient ? $intervention : $this->stripClientContact($intervention);
+        $recipients = $this->prepareRecipients($sourceIntervention, $includeTechnicians, $extraRecipients);
 
-            if (empty($recipients)) {
-                throw new Exception("Aucun destinataire trouvé pour l'intervention $interventionId");
-            }
-
-            return $this->sendEmail($recipients, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, $attachmentPaths);
-        }
-
-        $overallSuccess = true;
-        $anySent = false;
-
-        if ($includeTechnicians || !empty($extraRecipients)) {
-            try {
-                $recipientsWithAttachment = $this->prepareRecipients(
-                    $this->stripClientContact($intervention),
-                    $includeTechnicians,
-                    $extraRecipients
-                );
-                if (!empty($recipientsWithAttachment)) {
-                    $anySent = true;
-                    $overallSuccess = $this->sendEmail($recipientsWithAttachment, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, $attachmentPaths) && $overallSuccess;
-                }
-            } catch (Exception $e) {
-                // Aucun destinataire valide pour techniciens/staff : non bloquant.
-                custom_log_mail("sendBonSignedNotification $interventionId : aucun destinataire technicien/staff (" . $e->getMessage() . ")", 'INFO');
-            }
-        }
-
-        // 2) Client seul, SANS pièce jointe
-        if ($includeClient) {
-            try {
-                $recipientsClientOnly = $this->prepareRecipients($intervention, false, []);
-                if (!empty($recipientsClientOnly)) {
-                    $anySent = true;
-                    $overallSuccess = $this->sendEmail($recipientsClientOnly, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, []) && $overallSuccess;
-                }
-            } catch (Exception $e) {
-                custom_log_mail("sendBonSignedNotification $interventionId : aucun destinataire client (" . $e->getMessage() . ")", 'INFO');
-            }
-        }
-
-        if (!$anySent) {
+        if (empty($recipients)) {
             throw new Exception("Aucun destinataire trouvé pour l'intervention $interventionId");
         }
 
-        return $overallSuccess;
+        return $this->sendEmail($recipients, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, $attachmentPaths);
     }
 
     /**

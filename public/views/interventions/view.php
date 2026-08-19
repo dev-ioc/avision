@@ -1628,7 +1628,7 @@ $closeReason = [];
 				</div>
 
 				<p class="fw-bold mb-2">Envoyer une notification</p>
-				<div class="form-check mb-1">
+				<div class="form-check mb-1" id="psNotifyClientWrapper">
 					<input class="form-check-input" type="checkbox" id="psNotifyClient" checked>
 					<label class="form-check-label" for="psNotifyClient">Au client</label>
 				</div>
@@ -1803,11 +1803,16 @@ $closeReason = [];
 		} catch (e) { /* silencieux */ }
 
 		const modalEl = document.getElementById('postSignatureModal');
-		const applyNotifyClientState = () => {
-			document.getElementById('psNotifyClient').checked = shouldNotifyClient;
-		};
-		applyNotifyClientState();
-		modalEl.addEventListener('shown.bs.modal', applyNotifyClientState, { once: true });
+		const clientWrapper = document.getElementById('psNotifyClientWrapper');
+		const clientCheckbox = document.getElementById('psNotifyClient');
+
+		if (shouldNotifyClient) {
+			clientWrapper.style.display = '';
+			clientCheckbox.checked = true;
+		} else {
+			clientWrapper.style.display = 'none';
+			clientCheckbox.checked = false;
+		}
 
 		new bootstrap.Modal(modalEl).show();
 	}

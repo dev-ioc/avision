@@ -7070,20 +7070,6 @@ class InterventionController
             $includeClient = !empty($_POST['include_client']) && $_POST['include_client'] == '1';
             $includeTechnicians = !empty($_POST['include_technicians']) && $_POST['include_technicians'] == '1';
 
-            // Préférence enregistrée lors de la signature : le client accepte-t-il
-            // de recevoir le PDF du bon signé en pièce jointe ? Si non, il peut
-            // quand même recevoir la notification, mais SANS le PDF joint.
-            $attachBonToClient = true;
-            $sqlPref = "SELECT client_send_email FROM intervention_local_signatures 
-                        WHERE intervention_id = ? ORDER BY signed_at DESC LIMIT 1";
-            $stmtPref = $this->db->prepare($sqlPref);
-            $stmtPref->execute([$id]);
-            $storedPref = $stmtPref->fetchColumn();
-            if ($storedPref !== false && (int) $storedPref === 0) {
-                $attachBonToClient = false;
-                custom_log_mail("sendBonSignedNotification $id : envoi client sans pièce jointe (préférence enregistrée à la signature)", 'INFO');
-            }
-
             $extraStaffIds = [];
             if (!empty($_POST['staff_ids']) && is_array($_POST['staff_ids'])) {
                 $extraStaffIds = array_map('intval', $_POST['staff_ids']);
@@ -7117,7 +7103,6 @@ class InterventionController
                 $includeClient,
                 $includeTechnicians,
                 $extraRecipients,
-                $attachBonToClient
             );
 
             echo json_encode(['success' => (bool) $success, 'message' => 'Notification envoyée']);
