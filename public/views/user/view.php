@@ -363,50 +363,447 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </script>
 
 <script>
-    function sendResetLink(userId) {
-        if (!confirm('Envoyer un lien de réinitialisation de mot de passe à cet utilisateur ?')) {
-            return;
+    // ─── TOAST NOTIFICATION (haut droite) ────────────────────────────────────
+    function showToast(message, type) {
+        type = type || 'info';
+
+        // Supprimer les toasts existants pour éviter l'empilement
+        document.querySelectorAll('.custom-toast').forEach(t => t.remove());
+
+        if (!document.getElementById('toast-styles')) {
+            const style = document.createElement('style');
+            style.id = 'toast-styles';
+            style.textContent = `
+                @keyframes toastSlideIn {
+                    from { transform: translateX(110%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes toastSlideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(110%); opacity: 0; }
+                }
+                .custom-toast {
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    min-width: 320px;
+                    max-width: 420px;
+                    z-index: 99999;
+                    border-radius: 10px;
+                    padding: 14px 16px;
+                    overflow: hidden;
+                    background: #fff;
+                    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+                    border-left: 4px solid;
+                    animation: toastSlideIn .3s ease-out;
+                    cursor: pointer;
+                }
+                .custom-toast:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 12px 28px rgba(0,0,0,.22);
+                }
+                .custom-toast .toast-progress {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    height: 3px;
+                    width: 100%;
+                    transition: width 4s linear;
+                }
+            `;
+            document.head.appendChild(style);
         }
 
-        // Afficher le loader
-        showLoadingOverlay('Envoi du lien de réinitialisation en cours...');
+        const config = {
+            success: { icon: 'bi-check-circle-fill', title: 'Succès', color: '#28a745' },
+            danger: { icon: 'bi-exclamation-triangle-fill', title: 'Erreur', color: '#dc3545' },
+            warning: { icon: 'bi-exclamation-circle-fill', title: 'Attention', color: '#ffc107' },
+            info: { icon: 'bi-info-circle-fill', title: 'Information', color: '#17a2b8' }
+        }[type] || { icon: 'bi-info-circle-fill', title: 'Information', color: '#17a2b8' };
 
-        // Récupérer le token CSRF
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ||
-            document.querySelector('input[name="csrf_token"]')?.value;
+        const toast = document.createElement('div');
+        toast.className = 'custom-toast';
+        toast.style.borderLeftColor = config.color;
+        toast.innerHTML = `
+            <div class="d-flex align-items-start">
+                <i class="bi ${config.icon} me-2 fs-5" style="color:${config.color};"></i>
+                <div class="flex-grow-1">
+                    <strong>${config.title}</strong>
+                    <div class="small mt-1 text-secondary">${message}</div>
+                </div>
+                <button type="button" class="btn-close ms-2" aria-label="Fermer"></button>
+            </div>
+            <div class="toast-progress" style="background:${config.color};"></div>
+        `;
 
-        fetch('<?php echo BASE_URL; ?>user/send-reset-link/' + userId, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-Token': csrfToken
-            },
-            body: JSON.stringify({ csrf_token: csrfToken })
-        })
+        document.body.appendChild(toast);
+
+        const progress = toast.querySelector('.toast-progress');
+        requestAnimationFrame(() => { progress.style.width = '0%'; });
+
+        function dismiss() {
+            toast.style.animation = 'toastSlideOut .3s ease-out forwards';
+            setTimeout(() => { if (toast.parentNode) toast.remove(); }, 280);
+        }
+
+        toast.querySelector('.btn-close').addEventListener('click', (e) => {
+            e.stopPropagation();
+            dismiss();
+        });
+        toast.addEventListener('click', dismiss);
+        setTimeout(dismiss, 4000);
+    }
+    function showConfirmModal(options) {
+        const {
+            title = 'Confirmation',
+            message = 'Êtes-vous sûr de vouloir continuer ?',
+            confirmText = 'Confirmer',
+            cancelText = 'Annuler',
+            icon = 'bi-question-circle',
+            iconColor = '#0d6efd',
+            onConfirm = null
+        } = options;
+
+        // Supprimer une éventuelle ancienne modal
+        document.getElementById('customConfirmModal')?.remove();
+
+        // Ajouter les styles une seule fois
+        if (!document.getElementById('confirm-modal-styles')) {
+            const style = document.createElement('style');
+            style.id = 'confirm-modal-styles';
+
+            style.textContent = `
+            @keyframes confirmModalFadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes confirmModalScaleIn {
+                from {
+                    transform: scale(0.9) translateY(10px);
+                    opacity: 0;
+                }
+                to {
+                    transform: scale(1) translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes confirmModalFadeOut {
+                from {
+                    opacity: 1;
+                }
+                to {
+                    opacity: 0;
+                }
+            }
+
+            .custom-confirm-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.55);
+                backdrop-filter: blur(4px);
+                z-index: 100000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+                animation: confirmModalFadeIn 0.2s ease;
+            }
+
+            .custom-confirm-modal {
+                width: 100%;
+                max-width: 430px;
+                background: #fff;
+                border-radius: 16px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+                overflow: hidden;
+                animation: confirmModalScaleIn 0.25s ease;
+            }
+
+            .custom-confirm-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 18px 22px;
+                border-bottom: 1px solid #eee;
+            }
+
+            .custom-confirm-title {
+                margin: 0;
+                font-size: 18px;
+                font-weight: 600;
+                color: #212529;
+            }
+
+            .custom-confirm-close {
+                border: none;
+                background: transparent;
+                font-size: 20px;
+                color: #6c757d;
+                cursor: pointer;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                transition: all 0.2s ease;
+            }
+
+            .custom-confirm-close:hover {
+                background: #f1f3f5;
+                color: #212529;
+            }
+
+            .custom-confirm-body {
+                text-align: center;
+                padding: 30px 25px 25px;
+            }
+
+            .custom-confirm-icon {
+                width: 68px;
+                height: 68px;
+                margin: 0 auto 18px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(13, 110, 253, 0.1);
+            }
+
+            .custom-confirm-icon i {
+                font-size: 30px;
+            }
+
+            .custom-confirm-message {
+                margin: 0;
+                color: #6c757d;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .custom-confirm-footer {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                padding: 0 25px 25px;
+            }
+
+            .custom-confirm-btn {
+                border: none;
+                border-radius: 8px;
+                padding: 10px 20px;
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+
+            .custom-confirm-btn-cancel {
+                background: #f1f3f5;
+                color: #495057;
+            }
+
+            .custom-confirm-btn-cancel:hover {
+                background: #e9ecef;
+            }
+
+            .custom-confirm-btn-confirm {
+                color: white;
+                box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2);
+            }
+
+            .custom-confirm-btn-confirm:hover {
+                filter: brightness(0.92);
+                transform: translateY(-1px);
+            }
+
+            @media (max-width: 480px) {
+                .custom-confirm-modal {
+                    max-width: 100%;
+                }
+
+                .custom-confirm-footer {
+                    flex-direction: column-reverse;
+                }
+
+                .custom-confirm-btn {
+                    width: 100%;
+                }
+            }
+        `;
+
+            document.head.appendChild(style);
+        }
+
+        // Créer la modal
+        const overlay = document.createElement('div');
+        overlay.id = 'customConfirmModal';
+        overlay.className = 'custom-confirm-overlay';
+
+        overlay.innerHTML = `
+        <div class="custom-confirm-modal" role="dialog" aria-modal="true">
+
+            <div class="custom-confirm-header">
+                <h5 class="custom-confirm-title">
+                    ${title}
+                </h5>
+
+                <button type="button"
+                        class="custom-confirm-close"
+                        aria-label="Fermer">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+
+            <div class="custom-confirm-body">
+
+                <div class="custom-confirm-icon"
+                     style="background: ${iconColor}15;">
+                    <i class="bi ${icon}"
+                       style="color: ${iconColor};"></i>
+                </div>
+
+                <p class="custom-confirm-message">
+                    ${message}
+                </p>
+
+            </div>
+
+            <div class="custom-confirm-footer">
+
+                <button type="button"
+                        class="custom-confirm-btn custom-confirm-btn-cancel">
+                    ${cancelText}
+                </button>
+
+                <button type="button"
+                        class="custom-confirm-btn custom-confirm-btn-confirm"
+                        style="background: ${iconColor};">
+                    <i class="bi bi-check-lg me-1"></i>
+                    ${confirmText}
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+        document.body.appendChild(overlay);
+        document.body.style.overflow = 'hidden';
+
+        const closeModal = () => {
+            overlay.style.animation = 'confirmModalFadeOut 0.2s ease forwards';
+
+            setTimeout(() => {
+                overlay.remove();
+                document.body.style.overflow = '';
+            }, 180);
+        };
+
+        // Bouton fermer
+        overlay.querySelector('.custom-confirm-close')
+            .addEventListener('click', closeModal);
+
+        // Bouton annuler
+        overlay.querySelector('.custom-confirm-btn-cancel')
+            .addEventListener('click', closeModal);
+
+        // Bouton confirmer
+        overlay.querySelector('.custom-confirm-btn-confirm')
+            .addEventListener('click', () => {
+                closeModal();
+
+                if (typeof onConfirm === 'function') {
+                    onConfirm();
+                }
+            });
+
+        // Cliquer sur le fond ferme la modal
+        overlay.addEventListener('click', (event) => {
+            if (event.target === overlay) {
+                closeModal();
+            }
+        });
+
+        // Touche Échap
+        const handleEscape = (event) => {
+            if (event.key === 'Escape') {
+                closeModal();
+                document.removeEventListener('keydown', handleEscape);
+            }
+        };
+
+        document.addEventListener('keydown', handleEscape);
+    }
+function sendResetLink(userId) {
+
+    showConfirmModal({
+        title: 'Réinitialisation du mot de passe',
+        message: 'Voulez-vous envoyer un lien de réinitialisation de mot de passe à cet utilisateur ?',
+        confirmText: 'Envoyer le lien',
+        cancelText: 'Annuler',
+        icon: 'bi-envelope-at',
+        iconColor: '#0d6efd',
+
+        onConfirm: () => {
+
+            // Afficher le loader
+            showLoadingOverlay('Envoi du lien de réinitialisation en cours...');
+
+            // Récupérer le token CSRF
+            const csrfToken =
+                document.querySelector('meta[name="csrf-token"]')?.content ||
+                document.querySelector('input[name="csrf_token"]')?.value;
+
+            fetch('<?php echo BASE_URL; ?>user/send-reset-link/' + userId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-Token': csrfToken
+                },
+                body: JSON.stringify({
+                    csrf_token: csrfToken
+                })
+            })
             .then(response => response.json())
             .then(data => {
-                // Cacher le loader
+
                 hideLoadingOverlay();
 
                 if (data.success) {
-                    alert(data.message);
-                    // Recharger l'historique si présent
+
+                    showToast(data.message, 'success');
+
                     if (typeof loadResetHistory === 'function') {
                         loadResetHistory(userId);
                     }
+
                 } else {
-                    alert('Erreur: ' + (data.message || 'Une erreur est survenue'));
+
+                    showToast(
+                        data.message || 'Une erreur est survenue',
+                        'danger'
+                    );
                 }
             })
             .catch(error => {
-                // Cacher le loader en cas d'erreur
-                hideLoadingOverlay();
-                console.error('Erreur:', error);
-                alert('Une erreur est survenue lors de l\'envoi.');
-            });
-    }
 
+                hideLoadingOverlay();
+
+                console.error('Erreur:', error);
+
+                showToast(
+                    'Une erreur est survenue lors de l\'envoi.',
+                    'danger'
+                );
+            });
+        }
+    });
+}
     function loadResetHistory(userId) {
         fetch('<?php echo BASE_URL; ?>user/reset-history/' + userId, {
             headers: {
@@ -524,10 +921,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
             document.head.appendChild(style);
         }
 
-        // Ajouter l'overlay au body
         document.body.appendChild(overlay);
 
-        // Empêcher le scroll
         document.body.style.overflow = 'hidden';
     }
 
@@ -537,7 +932,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             overlay.style.opacity = '0';
             setTimeout(() => {
                 overlay.remove();
-                // Réactiver le scroll
                 document.body.style.overflow = '';
             }, 300);
         } else {
