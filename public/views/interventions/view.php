@@ -1770,7 +1770,8 @@ $closeReason = [];
 		}
 	});
 	async function openPostSignatureModal(data) {
-		document.getElementById('psNotifyClient').checked = data.client_send_email !== false;
+		const shouldNotifyClient = data.client_send_email !== false;
+
 		document.getElementById('noSolutionWarning').style.display = data.has_solution ? 'none' : 'block';
 
 		if (!data.has_solution) {
@@ -1801,9 +1802,15 @@ $closeReason = [];
 			});
 		} catch (e) { /* silencieux */ }
 
-		new bootstrap.Modal(document.getElementById('postSignatureModal')).show();
-	}
+		const modalEl = document.getElementById('postSignatureModal');
+		const applyNotifyClientState = () => {
+			document.getElementById('psNotifyClient').checked = shouldNotifyClient;
+		};
+		applyNotifyClientState();
+		modalEl.addEventListener('shown.bs.modal', applyNotifyClientState, { once: true });
 
+		new bootstrap.Modal(modalEl).show();
+	}
 	document.addEventListener('DOMContentLoaded', function () {
 		document.getElementById('psSendBtn')?.addEventListener('click', async function () {
 			const btn = this;

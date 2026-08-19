@@ -6370,17 +6370,18 @@ class InterventionController
             }
 
             $sql = "INSERT INTO intervention_local_signatures 
-                (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path, 
-                client_name, client_email, technicien_id, signed_at, ip_address)
-                VALUES (:iid, :source_id, :tech, :client, :client_name, :client_email, :tid, NOW(), :ip)
-                ON DUPLICATE KEY UPDATE
-                technicien_signature_path = VALUES(technicien_signature_path),
-                client_signature_path = VALUES(client_signature_path),
-                client_name = VALUES(client_name),
-                client_email = VALUES(client_email),
-                technicien_id = VALUES(technicien_id),
-                signed_at = NOW(),
-                ip_address = VALUES(ip_address)";
+                    (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path, 
+                    client_name, client_email, client_send_email, technicien_id, signed_at, ip_address)
+                    VALUES (:iid, :source_id, :tech, :client, :client_name, :client_email, :client_send_email, :tid, NOW(), :ip)
+                    ON DUPLICATE KEY UPDATE
+                    technicien_signature_path = VALUES(technicien_signature_path),
+                    client_signature_path = VALUES(client_signature_path),
+                    client_name = VALUES(client_name),
+                    client_email = VALUES(client_email),
+                    client_send_email = VALUES(client_send_email),
+                    technicien_id = VALUES(technicien_id),
+                    signed_at = NOW(),
+                    ip_address = VALUES(ip_address)";
 
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
@@ -6390,6 +6391,7 @@ class InterventionController
                 ':client' => $clientPath,
                 ':client_name' => $clientName,
                 ':client_email' => $clientEmail,
+                ':client_send_email' => ($input['client_send_email'] ?? true) ? 1 : 0,
                 ':tid' => $_SESSION['user']['id'],
                 ':ip' => $_SERVER['REMOTE_ADDR'] ?? null,
             ]);
@@ -7071,6 +7073,18 @@ class InterventionController
 
             $includeClient = !empty($_POST['include_client']) && $_POST['include_client'] == '1';
             $includeTechnicians = !empty($_POST['include_technicians']) && $_POST['include_technicians'] == '1';
+
+            if ($includeClient) {
+                $sqlPref = "SELECT client_send_email FROM intervention_local_signatures 
+                            WHERE intervention_id = ? ORDER BY signed_at DESC LIMIT 1";
+                $stmtPref = $this->db->prepare($sqlPref);
+                $stmtPref->execute([$id]);
+                $storedPref = $stmtPref->fetchColumn();
+                if ($storedPref !== false && (int) $storedPref === 0) {
+                    custom_log_mail("sendBonSignedNotification $id : envoi client bloqué (préférence enregistrée = non)", 'INFO');
+                    $includeClient = false;
+                }
+            }
 
             $extraStaffIds = [];
             if (!empty($_POST['staff_ids']) && is_array($_POST['staff_ids'])) {
