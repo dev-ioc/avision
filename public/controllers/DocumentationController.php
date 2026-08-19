@@ -109,8 +109,7 @@ class DocumentationController
             COALESCE(c.id, c2.id, c3.id, c4.id) as client_id,
             COALESCE(s.id, s2.id, s3.id) as site_id,
             COALESCE(b.id, b2.id) as building_id,
-            r.id as salle_id,
-            u.username as uploader_name
+            r.id as salle_id
         FROM pieces_jointes pj
         INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
         -- Client direct
@@ -2351,8 +2350,7 @@ class DocumentationController
                 COALESCE(c.id, c2.id, c3.id, c4.id) as client_id,
                 COALESCE(s.id, s2.id, s3.id) as site_id,
                 COALESCE(b.id, b2.id) as building_id,
-                r.id as salle_id,
-                u.username as uploader_name
+                r.id as salle_id
             FROM pieces_jointes pj
             INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
             LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)

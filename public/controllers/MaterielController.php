@@ -349,7 +349,7 @@ class MaterielController
             // Log 3: Sauvegarde JSON pour archivage
             $jsonLog = [
                 'timestamp' => date('Y-m-d H:i:s'),
-                'user' => $_SESSION['user']['username'] ?? 'unknown',
+                // 'user' => $_SESSION['user']['username'] ?? 'unknown',
                 'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
                 'action' => 'MATERIEL_CREATION',
                 'data' => $data
