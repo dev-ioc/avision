@@ -127023,3 +127023,18 @@ Quant à l’écran n°1, il est HS
 (
 )
  
+[2026-08-19 14:50:10][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-19 14:50:10][DEBUG] CSRF: Token trouvé dans la requête - Token: ddf6449cffa687d4e346... 
+[2026-08-19 14:50:10][DEBUG] CSRF: Token trouvé dans la requête - Token: ddf6449cffa687d4e346... 
+[2026-08-19 14:50:10][DEBUG] CSRF: Token trouvé dans la requête - Token: ddf6449cffa687d4e346... 
+[2026-08-19 14:50:10][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-19 14:50:12][INFO] 55 
+[2026-08-19 14:50:12][INFO] 109 
+[2026-08-19 14:50:12][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.username' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContactModel.php","line":23}
+[2026-08-19 14:51:30][INFO] 55 
+[2026-08-19 14:51:30][INFO] 109 
+[2026-08-19 14:51:30][ERROR] Erreur : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'u.email as user_email
+                FROM contacts c
+                LEFT ...' at line 3 {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContactModel.php","line":22}
+[2026-08-19 14:52:14][INFO] 55 
+[2026-08-19 14:52:14][INFO] 109 

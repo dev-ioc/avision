@@ -13,7 +13,6 @@ class ContactModel extends BaseModel
     {
         $query = "SELECT 
                     c.*,
-                    u.username as user_username,
                     u.email as user_email
                 FROM contacts c
                 LEFT JOIN users u ON c.user_id = u.id
@@ -30,7 +29,6 @@ class ContactModel extends BaseModel
     {
         $query = "SELECT 
                 c.*,
-                u.username as user_username,
                 u.email as user_email,
                 cl.name as client_name
             FROM contacts c
@@ -47,7 +45,6 @@ class ContactModel extends BaseModel
     {
         $query = "SELECT 
                 c.*,
-                u.username as user_username,
                 u.email as user_email,
                 cl.name as client_name
             FROM contacts c
@@ -67,7 +64,6 @@ class ContactModel extends BaseModel
     {
         $query = "SELECT 
                     c.*,
-                    u.username as user_username,
                     u.email as user_email
                 FROM contacts c
                 LEFT JOIN users u ON c.user_id = u.id
@@ -85,7 +81,6 @@ class ContactModel extends BaseModel
     {
         $query = "SELECT 
                     c.*,
-                    u.username as user_username,
                     u.email as user_email
                 FROM contacts c
                 LEFT JOIN users u ON c.user_id = u.id
@@ -103,7 +98,6 @@ class ContactModel extends BaseModel
     {
         $query = "SELECT 
                     c.*,
-                    u.username as user_username,
                     u.email as user_email,
                     cl.name as client_name
                 FROM contacts c
