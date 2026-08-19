@@ -37,6 +37,14 @@ if (!defined('BASE_URL')) {
             padding: 0.75rem;
             font-weight: 500;
         }
+
+        .forgot-password-link {
+            color: #6c757d;
+        }
+
+        .forgot-password-link:hover {
+            background-color: #edeef0;
+        }
     </style>
 </head>
 
@@ -70,7 +78,8 @@ if (!defined('BASE_URL')) {
                             <button type="submit" class="btn btn-primary w-100">Se connecter</button>
                         </form>
                         <div class="text-center mt-3">
-                            <a href="<?php echo BASE_URL; ?>auth/forgot-password">Mot de passe oublié ?</a>
+                            <a href="<?php echo BASE_URL; ?>auth/forgot-password" type="button"
+                                class="btn w-100 forgot-password-link">Mot de passe oublié ?</a>
                         </div>
                     </div>
                 </div>

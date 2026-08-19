@@ -940,19 +940,32 @@ $closeReason = [];
 						<div class="tab-pane fade" id="tab-client">
 							<p class="text-muted small">Le client signe ici (bon pour accord)</p>
 
-							<div class="row mb-3">
+							<div class="row mb-2">
 								<div class="col-md-6">
 									<label for="clientSignName" class="form-label fw-semibold">Nom du signataire</label>
 									<input type="text" class="form-control" id="clientSignName"
-										placeholder="Nom du client" readonly
-										value="<?= h($intervention['client_name'] ?? '') ?> ">
+										placeholder="Nom du client"
+										value="<?= h($intervention['client_name'] ?? '') ?>">
 								</div>
 								<div class="col-md-6">
 									<label for="clientSignEmail" class="form-label fw-semibold">Email du
 										signataire</label>
 									<input type="email" class="form-control" id="clientSignEmail"
-										placeholder="email@client.com" readonly
+										placeholder="email@client.com"
 										value="<?= htmlspecialchars($intervention['contact_client'] ?? '') ?>">
+								</div>
+							</div>
+
+							<div class="d-flex justify-content-between align-items-center mb-3">
+								<button type="button" class="btn btn-sm btn-link ps-0" id="btnResetClientContact">
+									<i class="bi bi-arrow-counterclockwise me-1"></i>Reprendre le contact de
+									l'intervention
+								</button>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="clientSendEmailCheck" checked>
+									<label class="form-check-label" for="clientSendEmailCheck">
+										Envoyer une copie du bon signé à cette adresse
+									</label>
 								</div>
 							</div>
 
@@ -1638,7 +1651,7 @@ $closeReason = [];
 					</button>
 				</div>
 			</div>
-		</div>
+		</div>a
 	</div>
 </div>
 
@@ -1693,6 +1706,15 @@ $closeReason = [];
 
 	document.getElementById('clear-tech').addEventListener('click', () => padTech.clear());
 	document.getElementById('clear-client').addEventListener('click', () => padClient.clear());
+	const originalClientContact = {
+		name: <?= json_encode($intervention['client_name'] ?? '') ?>,
+		email: <?= json_encode($intervention['contact_client'] ?? '') ?>
+	};
+
+	document.getElementById('btnResetClientContact').addEventListener('click', () => {
+		document.getElementById('clientSignName').value = originalClientContact.name;
+		document.getElementById('clientSignEmail').value = originalClientContact.email;
+	});
 
 	document.getElementById('btnSaveSignatures').addEventListener('click', async () => {
 		if (!window.currentSignAttachmentId) {
@@ -1713,8 +1735,8 @@ $closeReason = [];
 			client_signature: padClient.isEmpty() ? null : padClient.toDataURL('image/png'),
 			client_name: document.getElementById('clientSignName').value.trim(),
 			client_email: document.getElementById('clientSignEmail').value.trim(),
+			client_send_email: document.getElementById('clientSendEmailCheck').checked,
 		};
-
 		try {
 			const res = await fetch(`${window.BASE_URL}interventions/saveLocalSignature/${window.currentSignAttachmentId}`, {
 				method: 'POST',
@@ -1748,6 +1770,7 @@ $closeReason = [];
 		}
 	});
 	async function openPostSignatureModal(data) {
+		document.getElementById('psNotifyClient').checked = data.client_send_email !== false;
 		document.getElementById('noSolutionWarning').style.display = data.has_solution ? 'none' : 'block';
 
 		if (!data.has_solution) {

@@ -6492,7 +6492,8 @@ class InterventionController
                 'fully_signed' => $signatureStatus === 'signe_tech_client',
                 'has_solution' => $hasSolution,
                 'intervention_id' => $interventionId,
-                'is_closed' => (int) $intervention['status_id'] === 6
+                'is_closed' => (int) $intervention['status_id'] === 6,
+                'client_send_email' => $data['client_send_email'] ?? true,
             ]);
 
         } catch (Exception $e) {

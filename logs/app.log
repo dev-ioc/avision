@@ -126941,3 +126941,34 @@ Quant à l’écran n°1, il est HS
 [2026-08-18 14:05:51][DEBUG] getAllByLocations - Results count: 0 
 [2026-08-18 16:33:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbc28fdd264d5717f4f... 
 [2026-08-18 16:33:27][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 
+[2026-08-18 16:33:48][ERROR] Erreur dans processForgotPassword: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-08-19 07:51:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 23f3da66641e8dbb6e57... 
+[2026-08-19 07:51:36][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 
+[2026-08-19 07:51:57][ERROR] Erreur dans processForgotPassword: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-08-19 08:07:40][DEBUG] CSRF: Token trouvé dans la requête - Token: 23f3da66641e8dbb6e57... 
+[2026-08-19 08:07:41][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-19 08:07:41][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-19 08:07:41][DEBUG] Login réussi - Session ID: oq6sf9ei1gm1qns2be64ttolnd 
+[2026-08-19 08:07:41][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-19 08:07:41][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-19 08:07:41][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-19 08:07:41][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-19 08:08:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 23f3da66641e8dbb6e57... 
+[2026-08-19 08:08:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 23f3da66641e8dbb6e57... 
+[2026-08-19 08:08:17][INFO] Intervention préventive 391 fermée automatiquement (BI signé tech+client). 
+[2026-08-19 08:25:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 80a50942e0c0ac0aff49... 
+[2026-08-19 08:25:35][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-19 08:25:35][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-19 08:25:35][DEBUG] Login réussi - Session ID: 17p552q5d9k2rng59fo9il3mar 
+[2026-08-19 08:25:35][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-19 08:25:35][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-19 08:25:35][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-19 08:25:35][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-19 08:25:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 80a50942e0c0ac0aff49... 
+[2026-08-19 08:25:50][INFO] === RÉOUVERTURE INTERVENTION 391 === 
+[2026-08-19 08:25:50][INFO] Tickets à recréditer: 3 
+[2026-08-19 08:25:50][INFO] Contrat ID: 257 
+[2026-08-19 08:25:50][INFO] Had tickets: non 
+[2026-08-19 08:25:50][INFO] RÉOUVERTURE RÉUSSIE - Intervention 391 
+[2026-08-19 08:25:59][Intervention préventive 1/2]  
+[2026-08-19 08:26:29][Intervention préventive 1/2]  
