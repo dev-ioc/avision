@@ -90,7 +90,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <table id="usersTable" class="table table-striped table-hover dt-responsive">
                     <thead>
                         <tr>
-                            <th>Nom d'utilisateur</th>
+                            <!-- <th>Nom d'utilisateur</th> -->
                             <th>Nom</th>
                             <th>Prénom</th>
                             <th>Email</th>
@@ -108,12 +108,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 $filterGroup = ($userType === 'client') ? 'client' : 'videosonic';
                                 ?>
                                 <tr data-user-type="<?= $filterGroup ?>">
-                                    <td data-label="Nom d'utilisateur">
+                                    <!-- <td data-label="Nom d'utilisateur">
                                         <a href="<?php echo BASE_URL; ?>user/view/<?php echo $user['id']; ?>"
                                             class="text-decoration-none fw-bold" title="Voir l'utilisateur">
                                             <?php echo htmlspecialchars($user['username'] ?? ''); ?>
                                         </a>
-                                    </td>
+                                    </td> -->
                                     <td data-label="Nom">
                                         <?php echo htmlspecialchars($user['last_name'] ?? ''); ?>
                                     </td>

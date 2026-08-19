@@ -96,7 +96,7 @@ class UserController
             custom_log("Données POST reçues pour création d'utilisateur: " . json_encode($_POST), 'INFO');
 
             $data = [
-                'username' => $_POST['username'] ?? '',
+                // 'username' => $_POST['username'] ?? '',
                 'email' => $_POST['email'] ?? '',
                 'password' => !empty($_POST['password']) ? $_POST['password'] : null,
                 'first_name' => $_POST['first_name'] ?? '',
@@ -235,7 +235,7 @@ class UserController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
-                'username' => $_POST['username'] ?? '',
+                // 'username' => $_POST['username'] ?? '',
                 'email' => $_POST['email'] ?? '',
                 'password' => !empty($_POST['password']) ? $_POST['password'] : null,
                 'first_name' => $_POST['first_name'] ?? '',
@@ -315,12 +315,12 @@ class UserController
     {
         $errors = [];
 
-        // Validation du nom d'utilisateur
-        if (empty($data['username'])) {
-            $errors[] = "Le nom d'utilisateur est requis";
-        } elseif ($this->userModel->usernameExists($data['username'], $excludeId)) {
-            $errors[] = "Ce nom d'utilisateur existe déjà";
-        }
+        // // Validation du nom d'utilisateur
+        // if (empty($data['username'])) {
+        //     $errors[] = "Le nom d'utilisateur est requis";
+        // } elseif ($this->userModel->usernameExists($data['username'], $excludeId)) {
+        //     $errors[] = "Ce nom d'utilisateur existe déjà";
+        // }
 
         // Validation de l'email
         if (empty($data['email'])) {

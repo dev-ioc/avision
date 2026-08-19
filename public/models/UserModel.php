@@ -274,23 +274,23 @@ class UserModel extends BaseModel
         return parent::delete($id);
     }
 
-    /**
-     * Vérifie si un nom d'utilisateur existe déjà
-     */
-    public function usernameExists($username, $excludeId = null)
-    {
-        $sql = "SELECT COUNT(*) as count FROM " . $this->table . " WHERE username = :username";
-        $params = [':username' => $username];
+    // /**
+    //  * Vérifie si un nom d'utilisateur existe déjà
+    //  */
+    // public function usernameExists($username, $excludeId = null)
+    // {
+    //     $sql = "SELECT COUNT(*) as count FROM " . $this->table . " WHERE username = :username";
+    //     $params = [':username' => $username];
 
-        if ($excludeId) {
-            $sql .= " AND id != :id";
-            $params[':id'] = $excludeId;
-        }
+    //     if ($excludeId) {
+    //         $sql .= " AND id != :id";
+    //         $params[':id'] = $excludeId;
+    //     }
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetch(PDO::FETCH_ASSOC)['count'] > 0;
-    }
+    //     $stmt = $this->db->prepare($sql);
+    //     $stmt->execute($params);
+    //     return $stmt->fetch(PDO::FETCH_ASSOC)['count'] > 0;
+    // }
 
     /**
      * Vérifie si un email existe déjà
@@ -312,28 +312,28 @@ class UserModel extends BaseModel
 
     /**
      * Authentifie un utilisateur
-     * @param string $username Nom d'utilisateur
+     * @param string $email Nom d'utilisateur
      * @param string $password Mot de passe
      * @return bool True si l'authentification réussit
      */
-    public function authenticate($username, $password)
+    public function authenticate($email, $password)
     {
         try {
             $stmt = $this->db->prepare("
-                SELECT u.id, u.username, u.password, u.email, u.first_name, u.last_name, 
+                SELECT u.id,u.password, u.email, u.first_name, u.last_name, 
                        u.status, u.coef_utilisateur, u.client_id, u.is_admin,
                        ut.name as user_type, ug.name as user_group
                 FROM users u
                 JOIN user_types ut ON u.user_type_id = ut.id
                 JOIN user_groups ug ON ut.group_id = ug.id
-                WHERE u.username = :username AND u.status = 1
+                WHERE u.email = :email AND u.status = 1
             ");
-            $stmt->execute(['username' => $username]);
+            $stmt->execute(['email' => $email]);
             $user = $stmt->fetch();
 
             if ($user && password_verify($password, $user['password'])) {
                 $this->id = $user['id'];
-                $this->username = $user['username'];
+                // $this->username = $user['username'];
                 $this->email = $user['email'];
                 $this->firstName = $user['first_name'];
                 $this->lastName = $user['last_name'];
@@ -348,7 +348,7 @@ class UserModel extends BaseModel
                 // Stockage dans la session
                 $_SESSION['user'] = [
                     'id' => $this->id,
-                    'username' => $this->username,
+                    // 'username' => $this->username,
                     'email' => $this->email,
                     'first_name' => $this->firstName,
                     'last_name' => $this->lastName,
@@ -360,7 +360,7 @@ class UserModel extends BaseModel
                 ];
 
                 // Log de la connexion
-                custom_log("Utilisateur connecté : {$this->username}", 'INFO', [
+                custom_log("Utilisateur connecté : {$this->email}", 'INFO', [
                     'user_id' => $this->id,
                     'user_type' => $user['user_type'],
                     'user_group' => $user['user_group'],
@@ -371,7 +371,7 @@ class UserModel extends BaseModel
                 return true;
             }
 
-            custom_log("Tentative de connexion échouée pour l'utilisateur : $username", 'WARNING');
+            custom_log("Tentative de connexion échouée pour l'utilisateur : $email", 'WARNING');
             return false;
         } catch (PDOException $e) {
             custom_log("Erreur d'authentification : " . $e->getMessage(), 'ERROR');
@@ -428,7 +428,7 @@ class UserModel extends BaseModel
             }
 
             // Log temporaire pour debug
-            custom_log("Permissions chargées pour {$this->username} : " . json_encode($this->permissions), 'DEBUG');
+            custom_log("Permissions chargées pour {$this->firstName} : " . json_encode($this->permissions), 'DEBUG');
         } catch (PDOException $e) {
             custom_log("Erreur lors du chargement des permissions : " . $e->getMessage(), 'ERROR');
             $this->permissions = [
