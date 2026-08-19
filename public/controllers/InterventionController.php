@@ -6481,18 +6481,14 @@ class InterventionController
                 $hasSolution = (int) $stmtSol->fetchColumn() > 0;
             }
 
+            // Dans saveLocalSignature, dans la réponse JSON de succès :
             echo json_encode([
                 'success' => true,
-                'message' => 'Signature(s) enregistrée(s) et PDF mis à jour',
-                'pdf_url' => BASE_URL . 'interventions/download/' . $attachmentId,
-                'version' => $pj['version'] ?? 1,
-                'signature_status' => $signatureStatus,
-                'has_tech_signature' => !empty($techPath),
-                'has_client_signature' => !empty($clientPath),
-                'fully_signed' => $signatureStatus === 'signe_tech_client',
+                'pdf_url' => $pdfUrl,
+                'fully_signed' => $fullySigned,
+                'is_closed' => $isClosed,
                 'has_solution' => $hasSolution,
-                'intervention_id' => $interventionId,
-                'is_closed' => (int) $intervention['status_id'] === 6,
+                'intervention_id' => $intervention['id'],
                 'client_send_email' => $data['client_send_email'] ?? true,
             ]);
 
