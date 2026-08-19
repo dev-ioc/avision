@@ -964,7 +964,7 @@ $closeReason = [];
 								<div class="form-check">
 									<input class="form-check-input" type="checkbox" id="clientSendEmailCheck" checked>
 									<label class="form-check-label" for="clientSendEmailCheck">
-										Envoyer une copie du bon signé à cette adresse
+										Envoyer un mail à l'adresse du client
 									</label>
 								</div>
 							</div>
