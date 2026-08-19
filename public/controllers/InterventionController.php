@@ -3036,11 +3036,14 @@ class InterventionController
      */
     private function performClose($id, array $intervention, $ticketsUsedOverride = null, $sendEmail = false)
     {
-        $stmtTechCheck = $this->db->prepare('SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ?');
-        $stmtTechCheck->execute([$id]);
-        if ((int) $stmtTechCheck->fetchColumn() === 0) {
-            return ['success' => false, 'error' => "Impossible de fermer l'intervention sans technicien assigné."];
+        $stmtStatusCheck = $this->db->prepare('SELECT status_id FROM interventions WHERE id = ?');
+        $stmtStatusCheck->execute([$id]);
+        $currentStatusId = (int) $stmtStatusCheck->fetchColumn();
+        if ($currentStatusId === 6) {
+            return ['success' => false, 'error' => "Cette intervention est déjà fermée."];
         }
+
+        $stmtTechCheck = $this->db->prepare('SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ?');
 
         try {
             $this->db->beginTransaction();
