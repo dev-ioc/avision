@@ -2317,7 +2317,8 @@ class MaterielController
 
     /**
      * Retourne les salles, optionnellement restreintes par client/site/bâtiment
-     * déjà sélectionnés.
+     * déjà sélectionnés. Sans filtre, retourne TOUTES les salles, y compris
+     * celles dont le bâtiment/site/client associé serait manquant (LEFT JOIN).
      */
     public function get_all_rooms()
     {
@@ -2332,12 +2333,13 @@ class MaterielController
             $buildingId = $_GET['building_id'] ?? null;
 
             $sql = "SELECT r.id, r.name, r.building_id,
-                       b.name AS building_name, b.site_id,
-                       s.name AS site_name, s.client_id, c.name AS client_name
+                       COALESCE(b.name, '(Bâtiment inconnu)') AS building_name, b.site_id,
+                       COALESCE(s.name, '(Site inconnu)') AS site_name, s.client_id,
+                       COALESCE(c.name, '(Client inconnu)') AS client_name
                 FROM rooms r
-                INNER JOIN buildings b ON r.building_id = b.id
-                INNER JOIN sites s ON b.site_id = s.id
-                INNER JOIN clients c ON s.client_id = c.id";
+                LEFT JOIN buildings b ON r.building_id = b.id
+                LEFT JOIN sites s ON b.site_id = s.id
+                LEFT JOIN clients c ON s.client_id = c.id";
             $conditions = [];
             $params = [];
 
@@ -2356,7 +2358,7 @@ class MaterielController
             if (!empty($conditions)) {
                 $sql .= " WHERE " . implode(' AND ', $conditions);
             }
-            $sql .= " ORDER BY c.name, s.name, b.name, r.name";
+            $sql .= " ORDER BY c.name IS NULL, c.name, s.name IS NULL, s.name, b.name IS NULL, b.name, r.name";
 
             $stmt = $this->db->prepare($sql);
             $stmt->execute($params);
