@@ -1748,9 +1748,10 @@ class MailService
      * @param bool $includeClient
      * @param bool $includeTechnicians
      * @param array $extraRecipients [['email'=>, 'name'=>], ...] (staff choisi manuellement)
+     * @param bool $attachBonToClient Si false, le client reçoit la notification SANS le PDF joint
      * @return bool
      */
-    public function sendBonSignedNotification($interventionId, $templateId, $includeClient = true, $includeTechnicians = false, $extraRecipients = [])
+    public function sendBonSignedNotification($interventionId, $templateId, $includeClient = true, $includeTechnicians = false, $extraRecipients = [], $attachBonToClient = true)
     {
         $intervention = $this->interventionModel->getById($interventionId);
         if (!$intervention) {
@@ -1760,18 +1761,6 @@ class MailService
         $template = $this->mailTemplateModel->getById($templateId);
         if (!$template) {
             throw new Exception("Template introuvable");
-        }
-
-
-        $recipients = [];
-        if ($includeClient) {
-            $recipients = $this->prepareRecipients($intervention, $includeTechnicians, $extraRecipients);
-        } else {
-            // Reconstruire sans le contact client : on vide temporairement les champs email client
-            $interventionNoClient = $intervention;
-            $interventionNoClient['site_email'] = '';
-            $interventionNoClient['contact_client'] = '';
-            $recipients = $this->prepareRecipients($interventionNoClient, $includeTechnicians, $extraRecipients);
         }
 
         $subject = $this->replaceTemplateVariables($template['subject'], $intervention);
@@ -1787,6 +1776,61 @@ class MailService
             }
         }
 
-        return $this->sendEmail($recipients, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, $attachmentPaths);
+        // Cas simple : le client (s'il est inclus) reçoit la même pièce jointe
+        // que tout le monde -> un seul envoi groupé, comportement inchangé.
+        if ($attachBonToClient || !$includeClient) {
+            $recipients = $includeClient
+                ? $this->prepareRecipients($intervention, $includeTechnicians, $extraRecipients)
+                : $this->prepareRecipients($this->stripClientContact($intervention), $includeTechnicians, $extraRecipients);
+
+            if (empty($recipients)) {
+                throw new Exception("Aucun destinataire trouvé pour l'intervention $interventionId");
+            }
+
+            return $this->sendEmail($recipients, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, $attachmentPaths);
+        }
+
+        // Cas où le client doit recevoir la notification SANS pièce jointe,
+        // pendant que les autres destinataires la reçoivent avec.
+        // -> deux envois séparés.
+        $overallSuccess = true;
+        $anySent = false;
+
+        // 1) Techniciens + staff choisi, AVEC pièce jointe
+        $recipientsWithAttachment = $this->prepareRecipients(
+            $this->stripClientContact($intervention),
+            $includeTechnicians,
+            $extraRecipients
+        );
+        if (!empty($recipientsWithAttachment)) {
+            $anySent = true;
+            $overallSuccess = $this->sendEmail($recipientsWithAttachment, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, $attachmentPaths) && $overallSuccess;
+        }
+
+        // 2) Client seul, SANS pièce jointe
+        $clientOnlyIntervention = $intervention;
+        // Neutraliser les canaux non-client pour n'obtenir que le(s) contact(s) client
+        $recipientsClientOnly = $this->prepareRecipients($clientOnlyIntervention, false, []);
+        if (!empty($recipientsClientOnly)) {
+            $anySent = true;
+            $overallSuccess = $this->sendEmail($recipientsClientOnly, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, []) && $overallSuccess;
+        }
+
+        if (!$anySent) {
+            throw new Exception("Aucun destinataire trouvé pour l'intervention $interventionId");
+        }
+
+        return $overallSuccess;
+    }
+
+    /**
+     * Retourne une copie de l'intervention avec les champs de contact client vidés,
+     * pour construire une liste de destinataires excluant le client.
+     */
+    private function stripClientContact(array $intervention): array
+    {
+        $intervention['site_email'] = '';
+        $intervention['contact_client'] = '';
+        return $intervention;
     }
 }

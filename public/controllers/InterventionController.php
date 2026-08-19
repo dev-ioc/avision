@@ -7070,21 +7070,18 @@ class InterventionController
             $includeClient = !empty($_POST['include_client']) && $_POST['include_client'] == '1';
             $includeTechnicians = !empty($_POST['include_technicians']) && $_POST['include_technicians'] == '1';
 
-            // Filet de sécurité : si le technicien a explicitement refusé l'envoi
-            // au client sur le pad de signature, on bloque même si la case
-            // a été re-cochée par erreur côté modale de notification.
-            $clientBlockedBySignaturePref = false;
-            if ($includeClient) {
-                $sqlPref = "SELECT client_send_email FROM intervention_local_signatures 
-                            WHERE intervention_id = ? ORDER BY signed_at DESC LIMIT 1";
-                $stmtPref = $this->db->prepare($sqlPref);
-                $stmtPref->execute([$id]);
-                $storedPref = $stmtPref->fetchColumn();
-                if ($storedPref !== false && (int) $storedPref === 0) {
-                    custom_log_mail("sendBonSignedNotification $id : envoi client bloqué (préférence enregistrée = non)", 'INFO');
-                    $includeClient = false;
-                    $clientBlockedBySignaturePref = true;
-                }
+            // Préférence enregistrée lors de la signature : le client accepte-t-il
+            // de recevoir le PDF du bon signé en pièce jointe ? Si non, il peut
+            // quand même recevoir la notification, mais SANS le PDF joint.
+            $attachBonToClient = true;
+            $sqlPref = "SELECT client_send_email FROM intervention_local_signatures 
+                        WHERE intervention_id = ? ORDER BY signed_at DESC LIMIT 1";
+            $stmtPref = $this->db->prepare($sqlPref);
+            $stmtPref->execute([$id]);
+            $storedPref = $stmtPref->fetchColumn();
+            if ($storedPref !== false && (int) $storedPref === 0) {
+                $attachBonToClient = false;
+                custom_log_mail("sendBonSignedNotification $id : envoi client sans pièce jointe (préférence enregistrée à la signature)", 'INFO');
             }
 
             $extraStaffIds = [];
@@ -7102,15 +7099,7 @@ class InterventionController
                 $extraRecipients = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
 
-            // Vérification amont : éviter un message d'erreur générique et confus
-            // quand la seule raison de l'absence de destinataire est le blocage client.
             if (!$includeClient && !$includeTechnicians && empty($extraRecipients)) {
-                if ($clientBlockedBySignaturePref) {
-                    throw new Exception(
-                        "Le client a refusé de recevoir le bon signé lors de la signature. "
-                        . "Sélectionnez au moins un technicien ou un autre destinataire pour envoyer une notification."
-                    );
-                }
                 throw new Exception("Veuillez sélectionner au moins un destinataire.");
             }
 
@@ -7127,7 +7116,8 @@ class InterventionController
                 $templateId,
                 $includeClient,
                 $includeTechnicians,
-                $extraRecipients
+                $extraRecipients,
+                $attachBonToClient
             );
 
             echo json_encode(['success' => (bool) $success, 'message' => 'Notification envoyée']);
