@@ -115,7 +115,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         </a>
                                     </td> -->
                                     <td data-label="Nom">
-                                        <?php echo htmlspecialchars($user['last_name'] ?? ''); ?>
+                                        <a href="<?php echo BASE_URL; ?>user/view/<?php echo $user['id']; ?>"
+                                            class="text-decoration-none fw-bold" title="Voir l'utilisateur">
+                                            <?php echo htmlspecialchars($user['last_name'] ?? ''); ?>
+                                        </a>
                                     </td>
                                     <td data-label="Prénom">
                                         <?php echo htmlspecialchars($user['first_name'] ?? ''); ?>

@@ -142,12 +142,12 @@ class UserModel extends BaseModel
             $isStaff = ($groupInfo['group_name'] === 'Staff');
 
             $sql = "INSERT INTO " . $this->table . " 
-                    (username, email, password, first_name, last_name, user_type_id, is_admin, status, coef_utilisateur, client_id, created_at) 
+                    ( email, password, first_name, last_name, user_type_id, is_admin, status, coef_utilisateur, client_id, created_at) 
                     VALUES 
-                    (:username, :email, :password, :first_name, :last_name, :user_type_id, :is_admin, :status, :coef_utilisateur, :client_id, NOW())";
+                    ( :email, :password, :first_name, :last_name, :user_type_id, :is_admin, :status, :coef_utilisateur, :client_id, NOW())";
 
             $stmt = $this->db->prepare($sql);
-            $stmt->bindValue(':username', $data['username']);
+            // $stmt->bindValue(':username', $data['username']);
             $stmt->bindValue(':email', $data['email']);
             $stmt->bindValue(':password', password_hash($data['password'], PASSWORD_DEFAULT));
             $stmt->bindValue(':first_name', $data['first_name']);
@@ -177,11 +177,11 @@ class UserModel extends BaseModel
             $updates = [];
             $params = [':id' => $id];
 
-            // Construction des champs à mettre à jour
-            if (isset($data['username'])) {
-                $updates[] = "username = :username";
-                $params[':username'] = $data['username'];
-            }
+            // // Construction des champs à mettre à jour
+            // if (isset($data['username'])) {
+            //     $updates[] = "username = :username";
+            //     $params[':username'] = $data['username'];
+            // }
             if (isset($data['email'])) {
                 $updates[] = "email = :email";
                 $params[':email'] = $data['email'];
@@ -738,16 +738,16 @@ class UserModel extends BaseModel
             }
 
             // Récupérer les sites
-            $query = "SELECT id, name FROM sites WHERE client_id = :client_id AND status = 1 ORDER BY name";
+            $query = "SELECT id, name FROM buildings WHERE client_id = :client_id AND status = 1 ORDER BY name";
             $stmt = $this->db->prepare($query);
             $stmt->execute(['client_id' => $clientId]);
             $sites = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             // Pour chaque site, récupérer ses salles
             foreach ($sites as &$site) {
-                $query = "SELECT id, name FROM rooms WHERE site_id = :site_id AND status = 1 ORDER BY name";
+                $query = "SELECT id, name FROM rooms WHERE building_id = :building_id AND status = 1 ORDER BY name";
                 $stmt = $this->db->prepare($query);
-                $stmt->execute(['site_id' => $site['id']]);
+                $stmt->execute(['building_id' => $site['id']]);
                 $site['rooms'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
 

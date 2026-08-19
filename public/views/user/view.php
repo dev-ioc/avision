@@ -51,7 +51,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </button>
             <?php if (isAdmin()): ?>
                 <button type="button" class="btn btn-outline-danger btn-sm"
-                    onclick="confirmDelete(<?php echo $user['id']; ?>, '<?php echo htmlspecialchars($user['username'] ?? ''); ?>')"
+                    onclick="confirmDelete(<?php echo $user['id']; ?>, '<?php echo htmlspecialchars($user['first_name'] ?? ''); ?>')"
                     title="Supprimer l'utilisateur">
                     <i class="bi bi-trash"></i>
                 </button>
@@ -83,7 +83,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0">
                     <?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?>
-                    <small class="text-muted">(<?php echo h($user['username']); ?>)</small>
+                    <small class="text-muted">(<?php echo h($user['first_name']); ?>)</small>
                 </h5>
                 <span class="badge bg-<?php echo $user['status'] ? 'success' : 'danger'; ?>">
                     <?php echo $user['status'] ? 'Actif' : 'Inactif'; ?>
@@ -98,7 +98,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     <table class="table table-borderless">
                         <tr>
                             <th style="width: 150px;">Nom d'utilisateur :</th>
-                            <td><?php echo h($user['username']); ?></td>
+                            <td><?php echo h($user['first_name']); ?></td>
                         </tr>
                         <tr>
                             <th>Email :</th>
@@ -348,15 +348,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </div>
 
 <script>
-    function confirmDelete(userId, username) {
-        if (confirm('Êtes-vous sûr de vouloir supprimer l\'utilisateur "' + username + '" ?\n\nCette action est irréversible et supprimera définitivement l\'utilisateur et toutes ses données associées.')) {
+    function confirmDelete(userId, first_name) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer l\'utilisateur "' + first_name + '" ?\n\nCette action est irréversible et supprimera définitivement l\'utilisateur et toutes ses données associées.')) {
             window.location.href = '<?php echo BASE_URL; ?>user/delete/' + userId;
         }
     }
 </script>
 <script>
-    function confirmDelete(userId, username) {
-        if (confirm('Êtes-vous sûr de vouloir supprimer l\'utilisateur "' + username + '" ?\n\nCette action est irréversible et supprimera définitivement l\'utilisateur et toutes ses données associées.')) {
+    function confirmDelete(userId, first_name) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer l\'utilisateur "' + first_name + '" ?\n\nCette action est irréversible et supprimera définitivement l\'utilisateur et toutes ses données associées.')) {
             window.location.href = '<?php echo BASE_URL; ?>user/delete/' + userId;
         }
     }
