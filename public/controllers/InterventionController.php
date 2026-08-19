@@ -7056,10 +7056,6 @@ class InterventionController
         }
     }
 
-    /**
-     * Envoie la notification "Bon signé" (client + technicien(s) + staff choisi).
-     * Appelée depuis la modale post-signature.
-     */
     public function sendBonSignedNotification($id)
     {
         $this->checkAccess();
@@ -7074,6 +7070,10 @@ class InterventionController
             $includeClient = !empty($_POST['include_client']) && $_POST['include_client'] == '1';
             $includeTechnicians = !empty($_POST['include_technicians']) && $_POST['include_technicians'] == '1';
 
+            // Filet de sécurité : si le technicien a explicitement refusé l'envoi
+            // au client sur le pad de signature, on bloque même si la case
+            // a été re-cochée par erreur côté modale de notification.
+            $clientBlockedBySignaturePref = false;
             if ($includeClient) {
                 $sqlPref = "SELECT client_send_email FROM intervention_local_signatures 
                             WHERE intervention_id = ? ORDER BY signed_at DESC LIMIT 1";
@@ -7083,6 +7083,7 @@ class InterventionController
                 if ($storedPref !== false && (int) $storedPref === 0) {
                     custom_log_mail("sendBonSignedNotification $id : envoi client bloqué (préférence enregistrée = non)", 'INFO');
                     $includeClient = false;
+                    $clientBlockedBySignaturePref = true;
                 }
             }
 
@@ -7099,6 +7100,18 @@ class InterventionController
                 );
                 $stmt->execute($extraStaffIds);
                 $extraRecipients = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+
+            // Vérification amont : éviter un message d'erreur générique et confus
+            // quand la seule raison de l'absence de destinataire est le blocage client.
+            if (!$includeClient && !$includeTechnicians && empty($extraRecipients)) {
+                if ($clientBlockedBySignaturePref) {
+                    throw new Exception(
+                        "Le client a refusé de recevoir le bon signé lors de la signature. "
+                        . "Sélectionnez au moins un technicien ou un autre destinataire pour envoyer une notification."
+                    );
+                }
+                throw new Exception("Veuillez sélectionner au moins un destinataire.");
             }
 
             require_once __DIR__ . '/../models/MailTemplateModel.php';
