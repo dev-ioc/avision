@@ -1776,8 +1776,6 @@ class MailService
             }
         }
 
-        // Cas simple : le client (s'il est inclus) reçoit la même pièce jointe
-        // que tout le monde -> un seul envoi groupé, comportement inchangé.
         if ($attachBonToClient || !$includeClient) {
             $recipients = $includeClient
                 ? $this->prepareRecipients($intervention, $includeTechnicians, $extraRecipients)
@@ -1790,30 +1788,37 @@ class MailService
             return $this->sendEmail($recipients, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, $attachmentPaths);
         }
 
-        // Cas où le client doit recevoir la notification SANS pièce jointe,
-        // pendant que les autres destinataires la reçoivent avec.
-        // -> deux envois séparés.
         $overallSuccess = true;
         $anySent = false;
 
-        // 1) Techniciens + staff choisi, AVEC pièce jointe
-        $recipientsWithAttachment = $this->prepareRecipients(
-            $this->stripClientContact($intervention),
-            $includeTechnicians,
-            $extraRecipients
-        );
-        if (!empty($recipientsWithAttachment)) {
-            $anySent = true;
-            $overallSuccess = $this->sendEmail($recipientsWithAttachment, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, $attachmentPaths) && $overallSuccess;
+        if ($includeTechnicians || !empty($extraRecipients)) {
+            try {
+                $recipientsWithAttachment = $this->prepareRecipients(
+                    $this->stripClientContact($intervention),
+                    $includeTechnicians,
+                    $extraRecipients
+                );
+                if (!empty($recipientsWithAttachment)) {
+                    $anySent = true;
+                    $overallSuccess = $this->sendEmail($recipientsWithAttachment, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, $attachmentPaths) && $overallSuccess;
+                }
+            } catch (Exception $e) {
+                // Aucun destinataire valide pour techniciens/staff : non bloquant.
+                custom_log_mail("sendBonSignedNotification $interventionId : aucun destinataire technicien/staff (" . $e->getMessage() . ")", 'INFO');
+            }
         }
 
         // 2) Client seul, SANS pièce jointe
-        $clientOnlyIntervention = $intervention;
-        // Neutraliser les canaux non-client pour n'obtenir que le(s) contact(s) client
-        $recipientsClientOnly = $this->prepareRecipients($clientOnlyIntervention, false, []);
-        if (!empty($recipientsClientOnly)) {
-            $anySent = true;
-            $overallSuccess = $this->sendEmail($recipientsClientOnly, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, []) && $overallSuccess;
+        if ($includeClient) {
+            try {
+                $recipientsClientOnly = $this->prepareRecipients($intervention, false, []);
+                if (!empty($recipientsClientOnly)) {
+                    $anySent = true;
+                    $overallSuccess = $this->sendEmail($recipientsClientOnly, $subject, $body, $template['template_type'] ?? 'custom', $interventionId, []) && $overallSuccess;
+                }
+            } catch (Exception $e) {
+                custom_log_mail("sendBonSignedNotification $interventionId : aucun destinataire client (" . $e->getMessage() . ")", 'INFO');
+            }
         }
 
         if (!$anySent) {
