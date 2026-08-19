@@ -96,10 +96,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <div class="col-md-6">
                     <h6 class="mb-3">Informations de base</h6>
                     <table class="table table-borderless">
-                        <tr>
+                        <!-- <tr>
                             <th style="width: 150px;">Nom d'utilisateur :</th>
                             <td><?php echo h($user['first_name']); ?></td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <th>Email :</th>
                             <td><?php echo h($user['email']); ?></td>
@@ -738,72 +738,72 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
         document.addEventListener('keydown', handleEscape);
     }
-function sendResetLink(userId) {
+    function sendResetLink(userId) {
 
-    showConfirmModal({
-        title: 'Réinitialisation du mot de passe',
-        message: 'Voulez-vous envoyer un lien de réinitialisation de mot de passe à cet utilisateur ?',
-        confirmText: 'Envoyer le lien',
-        cancelText: 'Annuler',
-        icon: 'bi-envelope-at',
-        iconColor: '#0d6efd',
+        showConfirmModal({
+            title: 'Réinitialisation du mot de passe',
+            message: 'Voulez-vous envoyer un lien de réinitialisation de mot de passe à cet utilisateur ?',
+            confirmText: 'Envoyer le lien',
+            cancelText: 'Annuler',
+            icon: 'bi-envelope-at',
+            iconColor: '#0d6efd',
 
-        onConfirm: () => {
+            onConfirm: () => {
 
-            // Afficher le loader
-            showLoadingOverlay('Envoi du lien de réinitialisation en cours...');
+                // Afficher le loader
+                showLoadingOverlay('Envoi du lien de réinitialisation en cours...');
 
-            // Récupérer le token CSRF
-            const csrfToken =
-                document.querySelector('meta[name="csrf-token"]')?.content ||
-                document.querySelector('input[name="csrf_token"]')?.value;
+                // Récupérer le token CSRF
+                const csrfToken =
+                    document.querySelector('meta[name="csrf-token"]')?.content ||
+                    document.querySelector('input[name="csrf_token"]')?.value;
 
-            fetch('<?php echo BASE_URL; ?>user/send-reset-link/' + userId, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-Token': csrfToken
-                },
-                body: JSON.stringify({
-                    csrf_token: csrfToken
+                fetch('<?php echo BASE_URL; ?>user/send-reset-link/' + userId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({
+                        csrf_token: csrfToken
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
+                    .then(response => response.json())
+                    .then(data => {
 
-                hideLoadingOverlay();
+                        hideLoadingOverlay();
 
-                if (data.success) {
+                        if (data.success) {
 
-                    showToast(data.message, 'success');
+                            showToast(data.message, 'success');
 
-                    if (typeof loadResetHistory === 'function') {
-                        loadResetHistory(userId);
-                    }
+                            if (typeof loadResetHistory === 'function') {
+                                loadResetHistory(userId);
+                            }
 
-                } else {
+                        } else {
 
-                    showToast(
-                        data.message || 'Une erreur est survenue',
-                        'danger'
-                    );
-                }
-            })
-            .catch(error => {
+                            showToast(
+                                data.message || 'Une erreur est survenue',
+                                'danger'
+                            );
+                        }
+                    })
+                    .catch(error => {
 
-                hideLoadingOverlay();
+                        hideLoadingOverlay();
 
-                console.error('Erreur:', error);
+                        console.error('Erreur:', error);
 
-                showToast(
-                    'Une erreur est survenue lors de l\'envoi.',
-                    'danger'
-                );
-            });
-        }
-    });
-}
+                        showToast(
+                            'Une erreur est survenue lors de l\'envoi.',
+                            'danger'
+                        );
+                    });
+            }
+        });
+    }
     function loadResetHistory(userId) {
         fetch('<?php echo BASE_URL; ?>user/reset-history/' + userId, {
             headers: {

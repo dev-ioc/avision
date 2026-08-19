@@ -121,12 +121,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </div>
                         </div>
 
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label class="text-muted small">Nom d'utilisateur</label>
                             <div class="fw-semibold">
-                                <?= htmlspecialchars($user['username'] ?? '') ?>
+                                <?= htmlspecialchars($user['first_name'] ?? '') ?>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>
