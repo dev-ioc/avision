@@ -646,7 +646,7 @@ $userGroups = $userTypeModel->getAllGroups();
             <br><br>
             <span class="text-danger">
                 <i class="bi bi-exclamation-triangle-fill me-1"></i>
-                Cette action ne peut pas être annulée.
+                Cette action est irréversible.
             </span>
         `,
 
