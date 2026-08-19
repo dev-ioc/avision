@@ -127016,3 +127016,10 @@ Quant à l’écran n°1, il est HS
 [2026-08-19 14:34:52][DEBUG] CSRF: Token trouvé dans la requête - Token: ddf6449cffa687d4e346... 
 [2026-08-19 14:34:52][DEBUG] CSRF: Token trouvé dans la requête - Token: ddf6449cffa687d4e346... 
 [2026-08-19 14:42:28][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.username' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\DocumentationController.php","line":160}
+[2026-08-19 14:46:48][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.username' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":547}
+[2026-08-19 14:47:52][Plus images sur l'écran n°4 salle du conseil Saint denis]  "Saint Denis"
+[2026-08-19 14:47:59][DEBUG] CSRF: Token trouvé dans la requête - Token: ddf6449cffa687d4e346... 
+[2026-08-19 14:47:59][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 

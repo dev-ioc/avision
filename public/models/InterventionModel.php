@@ -519,7 +519,6 @@ class InterventionModel extends BaseModel
             st.setting_value as type_nom,
             lpj.type_liaison,
             lpj.pour_bon_intervention,
-            u.username as created_by_name,
             -- Informations de signature
             ls.technicien_signature_path,
             ls.client_signature_path,
