@@ -157,7 +157,6 @@ class AuthController
             }
 
             $verified = false;
-
             // Cas 1 : code TOTP à 6 chiffres
             if (!empty($code)) {
                 $secret = TotpCrypto::decrypt($user['totp_secret']);
@@ -176,7 +175,6 @@ class AuthController
                     $this->userModel->saveBackupCodes($userId, array_values($hashedCodes));
                 }
             }
-
             $this->userModel->logTotpAttempt($userId, $verified, $_SERVER['REMOTE_ADDR'] ?? null);
 
             if ($verified) {
