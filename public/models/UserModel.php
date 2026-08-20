@@ -1211,7 +1211,7 @@ class UserModel extends BaseModel
             $stmt = $this->db->prepare("
             SELECT 
                 prt.*,
-                u.username as requested_by_username,
+                u.first_name as requested_by_username,
                 u.first_name as requested_by_first_name,
                 u.last_name as requested_by_last_name
             FROM password_reset_tokens prt
