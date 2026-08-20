@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../public/config.local.php';
 // Servir directement les fichiers statiques (assets) sans passer par le routage
 $request_uri = $_SERVER['REQUEST_URI'];
 $script_name = $_SERVER['SCRIPT_NAME'];
@@ -255,6 +256,8 @@ $id = $parts[2] ?? null;
 $public_routes = [
     'auth/login',
     'auth/logout',
+    'auth/verify-2fa',
+    'auth/cancel-2fa',
     'settings/getAllowedExtensions',
     'interventions/webhookSignature',
     'auth/forgot-password',    // Formulaire de demande de réinitialisation
@@ -329,6 +332,24 @@ try {
                     } else {
                         $authController->showLoginForm();
                     }
+                    break;
+                case 'verify-2fa':
+                    $authController->verify2fa();
+                    break;
+                case 'cancel-2fa':
+                    $authController->cancel2fa();
+                    break;
+                case 'setup-2fa':
+                    $authController->setup2fa();
+                    break;
+                case 'confirm-setup-2fa':
+                    $authController->confirmSetup2fa();
+                    break;
+                case 'backup-codes':
+                    $authController->showBackupCodes();
+                    break;
+                case 'disable-2fa':
+                    $authController->disable2fa();
                     break;
                 case 'logout':
                     $authController->logout();

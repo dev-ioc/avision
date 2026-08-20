@@ -165,6 +165,11 @@ document.addEventListener("DOMContentLoaded", function () {
           targets: 5,
           responsivePriority: 6,
         },
+        {
+          // Date de création
+          targets: 6,
+          responsivePriority: 7,
+        },
       ],
 
       initComplete: function () {

@@ -1308,4 +1308,98 @@ class UserModel extends BaseModel
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         return $user ?: null;
     }
+    /**
+     * Enregistre un nouveau secret TOTP en attente de confirmation (2FA pas encore activée)
+     */
+    public function saveTotpSecret(int $userId, string $encryptedSecret): bool
+    {
+        $stmt = $this->db->prepare("UPDATE users SET totp_secret = :secret, totp_enabled = 0, totp_confirmed_at = NULL WHERE id = :id");
+        return $stmt->execute([
+            'secret' => $encryptedSecret,
+            'id' => $userId
+        ]);
+    }
+
+    /**
+     * Active définitivement la 2FA après vérification du premier code
+     */
+    public function enableTotp(int $userId): bool
+    {
+        $stmt = $this->db->prepare("UPDATE users SET totp_enabled = 1, totp_confirmed_at = NOW() WHERE id = :id");
+        return $stmt->execute(['id' => $userId]);
+    }
+
+    /**
+     * Désactive la 2FA (par l'utilisateur lui-même ou par un admin)
+     */
+    public function disableTotp(int $userId): bool
+    {
+        $stmt = $this->db->prepare("
+        UPDATE users
+        SET totp_enabled = 0, totp_secret = NULL, totp_confirmed_at = NULL, totp_backup_codes = NULL
+        WHERE id = :id
+    ");
+        return $stmt->execute(['id' => $userId]);
+    }
+
+    /**
+     * Enregistre les codes de secours hashés (JSON)
+     */
+    public function saveBackupCodes(int $userId, array $hashedCodes): bool
+    {
+        $stmt = $this->db->prepare("UPDATE users SET totp_backup_codes = :codes WHERE id = :id");
+        return $stmt->execute([
+            'codes' => json_encode($hashedCodes),
+            'id' => $userId
+        ]);
+    }
+
+    /**
+     * Récupère les codes de secours hashés (tableau PHP)
+     */
+    public function getBackupCodes(int $userId): array
+    {
+        $stmt = $this->db->prepare("SELECT totp_backup_codes FROM users WHERE id = :id");
+        $stmt->execute(['id' => $userId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row || empty($row['totp_backup_codes'])) {
+            return [];
+        }
+
+        $decoded = json_decode($row['totp_backup_codes'], true);
+        return is_array($decoded) ? $decoded : [];
+    }
+
+    /**
+     * Enregistre une tentative de vérification 2FA (pour rate limiting)
+     */
+    public function logTotpAttempt(int $userId, bool $success, ?string $ip = null): void
+    {
+        $stmt = $this->db->prepare("INSERT INTO totp_attempts (user_id, success, ip_address, created_at) VALUES (:uid, :success, :ip, NOW())");
+        $stmt->execute([
+            'uid' => $userId,
+            'success' => $success ? 1 : 0,
+            'ip' => $ip
+        ]);
+    }
+
+    /**
+     * Compte les tentatives échouées récentes (fenêtre glissante) pour bloquer le brute-force
+     */
+    public function countRecentFailedTotpAttempts(int $userId, int $windowSeconds = 300): int
+    {
+        $stmt = $this->db->prepare("
+        SELECT COUNT(*) as nb
+        FROM totp_attempts
+        WHERE user_id = :uid
+          AND success = 0
+          AND created_at >= DATE_SUB(NOW(), INTERVAL :window SECOND)
+    ");
+        $stmt->execute(['uid' => $userId, 'window' => $windowSeconds]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return (int) ($row['nb'] ?? 0);
+    }
+
+
 }

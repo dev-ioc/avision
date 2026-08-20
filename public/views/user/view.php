@@ -122,6 +122,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     'client' => 'Client'
                                 ];
                                 echo isset($user['user_type']) ? ($typeLabels[$user['user_type']] ?? $user['user_type']) : 'Non défini';
+                                echo isset($user['user_type']) ? ($typeLabels[$user['user_type']] ?? $user['user_type']) : 'Non défini';
                                 ?>
                             </td>
                         </tr>
@@ -135,6 +136,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </div>
 
                 <!-- Permissions -->
+                <?php if (isset($user['user_type']) && in_array($user['user_type'], ['technicien', 'client']) && !empty($userPermissions)): ?>
                 <?php if (isset($user['user_type']) && in_array($user['user_type'], ['technicien', 'client']) && !empty($userPermissions)): ?>
                     <div class="col-md-6">
                         <h6 class="mb-3">Permissions</h6>
@@ -171,7 +173,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     </div>
                 <?php endif; ?>
             </div>
-
             <!-- Localisations pour les utilisateurs de type client -->
              <?php if (isset($user['user_type']) && $user['user_type'] === 'client'): ?>
                 <div class="row mt-4">
