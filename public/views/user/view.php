@@ -171,7 +171,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     </div>
                 <?php endif; ?>
             </div>
-
             <!-- Localisations pour les utilisateurs de type client -->
             <?php if (isset($user['user_type']) && $user['user_type'] === 'client'): ?>
                 <div class="row mt-4">
