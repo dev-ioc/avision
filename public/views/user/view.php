@@ -83,7 +83,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0">
                     <?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?>
-                    <small class="text-muted">(<?php echo h($user['first_name']); ?>)</small>
+                    <small class="text-muted">(
+                        <?php echo h($user['first_name']); ?>)
+                    </small>
                 </h5>
                 <span class="badge bg-<?php echo $user['status'] ? 'success' : 'danger'; ?>">
                     <?php echo $user['status'] ? 'Actif' : 'Inactif'; ?>
@@ -102,15 +104,21 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </tr> -->
                         <tr>
                             <th>Email :</th>
-                            <td><?php echo h($user['email']); ?></td>
+                            <td>
+                                <?php echo h($user['email']); ?>
+                            </td>
                         </tr>
                         <tr>
                             <th>Prénom :</th>
-                            <td><?php echo h($user['first_name']); ?></td>
+                            <td>
+                                <?php echo h($user['first_name']); ?>
+                            </td>
                         </tr>
                         <tr>
                             <th>Nom :</th>
-                            <td><?php echo h($user['last_name']); ?></td>
+                            <td>
+                                <?php echo h($user['last_name']); ?>
+                            </td>
                         </tr>
                         <tr>
                             <th>Type :</th>
@@ -129,14 +137,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <?php if (isset($user['user_type']) && in_array($user['user_type'], ['technicien', 'client']) && !empty($userPermissions)): ?>
                             <tr>
                                 <th>Coefficient :</th>
-                                <td><?php echo number_format($user['coef_utilisateur'], 2); ?></td>
+                                <td>
+                                    <?php echo number_format($user['coef_utilisateur'], 2); ?>
+                                </td>
                             </tr>
                         <?php endif; ?>
                     </table>
                 </div>
 
                 <!-- Permissions -->
-                <?php if (isset($user['user_type']) && in_array($user['user_type'], ['technicien', 'client']) && !empty($userPermissions)): ?>
                 <?php if (isset($user['user_type']) && in_array($user['user_type'], ['technicien', 'client']) && !empty($userPermissions)): ?>
                     <div class="col-md-6">
                         <h6 class="mb-3">Permissions</h6>
@@ -174,7 +183,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <?php endif; ?>
             </div>
             <!-- Localisations pour les utilisateurs de type client -->
-             <?php if (isset($user['user_type']) && $user['user_type'] === 'client'): ?>
+            <?php if (isset($user['user_type']) && $user['user_type'] === 'client'): ?>
                 <div class="row mt-4">
                     <div class="col-12">
                         <h6 class="mb-3">Localisations</h6>
@@ -223,7 +232,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         ?>
                                         <div class="card mb-3">
                                             <div class="card-header py-2">
-                                                <h6 class="mb-0"><?php echo h($client['name']); ?></h6>
+                                                <h6 class="mb-0">
+                                                    <?php echo h($client['name']); ?>
+                                                </h6>
                                             </div>
                                             <div class="card-body py-2">
                                                 <?php if ($locations['client_full']): ?>
