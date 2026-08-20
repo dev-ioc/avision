@@ -6,7 +6,7 @@ if (!defined('BASE_URL')) {
 }
 
 require_once __DIR__ . '/../includes/TotpCrypto.php';
-require_once __DIR__ . '/../vendor/autoload.php';
+
 use OTPHP\TOTP;
 
 /**
@@ -233,10 +233,6 @@ class AuthController
         header('Location: ' . BASE_URL . 'dashboard');
     }
 
-    // ============================================================
-    //  GESTION DE L'ACTIVATION / DÉSACTIVATION DE LA 2FA (profil)
-    // ============================================================
-
     /**
      * Affiche l'écran d'activation de la 2FA : génère un secret temporaire + QR code
      * (le secret n'est enregistré en base qu'après confirmation du premier code)
@@ -256,18 +252,19 @@ class AuthController
             exit;
         }
 
-        // Génération d'un nouveau secret à chaque affichage du formulaire (tant que non confirmé)
-        $totp = TOTP::generate();
+        if (!empty($_SESSION['pending_totp_secret'])) {
+            $totp = TOTP::createFromSecret($_SESSION['pending_totp_secret']);
+        } else {
+            $totp = TOTP::generate();
+            $_SESSION['pending_totp_secret'] = $totp->getSecret();
+        }
         $totp->setLabel($user['email']);
         $totp->setIssuer(defined('SITE_NAME') ? SITE_NAME : 'AVISION');
-
-        // On garde le secret en clair en session le temps de la confirmation uniquement
-        $_SESSION['pending_totp_secret'] = $totp->getSecret();
 
         $provisioningUri = $totp->getProvisioningUri();
 
         // Génération du QR code en SVG (aucun appel à un service externe)
-
+        require_once __DIR__ . '/../vendor/autoload.php';
         $builder = new \Endroid\QrCode\Builder\Builder(
             writer: new \Endroid\QrCode\Writer\PngWriter(),
             data: $provisioningUri,

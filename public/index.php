@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../config.local.php';
+require_once __DIR__ . '/../public/config.local.php';
 // Servir directement les fichiers statiques (assets) sans passer par le routage
 $request_uri = $_SERVER['REQUEST_URI'];
 $script_name = $_SERVER['SCRIPT_NAME'];

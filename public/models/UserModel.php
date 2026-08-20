@@ -1401,4 +1401,5 @@ class UserModel extends BaseModel
         return (int) ($row['nb'] ?? 0);
     }
 
+
 }
