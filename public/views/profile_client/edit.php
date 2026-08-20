@@ -140,7 +140,45 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     </div>
                 </div>
             </div>
+            <!-- 2FA -->
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="text-primary mb-3">
+                            <i class="bi bi-shield-check"></i> Double authentification (2FA)
+                        </h6>
 
+                        <?php if (!empty($user['totp_enabled'])): ?>
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                <div>
+                                    <span class="badge bg-success mb-1">
+                                        <i class="bi bi-shield-check"></i> Activée
+                                    </span>
+                                    <p class="text-muted small mb-0">
+                                        Votre compte est protégé par une double authentification.
+                                    </p>
+                                </div>
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#disable2faModal">
+                                    Désactiver
+                                </button>
+                            </div>
+                        <?php else: ?>
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                <div>
+                                    <span class="badge bg-light text-muted border mb-1">Désactivée</span>
+                                    <p class="text-muted small mb-0">
+                                        Ajoutez une couche de sécurité supplémentaire à votre compte.
+                                    </p>
+                                </div>
+                                <a href="<?= BASE_URL ?>auth/setup-2fa" class="btn btn-primary btn-sm">
+                                    Activer la 2FA
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- ACTIONS -->
@@ -155,7 +193,30 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     </form>
 </div>
-
+<?php if (!empty($user['totp_enabled'])): ?>
+    <div class="modal fade" id="disable2faModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="<?= BASE_URL ?>auth/disable-2fa">
+                    <?= csrf_field() ?>
+                    <div class="modal-header">
+                        <h5 class="modal-title">Désactiver la double authentification</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-2">Pour confirmer, saisissez votre mot de passe actuel.</p>
+                        <input type="password" name="password" class="form-control" required autocomplete="current-password"
+                            placeholder="Mot de passe">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-danger">Désactiver</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.querySelector('form');

@@ -96,6 +96,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <th>Email</th>
                             <th>Type</th>
                             <th>Statut</th>
+                            <th>2FA</th>
                             <th>Date de création</th>
                         </tr>
                     </thead>
@@ -165,6 +166,18 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <span class="badge bg-success">Actif</span>
                                         <?php else: ?>
                                             <span class="badge bg-danger">Inactif</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td data-label="2FA" data-order="<?php echo !empty($user['totp_enabled']) ? 1 : 0; ?>">
+                                        <?php if (!empty($user['totp_enabled'])): ?>
+                                            <span class="badge bg-success" title="Double authentification activée">
+                                                <i class="bi bi-shield-check"></i> Activée
+                                            </span>
+                                        <?php else: ?>
+                                            <span class="badge bg-light text-muted border"
+                                                title="Double authentification désactivée">
+                                                Désactivée
+                                            </span>
                                         <?php endif; ?>
                                     </td>
                                     <td data-label="Date de création"

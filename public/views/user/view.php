@@ -121,11 +121,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     'technicien' => 'Technicien',
                                     'client' => 'Client'
                                 ];
-                                echo isset($user['type']) ? ($typeLabels[$user['type']] ?? $user['type']) : 'Non défini';
+                                echo isset($user['user_type']) ? ($typeLabels[$user['user_type']] ?? $user['user_type']) : 'Non défini';
                                 ?>
                             </td>
                         </tr>
-                        <?php if (isset($user['type']) && $user['type'] === 'technicien'): ?>
+                        <?php if (isset($user['user_type']) && $user['user_type'] === 'technicien'): ?>
                             <tr>
                                 <th>Coefficient :</th>
                                 <td><?php echo number_format($user['coef_utilisateur'], 2); ?></td>
@@ -135,7 +135,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </div>
 
                 <!-- Permissions -->
-                <?php if (isset($user['type']) && in_array($user['type'], ['technicien', 'client']) && !empty($userPermissions)): ?>
+                <?php if (isset($user['user_type']) && in_array($user['user_type'], ['technicien', 'client']) && !empty($userPermissions)): ?>
                     <div class="col-md-6">
                         <h6 class="mb-3">Permissions</h6>
                         <div class="permissions-list">
@@ -173,7 +173,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
 
             <!-- Localisations pour les utilisateurs de type client -->
-            <?php if (isset($user['type']) && $user['type'] === 'client'): ?>
+            <?php if (isset($user['user_type']) && $user['user_type'] === 'client'): ?>
                 <div class="row mt-4">
                     <div class="col-12">
                         <h6 class="mb-3">Localisations</h6>
