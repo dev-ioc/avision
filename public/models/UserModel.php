@@ -320,9 +320,10 @@ class UserModel extends BaseModel
     {
         try {
             $stmt = $this->db->prepare("
-                SELECT u.id,u.password, u.email, u.first_name, u.last_name, 
-                       u.status, u.coef_utilisateur, u.client_id, u.is_admin,
-                       ut.name as user_type, ug.name as user_group
+                SELECT u.id, u.password, u.email, u.first_name, u.last_name, 
+                    u.status, u.coef_utilisateur, u.client_id, u.is_admin,
+                    u.totp_enabled,
+                    ut.name as user_type, ug.name as user_group
                 FROM users u
                 JOIN user_types ut ON u.user_type_id = ut.id
                 JOIN user_groups ug ON ut.group_id = ug.id
@@ -348,7 +349,6 @@ class UserModel extends BaseModel
                 // Stockage dans la session
                 $_SESSION['user'] = [
                     'id' => $this->id,
-                    // 'username' => $this->username,
                     'email' => $this->email,
                     'first_name' => $this->firstName,
                     'last_name' => $this->lastName,
@@ -356,6 +356,7 @@ class UserModel extends BaseModel
                     'user_group' => $user['user_group'],
                     'is_admin' => $user['is_admin'],
                     'client_id' => $user['client_id'],
+                    'totp_enabled' => $user['totp_enabled'], // <-- ajouter
                     'permissions' => $this->permissions
                 ];
 
