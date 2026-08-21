@@ -413,6 +413,17 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     required>
                             </div>
                         </div>
+                        <?php if (!empty($_SESSION['error'])): ?>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    showToast(
+                                        <?= json_encode($_SESSION['error'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>,
+                                        'danger'
+                                    );
+                                });
+                            </script>
+                            <?php unset($_SESSION['error']); ?>
+                        <?php endif; ?>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                             <button type="submit" class="btn btn-danger">Désactiver la 2FA</button>
