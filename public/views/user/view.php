@@ -361,16 +361,32 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <?php if (isAdmin()): ?>
                 <?php $totpEnabled = !empty($_SESSION['user']['totp_enabled']); ?>
 
-                <?php if (!$totpEnabled): ?>
+                <?php if ($totpEnabled): ?>
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <span class="badge bg-success mb-1">Activée</span>
+                            <p class="text-muted small mb-0">
+                                L'authentification à deux facteurs est activée.
+                            </p>
+                        </div>
+
+                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="disable2FA()">
+                            <i class="bi bi-shield-x me-1"></i>
+                            Désactiver la 2FA
+                        </button>
+                    </div>
+
+                <?php else: ?>
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
                         <div>
                             <span class="badge bg-light text-muted border mb-1">Désactivée</span>
                             <p class="text-muted small mb-0">
-                                Ajoutez une couche de sécurité supplémentaire à votre compte.
+                                L'authentification à deux facteurs n'est pas activée.
                             </p>
                         </div>
 
                         <a href="<?= BASE_URL ?>auth/setup-2fa" class="btn btn-primary btn-sm">
+                            <i class="bi bi-shield-check me-1"></i>
                             Activer la 2FA
                         </a>
                     </div>
