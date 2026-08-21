@@ -370,6 +370,11 @@ class AuthController
                 header('Location: ' . BASE_URL . 'profileClient');
                 exit;
             }
+            $this->userModel->disableTotp($_SESSION['user']['id']);
+            $_SESSION['user']['totp_enabled'] = 0;
+            $_SESSION['success'] = "La double authentification a été désactivée.";
+            header('Location: ' . BASE_URL . 'profileClient');
+            exit;
         }
         if (!$this->userModel->authenticate($email, $password)) {
             $_SESSION['error'] = "Mot de passe incorrect. La 2FA n'a pas été désactivée.";
