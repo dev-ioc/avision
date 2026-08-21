@@ -130,7 +130,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     'client' => 'Client'
                                 ];
                                 echo isset($user['user_type']) ? ($typeLabels[$user['user_type']] ?? $user['user_type']) : 'Non défini';
-                                echo isset($user['user_type']) ? ($typeLabels[$user['user_type']] ?? $user['user_type']) : 'Non défini';
                                 ?>
                             </td>
                         </tr>
