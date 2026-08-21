@@ -88,6 +88,7 @@ $closeReason = [];
 			<?php
 			$user = $_SESSION['user'];
 			$isAdmin = isAdmin();
+			$isStaff = isStaff();
 			?>
 
 			<a href="<?= BASE_URL ?>interventions/generateBon/<?= $intervention['id'] ?>" class="btn btn-info me-2">
@@ -153,7 +154,7 @@ $closeReason = [];
 				</button>
 			<?php endif; ?>
 
-			<?php if ($isAdmin): ?>
+			<?php if ($isAdmin || $isStaff): ?>
 				<?php
 				$reference = $intervention['reference'] ?? ('ID ' . ($intervention['id'] ?? ''));
 				$ticketsUsed = (float) ($intervention['tickets_used'] ?? 0);
@@ -174,7 +175,7 @@ $closeReason = [];
 	</div>
 
 	<!-- ── Modale suppression ─────────────────────────────────────────────── -->
-	<?php if ($isAdmin): ?>
+	<?php if ($isAdmin || $isStaff): ?>
 		<div class="modal fade" id="deleteInterventionModal" tabindex="-1" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">

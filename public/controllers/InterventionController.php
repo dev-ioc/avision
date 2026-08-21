@@ -1626,20 +1626,15 @@ class InterventionController
      */
     private function checkPermission($module, $action)
     {
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user']))
             return false;
-        }
-        if (isAdmin()) {
+        if (isAdmin())
             return true;
-        }
 
         $permission = 'tech_' . $action;
-
-        custom_log("Vérification permission pour {$permission} : " . json_encode($_SESSION['user']['permissions']), 'DEBUG');
-
-        return isset($_SESSION['user']['permissions']['rights'][$permission]) && $_SESSION['user']['permissions']['rights'][$permission] === true;
+        return isset($_SESSION['user']['permissions']['rights'][$permission])
+            && $_SESSION['user']['permissions']['rights'][$permission] === true;
     }
-
     /**
      * Récupère les contrats d'un client
      */
@@ -3478,13 +3473,11 @@ class InterventionController
      */
     public function delete($id)
     {
-        // Vérifier les permissions - admin seulement
-        if (!isset($_SESSION['user']) || !isAdmin()) {
-            $_SESSION['error'] = "Seuls les administrateurs peuvent supprimer des interventions.";
+        if (!canDeleteInterventions()) {
+            $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour supprimer des interventions.";
             header('Location: ' . $this->getInterventionsListUrl());
             exit;
         }
-
         // Sécurité: ne pas autoriser une suppression via GET (confirmation + CSRF via POST)
         if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
             $_SESSION['error'] = "Suppression non autorisée sans confirmation (POST requis).";
