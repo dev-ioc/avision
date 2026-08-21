@@ -138,7 +138,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <tr>
                                 <th>Coefficient :</th>
                                 <td>
-                                    <?php echo number_format($user['coef_utilisateur'], 2); ?>
+                                    <?php echo number_format($user['coef_utilisateur'] ?? 0, 2); ?>
                                 </td>
                             </tr>
                         <?php endif; ?>
