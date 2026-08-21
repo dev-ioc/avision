@@ -366,14 +366,14 @@ class AuthController
         // On revérifie le mot de passe avant de désactiver une mesure de sécurité
         if (!$this->userModel->authenticate($email, $password)) {
             $_SESSION['error'] = "Mot de passe incorrect. La 2FA n'a pas été désactivée.";
-            header('Location: ' . BASE_URL . 'dashboard');
+            header('Location: ' . BASE_URL . 'user/view/' . $_SESSION['user']['id']);
             exit;
         }
 
         $this->userModel->disableTotp($_SESSION['user']['id']);
         $_SESSION['user']['totp_enabled'] = 0;
         $_SESSION['success'] = "La double authentification a été désactivée.";
-        header('Location: ' . BASE_URL . 'dashboard');
+        header('Location: ' . BASE_URL . 'user/view/' . $_SESSION['user']['id']);
         exit;
     }
 
