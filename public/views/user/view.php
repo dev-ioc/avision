@@ -296,7 +296,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <?php endif; ?>
         </div>
         <!-- Ajouter une section pour l'historique des réinitialisations -->
-        <div class="row mt-4">
+        <div class="row mt-8">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header py-2">
@@ -354,7 +354,28 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <?php endif; ?>
                     </div>
                 </div>
+
             </div>
+        </div>
+        <div class="row mt-12 p-2">
+            <?php if (isAdmin()): ?>
+                <?php $totpEnabled = !empty($_SESSION['user']['totp_enabled']); ?>
+
+                <?php if (!$totpEnabled): ?>
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <span class="badge bg-light text-muted border mb-1">Désactivée</span>
+                            <p class="text-muted small mb-0">
+                                Ajoutez une couche de sécurité supplémentaire à votre compte.
+                            </p>
+                        </div>
+
+                        <a href="<?= BASE_URL ?>auth/setup-2fa" class="btn btn-primary btn-sm">
+                            Activer la 2FA
+                        </a>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>
