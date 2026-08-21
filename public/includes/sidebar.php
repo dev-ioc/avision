@@ -233,7 +233,7 @@ require_once __DIR__ . '/functions.php';
         </a>
       </li>
 
-      <?php if (canModifyOwnInfo()): ?>
+      <?php if (!canModifyOwnInfo()): ?>
         <li class="menu-item <?php echo isActivePage('profileClient'); ?>">
           <a href="<?php echo BASE_URL; ?>profileClient" class="menu-link">
             <i class="menu-icon bi bi-person"></i>
@@ -241,7 +241,6 @@ require_once __DIR__ . '/functions.php';
           </a>
         </li>
       <?php endif; ?>
-
       <?php if (canManageOwnContacts()): ?>
         <li class="menu-item <?php echo isActivePage('contactClient'); ?>">
           <a href="<?php echo BASE_URL; ?>contactClient" class="menu-link">

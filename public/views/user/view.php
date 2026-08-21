@@ -296,7 +296,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <?php endif; ?>
         </div>
         <div class="card-body py-2">
-            <?php if (isAdmin()): ?>
+            <?php if ($user['email'] == $_SESSION['user']['email']): ?>
                 <?php $totpEnabled = !empty($_SESSION['user']['totp_enabled']); ?>
 
                 <?php if ($totpEnabled): ?>
