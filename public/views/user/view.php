@@ -307,8 +307,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 L'authentification à deux facteurs est activée.
                             </p>
                         </div>
-
-                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="disable2FA()">
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#disable2faModal">
                             <i class="bi bi-shield-x me-1"></i>
                             Désactiver la 2FA
                         </button>
@@ -393,8 +393,35 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
             </div>
         </div>
-
     </div>
+    <?php if (!empty($_SESSION['user']['totp_enabled'])): ?>
+        <!-- Modal de confirmation pour désactiver la 2FA -->
+        <div class="modal fade" id="disable2faModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="POST" action="<?= BASE_URL ?>auth/disable-2fa">
+                        <?= csrf_field() ?>
+                        <div class="modal-header">
+                            <h5 class="modal-title">Désactiver la double authentification</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-muted">Pour confirmer, veuillez saisir votre mot de passe actuel.</p>
+                            <div class="mb-3">
+                                <label for="disable2fa_password" class="form-label">Mot de passe</label>
+                                <input type="password" class="form-control" id="disable2fa_password" name="password"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-danger">Désactiver la 2FA</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>
 
 <script>
