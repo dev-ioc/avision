@@ -387,18 +387,17 @@ class ContractModel extends BaseModel
     public function getAllContracts($filters = [])
     {
         $sql = "SELECT DISTINCT
-                    c.*,
-                    ct.name as contract_type_name,
-                    cl.name as client_name
-                FROM contracts c
-                LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
-                LEFT JOIN clients cl ON c.client_id = cl.id
-                WHERE 1=1
-                AND c.contract_type_id IS NOT NULL";
+                c.*,
+                ct.name AS contract_type_name,
+                cl.name AS client_name
+            FROM contracts c
+            LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
+            LEFT JOIN clients cl ON c.client_id = cl.id
+            WHERE 1=1
+            AND c.contract_type_id IS NOT NULL";
 
         $params = [];
 
-        // Appliquer les filtres
         if (!empty($filters['client_id'])) {
             $sql .= " AND c.client_id = :client_id";
             $params[':client_id'] = $filters['client_id'];
@@ -414,7 +413,25 @@ class ContractModel extends BaseModel
             $params[':status'] = $filters['status'];
         }
 
-        // Filtre par type de tickets
+        // Filtre par catégorie : correspondance slug URL -> ID réel
+        if (!empty($filters['contract_filter']) && $filters['contract_filter'] !== 'all') {
+            $contractTypeIds = [
+                'base' => 1,
+                'silver' => 2,
+                'gold' => 3,
+                'platinum' => 5,
+                'tickets' => 6,
+            ];
+
+            $contractFilter = strtolower(trim($filters['contract_filter']));
+
+            if (isset($contractTypeIds[$contractFilter])) {
+                $sql .= " AND c.contract_type_id = :category_contract_type_id";
+                $params[':category_contract_type_id'] = $contractTypeIds[$contractFilter];
+            }
+        }
+
+        // Ancien filtre conservé si d'autres écrans l'utilisent encore
         if (!empty($filters['ticket_type'])) {
             if ($filters['ticket_type'] === 'with_tickets') {
                 $sql .= " AND c.isticketcontract = 1";
@@ -427,16 +444,17 @@ class ContractModel extends BaseModel
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
+
         $contracts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Pour chaque contrat, récupérer les salles associées
         foreach ($contracts as &$contract) {
             $contract['rooms'] = $this->getContractRooms($contract['id']);
         }
 
+        unset($contract);
+
         return $contracts;
     }
-
     public function getContractRooms($contractId)
     {
         $sql = "SELECT r.id as room_id, r.name as room_name, s.name as site_name, b.name as building_name
