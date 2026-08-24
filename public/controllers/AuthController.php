@@ -6,8 +6,23 @@ if (!defined('BASE_URL')) {
 }
 
 require_once __DIR__ . '/../includes/TotpCrypto.php';
+require_once __DIR__ . '/../includes/WebauthnSerializer.php';
 
 use OTPHP\TOTP;
+use Webauthn\PublicKeyCredentialRpEntity;
+use Webauthn\PublicKeyCredentialUserEntity;
+use Webauthn\PublicKeyCredentialCreationOptions;
+use Webauthn\PublicKeyCredentialRequestOptions;
+use Webauthn\PublicKeyCredentialParameters;
+use Webauthn\AuthenticatorSelectionCriteria;
+use Webauthn\PublicKeyCredential;
+use Webauthn\AuthenticatorAttestationResponse;
+use Webauthn\AuthenticatorAssertionResponse;
+use Webauthn\AuthenticatorAttestationResponseValidator;
+use Webauthn\AuthenticatorAssertionResponseValidator;
+use Webauthn\CeremonyStep\CeremonyStepManagerFactory;
+use Webauthn\PublicKeyCredentialSource;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
 /**
  * Contrôleur d'authentification
@@ -529,6 +544,181 @@ class AuthController
         }
 
         header('Location: ' . BASE_URL . 'auth/forgot-password');
+        exit;
+    }
+
+    public function webauthnRegisterOptions()
+    {
+        header('Content-Type: application/json; charset=UTF-8');
+
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'error' => 'Non authentifié.']);
+            exit;
+        }
+
+        $user = $_SESSION['user'];
+        $challenge = random_bytes(32);
+        $challengeId = bin2hex(random_bytes(16));
+
+        $this->userModel->saveWebauthnChallenge($challengeId, $user['id'], $challenge, 'registration', '+5 minutes');
+
+        $rpEntity = PublicKeyCredentialRpEntity::create(SITE_NAME, parse_url(BASE_URL, PHP_URL_HOST));
+        $userEntity = PublicKeyCredentialUserEntity::create($user['email'], (string) $user['id'], $user['email']);
+
+        $options = PublicKeyCredentialCreationOptions::create(
+            rp: $rpEntity,
+            user: $userEntity,
+            challenge: $challenge,
+            pubKeyCredParams: [
+                PublicKeyCredentialParameters::create('public-key', -7),
+                PublicKeyCredentialParameters::create('public-key', -257),
+            ],
+            authenticatorSelection: AuthenticatorSelectionCriteria::create(
+                userVerification: AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED,
+                residentKey: AuthenticatorSelectionCriteria::RESIDENT_KEY_REQUIREMENT_REQUIRED
+            ),
+            attestation: 'none',
+            timeout: 60000
+        );
+
+        $serializer = WebauthnSerializer::get();
+        $optionsJson = $serializer->serialize($options, 'json', [
+            AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
+        ]);
+
+        echo json_encode([
+            'success' => true,
+            'challengeId' => $challengeId,
+            'options' => json_decode($optionsJson), // ré-emballé dans notre enveloppe JSON de réponse
+        ]);
+        exit;
+    }
+
+    // --- Enregistrement : vérification ---
+    public function webauthnRegisterVerify()
+    {
+        header('Content-Type: application/json; charset=UTF-8');
+
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'error' => 'Non authentifié.']);
+            exit;
+        }
+
+        $rawInput = file_get_contents('php://input');
+        $input = json_decode($rawInput, true);
+        $challengeId = $input['challengeId'] ?? null;
+        $friendlyName = trim($input['name'] ?? 'Appareil sans nom');
+        $credentialJson = json_encode($input['credential'] ?? []); // on ré-encode la partie credential seule
+
+        try {
+            $stored = $this->userModel->getWebauthnChallenge($challengeId, 'registration');
+            if (!$stored || $stored['user_id'] != $_SESSION['user']['id']) {
+                throw new Exception('Challenge invalide ou expiré.');
+            }
+
+            $serializer = WebauthnSerializer::get();
+
+            /** @var PublicKeyCredential $publicKeyCredential */
+            $publicKeyCredential = $serializer->deserialize($credentialJson, PublicKeyCredential::class, 'json');
+
+            if (!$publicKeyCredential->response instanceof AuthenticatorAttestationResponse) {
+                throw new Exception('Réponse d\'authentificateur invalide.');
+            }
+
+            // Reconstruction des options telles qu'envoyées (nécessaire pour la vérification du challenge/rpId)
+            $rpEntity = PublicKeyCredentialRpEntity::create(SITE_NAME, parse_url(BASE_URL, PHP_URL_HOST));
+            $userEntity = PublicKeyCredentialUserEntity::create(
+                $_SESSION['user']['email'],
+                (string) $_SESSION['user']['id'],
+                $_SESSION['user']['email']
+            );
+            $originalOptions = PublicKeyCredentialCreationOptions::create(
+                rp: $rpEntity,
+                user: $userEntity,
+                challenge: $stored['challenge'],
+                pubKeyCredParams: [
+                    PublicKeyCredentialParameters::create('public-key', -7),
+                    PublicKeyCredentialParameters::create('public-key', -257),
+                ]
+            );
+
+            $csmFactory = new CeremonyStepManagerFactory();
+            $validator = AuthenticatorAttestationResponseValidator::create($csmFactory->creationCeremony());
+
+            $credentialSource = $validator->check(
+                $publicKeyCredential->response,
+                $originalOptions,
+                parse_url(BASE_URL, PHP_URL_HOST)
+            );
+
+            $this->userModel->saveWebauthnCredential(
+                $_SESSION['user']['id'],
+                base64_encode($credentialSource->publicKeyCredentialId),
+                base64_encode($serializer->serialize($credentialSource, 'json')), // stockage simplifié, voir note
+                $credentialSource->transports,
+                $friendlyName
+            );
+
+            $this->userModel->deleteWebauthnChallenge($challengeId);
+
+            custom_log("Passkey enregistrée pour user_id: " . $_SESSION['user']['id'], 'DEBUG');
+            echo json_encode(['success' => true]);
+        } catch (Exception $e) {
+            custom_log("Erreur webauthn register-verify: " . $e->getMessage(), 'ERROR');
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Impossible d\'enregistrer la passkey.']);
+        }
+        exit;
+    }
+    // Dans AuthController.php
+
+    public function webauthnLoginOptions()
+    {
+        header('Content-Type: application/json; charset=UTF-8');
+
+        $email = $_POST['email'] ?? $_GET['email'] ?? null;
+
+        try {
+            $result = $this->userModel->getUserByEmail($email);
+            echo json_encode(['success' => true] + $result);
+        } catch (Exception $e) {
+            custom_log("Erreur WebAuthn login-options: " . $e->getMessage(), 'ERROR');
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Impossible de générer les options.']);
+        }
+        exit;
+    }
+
+    public function webauthnLoginVerify()
+    {
+        header('Content-Type: application/json; charset=UTF-8');
+
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        try {
+            $userId = $this->userModel->getWebauthnCredentialById($input['credential']['rawId']);
+
+            if (!$userId) {
+                http_response_code(401);
+                echo json_encode(['success' => false, 'error' => 'Authentification échouée.']);
+                exit;
+            }
+
+            // Réutiliser votre logique de session existante (celle après verify2fa)
+            $user = $this->userModel->getUserById($userId);
+            $_SESSION['user'] = $user;
+
+            $redirect = $_SESSION['redirect_after_login'] ?? BASE_URL . 'dashboard';
+            unset($_SESSION['redirect_after_login']);
+
+            echo json_encode(['success' => true, 'redirect' => $redirect]);
+        } catch (Exception $e) {
+            custom_log("Erreur WebAuthn login-verify: " . $e->getMessage(), 'ERROR');
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
         exit;
     }
 }

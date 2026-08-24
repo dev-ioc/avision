@@ -2,6 +2,7 @@
     "require": {
         "phpoffice/phpspreadsheet": "^4.4",
         "endroid/qr-code": "^6.0",
-        "spomky-labs/otphp": "^11.5"
+        "spomky-labs/otphp": "^11.5",
+        "web-auth/webauthn-lib": "^5.3"
     }
 }

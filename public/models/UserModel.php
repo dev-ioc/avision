@@ -1402,5 +1402,180 @@ class UserModel extends BaseModel
         return (int) ($row['nb'] ?? 0);
     }
 
+    // ==========================================================
+    // WebAuthn / Passkeys
+    // ==========================================================
 
+    /**
+     * Stocke un challenge WebAuthn temporaire (enregistrement ou authentification)
+     */
+    public function saveWebauthnChallenge(string $challengeId, ?int $userId, string $challenge, string $type, string $expiresModifier = '+5 minutes'): bool
+    {
+        try {
+            $expiresAt = date('Y-m-d H:i:s', strtotime($expiresModifier));
+
+            $stmt = $this->db->prepare("
+                INSERT INTO webauthn_challenges (id, user_id, challenge, type, expires_at)
+                VALUES (:id, :user_id, :challenge, :type, :expires_at)
+            ");
+            return $stmt->execute([
+                'id' => $challengeId,
+                'user_id' => $userId,
+                'challenge' => $challenge,
+                'type' => $type,
+                'expires_at' => $expiresAt
+            ]);
+        } catch (PDOException $e) {
+            custom_log("Erreur saveWebauthnChallenge : " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
+
+    /**
+     * Récupère un challenge WebAuthn s'il existe et n'est pas expiré
+     * @return array|null ['user_id' => int|null, 'challenge' => string]
+     */
+    public function getWebauthnChallenge(string $challengeId, string $type): ?array
+    {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT user_id, challenge
+                FROM webauthn_challenges
+                WHERE id = :id AND type = :type AND expires_at > NOW()
+            ");
+            $stmt->execute(['id' => $challengeId, 'type' => $type]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row ?: null;
+        } catch (PDOException $e) {
+            custom_log("Erreur getWebauthnChallenge : " . $e->getMessage(), 'ERROR');
+            return null;
+        }
+    }
+
+    /**
+     * Supprime un challenge WebAuthn (usage unique)
+     */
+    public function deleteWebauthnChallenge(string $challengeId): bool
+    {
+        $stmt = $this->db->prepare("DELETE FROM webauthn_challenges WHERE id = :id");
+        return $stmt->execute(['id' => $challengeId]);
+    }
+
+    /**
+     * Nettoie les challenges expirés (à appeler périodiquement, ex. cron ou dans login-options)
+     */
+    public function cleanupExpiredWebauthnChallenges(): bool
+    {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM webauthn_challenges WHERE expires_at < NOW()");
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            custom_log("Erreur cleanupExpiredWebauthnChallenges : " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
+
+    /**
+     * Enregistre une nouvelle passkey pour un utilisateur
+     */
+    public function saveWebauthnCredential(int $userId, string $credentialId, string $publicKey, ?array $transports, string $friendlyName): bool
+    {
+        try {
+            $stmt = $this->db->prepare("
+                INSERT INTO webauthn_credentials (id, user_id, public_key, sign_count, transports, name, created_at)
+                VALUES (:id, :user_id, :public_key, 0, :transports, :name, NOW())
+            ");
+            $result = $stmt->execute([
+                'id' => $credentialId,
+                'user_id' => $userId,
+                'public_key' => $publicKey,
+                'transports' => $transports ? json_encode($transports) : null,
+                'name' => $friendlyName
+            ]);
+
+            if ($result) {
+                custom_log("Passkey enregistrée pour user_id: {$userId}", 'INFO');
+            }
+            return $result;
+        } catch (PDOException $e) {
+            custom_log("Erreur saveWebauthnCredential : " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
+
+    /**
+     * Récupère une credential WebAuthn par son ID (utilisé lors du login pour retrouver l'utilisateur)
+     */
+    public function getWebauthnCredentialById(string $credentialId): ?array
+    {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT id, user_id, public_key, sign_count, transports, name
+                FROM webauthn_credentials
+                WHERE id = :id
+            ");
+            $stmt->execute(['id' => $credentialId]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row ?: null;
+        } catch (PDOException $e) {
+            custom_log("Erreur getWebauthnCredentialById : " . $e->getMessage(), 'ERROR');
+            return null;
+        }
+    }
+
+    /**
+     * Liste les passkeys d'un utilisateur (pour affichage page profil)
+     */
+    public function getWebauthnCredentialsForUser(int $userId): array
+    {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT id, name, transports, created_at, last_used_at
+                FROM webauthn_credentials
+                WHERE user_id = :user_id
+                ORDER BY created_at DESC
+            ");
+            $stmt->execute(['user_id' => $userId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            custom_log("Erreur getWebauthnCredentialsForUser : " . $e->getMessage(), 'ERROR');
+            return [];
+        }
+    }
+
+    /**
+     * Met à jour le compteur anti-clonage après une authentification réussie
+     */
+    public function updateWebauthnCredentialCounter(string $credentialId, int $newCounter): bool
+    {
+        $stmt = $this->db->prepare("
+            UPDATE webauthn_credentials
+            SET sign_count = :counter, last_used_at = NOW()
+            WHERE id = :id
+        ");
+        return $stmt->execute(['counter' => $newCounter, 'id' => $credentialId]);
+    }
+
+    /**
+     * Supprime une passkey (l'utilisateur ne peut supprimer que les siennes -> vérif user_id)
+     */
+    public function deleteWebauthnCredential(string $credentialId, int $userId): bool
+    {
+        try {
+            $stmt = $this->db->prepare("
+                DELETE FROM webauthn_credentials
+                WHERE id = :id AND user_id = :user_id
+            ");
+            $result = $stmt->execute(['id' => $credentialId, 'user_id' => $userId]);
+
+            if ($result && $stmt->rowCount() > 0) {
+                custom_log("Passkey {$credentialId} supprimée pour user_id: {$userId}", 'INFO');
+                return true;
+            }
+            return false;
+        } catch (PDOException $e) {
+            custom_log("Erreur deleteWebauthnCredential : " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
 }

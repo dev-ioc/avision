@@ -263,6 +263,8 @@ $public_routes = [
     'auth/forgot-password',    // Formulaire de demande de réinitialisation
     'auth/reset-password',     // Action d'envoi du lien (POST)
     'auth/process-reset',
+    'auth/webauthn-login-options',
+    'auth/webauthn-login-verify',
 ];
 $current_route = $controller . '/' . $action;
 
@@ -367,6 +369,18 @@ try {
                     } else {
                         $authController->showForgotPasswordForm();
                     }
+                    break;
+                case 'webauthn-register-options':
+                    $authController->webauthnRegisterOptions();
+                    break;
+                case 'webauthn-register-verify':
+                    $authController->webauthnRegisterVerify();
+                    break;
+                case 'webauthn-login-options':
+                    $authController->webauthnLoginOptions();
+                    break;
+                case 'webauthn-login-verify':
+                    $authController->webauthnLoginVerify();
                     break;
                 default:
                     header('Location: ' . BASE_URL . 'auth/login');
