@@ -230,9 +230,19 @@ class ClientController
         // Récupérer les sites du client
         $sites = $this->siteModel->getSitesByClientId($id);
 
-        // Pour chaque site, récupérer ses salles
         foreach ($sites as $key => $site) {
-            $sites[$key]['rooms'] = $this->roomModel->getRoomsByBuildingId($site['id'], true);
+            // Récupérer les bâtiments du site
+            $buildings = $this->buildingModel->getBuildingsBySiteId($site['id']);
+
+            $siteRooms = [];
+            foreach ($buildings as $buildingKey => $building) {
+                $rooms = $this->roomModel->getRoomsByBuildingId($building['id']);
+                $buildings[$buildingKey]['rooms'] = $rooms;
+                $siteRooms = array_merge($siteRooms, $rooms);
+            }
+
+            $sites[$key]['buildings'] = $buildings;
+            $sites[$key]['rooms'] = $siteRooms;
         }
 
         // Récupérer les contrats du client (actifs et inactifs)

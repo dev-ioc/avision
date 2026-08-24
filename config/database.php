@@ -5,7 +5,7 @@
 
 // Paramètres de connexion à la base de données
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'avision');
+define('DB_NAME', 'avisiondb');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
