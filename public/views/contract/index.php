@@ -22,14 +22,55 @@ setPageVariables(
 // Définir la page courante pour le menu
 $currentPage = 'contracts';
 
+$contractFilter = $current_contract_filter ?? 'all';
+
+$filterParams = [
+    'show_status' => $current_filter_view ?? 'all',
+];
+
+if (!empty($_GET['client_id'])) {
+    $filterParams['client_id'] = $_GET['client_id'];
+}
+
+if (!empty($_GET['site_id'])) {
+    $filterParams['site_id'] = $_GET['site_id'];
+}
+
+if (!empty($_GET['room_id'])) {
+    $filterParams['room_id'] = $_GET['room_id'];
+}
+
+if (!empty($_GET['contract_type_id'])) {
+    $filterParams['contract_type_id'] = $_GET['contract_type_id'];
+}
+
+function contractFilterUrl($filter, $filterParams)
+{
+    $params = array_merge(
+        $filterParams,
+        ['contract_filter' => $filter]
+    );
+
+    return BASE_URL . 'contracts?' . http_build_query($params);
+}
+function contractStatusUrl($status, $filterParams, $contractFilter)
+{
+    $params = array_merge(
+        $filterParams,
+        [
+            'show_status' => $status,
+            'contract_filter' => $contractFilter
+        ]
+    );
+
+    return BASE_URL . 'contracts?' . http_build_query($params);
+}
 // Inclure le header qui contient le menu latéral
 
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
 ?>
-
-
 
 <div class="container-fluid flex-grow-1 container-p-y">
     <!-- En-tête avec actions -->
@@ -61,7 +102,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             $totalCount += $stat['count'];
                         }
                         ?>
-                        <a href="<?php echo BASE_URL; ?>contracts?show_status=all"
+                        <a href="<?php echo htmlspecialchars(
+                            contractStatusUrl('all', $filterParams, $contractFilter)
+                        ); ?>"
                             class="btn btn-outline-secondary btn-sm status-filter-btn <?php echo ($current_filter_view ?? 'all') === 'all' ? 'active' : ''; ?>">
                             <span class="badge bg-secondary me-1">
                                 <?php echo $totalCount; ?>
@@ -71,7 +114,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                         <!-- Filtres par statut -->
                         <?php foreach ($statsByStatus as $stat): ?>
-                            <a href="<?php echo BASE_URL; ?>contracts?show_status=<?php echo $stat['status']; ?>"
+                            <a href="<?php echo htmlspecialchars(
+                                contractStatusUrl($stat['status'], $filterParams, $contractFilter)
+                            ); ?>"
                                 class="btn btn-outline-secondary btn-sm status-filter-btn <?php echo ($current_filter_view ?? 'actif') === $stat['status'] ? 'active' : ''; ?>">
                                 <span class="badge <?php echo $stat['color']; ?> me-1">
                                     <?php echo $stat['count']; ?>
@@ -85,36 +130,78 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 
-    <!-- Filtres par type de tickets -->
+    <!-- Filtre par catégorie de contrat -->
     <div class="row mb-4">
         <div class="col-12">
-            <div class="card ticket-filter-card">
+            <div class="card contract-filter-card">
                 <div class="card-body">
-                    <h6 class="card-title mb-2">
-                        <i class="bi bi-ticket-perforated me-1"></i>
-                        Filtres par type de tickets
+
+                    <h6 class="card-title mb-3">
+                        <i class="bi bi-funnel me-1"></i>
+                        Filtre
                     </h6>
+
                     <div class="d-flex flex-wrap gap-2">
-                        <!-- Tous les types de tickets -->
-                        <a href="<?php echo BASE_URL; ?>contracts?show_status=<?php echo $current_filter_view ?? 'actif'; ?>&ticket_type=all"
-                            class="btn btn-outline-secondary btn-sm ticket-filter-btn <?php echo ($current_ticket_filter ?? 'all') === 'all' ? 'active' : ''; ?>">
-                            <i class="bi bi-funnel me-1"></i>
-                            Tous les types
+
+                        <!-- Tous -->
+                        <a href="<?= htmlspecialchars(contractFilterUrl('all', $filterParams)) ?>"
+                            class="btn btn-outline-secondary btn-sm contract-filter-btn <?= $contractFilter === 'all' ? 'active' : '' ?>">
+
+                            <!-- <img src="<?= BASE_URL ?>assets/img/icons/contracts/svg/tous.svg" alt=""
+                                class="contract-filter-icon"> -->
+
+                            Tous
                         </a>
 
-                        <!-- Contrats avec tickets -->
-                        <a href="<?php echo BASE_URL; ?>contracts?show_status=<?php echo $current_filter_view ?? 'actif'; ?>&ticket_type=with_tickets"
-                            class="btn btn-outline-info btn-sm ticket-filter-btn <?php echo ($current_ticket_filter ?? 'all') === 'with_tickets' ? 'active' : ''; ?>">
-                            <i class="bi bi-ticket-perforated me-1"></i>
-                            Avec tickets
+                        <!-- Tickets -->
+                        <a href="<?= htmlspecialchars(contractFilterUrl('tickets', $filterParams)) ?>"
+                            class="btn btn-outline-secondary btn-sm contract-filter-btn <?= $contractFilter === 'tickets' ? 'active' : '' ?>">
+
+                            <img src="<?= BASE_URL ?>assets/img/icons/contrats/SVG/01_contrat_tickets.svg"
+                                class="contract-filter-icon">
+                            Tickets
                         </a>
 
-                        <!-- Contrats sans tickets -->
-                        <a href="<?php echo BASE_URL; ?>contracts?show_status=<?php echo $current_filter_view ?? 'actif'; ?>&ticket_type=without_tickets"
-                            class="btn btn-outline-warning btn-sm ticket-filter-btn <?php echo ($current_ticket_filter ?? 'all') === 'without_tickets' ? 'active' : ''; ?>">
-                            <i class="bi bi-ticket-perforated-fill me-1"></i>
-                            Sans tickets
+                        <!-- Gold -->
+                        <a href="<?= htmlspecialchars(contractFilterUrl('gold', $filterParams)) ?>"
+                            class="btn btn-outline-secondary btn-sm contract-filter-btn <?= $contractFilter === 'gold' ? 'active' : '' ?>">
+
+                            <img src="<?= BASE_URL ?>assets/img/icons/contrats/svg/04_contrat_gold.svg" alt=""
+                                class="contract-filter-icon">
+
+                            Gold
                         </a>
+
+                        <!-- Silver -->
+                        <a href="<?= htmlspecialchars(contractFilterUrl('silver', $filterParams)) ?>"
+                            class="btn btn-outline-secondary btn-sm contract-filter-btn <?= $contractFilter === 'silver' ? 'active' : '' ?>">
+
+                            <img src="<?= BASE_URL ?>assets/img/icons/contrats/svg/03_contrat_silver.svg" alt=""
+                                class="contract-filter-icon">
+
+                            Silver
+                        </a>
+
+                        <!-- Platinum -->
+                        <a href="<?= htmlspecialchars(contractFilterUrl('platinum', $filterParams)) ?>"
+                            class="btn btn-outline-secondary btn-sm contract-filter-btn <?= $contractFilter === 'platinum' ? 'active' : '' ?>">
+
+                            <img src="<?= BASE_URL ?>assets/img/icons/contrats/svg/05_contrat_platinium.svg" alt=""
+                                class="contract-filter-icon">
+
+                            Platinum
+                        </a>
+
+                        <!-- Base -->
+                        <a href="<?= htmlspecialchars(contractFilterUrl('base', $filterParams)) ?>"
+                            class="btn btn-outline-secondary btn-sm contract-filter-btn <?= $contractFilter === 'base' ? 'active' : '' ?>">
+
+                            <img src="<?= BASE_URL ?>assets/img/icons/contrats/svg/02_contrat_base.svg" alt=""
+                                class="contract-filter-icon">
+
+                            Base
+                        </a>
+
                     </div>
                 </div>
             </div>
@@ -223,15 +310,28 @@ include_once __DIR__ . '/../../includes/navbar.php';
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const pageSelect = document.getElementById('mobilePageSelect');
+
         if (pageSelect) {
             pageSelect.addEventListener('change', function () {
-                window.location.href = '<?= $baseUrlWithParams ?>' + this.value;
+                const params = new URLSearchParams(
+                    <?php echo json_encode($filterParams); ?>
+                );
+
+                // Conserver le filtre actuellement sélectionné
+                params.set(
+                    'contract_filter',
+                    <?php echo json_encode($contractFilter); ?>
+                );
+
+                window.location.href =
+                    '<?= BASE_URL ?>contracts?' + params.toString();
             });
         }
     });
 
     window.BASE_URL = '<?= BASE_URL ?>';
     window.csrfToken = '<?= $_SESSION['csrf_token'] ?>';
+
     window.serverSavedSettings = {
         contractsTable_pageLength:
             <?= json_encode((int) getUserPreference('datatable_contractsTable_pageLength', 10)) ?>
@@ -240,7 +340,19 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 <script src="<?php echo BASE_URL; ?>assets/js/datatable-persistence.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/contracts-datatable.js"></script>
+<style>
+    .contract-filter-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
 
+    .contract-filter-icon {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+    }
+</style>
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';

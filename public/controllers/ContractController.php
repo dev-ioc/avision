@@ -60,10 +60,13 @@ class ContractController
             header('Location: ' . BASE_URL . 'clients/edit/' . $id);
             exit;
         }
+
         $this->contractModel->updateExpiredContractsStatus();
+
         $show_status = $_GET['show_status'] ?? 'all';
 
-        $ticket_type = $_GET['ticket_type'] ?? 'all';
+        // Nouveau filtre : Tickets / Gold / Silver / Platinum / Base
+        $contract_filter = $_GET['contract_filter'] ?? 'all';
 
         $filters = [
             'client_id' => $_GET['client_id'] ?? null,
@@ -72,20 +75,31 @@ class ContractController
             'contract_type_id' => $_GET['contract_type_id'] ?? null,
         ];
 
+        // Filtre par statut
         if ($show_status === 'actif') {
             $filters['status'] = 'actif';
         } elseif ($show_status === 'inactif') {
             $filters['status'] = 'inactif';
         } elseif ($show_status === 'en_attente') {
             $filters['status'] = 'en_attente';
-        } elseif ($show_status === 'expire') {          // <-- AJOUT
+        } elseif ($show_status === 'expire') {
             $filters['status'] = 'expire';
         }
-        if ($ticket_type === 'with_tickets') {
-            $filters['ticket_type'] = 'with_tickets';
-        } elseif ($ticket_type === 'without_tickets') {
-            $filters['ticket_type'] = 'without_tickets';
+
+        // Filtre par catégorie de contrat
+        $allowedContractFilters = [
+            'tickets',
+            'gold',
+            'silver',
+            'platinum',
+            'base',
+        ];
+
+        if (in_array($contract_filter, $allowedContractFilters, true)) {
+            $filters['contract_filter'] = $contract_filter;
         }
+
+
         $contracts = $this->contractModel->getAllContracts($filters);
 
         $statsByStatus = $this->contractModel->getContractStatsByStatus();
@@ -106,9 +120,11 @@ class ContractController
 
         $current_filter_view = $show_status;
 
-        $current_ticket_filter = $ticket_type;
+        // Nouveau nom
+        $current_contract_filter = $contract_filter;
 
         $isAdmin = isAdmin();
+
         require_once VIEWS_PATH . '/contract/index.php';
     }
 
