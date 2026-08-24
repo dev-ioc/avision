@@ -94,7 +94,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <div class="row">
                 <!-- Informations de base -->
                 <div class="col-md-6">
-                    <h6 class="mb-3">Informations de base</h6>
+                    <h6 class="mb-3">Informations</h6>
                     <table class="table table-borderless">
                         <tr>
                             <th style="width: 150px;">Nom d'utilisateur :</th>
@@ -121,7 +121,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     'technicien' => 'Technicien',
                                     'client' => 'Client'
                                 ];
-                                echo isset($user['type']) ? ($typeLabels[$user['type']] ?? $user['type']) : 'Non défini';
+                                echo isset($user['type']) ? ($typeLabels[$user['type_user']] ?? $user['type_user']) : 'Non défini';
                                 ?>
                             </td>
                         </tr>
