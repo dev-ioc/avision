@@ -166,7 +166,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <a href="<?= htmlspecialchars(contractFilterUrl('gold', $filterParams)) ?>"
                             class="btn btn-outline-secondary btn-sm contract-filter-btn <?= $contractFilter === 'gold' ? 'active' : '' ?>">
 
-                            <img src="<?= BASE_URL ?>assets/img/icons/contrats/svg/04_contrat_gold.svg" alt=""
+                            <img src="<?= BASE_URL ?>assets/img/icons/contrats/SVG/04_contrat_gold.svg" alt=""
                                 class="contract-filter-icon">
 
                             Gold
@@ -176,7 +176,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <a href="<?= htmlspecialchars(contractFilterUrl('silver', $filterParams)) ?>"
                             class="btn btn-outline-secondary btn-sm contract-filter-btn <?= $contractFilter === 'silver' ? 'active' : '' ?>">
 
-                            <img src="<?= BASE_URL ?>assets/img/icons/contrats/svg/03_contrat_silver.svg" alt=""
+                            <img src="<?= BASE_URL ?>assets/img/icons/contrats/SVG/03_contrat_silver.svg" alt=""
                                 class="contract-filter-icon">
 
                             Silver
@@ -186,7 +186,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <a href="<?= htmlspecialchars(contractFilterUrl('platinum', $filterParams)) ?>"
                             class="btn btn-outline-secondary btn-sm contract-filter-btn <?= $contractFilter === 'platinum' ? 'active' : '' ?>">
 
-                            <img src="<?= BASE_URL ?>assets/img/icons/contrats/svg/05_contrat_platinium.svg" alt=""
+                            <img src="<?= BASE_URL ?>assets/img/icons/contrats/SVG/05_contrat_platinium.svg" alt=""
                                 class="contract-filter-icon">
 
                             Platinum
@@ -196,7 +196,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <a href="<?= htmlspecialchars(contractFilterUrl('base', $filterParams)) ?>"
                             class="btn btn-outline-secondary btn-sm contract-filter-btn <?= $contractFilter === 'base' ? 'active' : '' ?>">
 
-                            <img src="<?= BASE_URL ?>assets/img/icons/contrats/svg/02_contrat_base.svg" alt=""
+                            <img src="<?= BASE_URL ?>assets/img/icons/contrats/SVG/02_contrat_base.svg" alt=""
                                 class="contract-filter-icon">
 
                             Base
