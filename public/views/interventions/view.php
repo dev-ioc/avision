@@ -88,6 +88,7 @@ $closeReason = [];
 			<?php
 			$user = $_SESSION['user'];
 			$isAdmin = isAdmin();
+			$isStaff = isStaff();
 			?>
 
 			<a href="<?= BASE_URL ?>interventions/generateBon/<?= $intervention['id'] ?>" class="btn btn-info me-2">
@@ -153,7 +154,7 @@ $closeReason = [];
 				</button>
 			<?php endif; ?>
 
-			<?php if ($isAdmin): ?>
+			<?php if ($isAdmin || $isStaff): ?>
 				<?php
 				$reference = $intervention['reference'] ?? ('ID ' . ($intervention['id'] ?? ''));
 				$ticketsUsed = (float) ($intervention['tickets_used'] ?? 0);
@@ -174,7 +175,7 @@ $closeReason = [];
 	</div>
 
 	<!-- ── Modale suppression ─────────────────────────────────────────────── -->
-	<?php if ($isAdmin): ?>
+	<?php if ($isAdmin || $isStaff): ?>
 		<div class="modal fade" id="deleteInterventionModal" tabindex="-1" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -940,19 +941,32 @@ $closeReason = [];
 						<div class="tab-pane fade" id="tab-client">
 							<p class="text-muted small">Le client signe ici (bon pour accord)</p>
 
-							<div class="row mb-3">
+							<div class="row mb-2">
 								<div class="col-md-6">
 									<label for="clientSignName" class="form-label fw-semibold">Nom du signataire</label>
 									<input type="text" class="form-control" id="clientSignName"
-										placeholder="Nom du client" readonly
-										value="<?= h($intervention['client_name'] ?? '') ?> ">
+										placeholder="Nom du client"
+										value="<?= h($intervention['client_name'] ?? '') ?>">
 								</div>
 								<div class="col-md-6">
 									<label for="clientSignEmail" class="form-label fw-semibold">Email du
 										signataire</label>
 									<input type="email" class="form-control" id="clientSignEmail"
-										placeholder="email@client.com" readonly
+										placeholder="email@client.com"
 										value="<?= htmlspecialchars($intervention['contact_client'] ?? '') ?>">
+								</div>
+							</div>
+
+							<div class="d-flex justify-content-between align-items-center mb-3">
+								<button type="button" class="btn btn-sm btn-link ps-0" id="btnResetClientContact">
+									<i class="bi bi-arrow-counterclockwise me-1"></i>Reprendre le contact de
+									l'intervention
+								</button>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="clientSendEmailCheck" checked>
+									<label class="form-check-label" for="clientSendEmailCheck">
+										Envoyer un mail à l'adresse du client
+									</label>
 								</div>
 							</div>
 
@@ -974,108 +988,6 @@ $closeReason = [];
 			</div>
 		</div>
 	</div>
-
-	<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.6/dist/signature_pad.umd.min.js"></script>
-	<script>
-		// ID de la pièce jointe (bon déjà généré) que l'on est en train de signer
-		window.currentSignAttachmentId = null;
-
-		function openLocalSignatureModal(attachmentId) {
-			window.currentSignAttachmentId = attachmentId;
-		}
-
-		const canvasTech = document.getElementById('signature-tech');
-		const canvasClient = document.getElementById('signature-client');
-
-		function resizeCanvas(canvas) {
-			const ratio = Math.max(window.devicePixelRatio || 1, 1);
-			const rect = canvas.getBoundingClientRect();
-			if (rect.width === 0 || rect.height === 0) return false;
-			canvas.width = rect.width * ratio;
-			canvas.height = rect.height * ratio;
-			canvas.getContext('2d').scale(ratio, ratio);
-			return true;
-		}
-
-		const padTech = new SignaturePad(canvasTech, { backgroundColor: 'rgb(255,255,255)' });
-		const padClient = new SignaturePad(canvasClient, { backgroundColor: 'rgb(255,255,255)' });
-
-		const resizedLocal = { tech: false, client: false };
-
-		document.getElementById('localSignatureModal').addEventListener('shown.bs.modal', () => {
-			if (!resizedLocal.tech) resizedLocal.tech = resizeCanvas(canvasTech);
-		});
-
-		document.querySelectorAll('#signTabs button[data-bs-toggle="tab"]').forEach(tabButton => {
-			tabButton.addEventListener('shown.bs.tab', (event) => {
-				const target = event.target.getAttribute('data-bs-target');
-				if (target === '#tab-tech' && !resizedLocal.tech) resizedLocal.tech = resizeCanvas(canvasTech);
-				if (target === '#tab-client' && !resizedLocal.client) resizedLocal.client = resizeCanvas(canvasClient);
-			});
-		});
-
-		document.getElementById('localSignatureModal').addEventListener('hidden.bs.modal', () => {
-			padTech.clear();
-			padClient.clear();
-			resizedLocal.tech = false;
-			resizedLocal.client = false;
-			window.currentSignAttachmentId = null;
-			const techTabButton = document.querySelector('#signTabs button[data-bs-target="#tab-tech"]');
-			if (techTabButton) bootstrap.Tab.getOrCreateInstance(techTabButton).show();
-		});
-
-		document.getElementById('clear-tech').addEventListener('click', () => padTech.clear());
-		document.getElementById('clear-client').addEventListener('click', () => padClient.clear());
-
-		document.getElementById('btnSaveSignatures').addEventListener('click', async () => {
-			if (!window.currentSignAttachmentId) {
-				showAlert('Aucun bon sélectionné pour la signature', 'warning');
-				return;
-			}
-			if (padTech.isEmpty() && padClient.isEmpty()) {
-				showAlert('Veuillez signer au moins un champ', 'warning');
-				return;
-			}
-
-			const btn = document.getElementById('btnSaveSignatures');
-			btn.disabled = true;
-			btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Génération...';
-
-			const payload = {
-				technicien_signature: padTech.isEmpty() ? null : padTech.toDataURL('image/png'),
-				client_signature: padClient.isEmpty() ? null : padClient.toDataURL('image/png'),
-				client_name: document.getElementById('clientSignName').value.trim(),
-				client_email: document.getElementById('clientSignEmail').value.trim(),
-			};
-
-			try {
-				const res = await fetch(`${window.BASE_URL}interventions/saveLocalSignature/${window.currentSignAttachmentId}`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						'X-CSRF-Token': window.CSRF_TOKEN || '',
-					},
-					body: JSON.stringify(payload)
-				});
-
-				const data = await res.json();
-
-				if (data.success) {
-					showAlert('Bon signé généré avec succès', 'success');
-					bootstrap.Modal.getInstance(document.getElementById('localSignatureModal')).hide();
-					window.open(data.pdf_url, '_blank');
-					setTimeout(() => location.reload(), 1000);
-				} else {
-					showAlert(data.message || 'Erreur lors de la signature', 'danger');
-				}
-			} catch (e) {
-				showAlert('Erreur réseau lors de la signature', 'danger');
-			} finally {
-				btn.disabled = false;
-				btn.innerHTML = '<i class="bi bi-check-lg me-1"></i> Valider et générer le PDF signé';
-			}
-		});
-	</script>
 </div>
 
 <!-- Ajout commentaire -->
@@ -1698,107 +1610,249 @@ $closeReason = [];
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="postSignatureModal" tabindex="-1" data-bs-backdrop="static">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><i class="bi bi-check-circle-fill text-success me-2"></i>Bon signé</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<div id="noSolutionWarning" class="alert alert-warning" style="display:none;">
+					<i class="bi bi-exclamation-triangle-fill me-2"></i>
+					Aucune solution n'est documentée pour cette intervention.
+					<div id="existingCommentsForSolution" class="mt-2"></div>
+					<button type="button" class="btn btn-sm btn-outline-warning mt-2" data-bs-toggle="modal"
+						data-bs-target="#addCommentModal">
+						<i class="bi bi-plus me-1"></i>Ajouter une solution
+					</button>
+				</div>
 
-<style>
-	.drop-zone {
-		border: 2px dashed var(--bs-border-color);
-		border-radius: 8px;
-		padding: 30px;
-		text-align: center;
-		background-color: var(--bs-body-bg);
-		transition: all .3s ease;
-		min-height: 150px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
+				<p class="fw-bold mb-2">Envoyer une notification</p>
+				<div class="form-check mb-1" id="psNotifyClientWrapper">
+					<input class="form-check-input" type="checkbox" id="psNotifyClient" checked>
+					<label class="form-check-label" for="psNotifyClient">Au client</label>
+				</div>
+				<div class="form-check mb-2">
+					<input class="form-check-input" type="checkbox" id="psNotifyTechnicians">
+					<label class="form-check-label" for="psNotifyTechnicians">Au(x) technicien(s) assigné(s)</label>
+				</div>
+				<label class="form-label">Autre destinataire VideoSonic</label>
+				<select id="psStaffSelect" class="form-select" multiple></select>
+			</div>
+			<div class="modal-footer d-flex justify-content-between">
+				<div></div>
+				<!-- <button type="button" class="btn btn-outline-danger" id="psCloseInterventionBtn">
+					<i class="bi bi-lock me-1"></i>Fermer l'intervention
+				</button> -->
+				<div>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer sans envoyer</button>
+					<button type="button" class="btn btn-primary" id="psSendBtn">
+						<i class="bi bi-send me-1"></i>Envoyer
+					</button>
+				</div>
+			</div>
+		</div>a
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.6/dist/signature_pad.umd.min.js"></script>
+<script>
+	// ID de la pièce jointe (bon déjà généré) que l'on est en train de signer
+	window.currentSignAttachmentId = null;
+
+	function openLocalSignatureModal(attachmentId) {
+		window.currentSignAttachmentId = attachmentId;
 	}
 
-	.drop-zone.dragover {
-		border-color: var(--bs-primary);
-		background-color: var(--bs-primary-bg-subtle);
+	const canvasTech = document.getElementById('signature-tech');
+	const canvasClient = document.getElementById('signature-client');
+
+	function resizeCanvas(canvas) {
+		const ratio = Math.max(window.devicePixelRatio || 1, 1);
+		const rect = canvas.getBoundingClientRect();
+		if (rect.width === 0 || rect.height === 0) return false;
+		canvas.width = rect.width * ratio;
+		canvas.height = rect.height * ratio;
+		canvas.getContext('2d').scale(ratio, ratio);
+		return true;
 	}
 
-	.drop-message {
-		font-size: 1.1em;
-		color: var(--bs-secondary-color);
-		margin-bottom: 15px;
-	}
+	const padTech = new SignaturePad(canvasTech, { backgroundColor: 'rgb(255,255,255)' });
+	const padClient = new SignaturePad(canvasClient, { backgroundColor: 'rgb(255,255,255)' });
 
-	.drop-message i {
-		font-size: 2.5em;
-		margin-bottom: 10px;
-		display: block;
-	}
+	const resizedLocal = { tech: false, client: false };
 
-	.file-list {
-		margin-top: 15px;
-		max-height: 200px;
-		overflow-y: auto;
-	}
+	document.getElementById('localSignatureModal').addEventListener('shown.bs.modal', () => {
+		if (!resizedLocal.tech) resizedLocal.tech = resizeCanvas(canvasTech);
+	});
 
-	.file-item {
-		display: flex;
-		align-items: center;
-		padding: 8px;
-		margin: 3px 0;
-		border-radius: 5px;
-		border: 1px solid var(--bs-border-color);
-		background-color: var(--bs-body-bg);
-		gap: 10px;
-	}
+	document.querySelectorAll('#signTabs button[data-bs-toggle="tab"]').forEach(tabButton => {
+		tabButton.addEventListener('shown.bs.tab', (event) => {
+			const target = event.target.getAttribute('data-bs-target');
+			if (target === '#tab-tech' && !resizedLocal.tech) resizedLocal.tech = resizeCanvas(canvasTech);
+			if (target === '#tab-client' && !resizedLocal.client) resizedLocal.client = resizeCanvas(canvasClient);
+		});
+	});
 
-	.file-item.valid {
-		background-color: var(--bs-success-bg-subtle);
-		border-color: var(--bs-success-border-subtle);
-	}
+	document.getElementById('localSignatureModal').addEventListener('hidden.bs.modal', () => {
+		padTech.clear();
+		padClient.clear();
+		resizedLocal.tech = false;
+		resizedLocal.client = false;
+		window.currentSignAttachmentId = null;
+		const techTabButton = document.querySelector('#signTabs button[data-bs-target="#tab-tech"]');
+		if (techTabButton) bootstrap.Tab.getOrCreateInstance(techTabButton).show();
+	});
 
-	.file-item.invalid {
-		background-color: var(--bs-danger-bg-subtle);
-		border-color: var(--bs-danger-border-subtle);
-	}
+	document.getElementById('clear-tech').addEventListener('click', () => padTech.clear());
+	document.getElementById('clear-client').addEventListener('click', () => padClient.clear());
+	const originalClientContact = {
+		name: <?= json_encode($intervention['client_name'] ?? '') ?>,
+		email: <?= json_encode($intervention['contact_client'] ?? '') ?>
+	};
 
-	.stats {
-		margin-top: 10px;
-		padding: 8px;
-		background-color: var(--bs-secondary-bg);
-		border-radius: 5px;
-		font-size: .9em;
-	}
+	document.getElementById('btnResetClientContact').addEventListener('click', () => {
+		document.getElementById('clientSignName').value = originalClientContact.name;
+		document.getElementById('clientSignEmail').value = originalClientContact.email;
+	});
 
-	.progress-bar {
-		height: 3px;
-		background-color: var(--bs-secondary-bg);
-		border-radius: 2px;
-		overflow: hidden;
-		margin-top: 8px;
-	}
+	document.getElementById('btnSaveSignatures').addEventListener('click', async () => {
+		if (!window.currentSignAttachmentId) {
+			showAlert('Aucun bon sélectionné pour la signature', 'warning');
+			return;
+		}
+		if (padTech.isEmpty() && padClient.isEmpty()) {
+			showAlert('Veuillez signer au moins un champ', 'warning');
+			return;
+		}
 
-	.progress-fill {
-		height: 100%;
-		background-color: var(--bs-primary);
-		width: 0%;
-		transition: width .3s ease;
-	}
+		const btn = document.getElementById('btnSaveSignatures');
+		btn.disabled = true;
+		btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Génération...';
 
-	.attachment-name {
-		display: flex;
-		flex-direction: column;
-	}
+		const payload = {
+			technicien_signature: padTech.isEmpty() ? null : padTech.toDataURL('image/png'),
+			client_signature: padClient.isEmpty() ? null : padClient.toDataURL('image/png'),
+			client_name: document.getElementById('clientSignName').value.trim(),
+			client_email: document.getElementById('clientSignEmail').value.trim(),
+			client_send_email: document.getElementById('clientSendEmailCheck').checked,
+		};
+		try {
+			const res = await fetch(`${window.BASE_URL}interventions/saveLocalSignature/${window.currentSignAttachmentId}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRF-Token': window.CSRF_TOKEN || '',
+				},
+				body: JSON.stringify(payload)
+			});
 
-	.attachment-name .display-name {
-		font-weight: 500;
-		color: var(--bs-body-color);
-	}
+			const data = await res.json();
 
-	.attachment-name .original-name {
-		font-size: .75em;
-		margin-top: 2px;
-		opacity: .7;
-		font-style: italic;
-	}
-</style>
+			if (data.success) {
+				showAlert('Bon signé généré avec succès', 'success');
+				bootstrap.Modal.getInstance(document.getElementById('localSignatureModal')).hide();
+				window.open(data.pdf_url, '_blank');
 
+				if (data.fully_signed && !data.is_closed) {
+					openPostSignatureModal(data);
+				} else {
+					setTimeout(() => location.reload(), 1000);
+				}
+			} else {
+				showAlert(data.message || 'Erreur lors de la signature', 'danger');
+			}
+		} catch (e) {
+			showAlert('Erreur réseau lors de la signature', 'danger');
+		} finally {
+			btn.disabled = false;
+			btn.innerHTML = '<i class="bi bi-check-lg me-1"></i> Valider et générer le PDF signé';
+		}
+	});
+	async function openPostSignatureModal(data) {
+		const shouldNotifyClient = data.client_send_email !== false;
+
+		document.getElementById('noSolutionWarning').style.display = data.has_solution ? 'none' : 'block';
+
+		if (!data.has_solution) {
+			try {
+				const r = await fetch(`${window.BASE_URL}interventions/getSolutionStatus/${data.intervention_id}`);
+				const solData = await r.json();
+				const container = document.getElementById('existingCommentsForSolution');
+				container.innerHTML = '';
+				(solData.comments || []).filter(c => !c.is_solution).slice(0, 3).forEach(c => {
+					const div = document.createElement('div');
+					div.className = 'small border-top pt-1 mt-1';
+					div.innerHTML = `<em>${(c.comment || '').substring(0, 100)}</em> — <a href="#" class="mark-as-solution" data-id="${c.id}">Marquer comme solution</a>`;
+					container.appendChild(div);
+				});
+			} catch (e) { /* silencieux */ }
+		}
+
+		try {
+			const r = await fetch(`${window.BASE_URL}interventions/getStaffList`);
+			const staffData = await r.json();
+			const sel = document.getElementById('psStaffSelect');
+			sel.innerHTML = '';
+			(staffData.staff || []).forEach(s => {
+				const o = document.createElement('option');
+				o.value = s.id;
+				o.textContent = `${s.name} (${s.role})`;
+				sel.appendChild(o);
+			});
+		} catch (e) { /* silencieux */ }
+
+		const modalEl = document.getElementById('postSignatureModal');
+		const clientWrapper = document.getElementById('psNotifyClientWrapper');
+		const clientCheckbox = document.getElementById('psNotifyClient');
+
+		if (shouldNotifyClient) {
+			clientWrapper.style.display = '';
+			clientCheckbox.checked = true;
+		} else {
+			clientWrapper.style.display = 'none';
+			clientCheckbox.checked = false;
+		}
+
+		new bootstrap.Modal(modalEl).show();
+	}
+	document.addEventListener('DOMContentLoaded', function () {
+		document.getElementById('psSendBtn')?.addEventListener('click', async function () {
+			const btn = this;
+			btn.disabled = true;
+			const staffIds = Array.from(document.getElementById('psStaffSelect').selectedOptions).map(o => o.value);
+
+			const fd = new FormData();
+			fd.append('include_client', document.getElementById('psNotifyClient').checked ? '1' : '0');
+			fd.append('include_technicians', document.getElementById('psNotifyTechnicians').checked ? '1' : '0');
+			staffIds.forEach(id => fd.append('staff_ids[]', id));
+			fd.append('csrf_token', window.CSRF_TOKEN || '');
+
+			try {
+				const r = await fetch(`${window.BASE_URL}interventions/sendBonSignedNotification/${interventionId}`, {
+					method: 'POST', body: fd, headers: { 'X-CSRF-Token': window.CSRF_TOKEN || '' }
+				});
+				const result = await r.json();
+				if (result.success) {
+					showToast('Notification envoyée', 'success');
+					bootstrap.Modal.getInstance(document.getElementById('postSignatureModal')).hide();
+				} else {
+					showToast('Erreur : ' + (result.error || 'Échec'), 'danger');
+				}
+			} catch (e) {
+				showToast('Erreur réseau', 'danger');
+			} finally {
+				btn.disabled = false;
+			}
+		});
+
+		document.getElementById('psCloseInterventionBtn')?.addEventListener('click', function () {
+			bootstrap.Modal.getInstance(document.getElementById('postSignatureModal')).hide();
+			document.getElementById('btnOuvrirFermeture').click();
+		});
+	});
+</script>
 <script>
 	window.CSRF_TOKEN = '<?= addslashes(csrf_token()) ?>';
 	window.BASE_URL = '<?= addslashes(BASE_URL) ?>';
@@ -3015,4 +3069,104 @@ $closeReason = [];
 		});
 	});
 </script>
+
+<style>
+	.drop-zone {
+		border: 2px dashed var(--bs-border-color);
+		border-radius: 8px;
+		padding: 30px;
+		text-align: center;
+		background-color: var(--bs-body-bg);
+		transition: all .3s ease;
+		min-height: 150px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.drop-zone.dragover {
+		border-color: var(--bs-primary);
+		background-color: var(--bs-primary-bg-subtle);
+	}
+
+	.drop-message {
+		font-size: 1.1em;
+		color: var(--bs-secondary-color);
+		margin-bottom: 15px;
+	}
+
+	.drop-message i {
+		font-size: 2.5em;
+		margin-bottom: 10px;
+		display: block;
+	}
+
+	.file-list {
+		margin-top: 15px;
+		max-height: 200px;
+		overflow-y: auto;
+	}
+
+	.file-item {
+		display: flex;
+		align-items: center;
+		padding: 8px;
+		margin: 3px 0;
+		border-radius: 5px;
+		border: 1px solid var(--bs-border-color);
+		background-color: var(--bs-body-bg);
+		gap: 10px;
+	}
+
+	.file-item.valid {
+		background-color: var(--bs-success-bg-subtle);
+		border-color: var(--bs-success-border-subtle);
+	}
+
+	.file-item.invalid {
+		background-color: var(--bs-danger-bg-subtle);
+		border-color: var(--bs-danger-border-subtle);
+	}
+
+	.stats {
+		margin-top: 10px;
+		padding: 8px;
+		background-color: var(--bs-secondary-bg);
+		border-radius: 5px;
+		font-size: .9em;
+	}
+
+	.progress-bar {
+		height: 3px;
+		background-color: var(--bs-secondary-bg);
+		border-radius: 2px;
+		overflow: hidden;
+		margin-top: 8px;
+	}
+
+	.progress-fill {
+		height: 100%;
+		background-color: var(--bs-primary);
+		width: 0%;
+		transition: width .3s ease;
+	}
+
+	.attachment-name {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.attachment-name .display-name {
+		font-weight: 500;
+		color: var(--bs-body-color);
+	}
+
+	.attachment-name .original-name {
+		font-size: .75em;
+		margin-top: 2px;
+		opacity: .7;
+		font-style: italic;
+	}
+</style>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

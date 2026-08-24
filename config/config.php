@@ -171,4 +171,20 @@ class Config
     {
         $this->loadSettings();
     }
+    public function getSodiumSecretKey()
+    {
+        $key = getenv('TOTP_ENCRYPTION_KEY') ?: (defined('TOTP_ENCRYPTION_KEY') ? TOTP_ENCRYPTION_KEY : null);
+
+        if (!$key) {
+            throw new Exception("La clé secrète Sodium n'est pas configurée.");
+        }
+
+        $decodedKey = base64_decode($key, true);
+
+        if ($decodedKey === false || strlen($decodedKey) !== SODIUM_CRYPTO_SECRETBOX_KEYBYTES) {
+            throw new Exception("La clé secrète Sodium est invalide.");
+        }
+
+        return $decodedKey;
+    }
 }

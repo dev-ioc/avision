@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../public/config.local.php';
 // Servir directement les fichiers statiques (assets) sans passer par le routage
 $request_uri = $_SERVER['REQUEST_URI'];
 $script_name = $_SERVER['SCRIPT_NAME'];
@@ -255,6 +256,8 @@ $id = $parts[2] ?? null;
 $public_routes = [
     'auth/login',
     'auth/logout',
+    'auth/verify-2fa',
+    'auth/cancel-2fa',
     'settings/getAllowedExtensions',
     'interventions/webhookSignature',
     'auth/forgot-password',    // Formulaire de demande de réinitialisation
@@ -330,6 +333,24 @@ try {
                         $authController->showLoginForm();
                     }
                     break;
+                case 'verify-2fa':
+                    $authController->verify2fa();
+                    break;
+                case 'cancel-2fa':
+                    $authController->cancel2fa();
+                    break;
+                case 'setup-2fa':
+                    $authController->setup2fa();
+                    break;
+                case 'confirm-setup-2fa':
+                    $authController->confirmSetup2fa();
+                    break;
+                case 'backup-codes':
+                    $authController->showBackupCodes();
+                    break;
+                case 'disable-2fa':
+                    $authController->disable2fa();
+                    break;
                 case 'logout':
                     $authController->logout();
                     break;
@@ -338,6 +359,13 @@ try {
                         $authController->processResetPassword();
                     } else {
                         $authController->showResetPasswordForm();
+                    }
+                    break;
+                case 'forgot-password':
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $authController->processForgotPassword();
+                    } else {
+                        $authController->showForgotPasswordForm();
                     }
                     break;
                 default:
@@ -1354,6 +1382,27 @@ try {
                     } else {
                         header('Content-Type: application/json');
                         echo json_encode(['success' => false, 'message' => 'ID manquant']);
+                        exit;
+                    }
+                    break;
+                case 'getStaffList':
+                    $interventionController->getStaffList();
+                    break;
+                case 'getSolutionStatus':
+                    if ($id) {
+                        $interventionController->getSolutionStatus($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => false, 'error' => 'ID manquant']);
+                        exit;
+                    }
+                    break;
+                case 'sendBonSignedNotification':
+                    if ($id) {
+                        $interventionController->sendBonSignedNotification($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => false, 'error' => 'ID manquant']);
                         exit;
                     }
                     break;

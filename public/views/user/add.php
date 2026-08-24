@@ -81,7 +81,7 @@ echo '<script>const baseUrl = "' . BASE_URL . '";</script>';
                     <div class="col-md-4">
                         <h6 class="mb-3">Informations de base</h6>
                         
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="username" class="form-label">Nom d'utilisateur *</label>
                             <input type="text" class="form-control bg-body text-body" id="username" name="username" 
                                    value="<?php echo isset($_POST['username']) ? h($_POST['username']) : ''; ?>" 
@@ -89,7 +89,7 @@ echo '<script>const baseUrl = "' . BASE_URL . '";</script>';
                             <div class="invalid-feedback">
                                 Veuillez saisir un nom d'utilisateur.
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Email *</label>

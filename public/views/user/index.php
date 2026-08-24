@@ -90,12 +90,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <table id="usersTable" class="table table-striped table-hover dt-responsive">
                     <thead>
                         <tr>
-                            <th>Nom d'utilisateur</th>
+                            <!-- <th>Nom d'utilisateur</th> -->
                             <th>Nom</th>
                             <th>Prénom</th>
                             <th>Email</th>
                             <th>Type</th>
                             <th>Statut</th>
+                            <th>2FA</th>
                             <th>Date de création</th>
                         </tr>
                     </thead>
@@ -108,14 +109,17 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 $filterGroup = ($userType === 'client') ? 'client' : 'videosonic';
                                 ?>
                                 <tr data-user-type="<?= $filterGroup ?>">
-                                    <td data-label="Nom d'utilisateur">
+                                    <!-- <td data-label="Nom d'utilisateur">
                                         <a href="<?php echo BASE_URL; ?>user/view/<?php echo $user['id']; ?>"
                                             class="text-decoration-none fw-bold" title="Voir l'utilisateur">
                                             <?php echo htmlspecialchars($user['username'] ?? ''); ?>
                                         </a>
-                                    </td>
+                                    </td> -->
                                     <td data-label="Nom">
-                                        <?php echo htmlspecialchars($user['last_name'] ?? ''); ?>
+                                        <a href="<?php echo BASE_URL; ?>user/view/<?php echo $user['id']; ?>"
+                                            class="text-decoration-none fw-bold" title="Voir l'utilisateur">
+                                            <?php echo htmlspecialchars($user['last_name'] ?? ''); ?>
+                                        </a>
                                     </td>
                                     <td data-label="Prénom">
                                         <?php echo htmlspecialchars($user['first_name'] ?? ''); ?>
@@ -162,6 +166,18 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <span class="badge bg-success">Actif</span>
                                         <?php else: ?>
                                             <span class="badge bg-danger">Inactif</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td data-label="2FA" data-order="<?php echo !empty($user['totp_enabled']) ? 1 : 0; ?>">
+                                        <?php if (!empty($user['totp_enabled'])): ?>
+                                            <span class="badge bg-success" title="Double authentification activée">
+                                                <i class="bi bi-shield-check"></i> Activée
+                                            </span>
+                                        <?php else: ?>
+                                            <span class="badge bg-light text-muted border"
+                                                title="Double authentification désactivée">
+                                                Désactivée
+                                            </span>
                                         <?php endif; ?>
                                     </td>
                                     <td data-label="Date de création"

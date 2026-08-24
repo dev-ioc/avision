@@ -24,7 +24,10 @@ window.DataTablePersistence = {
       window.serverSavedSettings[settingKey] !== undefined &&
       window.serverSavedSettings[settingKey] !== null
     ) {
-      return window.serverSavedSettings[settingKey];
+      return this._parseServerValue(
+        window.serverSavedSettings[settingKey],
+        defaultValue,
+      );
     }
 
     try {
@@ -34,6 +37,24 @@ window.DataTablePersistence = {
     } catch (e) {
       console.warn("Erreur lors de la récupération du paramètre DataTable:", e);
       return defaultValue;
+    }
+  },
+
+  /**
+   * Les valeurs stockées côté serveur sont toujours des chaînes (colonne
+   * texte en base). Si la valeur d'origine était un objet/tableau (ex:
+   * "order"), elle a été sérialisée en JSON avant l'envoi (voir
+   * syncToServer) : on tente donc un JSON.parse ici, avec repli sur la
+   * chaîne brute si ce n'est pas du JSON valide (ex: pageLength = "10").
+   */
+  _parseServerValue: function (rawValue, defaultValue) {
+    if (typeof rawValue !== "string") {
+      return rawValue;
+    }
+    try {
+      return JSON.parse(rawValue);
+    } catch (e) {
+      return rawValue !== "" ? rawValue : defaultValue;
     }
   },
 
@@ -62,13 +83,22 @@ window.DataTablePersistence = {
 
     const key = this.STORAGE_PREFIX + tableId + "_" + setting;
 
+    // La colonne "value" en base est une chaîne (255 chars max côté
+    // contrôleur). Les valeurs non scalaires (ex: order = [[0,"asc"]])
+    // doivent donc être sérialisées explicitement avant l'envoi ; sinon
+    // PHP les convertit en "Array" côté serveur.
+    const payloadValue =
+      typeof value === "object" && value !== null
+        ? JSON.stringify(value)
+        : String(value);
+
     fetch(window.BASE_URL + "preferences/save", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "X-CSRF-Token": window.csrfToken || window.CSRF_TOKEN || "",
       },
-      body: JSON.stringify({ key: key, value: value }),
+      body: JSON.stringify({ key: key, value: payloadValue }),
     }).catch(function (e) {
       console.warn(
         "Impossible de synchroniser la préférence avec le serveur:",

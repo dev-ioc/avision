@@ -142,12 +142,12 @@ class UserModel extends BaseModel
             $isStaff = ($groupInfo['group_name'] === 'Staff');
 
             $sql = "INSERT INTO " . $this->table . " 
-                    (username, email, password, first_name, last_name, user_type_id, is_admin, status, coef_utilisateur, client_id, created_at) 
+                    ( email, password, first_name, last_name, user_type_id, is_admin, status, coef_utilisateur, client_id, created_at) 
                     VALUES 
-                    (:username, :email, :password, :first_name, :last_name, :user_type_id, :is_admin, :status, :coef_utilisateur, :client_id, NOW())";
+                    ( :email, :password, :first_name, :last_name, :user_type_id, :is_admin, :status, :coef_utilisateur, :client_id, NOW())";
 
             $stmt = $this->db->prepare($sql);
-            $stmt->bindValue(':username', $data['username']);
+            // $stmt->bindValue(':username', $data['username']);
             $stmt->bindValue(':email', $data['email']);
             $stmt->bindValue(':password', password_hash($data['password'], PASSWORD_DEFAULT));
             $stmt->bindValue(':first_name', $data['first_name']);
@@ -177,11 +177,11 @@ class UserModel extends BaseModel
             $updates = [];
             $params = [':id' => $id];
 
-            // Construction des champs à mettre à jour
-            if (isset($data['username'])) {
-                $updates[] = "username = :username";
-                $params[':username'] = $data['username'];
-            }
+            // // Construction des champs à mettre à jour
+            // if (isset($data['username'])) {
+            //     $updates[] = "username = :username";
+            //     $params[':username'] = $data['username'];
+            // }
             if (isset($data['email'])) {
                 $updates[] = "email = :email";
                 $params[':email'] = $data['email'];
@@ -274,23 +274,23 @@ class UserModel extends BaseModel
         return parent::delete($id);
     }
 
-    /**
-     * Vérifie si un nom d'utilisateur existe déjà
-     */
-    public function usernameExists($username, $excludeId = null)
-    {
-        $sql = "SELECT COUNT(*) as count FROM " . $this->table . " WHERE username = :username";
-        $params = [':username' => $username];
+    // /**
+    //  * Vérifie si un nom d'utilisateur existe déjà
+    //  */
+    // public function usernameExists($username, $excludeId = null)
+    // {
+    //     $sql = "SELECT COUNT(*) as count FROM " . $this->table . " WHERE username = :username";
+    //     $params = [':username' => $username];
 
-        if ($excludeId) {
-            $sql .= " AND id != :id";
-            $params[':id'] = $excludeId;
-        }
+    //     if ($excludeId) {
+    //         $sql .= " AND id != :id";
+    //         $params[':id'] = $excludeId;
+    //     }
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetch(PDO::FETCH_ASSOC)['count'] > 0;
-    }
+    //     $stmt = $this->db->prepare($sql);
+    //     $stmt->execute($params);
+    //     return $stmt->fetch(PDO::FETCH_ASSOC)['count'] > 0;
+    // }
 
     /**
      * Vérifie si un email existe déjà
@@ -312,28 +312,29 @@ class UserModel extends BaseModel
 
     /**
      * Authentifie un utilisateur
-     * @param string $username Nom d'utilisateur
+     * @param string $email Nom d'utilisateur
      * @param string $password Mot de passe
      * @return bool True si l'authentification réussit
      */
-    public function authenticate($username, $password)
+    public function authenticate($email, $password)
     {
         try {
             $stmt = $this->db->prepare("
-                SELECT u.id, u.username, u.password, u.email, u.first_name, u.last_name, 
-                       u.status, u.coef_utilisateur, u.client_id, u.is_admin,
-                       ut.name as user_type, ug.name as user_group
+                SELECT u.id, u.password, u.email, u.first_name, u.last_name, 
+                    u.status, u.coef_utilisateur, u.client_id, u.is_admin,
+                    u.totp_enabled,
+                    ut.name as user_type, ug.name as user_group
                 FROM users u
                 JOIN user_types ut ON u.user_type_id = ut.id
                 JOIN user_groups ug ON ut.group_id = ug.id
-                WHERE u.username = :username AND u.status = 1
+                WHERE u.email = :email AND u.status = 1
             ");
-            $stmt->execute(['username' => $username]);
+            $stmt->execute(['email' => $email]);
             $user = $stmt->fetch();
 
             if ($user && password_verify($password, $user['password'])) {
                 $this->id = $user['id'];
-                $this->username = $user['username'];
+                // $this->username = $user['username'];
                 $this->email = $user['email'];
                 $this->firstName = $user['first_name'];
                 $this->lastName = $user['last_name'];
@@ -348,7 +349,6 @@ class UserModel extends BaseModel
                 // Stockage dans la session
                 $_SESSION['user'] = [
                     'id' => $this->id,
-                    'username' => $this->username,
                     'email' => $this->email,
                     'first_name' => $this->firstName,
                     'last_name' => $this->lastName,
@@ -356,11 +356,12 @@ class UserModel extends BaseModel
                     'user_group' => $user['user_group'],
                     'is_admin' => $user['is_admin'],
                     'client_id' => $user['client_id'],
+                    'totp_enabled' => $user['totp_enabled'], // <-- ajouter
                     'permissions' => $this->permissions
                 ];
 
                 // Log de la connexion
-                custom_log("Utilisateur connecté : {$this->username}", 'INFO', [
+                custom_log("Utilisateur connecté : {$this->email}", 'INFO', [
                     'user_id' => $this->id,
                     'user_type' => $user['user_type'],
                     'user_group' => $user['user_group'],
@@ -371,7 +372,7 @@ class UserModel extends BaseModel
                 return true;
             }
 
-            custom_log("Tentative de connexion échouée pour l'utilisateur : $username", 'WARNING');
+            custom_log("Tentative de connexion échouée pour l'utilisateur : $email", 'WARNING');
             return false;
         } catch (PDOException $e) {
             custom_log("Erreur d'authentification : " . $e->getMessage(), 'ERROR');
@@ -428,7 +429,7 @@ class UserModel extends BaseModel
             }
 
             // Log temporaire pour debug
-            custom_log("Permissions chargées pour {$this->username} : " . json_encode($this->permissions), 'DEBUG');
+            custom_log("Permissions chargées pour {$this->firstName} : " . json_encode($this->permissions), 'DEBUG');
         } catch (PDOException $e) {
             custom_log("Erreur lors du chargement des permissions : " . $e->getMessage(), 'ERROR');
             $this->permissions = [
@@ -738,16 +739,16 @@ class UserModel extends BaseModel
             }
 
             // Récupérer les sites
-            $query = "SELECT id, name FROM sites WHERE client_id = :client_id AND status = 1 ORDER BY name";
+            $query = "SELECT id, name FROM buildings WHERE client_id = :client_id AND status = 1 ORDER BY name";
             $stmt = $this->db->prepare($query);
             $stmt->execute(['client_id' => $clientId]);
             $sites = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             // Pour chaque site, récupérer ses salles
             foreach ($sites as &$site) {
-                $query = "SELECT id, name FROM rooms WHERE site_id = :site_id AND status = 1 ORDER BY name";
+                $query = "SELECT id, name FROM rooms WHERE building_id = :building_id AND status = 1 ORDER BY name";
                 $stmt = $this->db->prepare($query);
-                $stmt->execute(['site_id' => $site['id']]);
+                $stmt->execute(['building_id' => $site['id']]);
                 $site['rooms'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
 
@@ -1211,7 +1212,7 @@ class UserModel extends BaseModel
             $stmt = $this->db->prepare("
             SELECT 
                 prt.*,
-                u.username as requested_by_username,
+                u.first_name as requested_by_username,
                 u.first_name as requested_by_first_name,
                 u.last_name as requested_by_last_name
             FROM password_reset_tokens prt
@@ -1300,4 +1301,106 @@ class UserModel extends BaseModel
         );
         $stmt->execute([$token]);
     }
+    public function getUserByEmail($email)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
+    }
+    /**
+     * Enregistre un nouveau secret TOTP en attente de confirmation (2FA pas encore activée)
+     */
+    public function saveTotpSecret(int $userId, string $encryptedSecret): bool
+    {
+        $stmt = $this->db->prepare("UPDATE users SET totp_secret = :secret, totp_enabled = 0, totp_confirmed_at = NULL WHERE id = :id");
+        return $stmt->execute([
+            'secret' => $encryptedSecret,
+            'id' => $userId
+        ]);
+    }
+
+    /**
+     * Active définitivement la 2FA après vérification du premier code
+     */
+    public function enableTotp(int $userId): bool
+    {
+        $stmt = $this->db->prepare("UPDATE users SET totp_enabled = 1, totp_confirmed_at = NOW() WHERE id = :id");
+        return $stmt->execute(['id' => $userId]);
+    }
+
+    /**
+     * Désactive la 2FA (par l'utilisateur lui-même ou par un admin)
+     */
+    public function disableTotp(int $userId): bool
+    {
+        $stmt = $this->db->prepare("
+        UPDATE users
+        SET totp_enabled = 0, totp_secret = NULL, totp_confirmed_at = NULL, totp_backup_codes = NULL
+        WHERE id = :id
+    ");
+        return $stmt->execute(['id' => $userId]);
+    }
+
+    /**
+     * Enregistre les codes de secours hashés (JSON)
+     */
+    public function saveBackupCodes(int $userId, array $hashedCodes): bool
+    {
+        $stmt = $this->db->prepare("UPDATE users SET totp_backup_codes = :codes WHERE id = :id");
+        return $stmt->execute([
+            'codes' => json_encode($hashedCodes),
+            'id' => $userId
+        ]);
+    }
+
+    /**
+     * Récupère les codes de secours hashés (tableau PHP)
+     */
+    public function getBackupCodes(int $userId): array
+    {
+        $stmt = $this->db->prepare("SELECT totp_backup_codes FROM users WHERE id = :id");
+        $stmt->execute(['id' => $userId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row || empty($row['totp_backup_codes'])) {
+            return [];
+        }
+
+        $decoded = json_decode($row['totp_backup_codes'], true);
+        return is_array($decoded) ? $decoded : [];
+    }
+
+    /**
+     * Enregistre une tentative de vérification 2FA (pour rate limiting)
+     */
+    public function logTotpAttempt(int $userId, bool $success, ?string $ip = null): void
+    {
+        $stmt = $this->db->prepare("INSERT INTO totp_attempts (user_id, success, ip_address, created_at) VALUES (:uid, :success, :ip, NOW())");
+        $stmt->execute([
+            'uid' => $userId,
+            'success' => $success ? 1 : 0,
+            'ip' => $ip
+        ]);
+    }
+
+    /**
+     * Compte les tentatives échouées récentes (fenêtre glissante) pour bloquer le brute-force
+     */
+    public function countRecentFailedTotpAttempts(int $userId, int $windowSeconds = 300): int
+    {
+        $stmt = $this->db->prepare("
+        SELECT COUNT(*) as nb
+        FROM totp_attempts
+        WHERE user_id = :uid
+          AND success = 0
+          AND created_at >= DATE_SUB(NOW(), INTERVAL :window SECOND)
+    ");
+        $stmt->execute(['uid' => $userId, 'window' => $windowSeconds]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return (int) ($row['nb'] ?? 0);
+    }
+
+
 }

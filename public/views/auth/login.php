@@ -36,6 +36,14 @@ if (!defined('BASE_URL')) {
             padding: 0.75rem;
             font-weight: 500;
         }
+
+        .forgot-password-link {
+            color: #6c757d;
+        }
+
+        .forgot-password-link:hover {
+            background-color: #edeef0;
+        }
     </style>
 </head>
 
@@ -57,8 +65,8 @@ if (!defined('BASE_URL')) {
                         <form method="POST" action="<?php echo BASE_URL; ?>auth/login">
                             <?= csrf_field() ?>
                             <div class="mb-3">
-                                <label for="username" class="form-label">Nom d'utilisateur</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
+                                <label for="email" class="form-label">Adresse e-mail</label>
+                                <input type="text" class="form-control" id="email" name="email" required>
                             </div>
 
                             <div class="mb-3">
@@ -68,6 +76,10 @@ if (!defined('BASE_URL')) {
 
                             <button type="submit" class="btn btn-primary w-100">Se connecter</button>
                         </form>
+                        <div class="text-center mt-3">
+                            <a href="<?php echo BASE_URL; ?>auth/forgot-password" type="button"
+                                class="btn w-100 forgot-password-link">Mot de passe oublié ?</a>
+                        </div>
                     </div>
                 </div>
             </div>
