@@ -156,11 +156,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     <table class="table table-sm">
                         <tr>
                             <th>Client:</th>
-                            <td><?= htmlspecialchars($contract['client_name'] ?? '') ?></td>
+                            <td>
+                                <?= htmlspecialchars($contract['client_name'] ?? '') ?>
+                            </td>
                         </tr>
                         <tr>
                             <th>Salles associées:</th>
-                            <td>
+                            <td style="max-width: 280px;">
                                 <?php if (!empty($contract['rooms'])): ?>
                                     <?php
                                     // Grouper les salles par site
@@ -172,22 +174,50 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         }
                                         $sites[$siteName][] = $room;
                                     }
+                                    $totalRooms = count($contract['rooms']);
+                                    $totalSites = count($sites);
+                                    $isSingle = ($totalSites === 1 && $totalRooms === 1);
                                     ?>
-                                    <?php foreach ($sites as $siteName => $siteRooms): ?>
-                                        <div class="mb-2">
-                                            <strong class="text-primary">
-                                                <i class="bi bi-building me-1 me-1"></i><?= h($siteName) ?>
-                                            </strong>
-                                            <ul class="list-unstyled ms-3 mb-2">
-                                                <?php foreach ($siteRooms as $room): ?>
-                                                    <li>
-                                                        <i class="bi bi-door-open text-muted me-1 me-1"></i>
-                                                        <?= h($room['room_name']) ?>
-                                                    </li>
-                                                <?php endforeach; ?>
-                                            </ul>
-                                        </div>
-                                    <?php endforeach; ?>
+
+                                    <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
+                                        <span class="badge bg-light text-dark border">
+                                            <i class="bi bi-building me-1"></i>
+                                            <?= $totalSites ?>
+                                            <?= $totalSites > 1 ? 'sites' : 'site' ?>
+                                        </span>
+                                        <span class="badge bg-light text-dark border">
+                                            <i class="bi bi-door-open me-1"></i>
+                                            <?= $totalRooms ?>
+                                            <?= $totalRooms > 1 ? 'salles' : 'salle' ?>
+                                        </span>
+                                        <?php if (!$isSingle): ?>
+                                            <button class="btn btn-sm btn-link p-0 text-decoration-none" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#roomsDetail<?= $contract['id'] ?>"
+                                                aria-expanded="false">
+                                                <i class="bi bi-chevron-down me-1"></i>Voir le détail
+                                            </button>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <div class="<?= $isSingle ? '' : 'collapse' ?> rooms-detail-wrapper"
+                                        id="roomsDetail<?= $contract['id'] ?>">
+                                        <?php foreach ($sites as $siteName => $siteRooms): ?>
+                                            <div class="mb-2">
+                                                <strong class="text-primary small d-block mb-1 text-truncate">
+                                                    <i class="bi bi-building me-1"></i>
+                                                    <?= h($siteName) ?>
+                                                </strong>
+                                                <div class="d-flex flex-wrap gap-1 ms-3">
+                                                    <?php foreach ($siteRooms as $room): ?>
+                                                        <span class="badge bg-secondary-subtle text-dark border fw-normal">
+                                                            <i class="bi bi-door-open text-muted me-1"></i>
+                                                            <?= h($room['room_name']) ?>
+                                                        </span>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
                                 <?php else: ?>
                                     <span class="text-muted">Aucune salle associée</span>
                                 <?php endif; ?>
@@ -195,7 +225,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </tr>
                         <tr>
                             <th>Type de contrat:</th>
-                            <td><?= htmlspecialchars($contract['contract_type_name'] ?? '') ?></td>
+                            <td>
+                                <?= htmlspecialchars($contract['contract_type_name'] ?? '') ?>
+                            </td>
                         </tr>
                         <tr>
                             <th>Niveau d'accès:</th>
@@ -205,7 +237,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         <i class="fas fa-level-up-alt me-1"></i>
                                         <?= h($contract['access_level_name']) ?>
                                     </span>
-                                    <br><small class="text-muted"><?= h($contract['access_level_description']) ?></small>
+                                    <br><small class="text-muted">
+                                        <?= h($contract['access_level_description']) ?>
+                                    </small>
                                 <?php else: ?>
                                     <span class="text-muted">Non défini</span>
                                 <?php endif; ?>
@@ -218,11 +252,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     <table class="table table-sm">
                         <tr>
                             <th>Date de début:</th>
-                            <td><?= formatDateFrench($contract['start_date']) ?></td>
+                            <td>
+                                <?= formatDateFrench($contract['start_date']) ?>
+                            </td>
                         </tr>
                         <tr>
                             <th>Date de fin:</th>
-                            <td><?= formatDateFrench($contract['end_date']) ?></td>
+                            <td>
+                                <?= formatDateFrench($contract['end_date']) ?>
+                            </td>
                         </tr>
                         <?php if (isContractTicketById($contract['id'])): ?>
                             <tr>
@@ -270,7 +308,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <th>Rappel de fin:</th>
                             <td>
                                 <?php if ($contract['reminder_enabled']): ?>
-                                    <span class="badge bg-info">Activé (<?= $contract['reminder_days'] ?> jours)</span>
+                                    <span class="badge bg-info">Activé (
+                                        <?= $contract['reminder_days'] ?> jours)
+                                    </span>
                                 <?php else: ?>
                                     <span class="badge bg-secondary">Désactivé</span>
                                 <?php endif; ?>
@@ -297,7 +337,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <td>
                                 <?php if (!empty($contract['num_facture'])): ?>
                                     <span class="badge bg-primary">
-                                        <i class="bi bi-receipt me-1"></i><?= h($contract['num_facture']) ?>
+                                        <i class="bi bi-receipt me-1"></i>
+                                        <?= h($contract['num_facture']) ?>
                                     </span>
                                 <?php else: ?>
                                     <span class="text-muted">Non défini</span>
@@ -309,8 +350,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <td>
                                 <?php if (!empty($contract['tarif'])): ?>
                                     <span class="badge bg-success">
-                                        <i
-                                            class="bi bi-currency-euro me-1"></i><?= number_format($contract['tarif'], 2, ',', ' ') ?>
+                                        <i class="bi bi-currency-euro me-1"></i>
+                                        <?= number_format($contract['tarif'], 2, ',', ' ') ?>
                                         €
                                     </span>
                                 <?php else: ?>
@@ -323,7 +364,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <td>
                                 <?php if (!empty($contract['indice'])): ?>
                                     <span class="badge bg-info">
-                                        <i class="bi bi-graph-up me-1"></i><?= h($contract['indice']) ?>
+                                        <i class="bi bi-graph-up me-1"></i>
+                                        <?= h($contract['indice']) ?>
                                     </span>
                                 <?php else: ?>
                                     <span class="text-muted">Non défini</span>
@@ -380,7 +422,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         class="card mb-2 <?php echo isset($attachment['masque_client']) && $attachment['masque_client'] == 1 ? 'bg-light-warning' : ''; ?>">
                         <div class="card-header py-1 d-flex justify-content-between align-items-center">
                             <div>
-                                <strong><?php echo h($attachment['created_by_name'] ?? 'Utilisateur inconnu'); ?></strong>
+                                <strong>
+                                    <?php echo h($attachment['created_by_name'] ?? 'Utilisateur inconnu'); ?>
+                                </strong>
                                 <small class="text-muted ms-2">
                                     <?php echo date('d/m/Y H:i', strtotime($attachment['date_creation'])); ?>
                                 </small>
@@ -419,7 +463,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <?php endif; ?>
                                 <?php echo h($attachment['nom_fichier']); ?>
                                 <?php if ($attachment['commentaire']): ?>
-                                    <small class="text-muted ms-2">(<?php echo h($attachment['commentaire']); ?>)</small>
+                                    <small class="text-muted ms-2">(
+                                        <?php echo h($attachment['commentaire']); ?>)
+                                    </small>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -430,7 +476,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <div class="modal-dialog modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title"><?= h($attachment['nom_fichier']) ?></h5>
+                                    <h5 class="modal-title">
+                                        <?= h($attachment['nom_fichier']) ?>
+                                    </h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -830,6 +878,26 @@ include_once __DIR__ . '/../../includes/navbar.php';
     [data-bs-theme="dark"] .file-options {
         background-color: var(--bs-secondary-bg);
     }
+
+    .rooms-detail-wrapper {
+        max-width: 280px;
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+
+    .rooms-detail-wrapper .badge {
+        max-width: 100%;
+        white-space: normal;
+        text-align: left;
+    }
+
+    [data-bs-toggle="collapse"] .bi-chevron-down {
+        transition: transform 0.2s ease;
+    }
+
+    [data-bs-toggle="collapse"][aria-expanded="true"] .bi-chevron-down {
+        transform: rotate(180deg);
+    }
 </style>
 
 <!-- JavaScript extrait vers public/assets/js/pages/contracts.js -->
@@ -859,7 +927,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <label for="tickets_to_add" class="form-label">Nombre de tickets à ajouter *</label>
                         <input type="number" class="form-control" id="tickets_to_add" name="tickets_to_add" min="1"
                             required placeholder="Ex: 10">
-                        <div class="form-text">Tickets actuels: <?= $contract['tickets_number'] ?>, Restants:
+                        <div class="form-text">Tickets actuels:
+                            <?= $contract['tickets_number'] ?>, Restants:
                             <?= $contract['tickets_remaining'] ?>
                         </div>
                     </div>
@@ -1016,7 +1085,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     <div class="mt-3">
                         <small class="text-muted">
                             <i class="bi bi-info-circle me-1"></i>
-                            Total : <?php echo count($ticketsHistory); ?> modification(s) de tickets
+                            Total :
+                            <?php echo count($ticketsHistory); ?> modification(s) de tickets
                         </small>
                     </div>
                 <?php endif; ?>
@@ -1090,8 +1160,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <div class="col-md-6">
                             <h6>Contrat actuel</h6>
                             <ul class="list-unstyled">
-                                <li><strong>Nom :</strong> <?= h($contract['name']) ?></li>
-                                <li><strong>Date de fin :</strong> <?= formatDateFrench($contract['end_date']) ?></li>
+                                <li><strong>Nom :</strong>
+                                    <?= h($contract['name']) ?>
+                                </li>
+                                <li><strong>Date de fin :</strong>
+                                    <?= formatDateFrench($contract['end_date']) ?>
+                                </li>
                                 <li><strong>Statut :</strong> <span class="badge bg-success">Actif</span></li>
                             </ul>
                         </div>
@@ -1099,10 +1173,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <h6>Nouveau contrat</h6>
                             <ul class="list-unstyled">
                                 <?php if ($isExpired): ?>
-                                    <li><strong>Date de début :</strong> <?= formatDateFrench(date('Y-m-d')) ?> <span
-                                            class="badge bg-info">Aujourd'hui</span></li>
+                                    <li><strong>Date de début :</strong>
+                                        <?= formatDateFrench(date('Y-m-d')) ?> <span
+                                            class="badge bg-info">Aujourd'hui</span>
+                                    </li>
                                     <li><strong>Date de fin :</strong>
-                                        <?= formatDateFrench(date('Y-m-d', strtotime('+364 days'))) ?></li>
+                                        <?= formatDateFrench(date('Y-m-d', strtotime('+364 days'))) ?>
+                                    </li>
                                 <?php else: ?>
                                     <li><strong>Date de début :</strong>
                                         <?= formatDateFrench(date('Y-m-d', strtotime($contract['end_date'] . ' +1 day'))) ?>
@@ -1131,7 +1208,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <i class="bi bi-arrow-clockwise me-1"></i>Réinitialiser les tickets restants
                                 </label>
                                 <small class="form-text text-muted d-block">
-                                    Les tickets restants seront remis à <?= $contract['tickets_number'] ?> (tickets
+                                    Les tickets restants seront remis à
+                                    <?= $contract['tickets_number'] ?> (tickets
                                     initiaux)
                                 </small>
                             </div>
