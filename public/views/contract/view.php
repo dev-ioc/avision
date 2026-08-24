@@ -880,7 +880,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
     }
 
     .rooms-detail-wrapper {
-        max-width: 280px;
+        max-width: 100%;
         overflow-wrap: break-word;
         word-break: break-word;
     }
