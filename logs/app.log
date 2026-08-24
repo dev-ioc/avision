@@ -126400,3 +126400,146 @@ Quant à l’écran n°1, il est HS
 [2026-08-24 07:48:23][DEBUG] CSRF: Token trouvé dans la requête - Token: f733e7868ad89ef2cae6... 
 [2026-08-24 07:48:23][DEBUG] CSRF: Token trouvé dans la requête - Token: f733e7868ad89ef2cae6... 
 [2026-08-24 07:48:23][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-24 07:55:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 17c2174c579cb9437b95... 
+[2026-08-24 07:55:38][WARNING] Tentative de connexion échouée pour l'utilisateur : dev_mdg@caspeo.fr 
+[2026-08-24 07:56:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 17c2174c579cb9437b95... 
+[2026-08-24 07:56:42][ERROR] Erreur d'authentification : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.username' in 'field list' 
+[2026-08-24 07:56:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 17c2174c579cb9437b95... 
+[2026-08-24 07:56:48][ERROR] Erreur d'authentification : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.username' in 'field list' 
+[2026-08-24 07:56:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 17c2174c579cb9437b95... 
+[2026-08-24 07:56:58][ERROR] Erreur d'authentification : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.username' in 'field list' 
+[2026-08-24 07:57:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 17c2174c579cb9437b95... 
+[2026-08-24 07:57:20][ERROR] Erreur d'authentification : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.username' in 'field list' 
+[2026-08-24 07:57:29][DEBUG] CSRF: Token trouvé dans la requête - Token: 17c2174c579cb9437b95... 
+[2026-08-24 07:57:29][ERROR] Erreur d'authentification : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.username' in 'field list' 
+[2026-08-24 08:01:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 17c2174c579cb9437b95... 
+[2026-08-24 08:01:17][DEBUG] Permissions chargées pour admin : {"role":"technicien","rights":{"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true,"tech_manage_interventions":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-24 08:01:17][INFO] Utilisateur connecté : admin {"user_id":1,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-24 08:01:17][DEBUG] Login réussi - Session ID: ban1trhv0qni2daafnfmlboehi 
+[2026-08-24 08:01:17][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-24 08:01:17][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-24 08:01:17][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-24 08:01:17][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-24 08:01:20][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-24 08:01:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 17c2174c579cb9437b95... 
+[2026-08-24 08:01:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 17c2174c579cb9437b95... 
+[2026-08-24 08:01:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 17c2174c579cb9437b95... 
+[2026-08-24 08:01:21][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-24 08:01:24][INFO] 81 
+[2026-08-24 08:01:24][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.qr_code_edited' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\RoomModel.php","line":48}
+[2026-08-24 08:05:11][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-24 08:05:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 17c2174c579cb9437b95... 
+[2026-08-24 08:05:11][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-24 08:05:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 17c2174c579cb9437b95... 
+[2026-08-24 08:05:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 17c2174c579cb9437b95... 
+[2026-08-24 08:05:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 24add437a9a399e85ed5... 
+[2026-08-24 08:05:23][WARNING] Tentative de connexion échouée pour l'utilisateur : Karija 
+[2026-08-24 08:05:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 24add437a9a399e85ed5... 
+[2026-08-24 08:05:41][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-24 08:05:41][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-24 08:05:41][DEBUG] Login réussi - Session ID: l98kdh2s54c7o1cpnj5ir182uq 
+[2026-08-24 08:05:41][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-24 08:05:41][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-24 08:05:41][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-24 08:05:41][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-24 08:05:49][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-24 08:05:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 24add437a9a399e85ed5... 
+[2026-08-24 08:05:50][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-24 08:05:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 24add437a9a399e85ed5... 
+[2026-08-24 08:05:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 24add437a9a399e85ed5... 
+[2026-08-24 08:05:54][INFO] 81 
+[2026-08-24 08:06:17][WARNING] Undefined variable $site {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\edit.php","line":19,"errno":2}
+[2026-08-24 08:06:17][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\edit.php","line":19,"errno":2}
+[2026-08-24 08:06:17][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\edit.php","line":19,"errno":2}
+[2026-08-24 08:07:26][WARNING] Undefined variable $site {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\edit.php","line":19,"errno":2}
+[2026-08-24 08:07:26][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\edit.php","line":19,"errno":2}
+[2026-08-24 08:07:26][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\edit.php","line":19,"errno":2}
+[2026-08-24 08:07:28][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-24 08:07:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 24add437a9a399e85ed5... 
+[2026-08-24 08:07:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 24add437a9a399e85ed5... 
+[2026-08-24 08:07:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 24add437a9a399e85ed5... 
+[2026-08-24 08:07:29][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-24 08:07:31][INFO] 81 
+[2026-08-24 08:07:39][INFO] 81 
+[2026-08-24 08:08:03][INFO] 81 
+[2026-08-24 08:08:09][INFO] 81 
+[2026-08-24 08:09:02][DEBUG] CSRF: Token trouvé dans la requête - Token: d8c5a50e0fad84e85f9e... 
+[2026-08-24 08:09:02][WARNING] Tentative de connexion échouée pour l'utilisateur : Fncaaudiovisuel 
+[2026-08-24 08:09:09][DEBUG] CSRF: Token trouvé dans la requête - Token: d8c5a50e0fad84e85f9e... 
+[2026-08-24 08:09:10][WARNING] Tentative de connexion échouée pour l'utilisateur : FOLyia 
+[2026-08-24 08:09:17][DEBUG] CSRF: Token trouvé dans la requête - Token: d8c5a50e0fad84e85f9e... 
+[2026-08-24 08:09:17][WARNING] Tentative de connexion échouée pour l'utilisateur : Fncaaudiovisuel 
+[2026-08-24 08:10:12][DEBUG] CSRF: Token trouvé dans la requête - Token: d8c5a50e0fad84e85f9e... 
+[2026-08-24 08:10:13][DEBUG] Permissions chargées pour Fncaaudiovisuel : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":22,"site_id":35,"room_id":72},{"client_id":22,"site_id":35,"room_id":73},{"client_id":22,"site_id":35,"room_id":74},{"client_id":22,"site_id":35,"room_id":75},{"client_id":22,"site_id":35,"room_id":76},{"client_id":22,"site_id":35,"room_id":77},{"client_id":22,"site_id":35,"room_id":78},{"client_id":22,"site_id":35,"room_id":79},{"client_id":22,"site_id":35,"room_id":80},{"client_id":22,"site_id":35,"room_id":81},{"client_id":22,"site_id":35,"room_id":82},{"client_id":22,"site_id":35,"room_id":83},{"client_id":22,"site_id":35,"room_id":84},{"client_id":22,"site_id":35,"room_id":297}],"coefficients":{"user_coef":null}} 
+[2026-08-24 08:10:13][INFO] Utilisateur connecté : Fncaaudiovisuel {"user_id":26,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":22}
+[2026-08-24 08:10:13][DEBUG] Login réussi - Session ID: a5b2g4i713t700j5kk4e48f81j 
+[2026-08-24 08:10:13][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-24 08:10:13][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-24 08:10:13][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-24 08:10:13][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-24 08:10:15][DEBUG] SiteClientController::index - DB set: yes 
+[2026-08-24 08:10:15][DEBUG] SiteClientController::index - clientId from session: 22 
+[2026-08-24 08:10:15][DEBUG] SiteClientController::index - userLocations: {"22":[{"site_id":35,"building_id":25,"room_id":77},{"site_id":35,"building_id":25,"room_id":72},{"site_id":35,"building_id":25,"room_id":73},{"site_id":35,"building_id":25,"room_id":74},{"site_id":35,"building_id":25,"room_id":75},{"site_id":35,"building_id":25,"room_id":76},{"site_id":35,"building_id":25,"room_id":78},{"site_id":35,"building_id":25,"room_id":79},{"site_id":35,"building_id":25,"room_id":80},{"site_id":35,"building_id":25,"room_id":81},{"site_id":35,"building_id":25,"room_id":82},{"site_id":35,"building_id":25,"room_id":83},{"site_id":35,"building_id":25,"room_id":84},{"site_id":35,"building_id":25,"room_id":297}]} 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - START 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - userLocations: {"22":[{"site_id":35,"building_id":25,"room_id":77},{"site_id":35,"building_id":25,"room_id":72},{"site_id":35,"building_id":25,"room_id":73},{"site_id":35,"building_id":25,"room_id":74},{"site_id":35,"building_id":25,"room_id":75},{"site_id":35,"building_id":25,"room_id":76},{"site_id":35,"building_id":25,"room_id":78},{"site_id":35,"building_id":25,"room_id":79},{"site_id":35,"building_id":25,"room_id":80},{"site_id":35,"building_id":25,"room_id":81},{"site_id":35,"building_id":25,"room_id":82},{"site_id":35,"building_id":25,"room_id":83},{"site_id":35,"building_id":25,"room_id":84},{"site_id":35,"building_id":25,"room_id":297}]} 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Traitement du clientId: 22 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - locations: [{"site_id":35,"building_id":25,"room_id":77},{"site_id":35,"building_id":25,"room_id":72},{"site_id":35,"building_id":25,"room_id":73},{"site_id":35,"building_id":25,"room_id":74},{"site_id":35,"building_id":25,"room_id":75},{"site_id":35,"building_id":25,"room_id":76},{"site_id":35,"building_id":25,"room_id":78},{"site_id":35,"building_id":25,"room_id":79},{"site_id":35,"building_id":25,"room_id":80},{"site_id":35,"building_id":25,"room_id":81},{"site_id":35,"building_id":25,"room_id":82},{"site_id":35,"building_id":25,"room_id":83},{"site_id":35,"building_id":25,"room_id":84},{"site_id":35,"building_id":25,"room_id":297}] 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - clientSites trouvés: 1 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site: ID=35, name=48 BOETIE 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Site autorisé directement: 35 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - allowedSiteIds: {"35":true} 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - Ajout du site 35 dans la map (accès restreint) 
+[2026-08-24 08:10:15][DEBUG] getSitesByLocations - résultat FINAL: [35] 
+[2026-08-24 08:10:15][DEBUG] SiteClientController::index - sites après dédoublonnage: [35] 
+[2026-08-24 08:10:15][INFO] 35 
+[2026-08-24 08:10:15][DEBUG] SiteClientController::index - sites count: 1 
+[2026-08-24 08:10:19][INFO] 35 
+[2026-08-24 08:10:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 05e453ffdf86f1d27edc... 
+[2026-08-24 08:10:50][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-24 08:10:50][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-24 08:10:50][DEBUG] Login réussi - Session ID: kvhtv908o6ndumqbpaart001ds 
+[2026-08-24 08:10:50][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-24 08:10:50][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-24 08:10:50][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-24 08:10:50][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-24 08:11:03][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-24 08:11:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 05e453ffdf86f1d27edc... 
+[2026-08-24 08:11:03][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-24 08:11:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 05e453ffdf86f1d27edc... 
+[2026-08-24 08:11:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 05e453ffdf86f1d27edc... 
+[2026-08-24 08:11:07][INFO] 55 
+[2026-08-24 08:11:07][INFO] 109 
+[2026-08-24 08:11:14][INFO] 109 
+[2026-08-24 08:11:16][INFO] 55 
+[2026-08-24 08:11:16][INFO] 109 
+[2026-08-24 08:12:06][INFO] 55 
+[2026-08-24 08:12:06][INFO] 109 
+[2026-08-24 08:12:09][INFO] 55 
+[2026-08-24 08:12:09][INFO] 109 
+[2026-08-24 08:12:53][INFO] 55 
+[2026-08-24 08:12:53][INFO] 109 
+[2026-08-24 08:12:58][WARNING] Undefined variable $site {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\edit.php","line":19,"errno":2}
+[2026-08-24 08:12:58][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\edit.php","line":19,"errno":2}
+[2026-08-24 08:12:58][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\edit.php","line":19,"errno":2}
+[2026-08-24 08:15:25][WARNING] Undefined variable $site {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\edit.php","line":19,"errno":2}
+[2026-08-24 08:15:25][WARNING] Trying to access array offset on value of type null {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\room\\edit.php","line":19,"errno":2}
+[2026-08-24 08:15:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 05e453ffdf86f1d27edc... 
+[2026-08-24 08:15:55][WARNING] Undefined array key "site_id" {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\RoomController.php","line":229,"errno":2}
+[2026-08-24 08:15:55][INFO] 55 
+[2026-08-24 08:15:55][INFO] 109 
+[2026-08-24 08:16:13][INFO] 55 
+[2026-08-24 08:16:13][INFO] 109 

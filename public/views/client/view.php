@@ -575,7 +575,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         </thead>
                                         <tbody>
                                           <?php foreach ($building['rooms'] as $room): ?>
-                                            <tr>
+                                            <?php
+                                            $roomEditUrl = BASE_URL . 'room/edit/' . $room['id'] . '?return_to=client&client_id=' . $client['id'] . '&active_tab=sites-tab&open_site_id=' . $site['id'];
+                                            ?>
+                                            <tr class="room-row" style="cursor: pointer;"
+                                              data-href="<?php echo htmlspecialchars($roomEditUrl); ?>"
+                                              title="Cliquer pour modifier cette salle">
                                               <td>
                                                 <?php echo h($room['name']); ?>
                                               </td>
@@ -587,10 +592,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                   <?php echo ($room['status'] ?? 0) == 1 ? 'Actif' : 'Inactif'; ?>
                                                 </span>
                                               </td>
-                                              <td class="text-center">
-                                                  <input class="form-check-input qr-code-toggle" type="checkbox"
-                                                    data-room-id="<?php echo $room['id']; ?>" <?php echo !empty($room['qr_code_edited']) ? 'checked' : ''; ?>
-                                                  <?php echo !$canModifyClient ? 'disabled title="Vous n\'avez pas les droits pour modifier ce champ"' : ''; ?>>
+                                              <td class="text-center" onclick="event.stopPropagation();">
+                                                <input class="form-check-input qr-code-toggle" type="checkbox"
+                                                  data-room-id="<?php echo $room['id']; ?>" <?php echo !empty($room['qr_code_edited']) ? 'checked' : ''; ?>
+                                                <?php echo !$canModifyClient ? 'disabled title="Vous n\'avez pas les droits pour modifier ce champ"' : ''; ?>>
                                               </td>
                                               <td>
                                                 <?php echo !empty($room['comment']) ? h($room['comment']) : '<span class="text-muted">Aucun commentaire</span>'; ?>
@@ -1082,39 +1087,39 @@ include_once __DIR__ . '/../../includes/navbar.php';
     }
   }
   document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('.qr-code-toggle').forEach(function (checkbox) {
-  checkbox.addEventListener('change', function () {
-  const roomId = this.dataset.roomId;
-  const edited = this.checked;
-  const originalState = !edited;
-  const csrfToken = '<?= csrf_token() ?>'; 
+    document.querySelectorAll('.qr-code-toggle').forEach(function (checkbox) {
+      checkbox.addEventListener('change', function () {
+        const roomId = this.dataset.roomId;
+        const edited = this.checked;
+        const originalState = !edited;
+        const csrfToken = '<?= csrf_token() ?>';
 
-  this.disabled = true;
+        this.disabled = true;
 
-  fetch(BASE_URL + 'room/toggle-qr/' + roomId, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': csrfToken
-    },
-    body: JSON.stringify({ edited: edited, csrf_token: csrfToken })
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (!data.success) {
-        alert(data.message || 'Erreur lors de la mise à jour.');
-        this.checked = originalState;
-      }
-    })
-    .catch(() => {
-      alert('Erreur réseau lors de la mise à jour.');
-      this.checked = originalState;
-    })
-    .finally(() => {
-      this.disabled = !<?php echo $canModifyClient ? 'true' : 'false'; ?>;
+        fetch(BASE_URL + 'room/toggle-qr/' + roomId, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken
+          },
+          body: JSON.stringify({ edited: edited, csrf_token: csrfToken })
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (!data.success) {
+              alert(data.message || 'Erreur lors de la mise à jour.');
+              this.checked = originalState;
+            }
+          })
+          .catch(() => {
+            alert('Erreur réseau lors de la mise à jour.');
+            this.checked = originalState;
+          })
+          .finally(() => {
+            this.disabled = !<?php echo $canModifyClient ? 'true' : 'false'; ?>;
+          });
+      });
     });
-});
-});
     function initSortableTable(tableId) {
       const table = document.getElementById(tableId);
       if (!table) return;
@@ -1175,7 +1180,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
         });
       });
     }
-
+document.querySelectorAll('tr.room-row').forEach(function (row) {
+  row.addEventListener('click', function () {
+    window.location.href = this.dataset.href;
+  });
+});
     initSortableTable('contractsTable');
     initSortableTable('contactsTable');
     initSortableTable('materielTable');
