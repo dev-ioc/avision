@@ -193,7 +193,6 @@ class RoomController
     {
         $this->checkAccess();
 
-        // Récupérer la salle d'abord
         $room = $this->roomModel->getRoomById($id);
         if (!$room) {
             $_SESSION['error'] = "Salle non trouvée.";
@@ -201,7 +200,6 @@ class RoomController
             exit;
         }
 
-        // Récupérer le site associé à la salle
         $building = $this->roomModel->getBuildingById($room['building_id']);
         if (!$building) {
             $_SESSION['error'] = "Site associé à cette salle non trouvé.";
@@ -209,10 +207,20 @@ class RoomController
             exit;
         }
 
-        // Vérifier si l'utilisateur a les droits de modification
+        // URL de retour par défaut : la fiche client
+        $defaultReturn = BASE_URL . 'clients/view/' . $building['client_id'];
+
+        // URL transmise par la page appelante (GET au chargement, POST après soumission)
+        $returnUrl = $_POST['return_url'] ?? $_GET['return'] ?? $defaultReturn;
+
+        // Sécurité : uniquement des URL internes
+        if (strpos($returnUrl, BASE_URL) !== 0) {
+            $returnUrl = $defaultReturn;
+        }
+
         if (!canModifyClients()) {
             $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour modifier cette salle.";
-            header('Location: ' . BASE_URL . 'clients/edit/' . $building['client_id'] . '?open_site_id=' . $room['site_id'] . '#sites');
+            header('Location: ' . $returnUrl);
             exit;
         }
 
@@ -226,16 +234,14 @@ class RoomController
 
             if ($this->roomModel->updateRoom($id, $data)) {
                 $_SESSION['success'] = "Salle modifiée avec succès.";
-                header('Location: ' . BASE_URL . 'clients/edit/' . $building['client_id'] . '?open_site_id=' . $room['site_id'] . '#sites');
+                header('Location: ' . $returnUrl);
                 exit;
             } else {
                 $_SESSION['error'] = "Erreur lors de la modification de la salle.";
             }
         }
 
-        // Récupérer les contacts du client pour le select
         $contacts = $this->contactModel->getContactsByClientId($building['client_id']);
-
         $pageTitle = "Modifier la salle - " . $room['name'];
         require_once VIEWS_PATH . '/room/edit.php';
     }
@@ -270,7 +276,7 @@ class RoomController
 
         // Store client_id and site_id before deletion for the redirect
         $clientId = $room['client_id'];
-        $buildingId = $room['site_id'];
+        $buildingId = $room['building_id'];
 
         if ($this->roomModel->deleteRoom($id)) {
             $_SESSION['success'] = "Salle supprimée avec succès.";

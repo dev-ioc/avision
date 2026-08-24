@@ -16,8 +16,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <h4 class="py-4 mb-6">Modifier la Salle</h4>
         </div>
         <div class="ms-auto p-2 bd-highlight">
-            <a href="<?php echo BASE_URL; ?>clients/edit/<?php echo $site['client_id']; ?>?open_site_id=<?php echo $room['building_id']; ?>#sites"
-                class="btn btn-secondary me-2">
+            <a href="<?= htmlspecialchars($returnUrl) ?>" class="btn btn-secondary me-2">
                 <i class="bi bi-arrow-left me-1"></i> Retour
             </a>
             <button type="submit" form="roomForm" class="btn btn-primary me-2">
