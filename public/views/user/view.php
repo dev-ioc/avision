@@ -103,7 +103,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <td><?php echo h($user['first_name']); ?></td>
                         </tr> -->
                         <tr>
-                            <th>Email :</th>
+                            <th>Email (Login):</th>
                             <td>
                                 <?php echo h($user['email']); ?>
                             </td>
@@ -129,7 +129,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     'technicien' => 'Technicien',
                                     'client' => 'Client'
                                 ];
-                                echo isset($user['user_type']) ? ($typeLabels[$user['user_type']] ?? $user['user_type']) : 'Non défini';
                                 echo isset($user['user_type']) ? ($typeLabels[$user['user_type']] ?? $user['user_type']) : 'Non défini';
                                 ?>
                             </td>
