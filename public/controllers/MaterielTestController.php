@@ -195,7 +195,7 @@ class MaterielTestController
                 COALESCE(c.id, c2.id, c3.id) as client_id,
                 COALESCE(s.id, s2.id) as site_id,
                 r.id as salle_id,
-                u.username as uploader_name,
+                u.first_name as uploader_name,
                 CASE 
                     WHEN pj.nom_fichier LIKE '%.pdf' THEN 'pdf'
                     WHEN pj.nom_fichier LIKE '%.dwg' THEN 'dwg'

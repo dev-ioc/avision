@@ -26,7 +26,7 @@ class DocumentationModel extends BaseModel
                 b.id as building_id,
                 r.name as room_name,
                 r.id as room_id,
-                u.username as uploader_name,
+                u.first_name as uploader_name,
                 u.first_name as user_first_name,
                 u.last_name as user_last_name
             FROM pieces_jointes pj
@@ -256,7 +256,7 @@ class DocumentationModel extends BaseModel
                 r.name as room_name,
                 u.first_name as author_first_name,
                 u.last_name as author_last_name,
-                u.username as uploader_name
+                u.first_name as uploader_name
             FROM pieces_jointes pj
             INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
             LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)

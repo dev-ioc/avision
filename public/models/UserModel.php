@@ -48,7 +48,7 @@ class UserModel extends BaseModel
         }
 
         if (!empty($filters['search'])) {
-            $where[] = "(u.username LIKE :search OR u.email LIKE :search)";
+            $where[] = "(u.first_name LIKE :search OR u.email LIKE :search)";
             $params[':search'] = '%' . $filters['search'] . '%';
         }
 
