@@ -6232,10 +6232,12 @@ class InterventionController
                 $contactPhone
             );
 
-            if (empty($response['document_id'])) {
-                throw new Exception('Erreur lors de la création de la demande de signature');
+            // if (empty($response['document_id'])) {
+            //     throw new Exception('Erreur lors de la création de la demande de signature');
+            // }
+            if (empty($response['success'])) {
+                throw new Exception($response['error'] ?? 'Erreur lors de la création de la demande de signature');
             }
-
             // Sauvegarder en BDD
             $sql = "INSERT INTO intervention_signatures
                 (intervention_id, signnow_document_id, status, signer_email,

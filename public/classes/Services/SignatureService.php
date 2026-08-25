@@ -106,6 +106,26 @@ class SignatureService
         custom_log('SIGNNOW Document: ' . json_encode($document), 'DEBUG');
         custom_log('SIGNNOW Invite: ' . json_encode($invite), 'DEBUG');
 
+        // Vérifier que l'invitation a réellement réussi (status HTTP 2xx).
+        // Sans ce contrôle, un document uploadé avec succès mais dont
+        // l'invitation échoue (abonnement expiré, email non vérifié,
+        // quota atteint, etc.) remontait quand même success => true.
+        $inviteStatus = $invite['status'] ?? 0;
+
+        if ($inviteStatus < 200 || $inviteStatus >= 300) {
+            $errorMsg = $invite['data']['message']
+                ?? $invite['data']['errors'][0]['message']
+                ?? 'Échec de l\'envoi de l\'invitation (code ' . $inviteStatus . ')';
+
+            custom_log('SIGNNOW: Échec invitation - ' . $errorMsg, 'ERROR');
+
+            return [
+                'success' => false,
+                'document_id' => $documentId,
+                'error' => $errorMsg
+            ];
+        }
+
         return [
             'success' => true,
             'document_id' => $documentId,
