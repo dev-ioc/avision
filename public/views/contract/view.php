@@ -78,9 +78,24 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </a>
 
             <?php if (canManageContracts()): ?>
-                <a href="<?php echo BASE_URL; ?>contracts/edit/<?php echo $contract['id']; ?>?return_to=<?php echo $returnTo; ?><?php echo $clientId ? '&client_id=' . $clientId : ''; ?><?php echo $activeTab ? '&active_tab=' . $activeTab : ''; ?>"
+                <?php
+                // URL actuelle de la vue du contrat
+                $currentContractUrl = BASE_URL . 'contracts/view/' . (int) $contract['id'];
+
+                // Si la page contrat a été ouverte avec un contexte particulier,
+// on le conserve également.
+                if ($returnTo === 'client' && $clientId) {
+                    $currentContractUrl .= '?return_to=client&client_id=' . (int) $clientId;
+
+                    if ($activeTab) {
+                        $currentContractUrl .= '&active_tab=' . urlencode($activeTab);
+                    }
+                }
+                ?>
+
+                <a href="<?= BASE_URL ?>contracts/edit/<?= (int) $contract['id'] ?>?return_url=<?= urlencode($currentContractUrl) ?>"
                     class="btn btn-warning me-2">
-                    <i class="bi bi-pencil me-1 me-1"></i>Modifier
+                    <i class="bi bi-pencil me-1"></i>Modifier
                 </a>
 
                 <?php
