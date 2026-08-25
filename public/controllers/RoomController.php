@@ -207,15 +207,10 @@ class RoomController
             exit;
         }
 
-        // URL de retour par défaut : la fiche client
         $defaultReturn = BASE_URL . 'clients/view/' . (int) $building['client_id'];
 
-        // Récupérer l'URL de retour :
-        // - POST après soumission du formulaire
-        // - GET lors de l'accès initial à la page
         $returnUrl = $_POST['return_url'] ?? $_GET['return_url'] ?? $defaultReturn;
 
-        // Sécurité : uniquement des URL internes à l'application
         if (strpos($returnUrl, BASE_URL) !== 0) {
             $returnUrl = $defaultReturn;
         }

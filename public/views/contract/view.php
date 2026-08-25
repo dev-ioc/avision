@@ -81,9 +81,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <?php
                 // URL actuelle de la vue du contrat
                 $currentContractUrl = BASE_URL . 'contracts/view/' . (int) $contract['id'];
-
-                // Si la page contrat a été ouverte avec un contexte particulier,
-// on le conserve également.
                 if ($returnTo === 'client' && $clientId) {
                     $currentContractUrl .= '?return_to=client&client_id=' . (int) $clientId;
 
