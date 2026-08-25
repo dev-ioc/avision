@@ -736,3 +736,4 @@
 [2026-08-20 14:19:46][INFO] ENVOI RESET MDP - Destinataire: waxab28286@koboywin.com (KKARIJA Tech Tech Karija) 
 [2026-08-20 14:20:07][ERROR] Erreur lors de l'envoi de l'email SMTP: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
 [2026-08-20 14:20:07][ERROR] Erreur envoi lien reset MDP : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-08-25 12:36:43][ERROR] Erreur envoi email fermeture intervention 285 : Aucun destinataire trouvé pour l'intervention 285 

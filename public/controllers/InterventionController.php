@@ -3795,6 +3795,7 @@ class InterventionController
                         (($contract['status']) === "actif")
                         ? 'Actif'
                         : 'Inactif';
+                    $intervention['tickets_number'] = $contract['tickets_number'] ?? 0;
                 }
             }
             // 2. Récupérer les informations du client

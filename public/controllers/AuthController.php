@@ -727,18 +727,16 @@ class AuthController
             if (defined('APP_ENV') && APP_ENV === 'local') {
                 $csmFactory->setSecuredRelyingPartyId(['localhost']);
             }
-            $validator = AuthenticatorAttestationResponseValidator::create($csmFactory->creationCeremony());
 
-            // Signature confirmée par la doc officielle actuelle :
-            // check($credentialSource, $response, $options, $host, $userHandle)
+            $validator = AuthenticatorAssertionResponseValidator::create($csmFactory->requestCeremony());
+
             $updatedCredentialSource = $validator->check(
                 $credentialSource,
                 $publicKeyCredential->response,
                 $requestOptions,
                 parse_url(BASE_URL, PHP_URL_HOST),
-                null // userHandle : null car on utilise des discoverable credentials (allowCredentials vide)
+                $credentialSource->userHandle // au lieu de null
             );
-
             // Re-sauvegarde recommandée par la doc : le compteur a pu changer
             $newSerializedSource = base64_encode($serializer->serialize($updatedCredentialSource, 'json'));
             $this->userModel->updateWebauthnCredentialSource(

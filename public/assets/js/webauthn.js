@@ -239,3 +239,40 @@ async function deletePasskey(credentialId, rowEl) {
     alert("Une erreur est survenue.");
   }
 }
+async function loadPasskeys() {
+  try {
+    const resp = await fetch(BASE_URL + "auth/webauthn-credentials", {
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+    });
+    const data = await resp.json();
+    const list = document.getElementById("passkey-list");
+    const empty = document.getElementById("passkey-empty");
+    list.innerHTML = "";
+
+    if (!data.success || data.credentials.length === 0) {
+      empty.classList.remove("d-none");
+      return;
+    }
+    empty.classList.add("d-none");
+
+    data.credentials.forEach((cred) => {
+      const li = document.createElement("li");
+      li.className =
+        "list-group-item d-flex justify-content-between align-items-center";
+      li.innerHTML = `
+                <span>
+                    <strong>${cred.name || "Appareil sans nom"}</strong>
+                    <br><small class="text-muted">Ajoutée le ${new Date(cred.created_at).toLocaleDateString("fr-FR")}</small>
+                </span>
+                <button class="btn btn-sm btn-outline-danger">Supprimer</button>
+            `;
+      li.querySelector("button").onclick = () => deletePasskey(cred.id, li);
+      list.appendChild(li);
+    });
+  } catch (err) {
+    console.error("Erreur chargement passkeys:", err);
+    document.getElementById("passkey-empty").textContent =
+      "Impossible de charger vos passkeys pour le moment.";
+    document.getElementById("passkey-empty").classList.remove("d-none");
+  }
+}

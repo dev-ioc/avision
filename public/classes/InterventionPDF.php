@@ -828,11 +828,12 @@ class InterventionPDF extends TCPDF
         // HORAIRES
         // =====================================================
 
-        $w = 47.5;
+        $w = 38;
 
         $this->headCell($w, 'Heure début intervention');
         $this->headCell($w, 'Heure fin intervention');
-        $this->headCell($w, 'Total en tickets');
+        $this->headCell($w, 'Solde ticket');
+        $this->headCell($w, 'Total ticket intervention');
         $this->headCell($w, 'Tickets restant');
 
         $this->Ln();
@@ -847,6 +848,8 @@ class InterventionPDF extends TCPDF
             !empty($intervention['end_date'])
             ? $intervention['end_date']
             : '';
+
+        $soldeTicket = $intervention['tickets_number'] ?? '0';
 
         $ticketsUsed =
             $intervention['tickets_used'] ?? '0';
@@ -874,6 +877,16 @@ class InterventionPDF extends TCPDF
             'C'
         );
 
+        // Solde tickets
+        $this->Cell(
+            $w,
+            10,
+            $soldeTicket,
+            1,
+            0,
+            'C'
+        );
+
         // Total tickets
         $this->Cell(
             $w,
@@ -893,7 +906,6 @@ class InterventionPDF extends TCPDF
             1,
             'C'
         );
-
         // =====================================================
         // DESCRIPTION
         // =====================================================
