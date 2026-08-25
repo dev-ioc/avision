@@ -246,4 +246,22 @@ class RoomModel extends BaseModel
             return false;
         }
     }
+    /**
+     * Récupère toutes les salles d'un site (via les bâtiments)
+     * @param int $siteId ID du site
+     * @return array Liste des salles
+     */
+    public function getRoomsBySiteId($siteId)
+    {
+        $query = "SELECT r.id, r.name, r.building_id, b.site_id, s.name as site_name, b.name as building_name
+          FROM rooms r
+          JOIN buildings b ON r.building_id = b.id
+          JOIN sites s ON b.site_id = s.id
+          WHERE b.site_id = :site_id
+          ORDER BY b.name, r.name";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([':site_id' => $siteId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

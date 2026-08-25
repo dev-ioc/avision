@@ -64,7 +64,8 @@ class MaterielBulkController
             if ($selectedClientId) {
                 $sites = $this->siteModel->getSitesByClientId($selectedClientId);
                 if ($selectedSiteId) {
-                    $salles = $this->roomModel->getRoomsByBuildingId($selectedSiteId);
+                    // Filtrer les salles par site (via les bâtiments)
+                    $salles = $this->roomModel->getRoomsBySiteId($selectedSiteId);
                 } else {
                     $salles = $this->roomModel->getRoomsByClientId($selectedClientId);
                 }
@@ -110,7 +111,8 @@ class MaterielBulkController
             if ($filters['client_id']) {
                 $sites = $this->siteModel->getSitesByClientId($filters['client_id']);
                 if ($filters['site_id']) {
-                    $salles = $this->roomModel->getRoomsByBuildingId($filters['site_id']);
+                    // Filtrer les salles par site (via les bâtiments)
+                    $salles = $this->roomModel->getRoomsBySiteId($filters['site_id']);
                 } else {
                     $salles = $this->roomModel->getRoomsByClientId($filters['client_id']);
                 }
@@ -436,7 +438,6 @@ class MaterielBulkController
                 }
 
                 // Vérifier que la salle existe et appartient au client/site sélectionné
-                // Vérifier que la salle existe et appartient au client/site sélectionné
                 if (!empty($data['salle_id'])) {
                     $salle = $this->roomModel->getRoomById($data['salle_id']);
                     if (!$salle) {
@@ -474,8 +475,6 @@ class MaterielBulkController
                 if (isset($comparison['error'])) {
                     $rowErrors[] = $comparison['error'];
                 }
-
-
 
                 // Ajouter les erreurs et warnings de cette ligne
                 if (!empty($rowErrors)) {
@@ -570,7 +569,11 @@ class MaterielBulkController
 
         if ($selectedClientId) {
             $sites = $this->siteModel->getSitesByClientId($selectedClientId);
-            $salles = $this->roomModel->getRoomsByClientId($selectedClientId);
+            if ($selectedSiteId) {
+                $salles = $this->roomModel->getRoomsBySiteId($selectedSiteId);
+            } else {
+                $salles = $this->roomModel->getRoomsByClientId($selectedClientId);
+            }
         }
 
         // Définir les variables pour la vue
@@ -832,12 +835,11 @@ class MaterielBulkController
             }
 
             // Récupérer les salles pour le client/site sélectionné
-            $salles = $this->roomModel->getRoomsByClientId($client_id);
+            // Filtrer par site (via les bâtiments) si un site est spécifié, sinon par client
             if ($site_id) {
-                // Filtrer les salles par site si spécifié
-                $salles = array_filter($salles, function ($salle) use ($site_id) {
-                    return $salle['building_id'] == $site_id;
-                });
+                $salles = $this->roomModel->getRoomsBySiteId($site_id);
+            } else {
+                $salles = $this->roomModel->getRoomsByClientId($client_id);
             }
 
             // Créer un deuxième onglet pour les salles
@@ -1110,4 +1112,3 @@ class MaterielBulkController
         }
     }
 }
-
