@@ -6236,8 +6236,11 @@ class InterventionController
                 $contactPhone
             );
 
-            if (empty($response['document_id'])) {
-                throw new Exception('Erreur lors de la création de la demande de signature');
+            // if (empty($response['document_id'])) {
+            //     throw new Exception('Erreur lors de la création de la demande de signature');
+            // }
+            if (empty($response['success'])) {
+                throw new Exception($response['error'] ?? 'Erreur lors de la création de la demande de signature');
             }
 
             // Sauvegarder en BDD

@@ -127470,3 +127470,14 @@ Quant à l’écran n°1, il est HS
 [2026-08-25 09:12:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 38a9f909e99b3e93add6... 
 [2026-08-25 09:12:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 38a9f909e99b3e93add6... 
 [2026-08-25 09:29:36][ERROR] Unsupported operand types: array * int {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\MaterielBulkController.php","line":67,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(1737): MaterielBulkController->index()\n#1 {main}","type":"TypeError"}
+[2026-08-25 09:40:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 38a9f909e99b3e93add6... 
+[2026-08-25 09:40:42][INFO] === RÉOUVERTURE INTERVENTION 340 === 
+[2026-08-25 09:40:42][INFO] Tickets à recréditer: 2 
+[2026-08-25 09:40:42][INFO] Contrat ID: 118 
+[2026-08-25 09:40:42][INFO] Had tickets: oui 
+[2026-08-25 09:40:42][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 340 === 
+[2026-08-25 09:40:42][INFO] Solde contrat AVANT recrédit: 3 
+[2026-08-25 09:40:42][INFO] Tickets à recréditer: 2 
+[2026-08-25 09:40:42][INFO] Solde contrat APRÈS recrédit: 5 
+[2026-08-25 09:40:42][INFO] Recrédit de 2 tickets effectué pour le contrat 118 
+[2026-08-25 09:40:42][INFO] RÉOUVERTURE RÉUSSIE - Intervention 340 
