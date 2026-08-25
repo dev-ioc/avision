@@ -292,41 +292,43 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
         <?php endif; ?>
     </div>
-    <div class="card-body py-2">
-        <?php if ($user['email'] == $_SESSION['user']['email']): ?>
-            <?php $totpEnabled = !empty($_SESSION['user']['totp_enabled']); ?>
+    <div class="col-lg-12 card shadow-sm mt-4">
+        <div class="card-body">
+            <?php if ($user['email'] == $_SESSION['user']['email']): ?>
+                <?php $totpEnabled = !empty($_SESSION['user']['totp_enabled']); ?>
 
-            <?php if ($totpEnabled): ?>
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                    <div>
-                        <span class="badge bg-success mb-1">Activée</span>
-                        <p class="text-muted small mb-0">
-                            L'authentification à deux facteurs est activée.
-                        </p>
-                    </div>
-                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#disable2faModal">
-                        <i class="bi bi-shield-x me-1"></i>
-                        Désactiver la 2FA
-                    </button>
-                </div>
-
-            <?php else: ?>
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                    <div>
-                        <span class="badge bg-light text-muted border mb-1">Désactivée</span>
-                        <p class="text-muted small mb-0">
-                            L'authentification à deux facteurs n'est pas activée.
-                        </p>
+                <?php if ($totpEnabled): ?>
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <span class="badge bg-success mb-1">Activée</span>
+                            <p class="text-muted small mb-0">
+                                L'authentification à deux facteurs est activée.
+                            </p>
+                        </div>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#disable2faModal">
+                            <i class="bi bi-shield-x me-1"></i>
+                            Désactiver la 2FA
+                        </button>
                     </div>
 
-                    <a href="<?= BASE_URL ?>auth/setup-2fa" class="btn btn-primary btn-sm">
-                        <i class="bi bi-shield-check me-1"></i>
-                        Activer la 2FA
-                    </a>
-                </div>
+                <?php else: ?>
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <span class="badge bg-light text-muted border mb-1">Désactivée</span>
+                            <p class="text-muted small mb-0">
+                                L'authentification à deux facteurs n'est pas activée.
+                            </p>
+                        </div>
+
+                        <a href="<?= BASE_URL ?>auth/setup-2fa" class="btn btn-primary btn-sm">
+                            <i class="bi bi-shield-check me-1"></i>
+                            Activer la 2FA
+                        </a>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
-        <?php endif; ?>
+        </div>
     </div>
     <!-- Ajouter une section pour l'historique des réinitialisations -->
     <div class="row mt-8">

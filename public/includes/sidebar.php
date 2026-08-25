@@ -232,14 +232,12 @@ require_once __DIR__ . '/functions.php';
           <div data-i18n="documentation">Documentation</div>
         </a>
       </li>
-      <?php if (canModifyOwnInfo()): ?>
-        <li class="menu-item <?php echo isActivePage('profileClient'); ?>">
-          <a href="<?php echo BASE_URL; ?>profileClient" class="menu-link">
-            <i class="menu-icon bi bi-person"></i>
-            <div data-i18n="profile">Profil</div>
-          </a>
-        </li>
-      <?php endif; ?>
+      <li class="menu-item <?php echo isActivePage('profileClient'); ?>">
+        <a href="<?php echo BASE_URL; ?>profileClient" class="menu-link">
+          <i class="menu-icon bi bi-person"></i>
+          <div data-i18n="profile">Profil</div>
+        </a>
+      </li>
       <?php if (canManageOwnContacts()): ?>
         <li class="menu-item <?php echo isActivePage('contactClient'); ?>">
           <a href="<?php echo BASE_URL; ?>contactClient" class="menu-link">

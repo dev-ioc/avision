@@ -143,7 +143,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
 
             <!-- Sécurité / Double authentification -->
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="card shadow-sm border-0 h-100">
                     <div class="card-body">
 
@@ -185,7 +185,59 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     </div>
                 </div>
             </div>
+            <div class="card shadow-sm mt-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="h5 mb-0">Mes passkeys</h2>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="registerPasskey(this)">
+                            + Ajouter une passkey
+                        </button>
+                    </div>
+                    <p class="text-muted small">Connectez-vous sans mot de passe grâce à Face ID, Touch ID ou une
+                        clé de sécurité.</p>
 
+                    <ul id="passkey-list" class="list-group">
+                        <!-- rempli en JS -->
+                    </ul>
+                    <p id="passkey-empty" class="text-muted small d-none">Aucune passkey enregistrée.</p>
+                </div>
+            </div>
+
+            <?= csrf_field() ?>
+            <script>const BASE_URL = <?php echo json_encode(BASE_URL); ?>;</script>
+            <script src="<?php echo BASE_URL; ?>assets/js/webauthn.js"></script>
+            <script>
+                async function loadPasskeys() {
+                    const resp = await fetch(BASE_URL + 'auth/webauthn-credentials', {
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+                    const data = await resp.json();
+                    const list = document.getElementById('passkey-list');
+                    const empty = document.getElementById('passkey-empty');
+                    list.innerHTML = '';
+
+                    if (!data.success || data.credentials.length === 0) {
+                        empty.classList.remove('d-none');
+                        return;
+                    }
+                    empty.classList.add('d-none');
+
+                    data.credentials.forEach(cred => {
+                        const li = document.createElement('li');
+                        li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                        li.innerHTML = `
+            <span>
+                <strong>${cred.name || 'Appareil sans nom'}</strong>
+                <br><small class="text-muted">Ajoutée le ${new Date(cred.created_at).toLocaleDateString('fr-FR')}</small>
+            </span>
+            <button class="btn btn-sm btn-outline-danger">Supprimer</button>
+        `;
+                        li.querySelector('button').onclick = () => deletePasskey(cred.id, li);
+                        list.appendChild(li);
+                    });
+                }
+                loadPasskeys();
+            </script>
         </div>
 
 
