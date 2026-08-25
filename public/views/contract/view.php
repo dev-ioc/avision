@@ -73,7 +73,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
 
         <div class="ms-auto p-2 bd-highlight">
-            <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary me-2">
+            <a href="<?php echo BASE_URL . 'contracts'; ?>" class="btn btn-secondary me-2">
                 <i class="bi bi-arrow-left me-1"></i> Retour
             </a>
 
@@ -208,11 +208,17 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                     <?= h($siteName) ?>
                                                 </strong>
                                                 <div class="d-flex flex-wrap gap-1 ms-3">
+                                                    <?php
+                                                    $returnUrl = BASE_URL . 'contracts/view/' . (int) $contract['id'];
+                                                    ?>
+
                                                     <?php foreach ($siteRooms as $room): ?>
-                                                        <span class="badge bg-secondary-subtle text-dark border fw-normal">
+                                                        <a href="<?= BASE_URL ?>room/edit/<?= (int) $room['room_id'] ?>?return_url=<?= urlencode($returnUrl) ?>"
+                                                            class="badge bg-secondary-subtle text-dark border fw-normal text-decoration-none"
+                                                            title="Modifier la salle">
                                                             <i class="bi bi-door-open text-muted me-1"></i>
                                                             <?= h($room['room_name']) ?>
-                                                        </span>
+                                                        </a>
                                                     <?php endforeach; ?>
                                                 </div>
                                             </div>
