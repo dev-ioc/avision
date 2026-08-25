@@ -127481,3 +127481,62 @@ Quant à l’écran n°1, il est HS
 [2026-08-25 09:40:42][INFO] Solde contrat APRÈS recrédit: 5 
 [2026-08-25 09:40:42][INFO] Recrédit de 2 tickets effectué pour le contrat 118 
 [2026-08-25 09:40:42][INFO] RÉOUVERTURE RÉUSSIE - Intervention 340 
+[2026-08-25 12:51:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:51:25][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-25 12:51:25][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-25 12:51:25][DEBUG] Login réussi - Session ID: c5b6vvfcvq2ramev9hbqstvo6h 
+[2026-08-25 12:51:25][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-25 12:51:25][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-25 12:51:25][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-25 12:51:25][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-25 12:51:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:51:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:51:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:51:48][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-25 12:52:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:52:02][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-25 12:52:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:52:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:52:27][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-25 12:52:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:52:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:52:42][INFO] === RÉOUVERTURE INTERVENTION 295 === 
+[2026-08-25 12:52:42][INFO] Tickets à recréditer: 5 
+[2026-08-25 12:52:42][INFO] Contrat ID: 3 
+[2026-08-25 12:52:42][INFO] Had tickets: oui 
+[2026-08-25 12:52:42][INFO] === RECRÉDIT TICKETS POUR INTERVENTION 295 === 
+[2026-08-25 12:52:42][INFO] Solde contrat AVANT recrédit: 16 
+[2026-08-25 12:52:42][INFO] Tickets à recréditer: 5 
+[2026-08-25 12:52:42][INFO] Solde contrat APRÈS recrédit: 21 
+[2026-08-25 12:52:42][INFO] Recrédit de 5 tickets effectué pour le contrat 3 
+[2026-08-25 12:52:42][INFO] RÉOUVERTURE RÉUSSIE - Intervention 295 
+[2026-08-25 12:53:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:53:01][INFO] Technicien 7 mis à jour pour l'intervention 295 
+[2026-08-25 12:53:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:53:07][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-25 12:53:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:53:26][INFO] === DÉDUCTION TICKETS CONTRAT 3 === 
+[2026-08-25 12:53:26][INFO] Tickets à déduire: 4 
+[2026-08-25 12:53:26][INFO] Solde AVANT déduction: 21 
+[2026-08-25 12:53:26][INFO] Solde APRÈS déduction: 17 
+[2026-08-25 12:53:26][INFO] Déduction de 4 tickets réussie 
+[2026-08-25 12:53:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:53:52][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-25 12:54:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:54:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:54:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:54:16][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-25 12:54:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 7296436a7c97c07ef5ec... 
+[2026-08-25 12:54:31][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
