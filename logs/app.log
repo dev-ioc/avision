@@ -127497,3 +127497,685 @@ Quant à l’écran n°1, il est HS
 [2026-08-24 14:41:45][DEBUG] CSRF: Token trouvé dans la requête - Token: c7d5e5e32a44ea7182fc... 
 [2026-08-24 14:41:45][DEBUG] CSRF: Token trouvé dans la requête - Token: c7d5e5e32a44ea7182fc... 
 [2026-08-24 14:41:45][DEBUG] CSRF: Token trouvé dans la requête - Token: c7d5e5e32a44ea7182fc... 
+[2026-08-24 15:08:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 8382950a3cea7403b19c... 
+[2026-08-24 15:08:13][WARNING] Tentative de connexion échouée pour l'utilisateur : ralid77833@kikaga.com 
+[2026-08-24 15:08:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 8382950a3cea7403b19c... 
+[2026-08-24 15:08:20][WARNING] Tentative de connexion échouée pour l'utilisateur : ralid77833@kikaga.com 
+[2026-08-24 15:09:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 8382950a3cea7403b19c... 
+[2026-08-24 15:09:14][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-24 15:09:14][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-24 15:09:14][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-08-24 15:09:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 8382950a3cea7403b19c... 
+[2026-08-24 15:09:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 8382950a3cea7403b19c... 
+[2026-08-24 15:09:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 8382950a3cea7403b19c... 
+[2026-08-24 15:10:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 8382950a3cea7403b19c... 
+[2026-08-24 15:10:19][DEBUG] load_permissions - Session ID: uubq9qsatl2l426lpgruhsncom, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-08-24 15:10:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 8382950a3cea7403b19c... 
+[2026-08-24 15:10:41][DEBUG] load_client_locations - Session ID: uubq9qsatl2l426lpgruhsncom, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-08-24 15:10:41][INFO] Localisations récupérées avec succès pour le client: 35 
+[2026-08-24 15:11:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 8382950a3cea7403b19c... 
+[2026-08-24 15:11:07][INFO] Données POST reçues pour création d'utilisateur: {"csrf_token":"8382950a3cea7403b19ce5bcd08375c1a310a9dbb04d7a48c91591ab5fed51fc","email":"ralid77833@kikaga.com","first_name":"Karija","last_name":"Tech","password":"WW@cce$$95","type":"client","status":"1","permissions":["15","18","24","14","16"],"coef_utilisateur":"1.00","client_id":"35","locations":{"client_full":"1","sites":["45","96"],"rooms":["147","369"]}} 
+[2026-08-24 15:11:07][INFO] Données traitées pour création d'utilisateur: {"email":"ralid77833@kikaga.com","password":"WW@cce$$95","first_name":"Karija","last_name":"Tech","type":"client","is_admin":0,"status":1,"coef_utilisateur":"1.00","client_id":"35"} 
+[2026-08-24 15:11:07][INFO] Résultat de la création d'utilisateur: Succès, ID: 46 
+[2026-08-24 15:11:07][INFO] Permissions à ajouter: ["15","18","24","14","16"] 
+[2026-08-24 15:11:07][INFO] Localisations à sauvegarder: {"client_full":"1","sites":["45","96"],"rooms":["147","369"]} 
+[2026-08-24 15:11:07][INFO] Début de saveUserLocations pour l'utilisateur 46 
+[2026-08-24 15:11:07][INFO] Localisations reçues: {"client_full":"1","sites":["45","96"],"rooms":["147","369"]} 
+[2026-08-24 15:11:07][INFO] Type d'utilisateur récupéré: client 
+[2026-08-24 15:11:07][DEBUG] DEBUG - Client ID récupéré: 35 (depuis POST: 35, depuis user: 35) 
+[2026-08-24 15:11:07][INFO] Accès complet au client 35 accordé à l'utilisateur 46 
+[2026-08-24 15:11:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 8382950a3cea7403b19c... 
+[2026-08-24 15:11:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 8382950a3cea7403b19c... 
+[2026-08-24 15:11:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 8382950a3cea7403b19c... 
+[2026-08-24 15:11:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 9eea68cd7b8ab00fa88a... 
+[2026-08-24 15:11:15][DEBUG] Permissions chargées pour Karija : {"role":"client","rights":{"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-08-24 15:11:15][INFO] Utilisateur connecté : ralid77833@kikaga.com {"user_id":46,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-08-24 15:11:15][DEBUG] Login réussi (étape mot de passe) - user_id: 46 
+[2026-08-24 15:11:25][DEBUG] Tentative d'accès à l'intervention ID: 348 
+[2026-08-24 15:11:25][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:11:25][DEBUG] Intervention trouvée: {"id":348,"reference":"INT-202607-0001","title":"TEST INTER FLASH","description":"ssfsfss","demande_par":"RAKOTO JEAN LOUIS","client_id":35,"commercial_id":null,"site_id":55,"building_id":45,"room_id":147,"contract_id":119,"project_id":null,"type_id":5,"status_id":2,"priority_id":2,"duration":"30.00","is_flash":1,"needs_completion":1,"is_preventive":0,"parent_id":null,"tickets_used":null,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-07-01 16:31:00","updated_at":"2026-07-30 16:57:33","closed_at":null,"ref_client":"TEST REFERENCE","contact_client":"f.oliya@acsbn.fr","planned_date":"2025-08-14","planned_time":"09:00:00","client_name":"ACSBN","site_name":"Sceaux","building_name":"B\u00e2timent Principal","room_name":"Salle de pri\u00e8res","status_name":"En cours","status_color":"#83b64a","type_name":"Configuration","type_requires_travel":0,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":"Zakaria Amraoui"} 
+[2026-08-24 15:11:25][DEBUG] Commentaires récupérés pour l'intervention 348: 5 
+[2026-08-24 15:11:25][DEBUG] Pièces jointes récupérées pour l'intervention 348: 1 
+[2026-08-24 15:13:08][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-08-24 15:13:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 9eea68cd7b8ab00fa88a... 
+[2026-08-24 15:13:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 9eea68cd7b8ab00fa88a... 
+[2026-08-24 15:13:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 9eea68cd7b8ab00fa88a... 
+[2026-08-24 15:13:13][DEBUG] SiteClientController::index - DB set: yes 
+[2026-08-24 15:13:13][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-08-24 15:13:13][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-08-24 15:13:13][DEBUG] getSitesByLocations - START 
+[2026-08-24 15:13:13][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-08-24 15:13:13][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-08-24 15:13:13][DEBUG] getSitesByLocations - locations: [{"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:13:13][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-08-24 15:13:13][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-08-24 15:13:13][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-08-24 15:13:13][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-08-24 15:13:13][DEBUG] getSitesByLocations - fullClientAccess devient true (accès client complet) 
+[2026-08-24 15:13:13][DEBUG] getSitesByLocations - Accès complet au client 35 
+[2026-08-24 15:13:13][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès complet) 
+[2026-08-24 15:13:13][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès complet) 
+[2026-08-24 15:13:13][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-08-24 15:13:13][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-08-24 15:13:13][INFO] 55 
+[2026-08-24 15:13:13][INFO] 109 
+[2026-08-24 15:13:13][DEBUG] SiteClientController::index - sites count: 2 
+[2026-08-24 15:13:17][INFO] 109 
+[2026-08-24 15:13:20][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-08-24 15:13:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 9eea68cd7b8ab00fa88a... 
+[2026-08-24 15:13:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 9eea68cd7b8ab00fa88a... 
+[2026-08-24 15:13:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 9eea68cd7b8ab00fa88a... 
+[2026-08-24 15:13:25][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-08-24 15:13:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 9eea68cd7b8ab00fa88a... 
+[2026-08-24 15:13:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 9eea68cd7b8ab00fa88a... 
+[2026-08-24 15:13:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 9eea68cd7b8ab00fa88a... 
+[2026-08-24 15:13:30][DEBUG] Tentative d'accès à l'intervention ID: 84 
+[2026-08-24 15:13:30][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:13:30][DEBUG] Intervention trouvée: {"id":84,"reference":"#VS3525-8734","title":"test Natacha","description":"test","demande_par":"","client_id":35,"commercial_id":null,"site_id":null,"building_id":null,"room_id":null,"contract_id":119,"project_id":null,"type_id":5,"status_id":6,"priority_id":2,"duration":"0.00","is_flash":0,"needs_completion":0,"is_preventive":0,"parent_id":null,"tickets_used":0,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2025-09-22 17:40:00","updated_at":"2026-07-30 16:57:33","closed_at":"2025-10-16 16:47:30","ref_client":"","contact_client":"natacha.lanoe@gmail.com","planned_date":"2025-08-14","planned_time":"09:00:00","client_name":"ACSBN","site_name":null,"building_name":null,"room_name":null,"status_name":"Ferm\u00e9","status_color":"#fe786c","type_name":"Configuration","type_requires_travel":0,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"Hors contrat facturable","technicians_names":"Eric CARTIER"} 
+[2026-08-24 15:13:30][DEBUG] Commentaires récupérés pour l'intervention 84: 0 
+[2026-08-24 15:13:30][DEBUG] Pièces jointes récupérées pour l'intervention 84: 0 
+[2026-08-24 15:13:43][DEBUG] Tentative d'accès à l'intervention ID: 341 
+[2026-08-24 15:13:43][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:13:43][DEBUG] Intervention trouvée: {"id":341,"reference":"INT-202606-0001","title":"zerzgegehde","description":"","demande_par":null,"client_id":35,"commercial_id":null,"site_id":null,"building_id":null,"room_id":null,"contract_id":null,"project_id":null,"type_id":10,"status_id":2,"priority_id":2,"duration":"30.00","is_flash":1,"needs_completion":1,"is_preventive":0,"parent_id":null,"tickets_used":null,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-06-09 10:47:51","updated_at":"2026-06-09 10:47:51","closed_at":null,"ref_client":null,"contact_client":null,"planned_date":null,"planned_time":"09:00:00","client_name":"ACSBN","site_name":null,"building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"Assistance t\u00e9l\u00e9phonique","type_requires_travel":0,"priority_name":"Normale","priority_color":"#83b64a","contract_name":null,"technicians_names":null} 
+[2026-08-24 15:13:43][DEBUG] Commentaires récupérés pour l'intervention 341: 0 
+[2026-08-24 15:13:43][DEBUG] Pièces jointes récupérées pour l'intervention 341: 0 
+[2026-08-24 15:14:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 9eea68cd7b8ab00fa88a... 
+[2026-08-24 15:14:06][DEBUG] AttachmentService::normalizeFilesArray - Tableau de fichiers détecté, count: 1 
+[2026-08-24 15:14:06][DEBUG] AttachmentService::upload - Type: intervention, EntityId: 341, Files count: 1, UploadDir: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/341 
+[2026-08-24 15:14:06][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\phpB2D4.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/341/1787577246_coursUML_compressed_1.pdf 
+[2026-08-24 15:14:06][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/341/1787577246_coursUML_compressed_1.pdf 
+[2026-08-24 15:14:06][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML_compressed (1).pdf (ID: 649) 
+[2026-08-24 15:14:07][DEBUG] Tentative d'accès à l'intervention ID: 341 
+[2026-08-24 15:14:07][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:07][DEBUG] Intervention trouvée: {"id":341,"reference":"INT-202606-0001","title":"zerzgegehde","description":"","demande_par":null,"client_id":35,"commercial_id":null,"site_id":null,"building_id":null,"room_id":null,"contract_id":null,"project_id":null,"type_id":10,"status_id":2,"priority_id":2,"duration":"30.00","is_flash":1,"needs_completion":1,"is_preventive":0,"parent_id":null,"tickets_used":null,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-06-09 10:47:51","updated_at":"2026-06-09 10:47:51","closed_at":null,"ref_client":null,"contact_client":null,"planned_date":null,"planned_time":"09:00:00","client_name":"ACSBN","site_name":null,"building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"Assistance t\u00e9l\u00e9phonique","type_requires_travel":0,"priority_name":"Normale","priority_color":"#83b64a","contract_name":null,"technicians_names":null} 
+[2026-08-24 15:14:07][DEBUG] Commentaires récupérés pour l'intervention 341: 0 
+[2026-08-24 15:14:07][DEBUG] Pièces jointes récupérées pour l'intervention 341: 1 
+[2026-08-24 15:14:16][DEBUG] Tentative d'accès à l'intervention ID: 341 
+[2026-08-24 15:14:16][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:16][DEBUG] Intervention trouvée: {"id":341,"reference":"INT-202606-0001","title":"zerzgegehde","description":"","demande_par":null,"client_id":35,"commercial_id":null,"site_id":null,"building_id":null,"room_id":null,"contract_id":null,"project_id":null,"type_id":10,"status_id":2,"priority_id":2,"duration":"30.00","is_flash":1,"needs_completion":1,"is_preventive":0,"parent_id":null,"tickets_used":null,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-06-09 10:47:51","updated_at":"2026-06-09 10:47:51","closed_at":null,"ref_client":null,"contact_client":null,"planned_date":null,"planned_time":"09:00:00","client_name":"ACSBN","site_name":null,"building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"Assistance t\u00e9l\u00e9phonique","type_requires_travel":0,"priority_name":"Normale","priority_color":"#83b64a","contract_name":null,"technicians_names":null} 
+[2026-08-24 15:14:16][DEBUG] Commentaires récupérés pour l'intervention 341: 0 
+[2026-08-24 15:14:16][DEBUG] Pièces jointes récupérées pour l'intervention 341: 0 
+[2026-08-24 15:14:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 9eea68cd7b8ab00fa88a... 
+[2026-08-24 15:14:21][DEBUG] Tentative d'accès à l'intervention ID: 341 
+[2026-08-24 15:14:21][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:21][DEBUG] Intervention trouvée: {"id":341,"reference":"INT-202606-0001","title":"zerzgegehde","description":"","demande_par":null,"client_id":35,"commercial_id":null,"site_id":null,"building_id":null,"room_id":null,"contract_id":null,"project_id":null,"type_id":10,"status_id":2,"priority_id":2,"duration":"30.00","is_flash":1,"needs_completion":1,"is_preventive":0,"parent_id":null,"tickets_used":null,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-06-09 10:47:51","updated_at":"2026-06-09 10:47:51","closed_at":null,"ref_client":null,"contact_client":null,"planned_date":null,"planned_time":"09:00:00","client_name":"ACSBN","site_name":null,"building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"Assistance t\u00e9l\u00e9phonique","type_requires_travel":0,"priority_name":"Normale","priority_color":"#83b64a","contract_name":null,"technicians_names":null} 
+[2026-08-24 15:14:21][DEBUG] Commentaires récupérés pour l'intervention 341: 1 
+[2026-08-24 15:14:21][DEBUG] Pièces jointes récupérées pour l'intervention 341: 0 
+[2026-08-24 15:14:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 9eea68cd7b8ab00fa88a... 
+[2026-08-24 15:14:26][DEBUG] Tentative d'accès à l'intervention ID: 341 
+[2026-08-24 15:14:26][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:26][DEBUG] Intervention trouvée: {"id":341,"reference":"INT-202606-0001","title":"zerzgegehde","description":"","demande_par":null,"client_id":35,"commercial_id":null,"site_id":null,"building_id":null,"room_id":null,"contract_id":null,"project_id":null,"type_id":10,"status_id":2,"priority_id":2,"duration":"30.00","is_flash":1,"needs_completion":1,"is_preventive":0,"parent_id":null,"tickets_used":null,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-06-09 10:47:51","updated_at":"2026-06-09 10:47:51","closed_at":null,"ref_client":null,"contact_client":null,"planned_date":null,"planned_time":"09:00:00","client_name":"ACSBN","site_name":null,"building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"Assistance t\u00e9l\u00e9phonique","type_requires_travel":0,"priority_name":"Normale","priority_color":"#83b64a","contract_name":null,"technicians_names":null} 
+[2026-08-24 15:14:26][DEBUG] Commentaires récupérés pour l'intervention 341: 1 
+[2026-08-24 15:14:26][DEBUG] Pièces jointes récupérées pour l'intervention 341: 0 
+[2026-08-24 15:14:30][DEBUG] Tentative d'accès à l'intervention ID: 341 
+[2026-08-24 15:14:30][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:30][DEBUG] Intervention trouvée: {"id":341,"reference":"INT-202606-0001","title":"zerzgegehde","description":"","demande_par":null,"client_id":35,"commercial_id":null,"site_id":null,"building_id":null,"room_id":null,"contract_id":null,"project_id":null,"type_id":10,"status_id":2,"priority_id":2,"duration":"30.00","is_flash":1,"needs_completion":1,"is_preventive":0,"parent_id":null,"tickets_used":null,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-06-09 10:47:51","updated_at":"2026-06-09 10:47:51","closed_at":null,"ref_client":null,"contact_client":null,"planned_date":null,"planned_time":"09:00:00","client_name":"ACSBN","site_name":null,"building_name":null,"room_name":null,"status_name":"En cours","status_color":"#83b64a","type_name":"Assistance t\u00e9l\u00e9phonique","type_requires_travel":0,"priority_name":"Normale","priority_color":"#83b64a","contract_name":null,"technicians_names":null} 
+[2026-08-24 15:14:31][DEBUG] Commentaires récupérés pour l'intervention 341: 0 
+[2026-08-24 15:14:31][DEBUG] Pièces jointes récupérées pour l'intervention 341: 0 
+[2026-08-24 15:14:33][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:33][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:33][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-08-24 15:14:33][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-08-24 15:14:33][DEBUG] getSitesByLocations - result count: 2 
+[2026-08-24 15:14:33][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:33][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 35)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-08-24 15:14:33][DEBUG] getBuildingsByLocations - result count: 2 
+[2026-08-24 15:14:33][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-08-24 15:14:33][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-08-24 15:14:33][DEBUG] getAllByLocations - Params: [] 
+[2026-08-24 15:14:33][DEBUG] getAllByLocations - Results count: 33 
+[2026-08-24 15:14:34][DEBUG] SiteClientController::index - DB set: yes 
+[2026-08-24 15:14:34][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-08-24 15:14:34][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-08-24 15:14:34][DEBUG] getSitesByLocations - START 
+[2026-08-24 15:14:34][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-08-24 15:14:34][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-08-24 15:14:34][DEBUG] getSitesByLocations - locations: [{"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:34][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-08-24 15:14:34][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-08-24 15:14:34][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-08-24 15:14:34][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-08-24 15:14:34][DEBUG] getSitesByLocations - fullClientAccess devient true (accès client complet) 
+[2026-08-24 15:14:34][DEBUG] getSitesByLocations - Accès complet au client 35 
+[2026-08-24 15:14:34][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès complet) 
+[2026-08-24 15:14:34][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès complet) 
+[2026-08-24 15:14:34][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-08-24 15:14:34][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-08-24 15:14:34][INFO] 55 
+[2026-08-24 15:14:34][INFO] 109 
+[2026-08-24 15:14:35][DEBUG] SiteClientController::index - sites count: 2 
+[2026-08-24 15:14:36][INFO] 55 
+[2026-08-24 15:14:38][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:38][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:38][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-08-24 15:14:38][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-08-24 15:14:38][DEBUG] getSitesByLocations - result count: 2 
+[2026-08-24 15:14:38][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:38][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 35)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-08-24 15:14:38][DEBUG] getBuildingsByLocations - result count: 2 
+[2026-08-24 15:14:38][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-08-24 15:14:38][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-08-24 15:14:38][DEBUG] getAllByLocations - Params: [] 
+[2026-08-24 15:14:38][DEBUG] getAllByLocations - Results count: 33 
+[2026-08-24 15:14:42][DEBUG] getByIdWithAccess result for id 62: {"id":62,"salle_id":147,"type_materiel":"VP","reference":null,"usage_materiel":null,"modele":"EBPU1008W","marque":"EPSON","numero_serie":"XA2W5600009","version_firmware":null,"ancien_firmware":null,"adresse_mac":null,"adresse_ip":"192.168.0.12","masque":"255.255.255.0","passerelle":"192.168.0.250","login":null,"password":null,"id_materiel":null,"ip_primaire":null,"mac_primaire":null,"ip_secondaire":null,"mac_secondaire":null,"stream_aes67_recu":null,"stream_aes67_transmis":null,"ssid":null,"type_cryptage":null,"password_wifi":null,"libelle_pa_salle":null,"numero_port_switch":null,"vlan":null,"date_fin_maintenance":null,"date_fin_garantie":null,"date_derniere_inter":null,"commentaire":null,"url_github":null,"created_at":"2025-09-01 13:12:59","updated_at":"2025-10-07 17:40:16","deleted_at":null,"salle_nom":"Salle de pri\u00e8res","building_nom":"B\u00e2timent Principal","site_nom":"Sceaux","site_id":55,"client_nom":"ACSBN","client_id":35,"type_nom":"VP"} 
+[2026-08-24 15:14:42][DEBUG] VIEW - Direct SQL count for materiel 62: 0 
+[2026-08-24 15:14:42][DEBUG] getByIdWithAccess result for id 62: {"id":62,"salle_id":147,"type_materiel":"VP","reference":null,"usage_materiel":null,"modele":"EBPU1008W","marque":"EPSON","numero_serie":"XA2W5600009","version_firmware":null,"ancien_firmware":null,"adresse_mac":null,"adresse_ip":"192.168.0.12","masque":"255.255.255.0","passerelle":"192.168.0.250","login":null,"password":null,"id_materiel":null,"ip_primaire":null,"mac_primaire":null,"ip_secondaire":null,"mac_secondaire":null,"stream_aes67_recu":null,"stream_aes67_transmis":null,"ssid":null,"type_cryptage":null,"password_wifi":null,"libelle_pa_salle":null,"numero_port_switch":null,"vlan":null,"date_fin_maintenance":null,"date_fin_garantie":null,"date_derniere_inter":null,"commentaire":null,"url_github":null,"created_at":"2025-09-01 13:12:59","updated_at":"2025-10-07 17:40:16","deleted_at":null,"salle_nom":"Salle de pri\u00e8res","building_nom":"B\u00e2timent Principal","site_nom":"Sceaux","site_id":55,"client_nom":"ACSBN","client_id":35,"type_nom":"VP"} 
+[2026-08-24 15:14:42][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 0 pour le matériel ID: 62 
+[2026-08-24 15:14:42][DEBUG] VIEW - Attachments from model: 0 
+[2026-08-24 15:14:47][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:47][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:47][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-08-24 15:14:47][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-08-24 15:14:47][DEBUG] getSitesByLocations - result count: 2 
+[2026-08-24 15:14:47][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:47][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 35)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-08-24 15:14:47][DEBUG] getBuildingsByLocations - result count: 2 
+[2026-08-24 15:14:47][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-08-24 15:14:47][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-08-24 15:14:47][DEBUG] getAllByLocations - Params: [] 
+[2026-08-24 15:14:47][DEBUG] getAllByLocations - Results count: 33 
+[2026-08-24 15:14:57][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:57][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-08-24 15:14:57][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:57][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:57][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-08-24 15:14:57][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-08-24 15:14:57][DEBUG] getSitesByLocations - result count: 2 
+[2026-08-24 15:14:57][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:14:57][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-08-24 15:14:57][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-08-24 15:14:57][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-08-24 15:14:57][DEBUG] getAllByLocations - Params: [55] 
+[2026-08-24 15:14:57][DEBUG] getAllByLocations - Results count: 20 
+[2026-08-24 15:15:00][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:00][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-08-24 15:15:00][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:00][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:00][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-08-24 15:15:00][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-08-24 15:15:00][DEBUG] getSitesByLocations - result count: 2 
+[2026-08-24 15:15:00][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:00][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-08-24 15:15:00][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-08-24 15:15:00][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-08-24 15:15:00][DEBUG] getAllByLocations - Params: [109] 
+[2026-08-24 15:15:00][DEBUG] getAllByLocations - Results count: 13 
+[2026-08-24 15:15:07][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:07][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-08-24 15:15:07][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:07][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:07][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-08-24 15:15:07][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-08-24 15:15:07][DEBUG] getSitesByLocations - result count: 2 
+[2026-08-24 15:15:07][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:07][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-08-24 15:15:07][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-08-24 15:15:07][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-08-24 15:15:07][DEBUG] getAllByLocations - Params: [55] 
+[2026-08-24 15:15:07][DEBUG] getAllByLocations - Results count: 20 
+[2026-08-24 15:15:11][DEBUG] getRoomsByBuildingAndLocations - buildingId: 45, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:11][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 35)) AND r.status = 1
+            ORDER BY r.name 
+[2026-08-24 15:15:11][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:11][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:11][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-08-24 15:15:11][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-08-24 15:15:11][DEBUG] getSitesByLocations - result count: 2 
+[2026-08-24 15:15:11][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:11][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-08-24 15:15:11][DEBUG] getRoomsByBuildingAndLocations - buildingId: 45, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:11][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 35)) AND r.status = 1
+            ORDER BY r.name 
+[2026-08-24 15:15:11][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-08-24 15:15:11][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-08-24 15:15:11][DEBUG] getAllByLocations - Params: [55,45] 
+[2026-08-24 15:15:11][DEBUG] getAllByLocations - Results count: 20 
+[2026-08-24 15:15:12][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:12][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:12][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-08-24 15:15:12][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-08-24 15:15:12][DEBUG] getSitesByLocations - result count: 2 
+[2026-08-24 15:15:12][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:12][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-08-24 15:15:12][DEBUG] getRoomsByBuildingAndLocations - buildingId: 45, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:12][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 35)) AND r.status = 1
+            ORDER BY r.name 
+[2026-08-24 15:15:12][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-08-24 15:15:12][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? AND b.id = ? AND m.salle_id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-08-24 15:15:12][DEBUG] getAllByLocations - Params: [55,45,147] 
+[2026-08-24 15:15:12][DEBUG] getAllByLocations - Results count: 20 
+[2026-08-24 15:15:15][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:15][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-08-24 15:15:15][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:15][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:15][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-08-24 15:15:15][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-08-24 15:15:15][DEBUG] getSitesByLocations - result count: 2 
+[2026-08-24 15:15:15][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:15][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-08-24 15:15:15][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-08-24 15:15:15][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-08-24 15:15:15][DEBUG] getAllByLocations - Params: [109] 
+[2026-08-24 15:15:15][DEBUG] getAllByLocations - Results count: 13 
+[2026-08-24 15:15:17][DEBUG] getRoomsByBuildingAndLocations - buildingId: 96, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:17][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 35)) AND r.status = 1
+            ORDER BY r.name 
+[2026-08-24 15:15:17][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:17][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:17][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-08-24 15:15:17][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-08-24 15:15:17][DEBUG] getSitesByLocations - result count: 2 
+[2026-08-24 15:15:17][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:17][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-08-24 15:15:17][DEBUG] getRoomsByBuildingAndLocations - buildingId: 96, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:17][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 35)) AND r.status = 1
+            ORDER BY r.name 
+[2026-08-24 15:15:17][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-08-24 15:15:17][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-08-24 15:15:17][DEBUG] getAllByLocations - Params: [109,96] 
+[2026-08-24 15:15:17][DEBUG] getAllByLocations - Results count: 13 
+[2026-08-24 15:15:18][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:18][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:18][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-08-24 15:15:18][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-08-24 15:15:18][DEBUG] getSitesByLocations - result count: 2 
+[2026-08-24 15:15:18][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:18][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-08-24 15:15:18][DEBUG] getRoomsByBuildingAndLocations - buildingId: 96, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:18][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 35)) AND r.status = 1
+            ORDER BY r.name 
+[2026-08-24 15:15:18][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-08-24 15:15:18][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? AND b.id = ? AND m.salle_id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-08-24 15:15:18][DEBUG] getAllByLocations - Params: [109,96,369] 
+[2026-08-24 15:15:18][DEBUG] getAllByLocations - Results count: 13 
+[2026-08-24 15:15:21][DEBUG] getByIdWithAccess result for id 2697: {"id":2697,"salle_id":369,"type_materiel":"CENTRALE AUTOMATE","reference":null,"usage_materiel":null,"modele":"DINCP4","marque":"CRESTRON","numero_serie":null,"version_firmware":null,"ancien_firmware":null,"adresse_mac":null,"adresse_ip":"192.168.10.10","masque":null,"passerelle":null,"login":"Admin","password":"password","id_materiel":null,"ip_primaire":null,"mac_primaire":null,"ip_secondaire":null,"mac_secondaire":null,"stream_aes67_recu":null,"stream_aes67_transmis":null,"ssid":null,"type_cryptage":null,"password_wifi":null,"libelle_pa_salle":null,"numero_port_switch":null,"vlan":null,"date_fin_maintenance":null,"date_fin_garantie":null,"date_derniere_inter":null,"commentaire":null,"url_github":null,"created_at":"2026-03-16 19:46:57","updated_at":"2026-03-16 19:46:57","deleted_at":null,"salle_nom":"Salle de pri\u00e8re test modif","building_nom":"B\u00e2timent Principal","site_nom":"Trets","site_id":109,"client_nom":"ACSBN","client_id":35,"type_nom":"CENTRALE AUTOMATE"} 
+[2026-08-24 15:15:21][DEBUG] VIEW - Direct SQL count for materiel 2697: 0 
+[2026-08-24 15:15:21][DEBUG] getByIdWithAccess result for id 2697: {"id":2697,"salle_id":369,"type_materiel":"CENTRALE AUTOMATE","reference":null,"usage_materiel":null,"modele":"DINCP4","marque":"CRESTRON","numero_serie":null,"version_firmware":null,"ancien_firmware":null,"adresse_mac":null,"adresse_ip":"192.168.10.10","masque":null,"passerelle":null,"login":"Admin","password":"password","id_materiel":null,"ip_primaire":null,"mac_primaire":null,"ip_secondaire":null,"mac_secondaire":null,"stream_aes67_recu":null,"stream_aes67_transmis":null,"ssid":null,"type_cryptage":null,"password_wifi":null,"libelle_pa_salle":null,"numero_port_switch":null,"vlan":null,"date_fin_maintenance":null,"date_fin_garantie":null,"date_derniere_inter":null,"commentaire":null,"url_github":null,"created_at":"2026-03-16 19:46:57","updated_at":"2026-03-16 19:46:57","deleted_at":null,"salle_nom":"Salle de pri\u00e8re test modif","building_nom":"B\u00e2timent Principal","site_nom":"Trets","site_id":109,"client_nom":"ACSBN","client_id":35,"type_nom":"CENTRALE AUTOMATE"} 
+[2026-08-24 15:15:21][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 0 pour le matériel ID: 2697 
+[2026-08-24 15:15:21][DEBUG] VIEW - Attachments from model: 0 
+[2026-08-24 15:15:23][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:23][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:23][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-08-24 15:15:23][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-08-24 15:15:23][DEBUG] getSitesByLocations - result count: 2 
+[2026-08-24 15:15:23][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:23][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-08-24 15:15:23][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-08-24 15:15:23][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? AND m.salle_id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-08-24 15:15:23][DEBUG] getAllByLocations - Params: [109,369] 
+[2026-08-24 15:15:23][DEBUG] getAllByLocations - Results count: 13 
+[2026-08-24 15:15:24][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-24 15:15:24][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.first_name as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-08-24 15:15:24][DEBUG] DocumentationClientController::index - Paramètres: [35,35,35,35] 
+[2026-08-24 15:15:24][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 1 
+[2026-08-24 15:16:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 09f78e86ed4e12407063... 
+[2026-08-24 15:16:03][DEBUG] Permissions chargées pour Karija : {"role":"client","rights":{"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-08-24 15:16:03][INFO] Utilisateur connecté : ralid77833@kikaga.com {"user_id":46,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-08-24 15:16:03][DEBUG] Login réussi (étape mot de passe) - user_id: 46 
+[2026-08-24 15:16:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:16:56][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-24 15:16:56][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-24 15:16:56][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-08-24 15:56:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:56:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c1f0dfafa43dee0eac8... 
+[2026-08-24 15:57:12][ERROR] Call to undefined method AuthController::webauthnLoginOptions() {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":380,"trace":"#0 {main}","type":"Error"}
+[2026-08-24 16:14:41][ERROR] Unsupported operand types: array + null {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AuthController.php","line":685,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(380): AuthController->webauthnLoginOptions()\n#1 {main}","type":"TypeError"}
+[2026-08-25 07:43:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 193383540cb1cd63d648... 
+[2026-08-25 07:43:18][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-25 07:43:18][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-25 07:43:18][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-08-25 08:22:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:22:31][WARNING] Tentative de connexion échouée pour l'utilisateur : Karija 
+[2026-08-25 08:22:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:22:45][WARNING] Tentative de connexion échouée pour l'utilisateur : dev_mdgrt@caspeo.fr 
+[2026-08-25 08:23:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:23:18][WARNING] Tentative de connexion échouée pour l'utilisateur : dev_mdg@caspeo.fr 
+[2026-08-25 08:23:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:23:56][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-25 08:23:56][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-25 08:23:56][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-08-25 08:24:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:24:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:24:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:24:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:24:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:24:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:24:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:24:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:24:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:24:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:24:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:24:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:29:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:29:56][ERROR] Erreur webauthn register-verify: Challenge invalide ou expiré. 
+[2026-08-25 08:39:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:39:28][ERROR] Erreur webauthn register-verify: Invalid scheme. HTTPS required. 
+[2026-08-25 08:45:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 9fe876fe913a8356e1ce... 
+[2026-08-25 08:45:12][ERROR] Erreur webauthn register-verify: Invalid scheme. HTTPS required. 

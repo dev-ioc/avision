@@ -221,31 +221,6 @@ class AuthController
         header('Location: ' . BASE_URL . 'auth/login');
         exit;
     }
-
-    /**
-     * Redirection factorisée après une authentification COMPLÈTE (mot de passe + 2FA le cas échéant)
-     */
-    private function redirectAfterFullLogin()
-    {
-        // Paramètres QR (fonctionnalité existante, différente du QR d'activation 2FA)
-        if (isset($_SESSION['qr_salle']) && isset($_SESSION['qr_type'])) {
-            header('Location: ' . BASE_URL . 'qrcode/redirect');
-            return;
-        }
-
-        $redirectAfterLogin = $_SESSION['redirect_after_login'] ?? null;
-        if ($redirectAfterLogin && trim($redirectAfterLogin) !== '') {
-            $redirectUrl = trim($redirectAfterLogin);
-            unset($_SESSION['redirect_after_login']);
-            $baseUrl = rtrim(BASE_URL, '/') . '/';
-            $redirectUrl = ltrim($redirectUrl, '/');
-            header('Location: ' . $baseUrl . $redirectUrl);
-            return;
-        }
-
-        header('Location: ' . BASE_URL . 'dashboard');
-    }
-
     /**
      * Affiche l'écran d'activation de la 2FA : génère un secret temporaire + QR code
      * (le secret n'est enregistré en base qu'après confirmation du premier code)
@@ -645,6 +620,9 @@ class AuthController
             );
 
             $csmFactory = new CeremonyStepManagerFactory();
+            if (defined('APP_ENV') && APP_ENV === 'local') {
+                $csmFactory->setSecuredRelyingPartyId(['localhost']);
+            }
             $validator = AuthenticatorAttestationResponseValidator::create($csmFactory->creationCeremony());
 
             $credentialSource = $validator->check(
@@ -672,53 +650,148 @@ class AuthController
         }
         exit;
     }
-    // Dans AuthController.php
 
     public function webauthnLoginOptions()
     {
         header('Content-Type: application/json; charset=UTF-8');
 
-        $email = $_POST['email'] ?? $_GET['email'] ?? null;
+        $challenge = random_bytes(32);
+        $challengeId = bin2hex(random_bytes(16));
 
-        try {
-            $result = $this->userModel->getUserByEmail($email);
-            echo json_encode(['success' => true] + $result);
-        } catch (Exception $e) {
-            custom_log("Erreur WebAuthn login-options: " . $e->getMessage(), 'ERROR');
-            http_response_code(400);
-            echo json_encode(['success' => false, 'error' => 'Impossible de générer les options.']);
-        }
+        $this->userModel->saveWebauthnChallenge($challengeId, null, $challenge, 'authentication', '+5 minutes');
+
+        $options = PublicKeyCredentialRequestOptions::create(
+            challenge: $challenge,
+            rpId: parse_url(BASE_URL, PHP_URL_HOST),
+            allowCredentials: [],
+            userVerification: 'required',
+            timeout: 60000
+        );
+
+        $serializer = WebauthnSerializer::get();
+        $optionsJson = $serializer->serialize($options, 'json', [
+            AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
+        ]);
+
+        echo json_encode([
+            'success' => true,
+            'challengeId' => $challengeId,
+            'options' => json_decode($optionsJson),
+        ]);
         exit;
     }
-
     public function webauthnLoginVerify()
     {
         header('Content-Type: application/json; charset=UTF-8');
 
         $input = json_decode(file_get_contents('php://input'), true);
+        $challengeId = $input['challengeId'] ?? null;
+        $credentialJson = json_encode($input['credential'] ?? []);
 
         try {
-            $userId = $this->userModel->getWebauthnCredentialById($input['credential']['rawId']);
-
-            if (!$userId) {
-                http_response_code(401);
-                echo json_encode(['success' => false, 'error' => 'Authentification échouée.']);
-                exit;
+            $stored = $this->userModel->getWebauthnChallenge($challengeId, 'authentication');
+            if (!$stored) {
+                throw new Exception('Challenge invalide ou expiré.');
             }
 
-            // Réutiliser votre logique de session existante (celle après verify2fa)
-            $user = $this->userModel->getUserById($userId);
+            $serializer = WebauthnSerializer::get();
+
+            /** @var PublicKeyCredential $publicKeyCredential */
+            $publicKeyCredential = $serializer->deserialize($credentialJson, PublicKeyCredential::class, 'json');
+
+            if (!$publicKeyCredential->response instanceof AuthenticatorAssertionResponse) {
+                throw new Exception('Réponse d\'authentificateur invalide.');
+            }
+
+            $credentialIdB64 = base64_encode($publicKeyCredential->rawId);
+            $row = $this->userModel->getWebauthnCredentialById($credentialIdB64);
+            if (!$row) {
+                throw new Exception('Passkey inconnue.');
+            }
+
+            /** @var \Webauthn\PublicKeyCredentialSource $credentialSource */
+            $credentialSource = $serializer->deserialize(
+                base64_decode($row['public_key']),
+                PublicKeyCredentialSource::class,
+                'json'
+            );
+
+            $requestOptions = PublicKeyCredentialRequestOptions::create(
+                challenge: $stored['challenge'],
+                rpId: parse_url(BASE_URL, PHP_URL_HOST),
+                allowCredentials: [],
+                userVerification: 'required'
+            );
+
+            $csmFactory = new CeremonyStepManagerFactory();
+            if (defined('APP_ENV') && APP_ENV === 'local') {
+                $csmFactory->setSecuredRelyingPartyId(['localhost']);
+            }
+            $validator = AuthenticatorAttestationResponseValidator::create($csmFactory->creationCeremony());
+
+            // Signature confirmée par la doc officielle actuelle :
+            // check($credentialSource, $response, $options, $host, $userHandle)
+            $updatedCredentialSource = $validator->check(
+                $credentialSource,
+                $publicKeyCredential->response,
+                $requestOptions,
+                parse_url(BASE_URL, PHP_URL_HOST),
+                null // userHandle : null car on utilise des discoverable credentials (allowCredentials vide)
+            );
+
+            // Re-sauvegarde recommandée par la doc : le compteur a pu changer
+            $newSerializedSource = base64_encode($serializer->serialize($updatedCredentialSource, 'json'));
+            $this->userModel->updateWebauthnCredentialSource(
+                $credentialIdB64,
+                $newSerializedSource,
+                $updatedCredentialSource->counter
+            );
+            $this->userModel->deleteWebauthnChallenge($challengeId);
+
+            $user = $this->userModel->getUserById($row['user_id']);
+            if (!$user) {
+                throw new Exception('Utilisateur introuvable.');
+            }
+
             $_SESSION['user'] = $user;
+            $_SESSION['last_activity'] = time();
 
-            $redirect = $_SESSION['redirect_after_login'] ?? BASE_URL . 'dashboard';
-            unset($_SESSION['redirect_after_login']);
+            custom_log("Connexion passkey réussie - user_id: " . $user['id'], 'DEBUG');
 
-            echo json_encode(['success' => true, 'redirect' => $redirect]);
+            echo json_encode(['success' => true, 'redirect' => $this->computeRedirectUrl()]);
         } catch (Exception $e) {
-            custom_log("Erreur WebAuthn login-verify: " . $e->getMessage(), 'ERROR');
-            http_response_code(400);
-            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+            custom_log("Erreur webauthn login-verify: " . $e->getMessage(), 'ERROR');
+            http_response_code(401);
+            echo json_encode(['success' => false, 'error' => 'Authentification échouée.']);
         }
         exit;
+    }
+    /**
+     * Calcule l'URL de redirection après une authentification COMPLÈTE, sans envoyer de header
+     * (utilisable aussi bien en HTTP classique qu'en réponse JSON)
+     */
+    private function computeRedirectUrl(): string
+    {
+        if (isset($_SESSION['qr_salle']) && isset($_SESSION['qr_type'])) {
+            return BASE_URL . 'qrcode/redirect';
+        }
+
+        $redirectAfterLogin = $_SESSION['redirect_after_login'] ?? null;
+        if ($redirectAfterLogin && trim($redirectAfterLogin) !== '') {
+            $redirectUrl = trim($redirectAfterLogin);
+            unset($_SESSION['redirect_after_login']);
+            $baseUrl = rtrim(BASE_URL, '/') . '/';
+            return $baseUrl . ltrim($redirectUrl, '/');
+        }
+
+        return BASE_URL . 'dashboard';
+    }
+
+    /**
+     * Redirection factorisée après une authentification COMPLÈTE (mot de passe + 2FA le cas échéant)
+     */
+    private function redirectAfterFullLogin()
+    {
+        header('Location: ' . $this->computeRedirectUrl());
     }
 }

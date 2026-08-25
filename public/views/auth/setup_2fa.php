@@ -76,7 +76,8 @@ if (!defined('BASE_URL')) {
                 </div>
 
                 <?= csrf_field() ?>
-
+                <script>const BASE_URL = <?php echo json_encode(BASE_URL); ?>;</script>
+                <script src="<?php echo BASE_URL; ?>assets/js/webauthn.js"></script>
                 <script src="<?php echo BASE_URL; ?>assets/js/webauthn.js"></script>
                 <script>
                     async function loadPasskeys() {

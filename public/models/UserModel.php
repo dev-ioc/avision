@@ -1412,18 +1412,16 @@ class UserModel extends BaseModel
     public function saveWebauthnChallenge(string $challengeId, ?int $userId, string $challenge, string $type, string $expiresModifier = '+5 minutes'): bool
     {
         try {
-            $expiresAt = date('Y-m-d H:i:s', strtotime($expiresModifier));
-
             $stmt = $this->db->prepare("
-                INSERT INTO webauthn_challenges (id, user_id, challenge, type, expires_at)
-                VALUES (:id, :user_id, :challenge, :type, :expires_at)
-            ");
+            INSERT INTO webauthn_challenges (id, user_id, challenge, type, expires_at)
+            VALUES (:id, :user_id, :challenge, :type, DATE_ADD(NOW(), INTERVAL :minutes MINUTE))
+        ");
             return $stmt->execute([
                 'id' => $challengeId,
                 'user_id' => $userId,
                 'challenge' => $challenge,
                 'type' => $type,
-                'expires_at' => $expiresAt
+                'minutes' => 5
             ]);
         } catch (PDOException $e) {
             custom_log("Erreur saveWebauthnChallenge : " . $e->getMessage(), 'ERROR');
@@ -1476,9 +1474,10 @@ class UserModel extends BaseModel
     }
 
     /**
-     * Enregistre une nouvelle passkey pour un utilisateur
+     * Enregistre une nouvelle passkey (stocke la PublicKeyCredentialSource sérialisée en entier,
+     * pas juste la clé publique -> nécessaire pour reconstruire l'objet lors du login)
      */
-    public function saveWebauthnCredential(int $userId, string $credentialId, string $publicKey, ?array $transports, string $friendlyName): bool
+    public function saveWebauthnCredential(int $userId, string $credentialId, string $serializedSource, ?array $transports, string $friendlyName): bool
     {
         try {
             $stmt = $this->db->prepare("
@@ -1488,7 +1487,7 @@ class UserModel extends BaseModel
             $result = $stmt->execute([
                 'id' => $credentialId,
                 'user_id' => $userId,
-                'public_key' => $publicKey,
+                'public_key' => $serializedSource, // contient désormais la source complète sérialisée (base64)
                 'transports' => $transports ? json_encode($transports) : null,
                 'name' => $friendlyName
             ]);
@@ -1504,7 +1503,8 @@ class UserModel extends BaseModel
     }
 
     /**
-     * Récupère une credential WebAuthn par son ID (utilisé lors du login pour retrouver l'utilisateur)
+     * Récupère la ligne brute d'une credential (le contrôleur se charge de la désérialiser
+     * via le Serializer WebAuthn, car le modèle ne doit pas dépendre de webauthn-lib)
      */
     public function getWebauthnCredentialById(string $credentialId): ?array
     {
@@ -1544,16 +1544,21 @@ class UserModel extends BaseModel
     }
 
     /**
-     * Met à jour le compteur anti-clonage après une authentification réussie
+     * Met à jour la source complète après une authentification réussie
+     * (le compteur anti-clonage peut changer, la lib recommande de tout re-sauvegarder)
      */
-    public function updateWebauthnCredentialCounter(string $credentialId, int $newCounter): bool
+    public function updateWebauthnCredentialSource(string $credentialId, string $serializedSource, int $newCounter): bool
     {
         $stmt = $this->db->prepare("
             UPDATE webauthn_credentials
-            SET sign_count = :counter, last_used_at = NOW()
+            SET public_key = :public_key, sign_count = :counter, last_used_at = NOW()
             WHERE id = :id
         ");
-        return $stmt->execute(['counter' => $newCounter, 'id' => $credentialId]);
+        return $stmt->execute([
+            'public_key' => $serializedSource,
+            'counter' => $newCounter,
+            'id' => $credentialId
+        ]);
     }
 
     /**
