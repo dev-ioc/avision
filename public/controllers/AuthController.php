@@ -620,8 +620,9 @@ class AuthController
             );
 
             $csmFactory = new CeremonyStepManagerFactory();
-            if (defined('APP_ENV') && APP_ENV === 'local') {
-                $csmFactory->setSecuredRelyingPartyId(['localhost']);
+            $currentHost = parse_url(BASE_URL, PHP_URL_HOST);
+            if (in_array($currentHost, ['localhost', '127.0.0.1'], true)) {
+                $csmFactory->setAllowedOrigins(['http://' . $currentHost]);
             }
             $validator = AuthenticatorAttestationResponseValidator::create($csmFactory->creationCeremony());
 
@@ -703,13 +704,16 @@ class AuthController
                 throw new Exception('Réponse d\'authentificateur invalide.');
             }
 
-            $credentialIdB64 = base64_encode($publicKeyCredential->rawId);
+            // Décodage manuel du rawId pour garantir la cohérence avec l'enregistrement
+            $rawIdBinary = $this->base64url_decode($input['credential']['rawId'] ?? $input['credential']['id']);
+            $credentialIdB64 = base64_encode($rawIdBinary);
+
             $row = $this->userModel->getWebauthnCredentialById($credentialIdB64);
             if (!$row) {
                 throw new Exception('Passkey inconnue.');
             }
 
-            /** @var \Webauthn\PublicKeyCredentialSource $credentialSource */
+            /** @var PublicKeyCredentialSource $credentialSource */
             $credentialSource = $serializer->deserialize(
                 base64_decode($row['public_key']),
                 PublicKeyCredentialSource::class,
@@ -724,10 +728,10 @@ class AuthController
             );
 
             $csmFactory = new CeremonyStepManagerFactory();
-            if (defined('APP_ENV') && APP_ENV === 'local') {
-                $csmFactory->setSecuredRelyingPartyId(['localhost']);
+            $currentHost = parse_url(BASE_URL, PHP_URL_HOST);
+            if (in_array($currentHost, ['localhost', '127.0.0.1'], true)) {
+                $csmFactory->setAllowedOrigins(['http://' . $currentHost]);
             }
-
             $validator = AuthenticatorAssertionResponseValidator::create($csmFactory->requestCeremony());
 
             $updatedCredentialSource = $validator->check(
@@ -735,9 +739,9 @@ class AuthController
                 $publicKeyCredential->response,
                 $requestOptions,
                 parse_url(BASE_URL, PHP_URL_HOST),
-                $credentialSource->userHandle // au lieu de null
+                $credentialSource->userHandle
             );
-            // Re-sauvegarde recommandée par la doc : le compteur a pu changer
+
             $newSerializedSource = base64_encode($serializer->serialize($updatedCredentialSource, 'json'));
             $this->userModel->updateWebauthnCredentialSource(
                 $credentialIdB64,
@@ -791,5 +795,17 @@ class AuthController
     private function redirectAfterFullLogin()
     {
         header('Location: ' . $this->computeRedirectUrl());
+    }
+    /**
+     * Décode une chaîne base64url (format WebAuthn) en octets bruts
+     */
+    private function base64url_decode(string $data): string
+    {
+        $data = strtr($data, '-_', '+/');
+        $padding = strlen($data) % 4;
+        if ($padding > 0) {
+            $data .= str_repeat('=', 4 - $padding);
+        }
+        return base64_decode($data);
     }
 }

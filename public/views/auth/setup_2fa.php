@@ -78,7 +78,6 @@ if (!defined('BASE_URL')) {
                 <?= csrf_field() ?>
                 <script>const BASE_URL = <?php echo json_encode(BASE_URL); ?>;</script>
                 <script src="<?php echo BASE_URL; ?>assets/js/webauthn.js"></script>
-                <script src="<?php echo BASE_URL; ?>assets/js/webauthn.js"></script>
                 <script>
                     async function loadPasskeys() {
                         const resp = await fetch(BASE_URL + 'auth/webauthn-credentials', {
