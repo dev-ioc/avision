@@ -78,11 +78,21 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </a>
 
             <?php if (canManageContracts()): ?>
-                <a href="<?php echo BASE_URL; ?>contracts/edit/<?php echo $contract['id']; ?>?return_to=<?php echo $returnTo; ?><?php echo $clientId ? '&client_id=' . $clientId : ''; ?><?php echo $activeTab ? '&active_tab=' . $activeTab : ''; ?>"
-                    class="btn btn-warning me-2">
-                    <i class="bi bi-pencil me-1 me-1"></i>Modifier
-                </a>
+                <?php
+                $currentContractUrl = BASE_URL . 'contracts/view/' . (int) $contract['id'];
+                if ($returnTo === 'client' && $clientId) {
+                    $currentContractUrl .= '?return_to=client&client_id=' . (int) $clientId;
 
+                    if ($activeTab) {
+                        $currentContractUrl .= '&active_tab=' . urlencode($activeTab);
+                    }
+                }
+                ?>
+
+                <a href="<?= BASE_URL ?>contracts/edit/<?= (int) $contract['id'] ?>?return_url=<?= urlencode($currentContractUrl) ?>"
+                    class="btn btn-warning me-2">
+                    <i class="bi bi-pencil me-1"></i>Modifier
+                </a>
                 <?php
                 $endDate = new DateTime($contract['end_date']);
                 $today = new DateTime();
@@ -208,11 +218,17 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                     <?= h($siteName) ?>
                                                 </strong>
                                                 <div class="d-flex flex-wrap gap-1 ms-3">
+                                                    <?php
+                                                    $returnUrl = BASE_URL . 'contracts/view/' . (int) $contract['id'];
+                                                    ?>
+
                                                     <?php foreach ($siteRooms as $room): ?>
-                                                        <span class="badge bg-secondary-subtle text-dark border fw-normal">
+                                                        <a href="<?= BASE_URL ?>room/edit/<?= (int) $room['room_id'] ?>?return_url=<?= urlencode($returnUrl) ?>"
+                                                            class="badge bg-secondary-subtle text-dark border fw-normal text-decoration-none"
+                                                            title="Modifier la salle">
                                                             <i class="bi bi-door-open text-muted me-1"></i>
                                                             <?= h($room['room_name']) ?>
-                                                        </span>
+                                                        </a>
                                                     <?php endforeach; ?>
                                                 </div>
                                             </div>

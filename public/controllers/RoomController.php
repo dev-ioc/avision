@@ -185,7 +185,6 @@ class RoomController
         $pageTitle = "Ajouter une salle";
         require_once VIEWS_PATH . '/room/add.php';
     }
-
     /**
      * Affiche le formulaire d'édition d'une salle
      */
@@ -207,13 +206,11 @@ class RoomController
             exit;
         }
 
-        // URL de retour par défaut : la fiche client
-        $defaultReturn = BASE_URL . 'clients/view/' . $building['client_id'];
+        $defaultReturn = BASE_URL . 'clients/view/' . (int) $building['client_id'];
 
-        // URL transmise par la page appelante (GET au chargement, POST après soumission)
-        $returnUrl = $_POST['return_url'] ?? $_GET['return'] ?? $defaultReturn;
+        $returnUrl = $_POST['return_url'] ?? $_GET['return_url'] ?? $defaultReturn;
 
-        // Sécurité : uniquement des URL internes
+        // Sécurité : uniquement des URL internes à l'application
         if (strpos($returnUrl, BASE_URL) !== 0) {
             $returnUrl = $defaultReturn;
         }
@@ -228,7 +225,9 @@ class RoomController
             $data = [
                 'name' => $_POST['name'] ?? '',
                 'comment' => $_POST['comment'] ?? '',
-                'main_contact_id' => !empty($_POST['main_contact_id']) ? $_POST['main_contact_id'] : null,
+                'main_contact_id' => !empty($_POST['main_contact_id'])
+                    ? $_POST['main_contact_id']
+                    : null,
                 'status' => isset($_POST['status']) ? 1 : 0
             ];
 
@@ -243,6 +242,7 @@ class RoomController
 
         $contacts = $this->contactModel->getContactsByClientId($building['client_id']);
         $pageTitle = "Modifier la salle - " . $room['name'];
+
         require_once VIEWS_PATH . '/room/edit.php';
     }
 

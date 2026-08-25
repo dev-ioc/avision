@@ -32,15 +32,17 @@ setPageVariables(
 $currentPage = 'contracts';
 
 // Déterminer l'URL de retour dynamiquement
-$returnTo = $_GET['return_to'] ?? null;
-if ($returnTo === 'contracts') {
-    // Si on vient de la liste des contrats, retourner à cette liste
-    $returnUrl = BASE_URL . 'contracts';
-} elseif ($returnTo === 'client') {
-    // Si on vient de la vue ou édition du client, retourner à l'édition du client avec l'onglet contrats ouvert
-    $returnUrl = BASE_URL . 'clients/edit/' . $client['id'] . '#contracts';
+$returnUrl = $_GET['return_url'] ?? null;
+
+// Si une URL de retour est fournie, l'utiliser
+if (!empty($returnUrl)) {
+
+    // Décoder l'URL si elle a été encodée
+    $returnUrl = urldecode($returnUrl);
+
 } else {
-    // Par défaut, retourner à l'édition du client avec l'onglet contrats ouvert
+
+    // Sinon, comportement par défaut : retour vers l'édition du client
     $returnUrl = BASE_URL . 'clients/edit/' . $client['id'] . '#contracts';
 }
 
