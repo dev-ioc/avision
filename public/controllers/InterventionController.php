@@ -3759,7 +3759,6 @@ class InterventionController
         }
 
         try {
-            // Récupérer l'intervention avec toutes les données nécessaires
             $intervention = $this->interventionModel->getById($interventionId);
 
             if (!$intervention) {
@@ -3767,7 +3766,6 @@ class InterventionController
                 header('Location: ' . $this->getInterventionsListUrl());
                 exit;
             }
-            // === Contrôle du nombre de générations de BI (hors admin/ADV) ===
             if (!isAdmin()) {
                 $check = $this->checkBiGenerationAllowed($interventionId, $_SESSION['user']['id']);
                 if (!$check['allowed']) {
@@ -3796,18 +3794,24 @@ class InterventionController
                 }
             }
 
-            if ((int) $intervention['status_id'] === 6) {
+            // === Tickets utilisés : uniquement si le contrat est un contrat à tickets ===
+            $isTicketContract = !empty($intervention['contract_id']) && isContractTicketById($intervention['contract_id']);
+
+            if (!$isTicketContract) {
+                // Contrat sans gestion par tickets : toujours 0, aucun calcul
+                $intervention['tickets_used'] = 0;
+                $intervention['tickets_remaining_after'] = 0;
+            } elseif ((int) $intervention['status_id'] === 6) {
+                // Intervention fermée : la valeur déjà déduite du contrat fait foi
                 $intervention['tickets_used'] = (float) ($intervention['tickets_used'] ?? 0);
+                $intervention['tickets_remaining_after'] = (float) ($intervention['tickets_remaining'] ?? 0);
             } else {
+                // Intervention pas encore fermée : calcul prévisionnel basé sur les techniciens
                 $intervention['tickets_used'] = $this->calculateTotalTicketsUsed(
                     $interventionId,
                     null,
                     $intervention['type_id'] ?? null
                 );
-            }
-            if ((int) $intervention['status_id'] === 6) {
-                $intervention['tickets_remaining_after'] = (float) ($intervention['tickets_remaining'] ?? 0);
-            } else {
                 $intervention['tickets_remaining_after'] = max(
                     0,
                     (float) ($intervention['tickets_remaining'] ?? 0) - (float) $intervention['tickets_used']

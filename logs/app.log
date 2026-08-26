@@ -127672,3 +127672,21 @@ Quant à l’écran n°1, il est HS
 (
 )
  
+[2026-08-26 10:13:49][DEBUG] CSRF: Token trouvé dans la requête - Token: c058280dbb0165ef3c14... 
+[2026-08-26 10:13:49][DEBUG] CSRF: Token trouvé dans la requête - Token: c058280dbb0165ef3c14... 
+[2026-08-26 10:13:49][DEBUG] CSRF: Token trouvé dans la requête - Token: c058280dbb0165ef3c14... 
+[2026-08-26 10:14:49][DEBUG] CSRF: Token trouvé dans la requête - Token: c058280dbb0165ef3c14... 
+[2026-08-26 10:14:49][INFO] Technicien 40 mis à jour pour l'intervention 395 
+[2026-08-26 10:15:13][DEBUG] CSRF: Token trouvé dans la requête - Token: c058280dbb0165ef3c14... 
+[2026-08-26 10:15:13][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-26 10:16:50][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-08-26 10:21:05][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
