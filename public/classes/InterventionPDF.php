@@ -832,80 +832,34 @@ class InterventionPDF extends TCPDF
 
         $this->headCell($w, 'Heure début intervention');
         $this->headCell($w, 'Heure fin intervention');
-        $this->headCell($w, 'Solde ticket');
-        $this->headCell($w, 'Total ticket intervention');
-        $this->headCell($w, 'Tickets restant');
+        $this->headCell($w, 'Solde avant intervention');
+        $this->headCell($w, 'Tickets consommés (cette inter.)');
+        $this->headCell($w, 'Solde après intervention');
 
         $this->Ln();
 
         // Valeurs
-        $startTime =
-            !empty($intervention['planned_date'])
-            ? $intervention['planned_date']
-            : '';
+        $startTime = !empty($intervention['planned_date']) ? $intervention['planned_date'] : '';
+        $endTime = !empty($intervention['end_date']) ? $intervention['end_date'] : '';
 
-        $endTime =
-            !empty($intervention['end_date'])
-            ? $intervention['end_date']
-            : '';
-
-        $soldeTicket = $intervention['tickets_number'] ?? '0';
-
-        $ticketsUsed =
-            $intervention['tickets_used'] ?? '0';
-
-        $ticketsRemaining =
-            $intervention['tickets_remaining'] ?? '0';
+        $soldeAvant = $intervention['tickets_remaining'] ?? '0';
+        $ticketsUsed = $intervention['tickets_used'] ?? '0';
+        $soldeApres = $intervention['tickets_remaining_after'] ?? $soldeAvant;
 
         // Heure début
-        $this->Cell(
-            $w,
-            10,
-            $startTime,
-            1,
-            0,
-            'C'
-        );
+        $this->Cell($w, 10, $startTime, 1, 0, 'C');
 
         // Heure fin
-        $this->Cell(
-            $w,
-            10,
-            $endTime,
-            1,
-            0,
-            'C'
-        );
+        $this->Cell($w, 10, $endTime, 1, 0, 'C');
 
-        // Solde tickets
-        $this->Cell(
-            $w,
-            10,
-            $soldeTicket,
-            1,
-            0,
-            'C'
-        );
+        // Solde avant
+        $this->Cell($w, 10, $soldeAvant, 1, 0, 'C');
 
-        // Total tickets
-        $this->Cell(
-            $w,
-            10,
-            $ticketsUsed,
-            1,
-            0,
-            'C'
-        );
+        // Tickets consommés par cette intervention
+        $this->Cell($w, 10, $ticketsUsed, 1, 0, 'C');
 
-        // Tickets restant
-        $this->Cell(
-            $w,
-            10,
-            $ticketsRemaining,
-            1,
-            1,
-            'C'
-        );
+        // Solde après
+        $this->Cell($w, 10, $soldeApres, 1, 1, 'C');
 
         // =====================================================
         // DESCRIPTION

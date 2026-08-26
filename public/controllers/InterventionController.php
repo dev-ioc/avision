@@ -3776,32 +3776,17 @@ class InterventionController
                     exit;
                 }
             }
-            // =====================================================
-            // RÉCUPÉRER LES DONNÉES MANQUANTES
-            // =====================================================
-
-            // 1. Récupérer les informations du contrat
             if (!empty($intervention['contract_id'])) {
-
-                $contract = $this->contractModel->getContractById(
-                    $intervention['contract_id']
-                );
+                $contract = $this->contractModel->getContractById($intervention['contract_id']);
 
                 if (!empty($contract)) {
-
-                    $intervention['tickets_remaining'] =
-                        $contract['tickets_remaining'] ?? 0;
-
-                    $intervention['contract_end_date'] =
-                        $contract['end_date'] ?? null;
-
-                    $intervention['contract_status'] =
-                        (($contract['status']) === "actif")
-                        ? 'Actif'
-                        : 'Inactif';
+                    $intervention['tickets_remaining'] = $contract['tickets_remaining'] ?? 0;
+                    $intervention['contract_end_date'] = $contract['end_date'] ?? null;
+                    $intervention['contract_status'] = (($contract['status']) === "actif") ? 'Actif' : 'Inactif';
                     $intervention['tickets_number'] = $contract['tickets_number'] ?? 0;
                 }
             }
+
             // 2. Récupérer les informations du client
             if (!empty($intervention['client_id'])) {
                 $client = $this->clientModel->getClientById($intervention['client_id']);
@@ -3811,16 +3796,22 @@ class InterventionController
                 }
             }
 
-            // 3. Récupérer les informations du contact
-            if (!empty($intervention['contact_client'])) {
-                $contact = $this->contactModel->getContactByEmail($intervention['contact_client']);
-                if ($contact) {
-                    $intervention['contact_first_name'] = $contact['first_name'] ?? '';
-                    $intervention['contact_last_name'] = $contact['last_name'] ?? '';
-                    $intervention['contact_phone'] = $contact['phone1'] ?? '';
-                    $intervention['contact_email'] = $contact['email'] ?? '';
-
-                }
+            if ((int) $intervention['status_id'] === 6) {
+                $intervention['tickets_used'] = (float) ($intervention['tickets_used'] ?? 0);
+            } else {
+                $intervention['tickets_used'] = $this->calculateTotalTicketsUsed(
+                    $interventionId,
+                    null,
+                    $intervention['type_id'] ?? null
+                );
+            }
+            if ((int) $intervention['status_id'] === 6) {
+                $intervention['tickets_remaining_after'] = (float) ($intervention['tickets_remaining'] ?? 0);
+            } else {
+                $intervention['tickets_remaining_after'] = max(
+                    0,
+                    (float) ($intervention['tickets_remaining'] ?? 0) - (float) $intervention['tickets_used']
+                );
             }
 
             // 4. Récupérer les informations du site
@@ -3939,7 +3930,6 @@ class InterventionController
                 header('Location: ' . BASE_URL . 'interventions/generateBon/' . $interventionId);
                 exit;
             }
-            // Lire et afficher le PDF
             if (file_exists($pdfPath)) {
                 $filename = basename($pdfPath);
                 header('Content-Type: application/pdf');
