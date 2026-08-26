@@ -3,6 +3,9 @@ if (!defined('BASE_URL')) {
     header('Location: ' . BASE_URL);
     exit;
 }
+$cancelUrl = isClient()
+    ? BASE_URL . 'profileClient'
+    : BASE_URL . 'user/view/' . $_SESSION['user']['id'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -18,6 +21,29 @@ if (!defined('BASE_URL')) {
 </head>
 
 <body class="bg-light">
+    <div class="modal fade" id="passkeyNameModal" tabindex="-1" aria-labelledby="passkeyNameModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title" id="passkeyNameModalLabel">Nommer votre passkey</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small mb-3">
+                        Donnez un nom à cet appareil pour le reconnaître facilement dans la liste.
+                    </p>
+                    <label for="passkeyNameInput" class="form-label">Nom de l'appareil</label>
+                    <input type="text" class="form-control" id="passkeyNameInput" placeholder="ex : iPhone de Jean"
+                        maxlength="100" autocomplete="off">
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="passkeyNameConfirmBtn">Continuer</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
@@ -87,9 +113,7 @@ if (!defined('BASE_URL')) {
                                     <button type="submit" class="btn btn-primary">
                                         Activer la double authentification
                                     </button>
-
-                                    <a href="<?php echo BASE_URL; ?>profileClient" class="btn btn-secondary"
-                                        type="button">
+                                    <a href="<?php echo $cancelUrl; ?>" class="btn btn-secondary" type="button">
                                         Annuler
                                     </a>
                                 </form>
@@ -123,8 +147,11 @@ if (!defined('BASE_URL')) {
                                 <p id="passkey-empty" class="text-muted small d-none">
                                     Aucune passkey enregistrée.
                                 </p>
-                            </div>
 
+                                <a href="<?php echo $cancelUrl; ?>" class="btn btn-secondary" type="button">
+                                    Retour
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -256,5 +283,70 @@ if (!defined('BASE_URL')) {
         </div>
     </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.modal').forEach(function (modal) {
+            modal.addEventListener('hidden.bs.modal', function () {
+                const dialog = modal.querySelector('.modal-dialog');
+                if (dialog) {
+                    dialog.style.position = '';
+                    dialog.style.left = '';
+                    dialog.style.top = '';
+                    dialog.style.margin = '';
+                    dialog.style.width = '';
+                    dialog.style.maxWidth = '';
+                }
+            });
+
+            modal.addEventListener('shown.bs.modal', function () {
+                const dialog = modal.querySelector('.modal-dialog');
+                const header = modal.querySelector('.modal-header');
+                if (!dialog || !header) return;
+                if (header.dataset.draggable) return;
+                header.dataset.draggable = 'true';
+
+                header.style.cursor = 'grab';
+
+                let isDragging = false;
+                let startX, startY, startLeft, startTop;
+
+                header.addEventListener('mousedown', function (e) {
+                    if (e.target.closest('button')) return;
+
+                    isDragging = true;
+                    header.style.cursor = 'grabbing';
+
+                    const rect = dialog.getBoundingClientRect();
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    startLeft = rect.left;
+                    startTop = rect.top;
+                    dialog.style.width = rect.width + 'px';
+                    dialog.style.maxWidth = 'none';
+                    dialog.style.position = 'fixed';
+                    dialog.style.left = startLeft + 'px';
+                    dialog.style.top = startTop + 'px';
+                    dialog.style.margin = '0';
+                });
+
+                document.addEventListener('mousemove', function (e) {
+                    if (!isDragging) return;
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+                    dialog.style.left = (startLeft + dx) + 'px';
+                    dialog.style.top = (startTop + dy) + 'px';
+                });
+
+                document.addEventListener('mouseup', function () {
+                    if (isDragging) {
+                        isDragging = false;
+                        header.style.cursor = 'grab';
+                    }
+                });
+            });
+
+        });
+    });
+</script>
 
 </html>

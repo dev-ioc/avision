@@ -140,6 +140,61 @@ function showWebauthnError(message) {
   }
 }
 
+// --- Modale stylée pour nommer une passkey (remplace prompt()) ---
+function askPasskeyName() {
+  return new Promise((resolve) => {
+    const modalEl = document.getElementById("passkeyNameModal");
+
+    // Fallback si la modale n'est pas présente sur cette page
+    if (!modalEl || typeof bootstrap === "undefined") {
+      const name = prompt("Nom de cet appareil (ex : iPhone de Jean)", "");
+      resolve(name);
+      return;
+    }
+
+    const input = document.getElementById("passkeyNameInput");
+    const confirmBtn = document.getElementById("passkeyNameConfirmBtn");
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+
+    input.value = "";
+    let resolved = false;
+
+    const cleanup = () => {
+      confirmBtn.removeEventListener("click", onConfirm);
+      modalEl.removeEventListener("hidden.bs.modal", onHidden);
+      input.removeEventListener("keydown", onKeydown);
+    };
+
+    const onConfirm = () => {
+      resolved = true;
+      modal.hide();
+      cleanup();
+      resolve(input.value.trim());
+    };
+
+    const onHidden = () => {
+      cleanup();
+      if (!resolved) resolve(null); // fermée / annulée
+    };
+
+    const onKeydown = (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        onConfirm();
+      }
+    };
+
+    confirmBtn.addEventListener("click", onConfirm);
+    modalEl.addEventListener("hidden.bs.modal", onHidden);
+    input.addEventListener("keydown", onKeydown);
+
+    modal.show();
+    modalEl.addEventListener("shown.bs.modal", () => input.focus(), {
+      once: true,
+    });
+  });
+}
+
 // --- Enregistrement d'une passkey (page profil) ---
 async function registerPasskey(buttonEl) {
   if (!isWebauthnSupported()) {
@@ -147,7 +202,7 @@ async function registerPasskey(buttonEl) {
     return;
   }
 
-  const name = prompt("Nom de cet appareil (ex : iPhone de Jean)", "");
+  const name = await askPasskeyName();
   if (name === null) return; // annulé
 
   const originalText = buttonEl.innerHTML;
@@ -239,6 +294,7 @@ async function deletePasskey(credentialId, rowEl) {
     alert("Une erreur est survenue.");
   }
 }
+
 async function loadPasskeys() {
   try {
     const resp = await fetch(BASE_URL + "auth/webauthn-credentials", {
