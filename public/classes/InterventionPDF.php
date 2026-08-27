@@ -69,20 +69,10 @@ class InterventionPDF extends TCPDF
 
         $this->renderIdentification($intervention, $technicians);
 
-        $this->Ln(3);
+        $this->Ln(4);
 
         $this->renderClient($intervention);
 
-        $this->Ln(6);
-
-        // SECTION 3 — Équipements concernés — désactivée à la demande du
-        // client (VS2026-0893) : rallongeait trop le BI. Le numéro "3." lui
-        // reste réservé (voir renderEquipment()) pour rester aligné sur la
-        // maquette client si elle est réactivée, avec le futur module SAV
-        // (sélection des machines en panne par le technicien).
-        // $this->renderEquipment($equipment);
-        // $this->Ln(4);
-        // SECTION 4 — Détail de l'intervention
         $this->renderDetails($intervention, $comments);
 
         $this->renderParts($replacedParts, $equipment);
@@ -90,14 +80,14 @@ class InterventionPDF extends TCPDF
         // =====================================================
         // SECTION 6 — Clôture & signatures
         // =====================================================
-        $closureBlockHeight = 115;
+        $closureBlockHeight = 95;
         $headerHeight = 27;
         $bottomLimit = $this->getPageHeight() - $this->getMargins()['bottom'];
 
         if ($this->GetY() + $headerHeight + $closureBlockHeight > $bottomLimit) {
             $this->AddPage();
         } else {
-            $this->Ln(6);
+            $this->Ln(3);
         }
 
         $this->renderHeader($intervention);
@@ -470,12 +460,15 @@ class InterventionPDF extends TCPDF
         $y = $this->GetY();
         $x = $this->GetX(); // = 10
 
-        $this->Cell($w, 22, $intervention['building_name'] ?? '', 1, 0);
-        $this->Cell($w, 22, $intervention['floor_level'] ?? '', 1, 0);
+        $roomBlockHeight = 8;
+        $heightBlock = 7;
+
+        $this->Cell($w, $roomBlockHeight, $intervention['building_name'] ?? '', 1, 0);
+        $this->Cell($w, $roomBlockHeight, $intervention['floor_level'] ?? '', 1, 0);
 
         // Cadre salle
         $salleX = $this->GetX();
-        $this->Cell(95, 22, '', 1, 0);
+        $this->Cell(95, $roomBlockHeight, '', 1, 0);
 
         // Contenu salle
         $this->SetXY($salleX + 2, $y + 2);
@@ -483,28 +476,29 @@ class InterventionPDF extends TCPDF
         $this->Cell(50, 5, $intervention['room_name'] ?? '', 0);
 
         // Mention AVision
-        $this->SetXY($salleX + 2, $y + 16);
-        $this->SetFont('helvetica', 'I', 8);
-        $this->Cell(40, 4, 'AVision', 0);
+        // $this->SetXY($salleX + 2, $y + $roomBlockHeight - 4.5);
+        // $this->SetFont('helvetica', 'I', 8);
+        // $this->Cell(40, 4, 'AVision', 0);
 
         // QR code
         $style = ['border' => 0, 'padding' => 0];
+        $qrSize = 11;
         $this->write2DBarcode(
             $intervention['avision_ref'] ?? 'AVision',
             'QRCODE,L',
             $salleX + 58,
-            $y + 4,
-            13,
-            13,
+            $y + 2,
+            $qrSize,
+            $qrSize,
             $style,
             'N'
         );
 
-        $this->SetXY($salleX + 72, $y + 12);
-        $this->SetFont('helvetica', 'I', 7);
-        $this->Cell(18, 4, 'Fiche salle', 0);
+        // $this->SetXY($salleX + 58 + $qrSize + 1, $y + $roomBlockHeight - 5.5);
+        // $this->SetFont('helvetica', 'I', 7);
+        // // $this->Cell(18, 4, 'Fiche salle', 0);
 
-        $this->Ln(12);
+        $this->Ln($heightBlock + 2);
     }
 
     /**
@@ -951,7 +945,7 @@ class InterventionPDF extends TCPDF
         // =====================================================
         // TITRE SECTION
         // =====================================================
-        $this->Ln(8);
+        $this->Ln(3);
         $this->sectionTitle('5. PIÈCES REMPLACÉES & MATÉRIEL PRÊTÉ');
 
         // =====================================================
@@ -983,21 +977,21 @@ class InterventionPDF extends TCPDF
                 $serialNumber = $part['serial_number'] ?? '-';
                 $quantity = $part['quantity'] ?? 1;
 
-                $this->bodyCell($w1, $designation, 12);
-                $this->bodyCell($w2, $oldVersion, 12);
-                $this->bodyCell($w3, $newVersion, 12);
-                $this->bodyCell($w4, $serialNumber, 12);
-                $this->bodyCell($w5, $quantity, 12);
+                $this->bodyCell($w1, $designation, 7);
+                $this->bodyCell($w2, $oldVersion, 7);
+                $this->bodyCell($w3, $newVersion, 7);
+                $this->bodyCell($w4, $serialNumber, 7);
+                $this->bodyCell($w5, $quantity, 7);
                 $this->Ln();
             }
         } else {
             // Lignes vides
             for ($i = 0; $i < 3; $i++) {
-                $this->Cell($w1, 12, '', 1, 0);
-                $this->Cell($w2, 12, '', 1, 0);
-                $this->Cell($w3, 12, '', 1, 0);
-                $this->Cell($w4, 12, '', 1, 0);
-                $this->Cell($w5, 12, '', 1, 1);
+                $this->Cell($w1, 7, '', 1, 0);
+                $this->Cell($w2, 7, '', 1, 0);
+                $this->Cell($w3, 7, '', 1, 0);
+                $this->Cell($w4, 7, '', 1, 0);
+                $this->Cell($w5, 7, '', 1, 1);
             }
         }
 
@@ -1018,7 +1012,7 @@ class InterventionPDF extends TCPDF
         $this->Ln(2);
 
         $loanY = $this->GetY();
-        $rowHeight = 22;
+        $rowHeight = 16;
 
         // Fond beige principal
         $this->SetFillColor(248, 243, 226);
@@ -1098,9 +1092,9 @@ class InterventionPDF extends TCPDF
 
         $this->Line(
             103,
-            $loanY + 16,
+            $loanY + 12,
             190,
-            $loanY + 16
+            $loanY + 12
         );
 
         // Restaurer couleur bordure
