@@ -83,13 +83,18 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
             <div class="card-body">
                 <form action="<?php echo BASE_URL; ?>interventions_client/export" method="get" id="exportForm">
+                    <input type="hidden" name="status_id" value="<?php echo htmlspecialchars($_GET['status_id'] ?? ''); ?>">
+                    <input type="hidden" name="site_id" value="<?php echo htmlspecialchars($_GET['site_id'] ?? ''); ?>">
+                    <input type="hidden" name="building_id" value="<?php echo htmlspecialchars($_GET['building_id'] ?? ''); ?>">
+                    <input type="hidden" name="room_id" value="<?php echo htmlspecialchars($_GET['room_id'] ?? ''); ?>">
+                    <input type="hidden" name="search" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
                     <div class="row g-3 align-items-end">
                         <div class="col-md-3">
-                            <label class="form-label fw-bold mb-0">Date de début</label>
+                            <label class="form-label fw-bold mb-0">Début</label>
                             <input type="date" class="form-control bg-body text-body" name="date_start">
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label fw-bold mb-0">Date de fin</label>
+                            <label class="form-label fw-bold mb-0">Fin</label>
                             <input type="date" class="form-control bg-body text-body" name="date_end">
                         </div>
                         <div class="col-md-3">
@@ -235,8 +240,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         function loadPreview() {
             const params = new URLSearchParams(new FormData(exportForm));
 
-            // Annule une requête d'aperçu précédente encore en cours,
-            // pour éviter qu'une réponse lente n'écrase un filtre plus récent
             if (previewInFlight) {
                 previewInFlight.abort();
             }
@@ -275,11 +278,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             }
         });
 
-        // Chargement initial de l'aperçu (filtres vides = toutes les interventions)
-        loadPreview();
 
-        // Le bouton "Exporter en CSV" télécharge simplement le CSV
-        // avec les filtres déjà appliqués au tableau (pas de nouvel aperçu nécessaire)
         exportForm.addEventListener('submit', function (e) {
             e.preventDefault();
 

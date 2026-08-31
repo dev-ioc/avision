@@ -13,6 +13,7 @@ class InterventionsClientController
     private $siteModel;
     private $buildingModel;
     private $roomModel;
+    private $table;
 
     public function __construct($db)
     {
@@ -30,6 +31,7 @@ class InterventionsClientController
         $this->siteModel = new SiteModel($db);
         $this->buildingModel = new BuildingModel($db);
         $this->roomModel = new RoomModel($db);
+        $this->table = 'interventions';
     }
 
     /**
@@ -76,10 +78,10 @@ class InterventionsClientController
             'search' => $_GET['search'] ?? null
         ];
 
-        // Si aucun filtre de statut n'est spécifié, filtrer par défaut sur les interventions non fermées ou annulées
-        if (empty($filters['status_id'])) {
-            $filters['exclude_status_ids'] = [6, 7]; // 6 = Fermé, 7 = Annulé
-        }
+        // // Si aucun filtre de statut n'est spécifié, filtrer par défaut sur les interventions non fermées ou annulées
+        // if (empty($filters['status_id'])) {
+        //     $filters['exclude_status_ids'] = [6, 7]; // 6 = Fermé, 7 = Annulé
+        // }
 
         // Construire la clause WHERE pour les localisations
         $locationWhere = buildLocationWhereClause($userLocations, 'i.client_id', 'i.site_id', 'i.building_id', 'i.room_id');
@@ -1081,12 +1083,7 @@ class InterventionsClientController
             $type = 'all';
         }
 
-        $filters = [
-            'date_start' => $dateStart,
-            'date_end' => $dateEnd,
-            'type' => $type,
-        ];
-
+        $filters = $this->buildExportFilters();
         try {
             $interventions = $this->model->getForExport($userLocations, $filters);
         } catch (Exception $e) {
@@ -1186,11 +1183,7 @@ class InterventionsClientController
             $type = 'all';
         }
 
-        $filters = [
-            'date_start' => $dateStart,
-            'date_end' => $dateEnd,
-            'type' => $type,
-        ];
+        $filters = $this->buildExportFilters();
 
         try {
             $interventions = $this->model->getForExport($userLocations, $filters);
@@ -1223,5 +1216,126 @@ class InterventionsClientController
             echo json_encode(['success' => false, 'error' => 'Erreur serveur']);
         }
         exit;
+    }
+    public function getForExport($userLocations, $filters = [])
+    {
+        $clientIds = [];
+        foreach ($userLocations as $location) {
+            if (isset($location['client_id']) && !in_array($location['client_id'], $clientIds)) {
+                $clientIds[] = (int) $location['client_id'];
+            }
+        }
+
+        if (empty($clientIds)) {
+            return [];
+        }
+
+        $placeholders = str_repeat('?,', count($clientIds) - 1) . '?';
+
+        $sql = "SELECT i.*,
+    c.name as client_name,
+    s.name as site_name,
+    b.name as building_name,
+    r.name as room_name,
+    its.name as status_name,
+    its.color as status_color,
+    ip.name as priority_name,
+    ip.color as priority_color,
+    GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+    FROM " . $this->table . " i
+    LEFT JOIN clients c ON i.client_id = c.id
+    LEFT JOIN sites s ON i.site_id = s.id
+    LEFT JOIN buildings b ON i.building_id = b.id
+    LEFT JOIN rooms r ON i.room_id = r.id
+    LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+    LEFT JOIN users ut ON itech.technicien_id = ut.id
+    LEFT JOIN intervention_statuses its ON i.status_id = its.id
+    LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+    WHERE i.client_id IN ({$placeholders})";
+
+        $params = $clientIds;
+
+        if (!empty($filters['site_id'])) {
+            $sql .= " AND i.site_id = ?";
+            $params[] = $filters['site_id'];
+        }
+        if (!empty($filters['building_id'])) {
+            $sql .= " AND i.building_id = ?";
+            $params[] = $filters['building_id'];
+        }
+        if (!empty($filters['room_id'])) {
+            $sql .= " AND i.room_id = ?";
+            $params[] = $filters['room_id'];
+        }
+        if (!empty($filters['status_id'])) {
+            $sql .= " AND i.status_id = ?";
+            $params[] = $filters['status_id'];
+        } elseif (!empty($filters['exclude_status_ids'])) {
+            $excludePlaceholders = str_repeat('?,', count($filters['exclude_status_ids']) - 1) . '?';
+            $sql .= " AND i.status_id NOT IN ($excludePlaceholders)";
+            $params = array_merge($params, $filters['exclude_status_ids']);
+        }
+        if (!empty($filters['search'])) {
+            $sql .= " AND (i.title LIKE ? OR s.name LIKE ? OR b.name LIKE ? OR r.name LIKE ? OR i.reference LIKE ?)";
+            $searchTerm = '%' . $filters['search'] . '%';
+            $params = array_merge($params, [$searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm]);
+        }
+
+        if (!empty($filters['date_start'])) {
+            $sql .= " AND i.created_at >= ?";
+            $params[] = $filters['date_start'] . ' 00:00:00';
+        }
+
+        if (!empty($filters['date_end'])) {
+            $sql .= " AND i.created_at <= ?";
+            $params[] = $filters['date_end'] . ' 23:59:59';
+        }
+
+        if (!empty($filters['type']) && $filters['type'] !== 'all') {
+            $sql .= " AND i.is_preventive = ?";
+            $params[] = ($filters['type'] === 'preventive') ? 1 : 0;
+        }
+
+        $sql .= " GROUP BY i.id ORDER BY i.created_at DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    private function buildExportFilters()
+    {
+        $dateStart = (!empty($_GET['date_start']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['date_start']))
+            ? $_GET['date_start'] : null;
+        $dateEnd = (!empty($_GET['date_end']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['date_end']))
+            ? $_GET['date_end'] : null;
+
+        $type = $_GET['type'] ?? 'all';
+        if (!in_array($type, ['all', 'curative', 'preventive'], true)) {
+            $type = 'all';
+        }
+
+        $siteId = !empty($_GET['site_id']) ? (int) $_GET['site_id'] : null;
+        $buildingId = !empty($_GET['building_id']) ? (int) $_GET['building_id'] : null;
+        $roomId = !empty($_GET['room_id']) ? (int) $_GET['room_id'] : null;
+        $statusId = !empty($_GET['status_id']) ? (int) $_GET['status_id'] : null;
+        $search = !empty($_GET['search']) ? trim($_GET['search']) : null;
+
+        $filters = [
+            'date_start' => $dateStart,
+            'date_end' => $dateEnd,
+            'type' => $type,
+            'site_id' => $siteId,
+            'building_id' => $buildingId,
+            'room_id' => $roomId,
+            'status_id' => $statusId,
+            'search' => $search,
+        ];
+
+        // Même comportement par défaut que la liste : masquer Fermé/Annulé si aucun statut choisi
+        if (empty($statusId)) {
+            $filters['exclude_status_ids'] = [6, 7];
+        }
+
+        return $filters;
     }
 }

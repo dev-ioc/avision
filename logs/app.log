@@ -128770,3 +128770,1754 @@ Quant à l’écran n°1, il est HS
         LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
         WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
 [2026-08-31 10:56:56][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 10:59:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 69a3917b96a42dd33325... 
+[2026-08-31 10:59:36][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-31 10:59:36][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-31 10:59:36][DEBUG] Login réussi - Session ID: 4b4mj11ckc5rarsk0et8m9dc2k 
+[2026-08-31 10:59:36][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-31 10:59:36][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-31 10:59:36][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-31 10:59:36][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-31 10:59:55][INFO] 81 
+[2026-08-31 10:59:55][INFO] 81 
+[2026-08-31 10:59:58][INFO] 81 
+[2026-08-31 11:00:00][INFO] 81 
+[2026-08-31 11:00:16][INFO] 36 
+[2026-08-31 11:00:16][INFO] 36 
+[2026-08-31 11:00:19][INFO] 37 
+[2026-08-31 11:00:19][INFO] 37 
+[2026-08-31 11:00:22][INFO] 37 
+[2026-08-31 11:00:25][INFO] 37 
+[2026-08-31 11:02:06][DEBUG] CSRF: Token trouvé dans la requête - Token: a2c65b57ec71a1050058... 
+[2026-08-31 11:02:06][DEBUG] Permissions chargées pour Tsilefy : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-08-31 11:02:06][INFO] Utilisateur connecté : Tsilefy {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-08-31 11:02:06][DEBUG] Login réussi - Session ID: svip5dc1vhuj8evffsuvthd0c7 
+[2026-08-31 11:02:06][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-31 11:02:06][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-31 11:02:06][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-31 11:02:06][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-31 11:02:19][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 11:02:19][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 11:02:19][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 11:02:19][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 11:02:19][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 11:02:19][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:17:00][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:17:00][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:17:00][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 12:17:00][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:17:00][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:17:00][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:17:04][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:17:04][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:17:04][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 12:17:04][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:17:04][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:17:04][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:17:11][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:17:11][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:17:11][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-06-01","date_end":null,"type":"all"} 
+[2026-08-31 12:17:11][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:17:11][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:17:11][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 5 
+[2026-08-31 12:17:15][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:17:15][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:17:15][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-06-01","date_end":"2026-08-18","type":"all"} 
+[2026-08-31 12:17:15][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:17:15][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:17:15][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 12:18:32][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:18:32][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:18:32][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 12:18:32][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:18:32][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:18:32][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:19:01][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:19:01][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:19:01][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":null,"type":"all"} 
+[2026-08-31 12:19:01][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:19:01][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:19:01][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 5 
+[2026-08-31 12:19:17][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:19:17][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:19:17][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-02-26","type":"all"} 
+[2026-08-31 12:19:17][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:19:17][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:19:17][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-08-31 12:19:25][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:19:25][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:19:25][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-02-27","type":"all"} 
+[2026-08-31 12:19:25][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:19:25][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:19:25][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-08-31 12:19:33][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:19:33][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:19:33][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-04-20","type":"all"} 
+[2026-08-31 12:19:33][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:19:33][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:19:33][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-08-31 12:19:36][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:19:36][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:19:36][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-04-24","type":"all"} 
+[2026-08-31 12:19:36][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:19:36][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:19:36][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-08-31 12:19:41][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:19:41][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:19:41][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-04-29","type":"all"} 
+[2026-08-31 12:19:41][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:19:41][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:19:41][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-08-31 12:19:45][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:19:45][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:19:45][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-04-30","type":"all"} 
+[2026-08-31 12:19:45][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:19:45][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:19:45][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-08-31 12:19:49][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:19:49][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:19:49][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-05-01","type":"all"} 
+[2026-08-31 12:19:49][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:19:49][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:19:49][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-08-31 12:19:54][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:19:54][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:19:54][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-06-18","type":"all"} 
+[2026-08-31 12:19:54][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:19:54][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:19:54][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-08-31 12:19:58][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:19:58][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:19:58][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-06-18","type":"curative"} 
+[2026-08-31 12:19:58][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:19:58][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:19:58][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-08-31 12:20:00][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:20:00][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:20:00][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-06-18","type":"preventive"} 
+[2026-08-31 12:20:00][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:20:00][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:20:00][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-08-31 12:20:01][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:20:01][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:20:01][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-06-18","type":"curative"} 
+[2026-08-31 12:20:01][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:20:01][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:20:01][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-08-31 12:20:04][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-08-31 12:20:04][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:20:04][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-06-18","type":"curative"} 
+[2026-08-31 12:20:04][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:20:04][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:20:04][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-08-31 12:20:28][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-08-31 12:20:28][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:20:28][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-06-18","type":"curative"} 
+[2026-08-31 12:20:28][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:20:28][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:20:28][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-08-31 12:22:28][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-08-31 12:22:28][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:22:28][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-06-18","type":"curative"} 
+[2026-08-31 12:22:28][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:22:28][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:22:28][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-08-31 12:23:01][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-08-31 12:23:01][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:23:01][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-27","date_end":"2026-06-18","type":"curative"} 
+[2026-08-31 12:23:01][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:23:01][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:23:01][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-08-31 12:25:09][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:25:09][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:25:09][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 12:25:09][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:25:09][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:25:09][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:32:26][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:32:26][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:32:26][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:32:26][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:32:26][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:32:26][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:32:28][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:32:28][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:32:28][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:32:28][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:32:28][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:32:28][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:32:30][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:32:30][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:32:30][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:32:30][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:32:30][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:32:30][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:32:32][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:32:32][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:32:32][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:32:32][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:32:32][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:32:32][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:32:35][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:32:35][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:32:35][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:32:35][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:32:35][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:32:35][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:32:37][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:32:37][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:32:37][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:32:37][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:32:37][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:32:37][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:33:07][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:33:07][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:33:07][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:33:07][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:33:07][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:33:07][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:37:31][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:37:31][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:37:31][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":2,"search":null} 
+[2026-08-31 12:37:31][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:37:31][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:37:31][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:37:35][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:37:35][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:37:35][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":2,"search":null} 
+[2026-08-31 12:37:35][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:37:35][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:37:35][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:37:48][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:37:48][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:37:48][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":1,"search":null} 
+[2026-08-31 12:37:48][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:37:48][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:37:48][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:38:02][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:38:02][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:38:02][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":1,"search":null} 
+[2026-08-31 12:38:02][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:38:02][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:38:02][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:38:04][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:38:04][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:38:04][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":6,"search":null} 
+[2026-08-31 12:38:04][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:38:05][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:38:05][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:38:07][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:38:07][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:38:07][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":6,"search":null} 
+[2026-08-31 12:38:07][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:38:07][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:38:07][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:38:14][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:38:14][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:38:14][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-05-04","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":6,"search":null} 
+[2026-08-31 12:38:14][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:38:14][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:38:14][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 5 
+[2026-08-31 12:38:17][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:38:17][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:38:17][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-05-04","date_end":"2026-08-11","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":6,"search":null} 
+[2026-08-31 12:38:17][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:38:17][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:38:17][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 12:38:25][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:38:25][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:38:25][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":2,"search":null} 
+[2026-08-31 12:38:25][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:38:25][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:38:25][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:41:40][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:41:40][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:41:40][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:41:40][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:41:40][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:41:40][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 5 
+[2026-08-31 12:41:44][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:41:44][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:41:44][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:41:44][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:41:44][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:41:44][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 12:41:47][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:41:47][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:41:47][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-13","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:41:47][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:41:47][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:41:47][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 12:41:50][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:41:50][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:41:50][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-20","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:41:50][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:41:50][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:41:50][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 12:41:53][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:41:53][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:41:53][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-27","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:41:53][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:41:53][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:41:53][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 12:41:55][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:41:55][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:41:55][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-31","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:41:55][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:41:55][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:41:55][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 5 
+[2026-08-31 12:41:58][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:41:58][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:41:58][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-31","type":"preventive","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:41:58][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:41:58][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:41:58][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 12:42:00][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:42:00][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:42:00][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-31","type":"curative","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:42:00][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:42:00][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:42:00][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 3 
+[2026-08-31 12:42:11][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:42:11][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:42:11][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-07-13","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:42:11][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:42:11][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:42:11][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 3 
+[2026-08-31 12:42:15][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:42:15][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:42:15][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-07-13","date_end":"2026-08-21","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:42:15][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:42:15][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:42:15][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 12:42:20][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-08-31 12:42:20][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:42:20][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-07-13","date_end":"2026-08-21","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:42:20][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:42:20][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:42:20][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 12:42:35][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:42:35][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:42:35][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-07-13","date_end":"2026-08-21","type":"curative","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:42:35][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:42:35][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:42:35][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-08-31 12:42:38][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:42:38][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:42:38][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-07-13","date_end":"2026-08-21","type":"preventive","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:42:38][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:42:38][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:42:38][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 12:42:39][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:42:39][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:42:39][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-07-13","date_end":"2026-08-21","type":"curative","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:42:39][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:42:39][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:42:39][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-08-31 12:42:41][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-08-31 12:42:41][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:42:41][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-07-13","date_end":"2026-08-21","type":"curative","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:42:41][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:42:41][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:42:41][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-08-31 12:44:28][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:44:28][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:44:28][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:44:28][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:44:28][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:44:28][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:44:31][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:44:31][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:44:31][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":2,"search":null} 
+[2026-08-31 12:44:31][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:44:31][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:44:31][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:44:34][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:44:34][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:44:34][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":2,"search":null} 
+[2026-08-31 12:44:34][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:44:34][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:44:34][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 12:45:02][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:45:02][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:45:02][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-14","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:45:02][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:45:02][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:45:02][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 5 
+[2026-08-31 12:45:06][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:45:06][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:45:06][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-14","date_end":"2026-08-12","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:45:06][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:45:06][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:45:06][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 12:45:10][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:45:10][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:45:10][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-14","date_end":"2026-08-25","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:45:10][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:45:10][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:45:10][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 12:45:13][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:45:13][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:45:13][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-14","date_end":"2026-08-04","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:45:13][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:45:13][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:45:13][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 12:45:23][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:45:23][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:45:23][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-04","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:45:23][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:45:23][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:45:23][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 12:45:29][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:45:29][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:45:29][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:45:29][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:45:29][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:45:29][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 12:45:33][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:45:33][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:45:33][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"preventive","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:45:33][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:45:33][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:45:33][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 12:45:35][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:45:35][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:45:35][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"curative","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:45:35][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:45:35][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:45:35][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 12:51:13][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:51:13][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:51:13][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-02-10","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:51:13][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:51:13][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:51:13][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 5 
+[2026-08-31 12:51:17][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:51:17][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:51:17][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-02-10","date_end":"2026-08-19","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:51:17][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:51:17][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:51:17][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 12:51:19][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:51:19][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:51:19][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-02-10","date_end":"2026-08-19","type":"curative","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:51:19][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:51:19][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:51:19][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 12:51:20][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 12:51:20][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 12:51:20][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-02-10","date_end":"2026-08-19","type":"preventive","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-08-31 12:51:20][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 12:51:20][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 12:51:20][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
