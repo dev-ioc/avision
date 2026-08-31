@@ -2244,7 +2244,7 @@ class InterventionController
                 'access_level_id' => $defaultAccessLevelId,
                 'start_date' => date('Y-m-d'),
                 'end_date' => date('Y-m-d', strtotime('+1 year')),
-                'status' => 1
+                'status' => 'actif'
             ]);
 
             // Créer le contrat "Hors contrat non facturable"
@@ -2255,7 +2255,7 @@ class InterventionController
                 'access_level_id' => $defaultAccessLevelId,
                 'start_date' => date('Y-m-d'),
                 'end_date' => date('Y-m-d', strtotime('+1 year')),
-                'status' => 1
+                'status' => "actif"
             ]);
 
         } catch (Exception $e) {
@@ -6669,7 +6669,7 @@ class InterventionController
 
             $sql = "SELECT DISTINCT c.id, c.name
                 FROM clients c
-                INNER JOIN sites s ON s.client_id = c.id";
+                LEFT JOIN sites s ON s.client_id = c.id";
             $conditions = [];
             $params = [];
 
@@ -6699,6 +6699,7 @@ class InterventionController
             $stmt = $this->db->prepare($sql);
             $stmt->execute($params);
             echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
         } catch (Exception $e) {
             custom_log("Erreur get_all_clients (interventions) : " . $e->getMessage(), 'ERROR');
             http_response_code(500);

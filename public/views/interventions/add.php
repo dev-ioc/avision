@@ -142,6 +142,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                        id="quickCreateClientBtn" title="Créer un nouveau client">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
                                 </div>
                                 <small id="clientError" class="text-danger d-none">Le client est obligatoire.</small>
                             </div>
@@ -152,6 +156,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <div class="input-group">
                                     <select class="form-select bg-body text-body" id="site_id" name="site_id">
                                     </select>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                        id="quickCreateSiteBtn" title="Créer un nouveau site">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
                                 </div>
                             </div>
 
@@ -161,6 +169,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <div class="input-group">
                                     <select class="form-select bg-body text-body" id="building_id" name="building_id">
                                     </select>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                        id="quickCreateBuildingBtn" title="Créer un nouveau bâtiment">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
                                 </div>
                             </div>
 
@@ -170,6 +182,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <div class="input-group">
                                     <select class="form-select bg-body text-body" id="room_id" name="room_id">
                                     </select>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                        id="quickCreateRoomBtn" title="Créer un nouveau bâtiment">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
                                 </div>
                             </div>
 
@@ -625,6 +641,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             plugins: ['dropdown_input'],
             placeholder: 'Rechercher...',
             allowEmptyOption: true,
+            maxOptions: null,
             render: {
                 option: function (data, escape) {
                     return `<div>${escape(data.text)}</div>`;
@@ -659,7 +676,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     function onMouseMove(e) {
                         const newWidth = Math.max(150, startWidth + (e.clientX - startX));
                         const newHeight = Math.max(80, startHeight + (e.clientY - startY));
-                        // setProperty(..., 'important') pour battre le !important du CSS
                         dropdown.style.setProperty('width', newWidth + 'px', 'important');
                         dropdown.style.setProperty('height', newHeight + 'px', 'important');
                     }
@@ -826,8 +842,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 select.tomselect.clearOptions();
                 options.forEach(opt => select.tomselect.addOption(opt));
                 select.tomselect.refreshOptions(false);
-                // Aucune sélection par défaut tant qu'on ne l'a pas
-                // explicitement demandée via selectFilterValue().
                 select.tomselect.setValue('', true);
             }
         }
