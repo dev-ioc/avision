@@ -1110,7 +1110,7 @@ class InterventionsClientController
 
         // En-tête
         $headerRow = array_map(fn($key) => $availableColumns[$key], $selectedColumns);
-        fputcsv($output, $headerRow, ';');
+        fputcsv($output, $headerRow, ';', '"', '\\');
 
         // Lignes
         foreach ($interventions as $intervention) {
@@ -1135,7 +1135,7 @@ class InterventionsClientController
                         break;
                 }
             }
-            fputcsv($output, $row, ';');
+            fputcsv($output, $row, ';', '"', '\\');
         }
 
         fclose($output);
