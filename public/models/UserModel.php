@@ -721,9 +721,9 @@ class UserModel extends BaseModel
     }
 
     /**
-     * Récupère les sites et salles d'un client
+     * Récupère les sites, bâtiments et salles d'un client
      * @param int $clientId ID du client
-     * @return array Liste des sites avec leurs salles
+     * @return array|false Liste des sites avec leurs bâtiments et salles
      */
     public function getClientLocations($clientId)
     {
@@ -737,19 +737,31 @@ class UserModel extends BaseModel
                 return false;
             }
 
-            // Récupérer les sites
+            // Récupérer les sites du client
             $query = "SELECT id, name FROM sites WHERE client_id = :client_id AND status = 1 ORDER BY name";
             $stmt = $this->db->prepare($query);
             $stmt->execute(['client_id' => $clientId]);
             $sites = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Pour chaque site, récupérer ses salles
+            // Pour chaque site, récupérer ses bâtiments
             foreach ($sites as &$site) {
-                $query = "SELECT id, name FROM rooms WHERE site_id = :site_id AND status = 1 ORDER BY name";
+                $query = "SELECT id, name FROM buildings WHERE site_id = :site_id AND status = 1 ORDER BY name";
                 $stmt = $this->db->prepare($query);
                 $stmt->execute(['site_id' => $site['id']]);
-                $site['rooms'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $buildings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                // Pour chaque bâtiment, récupérer ses salles
+                foreach ($buildings as &$building) {
+                    $query = "SELECT id, name FROM rooms WHERE building_id = :building_id AND status = 1 ORDER BY name";
+                    $stmt = $this->db->prepare($query);
+                    $stmt->execute(['building_id' => $building['id']]);
+                    $building['rooms'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                }
+                unset($building);
+
+                $site['buildings'] = $buildings;
             }
+            unset($site);
 
             custom_log("Localisations récupérées avec succès pour le client: " . $clientId, 'INFO');
             return $sites;

@@ -1048,8 +1048,7 @@ class InterventionsClientController
             $userLocations = [['client_id' => $clientId, 'site_id' => null, 'building_id' => null, 'room_id' => null]];
         }
 
-        // Whitelist stricte des colonnes exportables : on ne fait jamais confiance
-        // directement à ce que le client envoie dans columns[]
+
         $availableColumns = [
             'reference' => 'Reference',
             'title' => 'Titre',
