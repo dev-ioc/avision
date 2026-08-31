@@ -130754,3 +130754,75 @@ Quant à l’écran n°1, il est HS
 [2026-08-31 14:41:20][INFO] Récupération des clients pour l'intervention : 0 clients 
 [2026-08-31 14:42:43][INFO] Récupération des clients pour l'intervention : 65 clients 
 [2026-08-31 14:48:23][INFO] Récupération des clients pour l'intervention : 65 clients 
+[2026-08-31 15:29:14][DEBUG] CSRF: Token trouvé dans la requête - Token: d3b82f911aabb1520094... 
+[2026-08-31 15:29:15][DEBUG] Permissions chargées pour Tsilefy : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-08-31 15:29:15][INFO] Utilisateur connecté : Tsilefy {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-08-31 15:29:15][DEBUG] Login réussi - Session ID: 37p8q08bk62mlqspa9dio9jimp 
+[2026-08-31 15:29:15][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-31 15:29:15][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-31 15:29:15][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-31 15:29:15][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-31 15:29:20][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-08-31 15:29:21][DEBUG] CSRF: Token trouvé dans la requête - Token: d3b82f911aabb1520094... 
+[2026-08-31 15:29:21][DEBUG] CSRF: Token trouvé dans la requête - Token: d3b82f911aabb1520094... 
+[2026-08-31 15:29:21][DEBUG] CSRF: Token trouvé dans la requête - Token: d3b82f911aabb1520094... 
+[2026-08-31 15:29:21][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-31 15:29:22][DEBUG] SiteClientController::index - DB set: yes 
+[2026-08-31 15:29:22][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-08-31 15:29:22][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-08-31 15:29:22][DEBUG] getSitesByLocations - START 
+[2026-08-31 15:29:22][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-08-31 15:29:22][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-08-31 15:29:22][DEBUG] getSitesByLocations - locations: [{"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 15:29:22][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-08-31 15:29:22][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-08-31 15:29:22][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-08-31 15:29:22][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-08-31 15:29:22][DEBUG] getSitesByLocations - fullClientAccess devient true (accès client complet) 
+[2026-08-31 15:29:22][DEBUG] getSitesByLocations - Accès complet au client 35 
+[2026-08-31 15:29:22][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès complet) 
+[2026-08-31 15:29:22][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès complet) 
+[2026-08-31 15:29:22][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-08-31 15:29:22][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-08-31 15:29:22][INFO] 55 
+[2026-08-31 15:29:22][INFO] 109 
+[2026-08-31 15:29:22][DEBUG] SiteClientController::index - sites count: 2 
+[2026-08-31 15:29:23][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 15:29:23][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 15:29:23][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-08-31 15:29:23][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-08-31 15:29:23][DEBUG] getSitesByLocations - result count: 2 
+[2026-08-31 15:29:23][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 15:29:23][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 35)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-08-31 15:29:23][DEBUG] getBuildingsByLocations - result count: 2 
+[2026-08-31 15:29:23][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-08-31 15:29:23][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-08-31 15:29:23][DEBUG] getAllByLocations - Params: [] 
+[2026-08-31 15:29:23][DEBUG] getAllByLocations - Results count: 33 
+[2026-08-31 15:29:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 0ba31005c895b3625c59... 
+[2026-08-31 15:29:52][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-31 15:29:52][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-31 15:29:52][DEBUG] Login réussi - Session ID: h9k17d9mm5ajok15laoml9mf0k 
+[2026-08-31 15:29:52][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-31 15:29:52][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-31 15:29:52][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-31 15:29:52][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 

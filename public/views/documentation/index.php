@@ -526,6 +526,7 @@ foreach ($documentation_list as $doc) {
       searchField: searchFields,
       placeholder: 'Rechercher...',
       allowEmptyOption: true,
+      maxOptions: null,
       render: {
         option: renderFn,
         item: (data, escape) => `<div>${escape(data.text)}</div>`

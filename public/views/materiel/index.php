@@ -1166,7 +1166,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         placeholder: 'Rechercher...',
 
         allowEmptyOption: true,
-
+        maxOptions: null,
         render: {
 
           option: renderFn,
