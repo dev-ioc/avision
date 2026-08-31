@@ -72,7 +72,74 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
         </div>
     </div>
+<!-- Export CSV -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header py-2">
+                <h6 class="card-title mb-0">
+                    <i class="bi bi-download me-2"></i>Exporter les interventions
+                </h6>
+            </div>
+            <div class="card-body">
+                <form action="<?php echo BASE_URL; ?>interventions_client/export" method="get" id="exportForm">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold mb-0">Date de début</label>
+                            <input type="date" class="form-control bg-body text-body" name="date_start">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold mb-0">Date de fin</label>
+                            <input type="date" class="form-control bg-body text-body" name="date_end">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold mb-0">Type d'intervention</label>
+                            <select class="form-select bg-body text-body" name="type">
+                                <option value="all">Toutes</option>
+                                <option value="curative">Curatives</option>
+                                <option value="preventive">Préventives</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 ">
+                            <button type="submit" class="btn btn-success w-100">
+                                <i class="bi bi-download me-2"></i> Exporter en CSV
+                            </button>
+                        </div>
+                    </div>
 
+                    <div class="mt-3">
+                        <label class="form-label fw-bold mb-2">Colonnes à exporter</label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <?php
+                            $exportColumns = [
+                                'reference' => 'Référence',
+                                'title' => 'Titre',
+                                'site_name' => 'Site',
+                                'building_name' => 'Bâtiment',
+                                'room_name' => 'Salle',
+                                'status_name' => 'Statut',
+                                'priority_name' => 'Priorité',
+                                'type_label' => 'Type (curative/préventive)',
+                                'technicians_names' => 'Technicien(s)',
+                                'date_planif' => 'Date planifiée',
+                                'created_at' => 'Date de création',
+                                'description' => 'Description',
+                                'ref_client' => 'Référence client',
+                            ];
+                            foreach ($exportColumns as $key => $label): ?>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="columns[]"
+                                        value="<?= $key ?>" id="col_<?= $key ?>" checked>
+                                    <label class="form-check-label" for="col_<?= $key ?>"><?= h($label) ?></label>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="table-responsive">
         <table id="interventionsTable" class="table table-striped table-hover dt-responsive">
             <thead>
@@ -145,8 +212,146 @@ include_once __DIR__ . '/../../includes/navbar.php';
         interventionsTable_pageLength:
             <?= json_encode((int) getUserPreference('datatable_interventionsTable_pageLength', 10)) ?>
     };
+    window.interventionsClientBaseUrl = '<?php echo BASE_URL; ?>';
 </script>
 <script src="<?php echo BASE_URL; ?>assets/js/datatable-persistence.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/interventions-datatable.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const exportForm = document.getElementById('exportForm');
+        if (!exportForm) return;
 
+        const baseUrl = window.interventionsClientBaseUrl;
+        const exportBtn = exportForm.querySelector('button[type="submit"]');
+        const dateStartInput = exportForm.querySelector('[name="date_start"]');
+        const dateEndInput = exportForm.querySelector('[name="date_end"]');
+        const typeSelect = exportForm.querySelector('[name="type"]');
+
+        let previewInFlight = null;
+
+        /**
+         * Charge l'aperçu filtré et met à jour le tableau, sans déclencher de téléchargement
+         */
+        function loadPreview() {
+            const params = new URLSearchParams(new FormData(exportForm));
+
+            // Annule une requête d'aperçu précédente encore en cours,
+            // pour éviter qu'une réponse lente n'écrase un filtre plus récent
+            if (previewInFlight) {
+                previewInFlight.abort();
+            }
+            const controller = new AbortController();
+            previewInFlight = controller;
+
+            showTableLoading();
+
+            fetch(baseUrl + 'interventions_client/previewExport?' + params.toString(), {
+                credentials: 'include',
+                signal: controller.signal
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        console.error("Erreur lors du chargement de l'aperçu:", data.error);
+                        return;
+                    }
+                    renderPreviewTable(data.interventions, baseUrl);
+                })
+                .catch(error => {
+                    if (error.name === 'AbortError') return;
+                    console.error("Erreur lors de l'aperçu de l'export:", error);
+                })
+                .finally(() => {
+                    if (previewInFlight === controller) {
+                        previewInFlight = null;
+                    }
+                });
+        }
+
+        // Aperçu automatique dès qu'un filtre change
+        [dateStartInput, dateEndInput, typeSelect].forEach(function (input) {
+            if (input) {
+                input.addEventListener('change', loadPreview);
+            }
+        });
+
+        // Chargement initial de l'aperçu (filtres vides = toutes les interventions)
+        loadPreview();
+
+        // Le bouton "Exporter en CSV" télécharge simplement le CSV
+        // avec les filtres déjà appliqués au tableau (pas de nouvel aperçu nécessaire)
+        exportForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const params = new URLSearchParams(new FormData(exportForm));
+
+            const originalBtnHtml = exportBtn.innerHTML;
+            exportBtn.disabled = true;
+            exportBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Export...';
+
+            window.location.href = baseUrl + 'interventions_client/export?' + params.toString();
+
+            setTimeout(function () {
+                exportBtn.disabled = false;
+                exportBtn.innerHTML = originalBtnHtml;
+            }, 1500);
+        });
+    });
+
+    function showTableLoading() {
+        const table = document.querySelector('#interventionsTable');
+        if (!table || typeof DataTable === 'undefined' || !DataTable.isDataTable(table)) return;
+        const dt = new DataTable(table);
+        dt.processing(true);
+    }
+
+    function renderPreviewTable(interventions, baseUrl) {
+        const table = document.querySelector('#interventionsTable');
+
+        if (!table || typeof DataTable === 'undefined' || !DataTable.isDataTable(table)) {
+            console.error("Instance DataTable introuvable pour l'aperçu de l'export");
+            return;
+        }
+
+        const dt = new DataTable(table);
+        dt.clear();
+
+        interventions.forEach(function (i) {
+            const rowHtml = `<tr>
+                <td data-label="Reference"><a href="${baseUrl}interventions_client/view/${i.id}" class="text-decoration-none">${escapeHtml(i.reference || '')}</a></td>
+                <td data-label="Titre">${escapeHtml(i.title || '')}</td>
+                <td data-label="Client">${escapeHtml(i.client_name || '')}</td>
+                <td data-label="Site">${escapeHtml(i.site_name || '-')}</td>
+                <td data-label="Bâtiment">${escapeHtml(i.building_name || '-')}</td>
+                <td data-label="Salle">${escapeHtml(i.room_name || '-')}</td>
+                <td data-label="Statut" data-order="${i.status_id || 0}">
+                    <span class="badge rounded-pill" style="background-color: ${escapeHtml(i.status_color || '')}">${escapeHtml(i.status_name || '')}</span>
+                </td>
+                <td data-label="Priorite" data-order="${i.priority_id || 0}">
+                    <span class="badge rounded-pill" style="background-color: ${escapeHtml(i.priority_color || '')}">${escapeHtml(i.priority_name || '')}</span>
+                </td>
+                <td data-label="Date planifiee">${escapeHtml(i.date_planif_formatted || '-')}</td>
+                <td data-label="Technicien">${escapeHtml(i.technicians_names || '')}</td>
+                <td data-label="Date creation">${escapeHtml(i.created_at_formatted || '')}</td>
+            </tr>`;
+
+            const template = document.createElement('template');
+            template.innerHTML = rowHtml.trim();
+            dt.row.add(template.content.firstElementChild);
+        });
+
+        dt.processing(false);
+        dt.draw();
+
+        if (dt.responsive && typeof dt.responsive.recalc === 'function') {
+            dt.responsive.recalc();
+        }
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+</script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

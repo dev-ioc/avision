@@ -127809,3 +127809,964 @@ Quant à l’écran n°1, il est HS
 (
 )
  
+[2026-08-27 14:46:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 666cd783a0bd3346ce80... 
+[2026-08-31 07:39:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 144d95bb9a1fa4fc7446... 
+[2026-08-31 07:39:59][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-31 07:39:59][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-31 07:39:59][DEBUG] Login réussi - Session ID: 5quaagmp41t0ljtsa6jlhikcdh 
+[2026-08-31 07:39:59][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-31 07:39:59][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-31 07:39:59][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-31 07:39:59][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-31 09:14:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 144d95bb9a1fa4fc7446... 
+[2026-08-31 09:38:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 144d95bb9a1fa4fc7446... 
+[2026-08-31 09:40:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:40:30][WARNING] Tentative de connexion échouée pour l'utilisateur : Technicien 2 
+[2026-08-31 09:40:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:40:41][WARNING] Tentative de connexion échouée pour l'utilisateur : Fncaaudiovisuel 
+[2026-08-31 09:40:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:40:50][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-31 09:40:50][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-31 09:40:50][DEBUG] Login réussi - Session ID: 384ceeph0g903ed4g6bnde5pla 
+[2026-08-31 09:40:50][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-31 09:40:50][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-31 09:40:50][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-31 09:40:50][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-31 09:40:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:40:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:40:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:29][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:30][DEBUG] load_permissions - Session ID: 384ceeph0g903ed4g6bnde5pla, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-08-31 09:42:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:30][DEBUG] load_client_locations - Session ID: 384ceeph0g903ed4g6bnde5pla, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-08-31 09:42:30][ERROR] Erreur lors de la récupération des localisations du client 35: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause' 
+[2026-08-31 09:42:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:42:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:43:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 254d984bdfc60b2a24f8... 
+[2026-08-31 09:43:06][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 
+[2026-08-31 09:43:27][ERROR] Erreur dans sendResetLink: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-08-31 09:44:17][DEBUG] CSRF: Token trouvé dans la requête - Token: c6f954f49c60f9de5e9c... 
+[2026-08-31 09:44:17][DEBUG] Permissions chargées pour Tsilefy : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-08-31 09:44:17][INFO] Utilisateur connecté : Tsilefy {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-08-31 09:44:17][DEBUG] Login réussi - Session ID: njg3v8mgdoosvqu2lf0kvon1vk 
+[2026-08-31 09:44:17][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-31 09:44:17][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-31 09:44:17][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-31 09:44:17][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-31 09:51:42][WARNING] Undefined variable $interventionController {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":1455,"errno":2}
+[2026-08-31 09:51:42][ERROR] Call to a member function getContractByRoom() on null {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":1455,"trace":"#0 {main}","type":"Error"}
+[2026-08-31 09:51:53][WARNING] Undefined variable $interventionController {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":1455,"errno":2}
+[2026-08-31 09:51:53][ERROR] Call to a member function getContractByRoom() on null {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":1455,"trace":"#0 {main}","type":"Error"}
+[2026-08-31 09:52:08][WARNING] Undefined variable $interventionController {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":1455,"errno":2}
+[2026-08-31 09:52:08][ERROR] Call to a member function getContractByRoom() on null {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":1455,"trace":"#0 {main}","type":"Error"}
+[2026-08-31 09:57:27][WARNING] Undefined variable $interventionController {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":1455,"errno":2}
+[2026-08-31 09:57:27][ERROR] Call to a member function getContractByRoom() on null {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":1455,"trace":"#0 {main}","type":"Error"}
+[2026-08-31 09:57:38][WARNING] Undefined variable $interventionController {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":1455,"errno":2}
+[2026-08-31 09:57:38][ERROR] Call to a member function getContractByRoom() on null {"file":"C:\\xampp\\htdocs\\avision\\public\\index.php","line":1455,"trace":"#0 {main}","type":"Error"}
+[2026-08-31 09:59:52][DEBUG] CSRF: Token trouvé dans la requête - Token: c6f954f49c60f9de5e9c... 
+[2026-08-31 09:59:52][DEBUG] Données d'intervention à créer: {"title":"Videosonic","description":"test description","demande_par":null,"client_id":35,"site_id":55,"building_id":45,"room_id":147,"contract_id":175,"status_id":1,"priority_id":2,"ref_client":"test","contact_client":"karijatsilefilaza@gmail.cmo","duration":0,"type_id":1} 
+[2026-08-31 09:59:52][INFO] Intervention créée avec succès, ID: 397 
+[2026-08-31 09:59:52][DEBUG] Tentative d'accès à l'intervention ID: 397 
+[2026-08-31 09:59:52][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 09:59:52][DEBUG] Intervention trouvée: {"id":397,"reference":"INT-2026-000002","title":"Videosonic","description":"test description","demande_par":null,"client_id":35,"commercial_id":null,"site_id":55,"building_id":45,"room_id":147,"contract_id":175,"project_id":null,"type_id":1,"status_id":1,"priority_id":2,"duration":"0.00","is_flash":0,"needs_completion":0,"is_preventive":0,"parent_id":null,"tickets_used":null,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-08-31 10:59:52","updated_at":"2026-08-31 10:59:52","closed_at":null,"ref_client":"test","contact_client":"karijatsilefilaza@gmail.cmo","planned_date":null,"planned_time":"09:00:00","client_name":"ACSBN","site_name":"Sceaux","building_name":"B\u00e2timent Principal","room_name":"Salle de pri\u00e8res","status_name":"Nouveau","status_color":"#53b198","type_name":"Installation","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"base","technicians_names":null} 
+[2026-08-31 09:59:52][DEBUG] Commentaires récupérés pour l'intervention 397: 0 
+[2026-08-31 09:59:52][DEBUG] Pièces jointes récupérées pour l'intervention 397: 0 
+[2026-08-31 10:17:22][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:17:22][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-08-03","date_end":"2026-08-13","type":"curative"} 
+[2026-08-31 10:17:22][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:17:23][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        ip.name as priority_name,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:17:23][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-08-31 10:18:48][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:18:48][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-30","date_end":"2026-08-25","type":"preventive"} 
+[2026-08-31 10:18:48][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:18:48][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        ip.name as priority_name,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:18:48][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:19:13][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:19:13][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-30","date_end":"2026-08-25","type":"curative"} 
+[2026-08-31 10:19:13][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:19:13][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        ip.name as priority_name,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:19:13][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:19:37][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:19:37][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-30","date_end":"2026-08-25","type":"curative"} 
+[2026-08-31 10:19:37][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:19:37][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        ip.name as priority_name,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:19:37][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:19:56][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:19:56][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-30","date_end":"2026-08-25","type":"preventive"} 
+[2026-08-31 10:19:56][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:19:56][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        ip.name as priority_name,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:19:56][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:20:24][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:20:24][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-30","date_end":"2026-08-25","type":"preventive"} 
+[2026-08-31 10:20:24][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:20:24][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        ip.name as priority_name,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:20:24][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:20:48][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:20:48][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-30","date_end":"2026-08-25","type":"curative"} 
+[2026-08-31 10:20:48][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:20:48][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        ip.name as priority_name,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:20:48][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:23:03][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:23:03][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-30","date_end":"2026-08-25","type":"curative"} 
+[2026-08-31 10:23:03][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:23:03][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        ip.name as priority_name,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:23:03][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:23:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 0e618e46a56de01f5c6d... 
+[2026-08-31 10:23:34][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-08-31 10:23:34][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-08-31 10:23:34][DEBUG] Login réussi - Session ID: 6s0dc39u5euhmcqt14u6qtr63q 
+[2026-08-31 10:23:34][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-31 10:23:34][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-31 10:23:34][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-31 10:23:34][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-31 10:23:37][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-08-31 10:23:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 0e618e46a56de01f5c6d... 
+[2026-08-31 10:23:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 0e618e46a56de01f5c6d... 
+[2026-08-31 10:23:37][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-31 10:23:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 0e618e46a56de01f5c6d... 
+[2026-08-31 10:23:40][INFO] 81 
+[2026-08-31 10:23:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 0e618e46a56de01f5c6d... 
+[2026-08-31 10:23:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 0e618e46a56de01f5c6d... 
+[2026-08-31 10:23:50][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-31 10:23:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 0e618e46a56de01f5c6d... 
+[2026-08-31 10:23:52][DEBUG] Tentative d'aperçu contrat pour l'ID: 476 
+[2026-08-31 10:23:52][DEBUG] Pièce jointe trouvée: {"id":476,"nom_fichier":"CC16594.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":"CC16594.pdf","chemin_fichier":"uploads\/contracts\/17\/1779954878_CC16594.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":581950,"commentaire":null,"date_creation":"2026-05-28 10:54:38","masque_client":0,"type_id":null,"created_by":2} 
+[2026-08-31 10:23:52][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-08-31 10:23:52][ERROR] Le fichier n'existe pas: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-08-31 10:23:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-08-31 10:23:52][DEBUG] Tentative d'aperçu contrat pour l'ID: 91 
+[2026-08-31 10:23:52][DEBUG] Pièce jointe trouvée: {"id":91,"nom_fichier":"GROUPAMA ANTONY FC16587.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/17\/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":447289,"commentaire":null,"date_creation":"2025-09-11 11:56:28","masque_client":1,"type_id":null,"created_by":2} 
+[2026-08-31 10:23:52][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf 
+[2026-08-31 10:23:52][DEBUG] Fichier trouvé, taille: 447289 
+[2026-08-31 10:23:52][DEBUG] Type MIME détecté: application/pdf 
+[2026-08-31 10:23:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 0e618e46a56de01f5c6d... 
+[2026-08-31 10:23:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 0e618e46a56de01f5c6d... 
+[2026-08-31 10:23:53][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-08-31 10:23:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 0e618e46a56de01f5c6d... 
+[2026-08-31 10:25:03][DEBUG] CSRF: Token trouvé dans la requête - Token: c8d37c73fd060a1b9840... 
+[2026-08-31 10:25:03][DEBUG] Permissions chargées pour Tsilefy : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-08-31 10:25:03][INFO] Utilisateur connecté : Tsilefy {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-08-31 10:25:03][DEBUG] Login réussi - Session ID: vtp4jlqqnn5a39ebln2vchj8fg 
+[2026-08-31 10:25:03][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-08-31 10:25:03][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-08-31 10:25:03][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-08-31 10:25:03][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-31 10:27:25][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:27:25][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-05-04","date_end":"2026-08-18","type":"preventive"} 
+[2026-08-31 10:27:25][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:27:25][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        ip.name as priority_name,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:27:25][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:27:49][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:27:49][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-05-04","date_end":"2026-08-18","type":"curative"} 
+[2026-08-31 10:27:49][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:27:49][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        ip.name as priority_name,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:27:49][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:28:04][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:28:04][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-05-04","date_end":"2026-08-18","type":"all"} 
+[2026-08-31 10:28:04][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:28:04][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        ip.name as priority_name,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:28:04][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 10:29:25][DEBUG] CSRF: Token trouvé dans la requête - Token: c8d37c73fd060a1b9840... 
+[2026-08-31 10:39:08][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:39:08][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-30","date_end":"2026-08-25","type":"curative"} 
+[2026-08-31 10:39:08][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:39:08][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:39:08][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:39:08][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:39:08][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-30","date_end":"2026-08-25","type":"curative"} 
+[2026-08-31 10:39:08][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:39:08][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:39:08][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:51:06][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:51:06][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:51:06][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"curative"} 
+[2026-08-31 10:51:06][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:51:06][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:51:06][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:51:06][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-08-31 10:51:06][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:51:06][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"curative"} 
+[2026-08-31 10:51:06][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:51:06][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:51:06][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:53:15][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:53:15][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:53:15][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"preventive"} 
+[2026-08-31 10:53:15][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:53:15][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:53:15][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:53:15][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-08-31 10:53:15][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:53:15][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"preventive"} 
+[2026-08-31 10:53:15][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:53:15][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:53:15][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:54:34][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:54:34][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:54:34][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 10:54:34][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:54:34][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:54:34][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 10:54:43][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:54:43][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:54:43][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 10:54:43][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:54:43][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:54:43][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 10:54:47][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:54:47][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:54:47][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 10:54:47][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:54:47][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:54:47][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 10:54:51][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:54:51][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:54:51][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 10:54:51][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:54:51][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:54:51][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 10:54:57][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:54:57][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:54:57][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":null,"type":"all"} 
+[2026-08-31 10:54:57][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:54:57][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:54:57][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 5 
+[2026-08-31 10:55:00][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:55:00][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:55:00][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"all"} 
+[2026-08-31 10:55:00][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:55:00][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:55:00][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 4 
+[2026-08-31 10:55:04][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:55:04][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:55:04][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"curative"} 
+[2026-08-31 10:55:04][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:55:04][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:55:04][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:55:06][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:55:06][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:55:06][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"preventive"} 
+[2026-08-31 10:55:06][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:55:06][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:55:06][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:55:09][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:55:09][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:55:09][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"curative"} 
+[2026-08-31 10:55:09][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:55:09][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:55:09][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:55:42][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-08-31 10:55:42][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:55:42][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"curative"} 
+[2026-08-31 10:55:42][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:55:42][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:55:42][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:55:55][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:55:55][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:55:55][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"preventive"} 
+[2026-08-31 10:55:55][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:55:55][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:55:55][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:56:00][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-08-31 10:56:00][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:56:00][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-31","date_end":"2026-08-25","type":"preventive"} 
+[2026-08-31 10:56:00][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:56:00][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:56:00][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-08-31 10:56:15][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:56:15][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:56:15][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 10:56:15][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:56:15][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:56:15][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 10:56:18][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:56:18][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:56:18][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 10:56:18][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:56:18][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:56:18][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 10:56:23][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:56:23][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:56:23][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 10:56:23][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:56:23][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:56:23][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 10:56:47][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:56:47][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:56:47][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 10:56:47][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:56:47][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:56:47][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-08-31 10:56:56][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-08-31 10:56:56][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-08-31 10:56:56][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all"} 
+[2026-08-31 10:56:56][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-08-31 10:56:56][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-08-31 10:56:56][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 

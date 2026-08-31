@@ -718,4 +718,105 @@ class InterventionsClientModel extends BaseModel
             return null;
         }
     }
+    /**
+     * Récupère le contrat associé à une salle, en vérifiant que la salle
+     * appartient bien aux localisations autorisées de l'utilisateur
+     */
+    public function getContractByRoomAndLocations($roomId, $userLocations)
+    {
+        $locationWhere = buildLocationWhereClause($userLocations, 's.client_id', 's.id', 'b.id', 'r.id');
+
+        $sql = "SELECT c.*, ct.name as contract_type_name
+            FROM contracts c
+            JOIN contract_rooms cr ON c.id = cr.contract_id
+            JOIN rooms r ON cr.room_id = r.id
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
+            WHERE cr.room_id = ? AND c.status = 'actif' AND {$locationWhere}
+            ORDER BY c.name
+            LIMIT 1";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$roomId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    /**
+     * Récupère les interventions pour export CSV, selon localisations autorisées et filtres date/type
+     * @param array $userLocations
+     * @param array $filters ['date_start' => 'Y-m-d'|null, 'date_end' => 'Y-m-d'|null, 'type' => 'all'|'curative'|'preventive']
+     * @return array
+     */
+    public function getForExport($userLocations, $filters = [])
+    {
+        custom_log("EXPORT DEBUG - userLocations reçues: " . json_encode($userLocations), 'DEBUG');
+        custom_log("EXPORT DEBUG - filters reçus: " . json_encode($filters), 'DEBUG');
+
+        $clientIds = [];
+        foreach ($userLocations as $location) {
+            if (isset($location['client_id']) && !in_array($location['client_id'], $clientIds)) {
+                $clientIds[] = (int) $location['client_id'];
+            }
+        }
+
+        custom_log("EXPORT DEBUG - clientIds extraits: " . json_encode($clientIds), 'DEBUG');
+
+        if (empty($clientIds)) {
+            custom_log("EXPORT DEBUG - clientIds vide, retour tableau vide", 'DEBUG');
+            return [];
+        }
+
+        if (empty($clientIds)) {
+            return [];
+        }
+
+        $placeholders = str_repeat('?,', count($clientIds) - 1) . '?';
+
+        $sql = "SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM " . $this->table . " i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN ({$placeholders})";
+
+        $params = $clientIds;
+
+        if (!empty($filters['date_start'])) {
+            $sql .= " AND i.created_at >= ?";
+            $params[] = $filters['date_start'] . ' 00:00:00';
+        }
+
+        if (!empty($filters['date_end'])) {
+            $sql .= " AND i.created_at <= ?";
+            $params[] = $filters['date_end'] . ' 23:59:59';
+        }
+
+        if (!empty($filters['type']) && $filters['type'] !== 'all') {
+            $sql .= " AND i.is_preventive = ?";
+            $params[] = ($filters['type'] === 'preventive') ? 1 : 0;
+        }
+
+        $sql .= " GROUP BY i.id ORDER BY i.created_at DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        custom_log("EXPORT DEBUG - SQL: " . $sql, 'DEBUG');
+        custom_log("EXPORT DEBUG - nombre de lignes retournées: " . count($result), 'DEBUG');
+        return $result;
+    }
 }

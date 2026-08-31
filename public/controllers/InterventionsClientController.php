@@ -978,4 +978,250 @@ class InterventionsClientController
         }
         exit;
     }
+    /**
+     * Récupère le contrat associé à une salle (avec vérification d'accès client)
+     */
+    public function getContractByRoom($roomId)
+    {
+        header('Content-Type: application/json');
+
+        if (!isset($_SESSION['user']) || !isClient()) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            exit;
+        }
+
+        if (!hasPermission('client_add_intervention')) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Non autorisé']);
+            exit;
+        }
+
+        try {
+            $clientId = $_SESSION['user']['client_id'] ?? null;
+            $userLocations = getUserLocations();
+
+            if (empty($userLocations)) {
+                $userLocations = [['client_id' => $clientId, 'site_id' => null, 'building_id' => null, 'room_id' => null]];
+            }
+
+            $contract = $this->model->getContractByRoomAndLocations($roomId, $userLocations);
+
+            echo json_encode($contract ?: null);
+        } catch (Exception $e) {
+            custom_log("Erreur getContractByRoom (client): " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur serveur']);
+        }
+        exit;
+    }
+    /**
+     * Exporte les interventions du client en CSV, selon filtres date/type et colonnes choisies
+     */
+    public function export()
+    {
+
+        custom_log("EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée", 'DEBUG');
+
+        if (!isset($_SESSION['user']) || !isClient()) {
+            header('Location: ' . BASE_URL . 'auth/login');
+            exit;
+        }
+
+        if (!hasPermission('client_view_interventions')) {
+            $_SESSION['error'] = "Vous n'avez pas la permission d'accéder aux interventions";
+            header('Location: ' . BASE_URL . 'dashboard');
+            exit;
+        }
+
+        $clientId = $_SESSION['user']['client_id'] ?? null;
+        if (!$clientId) {
+            $_SESSION['error'] = "Aucun client associé à votre compte";
+            header('Location: ' . BASE_URL . 'auth/logout');
+            exit;
+        }
+
+        $userLocations = getUserLocations();
+        if (empty($userLocations)) {
+            $userLocations = [['client_id' => $clientId, 'site_id' => null, 'building_id' => null, 'room_id' => null]];
+        }
+
+        // Whitelist stricte des colonnes exportables : on ne fait jamais confiance
+        // directement à ce que le client envoie dans columns[]
+        $availableColumns = [
+            'reference' => 'Reference',
+            'title' => 'Titre',
+            'site_name' => 'Site',
+            'building_name' => 'Batiment',
+            'room_name' => 'Salle',
+            'status_name' => 'Statut',
+            'priority_name' => 'Priorite',
+            'type_label' => 'Type',
+            'technicians_names' => 'Technicien(s)',
+            'date_planif' => 'Date planifiee',
+            'created_at' => 'Date de creation',
+            'description' => 'Description',
+            'ref_client' => 'Reference client',
+        ];
+
+        $requestedColumns = $_GET['columns'] ?? array_keys($availableColumns);
+        $selectedColumns = array_values(array_intersect($requestedColumns, array_keys($availableColumns)));
+        if (empty($selectedColumns)) {
+            $selectedColumns = array_keys($availableColumns);
+        }
+
+        // Validation basique des dates (format YYYY-MM-DD)
+        $dateStart = (!empty($_GET['date_start']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['date_start']))
+            ? $_GET['date_start'] : null;
+        $dateEnd = (!empty($_GET['date_end']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['date_end']))
+            ? $_GET['date_end'] : null;
+
+        $type = $_GET['type'] ?? 'all';
+        if (!in_array($type, ['all', 'curative', 'preventive'], true)) {
+            $type = 'all';
+        }
+
+        $filters = [
+            'date_start' => $dateStart,
+            'date_end' => $dateEnd,
+            'type' => $type,
+        ];
+
+        try {
+            $interventions = $this->model->getForExport($userLocations, $filters);
+        } catch (Exception $e) {
+            custom_log("Erreur lors de l'export des interventions (client): " . $e->getMessage(), 'ERROR');
+            $_SESSION['error'] = "Erreur lors de la génération de l'export.";
+            header('Location: ' . BASE_URL . 'interventions_client');
+            exit;
+        }
+
+        $filename = 'interventions_export_' . date('Y-m-d_His') . '.csv';
+
+        if (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        $output = fopen('php://output', 'w');
+
+        // BOM UTF-8 pour qu'Excel affiche correctement les accents
+        fwrite($output, "\xEF\xBB\xBF");
+
+        // En-tête
+        $headerRow = array_map(fn($key) => $availableColumns[$key], $selectedColumns);
+        fputcsv($output, $headerRow, ';');
+
+        // Lignes
+        foreach ($interventions as $intervention) {
+            $row = [];
+            foreach ($selectedColumns as $col) {
+                switch ($col) {
+                    case 'type_label':
+                        $row[] = !empty($intervention['is_preventive']) ? 'Preventive' : 'Curative';
+                        break;
+                    case 'date_planif':
+                        $row[] = !empty($intervention['date_planif'])
+                            ? '="' . date('d/m/Y', strtotime($intervention['date_planif'])) . '"'
+                            : '';
+                        break;
+                    case 'created_at':
+                        $row[] = !empty($intervention['created_at'])
+                            ? '="' . date('d/m/Y H:i', strtotime($intervention['created_at'])) . '"'
+                            : '';
+                        break;
+                    default:
+                        $row[] = $intervention[$col] ?? '';
+                        break;
+                }
+            }
+            fputcsv($output, $row, ';');
+        }
+
+        fclose($output);
+        exit;
+    }
+    /**
+     * Retourne en JSON les interventions filtrées, pour aperçu dans le tableau avant export
+     */
+    public function previewExport()
+    {
+        custom_log("EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée", 'DEBUG');
+        header('Content-Type: application/json');
+        if (!isset($_SESSION['user']) || !isClient()) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'error' => 'Non autorisé']);
+            exit;
+        }
+
+        if (!hasPermission('client_view_interventions')) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'error' => 'Non autorisé']);
+            exit;
+        }
+
+        $clientId = $_SESSION['user']['client_id'] ?? null;
+        if (!$clientId) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Aucun client associé']);
+            exit;
+        }
+
+        $userLocations = getUserLocations();
+        if (empty($userLocations)) {
+            $userLocations = [['client_id' => $clientId, 'site_id' => null, 'building_id' => null, 'room_id' => null]];
+        }
+
+        $dateStart = (!empty($_GET['date_start']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['date_start']))
+            ? $_GET['date_start'] : null;
+        $dateEnd = (!empty($_GET['date_end']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['date_end']))
+            ? $_GET['date_end'] : null;
+
+        $type = $_GET['type'] ?? 'all';
+        if (!in_array($type, ['all', 'curative', 'preventive'], true)) {
+            $type = 'all';
+        }
+
+        $filters = [
+            'date_start' => $dateStart,
+            'date_end' => $dateEnd,
+            'type' => $type,
+        ];
+
+        try {
+            $interventions = $this->model->getForExport($userLocations, $filters);
+
+            $formatted = array_map(function ($i) {
+                return [
+                    'id' => $i['id'],
+                    'reference' => $i['reference'],
+                    'title' => $i['title'],
+                    'client_name' => $i['client_name'],
+                    'site_name' => $i['site_name'],
+                    'building_name' => $i['building_name'],
+                    'room_name' => $i['room_name'],
+                    'status_id' => $i['status_id'],
+                    'status_name' => $i['status_name'],
+                    'status_color' => $i['status_color'] ?? '',
+                    'priority_id' => $i['priority_id'],
+                    'priority_name' => $i['priority_name'],
+                    'priority_color' => $i['priority_color'] ?? '',
+                    'technicians_names' => $i['technicians_names'],
+                    'date_planif_formatted' => !empty($i['date_planif']) ? date('d/m/Y', strtotime($i['date_planif'])) : '-',
+                    'created_at_formatted' => !empty($i['created_at']) ? date('d/m/Y H:i', strtotime($i['created_at'])) : '',
+                ];
+            }, $interventions);
+
+            echo json_encode(['success' => true, 'interventions' => $formatted, 'count' => count($formatted)]);
+        } catch (Exception $e) {
+            custom_log("Erreur previewExport (client): " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur serveur']);
+        }
+        exit;
+    }
 }

@@ -1450,6 +1450,21 @@ try {
                 case 'ajaxGetRooms':
                     $interventionsClientController->ajaxGetRooms();
                     break;
+                case 'getContractByRoom':
+                    if ($id) {
+                        $interventionsClientController->getContractByRoom($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['error' => 'ID salle manquant']);
+                        exit;
+                    }
+                    break;
+                case 'export':
+                    $interventionsClientController->export();
+                    break;
+                case 'previewExport':
+                    $interventionsClientController->previewExport();
+                    break;
                 case 'get_rooms':
                     // Vérifier que l'utilisateur est connecté et est un client
                     if (!isset($_SESSION['user']) || !isClient()) {

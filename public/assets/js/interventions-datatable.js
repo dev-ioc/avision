@@ -8,18 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
     td.closest("tr").remove();
   });
 
-  // === NETTOYAGE COMPLET ===
-  // Désactivé pour conserver les préférences utilisateur DataTable
-  // Le nettoyage supprimait la configuration sauvegardée (pageLength, etc.)
-  /*
-  Object.keys(localStorage).forEach((key) => {
-    if (key.includes("DataTable") || key.includes("interventionsTable")) {
-      localStorage.removeItem(key);
-      console.log(`🗑️ Supprimé: ${key}`);
-    }
-  });
-  */
-
   // 2. Détruire toute instance DataTable existante
   try {
     // Méthode jQuery si disponible
