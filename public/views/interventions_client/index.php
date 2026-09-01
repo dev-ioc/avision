@@ -184,7 +184,6 @@ if (!is_array($savedColumnVisibility)) {
         <table id="interventionsTable" class="table table-striped table-hover dt-responsive">
             <thead>
                 <tr>
-                    <th>Date creation</th>
                     <th>Reference</th>
                     <th>Titre</th>
                     <th>Client</th>
@@ -196,6 +195,7 @@ if (!is_array($savedColumnVisibility)) {
                     <th>Date planifiee</th>
                     <th>Technicien</th>
                     <th>Reference client</th>
+                    <th>Date creation</th>
                     <th>Date cloture</th>
                 </tr>
             </thead>
@@ -203,11 +203,6 @@ if (!is_array($savedColumnVisibility)) {
                 <?php if (isset($interventions) && !empty($interventions)): ?>
                     <?php foreach ($interventions as $intervention): ?>
                         <tr>
-                            
-                            <td data-label="Date creation"
-                                data-order="<?php echo isset($intervention['created_at']) ? strtotime($intervention['created_at']) : 0; ?>">
-                                <?php echo date('d/m/Y H:i', strtotime($intervention['created_at'] ?? '')); ?>
-                            </td>
                             <td data-label="Reference">
                                 <a href="<?php echo BASE_URL; ?>interventions_client/view/<?php echo $intervention['id']; ?>"
                                     class="text-decoration-none">
@@ -242,6 +237,10 @@ if (!is_array($savedColumnVisibility)) {
                             </td>
                             <td data-label="Reference client">
                                 <?php echo htmlspecialchars($intervention['ref_client'] ?? '-'); ?>
+                            </td>
+                            <td data-label="Date creation"
+                                data-order="<?php echo isset($intervention['created_at']) ? strtotime($intervention['created_at']) : 0; ?>">
+                                <?php echo date('d/m/Y H:i', strtotime($intervention['created_at'] ?? '')); ?>
                             </td>
                             <td data-label="Date cloture"
                                 data-order="<?php echo isset($intervention['closed_at']) ? strtotime($intervention['closed_at']) : 0; ?>">
