@@ -272,31 +272,42 @@ include_once __DIR__ . '/../../includes/navbar.php';
             }
         });
 
-        // Charger le contrat quand la salle change
+        // Charger et sélectionner automatiquement le contrat par défaut quand la salle change.
+        // Les autres contrats restent disponibles dans la liste pour permettre un autre choix.
         roomSelect.addEventListener('change', function () {
             const roomId = this.value;
 
-            // Réinitialiser le contrat
-            contractSelect.innerHTML = '<option value="">Sélectionner un contrat</option>';
-
             if (!roomId) {
+                // Aucun contrat sélectionné si aucune salle n'est choisie.
+                contractSelect.value = '';
                 return;
             }
 
-            // Récupérer le contrat associé à la salle
+            // Récupérer le contrat par défaut associé à la salle.
             fetch(BASE_URL + 'interventions_client/getContractByRoom/' + roomId, {
                 credentials: 'include'
             })
                 .then(response => response.json())
                 .then(contract => {
                     if (contract && contract.id) {
-                        // Ajouter le contrat à la liste
-                        const option = document.createElement('option');
-                        option.value = contract.id;
-                        option.textContent = contract.name || 'Contrat';
-                        option.selected = true;
-                        contractSelect.appendChild(option);
-                    } else if (contract.error) {
+                        // Si le contrat est déjà dans la liste, le sélectionner.
+                        const existingOption = Array.from(contractSelect.options)
+                            .find(option => String(option.value) === String(contract.id));
+
+                        if (existingOption) {
+                            contractSelect.value = String(contract.id);
+                        } else {
+                            // Sinon, l'ajouter sans supprimer les autres contrats.
+                            const option = document.createElement('option');
+                            option.value = contract.id;
+                            option.textContent = contract.name || 'Contrat';
+                            contractSelect.appendChild(option);
+                            contractSelect.value = String(contract.id);
+                        }
+
+                        // Déclenche l'événement au cas où une autre logique en dépend.
+                        contractSelect.dispatchEvent(new Event('change', { bubbles: true }));
+                    } else if (contract && contract.error) {
                         console.error('Erreur:', contract.error);
                     }
                 })

@@ -682,8 +682,8 @@ class InterventionsClientController
 
         // Récupérer les données nécessaires pour le formulaire
         $sites = $this->model->getSitesByLocations($userLocations);
-        $buildings = []; // Sera chargé dynamiquement via AJAX
-        $rooms = []; // Sera chargé dynamiquement via AJAX
+        $buildings = [];
+        $rooms = [];
         $contracts = $this->model->getContractsByClient($clientId);
         $contacts = $this->model->getContactsByClient($clientId);
 
