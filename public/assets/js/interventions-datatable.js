@@ -22,11 +22,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Méthode DataTables native
     else if (typeof DataTable !== "undefined" && DataTable.isDataTable(table)) {
-      const dt = DataTable.isDataTable(table);
-
-      if (dt) {
-        console.log("⚠️ Instance DataTable native détectée");
-      }
+      // CORRECTIF : DataTable.isDataTable() renvoie un booléen, ce n'est pas
+      // une instance sur laquelle appeler .destroy(). Sans ce correctif, une
+      // ré-initialisation ne détruisait jamais l'ancienne instance native.
+      new DataTable(table).destroy();
+      console.log("✅ Instance DataTable détruite (native)");
     }
   } catch (e) {
     console.log("Aucune instance à détruire");
@@ -50,6 +50,45 @@ document.addEventListener("DOMContentLoaded", function () {
   const savedPageLength = window.DataTablePersistence
     ? DataTablePersistence.getSetting("interventionsTable", "pageLength", 10)
     : 10;
+
+  // ============================================================
+  // Visibilité des colonnes (retour client - point 2)
+  // IMPORTANT : on calcule la visibilité initiale ICI, avant la création
+  // du DataTable, et on l'injecte directement dans columnDefs. Basculer
+  // .column().visible() APRÈS l'init (en boucle sur plusieurs colonnes)
+  // entre en conflit avec le calcul interne de l'extension Responsive et
+  // provoque le warning "Requested unknown parameter for row X, column Y".
+  // ============================================================
+  const columnKeys = [
+    "reference",
+    "title",
+    "client",
+    "site",
+    "building",
+    "room",
+    "status",
+    "priority",
+    "date_planif",
+    "technician",
+    "ref_client",
+    "created_at",
+    "closed_at",
+  ];
+  const lockedColumns = ["reference"];
+
+  const savedColumnVisibility =
+    (window.serverSavedSettings &&
+      window.serverSavedSettings.interventionsTable_columnVisibility) ||
+    {};
+
+  function isColumnVisible(key) {
+    if (lockedColumns.includes(key)) return true;
+    return savedColumnVisibility[key] !== false; // visible par défaut
+  }
+
+  const visibilityColumnDefs = columnKeys.map(function (key, idx) {
+    return { targets: idx, visible: isColumnVisible(key) };
+  });
 
   const dt = new DataTable(table, {
     pageLength: savedPageLength,
@@ -107,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
       { targets: 5, responsivePriority: 6 },
       { targets: 6, responsivePriority: 7 },
       { targets: 7, responsivePriority: 8 },
-    ],
+    ].concat(visibilityColumnDefs),
 
     initComplete: function () {
       console.log("✅ DataTable initialisée avec succès");
@@ -121,4 +160,20 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("✅ Nombre d'entrées sauvegardé :", len);
     }
   });
+
+  // ============================================================
+  // Expose une API simple pour basculer UNE colonne à la fois depuis
+  // le panneau "Colonnes affichées" (index.php), sans jamais boucler
+  // sur plusieurs colonnes d'un coup après l'init.
+  // ============================================================
+  window.interventionsTableSetColumnVisible = function (key, visible) {
+    const idx = columnKeys.indexOf(key);
+    if (idx === -1 || lockedColumns.includes(key)) return;
+
+    dt.column(idx).visible(visible);
+
+    if (dt.responsive && typeof dt.responsive.recalc === "function") {
+      dt.responsive.recalc();
+    }
+  };
 });

@@ -77,12 +77,6 @@ class InterventionsClientController
             'status_id' => $_GET['status_id'] ?? null,
             'search' => $_GET['search'] ?? null
         ];
-
-        // // Si aucun filtre de statut n'est spécifié, filtrer par défaut sur les interventions non fermées ou annulées
-        // if (empty($filters['status_id'])) {
-        //     $filters['exclude_status_ids'] = [6, 7]; // 6 = Fermé, 7 = Annulé
-        // }
-
         // Construire la clause WHERE pour les localisations
         $locationWhere = buildLocationWhereClause($userLocations, 'i.client_id', 'i.site_id', 'i.building_id', 'i.room_id');
 
@@ -142,10 +136,6 @@ class InterventionsClientController
             $userLocations = [['client_id' => $clientId, 'site_id' => null, 'building_id' => null, 'room_id' => null]];
         }
 
-        // Log pour débogage
-        custom_log("Tentative d'accès à l'intervention ID: $id", 'DEBUG');
-        custom_log("Localisations utilisateur: " . json_encode($userLocations), 'DEBUG');
-
         // Récupérer l'intervention
         $intervention = $this->model->getByIdWithAccess($id, $userLocations);
 
@@ -155,12 +145,6 @@ class InterventionsClientController
             header('Location: ' . BASE_URL . 'interventions_client');
             exit;
         }
-
-        custom_log("Intervention trouvée: " . json_encode($intervention), 'DEBUG');
-
-        // Si getByIdWithAccess() retourne l'intervention, c'est que l'utilisateur y a déjà accès
-        // Pas besoin de double vérification
-
         // Récupérer les noms du site, bâtiment et salle
         if (!empty($intervention['site_id'])) {
             $site = $this->siteModel->getSiteById($intervention['site_id']);
@@ -178,8 +162,11 @@ class InterventionsClientController
         }
 
         // Récupérer les techniciens assignés
-        $intervention['technicians'] = $this->model->getTechniciansByIntervention($id);
+        $technicians = $this->model->getTechniciansByIntervention($id);
 
+        $intervention['technicians_names'] = $technicians['technicians_names'] ?? '';
+        $intervention['technicien_ids'] = $technicians['technicien_ids'] ?? '';
+        $intervention['type_requires_travel'] = $technicians['type_requires_travel'] ?? 0;
         // Récupérer le contrat associé directement via contract_id pour les informations de tickets
         $contract = null;
         if (!empty($intervention['contract_id'])) {
@@ -202,6 +189,8 @@ class InterventionsClientController
 
         // Récupérer les pièces jointes
         $attachments = $this->model->getAttachmentsWithAccess($id, $userLocations);
+        // Récupérer les comptes-rendus techniciens visibles par le client
+        $technicianReports = $this->model->getTechnicianReportsWithAccess($id, $userLocations);
 
         // Charger la vue
         require_once __DIR__ . '/../views/interventions_client/view.php';
@@ -1018,12 +1007,17 @@ class InterventionsClientController
         exit;
     }
     /**
-     * Exporte les interventions du client en CSV, selon filtres date/type et colonnes choisies
+     * Exporte les interventions du client dans un vrai fichier XLSX.
+     *
+     * Important : PhpSpreadsheet doit être installé dans le projet avec Composer :
+     * composer require phpoffice/phpspreadsheet
+     *
+     * Le fichier XLSX permet d'enregistrer réellement les largeurs de colonnes
+     * et le retour automatique à la ligne, sans avertissement Excel.
      */
     public function export()
     {
-
-        custom_log("EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée", 'DEBUG');
+        custom_log("EXPORT DEBUG - Méthode export() (téléchargement XLSX) appelée", 'DEBUG');
 
         if (!isset($_SESSION['user']) || !isClient()) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -1045,9 +1039,15 @@ class InterventionsClientController
 
         $userLocations = getUserLocations();
         if (empty($userLocations)) {
-            $userLocations = [['client_id' => $clientId, 'site_id' => null, 'building_id' => null, 'room_id' => null]];
+            $userLocations = [
+                [
+                    'client_id' => $clientId,
+                    'site_id' => null,
+                    'building_id' => null,
+                    'room_id' => null
+                ]
+            ];
         }
-
 
         $availableColumns = [
             'reference' => 'Reference',
@@ -1061,12 +1061,21 @@ class InterventionsClientController
             'technicians_names' => 'Technicien(s)',
             'date_planif' => 'Date planifiee',
             'created_at' => 'Date de creation',
+            'closed_at' => 'Date de cloture',
             'description' => 'Description',
             'ref_client' => 'Reference client',
         ];
 
         $requestedColumns = $_GET['columns'] ?? array_keys($availableColumns);
-        $selectedColumns = array_values(array_intersect($requestedColumns, array_keys($availableColumns)));
+        if (!is_array($requestedColumns)) {
+            $requestedColumns = [$requestedColumns];
+        }
+
+        $selectedColumns = array_values(array_intersect(
+            $requestedColumns,
+            array_keys($availableColumns)
+        ));
+
         if (empty($selectedColumns)) {
             $selectedColumns = array_keys($availableColumns);
         }
@@ -1083,6 +1092,7 @@ class InterventionsClientController
         }
 
         $filters = $this->buildExportFilters();
+
         try {
             $interventions = $this->model->getForExport($userLocations, $filters);
         } catch (Exception $e) {
@@ -1092,53 +1102,144 @@ class InterventionsClientController
             exit;
         }
 
-        $filename = 'interventions_export_' . date('Y-m-d_His') . '.csv';
+        // Préparation des données exportées.
+        $rows = [];
+
+        foreach ($interventions as $intervention) {
+            $row = [];
+
+            foreach ($selectedColumns as $col) {
+                switch ($col) {
+                    case 'type_label':
+                        $value = !empty($intervention['is_preventive'])
+                            ? 'Preventive'
+                            : 'Curative';
+                        break;
+
+                    case 'date_planif':
+                        $value = !empty($intervention['date_planif'])
+                            ? date('d/m/Y', strtotime($intervention['date_planif']))
+                            : '';
+                        break;
+
+                    case 'created_at':
+                        $value = !empty($intervention['created_at'])
+                            ? date('d/m/Y H:i', strtotime($intervention['created_at']))
+                            : '';
+                        break;
+
+                    case 'closed_at':
+                        $value = !empty($intervention['closed_at'])
+                            ? date('d/m/Y H:i', strtotime($intervention['closed_at']))
+                            : '';
+                        break;
+
+                    default:
+                        $value = $intervention[$col] ?? '';
+                        break;
+                }
+
+                // Normalise les retours à la ligne déjà présents.
+                $row[] = str_replace(["\r\n", "\r"], "\n", (string) $value);
+            }
+
+            $rows[] = $row;
+        }
+
+        // Charger l'autoloader Composer du projet.
+        $autoloadPath = __DIR__ . '/../vendor/autoload.php';
+
+        if (!is_file($autoloadPath)) {
+            throw new RuntimeException(
+                'PhpSpreadsheet est absent. Lancez « composer require phpoffice/phpspreadsheet » dans le dossier public. '
+                . 'Chemin recherché : ' . $autoloadPath
+            );
+        }
+
+        require_once $autoloadPath;
+
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $worksheet = $spreadsheet->getActiveSheet();
+        $worksheet->setTitle('Interventions');
+
+        // En-têtes.
+        $headers = array_map(
+            static fn(string $columnKey): string => $availableColumns[$columnKey],
+            $selectedColumns
+        );
+        $worksheet->fromArray($headers, null, 'A1');
+
+        // Données à partir de la ligne 2.
+        if (!empty($rows)) {
+            $worksheet->fromArray($rows, null, 'A2');
+        }
+
+        $columnCount = count($selectedColumns);
+        $lastColumn = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($columnCount);
+        $lastRow = max(1, count($rows) + 1);
+
+        // Style de l'en-tête.
+        $worksheet->getStyle('A1:' . $lastColumn . '1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => 'FFFFFF'],
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '1F4E78'],
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ],
+        ]);
+
+        // Bordures, alignement vertical et retour à la ligne de toutes les cellules.
+        $worksheet->getStyle('A1:' . $lastColumn . $lastRow)->applyFromArray([
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['rgb' => 'B7B7B7'],
+                ],
+            ],
+            'alignment' => [
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP,
+                'wrapText' => true,
+            ],
+        ]);
+
+        // Ajustement automatique de chaque colonne selon son contenu.
+        for ($columnIndex = 1; $columnIndex <= $columnCount; $columnIndex++) {
+            $columnLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($columnIndex);
+            $worksheet->getColumnDimension($columnLetter)->setAutoSize(true);
+        }
+
+        // Limite de sécurité pour éviter une colonne Description trop large.
+        $descriptionIndex = array_search('description', $selectedColumns, true);
+        if ($descriptionIndex !== false) {
+            $descriptionColumn = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($descriptionIndex + 1);
+            $worksheet->getColumnDimension($descriptionColumn)->setAutoSize(false);
+            $worksheet->getColumnDimension($descriptionColumn)->setWidth(45);
+        }
+
+        $worksheet->freezePane('A2');
+        $worksheet->setAutoFilter('A1:' . $lastColumn . $lastRow);
+
+        $filename = 'interventions_export_' . date('Y-m-d_His') . '.xlsx';
 
         if (ob_get_level()) {
             ob_end_clean();
         }
 
-        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
-        header('Pragma: no-cache');
-        header('Expires: 0');
+        header('Cache-Control: max-age=0');
+        header('Pragma: public');
 
-        $output = fopen('php://output', 'w');
-
-        // BOM UTF-8 pour qu'Excel affiche correctement les accents
-        fwrite($output, "\xEF\xBB\xBF");
-
-        // En-tête
-        $headerRow = array_map(fn($key) => $availableColumns[$key], $selectedColumns);
-        fputcsv($output, $headerRow, ';', '"', '\\');
-
-        // Lignes
-        foreach ($interventions as $intervention) {
-            $row = [];
-            foreach ($selectedColumns as $col) {
-                switch ($col) {
-                    case 'type_label':
-                        $row[] = !empty($intervention['is_preventive']) ? 'Preventive' : 'Curative';
-                        break;
-                    case 'date_planif':
-                        $row[] = !empty($intervention['date_planif'])
-                            ? '="' . date('d/m/Y', strtotime($intervention['date_planif'])) . '"'
-                            : '';
-                        break;
-                    case 'created_at':
-                        $row[] = !empty($intervention['created_at'])
-                            ? '="' . date('d/m/Y H:i', strtotime($intervention['created_at'])) . '"'
-                            : '';
-                        break;
-                    default:
-                        $row[] = $intervention[$col] ?? '';
-                        break;
-                }
-            }
-            fputcsv($output, $row, ';', '"', '\\');
-        }
-
-        fclose($output);
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $writer->save('php://output');
+        $spreadsheet->disconnectWorksheets();
         exit;
     }
     /**

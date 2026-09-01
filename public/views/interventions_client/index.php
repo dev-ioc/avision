@@ -1,8 +1,5 @@
 <?php
-// Vue interventions client - version sans accent, encodage UTF-8
-// Affiche la liste des interventions du client
 
-// Activer l'affichage des erreurs pour debug
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -24,8 +21,13 @@ include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
 
-// Debug simple
-// echo '<pre>'; var_dump($interventions); echo '</pre>';
+// Préférence de visibilité des colonnes du tableau (point 2 du retour client)
+$savedColumnVisibilityRaw = getUserPreference('datatable_interventionsTable_columnVisibility', '{}');
+$savedColumnVisibility = json_decode($savedColumnVisibilityRaw, true);
+if (!is_array($savedColumnVisibility)) {
+    $savedColumnVisibility = [];
+}
+
 ?>
 <div class="container-fluid flex-grow-1 container-p-y">
 
@@ -111,40 +113,73 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </button>
                         </div>
                     </div>
-
-                    <div class="mt-3">
-                        <label class="form-label fw-bold mb-2">Colonnes à exporter</label>
-                        <div class="d-flex flex-wrap gap-3">
-                            <?php
-                            $exportColumns = [
-                                'reference' => 'Référence',
-                                'title' => 'Titre',
-                                'site_name' => 'Site',
-                                'building_name' => 'Bâtiment',
-                                'room_name' => 'Salle',
-                                'status_name' => 'Statut',
-                                'priority_name' => 'Priorité',
-                                'type_label' => 'Type (curative/préventive)',
-                                'technicians_names' => 'Technicien(s)',
-                                'date_planif' => 'Date planifiée',
-                                'created_at' => 'Date de création',
-                                'description' => 'Description',
-                                'ref_client' => 'Référence client',
-                            ];
-                            foreach ($exportColumns as $key => $label): ?>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="columns[]"
-                                        value="<?= $key ?>" id="col_<?= $key ?>" checked>
-                                    <label class="form-check-label" for="col_<?= $key ?>"><?= h($label) ?></label>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Colonnes affichées dans le tableau (NOUVEAU - point 2 du retour client) -->
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header py-2">
+                <h6 class="card-title mb-0">
+                    <i class="bi bi-layout-three-columns me-2"></i>Colonnes affichées
+                </h6>
+            </div>
+            <div class="card-body" id="columnVisibilityPanel">
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                        id="columnVisibilityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-layout-three-columns me-2"></i>
+                        Sélectionner les colonnes
+                    </button>
+
+                    <div class="dropdown-menu p-3" aria-labelledby="columnVisibilityDropdown"
+                        style="min-width: 280px; max-height: 400px; overflow-y: auto;">
+                        <?php
+                        // Clé = doit correspondre à l'ordre exact des colonnes du <thead> ci-dessous
+                        $visibleColumnsConfig = [
+                            'reference' => 'Référence',
+                            'title' => 'Titre',
+                            'client' => 'Client',
+                            'site' => 'Site',
+                            'building' => 'Bâtiment',
+                            'room' => 'Salle',
+                            'status' => 'Statut',
+                            'priority' => 'Priorité',
+                            'date_planif' => 'Date planifiée',
+                            'technician' => 'Technicien',
+                            'ref_client' => 'Référence client',
+                            'created_at' => 'Date de création',
+                            'closed_at' => 'Date de clôture',
+                        ];
+                        $lockedColumnKeys = ['reference'];
+                        $columnIndex = 0;
+                        foreach ($visibleColumnsConfig as $key => $label):
+                            $isLocked = in_array($key, $lockedColumnKeys, true);
+                            $isChecked = $isLocked || ($savedColumnVisibility[$key] ?? true);
+                        ?>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox"
+                                    data-column-key="<?= h($key) ?>"
+                                    data-column-index="<?= $columnIndex ?>"
+                                    id="colvis_<?= h($key) ?>"
+                                    <?= $isChecked ? 'checked' : '' ?>
+                                    <?= $isLocked ? 'disabled' : '' ?>>
+                                <label class="form-check-label" for="colvis_<?= h($key) ?>">
+                                    <?= h($label) ?>
+                                </label>
+                            </div>
+                        <?php $columnIndex++; endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
     <div class="table-responsive">
         <table id="interventionsTable" class="table table-striped table-hover dt-responsive">
             <thead>
@@ -159,7 +194,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     <th>Priorite</th>
                     <th>Date planifiee</th>
                     <th>Technicien</th>
+                    <th>Reference client</th>
                     <th>Date creation</th>
+                    <th>Date cloture</th>
                 </tr>
             </thead>
             <tbody>
@@ -196,11 +233,18 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <?php echo !empty($intervention['date_planif']) ? date('d/m/Y', strtotime($intervention['date_planif'])) : '-'; ?>
                             </td>
                             <td data-label="Technicien">
-                                <?php echo htmlspecialchars($intervention['technician_first_name'] ?? '') . ' ' . htmlspecialchars($intervention['technician_last_name'] ?? ''); ?>
+                                <?php echo htmlspecialchars($intervention['technicians_names'] ?? '') . ' ' . htmlspecialchars($intervention['technician_last_name'] ?? ''); ?>
+                            </td>
+                            <td data-label="Reference client">
+                                <?php echo htmlspecialchars($intervention['ref_client'] ?? '-'); ?>
                             </td>
                             <td data-label="Date creation"
                                 data-order="<?php echo isset($intervention['created_at']) ? strtotime($intervention['created_at']) : 0; ?>">
                                 <?php echo date('d/m/Y H:i', strtotime($intervention['created_at'] ?? '')); ?>
+                            </td>
+                            <td data-label="Date cloture"
+                                data-order="<?php echo isset($intervention['closed_at']) ? strtotime($intervention['closed_at']) : 0; ?>">
+                                <?php echo !empty($intervention['closed_at']) ? date('d/m/Y H:i', strtotime($intervention['closed_at'])) : '-'; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -215,7 +259,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
 <script>
     window.serverSavedSettings = {
         interventionsTable_pageLength:
-            <?= json_encode((int) getUserPreference('datatable_interventionsTable_pageLength', 10)) ?>
+            <?= json_encode((int) getUserPreference('datatable_interventionsTable_pageLength', 10)) ?>,
+        interventionsTable_columnVisibility:
+            <?= json_encode($savedColumnVisibility) ?>
     };
     window.interventionsClientBaseUrl = '<?php echo BASE_URL; ?>';
 </script>
@@ -231,6 +277,48 @@ include_once __DIR__ . '/../../includes/navbar.php';
         const dateStartInput = exportForm.querySelector('[name="date_start"]');
         const dateEndInput = exportForm.querySelector('[name="date_end"]');
         const typeSelect = exportForm.querySelector('[name="type"]');
+        const columnVisibilityPanel = document.getElementById('columnVisibilityPanel');
+        const exportColumnMap = {
+            reference: 'reference',
+            title: 'title',
+            client: 'client_name',
+            site: 'site_name',
+            building: 'building_name',
+            room: 'room_name',
+            status: 'status_name',
+            priority: 'priority_name',
+            date_planif: 'date_planif',
+            technician: 'technicians_names',
+            ref_client: 'ref_client',
+            created_at: 'created_at',
+            closed_at: 'closed_at'
+        };
+
+        /**
+         * Ajoute au formulaire uniquement les colonnes sélectionnées dans
+         * « Colonnes affichées », afin que l'endpoint export reçoive columns[].
+         */
+        function syncExportColumns() {
+            exportForm.querySelectorAll('input[data-export-column="1"]').forEach(function (input) {
+                input.remove();
+            });
+
+            if (!columnVisibilityPanel) return;
+
+            columnVisibilityPanel
+                .querySelectorAll('input[type="checkbox"][data-column-key]:checked')
+                .forEach(function (checkbox) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'columns[]';
+                    const displayKey = checkbox.dataset.columnKey;
+                    const exportKey = exportColumnMap[displayKey];
+                    if (!exportKey) return;
+                    input.value = exportKey;
+                    input.dataset.exportColumn = '1';
+                    exportForm.appendChild(input);
+                });
+        }
 
         let previewInFlight = null;
 
@@ -281,6 +369,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
         exportForm.addEventListener('submit', function (e) {
             e.preventDefault();
+            syncExportColumns();
 
             const params = new URLSearchParams(new FormData(exportForm));
 
@@ -331,7 +420,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </td>
                 <td data-label="Date planifiee">${escapeHtml(i.date_planif_formatted || '-')}</td>
                 <td data-label="Technicien">${escapeHtml(i.technicians_names || '')}</td>
+                <td data-label="Reference client">${escapeHtml(i.ref_client || '-')}</td>
                 <td data-label="Date creation">${escapeHtml(i.created_at_formatted || '')}</td>
+                <td data-label="Date cloture">${escapeHtml(i.closed_at_formatted || '-')}</td>
             </tr>`;
 
             const template = document.createElement('template');
@@ -352,5 +443,62 @@ include_once __DIR__ . '/../../includes/navbar.php';
         div.textContent = str;
         return div.innerHTML;
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const panel = document.getElementById('columnVisibilityPanel');
+        const table = document.getElementById('interventionsTable');
+        if (!panel || !table || typeof DataTable === 'undefined') return;
+
+        if (!DataTable.isDataTable(table)) {
+            console.error('Le tableau interventionsTable n’est pas initialisé par DataTables.');
+            return;
+        }
+
+        // Récupère l'instance DataTables déjà créée.
+        const dt = new DataTable(table);
+        const savedVisibility = {
+            ...((window.serverSavedSettings || {}).interventionsTable_columnVisibility || {})
+        };
+
+        panel.querySelectorAll('input[type="checkbox"][data-column-index]').forEach(function (checkbox) {
+            const key = checkbox.dataset.columnKey;
+            const index = Number(checkbox.dataset.columnIndex);
+
+            // Applique la préférence sauvegardée au chargement.
+            if (!checkbox.disabled && Object.prototype.hasOwnProperty.call(savedVisibility, key)) {
+                checkbox.checked = Boolean(savedVisibility[key]);
+            }
+
+            dt.column(index).visible(checkbox.checked, false);
+
+            checkbox.addEventListener('change', function () {
+                if (checkbox.disabled) return;
+
+                savedVisibility[key] = checkbox.checked;
+                dt.column(index).visible(checkbox.checked, false);
+                dt.columns.adjust();
+
+                if (dt.responsive && typeof dt.responsive.recalc === 'function') {
+                    dt.responsive.recalc();
+                }
+
+                dt.draw(false);
+
+                if (window.DataTablePersistence &&
+                    typeof window.DataTablePersistence.setSetting === 'function') {
+                    window.DataTablePersistence.setSetting(
+                        'interventionsTable',
+                        'columnVisibility',
+                        JSON.stringify(savedVisibility)
+                    );
+                }
+            });
+        });
+
+        dt.columns.adjust();
+        if (dt.responsive && typeof dt.responsive.recalc === 'function') {
+            dt.responsive.recalc();
+        }
+    });
 </script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

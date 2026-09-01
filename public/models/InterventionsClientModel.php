@@ -457,16 +457,27 @@ class InterventionsClientModel extends BaseModel
      */
     public function getTechniciansByIntervention($interventionId)
     {
-        $sql = "SELECT u.id, u.first_name, u.last_name, u.email
-                FROM intervention_techniciens it
-                JOIN users u ON it.technicien_id = u.id
-                WHERE it.intervention_id = ?";
+        $sql = "SELECT 
+        MAX(it.deplacement) AS type_requires_travel,
+        GROUP_CONCAT(
+            DISTINCT CONCAT(u.first_name, ' ', u.last_name)
+            ORDER BY u.first_name
+            SEPARATOR '\n'
+        ) AS technicians_names,
+        GROUP_CONCAT(
+            DISTINCT u.id
+            ORDER BY u.first_name
+            SEPARATOR ','
+        ) AS technicien_ids
+    FROM intervention_techniciens it
+    JOIN users u ON it.technicien_id = u.id
+    WHERE it.intervention_id = ?";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$interventionId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
     /**
      * Ajouter un commentaire
      * @param int $interventionId ID de l'intervention
@@ -819,4 +830,39 @@ class InterventionsClientModel extends BaseModel
         custom_log("EXPORT DEBUG - nombre de lignes retournées: " . count($result), 'DEBUG');
         return $result;
     }
+    /**
+     * Récupère les comptes-rendus techniciens qu'un technicien a explicitement
+     * marqués comme visibles par le client (visible_by_client = 1), avec un
+     * contenu non vide. Le champ interne `commentaire` reste, lui, toujours
+     * invisible pour le client.
+     *
+     * @param int $interventionId ID de l'intervention
+     * @param array $userLocations Les localisations autorisées de l'utilisateur
+     * @return array Liste des comptes-rendus visibles par le client
+     */
+    public function getTechnicianReportsWithAccess($interventionId, $userLocations)
+    {
+        // Vérifier d'abord que l'utilisateur a accès à l'intervention
+        $intervention = $this->getByIdWithAccess($interventionId, $userLocations);
+        if (!$intervention) {
+            return [];
+        }
+
+        $sql = "SELECT it.id, it.technicien_id, it.start_time, it.end_time, it.temps_passe,
+                   it.compte_rendu_client, it.visible_by_client,
+                   CONCAT(u.first_name, ' ', u.last_name) as technicien_name
+            FROM intervention_techniciens it
+            JOIN users u ON it.technicien_id = u.id
+            WHERE it.intervention_id = ?
+              AND it.visible_by_client = 1
+              AND it.compte_rendu_client IS NOT NULL
+              AND it.compte_rendu_client != ''
+            ORDER BY it.start_time ASC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$interventionId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
 }

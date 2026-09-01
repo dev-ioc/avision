@@ -41,6 +41,14 @@ class PreferencesController
             exit;
         }
 
+        // CORRECTIF : si le client envoie un objet/tableau (ex: la visibilité
+        // des colonnes du tableau interventions, un objet {colonne: bool}),
+        // on le sérialise en JSON plutôt que de laisser (string) le
+        // transformer silencieusement en "Array".
+        if (is_array($value)) {
+            $value = json_encode($value);
+        }
+
         $value = (string) $value;
         if (strlen($value) > 255) {
             http_response_code(400);
