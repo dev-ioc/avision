@@ -22,9 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Méthode DataTables native
     else if (typeof DataTable !== "undefined" && DataTable.isDataTable(table)) {
-      // CORRECTIF : DataTable.isDataTable() renvoie un booléen, ce n'est pas
-      // une instance sur laquelle appeler .destroy(). Sans ce correctif, une
-      // ré-initialisation ne détruisait jamais l'ancienne instance native.
       new DataTable(table).destroy();
       console.log("✅ Instance DataTable détruite (native)");
     }
@@ -53,13 +50,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ============================================================
   // Visibilité des colonnes (retour client - point 2)
-  // IMPORTANT : on calcule la visibilité initiale ICI, avant la création
-  // du DataTable, et on l'injecte directement dans columnDefs. Basculer
-  // .column().visible() APRÈS l'init (en boucle sur plusieurs colonnes)
-  // entre en conflit avec le calcul interne de l'extension Responsive et
-  // provoque le warning "Requested unknown parameter for row X, column Y".
+  // IMPORTANT : cette table est réutilisée par plusieurs vues
+  // (interventions_client : 13 colonnes / interventions
+  // curatives-préventives : 9 colonnes). On ne peut donc pas se fier
+  // à une liste de clés fixe : on dérive le nombre de colonnes RÉEL
+  // depuis le <thead> de la table présente sur la page, puis on
+  // tronque la config de visibilité à ce nombre. Sans ça, DataTables
+  // reçoit des columnDefs ciblant des index inexistants (ex: target 9
+  // sur une table à 9 colonnes) et lève
+  // "Requested unknown parameter 'X' for row 0, column X".
   // ============================================================
-  const columnKeys = [
+  const fullColumnKeys = [
     "reference",
     "title",
     "client",
@@ -76,6 +77,17 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
   const lockedColumns = ["reference"];
 
+  const actualColumnCount = table.querySelectorAll("thead th").length;
+
+  // Seule la page interventions_client expose le panneau de
+  // visibilité des colonnes avec les clés ci-dessus ; sur les autres
+  // pages (curatives/préventives), la table a une structure de
+  // colonnes différente et aucune préférence de visibilité ne
+  // s'applique : on n'utilise donc les clés que si le nombre de
+  // colonnes correspond réellement.
+  const columnKeys =
+    actualColumnCount === fullColumnKeys.length ? fullColumnKeys : [];
+
   const savedColumnVisibility =
     (window.serverSavedSettings &&
       window.serverSavedSettings.interventionsTable_columnVisibility) ||
@@ -86,8 +98,29 @@ document.addEventListener("DOMContentLoaded", function () {
     return savedColumnVisibility[key] !== false; // visible par défaut
   }
 
-  const visibilityColumnDefs = columnKeys.map(function (key, idx) {
-    return { targets: idx, visible: isColumnVisible(key) };
+  const visibilityColumnDefs = columnKeys
+    .map(function (key, idx) {
+      return { targets: idx, visible: isColumnVisible(key) };
+    })
+    // filet de sécurité supplémentaire : n'inclure que les index qui
+    // existent réellement dans la table courante.
+    .filter(function (def) {
+      return def.targets < actualColumnCount;
+    });
+
+  // Les priorités responsive ne doivent cibler que des colonnes qui
+  // existent réellement dans la table courante.
+  const responsivePriorityDefs = [
+    { targets: 0, responsivePriority: 1 },
+    { targets: 1, responsivePriority: 2 },
+    { targets: 2, responsivePriority: 3 },
+    { targets: 3, responsivePriority: 4 },
+    { targets: 4, responsivePriority: 5 },
+    { targets: 5, responsivePriority: 6 },
+    { targets: 6, responsivePriority: 7 },
+    { targets: 7, responsivePriority: 8 },
+  ].filter(function (def) {
+    return def.targets < actualColumnCount;
   });
 
   const dt = new DataTable(table, {
@@ -137,16 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     },
 
-    columnDefs: [
-      { targets: 0, responsivePriority: 1 },
-      { targets: 1, responsivePriority: 2 },
-      { targets: 2, responsivePriority: 3 },
-      { targets: 3, responsivePriority: 4 },
-      { targets: 4, responsivePriority: 5 },
-      { targets: 5, responsivePriority: 6 },
-      { targets: 6, responsivePriority: 7 },
-      { targets: 7, responsivePriority: 8 },
-    ].concat(visibilityColumnDefs),
+    columnDefs: responsivePriorityDefs.concat(visibilityColumnDefs),
 
     initComplete: function () {
       console.log("✅ DataTable initialisée avec succès");
