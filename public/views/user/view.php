@@ -101,7 +101,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <td><?php echo h($user['username']); ?></td>
                         </tr>
                         <tr>
-                            <th>Email :</th>
+                            <th>Email (Login):</th>
                             <td><?php echo h($user['email']); ?></td>
                         </tr>
                         <tr>
@@ -173,7 +173,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
 
             <!-- Localisations pour les utilisateurs de type client -->
-             <?php if (isset($user['user_type']) && $user['user_type'] === 'client'): ?>
+            <?php if (isset($user['user_type']) && $user['user_type'] === 'client'): ?>
                 <div class="row mt-4">
                     <div class="col-12">
                         <h6 class="mb-3">Localisations</h6>

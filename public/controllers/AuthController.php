@@ -78,11 +78,11 @@ class AuthController
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = $_POST['username'] ?? '';
+            $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
 
             try {
-                $success = $this->userModel->authenticate($username, $password);
+                $success = $this->userModel->authenticate($email, $password);
                 if ($success) {
                     // L'authentification a réussi, les données sont déjà stockées dans la session
                     $_SESSION['last_activity'] = time();

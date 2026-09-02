@@ -312,11 +312,11 @@ class UserModel extends BaseModel
 
     /**
      * Authentifie un utilisateur
-     * @param string $username Nom d'utilisateur
+     * @param string $email Nom d'utilisateur
      * @param string $password Mot de passe
      * @return bool True si l'authentification réussit
      */
-    public function authenticate($username, $password)
+    public function authenticate($email, $password)
     {
         try {
             $stmt = $this->db->prepare("
@@ -326,9 +326,9 @@ class UserModel extends BaseModel
                 FROM users u
                 JOIN user_types ut ON u.user_type_id = ut.id
                 JOIN user_groups ug ON ut.group_id = ug.id
-                WHERE u.username = :username AND u.status = 1
+                WHERE u.email = :email AND u.status = 1
             ");
-            $stmt->execute(['username' => $username]);
+            $stmt->execute(['email' => $email]);
             $user = $stmt->fetch();
 
             if ($user && password_verify($password, $user['password'])) {
@@ -360,7 +360,7 @@ class UserModel extends BaseModel
                 ];
 
                 // Log de la connexion
-                custom_log("Utilisateur connecté : {$this->username}", 'INFO', [
+                custom_log("Utilisateur connecté : {$this->email}", 'INFO', [
                     'user_id' => $this->id,
                     'user_type' => $user['user_type'],
                     'user_group' => $user['user_group'],
@@ -371,7 +371,7 @@ class UserModel extends BaseModel
                 return true;
             }
 
-            custom_log("Tentative de connexion échouée pour l'utilisateur : $username", 'WARNING');
+            custom_log("Tentative de connexion échouée pour l'utilisateur : $email", 'WARNING');
             return false;
         } catch (PDOException $e) {
             custom_log("Erreur d'authentification : " . $e->getMessage(), 'ERROR');
