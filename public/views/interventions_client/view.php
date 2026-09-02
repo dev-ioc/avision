@@ -21,7 +21,7 @@ setPageVariables(
 
 // Définir la page courante pour le menu
 $currentPage = 'interventions_client';
-
+$returnUrl = $_GET['return_url'] ?? 'interventions_client';
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
@@ -36,9 +36,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
         <div class="ms-auto p-2 bd-highlight">
             <?php if (hasPermission('client_add_intervention')): ?>
-                <a href="<?php echo BASE_URL; ?>interventions_client/add" class="btn btn-primary me-2">
-                    <i class="bi bi-plus-circle me-1"></i> Nouvelle intervention
-                </a>
+              <a href="<?= BASE_URL ?>interventions_client/add?return_url=<?= urlencode('interventions_client/view/' . $intervention['id']) ?>"
+                class="btn btn-primary">
+                    <i class="bi bi-plus-lg me-1"></i> Nouvelle intervention
+              </a>
             <?php endif; ?>
             <a href="<?php echo BASE_URL; ?>interventions_client" class="btn btn-secondary me-2">
                 <i class="bi bi-arrow-left me-1"></i> Retour
@@ -307,7 +308,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 </button>
                                                 <a href="<?= BASE_URL ?>interventions_client/deleteComment/<?= $comment['id'] ?>"
                                                     class="btn btn-sm btn-outline-danger btn-action"
-                                                    onclick="return confirm('Etes-vous sur de vouloir supprimer ce commentaire ?')"
+                                                    onclick="return confirmDeleteComment(this)"
                                                     title="Supprimer">
                                                     <i class="bi bi-trash me-1"></i>
                                                 </a>
@@ -416,7 +417,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <?php if ($isOwnAttachment): ?>
                                                 <a href="<?= BASE_URL ?>interventions_client/deleteAttachment/<?= $attachment['id'] ?>"
                                                     class="btn btn-sm btn-outline-danger btn-action" title="Supprimer"
-                                                    onclick="return confirm('Etes-vous sur de vouloir supprimer cette piece jointe ?');">
+                                                    onclick="return confirmDeletePJ(this);">
                                                     <i class="bi bi-trash me-1"></i>
                                                 </a>
                                             <?php endif; ?>
@@ -595,7 +596,110 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="deleteCommentModal" tabindex="-1"
+            aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
 
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg">
+
+                    <div class="modal-header border-0">
+                        <div class="d-flex align-items-center">
+                            <div class="delete-icon me-3">
+                                <i class="bi bi-trash3"></i>
+                            </div>
+
+                            <h5 class="modal-title fw-bold mb-0" id="deleteCommentModalLabel">
+                                Suppression du commentaire
+                            </h5>
+                        </div>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Fermer">
+                        </button>
+                    </div>
+
+                    <div class="modal-body pt-0">
+                        <p class="mb-1 fw-semibold">
+                            Êtes-vous sûr de vouloir supprimer ce commentaire ?
+                        </p>
+
+                        <p class="text-muted small mb-0">
+                            Cette action est définitive.
+                        </p>
+                    </div>
+
+                    <div class="modal-footer border-0">
+                        <button type="button"
+                                class="btn btn-light px-4"
+                                data-bs-dismiss="modal">
+                            Annuler
+                        </button>
+
+                        <a href="#"
+                        id="confirmDeleteComment"
+                        class="btn btn-danger px-4">
+                            <i class="bi bi-trash3 me-1"></i>
+                            Supprimer
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+         <div class="modal fade" id="deletePJModal" tabindex="-1"
+            aria-labelledby="deletePJModal" aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg">
+
+                    <div class="modal-header border-0">
+                        <div class="d-flex align-items-center">
+                            <div class="delete-icon me-3">
+                                <i class="bi bi-trash3"></i>
+                            </div>
+
+                            <h5 class="modal-title fw-bold mb-0" id="deletePJModalLabel">
+                               Suppression de la pièce jointe
+                            </h5>
+                        </div>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Fermer">
+                        </button>
+                    </div>
+
+                    <div class="modal-body pt-0">
+                        <p class="mb-1 fw-semibold">
+                          Etes-vous sur de vouloir supprimer cette piece jointe ?
+                        </p>
+
+                        <p class="text-muted small mb-0">
+                            Cette action est définitive.
+                        </p>
+                    </div>
+
+                    <div class="modal-footer border-0">
+                        <button type="button"
+                                class="btn btn-light px-4"
+                                data-bs-dismiss="modal">
+                            Annuler
+                        </button>
+
+                        <a href="#"
+                        id="confirmDeletePJ"
+                        class="btn btn-danger px-4">
+                            <i class="bi bi-trash3 me-1"></i>
+                            Supprimer
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     <?php else: ?>
         <div class="alert alert-warning">
             <h6>Intervention non trouvee</h6>
@@ -607,7 +711,93 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 <script src="<?php echo BASE_URL; ?>assets/js/pages/interventions_client.js"
     onerror="console.error('ERREUR: interventions_client.js n\'a pas pu être chargé. Vérifiez que le fichier existe et est accessible.');"></script>
+<script>
+    function confirmDeleteComment(button) {
+        const deleteUrl = button.getAttribute('href');
 
+        document.getElementById('confirmDeleteComment').setAttribute('href', deleteUrl);
+
+        const modalElement = document.getElementById('deleteCommentModal');
+        const modal = new bootstrap.Modal(modalElement);
+
+        modal.show();
+        return false;
+   }
+      function confirmDeletePJ(button) {
+        const deleteUrl = button.getAttribute('href');
+
+        document.getElementById('confirmDeletePJ').setAttribute('href', deleteUrl);
+
+        const modalElement = document.getElementById('deletePJModal');
+        const modal = new bootstrap.Modal(modalElement);
+
+        modal.show();
+        return false;
+   }
+document.addEventListener('DOMContentLoaded', function () {
+		document.querySelectorAll('.modal').forEach(function (modal) {
+			modal.addEventListener('hidden.bs.modal', function () {
+				const dialog = modal.querySelector('.modal-dialog');
+				if (dialog) {
+					dialog.style.position = '';
+					dialog.style.left = '';
+					dialog.style.top = '';
+					dialog.style.margin = '';
+					dialog.style.width = '';
+					dialog.style.maxWidth = '';
+				}
+			});
+
+			modal.addEventListener('shown.bs.modal', function () {
+				const dialog = modal.querySelector('.modal-dialog');
+				const header = modal.querySelector('.modal-header');
+				if (!dialog || !header) return;
+				if (header.dataset.draggable) return;
+				header.dataset.draggable = 'true';
+
+				header.style.cursor = 'grab';
+
+				let isDragging = false;
+				let startX, startY, startLeft, startTop;
+
+				header.addEventListener('mousedown', function (e) {
+					if (e.target.closest('button')) return;
+
+					isDragging = true;
+					header.style.cursor = 'grabbing';
+
+					const rect = dialog.getBoundingClientRect();
+					startX = e.clientX;
+					startY = e.clientY;
+					startLeft = rect.left;
+					startTop = rect.top;
+					dialog.style.width = rect.width + 'px';
+					dialog.style.maxWidth = 'none';
+					dialog.style.position = 'fixed';
+					dialog.style.left = startLeft + 'px';
+					dialog.style.top = startTop + 'px';
+					dialog.style.margin = '0';
+				});
+
+				document.addEventListener('mousemove', function (e) {
+					if (!isDragging) return;
+					const dx = e.clientX - startX;
+					const dy = e.clientY - startY;
+					dialog.style.left = (startLeft + dx) + 'px';
+					dialog.style.top = (startTop + dy) + 'px';
+				});
+
+				document.addEventListener('mouseup', function () {
+					if (isDragging) {
+						isDragging = false;
+						header.style.cursor = 'grab';
+					}
+				});
+			});
+
+		});
+	});
+</script>
 <style>
     .drop-zone {
         border: 2px dashed var(--bs-border-color);
@@ -797,6 +987,46 @@ include_once __DIR__ . '/../../includes/navbar.php';
         margin-top: 2px;
         opacity: 0.7;
         font-style: italic;
+    }
+   #deleteCommentModal .modal-content {
+        border-radius: 16px;
+    }
+
+    #deleteCommentModal .modal-header {
+        padding: 1.25rem 1.25rem 0.75rem;
+    }
+
+    #deleteCommentModal .modal-body {
+        padding: 0.5rem 1.25rem 1rem;
+    }
+
+    #deleteCommentModal .modal-footer {
+        padding: 0 1.25rem 1.25rem;
+    }
+
+    .delete-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+        font-size: 1.2rem;
+    }
+
+    #deleteCommentModal .btn {
+        border-radius: 8px;
+        font-weight: 500;
+    }
+
+    #deleteCommentModal .btn-danger {
+        min-width: 110px;
+    }
+
+    #deleteCommentModal .btn-light {
+        min-width: 90px;
     }
 </style>
 

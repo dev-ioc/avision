@@ -13,6 +13,7 @@ setPageVariables(
 
 // Définir la page courante pour le menu
 $currentPage = 'interventions_client';
+$returnUrl = $_GET['return_url'] ?? 'interventions_client';
 
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
@@ -27,7 +28,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
 
         <div class="ms-auto p-2 bd-highlight">
-            <a href="<?php echo BASE_URL; ?>interventions_client" class="btn btn-secondary me-2">
+            <a href="<?= BASE_URL . htmlspecialchars($returnUrl, ENT_QUOTES, 'UTF-8') ?>"
+                class="btn btn-secondary me-2">
                 <i class="bi bi-arrow-left me-1"></i> Retour
             </a>
 
