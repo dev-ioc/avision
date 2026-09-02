@@ -153,6 +153,116 @@ class AuthController
         exit;
     }
     /**
+     * Affiche le formulaire "mot de passe oublié"
+     */
+    public function showForgotPasswordForm()
+    {
+        if (isset($_SESSION['user'])) {
+            header('Location: ' . BASE_URL . 'dashboard');
+            exit;
+        }
+        require_once VIEWS_PATH . '/auth/forgot_password.php';
+    }
+
+    /**
+     * Traite la demande de réinitialisation faite par l'utilisateur lui-même
+     */
+    public function processForgotPassword()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+
+            echo json_encode([
+                'success' => false,
+                'message' => 'Méthode non autorisée.'
+            ]);
+            exit;
+        }
+
+        $token = $_POST['csrf_token'] ?? null;
+
+        if (!csrf_verify($token)) {
+            http_response_code(403);
+
+            echo json_encode([
+                'success' => false,
+                'message' => 'Requête invalide, veuillez réessayer.'
+            ]);
+            exit;
+        }
+
+        $email = trim($_POST['email'] ?? '');
+
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            http_response_code(422);
+
+            echo json_encode([
+                'success' => false,
+                'message' => 'Veuillez saisir une adresse email valide.'
+            ]);
+            exit;
+        }
+
+        try {
+            $user = $this->userModel->getUserByEmail($email);
+
+            /*
+             * Pour des raisons de sécurité, on retourne le même message
+             * même si l'adresse n'existe pas.
+             */
+            if ($user && !empty($user['status'])) {
+
+                $resetToken = bin2hex(random_bytes(32));
+                $expiresAt = date('Y-m-d H:i:s', time() + 3600);
+
+                $saved = $this->userModel->savePasswordResetToken(
+                    $user['id'],
+                    $resetToken,
+                    $expiresAt,
+                    null
+                );
+
+                if (!$saved) {
+                    throw new Exception(
+                        "Impossible de sauvegarder le token de réinitialisation."
+                    );
+                }
+
+                require_once __DIR__ . '/../classes/MailService.php';
+
+                $mailService = new MailService($this->db);
+
+                $mailService->sendPasswordResetLink(
+                    $user,
+                    $resetToken
+                );
+            }
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Si un compte est associé à cette adresse, un email de réinitialisation vient de vous être envoyé.'
+            ]);
+
+        } catch (Exception $e) {
+
+            custom_log(
+                "Erreur dans processForgotPassword: " . $e->getMessage(),
+                'ERROR'
+            );
+
+            http_response_code(500);
+
+            echo json_encode([
+                'success' => false,
+                'message' => 'Impossible d\'envoyer l\'email de réinitialisation. Veuillez réessayer plus tard.'
+            ]);
+        }
+
+        exit;
+    }
+    /**
      * Affiche le formulaire de réinitialisation de mot de passe
      */
     public function showResetPasswordForm()

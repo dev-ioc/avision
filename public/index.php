@@ -340,6 +340,13 @@ try {
                         $authController->showResetPasswordForm();
                     }
                     break;
+                case 'forgot-password':
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $authController->processForgotPassword();
+                    } else {
+                        $authController->showForgotPasswordForm();
+                    }
+                    break;
                 default:
                     header('Location: ' . BASE_URL . 'auth/login');
                     break;

@@ -132588,3 +132588,37 @@ Quant à l’écran n°1, il est HS
 [2026-09-02 07:57:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 67d5c9b7adc6b8e4ab85... 
 [2026-09-02 07:57:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 67d5c9b7adc6b8e4ab85... 
 [2026-09-02 07:57:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 67d5c9b7adc6b8e4ab85... 
+[2026-09-02 08:26:03][WARNING] require_once(C:\xampp\htdocs\avision/public/views/auth/forgot_password.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AuthController.php","line":164,"errno":2}
+[2026-09-02 08:26:03][ERROR] Failed opening required 'C:\xampp\htdocs\avision/public/views/auth/forgot_password.php' (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AuthController.php","line":164,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(347): AuthController->showForgotPasswordForm()\n#1 {main}","type":"Error"}
+[2026-09-02 08:26:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 3a26afb1b6caaf7e4cf3... 
+[2026-09-02 08:26:44][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 
+[2026-09-02 08:27:05][ERROR] Erreur dans processForgotPassword: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-09-02 08:30:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 3a26afb1b6caaf7e4cf3... 
+[2026-09-02 08:30:15][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 
+[2026-09-02 08:30:36][ERROR] Erreur dans processForgotPassword: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-09-02 08:31:32][DEBUG] CSRF: Token manquant dans la requête - URI: /avision/public/auth/forgot-password 
+[2026-09-02 08:31:32][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/auth/forgot-password 
+[2026-09-02 08:31:32][DEBUG] POST data: [] 
+[2026-09-02 08:31:32][DEBUG] Session token: "3a26afb1b6caaf7e4cf3be9e88ae8bdcdc8fbfc7143563f7e1965e35f4a57d27" 
+[2026-09-02 08:32:27][DEBUG] CSRF: Token manquant dans la requête - URI: /avision/public/auth/forgot-password 
+[2026-09-02 08:32:27][SECURITY] Tentative de requête CSRF bloquée - IP: 127.0.0.1 - URI: /avision/public/auth/forgot-password 
+[2026-09-02 08:32:27][DEBUG] POST data: [] 
+[2026-09-02 08:32:27][DEBUG] Session token: "3a26afb1b6caaf7e4cf3be9e88ae8bdcdc8fbfc7143563f7e1965e35f4a57d27" 
+[2026-09-02 08:34:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 3a26afb1b6caaf7e4cf3... 
+[2026-09-02 08:34:17][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 
+[2026-09-02 08:34:38][ERROR] Erreur dans processForgotPassword: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-09-02 08:36:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 3a26afb1b6caaf7e4cf3... 
+[2026-09-02 08:36:15][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 
+[2026-09-02 08:36:36][ERROR] Erreur dans processForgotPassword: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-09-02 08:37:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 3a26afb1b6caaf7e4cf3... 
+[2026-09-02 08:37:05][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 
+[2026-09-02 08:37:26][ERROR] Erreur dans processForgotPassword: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-09-02 08:40:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 3a26afb1b6caaf7e4cf3... 
+[2026-09-02 08:40:42][ERROR] Exception dans savePasswordResetToken: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'email' in 'field list' 
+[2026-09-02 08:41:03][ERROR] Erreur dans processForgotPassword: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-09-02 08:42:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 3a26afb1b6caaf7e4cf3... 
+[2026-09-02 08:42:49][INFO] Token de réinitialisation sauvegardé pour l'utilisateur 40 (demandé par: l'utilisateur lui-même) 
+[2026-09-02 08:43:10][ERROR] Erreur dans processForgotPassword: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-09-02 08:47:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 3a26afb1b6caaf7e4cf3... 
+[2026-09-02 08:47:03][INFO] Token de réinitialisation sauvegardé pour l'utilisateur 40 (demandé par: l'utilisateur lui-même) 
+[2026-09-02 08:47:24][ERROR] Erreur dans processForgotPassword: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 

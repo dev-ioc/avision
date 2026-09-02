@@ -586,6 +586,15 @@ class UserModel extends BaseModel
             return [];
         }
     }
+    /**
+     * Sauvegarde un token de réinitialisation de mot de passe
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @param string $token Token de réinitialisation
+     * @param string $expiresAt Date d'expiration (format Y-m-d H:i:s)
+     * @param int|null $requestedBy ID de l'admin qui fait la demande (null si demandé par l'utilisateur lui-même)
+     * @return bool
+     */
 
     /**
      * Récupère les permissions disponibles selon le type d'utilisateur
@@ -719,7 +728,14 @@ class UserModel extends BaseModel
             return false;
         }
     }
-
+    public function getUserByEmail($email)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
+    }
     /**
      * Récupère les sites, bâtiments et salles d'un client
      * @param int $clientId ID du client

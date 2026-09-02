@@ -7,6 +7,7 @@ if (!defined('BASE_URL')) {
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,20 +22,32 @@ if (!defined('BASE_URL')) {
             display: flex;
             align-items: center;
         }
+
         .card {
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
             border: none;
             border-radius: 0.5rem;
         }
+
         .card-body {
             padding: 2rem;
         }
+
         .btn-primary {
             padding: 0.75rem;
             font-weight: 500;
         }
+
+        .forgot-password-link {
+            color: #6c757d;
+        }
+
+        .forgot-password-link:hover {
+            background-color: #edeef0;
+        }
     </style>
 </head>
+
 <body class="login-page">
     <div class="container">
         <div class="row justify-content-center">
@@ -42,7 +55,7 @@ if (!defined('BASE_URL')) {
                 <div class="card">
                     <div class="card-body">
                         <h1 class="text-center mb-4">Connexion</h1>
-                        
+
                         <?php if (isset($_SESSION['error'])): ?>
                             <div class="alert alert-danger">
                                 <?php echo h($_SESSION['error']); ?>
@@ -64,6 +77,10 @@ if (!defined('BASE_URL')) {
 
                             <button type="submit" class="btn btn-primary w-100">Se connecter</button>
                         </form>
+                        <div class="text-center mt-3">
+                            <a href="<?php echo BASE_URL; ?>auth/forgot-password" type="button"
+                                class="btn w-100 forgot-password-link">Mot de passe oublié ?</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,4 +90,5 @@ if (!defined('BASE_URL')) {
     <!-- Bootstrap JS from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html> 
+
+</html>
