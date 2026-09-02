@@ -16,62 +16,62 @@ class MaterielModel extends BaseModel
     public function getAllMateriel($filters = [])
     {
         $sql = "
-        SELECT 
-            m.*,
-            c.name as client_nom,
-            s.name as site_nom,
-            b.name as building_nom,
-            sal.name as salle_nom
-        FROM materiel m
-        LEFT JOIN rooms sal ON m.salle_id = sal.id
-        LEFT JOIN buildings b ON sal.building_id = b.id
-        LEFT JOIN sites s ON b.site_id = s.id
-        LEFT JOIN clients c ON s.client_id = c.id
-        WHERE 1=1
-    ";
+    SELECT 
+        m.*,
+        c.name as client_nom,
+        s.name as site_nom,
+        b.name as building_nom,
+        sal.name as salle_nom
+    FROM materiel m
+    LEFT JOIN rooms sal ON m.salle_id = sal.id
+    LEFT JOIN buildings b ON sal.building_id = b.id
+    LEFT JOIN sites s ON b.site_id = s.id
+    LEFT JOIN clients c ON s.client_id = c.id
+    WHERE 1=1
+";
 
         $params = [];
 
-        // Gestion de la recherche globale - IGNORE les autres filtres
+        // Recherche texte : se combine désormais avec les filtres, ne les exclut plus
         if (!empty($filters['search'])) {
             $searchTerm = '%' . $filters['search'] . '%';
             $sql .= " AND (
-            m.marque LIKE ? OR
-            m.modele LIKE ? OR
-            m.type_materiel LIKE ? OR
-            m.numero_serie LIKE ? OR
-            m.reference LIKE ? OR
-            m.adresse_ip LIKE ? OR
-            m.adresse_mac LIKE ? OR
-            m.version_firmware LIKE ? OR
-            m.usage_materiel LIKE ? OR
-            m.commentaire LIKE ? OR
-            c.name LIKE ? OR
-            s.name LIKE ? OR
-            b.name LIKE ? OR
-            sal.name LIKE ?
-        )";
-            // 14 paramètres pour les 14 champs
+        m.marque LIKE ? OR
+        m.modele LIKE ? OR
+        m.type_materiel LIKE ? OR
+        m.numero_serie LIKE ? OR
+        m.reference LIKE ? OR
+        m.adresse_ip LIKE ? OR
+        m.adresse_mac LIKE ? OR
+        m.version_firmware LIKE ? OR
+        m.usage_materiel LIKE ? OR
+        m.commentaire LIKE ? OR
+        c.name LIKE ? OR
+        s.name LIKE ? OR
+        b.name LIKE ? OR
+        sal.name LIKE ?
+    )";
             for ($i = 0; $i < 14; $i++) {
                 $params[] = $searchTerm;
             }
-        } else {
-            if (!empty($filters['client_id'])) {
-                $sql .= " AND c.id = ?";
-                $params[] = $filters['client_id'];
-            }
-            if (!empty($filters['site_id'])) {
-                $sql .= " AND s.id = ?";
-                $params[] = $filters['site_id'];
-            }
-            if (!empty($filters['building_id'])) {
-                $sql .= " AND b.id = ?";
-                $params[] = $filters['building_id'];
-            }
-            if (!empty($filters['salle_id'])) {
-                $sql .= " AND sal.id = ?";
-                $params[] = $filters['salle_id'];
-            }
+        }
+
+        // Filtres de localisation : toujours appliqués, qu'il y ait une recherche ou non
+        if (!empty($filters['client_id'])) {
+            $sql .= " AND c.id = ?";
+            $params[] = $filters['client_id'];
+        }
+        if (!empty($filters['site_id'])) {
+            $sql .= " AND s.id = ?";
+            $params[] = $filters['site_id'];
+        }
+        if (!empty($filters['building_id'])) {
+            $sql .= " AND b.id = ?";
+            $params[] = $filters['building_id'];
+        }
+        if (!empty($filters['salle_id'])) {
+            $sql .= " AND sal.id = ?";
+            $params[] = $filters['salle_id'];
         }
 
         $sql .= " ORDER BY c.name, s.name, b.name, sal.name, m.marque, m.modele";

@@ -132825,3 +132825,27 @@ Quant à l’écran n°1, il est HS
 [2026-09-02 10:15:44][DEBUG] Pièces jointes récupérées pour l'intervention 387: 0 
 [2026-09-02 10:15:48][DEBUG] Commentaires récupérés pour l'intervention 387: 0 
 [2026-09-02 10:15:48][DEBUG] Pièces jointes récupérées pour l'intervention 387: 0 
+[2026-09-02 10:23:52][DEBUG] Commentaires récupérés pour l'intervention 398: 1 
+[2026-09-02 10:23:52][DEBUG] Pièces jointes récupérées pour l'intervention 398: 0 
+[2026-09-02 10:24:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 7166efe7832398f5735b... 
+[2026-09-02 10:24:43][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-02 10:27:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 7166efe7832398f5735b... 
+[2026-09-02 10:27:32][DEBUG] Permissions chargées pour Tsilefy : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-09-02 10:27:32][INFO] Utilisateur connecté : karijatsilefilaza@gmail.cmo {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-02 10:27:32][DEBUG] Login réussi - Session ID: ib894p905p0tk1ve9sataa4q21 
+[2026-09-02 10:27:32][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-02 10:27:32][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-02 10:27:32][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-02 10:27:32][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-02 10:27:36][DEBUG] Commentaires récupérés pour l'intervention 398: 1 
+[2026-09-02 10:27:36][DEBUG] Pièces jointes récupérées pour l'intervention 398: 0 
+[2026-09-02 14:06:18][DEBUG] Commentaires récupérés pour l'intervention 398: 1 
+[2026-09-02 14:06:18][DEBUG] Pièces jointes récupérées pour l'intervention 398: 0 
+[2026-09-02 14:06:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 2d1b3b2851489bda3d5a... 
+[2026-09-02 14:06:24][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-02 14:06:24][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-02 14:06:24][DEBUG] Login réussi - Session ID: c2efg5u7krrcph8hdhcfrj1d3b 
+[2026-09-02 14:06:24][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-02 14:06:24][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-02 14:06:24][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-02 14:06:24][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
