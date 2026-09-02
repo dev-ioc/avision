@@ -347,7 +347,7 @@ class InterventionController
         }
 
         if (isset($intervention['is_flash']) && $intervention['is_flash'] == 1 && $intervention['needs_completion'] == 1) {
-            $_SESSION['info'] = "⚠️ Cette intervention a été créée rapidement. Veuillez compléter les informations manquantes : Site, Bâtiment, Salle, Description.";
+            $_SESSION['info'] = "Cette intervention a été créée rapidement. Veuillez compléter les informations manquantes : Site, Bâtiment, Salle, Description.";
         }
 
         $intervention = array_merge([
@@ -361,7 +361,7 @@ class InterventionController
             'description' => null,
             'title' => null,
             'is_preventive' => 0,
-            ':planned_date' => null,
+            'planned_date' => null,
         ], $intervention);
 
         if ($intervention['status_id'] == 6 && !isAdmin()) {
@@ -375,45 +375,56 @@ class InterventionController
             $contract = $this->contractModel->getContractById($intervention['contract_id']);
         }
 
-        $client_id = isset($intervention['client_id']) ? $intervention['client_id'] : null;
-        $site_id = isset($intervention['site_id']) ? $intervention['site_id'] : null;
-        $building_id = isset($intervention['building_id']) ? $intervention['building_id'] : null;
-        $room_id = isset($intervention['room_id']) ? $intervention['room_id'] : null;
+        $client_id = $intervention['client_id'] ?? null;
+        $site_id = $intervention['site_id'] ?? null;
+        $building_id = $intervention['building_id'] ?? null;
+        $room_id = $intervention['room_id'] ?? null;
 
         $clients = $this->clientModel->getAllClientsWithStats();
 
         $sites = [];
-        if ($client_id) {
+        if ($client_id !== null) {
             $sites = $this->siteModel->getSitesByClientId($client_id);
         }
 
         $buildings = [];
-        if ($site_id) {
+        if ($site_id !== null) {
             $buildings = $this->buildingModel->getBuildingsBySiteId($site_id);
         }
 
         $rooms = [];
-        if ($building_id) {
+        if ($building_id !== null) {
             $rooms = $this->roomModel->getRoomsByBuildingId($building_id);
         }
 
         $selectedBuilding = null;
-        if ($building_id && !empty($buildings)) {
+        if ($building_id !== null && !empty($buildings)) {
             foreach ($buildings as $building) {
-                if ($building['id'] == $building_id) {
+                if ((int) $building['id'] === (int) $building_id) {
                     $selectedBuilding = $building;
                     break;
                 }
             }
         }
+
         $selectedRoom = null;
-        if ($room_id && !empty($rooms)) {
+        if ($room_id !== null && !empty($rooms)) {
             foreach ($rooms as $room) {
-                if ($room['id'] == $room_id) {
+                if ((int) $room['id'] === (int) $room_id) {
                     $selectedRoom = $room;
                     break;
                 }
             }
+        }
+
+        $technicians = $this->userModel->getTechnicians();
+        $contracts = [];
+        if ($client_id !== null) {
+            $contracts = $this->contractModel->getContractsByClientId(
+                $client_id,
+                $site_id,
+                $room_id
+            );
         }
 
         $technicians = $this->userModel->getTechnicians();
@@ -465,12 +476,12 @@ class InterventionController
         }
         $fileName = 'bon_intervention_' . $intervention['id'] . '_' . date('Y-m-d_H-i-s') . '.pdf';
         $filePath = $uploadDir . '/' . $fileName;
-
+        require_once __DIR__ . '/../../vendor/autoload.php';
         require_once __DIR__ . '/../classes/InterventionPDF.php';
 
         $pdf = new InterventionPDF();
-        $pdf->generate($intervention, $solutions);
-        $pdf->Output($filePath, 'F');
+        $pdf->generateBonIntervention($intervention, $solutions);
+        $pdf->saveToFile($filePath);
 
         $data = [
             'nom_fichier' => $fileName,
@@ -4014,7 +4025,7 @@ class InterventionController
 
         $pdf = new InterventionPDF();
         $pdf->generateBonIntervention($intervention, $comments, $attachments, $technicians, $equipment, $replacedParts, $signatures);
-        $pdf->Output($filePath, 'F');
+        $pdf->saveToFile($filePath);
 
         $data = [
             'nom_fichier' => $fileName,
@@ -6418,7 +6429,7 @@ class InterventionController
                 mkdir($tempDir, 0777, true);
             }
             $tempFilePath = $tempDir . 'temp_signed_' . time() . '.pdf';
-            $pdf->Output($tempFilePath, 'F');
+            $pdf->saveToFile($tempFilePath);
 
             if (file_exists($tempFilePath)) {
                 if (file_exists($pdfPath)) {

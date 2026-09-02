@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BON D'INTERVENTION PDF
  * Version conforme aux maquettes client
@@ -41,7 +40,13 @@ class InterventionPDF extends TCPDF
             $this->border[2]
         );
     }
-
+    /**
+     * Save the generated PDF to a file.
+     */
+    public function saveToFile(string $filePath): void
+    {
+        parent::Output($filePath, 'F');
+    }
     /**
      * =========================================================
      * GENERATION COMPLETE
