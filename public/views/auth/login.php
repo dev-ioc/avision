@@ -66,7 +66,7 @@ if (!defined('BASE_URL')) {
                         <form method="POST" action="<?php echo BASE_URL; ?>auth/login">
                             <?= csrf_field() ?>
                             <div class="mb-3">
-                                <label for="email" class="form-label">Adresse mail</label>
+                                <label for="email" class="form-label">Adresse e-mail</label>
                                 <input type="text" class="form-control" id="email" name="email" required>
                             </div>
 
