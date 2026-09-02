@@ -110,7 +110,7 @@ class DocumentationController
             COALESCE(s.id, s2.id, s3.id) as site_id,
             COALESCE(b.id, b2.id) as building_id,
             r.id as salle_id,
-            u.username as uploader_name
+            u.first_name as uploader_name
         FROM pieces_jointes pj
         INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
         -- Client direct
@@ -2327,6 +2327,10 @@ class DocumentationController
         }
 
         $term = trim($_GET['search'] ?? '');
+        $clientId = isset($_GET['client_id']) && $_GET['client_id'] !== '' ? (int) $_GET['client_id'] : null;
+        $siteId = isset($_GET['site_id']) && $_GET['site_id'] !== '' ? (int) $_GET['site_id'] : null;
+        $buildingId = isset($_GET['building_id']) && $_GET['building_id'] !== '' ? (int) $_GET['building_id'] : null;
+        $salleId = isset($_GET['salle_id']) && $_GET['salle_id'] !== '' ? (int) $_GET['salle_id'] : null;
 
         if (mb_strlen($term) < 2) {
             echo json_encode(['success' => true, 'documents' => []]);
@@ -2337,43 +2341,65 @@ class DocumentationController
             $searchTerm = '%' . $term . '%';
 
             $query = "
-                SELECT 
-                    pj.*,
-                    COALESCE(pj.content, pj.commentaire) as description,
-                    COALESCE(c.name, c2.name, c3.name) as client_nom,
-                    COALESCE(s.name, s2.name) as site_nom,
-                    b.name as building_nom,
-                    r.name as salle_nom,
-                    COALESCE(c.id, c2.id, c3.id) as client_id,
-                    COALESCE(s.id, s2.id) as site_id,
-                    b.id as building_id,
-                    r.id as salle_id,
-                    u.username as uploader_name
-                FROM pieces_jointes pj
-                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
-                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
-                LEFT JOIN clients c2 ON s.client_id = c2.id
-                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
-                LEFT JOIN buildings b ON r.building_id = b.id
-                LEFT JOIN sites s2 ON b.site_id = s2.id
-                LEFT JOIN clients c3 ON s2.client_id = c3.id
-                LEFT JOIN users u ON pj.created_by = u.id
-                WHERE lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_room')
-                AND (
-                    pj.nom_fichier LIKE ? OR
-                    pj.nom_personnalise LIKE ? OR
-                    pj.commentaire LIKE ? OR
-                    pj.content LIKE ? OR
-                    COALESCE(c.name, c2.name, c3.name) LIKE ? OR
-                    COALESCE(s.name, s2.name) LIKE ? OR
-                    b.name LIKE ? OR
-                    r.name LIKE ?
-                )
-                ORDER BY client_nom, site_nom, building_nom, salle_nom, pj.date_creation DESC
-            ";
+            SELECT 
+                pj.*,
+                COALESCE(pj.content, pj.commentaire) as description,
+                COALESCE(c.name, c2.name, c3.name, c4.name) as client_nom,
+                COALESCE(s.name, s2.name, s3.name) as site_nom,
+                COALESCE(b.name, b2.name) as building_nom,
+                r.name as salle_nom,
+                COALESCE(c.id, c2.id, c3.id, c4.id) as client_id,
+                COALESCE(s.id, s2.id, s3.id) as site_id,
+                COALESCE(b.id, b2.id) as building_id,
+                r.id as salle_id,
+                u.first_name as uploader_name
+            FROM pieces_jointes pj
+            INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+            LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+            LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+            LEFT JOIN clients c2 ON s.client_id = c2.id
+            LEFT JOIN buildings b ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = b.id)
+            LEFT JOIN sites s2 ON b.site_id = s2.id
+            LEFT JOIN clients c3 ON s2.client_id = c3.id
+            LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+            LEFT JOIN buildings b2 ON r.building_id = b2.id
+            LEFT JOIN sites s3 ON b2.site_id = s3.id
+            LEFT JOIN clients c4 ON s3.client_id = c4.id
+            LEFT JOIN users u ON pj.created_by = u.id
+            WHERE lpj.type_liaison IN ('documentation_client', 'documentation_site', 'documentation_building', 'documentation_room')
+            AND (
+                pj.nom_fichier LIKE ? OR
+                pj.nom_personnalise LIKE ? OR
+                pj.commentaire LIKE ? OR
+                pj.content LIKE ? OR
+                COALESCE(c.name, c2.name, c3.name, c4.name) LIKE ? OR
+                COALESCE(s.name, s2.name, s3.name) LIKE ? OR
+                COALESCE(b.name, b2.name) LIKE ? OR
+                r.name LIKE ?
+            )
+        ";
 
             $params = array_fill(0, 8, $searchTerm);
+
+            // Filtres cumulables avec la recherche (correctif principal)
+            if ($clientId) {
+                $query .= " AND (c.id = ? OR c2.id = ? OR c3.id = ? OR c4.id = ?)";
+                array_push($params, $clientId, $clientId, $clientId, $clientId);
+            }
+            if ($siteId) {
+                $query .= " AND (s.id = ? OR s2.id = ? OR s3.id = ?)";
+                array_push($params, $siteId, $siteId, $siteId);
+            }
+            if ($buildingId) {
+                $query .= " AND (b.id = ? OR b2.id = ?)";
+                array_push($params, $buildingId, $buildingId);
+            }
+            if ($salleId) {
+                $query .= " AND r.id = ?";
+                $params[] = $salleId;
+            }
+
+            $query .= " ORDER BY client_nom, site_nom, building_nom, salle_nom, pj.date_creation DESC";
 
             $stmt = $this->db->prepare($query);
             $stmt->execute($params);
@@ -2554,7 +2580,8 @@ class DocumentationController
 
     /**
      * Retourne les salles, optionnellement restreintes par client/site/bâtiment
-     * déjà sélectionnés.
+     * déjà sélectionnés. Sans filtre, retourne TOUTES les salles, y compris
+     * celles dont le bâtiment/site/client associé serait manquant (LEFT JOIN).
      */
     public function get_all_rooms()
     {
@@ -2569,12 +2596,13 @@ class DocumentationController
             $buildingId = $_GET['building_id'] ?? null;
 
             $sql = "SELECT r.id, r.name, r.building_id,
-                       b.name AS building_name, b.site_id,
-                       s.name AS site_name, s.client_id, c.name AS client_name
+                       COALESCE(b.name, '(Bâtiment inconnu)') AS building_name, b.site_id,
+                       COALESCE(s.name, '(Site inconnu)') AS site_name, s.client_id,
+                       COALESCE(c.name, '(Client inconnu)') AS client_name
                 FROM rooms r
-                INNER JOIN buildings b ON r.building_id = b.id
-                INNER JOIN sites s ON b.site_id = s.id
-                INNER JOIN clients c ON s.client_id = c.id";
+                LEFT JOIN buildings b ON r.building_id = b.id
+                LEFT JOIN sites s ON b.site_id = s.id
+                LEFT JOIN clients c ON s.client_id = c.id";
             $conditions = [];
             $params = [];
 
@@ -2593,7 +2621,7 @@ class DocumentationController
             if (!empty($conditions)) {
                 $sql .= " WHERE " . implode(' AND ', $conditions);
             }
-            $sql .= " ORDER BY c.name, s.name, b.name, r.name";
+            $sql .= " ORDER BY c.name IS NULL, c.name, s.name IS NULL, s.name, b.name IS NULL, b.name, r.name";
 
             $stmt = $this->db->prepare($sql);
             $stmt->execute($params);

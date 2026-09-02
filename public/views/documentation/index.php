@@ -531,7 +531,7 @@ foreach ($documentation_list as $doc) {
         option: renderFn,
         item: (data, escape) => `<div>${escape(data.text)}</div>`
       },
-      onChange: submitDocFilters
+      onChange: onDocFilterChange
     });
   }
 
@@ -562,6 +562,57 @@ foreach ($documentation_list as $doc) {
     if (buildingId) params.push('building_id=' + buildingId);
     if (salleId) params.push('salle_id=' + salleId);
     window.location.href = url + params.join('&');
+  }
+  function onDocFilterChange() {
+    refreshDocFilterOptions();
+    const searchInput = document.getElementById('globalSearch');
+    const term = searchInput ? searchInput.value.trim() : '';
+    if (term) {
+      if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+      performDocGlobalSearchAjax(term);
+    } else {
+      submitDocFilters();
+    }
+  }
+
+  function refreshDocFilterOptions() {
+    const clientId = tomSelectsDoc['client_id'] ? tomSelectsDoc['client_id'].getValue() : '';
+    const siteId = tomSelectsDoc['site_id'] ? tomSelectsDoc['site_id'].getValue() : '';
+    const buildingId = tomSelectsDoc['building_id'] ? tomSelectsDoc['building_id'].getValue() : '';
+    const salleId = tomSelectsDoc['salle_id'] ? tomSelectsDoc['salle_id'].getValue() : '';
+
+    {
+      const params = new URLSearchParams();
+      if (siteId) params.set('site_id', siteId);
+      if (buildingId) params.set('building_id', buildingId);
+      if (salleId) params.set('salle_id', salleId);
+      loadDocOptionsInto('client_id', baseUrl + 'documentation/get_all_clients?' + params.toString(),
+        r => ({ value: r.id, text: r.name }), clientId);
+    }
+    {
+      const params = new URLSearchParams();
+      if (clientId) params.set('client_id', clientId);
+      if (buildingId) params.set('building_id', buildingId);
+      if (salleId) params.set('salle_id', salleId);
+      loadDocOptionsInto('site_id', baseUrl + 'documentation/get_all_sites?' + params.toString(),
+        r => ({ value: r.id, text: r.name, client_id: r.client_id, client_name: r.client_name }), siteId);
+    }
+    {
+      const params = new URLSearchParams();
+      if (clientId) params.set('client_id', clientId);
+      if (siteId) params.set('site_id', siteId);
+      if (salleId) params.set('salle_id', salleId);
+      loadDocOptionsInto('building_id', baseUrl + 'documentation/get_all_buildings?' + params.toString(),
+        r => ({ value: r.id, text: r.name, site_id: r.site_id, site_name: r.site_name, client_id: r.client_id, client_name: r.client_name }), buildingId);
+    }
+    {
+      const params = new URLSearchParams();
+      if (clientId) params.set('client_id', clientId);
+      if (siteId) params.set('site_id', siteId);
+      if (buildingId) params.set('building_id', buildingId);
+      loadDocOptionsInto('salle_id', baseUrl + 'documentation/get_all_rooms?' + params.toString(),
+        r => ({ value: r.id, text: r.name, building_id: r.building_id, building_name: r.building_name, site_id: r.site_id, site_name: r.site_name, client_id: r.client_id, client_name: r.client_name }), salleId);
+    }
   }
   function initAllDocFilters() {
     const currentValues = {
@@ -1027,12 +1078,23 @@ foreach ($documentation_list as $doc) {
     searchAbortController = new AbortController();
 
     document.getElementById('documentationResultsContainer').innerHTML = `
-      <div class="text-center py-5">
-        <div class="spinner-border text-primary"></div>
-        <p class="mt-2 text-muted">Recherche en cours...</p>
-      </div>`;
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+      <p class="mt-2 text-muted">Recherche en cours...</p>
+    </div>`;
 
-    fetch(baseUrl + 'documentation/search_api?search=' + encodeURIComponent(term), {
+    const params = new URLSearchParams();
+    params.set('search', term);
+    const clientId = document.getElementById('client_id').value;
+    const siteId = document.getElementById('site_id').value;
+    const buildingId = document.getElementById('building_id').value;
+    const salleId = document.getElementById('salle_id').value;
+    if (clientId) params.set('client_id', clientId);
+    if (siteId) params.set('site_id', siteId);
+    if (buildingId) params.set('building_id', buildingId);
+    if (salleId) params.set('salle_id', salleId);
+
+    fetch(baseUrl + 'documentation/search_api?' + params.toString(), {
       signal: searchAbortController.signal
     })
       .then(res => res.json())
@@ -1049,7 +1111,6 @@ foreach ($documentation_list as $doc) {
         console.error(err);
       });
   }
-
   document.addEventListener('DOMContentLoaded', function () {
     initAllDocFilters();
     initialDocResultsHtml = document.getElementById('documentationResultsContainer').innerHTML;
