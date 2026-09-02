@@ -130826,3 +130826,1765 @@ Quant à l’écran n°1, il est HS
 [2026-08-31 15:29:52][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-08-31 15:29:52][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
 [2026-08-31 15:29:52][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-08-31 15:37:34][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:34][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:34][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:35][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:35][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:35][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:35][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:35][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:36][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:37][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:37][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:37][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:37][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:37][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:37][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:37][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:37][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:45][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:45][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:45][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:45][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:49][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:49][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:49][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:49][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:37:52][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-08-31 15:39:15][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-01 07:42:11][DEBUG] CSRF: Token trouvé dans la requête - Token: fcd7c3020bd19cafc7be... 
+[2026-09-01 07:42:12][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-01 07:42:12][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-01 07:42:12][DEBUG] Login réussi - Session ID: m809i5tgl0gqj1r336da2feikh 
+[2026-09-01 07:42:12][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-01 07:42:12][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 07:42:12][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-01 07:42:12][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-01 10:24:06][ERROR] Erreur : SQLSTATE[42S02]: Base table or view not found: 1146 Table 'avision_latest.buildings' doesn't exist {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionModel.php","line":89}
+[2026-09-01 12:51:41][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-01 12:51:42][DEBUG] CSRF: Token trouvé dans la requête - Token: fcd7c3020bd19cafc7be... 
+[2026-09-01 12:51:42][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-09-01 12:51:42][DEBUG] CSRF: Token trouvé dans la requête - Token: fcd7c3020bd19cafc7be... 
+[2026-09-01 12:51:42][DEBUG] CSRF: Token trouvé dans la requête - Token: fcd7c3020bd19cafc7be... 
+[2026-09-01 12:51:45][INFO] 81 
+[2026-09-01 12:52:09][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-01 12:52:09][DEBUG] CSRF: Token trouvé dans la requête - Token: fcd7c3020bd19cafc7be... 
+[2026-09-01 12:52:09][DEBUG] CSRF: Token trouvé dans la requête - Token: fcd7c3020bd19cafc7be... 
+[2026-09-01 12:52:09][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-09-01 12:52:09][DEBUG] CSRF: Token trouvé dans la requête - Token: fcd7c3020bd19cafc7be... 
+[2026-09-01 12:52:11][INFO] 81 
+[2026-09-01 12:52:20][DEBUG] CSRF: Token trouvé dans la requête - Token: a61bcbdd3fbad286fbda... 
+[2026-09-01 12:52:20][DEBUG] Permissions chargées pour Tsilefy : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-09-01 12:52:20][INFO] Utilisateur connecté : Tsilefy {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-01 12:52:20][DEBUG] Login réussi - Session ID: 4i0f6rr7id70q7bdv4198bbcqd 
+[2026-09-01 12:52:20][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-01 12:52:20][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 12:52:20][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-01 12:52:20][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-01 12:52:31][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-01 12:52:31][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 12:52:31][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-09-01","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 12:52:31][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 12:52:31][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 12:52:31][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-09-01 12:52:37][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-01 12:52:37][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 12:52:37][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-05-04","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 12:52:37][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 12:52:37][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 12:52:37][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 5 
+[2026-09-01 12:52:41][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-01 12:52:41][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 12:52:41][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-05-04","date_end":"2026-09-01","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 12:52:41][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 12:52:41][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 12:52:41][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 5 
+[2026-09-01 12:52:47][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-01 12:52:47][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 12:52:47][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-05-04","date_end":"2026-05-20","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 12:52:47][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 12:52:47][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 12:52:47][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-09-01 12:52:50][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-01 12:52:50][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 12:52:50][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-05-04","date_end":"2026-05-22","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 12:52:50][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 12:52:50][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 12:52:50][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-09-01 12:53:00][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-01 12:53:00][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 12:53:00][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-05-04","date_end":"2026-06-30","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 12:53:00][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 12:53:00][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 12:53:00][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-09-01 12:56:51][DEBUG] Tentative d'accès à l'intervention ID: 397 
+[2026-09-01 12:56:51][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 12:56:51][DEBUG] Intervention trouvée: {"id":397,"reference":"INT-2026-000002","title":"Videosonic","description":"test description","demande_par":null,"client_id":35,"commercial_id":null,"site_id":55,"building_id":45,"room_id":147,"contract_id":175,"project_id":null,"type_id":1,"status_id":1,"priority_id":2,"duration":"0.00","is_flash":0,"needs_completion":0,"is_preventive":0,"parent_id":null,"tickets_used":null,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-08-31 10:59:52","updated_at":"2026-08-31 10:59:52","closed_at":null,"ref_client":"test","contact_client":"karijatsilefilaza@gmail.cmo","planned_date":null,"planned_time":"09:00:00","deleted_at":null,"client_name":"ACSBN","site_name":"Sceaux","building_name":"B\u00e2timent Principal","room_name":"Salle de pri\u00e8res","status_name":"Nouveau","status_color":"#53b198","type_name":"Installation","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"base","technicians_names":null} 
+[2026-09-01 12:56:51][DEBUG] Commentaires récupérés pour l'intervention 397: 0 
+[2026-09-01 12:56:51][DEBUG] Pièces jointes récupérées pour l'intervention 397: 0 
+[2026-09-01 13:22:08][DEBUG] Tentative d'accès à l'intervention ID: 397 
+[2026-09-01 13:22:08][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 13:22:08][DEBUG] Intervention trouvée: {"id":397,"reference":"INT-2026-000002","title":"Videosonic","description":"test description","demande_par":null,"client_id":35,"commercial_id":null,"site_id":55,"building_id":45,"room_id":147,"contract_id":175,"project_id":null,"type_id":1,"status_id":1,"priority_id":2,"duration":"0.00","is_flash":0,"needs_completion":0,"is_preventive":0,"parent_id":null,"tickets_used":null,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-08-31 10:59:52","updated_at":"2026-08-31 10:59:52","closed_at":null,"ref_client":"test","contact_client":"karijatsilefilaza@gmail.cmo","planned_date":null,"planned_time":"09:00:00","deleted_at":null,"client_name":"ACSBN","site_name":"Sceaux","building_name":"B\u00e2timent Principal","room_name":"Salle de pri\u00e8res","status_name":"Nouveau","status_color":"#53b198","type_name":"Installation","type_requires_travel":1,"priority_name":"Normale","priority_color":"#83b64a","contract_name":"base","technicians_names":null} 
+[2026-09-01 13:22:08][DEBUG] Commentaires récupérés pour l'intervention 397: 0 
+[2026-09-01 13:22:08][DEBUG] Pièces jointes récupérées pour l'intervention 397: 0 
+[2026-09-01 13:23:31][DEBUG] CSRF: Token trouvé dans la requête - Token: a61bcbdd3fbad286fbda... 
+[2026-09-01 13:23:32][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-09-01 13:25:15][DEBUG] CSRF: Token trouvé dans la requête - Token: a61bcbdd3fbad286fbda... 
+[2026-09-01 13:25:15][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\PreferencesController.php","line":44,"errno":2}
+[2026-09-01 13:26:40][DEBUG] CSRF: Token trouvé dans la requête - Token: a61bcbdd3fbad286fbda... 
+[2026-09-01 13:27:11][DEBUG] CSRF: Token trouvé dans la requête - Token: a61bcbdd3fbad286fbda... 
+[2026-09-01 13:27:24][DEBUG] CSRF: Token trouvé dans la requête - Token: a61bcbdd3fbad286fbda... 
+[2026-09-01 13:27:36][DEBUG] CSRF: Token trouvé dans la requête - Token: a61bcbdd3fbad286fbda... 
+[2026-09-01 13:32:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 344846684b2fb842241c... 
+[2026-09-01 13:32:24][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-01 13:32:24][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-01 13:32:24][DEBUG] Login réussi - Session ID: h3nss9jcgop27jb249vl2ejuqs 
+[2026-09-01 13:32:24][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-01 13:32:24][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 13:32:24][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-01 13:32:24][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-01 13:32:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 7452d8b2ea6bf530a937... 
+[2026-09-01 13:32:44][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-01 13:32:44][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-01 13:32:44][DEBUG] Login réussi - Session ID: 60c9o0k88kgvjff9j9olp2dbbo 
+[2026-09-01 13:32:44][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-01 13:32:44][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 13:32:44][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-01 13:32:44][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-01 13:32:45][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-01 13:32:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 7452d8b2ea6bf530a937... 
+[2026-09-01 13:32:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 7452d8b2ea6bf530a937... 
+[2026-09-01 13:32:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 7452d8b2ea6bf530a937... 
+[2026-09-01 13:32:47][INFO] 37 
+[2026-09-01 13:32:47][INFO] 38 
+[2026-09-01 13:32:47][INFO] 36 
+[2026-09-01 13:32:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:33:00][DEBUG] Permissions chargées pour Tsilefy : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-09-01 13:33:00][INFO] Utilisateur connecté : Tsilefy {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-01 13:33:00][DEBUG] Login réussi - Session ID: 3g4a6qjn376jnj5d4u665lb3bq 
+[2026-09-01 13:33:00][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-01 13:33:00][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 13:33:00][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-01 13:33:00][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-01 13:33:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:34:40][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:34:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:34:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:34:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:34:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:34:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:34:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:34:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:34:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:34:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:34:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:34:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:34:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:35:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:35:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d34bfbe32ce0f9a5b7... 
+[2026-09-01 13:35:10][DEBUG] CSRF: Token trouvé dans la requête - Token: c0c9225a4130ac65f365... 
+[2026-09-01 13:35:11][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-01 13:35:11][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-01 13:35:11][DEBUG] Login réussi - Session ID: 39a7l3hhhrd2i4jt4rdll2gmbk 
+[2026-09-01 13:35:11][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-01 13:35:11][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 13:35:11][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-01 13:35:11][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-01 13:38:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 60932db633eaae73e733... 
+[2026-09-01 13:38:28][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-01 13:38:28][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-01 13:38:28][DEBUG] Login réussi - Session ID: ujfr7av9jukeer1ubak9pfl0c5 
+[2026-09-01 13:38:28][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-01 13:38:28][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 13:38:28][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-01 13:38:28][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-01 13:38:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 60932db633eaae73e733... 
+[2026-09-01 13:38:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 60932db633eaae73e733... 
+[2026-09-01 13:38:40][DEBUG] CSRF: Token trouvé dans la requête - Token: 60932db633eaae73e733... 
+[2026-09-01 13:38:52][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:38:52][DEBUG] Permissions chargées pour Tsilefy : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-09-01 13:38:52][INFO] Utilisateur connecté : Tsilefy {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-01 13:38:52][DEBUG] Login réussi - Session ID: 19iud527eep0bu5gkq4dqm5d3u 
+[2026-09-01 13:38:52][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-01 13:38:52][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 13:38:52][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-01 13:38:52][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-01 13:38:56][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:38:57][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:39:01][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:39:02][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:39:02][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:39:03][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:45:45][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:45:47][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:45:50][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:45:55][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:45:57][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:45:59][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:03][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:06][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:08][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:10][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:10][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:12][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:18][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:20][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:22][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:25][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:28][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:30][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:32][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:33][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:34][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:36][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:37][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:46:38][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:48:46][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:48:48][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:48:50][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:48:54][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:49:00][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:49:01][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:52:10][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:52:19][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-09-01 13:52:19][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 13:52:19][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 13:52:19][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 13:52:19][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 13:52:19][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-09-01 13:52:44][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:52:49][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:52:56][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-01 13:52:56][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 13:52:56][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-02","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 13:52:56][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 13:52:56][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 13:52:56][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 5 
+[2026-09-01 13:53:02][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-01 13:53:02][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 13:53:02][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-02","date_end":"2026-05-27","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 13:53:02][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 13:53:02][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 13:53:02][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-09-01 13:53:08][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-01 13:53:08][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 13:53:08][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-02","date_end":"2026-06-30","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 13:53:08][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 13:53:08][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 13:53:08][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-09-01 13:53:11][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:53:17][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-09-01 13:53:17][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 13:53:17][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-02","date_end":"2026-06-30","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 13:53:17][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 13:53:17][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 13:53:17][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-09-01 13:53:39][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:53:41][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 13:53:43][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-09-01 13:53:43][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 13:53:43][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-03-02","date_end":"2026-06-30","type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 13:53:43][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 13:53:43][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.created_at <= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 13:53:43][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-09-01 13:57:00][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-09-01 13:57:00][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 13:57:00][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 13:57:00][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 13:57:00][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 13:57:00][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-09-01 13:58:01][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-09-01 13:58:01][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 13:58:01][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 13:58:01][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 13:58:01][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 13:58:01][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-09-01 14:01:16][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-09-01 14:01:16][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:01:16][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 14:01:16][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 14:01:16][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 14:01:16][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-09-01 14:03:08][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement CSV) appelée 
+[2026-09-01 14:03:08][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:03:08][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 14:03:08][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 14:03:08][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 14:03:08][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-09-01 14:06:07][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement Excel) appelée 
+[2026-09-01 14:06:07][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:06:07][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 14:06:07][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 14:06:07][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 14:06:07][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-09-01 14:09:13][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement Excel) appelée 
+[2026-09-01 14:09:13][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:09:13][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 14:09:13][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 14:09:13][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 14:09:13][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-09-01 14:11:03][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement XLSX) appelée 
+[2026-09-01 14:11:03][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:11:03][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 14:11:03][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 14:11:03][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 14:11:03][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-09-01 14:11:03][ERROR] Erreur : PhpSpreadsheet est absent. Lancez « composer require phpoffice/phpspreadsheet ». Chemin recherché : C:\xampp\htdocs\avision\public\controllers/../../vendor/autoload.php {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionsClientController.php","line":1165}
+[2026-09-01 14:12:12][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement XLSX) appelée 
+[2026-09-01 14:12:12][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:12:12][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 14:12:12][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 14:12:12][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 14:12:12][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-09-01 14:12:12][ERROR] Erreur : PhpSpreadsheet est absent. Lancez « composer require phpoffice/phpspreadsheet ». Chemin recherché : C:\xampp\htdocs\avision\public\controllers/../../vendor/autoload.php {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionsClientController.php","line":1165}
+[2026-09-01 14:13:23][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement XLSX) appelée 
+[2026-09-01 14:13:23][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:13:23][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 14:13:23][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 14:13:23][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 14:13:23][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-09-01 14:13:23][ERROR] Erreur : PhpSpreadsheet est absent. Lancez « composer require phpoffice/phpspreadsheet ». Chemin recherché : C:\xampp\htdocs\avision\public\controllers/../../vendor/autoload.php {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionsClientController.php","line":1165}
+[2026-09-01 14:15:59][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement XLSX) appelée 
+[2026-09-01 14:15:59][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:15:59][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 14:15:59][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 14:15:59][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 14:15:59][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-09-01 14:16:36][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 14:16:38][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement XLSX) appelée 
+[2026-09-01 14:16:38][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:16:38][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 14:16:38][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 14:16:38][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 14:16:38][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 7 
+[2026-09-01 14:17:27][DEBUG] CSRF: Token trouvé dans la requête - Token: f291471447a838fbd913... 
+[2026-09-01 14:22:24][DEBUG] Tentative d'accès à l'intervention ID: 233 
+[2026-09-01 14:22:24][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:22:24][DEBUG] Intervention trouvée: {"id":233,"reference":"#VS3526-4575","title":"Inter du 4\/02\/26","description":"Le client a perdu ses cam\u00e9ras qui ne remontent pas \r\nReboot \u00e9lectrique Baie + switch + tests = OK","demande_par":null,"client_id":35,"commercial_id":null,"site_id":55,"building_id":null,"room_id":147,"contract_id":175,"project_id":null,"type_id":8,"status_id":6,"priority_id":3,"duration":"0.25","is_flash":0,"needs_completion":0,"is_preventive":0,"parent_id":null,"tickets_used":0,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-02-04 10:45:00","updated_at":"2026-07-30 16:57:33","closed_at":"2026-02-04 20:41:29","ref_client":null,"contact_client":null,"planned_date":"2025-10-07","planned_time":"09:00:00","deleted_at":null,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":"Salle de pri\u00e8res","status_name":"Ferm\u00e9","status_color":"#fe786c","type_name":"Support \u00e0 distance","type_requires_travel":0,"priority_name":"Haute","priority_color":"#fda557","contract_name":"base","technicians_names":"Guillaume Feniou"} 
+[2026-09-01 14:22:24][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-01 14:22:24][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-01 14:23:48][DEBUG] Tentative d'accès à l'intervention ID: 233 
+[2026-09-01 14:23:48][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:23:48][DEBUG] Intervention trouvée: {"id":233,"reference":"#VS3526-4575","title":"Inter du 4\/02\/26","description":"Le client a perdu ses cam\u00e9ras qui ne remontent pas \r\nReboot \u00e9lectrique Baie + switch + tests = OK","demande_par":null,"client_id":35,"commercial_id":null,"site_id":55,"building_id":null,"room_id":147,"contract_id":175,"project_id":null,"type_id":8,"status_id":6,"priority_id":3,"duration":"0.25","is_flash":0,"needs_completion":0,"is_preventive":0,"parent_id":null,"tickets_used":0,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-02-04 10:45:00","updated_at":"2026-07-30 16:57:33","closed_at":"2026-02-04 20:41:29","ref_client":null,"contact_client":null,"planned_date":"2025-10-07","planned_time":"09:00:00","deleted_at":null,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":"Salle de pri\u00e8res","status_name":"Ferm\u00e9","status_color":"#fe786c","type_name":"Support \u00e0 distance","type_requires_travel":0,"priority_name":"Haute","priority_color":"#fda557","contract_name":"base","technicians_names":"Guillaume Feniou"} 
+[2026-09-01 14:23:48][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-01 14:23:48][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-01 14:24:06][DEBUG] Tentative d'accès à l'intervention ID: 233 
+[2026-09-01 14:24:06][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:24:06][DEBUG] Intervention trouvée: {"id":233,"reference":"#VS3526-4575","title":"Inter du 4\/02\/26","description":"Le client a perdu ses cam\u00e9ras qui ne remontent pas \r\nReboot \u00e9lectrique Baie + switch + tests = OK","demande_par":null,"client_id":35,"commercial_id":null,"site_id":55,"building_id":null,"room_id":147,"contract_id":175,"project_id":null,"type_id":8,"status_id":6,"priority_id":3,"duration":"0.25","is_flash":0,"needs_completion":0,"is_preventive":0,"parent_id":null,"tickets_used":0,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-02-04 10:45:00","updated_at":"2026-07-30 16:57:33","closed_at":"2026-02-04 20:41:29","ref_client":null,"contact_client":null,"planned_date":"2025-10-07","planned_time":"09:00:00","deleted_at":null,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":"Salle de pri\u00e8res","status_name":"Ferm\u00e9","status_color":"#fe786c","type_name":"Support \u00e0 distance","type_requires_travel":0,"priority_name":"Haute","priority_color":"#fda557","contract_name":"base","technicians_names":"Guillaume Feniou"} 
+[2026-09-01 14:24:06][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-01 14:24:06][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-01 14:24:14][DEBUG] Tentative d'accès à l'intervention ID: 233 
+[2026-09-01 14:24:14][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:24:14][DEBUG] Intervention trouvée: {"id":233,"reference":"#VS3526-4575","title":"Inter du 4\/02\/26","description":"Le client a perdu ses cam\u00e9ras qui ne remontent pas \r\nReboot \u00e9lectrique Baie + switch + tests = OK","demande_par":null,"client_id":35,"commercial_id":null,"site_id":55,"building_id":null,"room_id":147,"contract_id":175,"project_id":null,"type_id":8,"status_id":6,"priority_id":3,"duration":"0.25","is_flash":0,"needs_completion":0,"is_preventive":0,"parent_id":null,"tickets_used":0,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-02-04 10:45:00","updated_at":"2026-07-30 16:57:33","closed_at":"2026-02-04 20:41:29","ref_client":null,"contact_client":null,"planned_date":"2025-10-07","planned_time":"09:00:00","deleted_at":null,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":"Salle de pri\u00e8res","status_name":"Ferm\u00e9","status_color":"#fe786c","type_name":"Support \u00e0 distance","type_requires_travel":0,"priority_name":"Haute","priority_color":"#fda557","contract_name":"base","technicians_names":"Guillaume Feniou"} 
+[2026-09-01 14:24:14][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-01 14:24:14][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-01 14:24:27][DEBUG] Tentative d'accès à l'intervention ID: 233 
+[2026-09-01 14:24:27][DEBUG] Localisations utilisateur: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 14:24:27][DEBUG] Intervention trouvée: {"id":233,"reference":"#VS3526-4575","title":"Inter du 4\/02\/26","description":"Le client a perdu ses cam\u00e9ras qui ne remontent pas \r\nReboot \u00e9lectrique Baie + switch + tests = OK","demande_par":null,"client_id":35,"commercial_id":null,"site_id":55,"building_id":null,"room_id":147,"contract_id":175,"project_id":null,"type_id":8,"status_id":6,"priority_id":3,"duration":"0.25","is_flash":0,"needs_completion":0,"is_preventive":0,"parent_id":null,"tickets_used":0,"last_signed_bi_id":null,"intervention_form_path":null,"created_at":"2026-02-04 10:45:00","updated_at":"2026-07-30 16:57:33","closed_at":"2026-02-04 20:41:29","ref_client":null,"contact_client":null,"planned_date":"2025-10-07","planned_time":"09:00:00","deleted_at":null,"client_name":"ACSBN","site_name":"Sceaux","building_name":null,"room_name":"Salle de pri\u00e8res","status_name":"Ferm\u00e9","status_color":"#fe786c","type_name":"Support \u00e0 distance","type_requires_travel":0,"priority_name":"Haute","priority_color":"#fda557","contract_name":"base","technicians_names":"Guillaume Feniou"} 
+[2026-09-01 14:24:27][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-01 14:24:27][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-01 14:27:09][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'ut.first_name' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\InterventionsClientModel.php","line":466}
+[2026-09-01 14:27:37][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-01 14:27:37][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-01 14:28:29][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-01 14:28:29][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-01 14:28:30][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-01 14:28:30][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-01 14:30:42][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-01 14:30:42][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-01 14:30:44][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-01 14:30:44][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-01 14:31:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 14:31:16][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-01 14:31:16][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-01 14:31:16][DEBUG] Login réussi - Session ID: scl0g4hjtmq1cqh2lgv46cnpem 
+[2026-09-01 14:31:16][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-01 14:31:16][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 14:31:16][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-01 14:31:16][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-01 14:31:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 14:31:54][DEBUG] Permissions chargées pour Tsilefy : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[],"coefficients":{"user_coef":null}} 
+[2026-09-01 14:31:54][INFO] Utilisateur connecté : Tsilefy {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-01 14:31:54][DEBUG] Login réussi - Session ID: jm3bi0o0cbag16p88ibr7ajcdp 
+[2026-09-01 14:31:54][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-01 14:31:54][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 14:31:54][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-01 14:31:54][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-01 14:32:00][DEBUG] Commentaires récupérés pour l'intervention 388: 0 
+[2026-09-01 14:32:00][DEBUG] Pièces jointes récupérées pour l'intervention 388: 0 
+[2026-09-01 14:32:40][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 14:32:40][INFO] Technicien 40 mis à jour pour l'intervention 388 
+[2026-09-01 14:32:40][INFO] Technicien 15 ajouté à l'intervention 388 
+[2026-09-01 14:32:51][DEBUG] Commentaires récupérés pour l'intervention 388: 0 
+[2026-09-01 14:32:51][DEBUG] Pièces jointes récupérées pour l'intervention 388: 0 
+[2026-09-01 14:33:32][DEBUG] Commentaires récupérés pour l'intervention 388: 0 
+[2026-09-01 14:33:32][DEBUG] Pièces jointes récupérées pour l'intervention 388: 0 
+[2026-09-01 14:33:33][DEBUG] Commentaires récupérés pour l'intervention 388: 0 
+[2026-09-01 14:33:33][DEBUG] Pièces jointes récupérées pour l'intervention 388: 0 
+[2026-09-01 14:34:53][DEBUG] Commentaires récupérés pour l'intervention 388: 0 
+[2026-09-01 14:34:53][DEBUG] Pièces jointes récupérées pour l'intervention 388: 0 
+[2026-09-01 14:35:16][DEBUG] Commentaires récupérés pour l'intervention 388: 0 
+[2026-09-01 14:35:16][DEBUG] Pièces jointes récupérées pour l'intervention 388: 0 
+[2026-09-01 14:37:06][DEBUG] Commentaires récupérés pour l'intervention 388: 0 
+[2026-09-01 14:37:06][DEBUG] Pièces jointes récupérées pour l'intervention 388: 0 
+[2026-09-01 14:37:09][DEBUG] Commentaires récupérés pour l'intervention 388: 0 
+[2026-09-01 14:37:09][DEBUG] Pièces jointes récupérées pour l'intervention 388: 0 
+[2026-09-01 14:38:50][DEBUG] Commentaires récupérés pour l'intervention 388: 0 
+[2026-09-01 14:38:50][DEBUG] Pièces jointes récupérées pour l'intervention 388: 0 
+[2026-09-01 14:39:15][DEBUG] Commentaires récupérés pour l'intervention 388: 0 
+[2026-09-01 14:39:15][DEBUG] Pièces jointes récupérées pour l'intervention 388: 0 
+[2026-09-01 14:39:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 14:39:38][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:39:38][DEBUG] Pièces jointes récupérées pour l'intervention 388: 0 
+[2026-09-01 14:40:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 14:40:00][DEBUG] AttachmentService::normalizeFilesArray - Tableau de fichiers détecté, count: 1 
+[2026-09-01 14:40:00][DEBUG] AttachmentService::upload - Type: intervention, EntityId: 388, Files count: 1, UploadDir: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/388 
+[2026-09-01 14:40:00][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\php722.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/388/1788266400_coursUML_compressed_1.pdf 
+[2026-09-01 14:40:00][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/388/1788266400_coursUML_compressed_1.pdf 
+[2026-09-01 14:40:00][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML_compressed (1).pdf (ID: 703) 
+[2026-09-01 14:40:04][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:40:04][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:42:26][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:42:26][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:45:52][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:45:52][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:46:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 14:46:02][INFO] Technicien 40 mis à jour pour l'intervention 388 
+[2026-09-01 14:46:02][INFO] Technicien 15 mis à jour pour l'intervention 388 
+[2026-09-01 14:46:05][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:46:05][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:46:08][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:46:08][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:46:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 14:46:21][INFO] Technicien 40 mis à jour pour l'intervention 388 
+[2026-09-01 14:46:21][INFO] Technicien 15 mis à jour pour l'intervention 388 
+[2026-09-01 14:46:24][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:46:24][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:46:26][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:46:26][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:46:29][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:46:29][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:46:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 14:46:41][INFO] Technicien 15 supprimé de l'intervention 388 
+[2026-09-01 14:46:44][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:46:44][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:46:46][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:46:46][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:47:43][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:47:43][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:48:18][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:48:18][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:48:20][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:48:20][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:48:56][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:48:56][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:48:58][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:48:58][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:49:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 14:49:15][INFO] Technicien 40 mis à jour pour l'intervention 388 
+[2026-09-01 14:49:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 14:49:42][INFO] Technicien 40 mis à jour pour l'intervention 388 
+[2026-09-01 14:49:42][INFO] Technicien 15 ajouté à l'intervention 388 
+[2026-09-01 14:49:47][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:49:47][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:52:55][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:52:55][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 14:53:08][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 14:53:08][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 15:03:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:03:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:03:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:03:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:04:36][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-01 15:04:36][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-01 15:04:36][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-09-01 15:04:36][DEBUG] getSitesByLocations - START 
+[2026-09-01 15:04:36][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-09-01 15:04:36][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-01 15:04:36][DEBUG] getSitesByLocations - locations: [{"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 15:04:36][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-01 15:04:36][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-01 15:04:36][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-01 15:04:36][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-01 15:04:36][DEBUG] getSitesByLocations - fullClientAccess devient true (accès client complet) 
+[2026-09-01 15:04:36][DEBUG] getSitesByLocations - Accès complet au client 35 
+[2026-09-01 15:04:36][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès complet) 
+[2026-09-01 15:04:36][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès complet) 
+[2026-09-01 15:04:36][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-01 15:04:36][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-01 15:04:36][INFO] 55 
+[2026-09-01 15:04:36][INFO] 109 
+[2026-09-01 15:04:36][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-01 15:04:39][INFO] 109 
+[2026-09-01 15:04:46][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-01 15:04:46][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-01 15:04:46][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-09-01 15:04:46][DEBUG] getSitesByLocations - START 
+[2026-09-01 15:04:46][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-09-01 15:04:46][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-01 15:04:46][DEBUG] getSitesByLocations - locations: [{"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 15:04:46][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-01 15:04:46][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-01 15:04:46][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-01 15:04:46][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-01 15:04:46][DEBUG] getSitesByLocations - fullClientAccess devient true (accès client complet) 
+[2026-09-01 15:04:46][DEBUG] getSitesByLocations - Accès complet au client 35 
+[2026-09-01 15:04:46][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès complet) 
+[2026-09-01 15:04:46][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès complet) 
+[2026-09-01 15:04:46][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-01 15:04:46][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-01 15:04:46][INFO] 55 
+[2026-09-01 15:04:46][INFO] 109 
+[2026-09-01 15:04:46][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-01 15:04:49][INFO] 55 
+[2026-09-01 15:04:51][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-01 15:04:51][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-01 15:04:51][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-09-01 15:04:51][DEBUG] getSitesByLocations - START 
+[2026-09-01 15:04:51][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-09-01 15:04:51][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-01 15:04:51][DEBUG] getSitesByLocations - locations: [{"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 15:04:51][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-01 15:04:51][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-01 15:04:51][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-01 15:04:51][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-01 15:04:51][DEBUG] getSitesByLocations - fullClientAccess devient true (accès client complet) 
+[2026-09-01 15:04:51][DEBUG] getSitesByLocations - Accès complet au client 35 
+[2026-09-01 15:04:51][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès complet) 
+[2026-09-01 15:04:51][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès complet) 
+[2026-09-01 15:04:51][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-01 15:04:51][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-01 15:04:51][INFO] 55 
+[2026-09-01 15:04:51][INFO] 109 
+[2026-09-01 15:04:51][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-01 15:04:58][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-01 15:04:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:04:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:04:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:05:31][DEBUG] Commentaires récupérés pour l'intervention 388: 1 
+[2026-09-01 15:05:31][DEBUG] Pièces jointes récupérées pour l'intervention 388: 1 
+[2026-09-01 15:06:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:06:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:51][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-01 15:07:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:07:52][INFO] 55 
+[2026-09-01 15:07:52][INFO] 109 
+[2026-09-01 15:08:18][INFO] 55 
+[2026-09-01 15:08:18][INFO] 109 
+[2026-09-01 15:08:23][INFO] 55 
+[2026-09-01 15:08:23][INFO] 109 
+[2026-09-01 15:08:27][INFO] 55 
+[2026-09-01 15:08:27][INFO] 109 
+[2026-09-01 15:08:32][INFO] 55 
+[2026-09-01 15:08:32][INFO] 109 
+[2026-09-01 15:08:36][INFO] 55 
+[2026-09-01 15:08:36][INFO] 109 
+[2026-09-01 15:09:04][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-01 15:09:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:09:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:09:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 49b686dae3d83d91f274... 
+[2026-09-01 15:09:06][INFO] 55 
+[2026-09-01 15:09:06][INFO] 109 
+[2026-09-01 15:14:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:14:19][DEBUG] Données d'intervention à créer: {"title":"Videosonicc","description":"test","demande_par":null,"client_id":35,"site_id":55,"building_id":45,"room_id":147,"contract_id":120,"status_id":1,"priority_id":3,"ref_client":"test ref","contact_client":"karijatsilefilaza@gmail.cmo","duration":0,"type_id":1} 
+[2026-09-01 15:14:19][INFO] Intervention créée avec succès, ID: 398 
+[2026-09-01 15:14:19][DEBUG] Commentaires récupérés pour l'intervention 398: 0 
+[2026-09-01 15:14:19][DEBUG] Pièces jointes récupérées pour l'intervention 398: 0 
+[2026-09-01 15:16:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:16:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:21:52][DEBUG] CSRF: Token trouvé dans la requête - Token: eae8e3b3e2de5d9ed9ea... 
+[2026-09-01 15:21:53][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-01 15:21:53][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-01 15:21:53][DEBUG] Login réussi - Session ID: akh25jn4b9dmesep569mc1fplv 
+[2026-09-01 15:21:53][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-01 15:21:53][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 15:21:53][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-01 15:21:53][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-01 15:22:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:22:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 2cc79c9bfc2a101965cb... 
+[2026-09-01 15:22:44][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-01 15:22:44][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-01 15:22:44][DEBUG] Login réussi - Session ID: ve6td4aqfer27ec1k9d3gk29mk 
+[2026-09-01 15:22:44][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-01 15:22:44][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 15:22:44][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-01 15:22:44][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-01 15:23:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:23:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:24:21][DEBUG] Redirection vers login - URL sauvegardée: interventions/preventives (Session ID: 0bi8cqtnrkvmvl796hr4ciscbq) 
+[2026-09-01 15:24:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e8772dacd727ab0d89e... 
+[2026-09-01 15:24:27][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-01 15:24:27][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-01 15:24:27][DEBUG] Login réussi - Session ID: 0bi8cqtnrkvmvl796hr4ciscbq 
+[2026-09-01 15:24:27][DEBUG] Login réussi - redirect_after_login: interventions/preventives 
+[2026-09-01 15:24:27][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 15:24:27][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-09-01 15:24:27][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/preventives 
+[2026-09-01 15:24:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:24:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:24:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:25:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:25:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:25:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:25:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 15:25:25][DEBUG] Redirection vers login - URL sauvegardée: interventions/curatives (Session ID: 0jh92qd3m17q8o3cbgmvusv2p8) 
+[2026-09-01 15:25:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 47edd5e1dfc37ac09cf7... 
+[2026-09-01 15:25:30][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-01 15:25:30][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-01 15:25:30][DEBUG] Login réussi - Session ID: 0jh92qd3m17q8o3cbgmvusv2p8 
+[2026-09-01 15:25:30][DEBUG] Login réussi - redirect_after_login: interventions/curatives 
+[2026-09-01 15:25:30][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 15:25:30][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, redirect_after_login, csrf_token, user, last_activity 
+[2026-09-01 15:25:30][DEBUG] Redirection après login vers: http://localhost/avision/public/interventions/curatives 
+[2026-09-01 15:32:18][DEBUG] Commentaires récupérés pour l'intervention 398: 0 
+[2026-09-01 15:32:18][DEBUG] Pièces jointes récupérées pour l'intervention 398: 0 
+[2026-09-01 15:32:30][DEBUG] Commentaires récupérés pour l'intervention 348: 5 
+[2026-09-01 15:32:31][DEBUG] Pièces jointes récupérées pour l'intervention 348: 1 
+[2026-09-01 16:12:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:12:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:12:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:12:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:13:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:13:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:13:29][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:13:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:13:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:14:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:14:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:14:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:14:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:14:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:14:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:14:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:14:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:25:11][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-01 16:25:11][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:25:11][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"curative","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 16:25:11][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 16:25:11][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 16:25:11][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 6 
+[2026-09-01 16:25:13][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-01 16:25:13][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:25:13][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"preventive","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 16:25:13][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 16:25:13][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 16:25:13][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-09-01 16:25:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:25:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:25:29][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:25:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:25:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:25:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:25:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:25:50][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement XLSX) appelée 
+[2026-09-01 16:25:50][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:25:50][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"preventive","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-01 16:25:50][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-01 16:25:50][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-01 16:25:50][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-09-01 16:27:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:27:05][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-01 16:27:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:27:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:27:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:27:10][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-01 16:27:10][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-01 16:27:10][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-09-01 16:27:10][DEBUG] getSitesByLocations - START 
+[2026-09-01 16:27:10][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-09-01 16:27:10][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-01 16:27:10][DEBUG] getSitesByLocations - locations: [{"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:10][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-01 16:27:10][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-01 16:27:10][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-01 16:27:10][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-01 16:27:10][DEBUG] getSitesByLocations - fullClientAccess devient true (accès client complet) 
+[2026-09-01 16:27:10][DEBUG] getSitesByLocations - Accès complet au client 35 
+[2026-09-01 16:27:10][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès complet) 
+[2026-09-01 16:27:10][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès complet) 
+[2026-09-01 16:27:10][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-01 16:27:10][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-01 16:27:10][INFO] 55 
+[2026-09-01 16:27:10][INFO] 109 
+[2026-09-01 16:27:10][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-01 16:27:15][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:15][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:15][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-09-01 16:27:15][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-01 16:27:15][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-01 16:27:15][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:15][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 35)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-09-01 16:27:15][DEBUG] getBuildingsByLocations - result count: 2 
+[2026-09-01 16:27:15][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-09-01 16:27:15][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-01 16:27:15][DEBUG] getAllByLocations - Params: [] 
+[2026-09-01 16:27:15][DEBUG] getAllByLocations - Results count: 33 
+[2026-09-01 16:27:24][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:24][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-01 16:27:25][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:25][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:25][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-09-01 16:27:25][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-01 16:27:25][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-01 16:27:25][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:25][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-01 16:27:25][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-09-01 16:27:25][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-01 16:27:25][DEBUG] getAllByLocations - Params: [109] 
+[2026-09-01 16:27:25][DEBUG] getAllByLocations - Results count: 13 
+[2026-09-01 16:27:32][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:32][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:32][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-09-01 16:27:32][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-01 16:27:32][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-01 16:27:32][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:32][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-01 16:27:32][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-09-01 16:27:32][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? AND m.salle_id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-01 16:27:32][DEBUG] getAllByLocations - Params: [109,369] 
+[2026-09-01 16:27:32][DEBUG] getAllByLocations - Results count: 13 
+[2026-09-01 16:27:34][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:34][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-01 16:27:34][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:34][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:34][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-09-01 16:27:34][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-01 16:27:34][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-01 16:27:34][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:34][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-01 16:27:34][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-09-01 16:27:34][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-01 16:27:34][DEBUG] getAllByLocations - Params: [55] 
+[2026-09-01 16:27:34][DEBUG] getAllByLocations - Results count: 20 
+[2026-09-01 16:27:36][DEBUG] getRoomsByBuildingAndLocations - buildingId: 45, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:36][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 35)) AND r.status = 1
+            ORDER BY r.name 
+[2026-09-01 16:27:36][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:36][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:36][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-09-01 16:27:36][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-01 16:27:36][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-01 16:27:36][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:36][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-01 16:27:36][DEBUG] getRoomsByBuildingAndLocations - buildingId: 45, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:36][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 35)) AND r.status = 1
+            ORDER BY r.name 
+[2026-09-01 16:27:36][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-09-01 16:27:36][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-01 16:27:36][DEBUG] getAllByLocations - Params: [55,45] 
+[2026-09-01 16:27:36][DEBUG] getAllByLocations - Results count: 20 
+[2026-09-01 16:27:38][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:38][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:38][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35)) 
+[2026-09-01 16:27:38][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-01 16:27:38][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-01 16:27:38][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:38][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-01 16:27:38][DEBUG] getRoomsByBuildingAndLocations - buildingId: 45, userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:38][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 35)) AND r.status = 1
+            ORDER BY r.name 
+[2026-09-01 16:27:38][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 35)) 
+[2026-09-01 16:27:38][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 35)) AND s.id = ? AND b.id = ? AND m.salle_id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-01 16:27:38][DEBUG] getAllByLocations - Params: [55,45,147] 
+[2026-09-01 16:27:38][DEBUG] getAllByLocations - Results count: 20 
+[2026-09-01 16:27:43][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:43][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-09-01 16:27:43][DEBUG] DocumentationClientController::index - Paramètres: [35,35,35,35] 
+[2026-09-01 16:27:43][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 1 
+[2026-09-01 16:27:47][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:47][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-09-01 16:27:47][DEBUG] DocumentationClientController::index - Paramètres: [35,35,35,35,109,109,109] 
+[2026-09-01 16:27:47][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-09-01 16:27:47][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=109, building_id=, salle_id= 
+[2026-09-01 16:27:49][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:49][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-09-01 16:27:49][DEBUG] DocumentationClientController::index - Paramètres: [35,35,35,35,55,55,55] 
+[2026-09-01 16:27:49][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 1 
+[2026-09-01 16:27:51][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:51][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-09-01 16:27:51][DEBUG] DocumentationClientController::index - Paramètres: [35,35,35,35,55,55,55,45,45] 
+[2026-09-01 16:27:51][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 1 
+[2026-09-01 16:27:52][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-09-01 16:27:52][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.username as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id = ?)
+            )
+        ) AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND lpj2.entite_id = ?
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-09-01 16:27:52][DEBUG] DocumentationClientController::index - Paramètres: [35,35,35,35,55,55,55,45,45,147] 
+[2026-09-01 16:27:52][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 1 
+[2026-09-01 16:28:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:28:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 17f23205e841b7a40f8c... 
+[2026-09-01 16:30:56][DEBUG] CSRF: Token trouvé dans la requête - Token: a5ea007ac4c64715193f... 
+[2026-09-01 16:30:56][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-01 16:30:56][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-01 16:30:56][DEBUG] Login réussi - Session ID: 3hcuc8t60gn8fs6828347bmjp0 
+[2026-09-01 16:30:56][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-01 16:30:56][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-01 16:30:56][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-01 16:30:56][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-02 07:57:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 67d5c9b7adc6b8e4ab85... 
+[2026-09-02 07:57:26][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-02 07:57:26][INFO] Utilisateur connecté : Karija {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-02 07:57:26][DEBUG] Login réussi - Session ID: 1f1hg3a8f4rpj69g9gcdltrnno 
+[2026-09-02 07:57:26][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-02 07:57:26][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-02 07:57:26][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-02 07:57:26][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-02 07:57:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 67d5c9b7adc6b8e4ab85... 
+[2026-09-02 07:57:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 67d5c9b7adc6b8e4ab85... 
+[2026-09-02 07:57:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 67d5c9b7adc6b8e4ab85... 
