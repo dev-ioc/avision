@@ -478,13 +478,25 @@ class AuthController
      */
     public function processForgotPassword()
     {
+        $isAjax = ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest';
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'Méthode non autorisée.']);
+                exit;
+            }
             header('Location: ' . BASE_URL . 'auth/forgot-password');
             exit;
         }
 
         $token = $_POST['csrf_token'] ?? null;
         if (!csrf_verify($token)) {
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'Requête invalide, veuillez réessayer.']);
+                exit;
+            }
             $_SESSION['error'] = "Requête invalide, veuillez réessayer.";
             header('Location: ' . BASE_URL . 'auth/forgot-password');
             exit;
@@ -493,12 +505,17 @@ class AuthController
         $email = trim($_POST['email'] ?? '');
 
         if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'Veuillez saisir une adresse email valide.']);
+                exit;
+            }
             $_SESSION['error'] = "Veuillez saisir une adresse email valide.";
             header('Location: ' . BASE_URL . 'auth/forgot-password');
             exit;
         }
 
-        $_SESSION['success'] = "Si un compte est associé à cette adresse, un email de réinitialisation vient de vous être envoyé.";
+        $successMessage = "Si un compte est associé à cette adresse, un email de réinitialisation vient de vous être envoyé.";
 
         try {
             $user = $this->userModel->getUserByEmail($email);
@@ -517,6 +534,13 @@ class AuthController
             custom_log("Erreur dans processForgotPassword: " . $e->getMessage(), 'ERROR');
         }
 
+        if ($isAjax) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'message' => $successMessage]);
+            exit;
+        }
+
+        $_SESSION['success'] = $successMessage;
         header('Location: ' . BASE_URL . 'auth/forgot-password');
         exit;
     }

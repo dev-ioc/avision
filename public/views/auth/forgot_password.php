@@ -116,19 +116,15 @@ if (!defined('BASE_URL')) {
 
             const submitBtn = document.getElementById('submitBtn');
             const submitText = document.getElementById('submitText');
-            // const submitSpinner = document.getElementById('submitSpinner');
             const formMessage = document.getElementById('formMessage');
             const emailInput = document.getElementById('email');
             const pageOverlay = document.getElementById('pageOverlay');
 
-            // Bloquer toute la page + verrouiller le champ email
             pageOverlay.classList.remove('d-none');
             emailInput.readOnly = true;
             submitBtn.disabled = true;
             submitText.textContent = 'Envoi en cours...';
-            // submitSpinner.classList.remove('d-none');
-            // 
-            // Cacher l'ancien message
+
             formMessage.className = 'd-none mb-3';
             formMessage.textContent = '';
 
