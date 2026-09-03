@@ -534,10 +534,9 @@ class AuthController
                     $mailService->sendPasswordResetLink($user, $resetToken);
                 } catch (Exception $mailException) {
                     custom_log("Erreur envoi lien reset MDP : " . $mailException->getMessage(), 'ERROR');
-                    // Le compte existe bel et bien, l'échec est purement technique (SMTP, etc.)
                     $result = [
                         'success' => false,
-                        'message' => "L'envoi de l'email a échoué : " . $mailException->getMessage(),
+                        'message' => "L'envoi de l'email a échoué : Impossible de se connecter au serveur SMTP",
                     ];
                 }
             }

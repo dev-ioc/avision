@@ -134387,3 +134387,9 @@ Quant à l’écran n°1, il est HS
 [2026-09-03 16:17:09][DEBUG] CSRF: Token trouvé dans la requête - Token: c06729f5577365126443... 
 [2026-09-03 16:17:09][INFO] Token de réinitialisation sauvegardé pour l'utilisateur 40 (demandé par: l'utilisateur lui-même) 
 [2026-09-03 16:17:30][ERROR] Erreur envoi lien reset MDP : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-09-03 16:21:02][DEBUG] CSRF: Token trouvé dans la requête - Token: c06729f5577365126443... 
+[2026-09-03 16:21:02][INFO] Token de réinitialisation sauvegardé pour l'utilisateur 40 (demandé par: l'utilisateur lui-même) 
+[2026-09-03 16:21:23][ERROR] Erreur envoi lien reset MDP : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-09-03 16:21:41][DEBUG] CSRF: Token trouvé dans la requête - Token: c06729f5577365126443... 
+[2026-09-03 16:21:41][INFO] Token de réinitialisation sauvegardé pour l'utilisateur 47 (demandé par: l'utilisateur lui-même) 
+[2026-09-03 16:22:02][ERROR] Erreur envoi lien reset MDP : Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
