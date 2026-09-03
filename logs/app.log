@@ -132849,3 +132849,36 @@ Quant à l’écran n°1, il est HS
 [2026-09-02 14:06:24][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-09-02 14:06:24][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
 [2026-09-02 14:06:24][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-02 15:58:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 85937ffdad822eb83bd1... 
+[2026-09-02 15:58:04][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-09-02 15:58:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 85937ffdad822eb83bd1... 
+[2026-09-02 15:58:19][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-09-02 16:03:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 85937ffdad822eb83bd1... 
+[2026-09-02 16:03:30][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-09-03 08:10:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 26dd58fc703e1c633f9c... 
+[2026-09-03 08:10:37][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-03 08:10:37][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-03 08:10:37][DEBUG] Login réussi - Session ID: 9d9c6lde7dds52si9cbmlf9po3 
+[2026-09-03 08:10:37][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-03 08:10:37][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-03 08:10:37][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-03 08:10:37][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-03 08:17:13][DEBUG] CSRF: Token trouvé dans la requête - Token: deeacf47ee2aa9b57818... 
+[2026-09-03 08:17:13][WARNING] Tentative de connexion échouée pour l'utilisateur : dev_mdg@caspeo.fr 
+[2026-09-03 08:17:43][DEBUG] CSRF: Token trouvé dans la requête - Token: deeacf47ee2aa9b57818... 
+[2026-09-03 08:17:43][DEBUG] Permissions chargées pour Karija : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-03 08:17:43][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-03 08:17:43][DEBUG] Login réussi - Session ID: dqpt96i4rv71gf1fu03gndjs4o 
+[2026-09-03 08:17:43][DEBUG] Login réussi - redirect_after_login: NON DÉFINI 
+[2026-09-03 08:17:43][DEBUG] Login réussi - qr_salle: NON DÉFINI 
+[2026-09-03 08:17:43][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
+[2026-09-03 08:17:43][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
