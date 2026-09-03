@@ -31,6 +31,20 @@ if (!defined('BASE_URL')) {
         .card-body {
             padding: 2rem;
         }
+
+        #pageOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.6);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -86,6 +100,12 @@ if (!defined('BASE_URL')) {
             </div>
         </div>
     </div>
+    <!-- Overlay de blocage pendant l'envoi -->
+    <div id="pageOverlay" class="d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Chargement...</span>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById('forgotPasswordForm').addEventListener('submit', async function (e) {
@@ -96,14 +116,18 @@ if (!defined('BASE_URL')) {
 
             const submitBtn = document.getElementById('submitBtn');
             const submitText = document.getElementById('submitText');
-            const submitSpinner = document.getElementById('submitSpinner');
+            // const submitSpinner = document.getElementById('submitSpinner');
             const formMessage = document.getElementById('formMessage');
+            const emailInput = document.getElementById('email');
+            const pageOverlay = document.getElementById('pageOverlay');
 
-            // Afficher le spinner
+            // Bloquer toute la page + verrouiller le champ email
+            pageOverlay.classList.remove('d-none');
+            emailInput.readOnly = true;
             submitBtn.disabled = true;
             submitText.textContent = 'Envoi en cours...';
-            submitSpinner.classList.remove('d-none');
-
+            // submitSpinner.classList.remove('d-none');
+            // 
             // Cacher l'ancien message
             formMessage.className = 'd-none mb-3';
             formMessage.textContent = '';
@@ -128,18 +152,12 @@ if (!defined('BASE_URL')) {
                     throw new Error('La réponse du serveur n\'est pas un JSON valide.');
                 }
 
-                // Afficher le message
                 formMessage.textContent = data.message;
 
                 if (data.success) {
-
                     formMessage.className = 'alert alert-success mb-3';
-
-                    // Réinitialiser le formulaire
                     form.reset();
-
                 } else {
-
                     formMessage.className = 'alert alert-danger mb-3';
                 }
 
@@ -152,6 +170,9 @@ if (!defined('BASE_URL')) {
                     'Une erreur est survenue. Veuillez réessayer plus tard.';
 
             } finally {
+                // Débloquer la page
+                pageOverlay.classList.add('d-none');
+                emailInput.readOnly = false;
                 submitBtn.disabled = false;
                 submitText.textContent = 'Envoyer le lien';
                 submitSpinner.classList.add('d-none');
