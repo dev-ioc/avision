@@ -515,7 +515,8 @@ class AuthController
             exit;
         }
 
-        $successMessage = "Si un compte est associé à cette adresse, un email de réinitialisation vient de vous être envoyé.";
+        $genericMessage = "Si un compte est associé à cette adresse, un email de réinitialisation vient de vous être envoyé.";
+        $result = ['success' => true, 'message' => $genericMessage];
 
         try {
             $user = $this->userModel->getUserByEmail($email);
@@ -528,19 +529,37 @@ class AuthController
 
                 require_once __DIR__ . '/../classes/MailService.php';
                 $mailService = new MailService($this->db);
-                $mailService->sendPasswordResetLink($user, $resetToken);
+
+                try {
+                    $mailService->sendPasswordResetLink($user, $resetToken);
+                } catch (Exception $mailException) {
+                    custom_log("Erreur envoi lien reset MDP : " . $mailException->getMessage(), 'ERROR');
+                    // Le compte existe bel et bien, l'échec est purement technique (SMTP, etc.)
+                    $result = [
+                        'success' => false,
+                        'message' => "L'envoi de l'email a échoué : " . $mailException->getMessage(),
+                    ];
+                }
             }
         } catch (Exception $e) {
             custom_log("Erreur dans processForgotPassword: " . $e->getMessage(), 'ERROR');
+            $result = [
+                'success' => false,
+                'message' => "Une erreur inattendue est survenue : " . $e->getMessage(),
+            ];
         }
 
         if ($isAjax) {
             header('Content-Type: application/json');
-            echo json_encode(['success' => true, 'message' => $successMessage]);
+            echo json_encode($result);
             exit;
         }
 
-        $_SESSION['success'] = $successMessage;
+        if ($result['success']) {
+            $_SESSION['success'] = $result['message'];
+        } else {
+            $_SESSION['error'] = $result['message'];
+        }
         header('Location: ' . BASE_URL . 'auth/forgot-password');
         exit;
     }
