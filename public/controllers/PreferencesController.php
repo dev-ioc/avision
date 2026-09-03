@@ -35,7 +35,12 @@ class PreferencesController
         $key = $input['key'] ?? '';
         $value = $input['value'] ?? '';
 
-        if (!preg_match('/^datatable_[a-zA-Z0-9]+_[a-zA-Z0-9]+$/', $key)) {
+        // Clé attendue : "datatable_" suivi d'un ou plusieurs segments
+        // alphanumériques séparés par des underscores.
+        // Ex : datatable_usersTable_v4_pageLength, datatable_usersTable_v4_order, ...
+        // (assoupli pour supporter les identifiants de table versionnés,
+        // ex "usersTable_v4", qui ajoutent des underscores supplémentaires)
+        if (!preg_match('/^datatable_[a-zA-Z0-9_]+$/', $key)) {
             http_response_code(400);
             echo json_encode(['success' => false, 'error' => 'Clé de préférence invalide']);
             exit;

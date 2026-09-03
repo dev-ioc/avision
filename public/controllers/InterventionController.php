@@ -1637,20 +1637,15 @@ class InterventionController
      */
     private function checkPermission($module, $action)
     {
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user']))
             return false;
-        }
-        if (isAdmin()) {
+        if (isAdmin())
             return true;
-        }
 
         $permission = 'tech_' . $action;
-
-        custom_log("Vérification permission pour {$permission} : " . json_encode($_SESSION['user']['permissions']), 'DEBUG');
-
-        return isset($_SESSION['user']['permissions']['rights'][$permission]) && $_SESSION['user']['permissions']['rights'][$permission] === true;
+        return isset($_SESSION['user']['permissions']['rights'][$permission])
+            && $_SESSION['user']['permissions']['rights'][$permission] === true;
     }
-
     /**
      * Récupère les contrats d'un client
      */
@@ -3047,11 +3042,14 @@ class InterventionController
      */
     private function performClose($id, array $intervention, $ticketsUsedOverride = null, $sendEmail = false)
     {
-        $stmtTechCheck = $this->db->prepare('SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ?');
-        $stmtTechCheck->execute([$id]);
-        if ((int) $stmtTechCheck->fetchColumn() === 0) {
-            return ['success' => false, 'error' => "Impossible de fermer l'intervention sans technicien assigné."];
+        $stmtStatusCheck = $this->db->prepare('SELECT status_id FROM interventions WHERE id = ?');
+        $stmtStatusCheck->execute([$id]);
+        $currentStatusId = (int) $stmtStatusCheck->fetchColumn();
+        if ($currentStatusId === 6) {
+            return ['success' => false, 'error' => "Cette intervention est déjà fermée."];
         }
+
+        $stmtTechCheck = $this->db->prepare('SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ?');
 
         try {
             $this->db->beginTransaction();
@@ -3486,13 +3484,11 @@ class InterventionController
      */
     public function delete($id)
     {
-        // Vérifier les permissions - admin seulement
-        if (!isset($_SESSION['user']) || !isAdmin()) {
-            $_SESSION['error'] = "Seuls les administrateurs peuvent supprimer des interventions.";
+        if (!canDeleteInterventions()) {
+            $_SESSION['error'] = "Vous n'avez pas les droits nécessaires pour supprimer des interventions.";
             header('Location: ' . $this->getInterventionsListUrl());
             exit;
         }
-
         // Sécurité: ne pas autoriser une suppression via GET (confirmation + CSRF via POST)
         if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
             $_SESSION['error'] = "Suppression non autorisée sans confirmation (POST requis).";
@@ -6376,17 +6372,18 @@ class InterventionController
             }
 
             $sql = "INSERT INTO intervention_local_signatures 
-                (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path, 
-                client_name, client_email, technicien_id, signed_at, ip_address)
-                VALUES (:iid, :source_id, :tech, :client, :client_name, :client_email, :tid, NOW(), :ip)
-                ON DUPLICATE KEY UPDATE
-                technicien_signature_path = VALUES(technicien_signature_path),
-                client_signature_path = VALUES(client_signature_path),
-                client_name = VALUES(client_name),
-                client_email = VALUES(client_email),
-                technicien_id = VALUES(technicien_id),
-                signed_at = NOW(),
-                ip_address = VALUES(ip_address)";
+                    (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path, 
+                    client_name, client_email, client_send_email, technicien_id, signed_at, ip_address)
+                    VALUES (:iid, :source_id, :tech, :client, :client_name, :client_email, :client_send_email, :tid, NOW(), :ip)
+                    ON DUPLICATE KEY UPDATE
+                    technicien_signature_path = VALUES(technicien_signature_path),
+                    client_signature_path = VALUES(client_signature_path),
+                    client_name = VALUES(client_name),
+                    client_email = VALUES(client_email),
+                    client_send_email = VALUES(client_send_email),
+                    technicien_id = VALUES(technicien_id),
+                    signed_at = NOW(),
+                    ip_address = VALUES(ip_address)";
 
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
@@ -6396,6 +6393,7 @@ class InterventionController
                 ':client' => $clientPath,
                 ':client_name' => $clientName,
                 ':client_email' => $clientEmail,
+                ':client_send_email' => ($input['client_send_email'] ?? true) ? 1 : 0,
                 ':tid' => $_SESSION['user']['id'],
                 ':ip' => $_SERVER['REMOTE_ADDR'] ?? null,
             ]);
@@ -6481,16 +6479,50 @@ class InterventionController
                     custom_log("Échec fermeture auto intervention préventive $interventionId : " . ($closeResult['error'] ?? ''), 'WARNING');
                 }
             }
+
+            $hasSolution = false;
+            if ($signatureStatus === 'signe_tech_client') {
+                $sqlSol = "SELECT COUNT(*) FROM intervention_comments WHERE intervention_id = ? AND is_solution = 1";
+                $stmtSol = $this->db->prepare($sqlSol);
+                $stmtSol->execute([$interventionId]);
+                $hasSolution = (int) $stmtSol->fetchColumn() > 0;
+            }
+
+            $isClosed = (int) $intervention['status_id'] === 6; // déjà fermée avant cet appel ?
+            if (
+                $signatureStatus === 'signe_tech_client'
+                && (int) ($intervention['is_preventive'] ?? 0) === 1
+                && (int) $intervention['status_id'] !== 6
+            ) {
+                $closeResult = $this->performClose($interventionId, $intervention, null, false);
+                if ($closeResult['success']) {
+                    custom_log("Intervention préventive $interventionId fermée automatiquement (BI signé tech+client).", 'INFO');
+                    $isClosed = true;
+                } else {
+                    custom_log("Échec fermeture auto intervention préventive $interventionId : " . ($closeResult['error'] ?? ''), 'WARNING');
+                }
+            }
+
+            $hasSolution = false;
+            if ($signatureStatus === 'signe_tech_client') {
+                $sqlSol = "SELECT COUNT(*) FROM intervention_comments WHERE intervention_id = ? AND is_solution = 1";
+                $stmtSol = $this->db->prepare($sqlSol);
+                $stmtSol->execute([$interventionId]);
+                $hasSolution = (int) $stmtSol->fetchColumn() > 0;
+            }
+
+            $fullySigned = ($signatureStatus === 'signe_tech_client');
+            $pdfUrl = BASE_URL . 'interventions/download/' . $attachmentId;
+
             echo json_encode([
                 'success' => true,
-                'message' => 'Signature(s) enregistrée(s) et PDF mis à jour',
-                'pdf_url' => BASE_URL . 'interventions/download/' . $attachmentId,
-                'version' => $pj['version'] ?? 1,
-                'signature_status' => $signatureStatus,
-                'has_tech_signature' => !empty($techPath),
-                'has_client_signature' => !empty($clientPath)
+                'pdf_url' => $pdfUrl,
+                'fully_signed' => $fullySigned,
+                'is_closed' => $isClosed,
+                'has_solution' => $hasSolution,
+                'intervention_id' => $intervention['id'],
+                'client_send_email' => $input['client_send_email'] ?? true,
             ]);
-
         } catch (Exception $e) {
             custom_log("Erreur saveLocalSignature : " . $e->getMessage(), 'ERROR');
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
@@ -6961,6 +6993,127 @@ class InterventionController
 
         $result = $this->checkBiGenerationAllowed($id, $_SESSION['user']['id']);
         echo json_encode($result);
+        exit;
+    }
+
+    /**
+     * Liste du staff (techniciens + ADV + admins) pour le sélecteur de destinataires
+     * après signature d'un BI.
+     */
+    public function getStaffList()
+    {
+        $this->checkAccess();
+        header('Content-Type: application/json');
+
+        try {
+            $sql = "SELECT u.id, CONCAT(u.first_name, ' ', u.last_name) as name, u.email, ut.name as role
+                FROM users u
+                INNER JOIN user_types ut ON u.user_type_id = ut.id
+                WHERE ut.group_id = 1 AND u.status = 1 AND u.email IS NOT NULL AND u.email != ''
+                ORDER BY u.first_name, u.last_name";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            echo json_encode(['success' => true, 'staff' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur lors de la récupération du staff']);
+        }
+    }
+
+    /**
+     * Indique si l'intervention a déjà une solution documentée, et renvoie
+     * la liste des commentaires existants (pour proposer d'en marquer un comme solution).
+     */
+    public function getSolutionStatus($id)
+    {
+        $this->checkAccess();
+        header('Content-Type: application/json');
+
+        try {
+            $sql = "SELECT id, comment, is_solution, created_at,
+                CONCAT(u.first_name, ' ', u.last_name) as created_by_name
+                FROM intervention_comments c
+                LEFT JOIN users u ON c.created_by = u.id
+                WHERE c.intervention_id = ?
+                ORDER BY c.created_at DESC";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$id]);
+            $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $hasSolution = false;
+            foreach ($comments as $c) {
+                if ((int) $c['is_solution'] === 1) {
+                    $hasSolution = true;
+                    break;
+                }
+            }
+
+            echo json_encode([
+                'success' => true,
+                'has_solution' => $hasSolution,
+                'comments' => $comments
+            ]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur']);
+        }
+    }
+
+    public function sendBonSignedNotification($id)
+    {
+        $this->checkAccess();
+        header('Content-Type: application/json');
+
+        try {
+            $intervention = $this->interventionModel->getById($id);
+            if (!$intervention) {
+                throw new Exception('Intervention introuvable');
+            }
+
+            $includeClient = !empty($_POST['include_client']) && $_POST['include_client'] == '1';
+            $includeTechnicians = !empty($_POST['include_technicians']) && $_POST['include_technicians'] == '1';
+
+            $extraStaffIds = [];
+            if (!empty($_POST['staff_ids']) && is_array($_POST['staff_ids'])) {
+                $extraStaffIds = array_map('intval', $_POST['staff_ids']);
+            }
+
+            $extraRecipients = [];
+            if (!empty($extraStaffIds)) {
+                $placeholders = implode(',', array_fill(0, count($extraStaffIds), '?'));
+                $stmt = $this->db->prepare(
+                    "SELECT email, CONCAT(first_name, ' ', last_name) as name FROM users WHERE id IN ($placeholders)"
+                );
+                $stmt->execute($extraStaffIds);
+                $extraRecipients = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+
+            if (!$includeClient && !$includeTechnicians && empty($extraRecipients)) {
+                throw new Exception("Veuillez sélectionner au moins un destinataire.");
+            }
+
+            require_once __DIR__ . '/../models/MailTemplateModel.php';
+            $mailTemplateModel = new MailTemplateModel($this->db);
+            $templateId = $mailTemplateModel->getTemplateIdByType('intervention_closed');
+
+            if (!$templateId) {
+                throw new Exception("Aucun template 'intervention_closed' actif trouvé");
+            }
+
+            $success = $this->mailService->sendBonSignedNotification(
+                $id,
+                $templateId,
+                $includeClient,
+                $includeTechnicians,
+                $extraRecipients,
+            );
+
+            echo json_encode(['success' => (bool) $success, 'message' => 'Notification envoyée']);
+
+        } catch (Exception $e) {
+            custom_log_mail("Erreur sendBonSignedNotification intervention $id : " . $e->getMessage(), 'ERROR');
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
         exit;
     }
 }

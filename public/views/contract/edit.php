@@ -40,12 +40,18 @@ if (!empty($returnUrl)) {
     // Décoder l'URL si elle a été encodée
     $returnUrl = urldecode($returnUrl);
 
-} else {
+$returnUrl = $_GET['return_url'] ?? null;
 
-    // Sinon, comportement par défaut : retour vers l'édition du client
+// Si une URL de retour est fournie, l'utiliser
+if (!empty($returnUrl)) {
+
+    // Décoder l'URL si elle a été encodée
+    $returnUrl = urldecode($returnUrl);
+
+} else {
     $returnUrl = BASE_URL . 'clients/edit/' . $client['id'] . '#contracts';
 }
-
+}
 // Inclure le header qui contient le menu latéral
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
@@ -315,11 +321,8 @@ echo '<script>const baseUrl = "' . BASE_URL . '";</script>';
     </div>
 </div>
 
-<!-- JavaScript extrait vers public/assets/js/pages/contracts-form.js -->
-<!-- Code JavaScript supprimé - Utilise maintenant contracts-form.js -->
-
 <!-- JavaScript spécifique aux formulaires de contrats -->
-<script src="<?php echo BASE_URL; ?>assets/js/pages/contracts-form.js" onerror="console.error('ERREUR: contracts-form.js n\'a pas pu être chargé. Vérifiez que le fichier existe et est accessible.');"></script>
+<script src="<?php echo BASE_URL; ?>assets/js/pages/contracts-form.js" onerror="console.error('ERREUR: contracts-form.js n\'a pas pu être chargé. Vérifiez que le fichier existe et est accessible.')"></script>
 
 <?php
 // Inclure le footer

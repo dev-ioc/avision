@@ -207,7 +207,9 @@ class RoomController
         }
 
         $defaultReturn = BASE_URL . 'clients/view/' . (int) $building['client_id'];
+        $defaultReturn = BASE_URL . 'clients/view/' . (int) $building['client_id'];
 
+        $returnUrl = $_POST['return_url'] ?? $_GET['return_url'] ?? $defaultReturn;
         $returnUrl = $_POST['return_url'] ?? $_GET['return_url'] ?? $defaultReturn;
 
         // Sécurité : uniquement des URL internes à l'application

@@ -132882,3 +132882,1125 @@ Quant à l’écran n°1, il est HS
 [2026-09-03 08:17:43][DEBUG] Login réussi - qr_salle: NON DÉFINI 
 [2026-09-03 08:17:43][DEBUG] Login réussi - Toutes les clés de session: _last_regeneration, _last_activity, csrf_token, user, last_activity 
 [2026-09-03 08:17:43][DEBUG] Aucune redirection trouvée (redirect_after_login: NULL), redirection vers dashboard 
+[2026-09-03 09:29:15][CRITICAL] Cannot redeclare AuthController::showForgotPasswordForm() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\AuthController.php","line":578,"type":64}
+[2026-09-03 09:48:57][ERROR] Erreur saveWebauthnChallenge : SQLSTATE[42S02]: Base table or view not found: 1146 Table 'avision_prod.webauthn_challenges' doesn't exist 
+[2026-09-03 09:49:05][ERROR] Erreur saveWebauthnChallenge : SQLSTATE[42S02]: Base table or view not found: 1146 Table 'avision_prod.webauthn_challenges' doesn't exist 
+[2026-09-03 09:49:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:49:17][ERROR] Erreur d'authentification : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE u.email = ? AND u.status = 1' at line 9 
+[2026-09-03 09:49:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:49:24][ERROR] Erreur d'authentification : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE u.email = ? AND u.status = 1' at line 9 
+[2026-09-03 09:49:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:49:30][ERROR] Erreur d'authentification : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE u.email = ? AND u.status = 1' at line 9 
+[2026-09-03 09:49:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:49:35][ERROR] Erreur d'authentification : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE u.email = ? AND u.status = 1' at line 9 
+[2026-09-03 09:49:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:49:51][ERROR] Erreur d'authentification : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE u.email = ? AND u.status = 1' at line 9 
+[2026-09-03 09:51:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:51:23][ERROR] Erreur d'authentification : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE u.email = ? AND u.status = 1' at line 9 
+[2026-09-03 09:52:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:52:01][ERROR] Erreur d'authentification : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.totp_enabled' in 'field list' 
+[2026-09-03 09:55:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:55:59][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-03 09:55:59][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-03 09:55:59][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-03 09:56:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:56:23][ERROR] Erreur saveWebauthnChallenge : SQLSTATE[42S02]: Base table or view not found: 1146 Table 'avision_prod.webauthn_challenges' doesn't exist 
+[2026-09-03 09:56:46][DEBUG] CSRF: Token trouvé dans la requête - Token: a979f17d0dee3e5d6f8c... 
+[2026-09-03 09:56:47][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-03 09:56:47][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-03 09:56:47][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-03 09:56:49][DEBUG] CSRF: Token trouvé dans la requête - Token: a979f17d0dee3e5d6f8c... 
+[2026-09-03 09:56:49][DEBUG] CSRF: Token trouvé dans la requête - Token: a979f17d0dee3e5d6f8c... 
+[2026-09-03 09:56:49][DEBUG] CSRF: Token trouvé dans la requête - Token: a979f17d0dee3e5d6f8c... 
+[2026-09-03 09:56:54][DEBUG] CSRF: Token trouvé dans la requête - Token: a979f17d0dee3e5d6f8c... 
+[2026-09-03 09:56:54][DEBUG] CSRF: Token trouvé dans la requête - Token: a979f17d0dee3e5d6f8c... 
+[2026-09-03 09:56:54][DEBUG] CSRF: Token trouvé dans la requête - Token: a979f17d0dee3e5d6f8c... 
+[2026-09-03 09:56:54][DEBUG] CSRF: Token trouvé dans la requête - Token: a979f17d0dee3e5d6f8c... 
+[2026-09-03 09:56:54][DEBUG] CSRF: Token trouvé dans la requête - Token: a979f17d0dee3e5d6f8c... 
+[2026-09-03 09:56:54][DEBUG] CSRF: Token trouvé dans la requête - Token: a979f17d0dee3e5d6f8c... 
+[2026-09-03 09:56:54][DEBUG] CSRF: Token trouvé dans la requête - Token: a979f17d0dee3e5d6f8c... 
+[2026-09-03 09:56:54][DEBUG] CSRF: Token trouvé dans la requête - Token: a979f17d0dee3e5d6f8c... 
+[2026-09-03 09:56:54][DEBUG] CSRF: Token trouvé dans la requête - Token: a979f17d0dee3e5d6f8c... 
+[2026-09-03 09:57:04][ERROR] Erreur saveWebauthnChallenge : SQLSTATE[42S02]: Base table or view not found: 1146 Table 'avision_prod.webauthn_challenges' doesn't exist 
+[2026-09-03 09:57:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:57:51][DEBUG] AttachmentService::normalizeFilesArray - Tableau de fichiers détecté, count: 1 
+[2026-09-03 09:57:51][DEBUG] AttachmentService::upload - Type: intervention, EntityId: 384, Files count: 1, UploadDir: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/384 
+[2026-09-03 09:57:51][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\php6B4D.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/384/1788422271_coursUML_compressed_1-2.pdf 
+[2026-09-03 09:57:51][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/interventions/384/1788422271_coursUML_compressed_1-2.pdf 
+[2026-09-03 09:57:51][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML_compressed (1)-2.pdf (ID: 577) 
+[2026-09-03 09:58:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:58:04][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-09-03 09:58:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:58:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 09:58:16][ERROR] Erreur saveLocalSignature : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'client_name' in 'field list' 
+[2026-09-03 10:00:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:00:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:00:22][ERROR] Erreur saveLocalSignature : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'client_send_email' in 'field list' 
+[2026-09-03 10:01:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:01:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:02:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:02:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:02:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:04:28][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 10:04:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:04:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:04:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:04:36][INFO] 37 
+[2026-09-03 10:04:36][INFO] 38 
+[2026-09-03 10:04:36][INFO] 36 
+[2026-09-03 10:04:51][INFO] 37 
+[2026-09-03 10:04:51][INFO] 38 
+[2026-09-03 10:04:51][INFO] 36 
+[2026-09-03 10:05:10][INFO] 37 
+[2026-09-03 10:05:10][INFO] 38 
+[2026-09-03 10:05:10][INFO] 36 
+[2026-09-03 10:05:16][DEBUG] Tentative d'aperçu contrat pour l'ID: 185 
+[2026-09-03 10:05:16][DEBUG] Pièce jointe trouvée: {"id":185,"nom_fichier":"EnvelopePDF.aspx.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/196\/1768486414_0_EnvelopePDF.aspx.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":588541,"commentaire":null,"date_creation":"2026-01-15 17:13:34","masque_client":0,"type_id":null,"created_by":2} 
+[2026-09-03 10:05:16][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/196/1768486414_0_EnvelopePDF.aspx.pdf 
+[2026-09-03 10:05:16][DEBUG] Fichier trouvé, taille: 588541 
+[2026-09-03 10:05:16][DEBUG] Type MIME détecté: application/pdf 
+[2026-09-03 10:05:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:05:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:05:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:05:23][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 10:05:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:05:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:05:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:05:25][INFO] 37 
+[2026-09-03 10:05:25][INFO] 38 
+[2026-09-03 10:05:25][INFO] 36 
+[2026-09-03 10:06:21][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 10:06:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:06:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:06:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:06:24][INFO] 37 
+[2026-09-03 10:06:24][INFO] 38 
+[2026-09-03 10:06:24][INFO] 36 
+[2026-09-03 10:06:49][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 10:06:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:06:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:06:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:06:52][INFO] 37 
+[2026-09-03 10:06:52][INFO] 38 
+[2026-09-03 10:06:52][INFO] 36 
+[2026-09-03 10:07:03][INFO] 37 
+[2026-09-03 10:07:03][INFO] 38 
+[2026-09-03 10:07:03][INFO] 36 
+[2026-09-03 10:07:13][INFO] 37 
+[2026-09-03 10:07:13][INFO] 38 
+[2026-09-03 10:07:13][INFO] 36 
+[2026-09-03 10:07:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:40][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:07:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:08:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:08:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:08:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:08:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:08:44][INFO] 96 
+[2026-09-03 10:08:44][INFO] 104 
+[2026-09-03 10:08:44][INFO] 101 
+[2026-09-03 10:08:44][INFO] 98 
+[2026-09-03 10:08:44][INFO] 106 
+[2026-09-03 10:08:44][INFO] 100 
+[2026-09-03 10:08:44][INFO] 99 
+[2026-09-03 10:08:44][INFO] 102 
+[2026-09-03 10:08:44][INFO] 97 
+[2026-09-03 10:08:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:08:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:08:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:11:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:11:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:11:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:12:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:12:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:12:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:12:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:12:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:12:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:12:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:12:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:12:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:12:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:12:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:12:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 81452bf82ccce24340e1... 
+[2026-09-03 10:15:41][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:15:41][INFO] Token de réinitialisation sauvegardé pour l'utilisateur 40 (demandé par: l'utilisateur lui-même) 
+[2026-09-03 10:16:02][ERROR] Erreur dans processForgotPassword: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-09-03 10:16:48][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:16:48][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-03 10:16:48][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-03 10:16:48][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-03 10:16:51][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:16:51][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:16:51][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:16:53][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:16:53][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:16:53][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:16:53][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:16:54][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:16:54][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:16:54][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:16:54][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:16:54][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:23][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: 7g84k1hqgokr0q99913p2ofgcu) 
+[2026-09-03 10:19:35][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:35][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:35][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:36][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:36][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:37][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:44][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:44][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:44][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:46][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:57][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:19:57][INFO] Token de réinitialisation sauvegardé pour l'utilisateur 47 (demandé par: 40) 
+[2026-09-03 10:20:18][ERROR] Erreur dans sendResetLink: Impossible de se connecter au serveur SMTP (172.20.64.14:587): Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu (code: 10060) 
+[2026-09-03 10:21:45][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:21:45][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:21:45][DEBUG] CSRF: Token trouvé dans la requête - Token: d40bdfa9d1e1fd182d3c... 
+[2026-09-03 10:22:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 7764d753cb4c175ff3fa... 
+[2026-09-03 10:22:53][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.cmo 
+[2026-09-03 10:22:53][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.cmo 
+[2026-09-03 10:23:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 7764d753cb4c175ff3fa... 
+[2026-09-03 10:23:12][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.cmo 
+[2026-09-03 10:23:12][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.cmo 
+[2026-09-03 10:23:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 7764d753cb4c175ff3fa... 
+[2026-09-03 10:23:32][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-03 10:23:32][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-03 10:23:32][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-03 10:24:29][DEBUG] CSRF: Token trouvé dans la requête - Token: e9d329028db872576614... 
+[2026-09-03 10:24:29][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-03 10:24:29][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-03 10:24:29][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-03 10:24:41][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-03 10:24:41][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-03 10:24:59][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-03 10:24:59][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-03 10:25:03][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-03 10:25:03][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-03 10:25:09][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-03 10:25:09][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:09][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"curative","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-03 10:25:09][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-03 10:25:09][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-03 10:25:09][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-09-03 10:25:11][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-03 10:25:11][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:11][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"preventive","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-03 10:25:11][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-03 10:25:11][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-03 10:25:11][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-09-03 10:25:13][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-03 10:25:13][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:13][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"curative","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-03 10:25:13][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-03 10:25:13][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-03 10:25:13][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-09-03 10:25:15][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-03 10:25:16][DEBUG] CSRF: Token trouvé dans la requête - Token: e9d329028db872576614... 
+[2026-09-03 10:25:16][DEBUG] CSRF: Token trouvé dans la requête - Token: e9d329028db872576614... 
+[2026-09-03 10:25:16][DEBUG] CSRF: Token trouvé dans la requête - Token: e9d329028db872576614... 
+[2026-09-03 10:25:22][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-03 10:25:22][DEBUG] CSRF: Token trouvé dans la requête - Token: e9d329028db872576614... 
+[2026-09-03 10:25:22][DEBUG] CSRF: Token trouvé dans la requête - Token: e9d329028db872576614... 
+[2026-09-03 10:25:22][DEBUG] CSRF: Token trouvé dans la requête - Token: e9d329028db872576614... 
+[2026-09-03 10:25:24][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-03 10:25:24][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-03 10:25:24][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - START 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-03 10:25:24][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-03 10:25:24][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-03 10:25:24][INFO] 55 
+[2026-09-03 10:25:24][INFO] 109 
+[2026-09-03 10:25:24][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-03 10:25:26][INFO] 109 
+[2026-09-03 10:25:28][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-03 10:25:28][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-03 10:25:28][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - START 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-03 10:25:28][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-03 10:25:28][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-03 10:25:28][INFO] 55 
+[2026-09-03 10:25:28][INFO] 109 
+[2026-09-03 10:25:28][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-03 10:25:30][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:30][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:30][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) 
+[2026-09-03 10:25:30][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-03 10:25:30][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-03 10:25:30][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:30][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-09-03 10:25:30][DEBUG] getBuildingsByLocations - result count: 2 
+[2026-09-03 10:25:30][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 55) OR (s.id = 109)) 
+[2026-09-03 10:25:30][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 55) OR (s.id = 109)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-03 10:25:30][DEBUG] getAllByLocations - Params: [] 
+[2026-09-03 10:25:30][DEBUG] getAllByLocations - Results count: 31 
+[2026-09-03 10:25:34][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:34][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35 AND s.id = 55)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-03 10:25:34][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:34][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:34][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) 
+[2026-09-03 10:25:34][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-03 10:25:34][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-03 10:25:34][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:34][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35 AND s.id = 55)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-03 10:25:34][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 55) OR (s.id = 109)) 
+[2026-09-03 10:25:34][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 55) OR (s.id = 109)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-03 10:25:34][DEBUG] getAllByLocations - Params: [55] 
+[2026-09-03 10:25:34][DEBUG] getAllByLocations - Results count: 19 
+[2026-09-03 10:25:36][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:36][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35 AND s.id = 109)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-03 10:25:36][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:36][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:36][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) 
+[2026-09-03 10:25:36][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-03 10:25:36][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-03 10:25:36][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:36][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35 AND s.id = 109)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-03 10:25:36][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 55) OR (s.id = 109)) 
+[2026-09-03 10:25:36][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 55) OR (s.id = 109)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-03 10:25:36][DEBUG] getAllByLocations - Params: [109] 
+[2026-09-03 10:25:36][DEBUG] getAllByLocations - Results count: 12 
+[2026-09-03 10:25:39][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:39][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.first_name as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-09-03 10:25:39][DEBUG] DocumentationClientController::index - Paramètres: [35,35] 
+[2026-09-03 10:25:39][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-09-03 10:25:39][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=, building_id=, salle_id= 
+[2026-09-03 10:25:42][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:42][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.first_name as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             AND EXISTS (
+            SELECT 1 FROM liaisons_pieces_jointes lpj2 
+            WHERE lpj2.piece_jointe_id = pj.id 
+            AND (
+                lpj2.entite_id = ? 
+                OR lpj2.entite_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                OR lpj2.entite_id IN (SELECT id FROM rooms WHERE building_id IN (SELECT id FROM buildings WHERE site_id = ?))
+            )
+        ) GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-09-03 10:25:42][DEBUG] DocumentationClientController::index - Paramètres: [35,35,55,55,55] 
+[2026-09-03 10:25:42][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-09-03 10:25:42][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=55, building_id=, salle_id= 
+[2026-09-03 10:25:43][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:43][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:43][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) 
+[2026-09-03 10:25:43][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-03 10:25:43][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-03 10:25:43][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:43][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-09-03 10:25:43][DEBUG] getBuildingsByLocations - result count: 2 
+[2026-09-03 10:25:43][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 55) OR (s.id = 109)) 
+[2026-09-03 10:25:43][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 55) OR (s.id = 109)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-03 10:25:43][DEBUG] getAllByLocations - Params: [] 
+[2026-09-03 10:25:43][DEBUG] getAllByLocations - Results count: 31 
+[2026-09-03 10:25:45][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:45][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35 AND s.id = 109)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-03 10:25:45][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:45][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:45][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) 
+[2026-09-03 10:25:45][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-03 10:25:45][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-03 10:25:45][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:45][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35 AND s.id = 109)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-03 10:25:45][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 55) OR (s.id = 109)) 
+[2026-09-03 10:25:45][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 55) OR (s.id = 109)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-03 10:25:45][DEBUG] getAllByLocations - Params: [109] 
+[2026-09-03 10:25:45][DEBUG] getAllByLocations - Results count: 12 
+[2026-09-03 10:25:48][DEBUG] getByIdWithAccess result for id 2697: {"id":2697,"salle_id":369,"type_materiel":"CENTRALE AUTOMATE","reference":null,"usage_materiel":null,"modele":"DINCP4","marque":"CRESTRON","numero_serie":null,"version_firmware":null,"ancien_firmware":null,"adresse_mac":null,"adresse_ip":"192.168.10.10","masque":null,"passerelle":null,"login":"Admin","password":"password","id_materiel":null,"ip_primaire":null,"mac_primaire":null,"ip_secondaire":null,"mac_secondaire":null,"stream_aes67_recu":null,"stream_aes67_transmis":null,"ssid":null,"type_cryptage":null,"password_wifi":null,"libelle_pa_salle":null,"numero_port_switch":null,"vlan":null,"date_fin_maintenance":null,"date_fin_garantie":null,"date_derniere_inter":null,"commentaire":null,"url_github":null,"created_at":"2026-03-16 19:46:57","updated_at":"2026-03-16 19:46:57","deleted_at":null,"salle_nom":"Salle de pri\u00e8re","building_nom":"B\u00e2timent Principal","site_nom":"Trets","site_id":109,"client_nom":"ACSBN","client_id":35,"type_nom":"CENTRALE AUTOMATE"} 
+[2026-09-03 10:25:48][DEBUG] VIEW - Direct SQL count for materiel 2697: 0 
+[2026-09-03 10:25:48][DEBUG] getByIdWithAccess result for id 2697: {"id":2697,"salle_id":369,"type_materiel":"CENTRALE AUTOMATE","reference":null,"usage_materiel":null,"modele":"DINCP4","marque":"CRESTRON","numero_serie":null,"version_firmware":null,"ancien_firmware":null,"adresse_mac":null,"adresse_ip":"192.168.10.10","masque":null,"passerelle":null,"login":"Admin","password":"password","id_materiel":null,"ip_primaire":null,"mac_primaire":null,"ip_secondaire":null,"mac_secondaire":null,"stream_aes67_recu":null,"stream_aes67_transmis":null,"ssid":null,"type_cryptage":null,"password_wifi":null,"libelle_pa_salle":null,"numero_port_switch":null,"vlan":null,"date_fin_maintenance":null,"date_fin_garantie":null,"date_derniere_inter":null,"commentaire":null,"url_github":null,"created_at":"2026-03-16 19:46:57","updated_at":"2026-03-16 19:46:57","deleted_at":null,"salle_nom":"Salle de pri\u00e8re","building_nom":"B\u00e2timent Principal","site_nom":"Trets","site_id":109,"client_nom":"ACSBN","client_id":35,"type_nom":"CENTRALE AUTOMATE"} 
+[2026-09-03 10:25:48][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 0 pour le matériel ID: 2697 
+[2026-09-03 10:25:48][DEBUG] VIEW - Attachments from model: 0 
+[2026-09-03 10:25:49][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:49][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:49][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) 
+[2026-09-03 10:25:49][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-03 10:25:49][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-03 10:25:49][DEBUG] getBuildingsBySiteAndLocations - siteId: 109, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:25:49][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35 AND s.id = 109)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-03 10:25:50][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 55) OR (s.id = 109)) 
+[2026-09-03 10:25:50][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 55) OR (s.id = 109)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-03 10:25:50][DEBUG] getAllByLocations - Params: [109] 
+[2026-09-03 10:25:50][DEBUG] getAllByLocations - Results count: 12 
+[2026-09-03 10:26:01][DEBUG] CSRF: Token trouvé dans la requête - Token: e9d329028db872576614... 
+[2026-09-03 10:26:04][DEBUG] CSRF: Token trouvé dans la requête - Token: e9d329028db872576614... 
+[2026-09-03 10:26:07][DEBUG] CSRF: Token trouvé dans la requête - Token: e9d329028db872576614... 
+[2026-09-03 10:26:09][DEBUG] CSRF: Token trouvé dans la requête - Token: e9d329028db872576614... 
+[2026-09-03 10:26:26][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-03 10:26:26][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:26:26][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-02","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-03 10:26:26][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-03 10:26:26][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-03 10:26:26][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-09-03 10:26:31][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-03 10:26:31][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:26:31][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-04-26","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-03 10:26:31][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-03 10:26:31][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-03 10:26:31][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-09-03 10:26:36][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-03 10:26:36][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:26:36][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-05-26","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-03 10:26:36][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-03 10:26:36][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-03 10:26:36][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-09-03 10:26:39][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-03 10:26:39][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:26:39][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-05-31","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-03 10:26:39][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-03 10:26:39][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-03 10:26:39][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-09-03 10:26:52][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-03 10:26:52][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:26:52][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-07-22","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-03 10:26:52][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-03 10:26:52][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-03 10:26:52][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-09-03 10:26:55][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-03 10:26:55][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:26:55][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2026-07-24","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-03 10:26:55][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-03 10:26:55][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-03 10:26:55][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-09-03 10:27:00][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-03 10:27:00][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:27:00][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2025-12-24","date_end":null,"type":"all","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-03 10:27:00][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-03 10:27:00][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-03 10:27:00][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-09-03 10:27:06][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-03 10:27:06][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:27:06][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2025-12-24","date_end":null,"type":"preventive","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-03 10:27:06][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-03 10:27:06][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-03 10:27:06][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-09-03 10:27:07][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-03 10:27:07][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:27:07][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2025-12-24","date_end":null,"type":"curative","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-03 10:27:07][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-03 10:27:07][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-03 10:27:07][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-09-03 10:27:09][DEBUG] EXPORT DEBUG - Méthode export() (téléchargement XLSX) appelée 
+[2026-09-03 10:27:09][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-03 10:27:09][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":"2025-12-24","date_end":null,"type":"curative","site_id":null,"building_id":null,"room_id":null,"status_id":null,"search":null,"exclude_status_ids":[6,7]} 
+[2026-09-03 10:27:09][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-03 10:27:09][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.created_at >= ? AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-03 10:27:09][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 1 
+[2026-09-03 10:27:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 48e1e2591cf473ee86fc... 
+[2026-09-03 10:27:44][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-03 10:27:44][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-03 10:27:44][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-03 10:27:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 48e1e2591cf473ee86fc... 
+[2026-09-03 10:27:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 48e1e2591cf473ee86fc... 
+[2026-09-03 10:29:23][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: u5v8srg706ig8g2amkgsg0egje) 
+[2026-09-03 10:48:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c6c31610e14f1fc3d01... 
+[2026-09-03 10:48:19][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.cmo 
+[2026-09-03 10:48:19][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.cmo 
+[2026-09-03 10:48:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 0c6c31610e14f1fc3d01... 
+[2026-09-03 10:48:30][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-03 10:48:30][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-03 10:48:30][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-03 10:58:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 3eff6cf6bd9c27bf90be... 
+[2026-09-03 10:58:45][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-03 10:58:45][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-03 10:58:45][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-03 10:59:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 3eff6cf6bd9c27bf90be... 
+[2026-09-03 10:59:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 3eff6cf6bd9c27bf90be... 
+[2026-09-03 10:59:31][DEBUG] SIGNNOW EMAIL INVITE BODY = {"to":[{"email":"karijatsilefilaza@gmail.com","role":"Signer 1","order":1,"first_name":"karija","last_name":"tsilefy"}],"from":"dev_mdg@caspeo.fr","subject":"Demande de signature - Bon d'intervention","message":"Veuillez signer le bon d'intervention en cliquant sur le lien ci-dessous."} 
+[2026-09-03 10:59:32][DEBUG] SIGNNOW EMAIL INVITE RESPONSE = {"errors":[{"code":80001005,"message":"Your API subscription has expired."}]} 
+[2026-09-03 10:59:32][DEBUG] SIGNNOW Document: {"id":"8969b12d884f44778348f5dd0b61b4bfc10ea435"} 
+[2026-09-03 10:59:32][DEBUG] SIGNNOW Invite: {"status":403,"data":{"errors":[{"code":80001005,"message":"Your API subscription has expired."}]}} 
+[2026-09-03 10:59:32][ERROR] SIGNNOW: Échec invitation - Your API subscription has expired. 
+[2026-09-03 13:38:37][DEBUG] Redirection vers login - URL sauvegardée: documentation (Session ID: hcedd6td8fhc04be2g0c231029) 
+[2026-09-03 13:38:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e4f0d9e0425afc8c4a6... 
+[2026-09-03 13:38:41][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-03 13:38:41][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-03 13:38:41][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-03 14:20:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 1a2b9ac029ff7b024e0d... 
+[2026-09-03 14:20:36][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-03 14:20:36][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-03 14:20:36][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-03 15:08:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:08:52][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-03 15:08:52][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-03 15:08:52][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-03 15:08:55][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 15:08:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:08:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:08:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:09:13][INFO] 37 
+[2026-09-03 15:09:13][INFO] 38 
+[2026-09-03 15:09:13][INFO] 36 
+[2026-09-03 15:09:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:09:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:09:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:09:34][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 15:09:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:09:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:09:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:09:38][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 15:09:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:09:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:09:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:09:41][INFO] 37 
+[2026-09-03 15:09:41][INFO] 38 
+[2026-09-03 15:09:41][INFO] 36 
+[2026-09-03 15:11:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:11:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:11:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:11:06][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 15:11:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:11:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:11:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:11:09][INFO] 37 
+[2026-09-03 15:11:09][INFO] 38 
+[2026-09-03 15:11:09][INFO] 36 
+[2026-09-03 15:13:51][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 15:13:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:13:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:13:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:13:53][INFO] 37 
+[2026-09-03 15:13:53][INFO] 38 
+[2026-09-03 15:13:53][INFO] 36 
+[2026-09-03 15:15:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:15:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:15:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:16:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:16:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:16:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:16:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:16:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:16:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:16:50][INFO] 1 
+[2026-09-03 15:16:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:16:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:16:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:16:54][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 15:16:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:16:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:16:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:16:56][INFO] 37 
+[2026-09-03 15:16:56][INFO] 38 
+[2026-09-03 15:16:56][INFO] 36 
+[2026-09-03 15:17:01][INFO] 37 
+[2026-09-03 15:17:01][INFO] 38 
+[2026-09-03 15:17:01][INFO] 36 
+[2026-09-03 15:17:12][DEBUG] Tentative d'aperçu contrat pour l'ID: 83 
+[2026-09-03 15:17:12][DEBUG] Pièce jointe trouvée: {"id":83,"nom_fichier":"AON FC16508.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/79\/1757580024_0_AON_FC16508.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":445658,"commentaire":null,"date_creation":"2025-09-11 11:40:24","masque_client":1,"type_id":null,"created_by":2} 
+[2026-09-03 15:17:12][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/79/1757580024_0_AON_FC16508.pdf 
+[2026-09-03 15:17:12][DEBUG] Fichier trouvé, taille: 445658 
+[2026-09-03 15:17:12][DEBUG] Type MIME détecté: application/pdf 
+[2026-09-03 15:17:15][INFO] 37 
+[2026-09-03 15:17:15][INFO] 38 
+[2026-09-03 15:17:15][INFO] 36 
+[2026-09-03 15:17:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:17:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:17:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:17:21][DEBUG] Tentative d'aperçu contrat pour l'ID: 476 
+[2026-09-03 15:17:21][DEBUG] Pièce jointe trouvée: {"id":476,"nom_fichier":"CC16594.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":"CC16594.pdf","chemin_fichier":"uploads\/contracts\/17\/1779954878_CC16594.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":581950,"commentaire":null,"date_creation":"2026-05-28 10:54:38","masque_client":0,"type_id":null,"created_by":2} 
+[2026-09-03 15:17:21][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-09-03 15:17:21][ERROR] Le fichier n'existe pas: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-09-03 15:17:21][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-09-03 15:17:21][DEBUG] Tentative d'aperçu contrat pour l'ID: 91 
+[2026-09-03 15:17:21][DEBUG] Pièce jointe trouvée: {"id":91,"nom_fichier":"GROUPAMA ANTONY FC16587.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/17\/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":447289,"commentaire":null,"date_creation":"2025-09-11 11:56:28","masque_client":1,"type_id":null,"created_by":2} 
+[2026-09-03 15:17:21][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf 
+[2026-09-03 15:17:21][DEBUG] Fichier trouvé, taille: 447289 
+[2026-09-03 15:17:21][DEBUG] Type MIME détecté: application/pdf 
+[2026-09-03 15:17:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:17:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:17:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:17:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:17:26][DEBUG] Tentative d'aperçu contrat pour l'ID: 476 
+[2026-09-03 15:17:26][DEBUG] Pièce jointe trouvée: {"id":476,"nom_fichier":"CC16594.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":"CC16594.pdf","chemin_fichier":"uploads\/contracts\/17\/1779954878_CC16594.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":581950,"commentaire":null,"date_creation":"2026-05-28 10:54:38","masque_client":0,"type_id":null,"created_by":2} 
+[2026-09-03 15:17:26][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-09-03 15:17:26][ERROR] Le fichier n'existe pas: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-09-03 15:17:26][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-09-03 15:17:26][DEBUG] Tentative d'aperçu contrat pour l'ID: 91 
+[2026-09-03 15:17:26][DEBUG] Pièce jointe trouvée: {"id":91,"nom_fichier":"GROUPAMA ANTONY FC16587.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/17\/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":447289,"commentaire":null,"date_creation":"2025-09-11 11:56:28","masque_client":1,"type_id":null,"created_by":2} 
+[2026-09-03 15:17:26][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf 
+[2026-09-03 15:17:26][DEBUG] Fichier trouvé, taille: 447289 
+[2026-09-03 15:17:26][DEBUG] Type MIME détecté: application/pdf 
+[2026-09-03 15:17:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:17:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:17:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:17:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:17:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:17:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:18:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:18:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:18:38][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 15:18:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:18:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:18:39][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:18:42][INFO] 37 
+[2026-09-03 15:18:42][INFO] 38 
+[2026-09-03 15:18:42][INFO] 36 
+[2026-09-03 15:18:51][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 15:18:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:18:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:18:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:18:53][INFO] 37 
+[2026-09-03 15:18:53][INFO] 38 
+[2026-09-03 15:18:53][INFO] 36 
+[2026-09-03 15:19:29][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 15:19:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:19:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:19:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:19:31][INFO] 37 
+[2026-09-03 15:19:31][INFO] 38 
+[2026-09-03 15:19:31][INFO] 36 
+[2026-09-03 15:21:28][INFO] 37 
+[2026-09-03 15:21:28][INFO] 38 
+[2026-09-03 15:21:28][INFO] 36 
+[2026-09-03 15:21:32][INFO] 37 
+[2026-09-03 15:21:32][INFO] 38 
+[2026-09-03 15:21:32][INFO] 36 
+[2026-09-03 15:21:53][INFO] 37 
+[2026-09-03 15:21:53][INFO] 38 
+[2026-09-03 15:21:53][INFO] 36 
+[2026-09-03 15:22:00][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-03 15:22:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:22:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:22:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 7eb697c0706161907ee7... 
+[2026-09-03 15:22:03][INFO] 37 
+[2026-09-03 15:22:03][INFO] 38 
+[2026-09-03 15:22:03][INFO] 36 
+[2026-09-03 15:22:11][INFO] 37 
+[2026-09-03 15:22:11][INFO] 38 
+[2026-09-03 15:22:11][INFO] 36 
+[2026-09-03 15:22:17][INFO] 37 
+[2026-09-03 15:22:17][INFO] 38 
+[2026-09-03 15:22:17][INFO] 36 
+[2026-09-03 15:22:21][INFO] 37 
+[2026-09-03 15:22:21][INFO] 38 
+[2026-09-03 15:22:21][INFO] 36 
+[2026-09-03 15:22:22][INFO] 37 
+[2026-09-03 15:22:22][INFO] 38 
+[2026-09-03 15:22:22][INFO] 36 
+[2026-09-03 15:22:25][INFO] 37 
+[2026-09-03 15:22:26][INFO] 38 
+[2026-09-03 15:22:26][INFO] 36 
+[2026-09-03 15:22:27][INFO] 37 
+[2026-09-03 15:22:27][INFO] 38 
+[2026-09-03 15:22:27][INFO] 36 

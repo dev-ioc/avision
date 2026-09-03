@@ -73,12 +73,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
 
         <div class="ms-auto p-2 bd-highlight">
-            <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary me-2">
+            <a href="<?php echo htmlspecialchars($returnUrl); ?>" class="btn btn-secondary me-2">
                 <i class="bi bi-arrow-left me-1"></i> Retour
             </a>
-
             <?php if (canManageContracts()): ?>
                 <?php
+                // URL actuelle de la vue du contrat
                 $currentContractUrl = BASE_URL . 'contracts/view/' . (int) $contract['id'];
                 if ($returnTo === 'client' && $clientId) {
                     $currentContractUrl .= '?return_to=client&client_id=' . (int) $clientId;
@@ -90,6 +90,17 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 ?>
 
                 <a href="<?= BASE_URL ?>contracts/edit/<?= (int) $contract['id'] ?>?return_url=<?= urlencode($currentContractUrl) ?>"
+                    <?php
+                    $currentContractUrl = BASE_URL . 'contracts/view/' . (int) $contract['id'];
+                    if ($returnTo === 'client' && $clientId) {
+                        $currentContractUrl .= '?return_to=client&client_id=' . (int) $clientId;
+
+                        if ($activeTab) {
+                            $currentContractUrl .= '&active_tab=' . urlencode($activeTab);
+                        }
+                    }
+                    ?> <a
+                    href="<?= BASE_URL ?>contracts/edit/<?= (int) $contract['id'] ?>?return_url=<?= urlencode($currentContractUrl) ?>"
                     class="btn btn-warning me-2">
                     <i class="bi bi-pencil me-1"></i>Modifier
                 </a>

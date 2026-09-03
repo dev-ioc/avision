@@ -48,7 +48,7 @@ class UserModel extends BaseModel
         }
 
         if (!empty($filters['search'])) {
-            $where[] = "(u.username LIKE :search OR u.email LIKE :search)";
+            $where[] = "(u.first_name LIKE :search OR u.email LIKE :search)";
             $params[':search'] = '%' . $filters['search'] . '%';
         }
 
@@ -142,12 +142,12 @@ class UserModel extends BaseModel
             $isStaff = ($groupInfo['group_name'] === 'Staff');
 
             $sql = "INSERT INTO " . $this->table . " 
-                    (username, email, password, first_name, last_name, user_type_id, is_admin, status, coef_utilisateur, client_id, created_at) 
+                    ( email, password, first_name, last_name, user_type_id, is_admin, status, coef_utilisateur, client_id, created_at) 
                     VALUES 
-                    (:username, :email, :password, :first_name, :last_name, :user_type_id, :is_admin, :status, :coef_utilisateur, :client_id, NOW())";
+                    ( :email, :password, :first_name, :last_name, :user_type_id, :is_admin, :status, :coef_utilisateur, :client_id, NOW())";
 
             $stmt = $this->db->prepare($sql);
-            $stmt->bindValue(':username', $data['username']);
+            // $stmt->bindValue(':username', $data['username']);
             $stmt->bindValue(':email', $data['email']);
             $stmt->bindValue(':password', password_hash($data['password'], PASSWORD_DEFAULT));
             $stmt->bindValue(':first_name', $data['first_name']);
@@ -177,11 +177,11 @@ class UserModel extends BaseModel
             $updates = [];
             $params = [':id' => $id];
 
-            // Construction des champs à mettre à jour
-            if (isset($data['username'])) {
-                $updates[] = "username = :username";
-                $params[':username'] = $data['username'];
-            }
+            // // Construction des champs à mettre à jour
+            // if (isset($data['username'])) {
+            //     $updates[] = "username = :username";
+            //     $params[':username'] = $data['username'];
+            // }
             if (isset($data['email'])) {
                 $updates[] = "email = :email";
                 $params[':email'] = $data['email'];
@@ -274,23 +274,23 @@ class UserModel extends BaseModel
         return parent::delete($id);
     }
 
-    /**
-     * Vérifie si un nom d'utilisateur existe déjà
-     */
-    public function usernameExists($username, $excludeId = null)
-    {
-        $sql = "SELECT COUNT(*) as count FROM " . $this->table . " WHERE username = :username";
-        $params = [':username' => $username];
+    // /**
+    //  * Vérifie si un nom d'utilisateur existe déjà
+    //  */
+    // public function usernameExists($username, $excludeId = null)
+    // {
+    //     $sql = "SELECT COUNT(*) as count FROM " . $this->table . " WHERE username = :username";
+    //     $params = [':username' => $username];
 
-        if ($excludeId) {
-            $sql .= " AND id != :id";
-            $params[':id'] = $excludeId;
-        }
+    //     if ($excludeId) {
+    //         $sql .= " AND id != :id";
+    //         $params[':id'] = $excludeId;
+    //     }
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetch(PDO::FETCH_ASSOC)['count'] > 0;
-    }
+    //     $stmt = $this->db->prepare($sql);
+    //     $stmt->execute($params);
+    //     return $stmt->fetch(PDO::FETCH_ASSOC)['count'] > 0;
+    // }
 
     /**
      * Vérifie si un email existe déjà
@@ -320,20 +320,21 @@ class UserModel extends BaseModel
     {
         try {
             $stmt = $this->db->prepare("
-                SELECT u.id, u.username, u.password, u.email, u.first_name, u.last_name, 
-                       u.status, u.coef_utilisateur, u.client_id, u.is_admin,
-                       ut.name as user_type, ug.name as user_group
+                SELECT u.id, u.password, u.email, u.first_name, u.last_name, 
+                    u.status, u.coef_utilisateur, u.client_id, u.is_admin,
+                    u.totp_enabled,
+                    ut.name as user_type, ug.name as user_group
                 FROM users u
                 JOIN user_types ut ON u.user_type_id = ut.id
                 JOIN user_groups ug ON ut.group_id = ug.id
-                WHERE u.email = :email AND u.status = 1
+                WHERE u.email = :email AND u.status = 1;
             ");
             $stmt->execute(['email' => $email]);
             $user = $stmt->fetch();
 
             if ($user && password_verify($password, $user['password'])) {
                 $this->id = $user['id'];
-                $this->username = $user['username'];
+                // $this->username = $user['username'];
                 $this->email = $user['email'];
                 $this->firstName = $user['first_name'];
                 $this->lastName = $user['last_name'];
@@ -348,7 +349,6 @@ class UserModel extends BaseModel
                 // Stockage dans la session
                 $_SESSION['user'] = [
                     'id' => $this->id,
-                    'username' => $this->username,
                     'email' => $this->email,
                     'first_name' => $this->firstName,
                     'last_name' => $this->lastName,
@@ -356,6 +356,7 @@ class UserModel extends BaseModel
                     'user_group' => $user['user_group'],
                     'is_admin' => $user['is_admin'],
                     'client_id' => $user['client_id'],
+                    'totp_enabled' => $user['totp_enabled'], // <-- ajouter
                     'permissions' => $this->permissions
                 ];
 
@@ -371,6 +372,7 @@ class UserModel extends BaseModel
                 return true;
             }
 
+            custom_log("Tentative de connexion échouée pour l'utilisateur : $email", 'WARNING');
             custom_log("Tentative de connexion échouée pour l'utilisateur : $email", 'WARNING');
             return false;
         } catch (PDOException $e) {
@@ -428,7 +430,7 @@ class UserModel extends BaseModel
             }
 
             // Log temporaire pour debug
-            custom_log("Permissions chargées pour {$this->username} : " . json_encode($this->permissions), 'DEBUG');
+            custom_log("Permissions chargées pour {$this->firstName} : " . json_encode($this->permissions), 'DEBUG');
         } catch (PDOException $e) {
             custom_log("Erreur lors du chargement des permissions : " . $e->getMessage(), 'ERROR');
             $this->permissions = [
@@ -727,14 +729,6 @@ class UserModel extends BaseModel
             custom_log("Erreur lors de la suppression des permissions : " . $e->getMessage(), 'ERROR');
             return false;
         }
-    }
-    public function getUserByEmail($email)
-    {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $user ?: null;
     }
     /**
      * Récupère les sites, bâtiments et salles d'un client
@@ -1239,7 +1233,7 @@ class UserModel extends BaseModel
             $stmt = $this->db->prepare("
             SELECT 
                 prt.*,
-                u.username as requested_by_username,
+                u.first_name as requested_by_username,
                 u.first_name as requested_by_first_name,
                 u.last_name as requested_by_last_name
             FROM password_reset_tokens prt
@@ -1327,5 +1321,287 @@ class UserModel extends BaseModel
             "DELETE FROM password_reset_tokens WHERE token = ?"
         );
         $stmt->execute([$token]);
+    }
+    public function getUserByEmail($email)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
+    }
+    /**
+     * Enregistre un nouveau secret TOTP en attente de confirmation (2FA pas encore activée)
+     */
+    public function saveTotpSecret(int $userId, string $encryptedSecret): bool
+    {
+        $stmt = $this->db->prepare("UPDATE users SET totp_secret = :secret, totp_enabled = 0, totp_confirmed_at = NULL WHERE id = :id");
+        return $stmt->execute([
+            'secret' => $encryptedSecret,
+            'id' => $userId
+        ]);
+    }
+
+    /**
+     * Active définitivement la 2FA après vérification du premier code
+     */
+    public function enableTotp(int $userId): bool
+    {
+        $stmt = $this->db->prepare("UPDATE users SET totp_enabled = 1, totp_confirmed_at = NOW() WHERE id = :id");
+        return $stmt->execute(['id' => $userId]);
+    }
+
+    /**
+     * Désactive la 2FA (par l'utilisateur lui-même ou par un admin)
+     */
+    public function disableTotp(int $userId): bool
+    {
+        $stmt = $this->db->prepare("
+        UPDATE users
+        SET totp_enabled = 0, totp_secret = NULL, totp_confirmed_at = NULL, totp_backup_codes = NULL
+        WHERE id = :id
+    ");
+        return $stmt->execute(['id' => $userId]);
+    }
+
+    /**
+     * Enregistre les codes de secours hashés (JSON)
+     */
+    public function saveBackupCodes(int $userId, array $hashedCodes): bool
+    {
+        $stmt = $this->db->prepare("UPDATE users SET totp_backup_codes = :codes WHERE id = :id");
+        return $stmt->execute([
+            'codes' => json_encode($hashedCodes),
+            'id' => $userId
+        ]);
+    }
+
+    /**
+     * Récupère les codes de secours hashés (tableau PHP)
+     */
+    public function getBackupCodes(int $userId): array
+    {
+        $stmt = $this->db->prepare("SELECT totp_backup_codes FROM users WHERE id = :id");
+        $stmt->execute(['id' => $userId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row || empty($row['totp_backup_codes'])) {
+            return [];
+        }
+
+        $decoded = json_decode($row['totp_backup_codes'], true);
+        return is_array($decoded) ? $decoded : [];
+    }
+
+    /**
+     * Enregistre une tentative de vérification 2FA (pour rate limiting)
+     */
+    public function logTotpAttempt(int $userId, bool $success, ?string $ip = null): void
+    {
+        $stmt = $this->db->prepare("INSERT INTO totp_attempts (user_id, success, ip_address, created_at) VALUES (:uid, :success, :ip, NOW())");
+        $stmt->execute([
+            'uid' => $userId,
+            'success' => $success ? 1 : 0,
+            'ip' => $ip
+        ]);
+    }
+
+    /**
+     * Compte les tentatives échouées récentes (fenêtre glissante) pour bloquer le brute-force
+     */
+    public function countRecentFailedTotpAttempts(int $userId, int $windowSeconds = 300): int
+    {
+        $stmt = $this->db->prepare("
+        SELECT COUNT(*) as nb
+        FROM totp_attempts
+        WHERE user_id = :uid
+          AND success = 0
+          AND created_at >= DATE_SUB(NOW(), INTERVAL :window SECOND)
+    ");
+        $stmt->execute(['uid' => $userId, 'window' => $windowSeconds]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return (int) ($row['nb'] ?? 0);
+    }
+
+    // ==========================================================
+    // WebAuthn / Passkeys
+    // ==========================================================
+
+    /**
+     * Stocke un challenge WebAuthn temporaire (enregistrement ou authentification)
+     */
+    public function saveWebauthnChallenge(string $challengeId, ?int $userId, string $challenge, string $type, string $expiresModifier = '+5 minutes'): bool
+    {
+        try {
+            $stmt = $this->db->prepare("
+            INSERT INTO webauthn_challenges (id, user_id, challenge, type, expires_at)
+            VALUES (:id, :user_id, :challenge, :type, DATE_ADD(NOW(), INTERVAL :minutes MINUTE))
+        ");
+            return $stmt->execute([
+                'id' => $challengeId,
+                'user_id' => $userId,
+                'challenge' => $challenge,
+                'type' => $type,
+                'minutes' => 5
+            ]);
+        } catch (PDOException $e) {
+            custom_log("Erreur saveWebauthnChallenge : " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
+
+    /**
+     * Récupère un challenge WebAuthn s'il existe et n'est pas expiré
+     * @return array|null ['user_id' => int|null, 'challenge' => string]
+     */
+    public function getWebauthnChallenge(string $challengeId, string $type): ?array
+    {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT user_id, challenge
+                FROM webauthn_challenges
+                WHERE id = :id AND type = :type AND expires_at > NOW()
+            ");
+            $stmt->execute(['id' => $challengeId, 'type' => $type]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row ?: null;
+        } catch (PDOException $e) {
+            custom_log("Erreur getWebauthnChallenge : " . $e->getMessage(), 'ERROR');
+            return null;
+        }
+    }
+
+    /**
+     * Supprime un challenge WebAuthn (usage unique)
+     */
+    public function deleteWebauthnChallenge(string $challengeId): bool
+    {
+        $stmt = $this->db->prepare("DELETE FROM webauthn_challenges WHERE id = :id");
+        return $stmt->execute(['id' => $challengeId]);
+    }
+
+    /**
+     * Nettoie les challenges expirés (à appeler périodiquement, ex. cron ou dans login-options)
+     */
+    public function cleanupExpiredWebauthnChallenges(): bool
+    {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM webauthn_challenges WHERE expires_at < NOW()");
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            custom_log("Erreur cleanupExpiredWebauthnChallenges : " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
+
+    /**
+     * Enregistre une nouvelle passkey (stocke la PublicKeyCredentialSource sérialisée en entier,
+     * pas juste la clé publique -> nécessaire pour reconstruire l'objet lors du login)
+     */
+    public function saveWebauthnCredential(int $userId, string $credentialId, string $serializedSource, ?array $transports, string $friendlyName): bool
+    {
+        try {
+            $stmt = $this->db->prepare("
+                INSERT INTO webauthn_credentials (id, user_id, public_key, sign_count, transports, name, created_at)
+                VALUES (:id, :user_id, :public_key, 0, :transports, :name, NOW())
+            ");
+            $result = $stmt->execute([
+                'id' => $credentialId,
+                'user_id' => $userId,
+                'public_key' => $serializedSource, // contient désormais la source complète sérialisée (base64)
+                'transports' => $transports ? json_encode($transports) : null,
+                'name' => $friendlyName
+            ]);
+
+            if ($result) {
+                custom_log("Passkey enregistrée pour user_id: {$userId}", 'INFO');
+            }
+            return $result;
+        } catch (PDOException $e) {
+            custom_log("Erreur saveWebauthnCredential : " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
+
+    /**
+     * Récupère la ligne brute d'une credential (le contrôleur se charge de la désérialiser
+     * via le Serializer WebAuthn, car le modèle ne doit pas dépendre de webauthn-lib)
+     */
+    public function getWebauthnCredentialById(string $credentialId): ?array
+    {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT id, user_id, public_key, sign_count, transports, name
+                FROM webauthn_credentials
+                WHERE id = :id
+            ");
+            $stmt->execute(['id' => $credentialId]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row ?: null;
+        } catch (PDOException $e) {
+            custom_log("Erreur getWebauthnCredentialById : " . $e->getMessage(), 'ERROR');
+            return null;
+        }
+    }
+
+    /**
+     * Liste les passkeys d'un utilisateur (pour affichage page profil)
+     */
+    public function getWebauthnCredentialsForUser(int $userId): array
+    {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT id, name, transports, created_at, last_used_at
+                FROM webauthn_credentials
+                WHERE user_id = :user_id
+                ORDER BY created_at DESC
+            ");
+            $stmt->execute(['user_id' => $userId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            custom_log("Erreur getWebauthnCredentialsForUser : " . $e->getMessage(), 'ERROR');
+            return [];
+        }
+    }
+
+    /**
+     * Met à jour la source complète après une authentification réussie
+     * (le compteur anti-clonage peut changer, la lib recommande de tout re-sauvegarder)
+     */
+    public function updateWebauthnCredentialSource(string $credentialId, string $serializedSource, int $newCounter): bool
+    {
+        $stmt = $this->db->prepare("
+            UPDATE webauthn_credentials
+            SET public_key = :public_key, sign_count = :counter, last_used_at = NOW()
+            WHERE id = :id
+        ");
+        return $stmt->execute([
+            'public_key' => $serializedSource,
+            'counter' => $newCounter,
+            'id' => $credentialId
+        ]);
+    }
+
+    /**
+     * Supprime une passkey (l'utilisateur ne peut supprimer que les siennes -> vérif user_id)
+     */
+    public function deleteWebauthnCredential(string $credentialId, int $userId): bool
+    {
+        try {
+            $stmt = $this->db->prepare("
+                DELETE FROM webauthn_credentials
+                WHERE id = :id AND user_id = :user_id
+            ");
+            $result = $stmt->execute(['id' => $credentialId, 'user_id' => $userId]);
+
+            if ($result && $stmt->rowCount() > 0) {
+                custom_log("Passkey {$credentialId} supprimée pour user_id: {$userId}", 'INFO');
+                return true;
+            }
+            return false;
+        } catch (PDOException $e) {
+            custom_log("Erreur deleteWebauthnCredential : " . $e->getMessage(), 'ERROR');
+            return false;
+        }
     }
 }

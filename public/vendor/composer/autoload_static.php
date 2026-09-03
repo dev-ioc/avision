@@ -6,152 +6,286 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit62e10e6c8df9afc192311b196c75bb33
 {
-    public static $prefixLengthsPsr4 = array (
+    public static $files = array(
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
+        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
+        '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
+        '9d2b9fc6db0f153a0a149fefb182415e' => __DIR__ . '/..' . '/symfony/polyfill-php84/bootstrap.php',
+        '09f6b20656683369174dd6fa83b7e5fb' => __DIR__ . '/..' . '/symfony/polyfill-uuid/bootstrap.php',
+        '2203a247e6fda86070a5e4e07aed533a' => __DIR__ . '/..' . '/symfony/clock/Resources/now.php',
+    );
+
+    public static $prefixLengthsPsr4 = array(
+        'p' =>
+            array(
+                'phpDocumentor\\Reflection\\' => 25,
+            ),
         'Z' =>
-        array (
-            'ZipStream\\' => 10,
-        ),
+            array(
+                'ZipStream\\' => 10,
+            ),
+        'W' =>
+            array(
+                'Webmozart\\Assert\\' => 17,
+                'Webauthn\\' => 9,
+            ),
+        'S' =>
+            array(
+                'Symfony\\Polyfill\\Uuid\\' => 22,
+                'Symfony\\Polyfill\\Php84\\' => 23,
+                'Symfony\\Polyfill\\Php83\\' => 23,
+                'Symfony\\Polyfill\\Mbstring\\' => 26,
+                'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
+                'Symfony\\Polyfill\\Intl\\Grapheme\\' => 31,
+                'Symfony\\Polyfill\\Ctype\\' => 23,
+                'Symfony\\Component\\Uid\\' => 22,
+                'Symfony\\Component\\TypeInfo\\' => 27,
+                'Symfony\\Component\\String\\' => 25,
+                'Symfony\\Component\\Serializer\\' => 29,
+                'Symfony\\Component\\PropertyInfo\\' => 31,
+                'Symfony\\Component\\PropertyAccess\\' => 33,
+                'Symfony\\Component\\Clock\\' => 24,
+                'SpomkyLabs\\Pki\\' => 15,
+            ),
         'P' =>
-        array (
-            'Psr\\SimpleCache\\' => 16,
-            'PhpOffice\\PhpSpreadsheet\\' => 25,
-        ),
+            array(
+                'Psr\\SimpleCache\\' => 16,
+                'Psr\\Log\\' => 8,
+                'Psr\\Http\\Message\\' => 17,
+                'Psr\\Http\\Client\\' => 16,
+                'Psr\\EventDispatcher\\' => 20,
+                'Psr\\Container\\' => 14,
+                'Psr\\Clock\\' => 10,
+                'PhpOffice\\PhpSpreadsheet\\' => 25,
+                'ParagonIE\\ConstantTime\\' => 23,
+                'PHPStan\\PhpDocParser\\' => 21,
+            ),
+        'O' =>
+            array(
+                'OTPHP\\' => 6,
+            ),
         'M' =>
-        array (
-            'Matrix\\' => 7,
-        ),
+            array(
+                'Matrix\\' => 7,
+            ),
         'E' =>
-        array (
-            'Endroid\\QrCode\\' => 15,
-        ),
+            array(
+                'Endroid\\QrCode\\' => 15,
+            ),
         'D' =>
-        array (
-            'DASPRiD\\Enum\\' => 13,
-        ),
+            array(
+                'Doctrine\\Deprecations\\' => 22,
+                'DASPRiD\\Enum\\' => 13,
+            ),
         'C' =>
-        array (
-            'Composer\\Pcre\\' => 14,
-            'Complex\\' => 8,
-            'Com\\Tecnick\\Unicode\\Data\\' => 25,
-            'Com\\Tecnick\\Unicode\\' => 20,
-            'Com\\Tecnick\\Pdf\\Sign\\' => 21,
-            'Com\\Tecnick\\Pdf\\Parser\\' => 23,
-            'Com\\Tecnick\\Pdf\\Page\\' => 21,
-            'Com\\Tecnick\\Pdf\\Image\\' => 22,
-            'Com\\Tecnick\\Pdf\\Graph\\' => 22,
-            'Com\\Tecnick\\Pdf\\Font\\' => 21,
-            'Com\\Tecnick\\Pdf\\Filter\\' => 23,
-            'Com\\Tecnick\\Pdf\\Encrypt\\' => 24,
-            'Com\\Tecnick\\Pdf\\' => 16,
-            'Com\\Tecnick\\File\\' => 17,
-            'Com\\Tecnick\\Color\\' => 18,
-            'Com\\Tecnick\\Barcode\\' => 20,
-        ),
+            array(
+                'Cose\\' => 5,
+                'Composer\\Pcre\\' => 14,
+                'Complex\\' => 8,
+                'CBOR\\' => 5,
+            ),
         'B' =>
-        array (
-            'BaconQrCode\\' => 12,
-        ),
+            array(
+                'Brick\\Math\\' => 11,
+                'BaconQrCode\\' => 12,
+            ),
     );
 
-    public static $prefixDirsPsr4 = array (
+    public static $prefixDirsPsr4 = array(
+        'phpDocumentor\\Reflection\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+                1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+                2 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
+            ),
         'ZipStream\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
-        ),
+            array(
+                0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
+            ),
+        'Webmozart\\Assert\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/webmozart/assert/src',
+            ),
+        'Webauthn\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/web-auth/webauthn-lib/src',
+            ),
+        'Symfony\\Polyfill\\Uuid\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/polyfill-uuid',
+            ),
+        'Symfony\\Polyfill\\Php84\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/polyfill-php84',
+            ),
+        'Symfony\\Polyfill\\Php83\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/polyfill-php83',
+            ),
+        'Symfony\\Polyfill\\Mbstring\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+            ),
+        'Symfony\\Polyfill\\Intl\\Normalizer\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer',
+            ),
+        'Symfony\\Polyfill\\Intl\\Grapheme\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme',
+            ),
+        'Symfony\\Polyfill\\Ctype\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+            ),
+        'Symfony\\Component\\Uid\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/uid',
+            ),
+        'Symfony\\Component\\TypeInfo\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/type-info',
+            ),
+        'Symfony\\Component\\String\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/string',
+            ),
+        'Symfony\\Component\\Serializer\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/serializer',
+            ),
+        'Symfony\\Component\\PropertyInfo\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/property-info',
+            ),
+        'Symfony\\Component\\PropertyAccess\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/property-access',
+            ),
+        'Symfony\\Component\\Clock\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/symfony/clock',
+            ),
+        'SpomkyLabs\\Pki\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/spomky-labs/pki-framework/src',
+            ),
         'Psr\\SimpleCache\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
-        ),
+            array(
+                0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+            ),
+        'Psr\\Log\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/psr/log/src',
+            ),
+        'Psr\\Http\\Message\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/psr/http-factory/src',
+                1 => __DIR__ . '/..' . '/psr/http-message/src',
+            ),
+        'Psr\\Http\\Client\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/psr/http-client/src',
+            ),
+        'Psr\\EventDispatcher\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/psr/event-dispatcher/src',
+            ),
+        'Psr\\Container\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/psr/container/src',
+            ),
+        'Psr\\Clock\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/psr/clock/src',
+            ),
         'PhpOffice\\PhpSpreadsheet\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
-        ),
+            array(
+                0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+            ),
+        'ParagonIE\\ConstantTime\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
+            ),
+        'PHPStan\\PhpDocParser\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/phpstan/phpdoc-parser/src',
+            ),
+        'OTPHP\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/spomky-labs/otphp/src',
+            ),
         'Matrix\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
-        ),
+            array(
+                0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
+            ),
         'Endroid\\QrCode\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/endroid/qr-code/src',
-        ),
+            array(
+                0 => __DIR__ . '/..' . '/endroid/qr-code/src',
+            ),
+        'Doctrine\\Deprecations\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/doctrine/deprecations/src',
+            ),
         'DASPRiD\\Enum\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/dasprid/enum/src',
-        ),
+            array(
+                0 => __DIR__ . '/..' . '/dasprid/enum/src',
+            ),
+        'Cose\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/web-auth/cose-lib/src',
+            ),
         'Composer\\Pcre\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/composer/pcre/src',
-        ),
+            array(
+                0 => __DIR__ . '/..' . '/composer/pcre/src',
+            ),
         'Complex\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
-        ),
-        'Com\\Tecnick\\Unicode\\Data\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-unicode-data/src',
-        ),
-        'Com\\Tecnick\\Unicode\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-unicode/src',
-        ),
-        'Com\\Tecnick\\Pdf\\Sign\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-pdf-sign/src',
-        ),
-        'Com\\Tecnick\\Pdf\\Parser\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-pdf-parser/src',
-        ),
-        'Com\\Tecnick\\Pdf\\Page\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-pdf-page/src',
-        ),
-        'Com\\Tecnick\\Pdf\\Image\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-pdf-image/src',
-        ),
-        'Com\\Tecnick\\Pdf\\Graph\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-pdf-graph/src',
-        ),
-        'Com\\Tecnick\\Pdf\\Font\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-pdf-font/src',
-        ),
-        'Com\\Tecnick\\Pdf\\Filter\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-pdf-filter/src',
-        ),
-        'Com\\Tecnick\\Pdf\\Encrypt\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-pdf-encrypt/src',
-        ),
-        'Com\\Tecnick\\Pdf\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-pdf/src',
-        ),
-        'Com\\Tecnick\\File\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-file/src',
-        ),
-        'Com\\Tecnick\\Color\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-color/src',
-        ),
-        'Com\\Tecnick\\Barcode\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-barcode/src',
-        ),
+            array(
+                0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
+            ),
+        'CBOR\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/spomky-labs/cbor-php/src',
+            ),
+        'Brick\\Math\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/brick/math/src',
+            ),
         'BaconQrCode\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
-        ),
+            array(
+                0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
+            ),
     );
 
-    public static $classMap = array (
+    public static $classMap = array(
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'TCPDF' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf.php',
         'TCPDF_ENGINE' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf.php',
+        'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
+        'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
+        'DateInvalidOperationException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',
+        'DateInvalidTimeZoneException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidTimeZoneException.php',
+        'DateMalformedIntervalStringException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateMalformedIntervalStringException.php',
+        'DateMalformedPeriodStringException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateMalformedPeriodStringException.php',
+        'DateMalformedStringException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateMalformedStringException.php',
+        'DateObjectError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateObjectError.php',
+        'DateRangeError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateRangeError.php',
+        'Deprecated' => __DIR__ . '/..' . '/symfony/polyfill-php84/Resources/stubs/Deprecated.php',
+        'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
+        'Override' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/Override.php',
+        'Pdo\\Dblib' => __DIR__ . '/..' . '/symfony/polyfill-php84/Resources/stubs/Pdo/Dblib.php',
+        'Pdo\\Firebird' => __DIR__ . '/..' . '/symfony/polyfill-php84/Resources/stubs/Pdo/Firebird.php',
+        'Pdo\\Mysql' => __DIR__ . '/..' . '/symfony/polyfill-php84/Resources/stubs/Pdo/Mysql.php',
+        'Pdo\\Odbc' => __DIR__ . '/..' . '/symfony/polyfill-php84/Resources/stubs/Pdo/Odbc.php',
+        'Pdo\\Pgsql' => __DIR__ . '/..' . '/symfony/polyfill-php84/Resources/stubs/Pdo/Pgsql.php',
+        'Pdo\\Sqlite' => __DIR__ . '/..' . '/symfony/polyfill-php84/Resources/stubs/Pdo/Sqlite.php',
+        'ReflectionConstant' => __DIR__ . '/..' . '/symfony/polyfill-php84/Resources/stubs/ReflectionConstant.php',
+        'RoundingMode' => __DIR__ . '/..' . '/symfony/polyfill-php84/Resources/stubs/RoundingMode.php',
+        'SQLite3Exception' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/SQLite3Exception.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

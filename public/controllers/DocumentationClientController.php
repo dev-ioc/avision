@@ -124,7 +124,7 @@ class DocumentationClientController
                 SELECT 
                     pj.*,
                     COALESCE(pj.content, pj.commentaire) as description,
-                    u.username as uploader_name,
+                    u.first_name as uploader_name,
                     pj.created_by,
                     COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
                     COALESCE(s.name, s2.name, s3.name)                as site_nom,

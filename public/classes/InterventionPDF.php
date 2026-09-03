@@ -833,7 +833,7 @@ class InterventionPDF extends TCPDF
         $this->headCell($w, 'Heure fin intervention');
         $this->headCell($w, 'Solde ticket');
         $this->headCell($w, 'Total ticket intervention');
-        $this->headCell($w, 'Ticket restant');
+        $this->headCell($w, 'Tickets restant');
 
         $this->Ln();
 

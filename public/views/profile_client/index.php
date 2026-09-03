@@ -27,23 +27,6 @@ include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
 ?>
-<?php
-require_once __DIR__ . '/../../includes/functions.php';
-
-if (!isset($_SESSION['user'])) {
-    header('Location: ' . BASE_URL . 'auth/login');
-    exit;
-}
-
-$userType = $_SESSION['user']['user_type'] ?? null;
-
-setPageVariables('Mon Profil', 'profile_client');
-$currentPage = 'profile_client';
-
-include_once __DIR__ . '/../../includes/header.php';
-include_once __DIR__ . '/../../includes/sidebar.php';
-include_once __DIR__ . '/../../includes/navbar.php';
-?>
 
 <div class="container-fluid flex-grow-1 container-p-y">
     <div class="card mb-4 shadow-sm border-0">
@@ -121,12 +104,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </div>
                         </div>
 
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label class="text-muted small">Nom d'utilisateur</label>
                             <div class="fw-semibold">
-                                <?= htmlspecialchars($user['username'] ?? '') ?>
+                                <?= htmlspecialchars($user['first_name'] ?? '') ?>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>
@@ -142,7 +125,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </h6>
 
                         <div class="mb-3">
-                            <label class="text-muted small">Email</label>
+                            <label class="text-muted small">Email (Login)</label>
                             <div class="fw-semibold">
                                 <?= htmlspecialchars($user['email'] ?? '') ?>
                             </div>
@@ -159,9 +142,134 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </div>
             </div>
 
+            <!-- Sécurité / Double authentification -->
+            <!-- <div class="col-lg-12">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body">
+
+                        <h6 class="mb-3 text-primary">
+                            <i class="bi bi-shield-lock"></i> Sécurité
+                        </h6>
+
+                        <?php $totpEnabled = !empty($_SESSION['user']['totp_enabled']); ?>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-semibold">Double authentification</div>
+                                <small class="text-muted">
+                                    <?php if ($totpEnabled): ?>
+                                        <span class="badge bg-success">Activée</span>
+                                        Un code de votre application d'authentification vous sera demandé à chaque
+                                        connexion.
+                                    <?php else: ?>
+                                        <span class="badge bg-secondary">Désactivée</span>
+                                        Ajoutez une protection supplémentaire avec un QR code à scanner.
+                                    <?php endif; ?>
+                                </small>
+                            </div>
+
+                            <div>
+                                <?php if ($totpEnabled): ?>
+                                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#disable2faModal">
+                                        Désactiver
+                                    </button>
+                                <?php else: ?>
+                                    <a href="<?= BASE_URL ?>auth/setup-2fa" class="btn btn-outline-primary btn-sm">
+                                        Activer la 2FA
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div class="card shadow-sm mt-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="h5 mb-0">Mes passkeys</h2>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="registerPasskey(this)">
+                            + Ajouter une passkey
+                        </button>
+                    </div>
+                    <p class="text-muted small">Connectez-vous sans mot de passe grâce à Face ID, Touch ID ou une
+                        clé de sécurité.</p>
+
+                    <ul id="passkey-list" class="list-group">
+                        <!-- rempli en JS 
+                    </ul>
+                    <p id="passkey-empty" class="text-muted small d-none">Aucune passkey enregistrée.</p>
+                </div>
+            </div> -->
+
+            <?= csrf_field() ?>
+            <script>const BASE_URL = <?php echo json_encode(BASE_URL); ?>;</script>
+            <script src="<?php echo BASE_URL; ?>assets/js/webauthn.js"></script>
+            <script>
+                async function loadPasskeys() {
+                    const resp = await fetch(BASE_URL + 'auth/webauthn-credentials', {
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+                    const data = await resp.json();
+                    const list = document.getElementById('passkey-list');
+                    const empty = document.getElementById('passkey-empty');
+                    list.innerHTML = '';
+
+                    if (!data.success || data.credentials.length === 0) {
+                        empty.classList.remove('d-none');
+                        return;
+                    }
+                    empty.classList.add('d-none');
+
+                    data.credentials.forEach(cred => {
+                        const li = document.createElement('li');
+                        li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                        li.innerHTML = `
+            <span>
+                <strong>${cred.name || 'Appareil sans nom'}</strong>
+                <br><small class="text-muted">Ajoutée le ${new Date(cred.created_at).toLocaleDateString('fr-FR')}</small>
+            </span>
+            <button class="btn btn-sm btn-outline-danger">Supprimer</button>
+        `;
+                        li.querySelector('button').onclick = () => deletePasskey(cred.id, li);
+                        list.appendChild(li);
+                    });
+                }
+                loadPasskeys();
+            </script>
         </div>
 
 
     </div>
 </div>
+
+<?php if (!empty($_SESSION['user']['totp_enabled'])): ?>
+    <!-- Modal de confirmation pour désactiver la 2FA -->
+    <div class="modal fade" id="disable2faModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="<?= BASE_URL ?>auth/disable-2fa">
+                    <?= csrf_field() ?>
+                    <div class="modal-header">
+                        <h5 class="modal-title">Désactiver la double authentification</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-muted">Pour confirmer, veuillez saisir votre mot de passe actuel.</p>
+                        <div class="mb-3">
+                            <label for="disable2fa_password" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="disable2fa_password" name="password" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-danger">Désactiver la 2FA</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

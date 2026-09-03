@@ -1,7 +1,9 @@
 {
-    "require": {
-        "phpoffice/phpspreadsheet": "^5.9",
-        "endroid/qr-code": "^6.0",
-        "tecnickcom/tcpdf": "*"
-    }
+  "require": {
+    "phpoffice/phpspreadsheet": "^5.9",
+    "tecnickcom/tcpdf": "*",
+    "endroid/qr-code": "^6.0",
+    "spomky-labs/otphp": "^11.5",
+    "web-auth/webauthn-lib": "^5.3"
+  }
 }

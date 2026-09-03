@@ -46,26 +46,37 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
         <div class="ms-auto p-2 bd-highlight">
             <?php
-            $returnParams = [];
-            if (isset($_GET['client_id']) && !empty($_GET['client_id'])) {
-                $returnParams['client_id'] = $_GET['client_id'];
-            }
-            if (isset($_GET['site_id']) && !empty($_GET['site_id'])) {
-                $returnParams['site_id'] = $_GET['site_id'];
-            }
-            if (isset($_GET['building_id']) && !empty($_GET['building_id'])) {
-                $returnParams['building_id'] = $_GET['building_id'];
-            }
-            if (isset($_GET['salle_id']) && !empty($_GET['salle_id'])) {
-                $returnParams['salle_id'] = $_GET['salle_id'];
-            }
+            $returnTo = $_GET['return_to'] ?? null;
+            $clientId = $_GET['client_id'] ?? null;
+            $activeTab = $_GET['active_tab'] ?? null;
 
-            $returnUrl = BASE_URL . 'materiel';
-            if (!empty($returnParams)) {
-                $returnUrl .= '?' . http_build_query($returnParams);
+            $materielId = $materiel['id'] ?? '';
+            $sessionKey = 'materiel_return_url_' . $materielId;
+
+            if ($returnTo === 'client' && $clientId) {
+                $returnUrl = BASE_URL . 'clients/view/' . (int) $clientId;
+                if ($activeTab) {
+                    $returnUrl .= '?active_tab=' . urlencode($activeTab);
+                }
+                $_SESSION[$sessionKey] = $returnUrl;
+            } else {
+                $returnParams = [];
+                foreach (['client_id', 'site_id', 'building_id', 'salle_id'] as $param) {
+                    if (!empty($_GET[$param])) {
+                        $returnParams[$param] = $_GET[$param];
+                    }
+                }
+
+                if (!empty($returnParams)) {
+                    $returnUrl = BASE_URL . 'materiel?' . http_build_query($returnParams);
+                } elseif (!empty($_SESSION[$sessionKey])) {
+                    $returnUrl = $_SESSION[$sessionKey];
+                } else {
+                    $returnUrl = BASE_URL . 'materiel';
+                }
             }
             ?>
-            <a href="<?= $returnUrl ?>" class="btn btn-secondary me-2">
+            <a href="<?= htmlspecialchars($returnUrl) ?>" class="btn btn-secondary me-2">
                 <i class="bi bi-arrow-left me-1"></i> Retour
             </a>
             <a href="<?= BASE_URL ?>materiel/edit/<?= $materiel['id'] ?>" class="btn btn-warning me-2">
