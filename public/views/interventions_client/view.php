@@ -36,14 +36,20 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
         <div class="ms-auto p-2 bd-highlight">
             <?php if (hasPermission('client_add_intervention')): ?>
-              <a href="<?= BASE_URL ?>interventions_client/add?return_url=<?= urlencode('interventions_client/view/' . $intervention['id']) ?>"
-                class="btn btn-primary">
-                    <i class="bi bi-plus-lg me-1"></i> Nouvelle intervention
-              </a>
+             <?php
+                $currentViewUrl = BASE_URL . 'interventions_client/view/' . $intervention['id'] . '?return_url=' . urlencode($returnUrl);
+                ?>
+
+                <?php if (hasPermission('client_add_intervention')): ?>
+                <a href="<?= BASE_URL ?>interventions_client/add?return_url=<?= urlencode($currentViewUrl) ?>"
+                    class="btn btn-primary">
+                        <i class="bi bi-plus-lg me-1"></i> Nouvelle intervention
+                </a>
             <?php endif; ?>
-            <a href="<?php echo BASE_URL; ?>interventions_client" class="btn btn-secondary me-2">
-                <i class="bi bi-arrow-left me-1"></i> Retour
-            </a>
+            <?php endif; ?>
+        <a href="<?php echo htmlspecialchars($returnUrl); ?>" class="btn btn-secondary me-2">
+            <i class="bi bi-arrow-left me-1"></i> Retour
+        </a>
         </div>
     </div>
 

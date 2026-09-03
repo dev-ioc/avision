@@ -237,7 +237,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <?php foreach ($interventions as $intervention): ?>
                                     <tr>
                                         <td>
-                                            <a href="<?= BASE_URL ?>interventions_client/view/<?= $intervention['id'] ?>"
+                                            <a href="<?= BASE_URL ?>interventions_client/view/<?= $intervention['id'] ?>?return_url=<?= urlencode(BASE_URL . 'contracts_client/view/' . $contract['id']) ?>"
                                                 class="text-primary text-decoration-none">
                                                 <?= h($intervention['reference'] ?? '') ?>
                                             </a>
@@ -294,7 +294,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="<?= BASE_URL ?>interventions_client/view/<?= $intervention['id']; ?>"
+                                            <a href="<?= BASE_URL ?>interventions_client/view/<?= $intervention['id']; ?>?return_url=<?= urlencode(BASE_URL . 'contracts_client/view/' . $contract['id']) ?>"
                                                 class="btn btn-sm btn-outline-info" title="Voir">
                                                 <i class="bi bi-eye me-1"></i>
                                             </a>
