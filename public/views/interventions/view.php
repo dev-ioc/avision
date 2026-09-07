@@ -1622,8 +1622,8 @@ $closeReason = [];
 					<i class="bi bi-exclamation-triangle-fill me-2"></i>
 					Aucune solution n'est documentée pour cette intervention.
 					<div id="existingCommentsForSolution" class="mt-2"></div>
-					<button type="button" class="btn btn-sm btn-outline-warning mt-2" data-bs-toggle="modal"
-						data-bs-target="#addCommentModal">
+					<button type="button" class="btn btn-sm btn-outline-warning mt-2"
+						onclick="openAddSolutionFromPostSignature()">
 						<i class="bi bi-plus me-1"></i>Ajouter une solution
 					</button>
 				</div>
@@ -1771,24 +1771,29 @@ $closeReason = [];
 		}
 	});
 	async function openPostSignatureModal(data) {
+		window.lastPostSignatureData = data;
 		const shouldNotifyClient = data.client_send_email !== false;
 
-		document.getElementById('noSolutionWarning').style.display = data.has_solution ? 'none' : 'block';
-
-		if (!data.has_solution) {
-			try {
-				const r = await fetch(`${window.BASE_URL}interventions/getSolutionStatus/${data.intervention_id}`);
-				const solData = await r.json();
+		let hasSolution = data.has_solution || window.solutionJustAdded === true;
+		try {
+			const r = await fetch(`${window.BASE_URL}interventions/getSolutionStatus/${data.intervention_id}`);
+			const solData = await r.json();
+			if (solData && solData.success) {
+				hasSolution = solData.has_solution || hasSolution;
 				const container = document.getElementById('existingCommentsForSolution');
 				container.innerHTML = '';
-				(solData.comments || []).filter(c => !c.is_solution).slice(0, 3).forEach(c => {
-					const div = document.createElement('div');
-					div.className = 'small border-top pt-1 mt-1';
-					div.innerHTML = `<em>${(c.comment || '').substring(0, 100)}</em> — <a href="#" class="mark-as-solution" data-id="${c.id}">Marquer comme solution</a>`;
-					container.appendChild(div);
-				});
-			} catch (e) { /* silencieux */ }
-		}
+				if (!hasSolution) {
+					(solData.comments || []).filter(c => !c.is_solution).slice(0, 3).forEach(c => {
+						const div = document.createElement('div');
+						div.className = 'small border-top pt-1 mt-1';
+						div.innerHTML = `<em>${(c.comment || '').substring(0, 100)}</em> — <a href="#" class="mark-as-solution" data-id="${c.id}">Marquer comme solution</a>`;
+						container.appendChild(div);
+					});
+				}
+			}
+		} catch (e) { }
+
+		document.getElementById('noSolutionWarning').style.display = hasSolution ? 'none' : 'block';
 
 		try {
 			const r = await fetch(`${window.BASE_URL}interventions/getStaffList`);
@@ -1801,7 +1806,7 @@ $closeReason = [];
 				o.textContent = `${s.name} (${s.role})`;
 				sel.appendChild(o);
 			});
-		} catch (e) { /* silencieux */ }
+		} catch (e) { }
 
 		const modalEl = document.getElementById('postSignatureModal');
 		const clientWrapper = document.getElementById('psNotifyClientWrapper');
@@ -1815,7 +1820,19 @@ $closeReason = [];
 			clientCheckbox.checked = false;
 		}
 
-		new bootstrap.Modal(modalEl).show();
+		bootstrap.Modal.getOrCreateInstance(modalEl).show();
+	}
+	function openAddSolutionFromPostSignature() {
+		window.returnToPostSignatureAfterComment = true;
+
+		const psModalEl = document.getElementById('postSignatureModal');
+		const psInstance = bootstrap.Modal.getInstance(psModalEl);
+		if (psInstance) psInstance.hide();
+
+		const isSolutionCheckbox = document.getElementById('is_solution');
+		if (isSolutionCheckbox) isSolutionCheckbox.checked = true;
+
+		bootstrap.Modal.getOrCreateInstance(document.getElementById('addCommentModal')).show();
 	}
 	document.addEventListener('DOMContentLoaded', function () {
 		document.getElementById('psSendBtn')?.addEventListener('click', async function () {
@@ -1850,6 +1867,52 @@ $closeReason = [];
 		document.getElementById('psCloseInterventionBtn')?.addEventListener('click', function () {
 			bootstrap.Modal.getInstance(document.getElementById('postSignatureModal')).hide();
 			document.getElementById('btnOuvrirFermeture').click();
+		});
+	});
+	document.addEventListener('DOMContentLoaded', function () {
+		var addCommentForm = document.querySelector('#addCommentModal form');
+		if (!addCommentForm) return;
+
+		addCommentForm.addEventListener('submit', function (e) {
+			e.preventDefault();
+			var formData = new FormData(addCommentForm);
+			var isSolutionSubmitted = document.getElementById('is_solution').checked;
+			var submitBtn = addCommentForm.querySelector('button[type="submit"]');
+			if (submitBtn) submitBtn.disabled = true;
+
+			fetch(addCommentForm.action, {
+				method: 'POST',
+				body: formData,
+				headers: { 'X-Requested-With': 'XMLHttpRequest' }
+			})
+				.then(function (r) { return r.json(); })
+				.then(function (result) {
+					if (submitBtn) submitBtn.disabled = false;
+					if (result.success) {
+						showToast(result.message || 'Commentaire ajouté avec succès.', 'success');
+						if (isSolutionSubmitted) {
+							window.solutionJustAdded = true;
+						}
+						addCommentForm.reset();
+						bootstrap.Modal.getInstance(document.getElementById('addCommentModal'))?.hide();
+					} else {
+						showToast(result.error || "Erreur lors de l'ajout du commentaire.", 'danger');
+					}
+				})
+				.catch(function () {
+					if (submitBtn) submitBtn.disabled = false;
+					showToast('Erreur réseau.', 'danger');
+				});
+		});
+		document.getElementById('addCommentModal').addEventListener('hidden.bs.modal', function () {
+			if (window.returnToPostSignatureAfterComment) {
+				window.returnToPostSignatureAfterComment = false;
+				if (window.lastPostSignatureData) {
+					openPostSignatureModal(window.lastPostSignatureData);
+				}
+			} else {
+				location.reload();
+			}
 		});
 	});
 </script>

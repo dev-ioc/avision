@@ -6466,19 +6466,6 @@ class InterventionController
                 " - Statut: " . $signatureStatus .
                 " - Version " . ($pj['version'] ?? 1)
             );
-            // Fermeture automatique pour les préventives, une fois le BI signé par le technicien ET le client
-            if (
-                $signatureStatus === 'signe_tech_client'
-                && (int) ($intervention['is_preventive'] ?? 0) === 1
-                && (int) $intervention['status_id'] !== 6
-            ) {
-                $closeResult = $this->performClose($interventionId, $intervention, null, false);
-                if ($closeResult['success']) {
-                    custom_log("Intervention préventive $interventionId fermée automatiquement (BI signé tech+client).", 'INFO');
-                } else {
-                    custom_log("Échec fermeture auto intervention préventive $interventionId : " . ($closeResult['error'] ?? ''), 'WARNING');
-                }
-            }
 
             $hasSolution = false;
             if ($signatureStatus === 'signe_tech_client') {
@@ -6488,20 +6475,7 @@ class InterventionController
                 $hasSolution = (int) $stmtSol->fetchColumn() > 0;
             }
 
-            $isClosed = (int) $intervention['status_id'] === 6; // déjà fermée avant cet appel ?
-            if (
-                $signatureStatus === 'signe_tech_client'
-                && (int) ($intervention['is_preventive'] ?? 0) === 1
-                && (int) $intervention['status_id'] !== 6
-            ) {
-                $closeResult = $this->performClose($interventionId, $intervention, null, false);
-                if ($closeResult['success']) {
-                    custom_log("Intervention préventive $interventionId fermée automatiquement (BI signé tech+client).", 'INFO');
-                    $isClosed = true;
-                } else {
-                    custom_log("Échec fermeture auto intervention préventive $interventionId : " . ($closeResult['error'] ?? ''), 'WARNING');
-                }
-            }
+            $isClosed = (int) $intervention['status_id'] === 6;
 
             $hasSolution = false;
             if ($signatureStatus === 'signe_tech_client') {
@@ -7099,16 +7073,44 @@ class InterventionController
             if (!$templateId) {
                 throw new Exception("Aucun template 'intervention_closed' actif trouvé");
             }
+            // Fermeture automatique pour les préventives, une fois le BI signé par le technicien ET le client
+            $isClosed = (int) $intervention['status_id'] === 6;
+
+            if (!$isClosed && (int) ($intervention['is_preventive'] ?? 0) === 1) {
+                $sqlSig = "SELECT pj.signature_status
+                       FROM pieces_jointes pj
+                       INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                       WHERE lpj.type_liaison = 'bi' AND lpj.entite_id = ?
+                       ORDER BY pj.date_creation DESC
+                       LIMIT 1";
+                $stmtSig = $this->db->prepare($sqlSig);
+                $stmtSig->execute([$id]);
+                $signatureStatus = $stmtSig->fetchColumn();
+
+                if ($signatureStatus === 'signe_tech_client') {
+                    $closeResult = $this->performClose($id, $intervention, null, false);
+                    if ($closeResult['success']) {
+                        $isClosed = true;
+                        custom_log("Intervention préventive $id fermée automatiquement (BI signé tech+client).", 'INFO');
+                    } else {
+                        custom_log("Échec fermeture auto intervention préventive $id : " . ($closeResult['error'] ?? ''), 'WARNING');
+                    }
+                }
+            }
 
             $success = $this->mailService->sendBonSignedNotification(
                 $id,
                 $templateId,
                 $includeClient,
                 $includeTechnicians,
-                $extraRecipients,
+                $extraRecipients
             );
 
-            echo json_encode(['success' => (bool) $success, 'message' => 'Notification envoyée']);
+            echo json_encode([
+                'success' => (bool) $success,
+                'message' => 'Notification envoyée',
+                'is_closed' => $isClosed
+            ]);
 
         } catch (Exception $e) {
             custom_log_mail("Erreur sendBonSignedNotification intervention $id : " . $e->getMessage(), 'ERROR');
