@@ -266,22 +266,38 @@ class InterventionsClientModel extends BaseModel
      */
     public function getStatsByStatusAndLocations($userLocations)
     {
-        $locationWhere = buildLocationWhereClause($userLocations, 'i.client_id', 'i.site_id', 'i.room_id');
+        // Extraire les IDs des clients auxquels l'utilisateur a accès
+        // (même logique que getAllByLocations : on affiche tout ce qui appartient au client,
+        // pas seulement les sites/bâtiments/salles précis de userLocations)
+        $clientIds = [];
+
+        foreach ($userLocations as $location) {
+            if (isset($location['client_id']) && !in_array($location['client_id'], $clientIds)) {
+                $clientIds[] = (int) $location['client_id'];
+            }
+        }
+
+        if (empty($clientIds)) {
+            return [];
+        }
+
+        $placeholders = str_repeat('?,', count($clientIds) - 1) . '?';
 
         $sql = "SELECT 
-                its.id,
-                its.name,
-                its.color,
-                COUNT(i.id) as count
-                FROM intervention_statuses its
-                LEFT JOIN " . $this->table . " i ON its.id = i.status_id AND {$locationWhere}
-                GROUP BY its.id, its.name, its.color
-                ORDER BY its.id ASC";
+        its.id,
+        its.name,
+        its.color,
+        COUNT(i.id) as count
+        FROM intervention_statuses its
+        LEFT JOIN " . $this->table . " i ON its.id = i.status_id AND i.client_id IN ({$placeholders})
+        GROUP BY its.id, its.name, its.color
+        ORDER BY its.id ASC";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->execute();
+        $stmt->execute($clientIds);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     /**
      * Récupère les sites selon les localisations autorisées
@@ -863,6 +879,5 @@ class InterventionsClientModel extends BaseModel
         $stmt->execute([$interventionId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
 
 }

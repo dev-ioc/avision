@@ -134679,3 +134679,256 @@ Quant à l’écran n°1, il est HS
 [2026-09-09 08:57:13][INFO] 37 
 [2026-09-09 08:57:13][INFO] 38 
 [2026-09-09 08:57:13][INFO] 36 
+[2026-09-09 09:00:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 944fccee89d775783ee0... 
+[2026-09-09 09:00:22][INFO] 37 
+[2026-09-09 09:00:22][INFO] 38 
+[2026-09-09 09:00:22][INFO] 36 
+[2026-09-09 09:01:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 944fccee89d775783ee0... 
+[2026-09-09 09:04:24][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-09 09:04:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 944fccee89d775783ee0... 
+[2026-09-09 09:04:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 944fccee89d775783ee0... 
+[2026-09-09 09:04:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 944fccee89d775783ee0... 
+[2026-09-09 09:06:31][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:31][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:41][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:41][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:41][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:41][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:41][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:41][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:41][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:41][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:41][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:41][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:42][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:42][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:42][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:42][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:42][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:42][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:42][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:42][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:42][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:42][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:42][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:42][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:42][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:43][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:43][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:43][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:43][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:43][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:43][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:43][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:43][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:44][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:06:44][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-09 09:07:34][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:07:35][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-09 09:07:35][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-09 09:07:35][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-09 09:08:19][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-09 09:08:19][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:19][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:19][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:23][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:23][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:23][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:27][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-09 09:08:27][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-09 09:08:27][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - START 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-09 09:08:27][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-09 09:08:27][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-09 09:08:27][INFO] 55 
+[2026-09-09 09:08:27][INFO] 109 
+[2026-09-09 09:08:27][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-09 09:08:28][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-09 09:08:28][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:28][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:28][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:30][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-09 09:08:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:31][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:39][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-09 09:08:39][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-09 09:08:42][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-09 09:08:42][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-09 09:08:45][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-09 09:08:45][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:45][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:45][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:53][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-09 09:08:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:08:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:09:02][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-09 09:09:03][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:09:03][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:09:03][DEBUG] CSRF: Token trouvé dans la requête - Token: ae8485a8995b57be0e0f... 
+[2026-09-09 09:11:15][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-09 09:11:15][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-09 09:11:15][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"curative","site_id":null,"building_id":null,"room_id":null,"status_id":6,"search":null} 
+[2026-09-09 09:11:15][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-09 09:11:15][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-09 09:11:15][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-09-09 09:11:17][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-09 09:11:17][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-09 09:11:17][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"preventive","site_id":null,"building_id":null,"room_id":null,"status_id":6,"search":null} 
+[2026-09-09 09:11:17][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-09 09:11:17][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-09 09:11:17][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 0 
+[2026-09-09 09:11:19][DEBUG] EXPORT DEBUG - Méthode previewExport() (apercu tableau) appelée 
+[2026-09-09 09:11:19][DEBUG] EXPORT DEBUG - userLocations reçues: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-09 09:11:19][DEBUG] EXPORT DEBUG - filters reçus: {"date_start":null,"date_end":null,"type":"curative","site_id":null,"building_id":null,"room_id":null,"status_id":6,"search":null} 
+[2026-09-09 09:11:19][DEBUG] EXPORT DEBUG - clientIds extraits: [35] 
+[2026-09-09 09:11:19][DEBUG] EXPORT DEBUG - SQL: SELECT i.*,
+        c.name as client_name,
+        s.name as site_name,
+        b.name as building_name,
+        r.name as room_name,
+        its.name as status_name,
+        its.color as status_color,
+        ip.name as priority_name,
+        ip.color as priority_color,
+        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+        FROM interventions i
+        LEFT JOIN clients c ON i.client_id = c.id
+        LEFT JOIN sites s ON i.site_id = s.id
+        LEFT JOIN buildings b ON i.building_id = b.id
+        LEFT JOIN rooms r ON i.room_id = r.id
+        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+        LEFT JOIN users ut ON itech.technicien_id = ut.id
+        LEFT JOIN intervention_statuses its ON i.status_id = its.id
+        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+        WHERE i.client_id IN (?) AND i.is_preventive = ? GROUP BY i.id ORDER BY i.created_at DESC 
+[2026-09-09 09:11:19][DEBUG] EXPORT DEBUG - nombre de lignes retournées: 2 
+[2026-09-09 09:17:46][DEBUG] Redirection vers login - URL sauvegardée: interventions_client?status_id=6 (Session ID: hop9aslgs75mp5ha68ss6l4tg2) 
+[2026-09-09 09:17:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 59fbccacdaff212d330e... 
+[2026-09-09 09:17:52][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-09 09:17:52][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-09 09:17:52][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-09 09:22:02][DEBUG] Redirection vers login - URL sauvegardée: interventions_client (Session ID: vbabggco1na9c1rpahb219vt0f) 
+[2026-09-09 09:22:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 37d475c82d1571598416... 
+[2026-09-09 09:22:06][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-09 09:22:06][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-09 09:22:06][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-09 09:23:12][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-09 09:23:12][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-09 09:23:14][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-09 09:23:24][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:25][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-09 09:23:25][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-09 09:23:25][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-09 09:23:32][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-09 09:23:33][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:33][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:33][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:35][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:35][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:35][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:35][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:35][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:35][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:36][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:36][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:36][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:38][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:38][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:38][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:39][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:39][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:39][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:40][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:40][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:40][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:40][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:40][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:40][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:41][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:41][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:41][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:41][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:41][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:41][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:42][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:42][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:42][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:46][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:46][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:46][DEBUG] CSRF: Token trouvé dans la requête - Token: a3ad4dd34c963b9be186... 
+[2026-09-09 09:23:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 7be9c6727c4a7f1d0158... 
+[2026-09-09 09:23:53][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-09 09:23:53][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-09 09:23:53][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-09 09:23:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 4c08382569fd7cbc6565... 
+[2026-09-09 09:23:59][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-09 09:23:59][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-09 09:23:59][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-09 09:25:17][DEBUG] CSRF: Token trouvé dans la requête - Token: a71592b0df39f4967256... 
+[2026-09-09 09:25:17][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-09 09:25:17][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-09 09:25:17][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-09 09:25:19][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-09 09:25:20][DEBUG] CSRF: Token trouvé dans la requête - Token: a71592b0df39f4967256... 
+[2026-09-09 09:25:20][DEBUG] CSRF: Token trouvé dans la requête - Token: a71592b0df39f4967256... 
+[2026-09-09 09:25:20][DEBUG] CSRF: Token trouvé dans la requête - Token: a71592b0df39f4967256... 
+[2026-09-09 09:25:21][INFO] 55 
+[2026-09-09 09:25:21][INFO] 109 
+[2026-09-09 09:28:00][INFO] 55 
+[2026-09-09 09:28:00][INFO] 109 
+[2026-09-09 09:28:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 350e84752dec609d5124... 
+[2026-09-09 09:28:06][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-09 09:28:06][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-09 09:28:06][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
