@@ -85,8 +85,7 @@ class ContractModel extends BaseModel
         $query = "SELECT COUNT(*) as count 
                 FROM contracts 
                 WHERE client_id = :client_id 
-                AND status = 'actif'
-                AND contract_type_id IS NOT NULL";
+                AND status = 'actif' ";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':client_id', $clientId, PDO::PARAM_INT);

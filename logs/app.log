@@ -134663,3 +134663,19 @@ Quant à l’écran n°1, il est HS
 [2026-09-09 08:41:26][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
 [2026-09-09 08:41:26][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
 [2026-09-09 08:41:26][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-09 08:49:05][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-09 08:49:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 944fccee89d775783ee0... 
+[2026-09-09 08:49:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 944fccee89d775783ee0... 
+[2026-09-09 08:49:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 944fccee89d775783ee0... 
+[2026-09-09 08:49:08][INFO] 37 
+[2026-09-09 08:49:08][INFO] 38 
+[2026-09-09 08:49:08][INFO] 36 
+[2026-09-09 08:51:21][INFO] 37 
+[2026-09-09 08:51:21][INFO] 38 
+[2026-09-09 08:51:21][INFO] 36 
+[2026-09-09 08:55:54][INFO] 37 
+[2026-09-09 08:55:54][INFO] 38 
+[2026-09-09 08:55:54][INFO] 36 
+[2026-09-09 08:57:13][INFO] 37 
+[2026-09-09 08:57:13][INFO] 38 
+[2026-09-09 08:57:13][INFO] 36 
