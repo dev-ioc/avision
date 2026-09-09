@@ -434,6 +434,8 @@ function loadRooms(
  * @param {string|number|null} currentContractId - L'ID du contrat à présélectionner (optionnel)
  * @param {function|null} callback - Callback à appeler après mise à jour (optionnel)
  */
+window._updateContractSeq = window._updateContractSeq || 0;
+
 function updateSelectedContract(
   clientSelectId,
   siteSelectId,
@@ -456,8 +458,16 @@ function updateSelectedContract(
   const siteId = siteSelect ? siteSelect.value : null;
   const roomId = roomSelect ? roomSelect.value : null;
 
+  const requestId = ++window._updateContractSeq;
+
   function setContractOptions(items) {
-    // Vider le select natif
+    if (requestId !== window._updateContractSeq) {
+      console.log(
+        "Réponse contrat obsolète ignorée (requestId " + requestId + ")",
+      );
+      return;
+    }
+
     contractSelect.innerHTML = "";
     const defaultOpt = document.createElement("option");
     defaultOpt.value = "";
@@ -471,8 +481,9 @@ function updateSelectedContract(
       contractSelect.appendChild(option);
     });
 
-    // ⚠️ Synchroniser Tom Select : vider puis reconstruire ses options
     if (contractSelect.tomselect) {
+      contractSelect.tomselect.clear(true);
+
       contractSelect.tomselect.clearOptions();
       contractSelect.tomselect.addOption({
         value: "",
@@ -486,7 +497,6 @@ function updateSelectedContract(
       });
       contractSelect.tomselect.refreshOptions(false);
 
-      // Présélection si demandée
       if (currentContractId) {
         contractSelect.tomselect.setValue(String(currentContractId), true);
       } else {
@@ -498,6 +508,10 @@ function updateSelectedContract(
   }
 
   if (!clientId) {
+    if (requestId !== window._updateContractSeq) {
+      if (typeof callback === "function") callback();
+      return;
+    }
     contractSelect.innerHTML =
       '<option value="">Sélectionnez un client</option>';
     if (contractSelect.tomselect) {
@@ -529,7 +543,9 @@ function updateSelectedContract(
     })
     .catch((error) => {
       console.error("Erreur lors de la récupération des contrats:", error);
-      setContractOptions([]);
+      if (requestId === window._updateContractSeq) {
+        setContractOptions([]);
+      }
       if (typeof callback === "function") callback();
     });
 }

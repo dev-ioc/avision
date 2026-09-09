@@ -1034,14 +1034,17 @@ include_once __DIR__ . '/../../includes/navbar.php';
         /**
          * Récupère le contrat associé directement à une salle.
          */
-        async function loadContractByRoom(roomId) {
+        window._loadContractByRoomSeq = window._loadContractByRoomSeq || 0;
 
+        async function loadContractByRoom(roomId) {
             if (!roomId || !contractSelect) {
                 return;
             }
 
-            try {
+            // Compteur DÉDIÉ à cette fonction
+            const requestId = ++window._loadContractByRoomSeq;
 
+            try {
                 const response = await fetch(
                     `${BASE_URL}interventions/getContractByRoom/${roomId}`,
                     {
@@ -1055,60 +1058,39 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 );
 
                 if (!response.ok) {
-                    throw new Error(
-                        `HTTP ${response.status}`
-                    );
+                    throw new Error(`HTTP ${response.status}`);
                 }
 
                 const contract = await response.json();
+
+                if (requestId !== window._loadContractByRoomSeq) {
+                    return;
+                }
 
                 if (contract && contract.id) {
                     selectContractWhenAvailable(contract.id);
                 } else {
                     selectFilterValue(contractSelect, '');
-
-                    if (contractError) {
-                        contractError.classList.add('d-none');
-                    }
-
-                    if (contractWarning) {
-                        contractWarning.classList.remove('d-none');
-                    }
+                    if (contractError) contractError.classList.add('d-none');
+                    if (contractWarning) contractWarning.classList.remove('d-none');
                     contractSelect.classList.remove('is-invalid');
-
                     contractSelect.dispatchEvent(new Event('change', { bubbles: true }));
                 }
 
             } catch (error) {
-
-                console.error(
-                    'Erreur lors de la récupération du contrat de la salle :',
-                    error
-                );
-
-                // En cas d'erreur, réinitialiser SANS erreur
-                selectFilterValue(contractSelect, '');
-                if (contractError) {
-                    contractError.classList.add('d-none');
+                if (requestId === window._loadContractByRoomSeq) {
+                    selectFilterValue(contractSelect, '');
+                    if (contractError) contractError.classList.add('d-none');
+                    if (contractWarning) contractWarning.classList.remove('d-none');
+                    contractSelect.classList.remove('is-invalid');
                 }
-                if (contractWarning) {
-                    contractWarning.classList.remove('d-none');
-                }
-                contractSelect.classList.remove('is-invalid');
-
             }
-
         }
-
         async function reloadLocationFilters() {
 
             const values = getFilterValues();
 
-            console.log('Reload des filtres avec :', values);
-
             const params = {};
-
-            // On transmet uniquement les filtres réellement sélectionnés
             if (values.client_id) {
                 params.client_id = values.client_id;
             }
