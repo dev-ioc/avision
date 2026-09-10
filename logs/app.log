@@ -135406,3 +135406,439 @@ Quant à l’écran n°1, il est HS
 [2026-09-09 14:59:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
 [2026-09-09 14:59:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
 [2026-09-09 14:59:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
+[2026-09-09 15:09:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
+[2026-09-09 15:09:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
+[2026-09-09 15:09:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
+[2026-09-09 15:09:37][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-09 15:09:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
+[2026-09-09 15:09:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
+[2026-09-09 15:09:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
+[2026-09-09 15:09:40][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
+[2026-09-09 15:09:40][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
+[2026-09-09 15:09:40][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
+[2026-09-09 15:09:41][INFO] 96 
+[2026-09-09 15:09:41][INFO] 104 
+[2026-09-09 15:09:41][INFO] 101 
+[2026-09-09 15:09:41][INFO] 98 
+[2026-09-09 15:09:41][INFO] 106 
+[2026-09-09 15:09:41][INFO] 100 
+[2026-09-09 15:09:41][INFO] 99 
+[2026-09-09 15:09:41][INFO] 102 
+[2026-09-09 15:09:41][INFO] 97 
+[2026-09-09 15:09:51][INFO] 96 
+[2026-09-09 15:09:51][INFO] 104 
+[2026-09-09 15:09:51][INFO] 101 
+[2026-09-09 15:09:51][INFO] 98 
+[2026-09-09 15:09:51][INFO] 106 
+[2026-09-09 15:09:51][INFO] 100 
+[2026-09-09 15:09:51][INFO] 99 
+[2026-09-09 15:09:51][INFO] 102 
+[2026-09-09 15:09:51][INFO] 97 
+[2026-09-09 15:09:55][INFO] 96 
+[2026-09-09 15:09:55][INFO] 104 
+[2026-09-09 15:09:55][INFO] 101 
+[2026-09-09 15:09:55][INFO] 98 
+[2026-09-09 15:09:55][INFO] 106 
+[2026-09-09 15:09:56][INFO] 100 
+[2026-09-09 15:09:56][INFO] 99 
+[2026-09-09 15:09:56][INFO] 102 
+[2026-09-09 15:09:56][INFO] 97 
+[2026-09-09 15:10:03][INFO] 96 
+[2026-09-09 15:10:03][INFO] 104 
+[2026-09-09 15:10:03][INFO] 101 
+[2026-09-09 15:10:03][INFO] 98 
+[2026-09-09 15:10:03][INFO] 106 
+[2026-09-09 15:10:03][INFO] 100 
+[2026-09-09 15:10:03][INFO] 99 
+[2026-09-09 15:10:03][INFO] 102 
+[2026-09-09 15:10:03][INFO] 97 
+[2026-09-09 15:10:10][INFO] 96 
+[2026-09-09 15:10:10][INFO] 104 
+[2026-09-09 15:10:10][INFO] 101 
+[2026-09-09 15:10:10][INFO] 98 
+[2026-09-09 15:10:10][INFO] 106 
+[2026-09-09 15:10:10][INFO] 100 
+[2026-09-09 15:10:10][INFO] 99 
+[2026-09-09 15:10:10][INFO] 102 
+[2026-09-09 15:10:10][INFO] 97 
+[2026-09-09 15:10:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
+[2026-09-09 15:10:17][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-09-09 15:10:40][INFO] 96 
+[2026-09-09 15:10:40][INFO] 104 
+[2026-09-09 15:10:40][INFO] 101 
+[2026-09-09 15:10:40][INFO] 98 
+[2026-09-09 15:10:40][INFO] 106 
+[2026-09-09 15:10:40][INFO] 100 
+[2026-09-09 15:10:40][INFO] 99 
+[2026-09-09 15:10:40][INFO] 102 
+[2026-09-09 15:10:40][INFO] 97 
+[2026-09-09 15:10:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 9f388fde2ba29f217533... 
+[2026-09-09 15:10:52][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-09-09 15:11:05][INFO] 96 
+[2026-09-09 15:11:05][INFO] 104 
+[2026-09-09 15:11:05][INFO] 101 
+[2026-09-09 15:11:05][INFO] 98 
+[2026-09-09 15:11:05][INFO] 106 
+[2026-09-09 15:11:05][INFO] 100 
+[2026-09-09 15:11:05][INFO] 99 
+[2026-09-09 15:11:05][INFO] 102 
+[2026-09-09 15:11:05][INFO] 97 
+[2026-09-09 15:11:22][INFO] 96 
+[2026-09-09 15:11:22][INFO] 104 
+[2026-09-09 15:11:22][INFO] 101 
+[2026-09-09 15:11:22][INFO] 98 
+[2026-09-09 15:11:22][INFO] 106 
+[2026-09-09 15:11:22][INFO] 100 
+[2026-09-09 15:11:22][INFO] 99 
+[2026-09-09 15:11:22][INFO] 102 
+[2026-09-09 15:11:22][INFO] 97 
+[2026-09-10 08:26:54][DEBUG] CSRF: Token trouvé dans la requête - Token: c201fddb6fe18aa82396... 
+[2026-09-10 08:26:55][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-10 08:26:55][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-10 08:26:55][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-10 10:36:15][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:36:16][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-10 10:36:16][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-10 10:36:16][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-10 10:37:29][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:37:29][DEBUG] Données d'intervention à créer: {"title":"TESTEEEE","description":"test","demande_par":null,"client_id":35,"site_id":55,"building_id":45,"room_id":147,"contract_id":175,"status_id":1,"priority_id":2,"ref_client":"test","contact_client":"karijatsilefilaza@gmail.com","duration":0,"type_id":1} 
+[2026-09-10 10:37:29][INFO] Intervention créée avec succès, ID: 452 
+[2026-09-10 10:37:29][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:37:29][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:37:38][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:37:38][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:37:41][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 10:37:52][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:37:52][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:38:09][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 10:38:22][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:38:22][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:38:29][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 10:38:33][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 10:38:33][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 10:38:36][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 10:38:38][DEBUG] Commentaires récupérés pour l'intervention 84: 0 
+[2026-09-10 10:38:38][DEBUG] Pièces jointes récupérées pour l'intervention 84: 0 
+[2026-09-10 10:39:19][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 10:39:30][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:39:30][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:40:54][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 10:41:01][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:41:01][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:41:11][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:41:11][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:41:13][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 10:41:15][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 10:41:16][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:41:16][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:41:16][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:41:21][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: 884v1ef4sdi86d2rpcnph176cc) 
+[2026-09-10 10:41:22][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:41:22][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:41:31][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 10:41:31][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:41:31][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:41:31][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:41:37][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:41:37][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:42:07][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 10:42:08][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:42:08][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:42:08][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:47:00][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:47:00][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:47:06][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 10:47:06][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:47:06][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:47:06][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:47:09][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:47:09][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:47:12][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 10:47:13][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:47:13][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:47:13][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:47:16][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:47:16][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:47:31][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:47:31][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:47:37][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 10:47:37][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:47:37][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:47:38][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:47:41][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 10:47:41][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 10:47:44][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 10:47:45][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:47:45][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:47:45][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:47:50][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:47:50][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:47:53][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 10:47:55][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 10:47:55][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 10:48:00][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 10:48:02][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:48:02][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:48:04][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 10:48:06][DEBUG] Commentaires récupérés pour l'intervention 84: 0 
+[2026-09-10 10:48:06][DEBUG] Pièces jointes récupérées pour l'intervention 84: 0 
+[2026-09-10 10:48:07][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 10:48:09][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 10:48:09][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 10:48:23][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 10:48:27][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:48:27][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:49:30][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:49:30][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:49:33][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:49:33][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:49:38][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:49:38][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:49:40][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 10:49:40][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:49:40][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:49:40][DEBUG] CSRF: Token trouvé dans la requête - Token: c834415d9f2aaec5b4c5... 
+[2026-09-10 10:49:43][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:49:43][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 10:49:48][DEBUG] Commentaires récupérés pour l'intervention 84: 0 
+[2026-09-10 10:49:48][DEBUG] Pièces jointes récupérées pour l'intervention 84: 0 
+[2026-09-10 10:49:50][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 10:49:52][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 10:49:52][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 10:56:21][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 10:56:21][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:01:41][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:01:41][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:01:41][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:03:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 27ad8188c7da323a21e2... 
+[2026-09-10 11:03:18][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-10 11:03:18][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-10 11:03:18][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-10 11:03:20][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-10 11:03:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 27ad8188c7da323a21e2... 
+[2026-09-10 11:03:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 27ad8188c7da323a21e2... 
+[2026-09-10 11:03:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 27ad8188c7da323a21e2... 
+[2026-09-10 11:03:23][INFO] 55 
+[2026-09-10 11:03:23][INFO] 109 
+[2026-09-10 11:03:37][INFO] 55 
+[2026-09-10 11:06:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:06:36][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-10 11:06:36][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-10 11:06:36][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-10 11:06:39][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:06:39][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:06:39][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:06:42][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 11:06:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:06:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:06:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:06:45][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:06:45][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:06:45][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:08:26][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 11:08:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:08:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:08:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:10:05][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-10 11:10:05][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-10 11:10:05][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - START 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-10 11:10:05][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-10 11:10:05][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-10 11:10:05][INFO] 55 
+[2026-09-10 11:10:05][INFO] 109 
+[2026-09-10 11:10:05][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-10 11:10:08][INFO] 109 
+[2026-09-10 11:10:22][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:10:22][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:10:22][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:10:25][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 11:10:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:10:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:10:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:10:29][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:10:29][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 11:10:29][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 11:10:33][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:10:33][DEBUG] Commentaires récupérés pour l'intervention 84: 0 
+[2026-09-10 11:10:33][DEBUG] Pièces jointes récupérées pour l'intervention 84: 0 
+[2026-09-10 11:10:35][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:10:35][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-10 11:10:36][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:10:36][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 11:10:36][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 11:10:42][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:10:42][DEBUG] Commentaires récupérés pour l'intervention 84: 0 
+[2026-09-10 11:10:42][DEBUG] Pièces jointes récupérées pour l'intervention 84: 0 
+[2026-09-10 11:10:49][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:10:49][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:10:49][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:10:53][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:10:53][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 11:10:53][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 11:10:55][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 11:10:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:10:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:10:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:10:58][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:10:58][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:10:58][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:11:02][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:11:02][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 11:11:02][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 11:11:05][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:11:05][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 11:11:05][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 11:11:10][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:11:10][DEBUG] Commentaires récupérés pour l'intervention 84: 0 
+[2026-09-10 11:11:10][DEBUG] Pièces jointes récupérées pour l'intervention 84: 0 
+[2026-09-10 11:11:14][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:11:14][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:11:14][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:11:19][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:11:19][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 11:11:19][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 11:11:22][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:11:22][DEBUG] Commentaires récupérés pour l'intervention 84: 0 
+[2026-09-10 11:11:22][DEBUG] Pièces jointes récupérées pour l'intervention 84: 0 
+[2026-09-10 11:11:25][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:11:25][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:11:25][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:17:04][DEBUG] DEBUG id reçu = '452' 
+[2026-09-10 11:17:04][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:17:04][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:17:04][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:17:08][DEBUG] DEBUG id reçu = '233' 
+[2026-09-10 11:17:08][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:17:08][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 11:17:08][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 11:17:11][DEBUG] DEBUG id reçu = '84' 
+[2026-09-10 11:17:11][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:17:11][DEBUG] Commentaires récupérés pour l'intervention 84: 0 
+[2026-09-10 11:17:11][DEBUG] Pièces jointes récupérées pour l'intervention 84: 0 
+[2026-09-10 11:17:14][DEBUG] DEBUG id reçu = '452' 
+[2026-09-10 11:17:14][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:17:14][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:17:14][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:17:17][DEBUG] DEBUG id reçu = '233' 
+[2026-09-10 11:17:17][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:17:17][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 11:17:17][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 11:17:19][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 11:17:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:17:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:17:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 46a443b87f62461e7ceb... 
+[2026-09-10 11:17:23][DEBUG] DEBUG id reçu = '452' 
+[2026-09-10 11:17:23][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:17:23][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:17:23][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:17:28][DEBUG] DEBUG id reçu = '84' 
+[2026-09-10 11:17:28][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:17:28][DEBUG] Commentaires récupérés pour l'intervention 84: 0 
+[2026-09-10 11:17:28][DEBUG] Pièces jointes récupérées pour l'intervention 84: 0 
+[2026-09-10 11:17:31][DEBUG] DEBUG id reçu = '233' 
+[2026-09-10 11:17:31][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:17:31][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 11:17:31][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 11:17:37][DEBUG] DEBUG id reçu = '233' 
+[2026-09-10 11:17:37][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:17:37][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 11:17:37][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 11:17:42][DEBUG] CSRF: Token trouvé dans la requête - Token: f8babfad50dfcf75b743... 
+[2026-09-10 11:17:42][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-10 11:17:42][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-10 11:17:42][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-10 11:17:44][DEBUG] DEBUG id reçu = '452' 
+[2026-09-10 11:17:44][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:17:44][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:17:44][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:17:48][DEBUG] DEBUG id reçu = '233' 
+[2026-09-10 11:17:48][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:17:48][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 11:17:48][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 11:17:51][DEBUG] DEBUG id reçu = '84' 
+[2026-09-10 11:17:51][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:17:51][DEBUG] Commentaires récupérés pour l'intervention 84: 0 
+[2026-09-10 11:17:51][DEBUG] Pièces jointes récupérées pour l'intervention 84: 0 
+[2026-09-10 11:17:53][DEBUG] DEBUG id reçu = '452' 
+[2026-09-10 11:17:53][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:17:53][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:17:53][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:19:40][DEBUG] CSRF: Token trouvé dans la requête - Token: d3542d04ffcd1fa4b59b... 
+[2026-09-10 11:19:40][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-10 11:19:40][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-10 11:19:40][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-10 11:19:54][DEBUG] CSRF: Token trouvé dans la requête - Token: d3542d04ffcd1fa4b59b... 
+[2026-09-10 11:19:54][INFO] Technicien 40 supprimé de l'intervention 452 
+[2026-09-10 11:20:00][DEBUG] CSRF: Token trouvé dans la requête - Token: ba892f2784ca21bad59c... 
+[2026-09-10 11:20:01][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-10 11:20:01][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-10 11:20:01][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-10 11:20:02][DEBUG] DEBUG id reçu = '452' 
+[2026-09-10 11:20:02][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:20:02][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:20:02][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:20:07][DEBUG] DEBUG id reçu = '233' 
+[2026-09-10 11:20:07][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:20:07][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 11:20:07][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 11:20:10][DEBUG] DEBUG id reçu = '84' 
+[2026-09-10 11:20:10][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:20:10][DEBUG] Commentaires récupérés pour l'intervention 84: 0 
+[2026-09-10 11:20:10][DEBUG] Pièces jointes récupérées pour l'intervention 84: 0 
+[2026-09-10 11:20:14][DEBUG] DEBUG id reçu = '452' 
+[2026-09-10 11:20:14][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:20:14][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:20:14][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:20:16][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-10 11:20:16][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-10 11:20:16][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - START 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-10 11:20:16][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-10 11:20:16][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-10 11:20:16][INFO] 55 
+[2026-09-10 11:20:16][INFO] 109 
+[2026-09-10 11:20:16][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-10 11:20:17][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-10 11:20:17][DEBUG] CSRF: Token trouvé dans la requête - Token: ba892f2784ca21bad59c... 
+[2026-09-10 11:20:17][DEBUG] CSRF: Token trouvé dans la requête - Token: ba892f2784ca21bad59c... 
+[2026-09-10 11:20:17][DEBUG] CSRF: Token trouvé dans la requête - Token: ba892f2784ca21bad59c... 
+[2026-09-10 11:20:21][DEBUG] DEBUG id reçu = '452' 
+[2026-09-10 11:20:21][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:20:21][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-10 11:20:21][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-10 11:20:24][DEBUG] DEBUG id reçu = '233' 
+[2026-09-10 11:20:24][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-10 11:20:24][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-10 11:20:24][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-10 11:21:23][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: m5shhu3tid9m651i9j0pk89ja0) 

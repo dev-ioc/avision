@@ -147,8 +147,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                 <?php foreach ($openInterventions as $intervention): ?>
                                                     <tr>
                                                         <td>
-                                                            <a href="<?php echo BASE_URL; ?>interventions_client/view/<?php echo $intervention['id']; ?>"
-                                                                class="badge bg-light text-dark text-decoration-none intervention-link">
+                                                            <a href="<?php echo BASE_URL; ?>interventions_client/view/<?php echo $intervention['id'] ?>?return_url=<?= urlencode(BASE_URL . 'dashboard/' . $intervention['id']) ?>"
+                                                                            class=" badge bg-light text-dark text-decoration-none
+                                                    intervention-link">
                                                                 <?php echo safeHtml($intervention['reference'], 'N/A'); ?>
                                                             </a>
                                                         </td>

@@ -106,6 +106,7 @@ class InterventionsClientController
      */
     public function view($id)
     {
+        custom_log('DEBUG id reçu = ' . var_export($id, true), 'DEBUG');
         // Vérifier si l'utilisateur est connecté et est un client
         if (!isset($_SESSION['user']) || !isClient()) {
             header('Location: ' . BASE_URL . 'auth/login');
@@ -137,6 +138,7 @@ class InterventionsClientController
         }
 
         // Récupérer l'intervention
+        custom_log('DEBUG clientId=' . $clientId . ' userLocations=' . json_encode($userLocations), 'DEBUG');
         $intervention = $this->model->getByIdWithAccess($id, $userLocations);
 
         if (!$intervention) {
