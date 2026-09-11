@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../includes/functions.php';
+
 /**
  * Vue de modification du profil client
  * Permet à l'utilisateur de modifier ses informations personnelles
@@ -14,32 +15,12 @@ if (!isset($_SESSION['user'])) {
 // Définir le type d'utilisateur pour le menu
 $userType = $_SESSION['user']['user_type'] ?? null;
 
-setPageVariables(
-    'Modifier mon profil',
-    'profile_client'
-);
+setPageVariables('Modifier mon profil', 'profile_client');
 
 // Définir la page courante pour le menu
 $currentPage = 'profile_client';
 
 // Inclure le header qui contient le menu latéral
-include_once __DIR__ . '/../../includes/header.php';
-include_once __DIR__ . '/../../includes/sidebar.php';
-include_once __DIR__ . '/../../includes/navbar.php';
-?>
-<?php
-require_once __DIR__ . '/../../includes/functions.php';
-
-if (!isset($_SESSION['user'])) {
-    header('Location: ' . BASE_URL . 'auth/login');
-    exit;
-}
-
-$userType = $_SESSION['user']['user_type'] ?? null;
-
-setPageVariables('Modifier mon profil', 'profile_client');
-$currentPage = 'profile_client';
-
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
@@ -123,18 +104,39 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                         <div class="mb-3">
                             <label class="form-label">Mot de passe actuel</label>
-                            <input type="password" class="form-control" name="current_password">
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="current_password"
+                                    id="current_password">
+                                <button class="btn btn-outline-secondary" type="button"
+                                    onclick="togglePasswordVisibility('current_password', this)">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Nouveau mot de passe</label>
-                            <input type="password" class="form-control" name="new_password" minlength="8">
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="new_password" minlength="8"
+                                    id="new_password">
+                                <button class="btn btn-outline-secondary" type="button"
+                                    onclick="togglePasswordVisibility('new_password', this)">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
                             <div class="form-text">Minimum 8 caractères</div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Confirmer le mot de passe</label>
-                            <input type="password" class="form-control" name="confirm_password">
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="confirm_password"
+                                    id="confirm_password">
+                                <button class="btn btn-outline-secondary" type="button"
+                                    onclick="togglePasswordVisibility('confirm_password', this)">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
                         </div>
                         <!-- 2FA -->
                         <!-- <div class="mb-3">
@@ -192,6 +194,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     </form>
 </div>
+
 <?php if (!empty($user['totp_enabled'])): ?>
     <div class="modal fade" id="disable2faModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
@@ -216,79 +219,148 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 <?php endif; ?>
+
+<!-- Modale d'erreur stylée -->
+<div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <div class="w-100 text-center">
+                    <div class="mx-auto mb-2 d-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10"
+                        style="width: 64px; height: 64px;">
+                        <i class="bi bi-exclamation-triangle-fill text-danger fs-3"></i>
+                    </div>
+                </div>
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"
+                    aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body text-center pt-0">
+                <h5 class="mb-2">Erreur</h5>
+                <p class="text-muted mb-0" id="errorModalMessage"></p>
+            </div>
+            <div class="modal-footer border-0 justify-content-center pt-0">
+                <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Compris</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.querySelector('form');
-
-        form.addEventListener('submit', function (e) {
-            const current = form.querySelector('[name="current_password"]').value;
-            const newPass = form.querySelector('[name="new_password"]').value;
-            const confirm = form.querySelector('[name="confirm_password"]').value;
-
-            const hasPassword = current || newPass || confirm;
-
-            if (hasPassword) {
-                if (!current || !newPass || !confirm) {
-                    e.preventDefault();
-                    alert('Tous les champs de mot de passe sont requis.');
-                    return;
-                }
-
-                if (newPass !== confirm) {
-                    e.preventDefault();
-                    alert('Les mots de passe ne correspondent pas.');
-                    return;
-                }
-
-                if (newPass.length < 8) {
-                    e.preventDefault();
-                    alert('Minimum 8 caractères.');
-                    return;
-                }
-            }
-        });
-    });
-</script>
-
-<?php include_once __DIR__ . '/../../includes/footer.php'; ?>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Validation côté client pour les mots de passe
         const currentPassword = document.getElementById('current_password');
         const newPassword = document.getElementById('new_password');
         const confirmPassword = document.getElementById('confirm_password');
-        const form = document.querySelector('form');
+
+        if (!form || !currentPassword || !newPassword || !confirmPassword) {
+            console.warn('Un ou plusieurs éléments requis pour la validation du mot de passe sont introuvables.');
+            return;
+        }
+
+        function showErrorModal(message) {
+            document.getElementById('errorModalMessage').textContent = message;
+            const modal = new bootstrap.Modal(document.getElementById('errorModal'));
+            modal.show();
+        }
 
         form.addEventListener('submit', function (e) {
-            // Vérifier si au moins un champ de mot de passe est rempli
             const hasPasswordField = currentPassword.value || newPassword.value || confirmPassword.value;
 
             if (hasPasswordField) {
-                // Si un champ est rempli, tous doivent l'être
-                if (!currentPassword.value || !newPassword.value || !confirmPassword.value) {
-                    e.preventDefault();
-                    alert('Si vous souhaitez changer votre mot de passe, tous les champs de mot de passe sont requis.');
-                    return;
-                }
-
-                // Vérifier que les nouveaux mots de passe correspondent
                 if (newPassword.value !== confirmPassword.value) {
                     e.preventDefault();
-                    alert('Le nouveau mot de passe et sa confirmation ne correspondent pas.');
+                    showErrorModal('Le nouveau mot de passe et sa confirmation ne correspondent pas.');
                     return;
                 }
 
-                // Vérifier la longueur du nouveau mot de passe
-                if (newPassword.value.length < 8) {
+                if (newPassword.value.length < 8 && newPassword.value !== "") {
                     e.preventDefault();
-                    alert('Le nouveau mot de passe doit contenir au moins 8 caractères.');
+                    showErrorModal('Le nouveau mot de passe doit contenir au moins 8 caractères.');
                     return;
                 }
             }
         });
     });
 </script>
+<script>
+    function togglePasswordVisibility(inputId, btn) {
+        const input = document.getElementById(inputId);
+        const icon = btn.querySelector('i');
 
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+        }
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.modal').forEach(function (modal) {
+            modal.addEventListener('hidden.bs.modal', function () {
+                const dialog = modal.querySelector('.modal-dialog');
+                if (dialog) {
+                    dialog.style.position = '';
+                    dialog.style.left = '';
+                    dialog.style.top = '';
+                    dialog.style.margin = '';
+                    dialog.style.width = '';
+                    dialog.style.maxWidth = '';
+                }
+            });
+
+            modal.addEventListener('shown.bs.modal', function () {
+                const dialog = modal.querySelector('.modal-dialog');
+                const header = modal.querySelector('.modal-header');
+                if (!dialog || !header) return;
+                if (header.dataset.draggable) return;
+                header.dataset.draggable = 'true';
+
+                header.style.cursor = 'grab';
+
+                let isDragging = false;
+                let startX, startY, startLeft, startTop;
+
+                header.addEventListener('mousedown', function (e) {
+                    if (e.target.closest('button')) return;
+
+                    isDragging = true;
+                    header.style.cursor = 'grabbing';
+
+                    const rect = dialog.getBoundingClientRect();
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    startLeft = rect.left;
+                    startTop = rect.top;
+                    dialog.style.width = rect.width + 'px';
+                    dialog.style.maxWidth = 'none';
+                    dialog.style.position = 'fixed';
+                    dialog.style.left = startLeft + 'px';
+                    dialog.style.top = startTop + 'px';
+                    dialog.style.margin = '0';
+                });
+
+                document.addEventListener('mousemove', function (e) {
+                    if (!isDragging) return;
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+                    dialog.style.left = (startLeft + dx) + 'px';
+                    dialog.style.top = (startTop + dy) + 'px';
+                });
+
+                document.addEventListener('mouseup', function () {
+                    if (isDragging) {
+                        isDragging = false;
+                        header.style.cursor = 'grab';
+                    }
+                });
+            });
+
+        });
+    });
+</script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

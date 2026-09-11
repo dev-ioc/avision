@@ -2,11 +2,13 @@
 require_once __DIR__ . '/../models/UserModel.php';
 require_once __DIR__ . '/../models/ClientModel.php';
 
-class ProfileClientController {
+class ProfileClientController
+{
     private $userModel;
     private $clientModel;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->userModel = new UserModel($db);
         $this->clientModel = new ClientModel($db);
     }
@@ -14,13 +16,14 @@ class ProfileClientController {
     /**
      * Affiche le profil de l'utilisateur client
      */
-    public function index() {
+    public function index()
+    {
         // Vérifier l'accès client
         checkClientAccess();
 
         $userId = $_SESSION['user']['id'];
         $user = $this->userModel->getUserById($userId);
-        
+
         if (!$user) {
             $_SESSION['error'] = 'Utilisateur non trouvé.';
             header('Location: ' . BASE_URL . 'dashboard');
@@ -40,7 +43,8 @@ class ProfileClientController {
     /**
      * Affiche le formulaire de modification du profil
      */
-    public function edit() {
+    public function edit()
+    {
         // Vérifier l'accès client
         checkClientAccess();
 
@@ -53,7 +57,7 @@ class ProfileClientController {
 
         $userId = $_SESSION['user']['id'];
         $user = $this->userModel->getUserById($userId);
-        
+
         if (!$user) {
             $_SESSION['error'] = 'Utilisateur non trouvé.';
             header('Location: ' . BASE_URL . 'dashboard');
@@ -103,11 +107,11 @@ class ProfileClientController {
             // Gestion du changement de mot de passe
             if (!empty($currentPassword) || !empty($newPassword) || !empty($confirmPassword)) {
                 // Vérifier que tous les champs de mot de passe sont remplis
-                if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
-                    $_SESSION['error'] = 'Tous les champs de mot de passe sont requis pour changer le mot de passe.';
-                    header('Location: ' . BASE_URL . 'profileClient/edit');
-                    exit;
-                }
+                // if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
+                //     $_SESSION['error'] = 'Tous les champs de mot de passe sont requis pour changer le mot de passe.';
+                //     header('Location: ' . BASE_URL . 'profileClient/edit');
+                //     exit;
+                // }
 
                 // Vérifier que le nouveau mot de passe et sa confirmation correspondent
                 if ($newPassword !== $confirmPassword) {
@@ -124,7 +128,7 @@ class ProfileClientController {
                 }
 
                 // Vérifier la complexité du nouveau mot de passe
-                if (strlen($newPassword) < 8) {
+                if (strlen($newPassword) < 8 && !empty($newPassword)) {
                     $_SESSION['error'] = 'Le nouveau mot de passe doit contenir au moins 8 caractères.';
                     header('Location: ' . BASE_URL . 'profileClient/edit');
                     exit;
