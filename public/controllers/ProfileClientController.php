@@ -105,30 +105,29 @@ class ProfileClientController
             ];
 
             // Gestion du changement de mot de passe
-            if (!empty($currentPassword) || !empty($newPassword) || !empty($confirmPassword)) {
-                // Vérifier que tous les champs de mot de passe sont remplis
-                // if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
-                //     $_SESSION['error'] = 'Tous les champs de mot de passe sont requis pour changer le mot de passe.';
-                //     header('Location: ' . BASE_URL . 'profileClient/edit');
-                //     exit;
-                // }
+            if (!empty($newPassword) || !empty($confirmPassword)) {
 
-                // Vérifier que le nouveau mot de passe et sa confirmation correspondent
+                // L'utilisateur a manifestement l'intention de changer son mot de passe
+                // → on exige alors les 3 champs
+                if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
+                    $_SESSION['error'] = 'Pour changer votre mot de passe, veuillez renseigner le mot de passe actuel, le nouveau mot de passe et sa confirmation.';
+                    header('Location: ' . BASE_URL . 'profileClient/edit');
+                    exit;
+                }
+
                 if ($newPassword !== $confirmPassword) {
                     $_SESSION['error'] = 'Le nouveau mot de passe et sa confirmation ne correspondent pas.';
                     header('Location: ' . BASE_URL . 'profileClient/edit');
                     exit;
                 }
 
-                // Vérifier que le mot de passe actuel est correct
                 if (!password_verify($currentPassword, $user['password'])) {
                     $_SESSION['error'] = 'Le mot de passe actuel est incorrect.';
                     header('Location: ' . BASE_URL . 'profileClient/edit');
                     exit;
                 }
 
-                // Vérifier la complexité du nouveau mot de passe
-                if (strlen($newPassword) < 8 && !empty($newPassword)) {
+                if (strlen($newPassword) < 8) {
                     $_SESSION['error'] = 'Le nouveau mot de passe doit contenir au moins 8 caractères.';
                     header('Location: ' . BASE_URL . 'profileClient/edit');
                     exit;
