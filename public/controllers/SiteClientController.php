@@ -450,8 +450,21 @@ class SiteClientController
             foreach ($userLocations as $clientId => $locations) {
                 if (!empty($locations)) {
                     foreach ($locations as $location) {
+                        $locSiteId = $location['site_id'] ?? null;
                         $locBuildingId = $location['building_id'] ?? null;
                         $locRoomId = $location['room_id'] ?? null;
+
+                        // Accès complet au client (tous champs null)
+                        if ($locSiteId === null && $locBuildingId === null && $locRoomId === null) {
+                            return true;
+                        }
+
+                        if (
+                            $locSiteId !== null && $locBuildingId === null && $locRoomId === null
+                            && (int) $locSiteId === (int) $building['site_id']
+                        ) {
+                            return true;
+                        }
 
                         // Accès direct au bâtiment
                         if ($locBuildingId !== null && (int) $locBuildingId === (int) $buildingId) {
@@ -467,7 +480,6 @@ class SiteClientController
                         }
                     }
                 } else {
-                    // Accès complet au client
                     return true;
                 }
             }

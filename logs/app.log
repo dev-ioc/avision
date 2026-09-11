@@ -135841,4 +135841,386 @@ Quant à l’écran n°1, il est HS
 [2026-09-10 11:20:24][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
 [2026-09-10 11:20:24][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
 [2026-09-10 11:20:24][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
-[2026-09-10 11:21:23][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: m5shhu3tid9m651i9j0pk89ja0) 
+[2026-09-10 11:21:23][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: m5shhu3tid9m651i9j0pk89ja0) [2026-09-11 07:57:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 0e8377950b320b68c047... 
+[2026-09-11 07:57:15][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-11 07:57:15][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-11 07:57:15][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-11 08:05:25][DEBUG] CSRF: Token trouvé dans la requête - Token: da496eef15138547c590... 
+[2026-09-11 08:05:25][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-11 08:05:25][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-11 08:05:25][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-11 08:05:31][DEBUG] DEBUG id reçu = '452' 
+[2026-09-11 08:05:31][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:05:31][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-11 08:05:31][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-11 08:05:42][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-11 08:05:42][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-11 08:05:42][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - START 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-11 08:05:42][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-11 08:05:42][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-11 08:05:42][INFO] 55 
+[2026-09-11 08:05:42][INFO] 109 
+[2026-09-11 08:05:42][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-11 08:05:55][INFO] 55 
+[2026-09-11 08:05:57][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-11 08:05:57][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-11 08:05:57][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - START 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-11 08:05:57][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-11 08:05:57][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-11 08:05:57][INFO] 55 
+[2026-09-11 08:05:57][INFO] 109 
+[2026-09-11 08:05:57][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-11 08:06:36][DEBUG] CSRF: Token trouvé dans la requête - Token: e88090e1cd436761e519... 
+[2026-09-11 08:06:36][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-11 08:06:36][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-11 08:06:36][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-11 08:06:40][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-11 08:06:41][DEBUG] CSRF: Token trouvé dans la requête - Token: e88090e1cd436761e519... 
+[2026-09-11 08:06:41][DEBUG] CSRF: Token trouvé dans la requête - Token: e88090e1cd436761e519... 
+[2026-09-11 08:06:41][DEBUG] CSRF: Token trouvé dans la requête - Token: e88090e1cd436761e519... 
+[2026-09-11 08:06:43][INFO] 55 
+[2026-09-11 08:06:43][INFO] 109 
+[2026-09-11 08:11:44][INFO] 55 
+[2026-09-11 08:11:44][INFO] 109 
+[2026-09-11 08:11:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 271c2dcbb9c07faf0ea4... 
+[2026-09-11 08:11:49][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-11 08:11:49][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-11 08:11:49][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-11 08:11:54][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-11 08:11:54][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-11 08:11:54][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - START 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-11 08:11:54][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-11 08:11:54][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-11 08:11:54][INFO] 55 
+[2026-09-11 08:11:54][INFO] 109 
+[2026-09-11 08:11:54][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-11 08:18:15][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-11 08:18:15][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-11 08:18:15][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - START 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-11 08:18:15][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-11 08:18:15][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-11 08:18:15][INFO] 55 
+[2026-09-11 08:18:15][INFO] 109 
+[2026-09-11 08:18:15][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-11 08:18:24][INFO] 109 
+[2026-09-11 08:18:27][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-11 08:18:27][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-11 08:18:27][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - START 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-11 08:18:27][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-11 08:18:27][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-11 08:18:27][INFO] 55 
+[2026-09-11 08:18:27][INFO] 109 
+[2026-09-11 08:18:27][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-11 08:18:29][INFO] 55 
+[2026-09-11 08:18:33][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-11 08:18:33][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-11 08:18:33][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - START 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-11 08:18:33][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-11 08:18:33][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-11 08:18:33][INFO] 55 
+[2026-09-11 08:18:33][INFO] 109 
+[2026-09-11 08:18:33][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-11 08:18:39][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:39][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:39][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) 
+[2026-09-11 08:18:39][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-11 08:18:39][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-11 08:18:39][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:39][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-09-11 08:18:39][DEBUG] getBuildingsByLocations - result count: 2 
+[2026-09-11 08:18:39][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 55) OR (s.id = 109)) 
+[2026-09-11 08:18:39][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 55) OR (s.id = 109)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-11 08:18:39][DEBUG] getAllByLocations - Params: [] 
+[2026-09-11 08:18:39][DEBUG] getAllByLocations - Results count: 31 
+[2026-09-11 08:18:43][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:43][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35 AND s.id = 55)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-11 08:18:43][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:43][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:43][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) 
+[2026-09-11 08:18:43][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-11 08:18:43][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-11 08:18:43][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:43][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35 AND s.id = 55)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-11 08:18:44][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 55) OR (s.id = 109)) 
+[2026-09-11 08:18:44][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 55) OR (s.id = 109)) AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-11 08:18:44][DEBUG] getAllByLocations - Params: [55] 
+[2026-09-11 08:18:44][DEBUG] getAllByLocations - Results count: 19 
+[2026-09-11 08:18:45][DEBUG] getRoomsByBuildingAndLocations - buildingId: 45, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:45][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND r.status = 1
+            ORDER BY r.name 
+[2026-09-11 08:18:45][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:45][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:45][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) 
+[2026-09-11 08:18:45][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-11 08:18:45][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-11 08:18:45][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:45][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35 AND s.id = 55)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-11 08:18:45][DEBUG] getRoomsByBuildingAndLocations - buildingId: 45, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:45][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND r.status = 1
+            ORDER BY r.name 
+[2026-09-11 08:18:45][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 55) OR (s.id = 109)) 
+[2026-09-11 08:18:45][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 55) OR (s.id = 109)) AND s.id = ? AND b.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-11 08:18:45][DEBUG] getAllByLocations - Params: [55,45] 
+[2026-09-11 08:18:45][DEBUG] getAllByLocations - Results count: 19 
+[2026-09-11 08:18:47][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:47][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:47][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) 
+[2026-09-11 08:18:47][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-11 08:18:47][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-11 08:18:47][DEBUG] getBuildingsBySiteAndLocations - siteId: 55, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:47][DEBUG] getBuildingsBySiteAndLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE s.id = ? AND ((s.client_id = 35 AND s.id = 55)) AND b.status = 1
+            ORDER BY b.name 
+[2026-09-11 08:18:47][DEBUG] getRoomsByBuildingAndLocations - buildingId: 45, userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:47][DEBUG] getRoomsByBuildingAndLocations - SQL: SELECT r.* 
+            FROM rooms r
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE r.building_id = ? AND ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND r.status = 1
+            ORDER BY r.name 
+[2026-09-11 08:18:47][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 55) OR (s.id = 109)) 
+[2026-09-11 08:18:47][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 55) OR (s.id = 109)) AND s.id = ? AND b.id = ? AND m.salle_id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-11 08:18:47][DEBUG] getAllByLocations - Params: [55,45,147] 
+[2026-09-11 08:18:47][DEBUG] getAllByLocations - Results count: 19 
+[2026-09-11 08:18:48][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:48][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.first_name as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-09-11 08:18:48][DEBUG] DocumentationClientController::index - Paramètres: [35,35] 
+[2026-09-11 08:18:48][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 1 
+[2026-09-11 08:18:54][DEBUG] DEBUG id reçu = '233' 
+[2026-09-11 08:18:54][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:54][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-11 08:18:54][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-11 08:18:56][DEBUG] DEBUG id reçu = 'interventions_client' 
+[2026-09-11 08:18:56][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:18:56][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-11 08:18:58][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-11 08:18:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 271c2dcbb9c07faf0ea4... 
+[2026-09-11 08:18:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 271c2dcbb9c07faf0ea4... 
+[2026-09-11 08:18:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 271c2dcbb9c07faf0ea4... 
+[2026-09-11 08:19:07][DEBUG] DEBUG id reçu = '233' 
+[2026-09-11 08:19:07][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:19:07][DEBUG] Commentaires récupérés pour l'intervention 233: 0 
+[2026-09-11 08:19:07][DEBUG] Pièces jointes récupérées pour l'intervention 233: 0 
+[2026-09-11 08:19:08][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-11 08:19:08][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-11 08:19:08][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - START 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-11 08:19:08][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-11 08:19:08][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-11 08:19:08][INFO] 55 
+[2026-09-11 08:19:08][INFO] 109 
+[2026-09-11 08:19:08][DEBUG] SiteClientController::index - sites count: 2 
