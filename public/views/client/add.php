@@ -33,12 +33,18 @@ include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
 ?>
 
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/css/intlTelInput.css">
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/js/intlTelInputWithUtils.min.js"></script>
+</head>
 <div class="container-fluid flex-grow-1 container-p-y">
     <div class="row">
         <div class="col-12">
             <!-- En-tête avec actions -->
             <div class="d-flex bd-highlight mb-3">
-                <div class="p-2 bd-highlight"><h4 class="py-4 mb-6">Ajouter un client</h4></div>
+                <div class="p-2 bd-highlight">
+                    <h4 class="py-4 mb-6">Ajouter un client</h4>
+                </div>
 
                 <div class="ms-auto p-2 bd-highlight">
                     <a href="<?php echo BASE_URL; ?>clients" class="btn btn-secondary me-2">
@@ -52,7 +58,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
             <?php if (isset($_SESSION['error'])): ?>
                 <div class="alert alert-danger">
-                    <?php 
+                    <?php
                     echo $_SESSION['error'];
                     unset($_SESSION['error']);
                     ?>
@@ -70,32 +76,35 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Nom du client *</label>
-                                    <input type="text" class="form-control" id="name" name="name" required 
-                                           value="<?php echo htmlspecialchars($formData['name'] ?? ''); ?>">
+                                    <input type="text" class="form-control" id="name" name="name" required
+                                        value="<?php echo htmlspecialchars($formData['name'] ?? ''); ?>">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control" id="email" name="email"
-                                           value="<?php echo htmlspecialchars($formData['email'] ?? ''); ?>">
+                                        value="<?php echo htmlspecialchars($formData['email'] ?? ''); ?>">
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group"
+                                    style="display: flex; flex-direction: column; gap: 2; align-items: start; ">
                                     <label for="phone">Téléphone</label>
-                                    <input type="tel" class="form-control" id="phone" name="phone"
-                                           value="<?php echo htmlspecialchars($formData['phone'] ?? ''); ?>">
+                                    <input type="tel" class="form-control" id="phone" name="phone_display"
+                                        value="<?= htmlspecialchars($formData['phone'] ?? '') ?>">
+                                    <input type="hidden" name="phone" id="phone_full">
+                                    <div class="form-text" id="phone_error" style="display:none;"></div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="website">Site web</label>
                                     <input type="url" class="form-control" id="website" name="website"
-                                           value="<?php echo htmlspecialchars($formData['website'] ?? ''); ?>">
+                                        value="<?php echo htmlspecialchars($formData['website'] ?? ''); ?>">
                                 </div>
                             </div>
                         </div>
@@ -105,7 +114,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <div class="form-group">
                                     <label for="address">Adresse</label>
                                     <input type="text" class="form-control" id="address" name="address"
-                                           value="<?php echo htmlspecialchars($formData['address'] ?? ''); ?>">
+                                        value="<?php echo htmlspecialchars($formData['address'] ?? ''); ?>">
                                 </div>
                             </div>
                         </div>
@@ -115,14 +124,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <div class="form-group">
                                     <label for="postal_code">Code postal</label>
                                     <input type="text" class="form-control" id="postal_code" name="postal_code"
-                                           value="<?php echo htmlspecialchars($formData['postal_code'] ?? ''); ?>">
+                                        value="<?php echo htmlspecialchars($formData['postal_code'] ?? ''); ?>">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="city">Ville</label>
                                     <input type="text" class="form-control" id="city" name="city"
-                                           value="<?php echo htmlspecialchars($formData['city'] ?? ''); ?>">
+                                        value="<?php echo htmlspecialchars($formData['city'] ?? ''); ?>">
                                 </div>
                             </div>
                         </div>
@@ -131,23 +140,24 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="comment">Commentaires</label>
-                                    <textarea class="form-control" id="comment" name="comment" rows="3"><?php echo htmlspecialchars($formData['comment'] ?? ''); ?></textarea>
+                                    <textarea class="form-control" id="comment" name="comment"
+                                        rows="3"><?php echo htmlspecialchars($formData['comment'] ?? ''); ?></textarea>
                                 </div>
                             </div>
                         </div>
 
                         <?php if (isAdmin()): ?>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="status">Statut</label>
-                                    <select class="form-control" id="status" name="status">
-                                        <option value="1" <?php echo (isset($formData['status']) && $formData['status'] == 1) ? 'selected' : ''; ?>>Actif</option>
-                                        <option value="0" <?php echo (isset($formData['status']) && $formData['status'] == 0) ? 'selected' : ''; ?>>Inactif</option>
-                                    </select>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="status">Statut</label>
+                                        <select class="form-control" id="status" name="status">
+                                            <option value="1" <?php echo (isset($formData['status']) && $formData['status'] == 1) ? 'selected' : ''; ?>>Actif</option>
+                                            <option value="0" <?php echo (isset($formData['status']) && $formData['status'] == 0) ? 'selected' : ''; ?>>Inactif</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <?php endif; ?>
                     </form>
                 </div>
@@ -155,5 +165,44 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const phoneInput = document.querySelector('#phone');
 
-<?php include_once __DIR__ . '/../../includes/footer.php'; ?> 
+        const iti = window.intlTelInput(phoneInput, {
+            initialCountry: 'fr', // pays par défaut
+            preferredCountries: ['fr', 'be', 'ch', 'ca'],
+            separateDialCode: true,
+            utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/js/utils.js'
+        });
+
+        <?php if (!empty($user['phone'])): ?>
+            iti.setNumber(<?= json_encode($user['phone']) ?>);
+        <?php endif; ?>
+
+        const form = phoneInput.closest('form');
+        const phoneFullInput = document.getElementById('phone_full');
+        const phoneError = document.getElementById('phone_error');
+
+        form.addEventListener('submit', function (e) {
+            const phoneValue = phoneInput.value.trim();
+
+            if (phoneValue === '') {
+                phoneFullInput.value = '';
+                phoneError.style.display = 'none';
+                return;
+            }
+
+            if (!iti.isValidNumber()) {
+                e.preventDefault();
+                phoneError.textContent = 'Numéro de téléphone invalide pour le pays sélectionné.';
+                phoneError.classList.add('text-danger');
+                phoneError.style.display = 'block';
+                return;
+            }
+            phoneFullInput.value = iti.getNumber();
+            phoneError.style.display = 'none';
+        });
+    });
+</script>
+<?php include_once __DIR__ . '/../../includes/footer.php'; ?>

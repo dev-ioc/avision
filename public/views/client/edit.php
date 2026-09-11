@@ -46,7 +46,10 @@ include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
 ?>
-
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/css/intlTelInput.css">
+  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/js/intlTelInputWithUtils.min.js"></script>
+</head>
 <div class="container-fluid flex-grow-1 container-p-y">
     <!-- En-tête avec actions -->
     <div class="d-flex bd-highlight mb-3">
@@ -149,10 +152,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         <input type="email" class="form-control" id="email" name="email"
                                             value="<?php echo htmlspecialchars($client['email'] ?? ''); ?>">
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="phone" class="form-label">Téléphone</label>
-                                        <input type="text" class="form-control" id="phone" name="phone"
-                                            value="<?php echo htmlspecialchars($client['phone'] ?? ''); ?>">
+                                    <div class="mb-3" style="display: flex; flex-direction: column; gap: 2; align-items: start; ">
+                                        <label class="form-label">Téléphone</label>
+                                        <input type="tel" class="form-control" id="phone" name="phone_display"
+                                            value="<?= htmlspecialchars($client['phone'] ?? '') ?>">
+                                        <input type="hidden" name="phone" id="phone_full">
+                                        <div class="form-text" id="phone_error" style="display:none;"></div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="website" class="form-label">Site Web</label>
@@ -546,7 +551,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         }
     });
 </script>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const urlParams = new URLSearchParams(window.location.search);
@@ -563,14 +567,49 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     new bootstrap.Collapse(siteCollapseElement).show();
                 }
             }
-            // Clean the URL parameter to prevent it from persisting on manual reloads/navigation
-            // Or, if you want it to persist until next explicit navigation, comment this out
-            // const newUrl = window.location.pathname + window.location.hash;
-            // window.history.replaceState({}, document.title, newUrl);
         }
     });
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const phoneInput = document.querySelector('#phone');
 
+    const iti = window.intlTelInput(phoneInput, {
+      initialCountry: 'fr', // pays par défaut
+      preferredCountries: ['fr', 'be', 'ch', 'ca'],
+      separateDialCode: true,
+      utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/js/utils.js'
+    });
+
+    <?php if (!empty($user['phone'])): ?>
+      iti.setNumber(<?= json_encode($user['phone']) ?>);
+    <?php endif; ?>
+
+    const form = phoneInput.closest('form');
+    const phoneFullInput = document.getElementById('phone_full');
+    const phoneError = document.getElementById('phone_error');
+
+    form.addEventListener('submit', function (e) {
+      const phoneValue = phoneInput.value.trim();
+
+      if (phoneValue === '') {
+        phoneFullInput.value = '';
+        phoneError.style.display = 'none';
+        return;
+      }
+
+      if (!iti.isValidNumber()) {
+        e.preventDefault();
+        phoneError.textContent = 'Numéro de téléphone invalide pour le pays sélectionné.';
+        phoneError.classList.add('text-danger');
+        phoneError.style.display = 'block';
+        return;
+      }
+      phoneFullInput.value = iti.getNumber();
+      phoneError.style.display = 'none';
+    });
+  });
+</script>
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';
