@@ -141,7 +141,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </div>
             </div>
             <!-- 2FA -->
-            <div class="col-12">
+            <!-- <div class="col-12">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
                         <h6 class="text-primary mb-3">
@@ -164,7 +164,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 </button>
                             </div>
                         <?php else: ?>
-                            <!-- <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
                                 <div>
                                     <span class="badge bg-light text-muted border mb-1">Désactivée</span>
                                     <p class="text-muted small mb-0">
@@ -174,11 +174,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 <a href="<?= BASE_URL ?>auth/setup-2fa" class="btn btn-primary btn-sm">
                                     Activer la 2FA
                                 </a>
-                            </div> -->
+                            </div>
                         <?php endif; ?>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- ACTIONS -->
