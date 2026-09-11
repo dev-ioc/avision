@@ -136348,3 +136348,16 @@ Quant à l’écran n°1, il est HS
 [2026-09-11 09:54:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 178a628d92c215057095... 
 [2026-09-11 09:54:34][DEBUG] load_client_locations - Session ID: 3nl58e96slf9hhg2n3r33f6epe, Has User: yes, Is Admin: yes, Is AJAX: yes 
 [2026-09-11 09:54:34][INFO] Localisations récupérées avec succès pour le client: 35 
+[2026-09-11 10:00:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 09948832b70fca80f430... 
+[2026-09-11 10:00:28][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-11 10:00:28][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-11 10:00:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 09948832b70fca80f430... 
+[2026-09-11 10:00:44][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-11 10:00:44][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-11 10:01:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 09948832b70fca80f430... 
+[2026-09-11 10:01:41][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-11 10:01:41][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-11 10:02:05][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: aqdm3g8j7l8b2k7mdbrs1c6fpl) 
+[2026-09-11 10:07:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 09948832b70fca80f430... 
+[2026-09-11 10:07:23][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-11 10:07:23][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 

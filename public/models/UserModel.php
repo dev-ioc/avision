@@ -178,10 +178,10 @@ class UserModel extends BaseModel
             $params = [':id' => $id];
 
             // // Construction des champs à mettre à jour
-            // if (isset($data['username'])) {
-            //     $updates[] = "username = :username";
-            //     $params[':username'] = $data['username'];
-            // }
+            if (isset($data['phone'])) {
+                $updates[] = "phone = :phone";
+                $params[':phone'] = $data['phone'];
+            }
             if (isset($data['email'])) {
                 $updates[] = "email = :email";
                 $params[':email'] = $data['email'];
