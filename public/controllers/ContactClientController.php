@@ -4,14 +4,16 @@ require_once __DIR__ . '/../models/ClientModel.php';
 require_once __DIR__ . '/../models/SiteModel.php';
 require_once __DIR__ . '/../models/RoomModel.php';
 
-class ContactClientController {
+class ContactClientController
+{
     private $db;
     private $contactModel;
     private $clientModel;
     private $siteModel;
     private $roomModel;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
         $this->contactModel = new ContactModel($db);
         $this->clientModel = new ClientModel($db);
@@ -22,7 +24,8 @@ class ContactClientController {
     /**
      * Endpoint JSON: retourne les contacts du client courant
      */
-    public function getContacts() {
+    public function getContacts()
+    {
         // Accès client requis
         if (!isset($_SESSION['user']) || !isClient()) {
             header('Content-Type: application/json');
@@ -52,7 +55,8 @@ class ContactClientController {
     /**
      * Endpoint JSON: définit le contact principal d'un site ou d'une salle
      */
-    public function setPrimaryContact() {
+    public function setPrimaryContact()
+    {
         // Accès client requis
         if (!isset($_SESSION['user']) || !isClient()) {
             header('Content-Type: application/json');
@@ -75,8 +79,8 @@ class ContactClientController {
 
         $input = json_decode(file_get_contents('php://input'), true) ?: [];
         $type = $input['type'] ?? '';
-        $entityId = isset($input['id']) ? (int)$input['id'] : 0;
-        $contactId = isset($input['contact_id']) && $input['contact_id'] !== '' ? (int)$input['contact_id'] : null;
+        $entityId = isset($input['id']) ? (int) $input['id'] : 0;
+        $contactId = isset($input['contact_id']) && $input['contact_id'] !== '' ? (int) $input['contact_id'] : null;
 
         if (!in_array($type, ['site', 'room'], true) || $entityId <= 0) {
             header('Content-Type: application/json');
@@ -87,14 +91,14 @@ class ContactClientController {
         // Valider que l'entité appartient au client
         if ($type === 'site') {
             $site = $this->siteModel->getSiteById($entityId);
-            if (!$site || (int)$site['client_id'] !== (int)$clientId) {
+            if (!$site || (int) $site['client_id'] !== (int) $clientId) {
                 header('Content-Type: application/json');
                 echo json_encode(['success' => false, 'message' => "Site non autorisé"]);
                 exit;
             }
         } else {
             $room = $this->roomModel->getRoomById($entityId);
-            if (!$room || (int)$room['client_id'] !== (int)$clientId) {
+            if (!$room || (int) $room['client_id'] !== (int) $clientId) {
                 header('Content-Type: application/json');
                 echo json_encode(['success' => false, 'message' => "Salle non autorisée"]);
                 exit;
@@ -104,7 +108,7 @@ class ContactClientController {
         // Si un contact est fourni, valider qu'il appartient au même client
         if ($contactId !== null) {
             $contact = $this->contactModel->getContactById($contactId);
-            if (!$contact || (int)$contact['client_id'] !== (int)$clientId) {
+            if (!$contact || (int) $contact['client_id'] !== (int) $clientId) {
                 header('Content-Type: application/json');
                 echo json_encode(['success' => false, 'message' => "Contact non autorisé"]);
                 exit;
@@ -120,14 +124,15 @@ class ContactClientController {
         }
 
         header('Content-Type: application/json');
-        echo json_encode(['success' => (bool)$ok]);
+        echo json_encode(['success' => (bool) $ok]);
         exit;
     }
 
     /**
      * Affiche la liste des contacts de la localisation du client
      */
-    public function index() {
+    public function index()
+    {
         // Vérifier l'accès client
         checkClientAccess();
 
@@ -140,7 +145,7 @@ class ContactClientController {
 
         $user = $_SESSION['user'];
         $userLocations = getUserLocationsFormatted();
-        
+
         if (empty($userLocations)) {
             $_SESSION['error'] = 'Aucune localisation associée à votre compte.';
             header('Location: ' . BASE_URL . 'dashboard');
@@ -157,7 +162,8 @@ class ContactClientController {
     /**
      * Affiche le formulaire d'ajout d'un contact
      */
-    public function add() {
+    public function add()
+    {
         // Vérifier l'accès client
         checkClientAccess();
 
@@ -170,7 +176,7 @@ class ContactClientController {
 
         $user = $_SESSION['user'];
         $userLocations = getUserLocationsFormatted();
-        
+
         if (empty($userLocations)) {
             $_SESSION['error'] = 'Aucune localisation associée à votre compte.';
             header('Location: ' . BASE_URL . 'contactClient/add');
@@ -185,7 +191,7 @@ class ContactClientController {
             $email = trim($_POST['email'] ?? '');
             $phone = trim($_POST['phone'] ?? '');
             $function = trim($_POST['function'] ?? '');
-            
+
             // Récupérer le client de l'utilisateur connecté
             $clientId = null;
             foreach ($userLocations as $clientIdLoc => $locations) {
@@ -222,7 +228,8 @@ class ContactClientController {
                 'phone1' => $phone,
                 'phone2' => '',
                 'fonction' => $function,
-                'comment' => ''
+                'comment' => '',
+                'status' => 1,
             ];
 
             if ($this->contactModel->createContact($data)) {
@@ -259,7 +266,8 @@ class ContactClientController {
     /**
      * Affiche le formulaire de modification d'un contact
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         // Vérifier l'accès client
         checkClientAccess();
 
@@ -280,7 +288,7 @@ class ContactClientController {
         // Vérifier que l'utilisateur peut modifier ce contact
         $userLocations = getUserLocationsFormatted();
         $canModify = false;
-        
+
         foreach ($userLocations as $clientId => $locations) {
             if ($clientId == $contact['client_id']) {
                 $canModify = true;
@@ -344,7 +352,8 @@ class ContactClientController {
     /**
      * Supprime un contact
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         // Vérifier l'accès client
         checkClientAccess();
 
@@ -365,7 +374,7 @@ class ContactClientController {
         // Vérifier que l'utilisateur peut supprimer ce contact
         $userLocations = getUserLocationsFormatted();
         $canDelete = false;
-        
+
         foreach ($userLocations as $clientId => $locations) {
             if ($clientId == $contact['client_id']) {
                 $canDelete = true;
@@ -394,14 +403,15 @@ class ContactClientController {
      * @param array $userLocations Les localisations autorisées de l'utilisateur
      * @return array Liste des contacts
      */
-    private function getContactsByLocations($userLocations) {
+    private function getContactsByLocations($userLocations)
+    {
         $contacts = [];
-        
+
         foreach ($userLocations as $clientId => $locations) {
             $clientContacts = $this->contactModel->getContactsByClientId($clientId);
             $contacts = array_merge($contacts, $clientContacts);
         }
-        
+
         return $contacts;
     }
 }

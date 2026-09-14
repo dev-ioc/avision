@@ -136361,3 +136361,212 @@ Quant à l’écran n°1, il est HS
 [2026-09-11 10:07:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 09948832b70fca80f430... 
 [2026-09-11 10:07:23][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
 [2026-09-11 10:07:23][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-14 07:51:20][DEBUG] CSRF: Token trouvé dans la requête - Token: aa3036ef40f83a29895d... 
+[2026-09-14 07:51:21][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-14 07:51:21][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-14 07:51:21][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-14 09:20:15][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 09:20:16][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-14 09:20:16][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-14 09:22:10][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 09:22:10][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-14 09:22:10][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-14 09:22:23][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 09:22:23][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-14 09:22:23][WARNING] Tentative de connexion échouée pour l'utilisateur : karijatsilefilaza@gmail.com 
+[2026-09-14 09:23:33][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 09:23:33][DEBUG] Permissions chargées pour Dever : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-14 09:23:33][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-14 09:23:33][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-14 09:23:37][DEBUG] DEBUG id reçu = '452' 
+[2026-09-14 09:23:37][DEBUG] DEBUG clientId=35 userLocations=[{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-14 09:23:37][DEBUG] Commentaires récupérés pour l'intervention 452: 0 
+[2026-09-14 09:23:37][DEBUG] Pièces jointes récupérées pour l'intervention 452: 0 
+[2026-09-14 09:23:38][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-14 09:23:39][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 09:23:39][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 09:23:39][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 09:23:46][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-14 09:23:46][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-14 09:23:46][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - START 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-14 09:23:46][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-14 09:23:46][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-14 09:23:46][INFO] 55 
+[2026-09-14 09:23:46][INFO] 109 
+[2026-09-14 09:23:46][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-14 09:23:49][INFO] 55 
+[2026-09-14 09:23:52][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-14 09:23:52][DEBUG] SiteClientController::index - clientId from session: 35 
+[2026-09-14 09:23:52][DEBUG] SiteClientController::index - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - START 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - userLocations: {"35":[{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}]} 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - Traitement du clientId: 35 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - locations: [{"site_id":55,"building_id":null,"room_id":null},{"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - clientSites trouvés: 2 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - Site: ID=55, name=Sceaux 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - Site: ID=109, name=Trets 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - Site autorisé directement: 55 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - Site autorisé directement: 109 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - allowedSiteIds: {"55":true,"109":true} 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - Ajout du site 55 dans la map (accès restreint) 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - Ajout du site 109 dans la map (accès restreint) 
+[2026-09-14 09:23:52][DEBUG] getSitesByLocations - résultat FINAL: [55,109] 
+[2026-09-14 09:23:52][DEBUG] SiteClientController::index - sites après dédoublonnage: [55,109] 
+[2026-09-14 09:23:52][INFO] 55 
+[2026-09-14 09:23:52][INFO] 109 
+[2026-09-14 09:23:52][DEBUG] SiteClientController::index - sites count: 2 
+[2026-09-14 09:23:54][INFO] 109 
+[2026-09-14 11:00:17][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-14 11:00:17][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-14 11:00:17][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) 
+[2026-09-14 11:00:17][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-14 11:00:17][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-14 11:00:17][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-14 11:00:17][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-09-14 11:00:17][DEBUG] getBuildingsByLocations - result count: 2 
+[2026-09-14 11:00:17][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 55) OR (s.id = 109)) 
+[2026-09-14 11:00:17][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 55) OR (s.id = 109)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-14 11:00:17][DEBUG] getAllByLocations - Params: [] 
+[2026-09-14 11:00:17][DEBUG] getAllByLocations - Results count: 31 
+[2026-09-14 11:00:22][DEBUG] getByIdWithAccess result for id 72: {"id":72,"salle_id":147,"type_materiel":"interface Audio","reference":null,"usage_materiel":null,"modele":"A8MIO","marque":"ATTEROTECH","numero_serie":"P362000N7","version_firmware":null,"ancien_firmware":null,"adresse_mac":"00:1C:E2:F0:2C:73","adresse_ip":"192.168.0.30","masque":"255.255.255.0","passerelle":"192.168.0.250","login":null,"password":null,"id_materiel":null,"ip_primaire":null,"mac_primaire":null,"ip_secondaire":null,"mac_secondaire":null,"stream_aes67_recu":null,"stream_aes67_transmis":null,"ssid":null,"type_cryptage":null,"password_wifi":null,"libelle_pa_salle":null,"numero_port_switch":null,"vlan":null,"date_fin_maintenance":null,"date_fin_garantie":null,"date_derniere_inter":null,"commentaire":null,"url_github":null,"created_at":"2025-09-01 13:12:59","updated_at":"2025-10-07 17:40:16","deleted_at":null,"salle_nom":"Salle de pri\u00e8res","building_nom":"B\u00e2timent Principal","site_nom":"Sceaux","site_id":55,"client_nom":"ACSBN","client_id":35,"type_nom":"interface Audio"} 
+[2026-09-14 11:00:22][DEBUG] VIEW - Direct SQL count for materiel 72: 0 
+[2026-09-14 11:00:22][DEBUG] getByIdWithAccess result for id 72: {"id":72,"salle_id":147,"type_materiel":"interface Audio","reference":null,"usage_materiel":null,"modele":"A8MIO","marque":"ATTEROTECH","numero_serie":"P362000N7","version_firmware":null,"ancien_firmware":null,"adresse_mac":"00:1C:E2:F0:2C:73","adresse_ip":"192.168.0.30","masque":"255.255.255.0","passerelle":"192.168.0.250","login":null,"password":null,"id_materiel":null,"ip_primaire":null,"mac_primaire":null,"ip_secondaire":null,"mac_secondaire":null,"stream_aes67_recu":null,"stream_aes67_transmis":null,"ssid":null,"type_cryptage":null,"password_wifi":null,"libelle_pa_salle":null,"numero_port_switch":null,"vlan":null,"date_fin_maintenance":null,"date_fin_garantie":null,"date_derniere_inter":null,"commentaire":null,"url_github":null,"created_at":"2025-09-01 13:12:59","updated_at":"2025-10-07 17:40:16","deleted_at":null,"salle_nom":"Salle de pri\u00e8res","building_nom":"B\u00e2timent Principal","site_nom":"Sceaux","site_id":55,"client_nom":"ACSBN","client_id":35,"type_nom":"interface Audio"} 
+[2026-09-14 11:00:22][DEBUG] getPiecesJointesWithAccess - Pièces jointes trouvées: 0 pour le matériel ID: 72 
+[2026-09-14 11:00:22][DEBUG] VIEW - Attachments from model: 0 
+[2026-09-14 11:00:29][DEBUG] MaterielClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-14 11:00:29][DEBUG] getSitesByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-14 11:00:29][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) 
+[2026-09-14 11:00:29][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-14 11:00:29][DEBUG] getSitesByLocations - result count: 2 
+[2026-09-14 11:00:29][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-14 11:00:29][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 35 AND s.id = 55) OR (s.client_id = 35 AND s.id = 109)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-09-14 11:00:29][DEBUG] getBuildingsByLocations - result count: 2 
+[2026-09-14 11:00:29][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 55) OR (s.id = 109)) 
+[2026-09-14 11:00:29][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 55) OR (s.id = 109)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-14 11:00:29][DEBUG] getAllByLocations - Params: [] 
+[2026-09-14 11:00:29][DEBUG] getAllByLocations - Results count: 31 
+[2026-09-14 11:00:34][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":35,"site_id":55,"building_id":null,"room_id":null},{"client_id":35,"site_id":109,"building_id":null,"room_id":null}] 
+[2026-09-14 11:00:34][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.first_name as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)) OR ((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-09-14 11:00:34][DEBUG] DocumentationClientController::index - Paramètres: [35,35] 
+[2026-09-14 11:00:34][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 1 
+[2026-09-14 11:01:04][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 11:01:04][ERROR] Erreur lors de la mise à jour de l'utilisateur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'phone' in 'field list' 
+[2026-09-14 11:02:13][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 11:03:32][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-14 11:03:32][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 11:03:32][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 11:03:33][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 11:03:51][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-14 11:03:51][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 11:03:51][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 11:03:51][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 11:08:58][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-14 11:08:58][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 11:08:58][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 11:08:58][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:26:50][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-14 12:26:50][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:26:50][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:26:50][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:36:21][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:36:29][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:37:46][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:37:58][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-14 12:37:58][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:37:58][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:37:59][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:42:25][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:47:36][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:52:18][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:52:50][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
+[2026-09-14 12:53:09][DEBUG] CSRF: Token trouvé dans la requête - Token: eecb179a048c99bf1134... 
