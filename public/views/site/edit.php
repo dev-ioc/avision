@@ -13,9 +13,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <h4 class="py-4 mb-6">Modifier le Site</h4>
         </div>
         <div class="ms-auto p-2 bd-highlight">
-            <a href="<?= !empty($_GET['return_url'])
-                ? htmlspecialchars($_GET['return_url'])
-                : BASE_URL . 'clients/edit/' . (int) $site['client_id'] . '?open_site_id=' . (int) $site['id'] . '#sites' ?>"
+            <a href="<?php echo BASE_URL; ?>clients/edit/<?php echo $site['client_id']; ?>?open_site_id=<?php echo $site['id']; ?>#sites"
                 class="btn btn-secondary me-2">
                 <i class="bi bi-arrow-left me-1"></i> Retour
             </a>
