@@ -23,7 +23,8 @@ if (empty($roomsToAlert)) {
 
 // Récupérer les admins
 $admins = $userModel->getActiveAdmins();
-$adminRecipients = [];
+custom_log("SEND MAIL", "INFO", $admins);
+
 foreach ($admins as $admin) {
     $adminRecipients[] = [
         'email' => $admin['email'],
@@ -54,8 +55,8 @@ foreach ($roomsToAlert as $room) {
 
     if ($success) {
         $roomModel->markInstallationAlertSent($room['id']);
-        echo "Alerte envoyée pour la salle #{$room['id']} ({$room['name']}).\n";
+        $_SESSION['success'] = "Alerte envoyée pour la salle #{$room['id']} ({$room['name']}).\n";
     } else {
-        echo "Échec de l'envoi pour la salle #{$room['id']}.\n";
+        $_SESSION['error'] = "Échec de l'envoi pour la salle #{$room['id']}.\n";
     }
 }

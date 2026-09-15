@@ -139627,3 +139627,19 @@ Quant à l’écran n°1, il est HS
 [2026-09-15 15:37:04][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
 [2026-09-15 15:37:04][INFO] 55 
 [2026-09-15 15:37:04][INFO] 109 
+[2026-09-15 15:42:18][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:42:18][INFO] 55 
+[2026-09-15 15:42:18][INFO] 109 
+[2026-09-15 15:46:54][INFO] 55 
+[2026-09-15 15:46:54][INFO] 109 
+[2026-09-15 15:47:01][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:47:01][INFO] 55 
+[2026-09-15 15:47:01][INFO] 109 
+[2026-09-15 15:48:40][INFO] 55 
+[2026-09-15 15:48:40][INFO] 109 
+[2026-09-15 15:48:53][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:48:53][INFO] 55 
+[2026-09-15 15:48:53][INFO] 109 
+[2026-09-15 15:50:19][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:50:19][INFO] 55 
+[2026-09-15 15:50:19][INFO] 109 
