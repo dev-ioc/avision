@@ -100,6 +100,7 @@ class ContractModel extends BaseModel
                     c.*,
                     ct.name as contract_type_name,
                     cl.name as client_name,
+                    cl.id as client_id,
                     al.name as access_level_name,
                     al.description as access_level_description
                 FROM contracts c
@@ -456,7 +457,7 @@ class ContractModel extends BaseModel
     }
     public function getContractRooms($contractId)
     {
-        $sql = "SELECT r.id as room_id, r.name as room_name, s.name as site_name, b.name as building_name
+        $sql = "SELECT r.id as room_id, r.name as room_name, s.name as site_name, s.id as site_id, b.name as building_name
             FROM contract_rooms cr
             JOIN rooms r ON cr.room_id = r.id
             JOIN buildings b ON r.building_id = b.id

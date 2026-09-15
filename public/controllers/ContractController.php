@@ -32,22 +32,22 @@ class ContractController
     }
 
 
-    /**
-     * Vérifie si l'utilisateur peut gérer les contrats (admin ou permission spécifique)
-     */
-    private function checkContractManagementAccess()
-    {
-        $this->checkAccess();
+    // /**
+    //  * Vérifie si l'utilisateur peut gérer les contrats (admin ou permission spécifique)
+    //  */
+    // private function checkContractManagementAccess()
+    // {
+    //     $this->checkAccess();
 
-        if (isAdmin()) {
-            return;
-        }
-        if (!canManageContracts()) {
-            $_SESSION['error'] = "Vous n'avez pas les permissions pour gérer les contrats.";
-            header('Location: ' . BASE_URL . 'dashboard');
-            exit;
-        }
-    }
+    //     if (isAdmin()) {
+    //         return;
+    //     }
+    //     if (!canManageContracts()) {
+    //         $_SESSION['error'] = "Vous n'avez pas les permissions pour gérer les contrats.";
+    //         header('Location: ' . BASE_URL . 'dashboard');
+    //         exit;
+    //     }
+    // }
     /**
      * Affiche la liste des contrats
      */
@@ -861,7 +861,7 @@ class ContractController
         try {
             // Récupérer le contrat avec les informations associées
             $contract = $this->contractModel->getContractById($id);
-
+            custom_log("CONTRACT", $contract, "INFO");
             if (!$contract) {
                 $_SESSION['error'] = "Contrat introuvable.";
                 header('Location: ' . BASE_URL . 'contracts');

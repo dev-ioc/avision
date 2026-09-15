@@ -41,12 +41,15 @@ $canModifyClient = canModifyClients();
 
 // Déterminer l'URL de retour dynamiquement
 $returnTo = $_GET['return_to'] ?? null;
-if ($returnTo === 'contracts') {
-  // Si on vient de la liste des contrats, retourner à cette liste
-  $returnUrl = BASE_URL . 'contracts';
+$contractId = $_GET['contract_id'] ?? null;
+
+if ($returnTo === 'contracts/view' && $contractId) {
+
+    $returnUrl = BASE_URL . 'contracts/view/' . (int) $contractId;
+
 } else {
-  // Par défaut, retourner à la liste des clients
-  $returnUrl = BASE_URL . 'clients';
+
+    $returnUrl = BASE_URL . 'clients';
 }
 
 // Inclure le header qui contient le menu latéral
@@ -63,9 +66,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 
     <div class="ms-auto p-2 bd-highlight">
-      <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary me-2">
+     <a href="<?= htmlspecialchars($returnUrl, ENT_QUOTES, 'UTF-8') ?>"
+      class="btn btn-secondary me-2">
         <i class="bi bi-arrow-left me-1"></i> Retour
-      </a>
+    </a>
       <a href="<?php echo BASE_URL; ?>documentation?client_id=<?php echo $client['id'] ?? ''; ?>"
         class="btn btn-info me-2">
         <i class="bi bi-book me-1"></i> Documentation
@@ -207,8 +211,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             // Déterminer l'URL pour ajouter une salle
             $roomAddUrl = '';
             if (!empty($sites)) {
-              // Toujours passer le client_id pour afficher la liste déroulante des sites
-              // Cela permet de choisir le site même s'il n'y en a qu'un seul
               $roomAddUrl = BASE_URL . 'room/add/0?client_id=' . $client['id'] . '&return_to=view';
             } else {
               // Si aucun site, rediriger vers la page d'édition pour créer d'abord un site

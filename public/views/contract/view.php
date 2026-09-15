@@ -32,12 +32,20 @@ $clientId = $_GET['client_id'] ?? null;
 $activeTab = $_GET['active_tab'] ?? null;
 
 $defaultReturnUrl = BASE_URL . 'contracts';
+
 $sessionKey = 'contract_return_url_' . $contractId;
 
+// Page précédente
 $referer = $_SERVER['HTTP_REFERER'] ?? '';
 
-$blacklistedReferers = ['interventions/', 'contracts/edit', 'contracts/generatePreventiveInterventions'];
+$blacklistedReferers = [
+    'interventions/',
+    'contracts/edit',
+    'contracts/generatePreventiveInterventions',
+    'clients/view',
+];
 $isBlacklisted = false;
+
 foreach ($blacklistedReferers as $blacklisted) {
     if (strpos($referer, $blacklisted) !== false) {
         $isBlacklisted = true;
@@ -45,21 +53,31 @@ foreach ($blacklistedReferers as $blacklisted) {
     }
 }
 
-if (!empty($referer) && !$isBlacklisted) {
-    $_SESSION[$sessionKey] = $referer;
+if (!empty($_GET['return_url'])) {
+
+    $returnUrl = $_GET['return_url'];
+
+} elseif ($returnTo === 'client' && $clientId) {
+    $returnUrl = BASE_URL . 'clients/view/' . (int) $clientId;
+
+    if ($activeTab) {
+        $returnUrl .= '?active_tab=' . urlencode($activeTab);
+    }
+
+} elseif (!empty($referer) && !$isBlacklisted) {
+
     $returnUrl = $referer;
+
+    $_SESSION[$sessionKey] = $returnUrl;
+
 } elseif (!empty($_SESSION[$sessionKey])) {
+
     $returnUrl = $_SESSION[$sessionKey];
+
 } else {
     $returnUrl = $defaultReturnUrl;
 }
 
-if ($returnTo === 'client' && $clientId) {
-    $returnUrl = BASE_URL . 'clients/view/' . $clientId;
-    if ($activeTab) {
-        $returnUrl .= '?active_tab=' . $activeTab;
-    }
-}
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
 include_once __DIR__ . '/../../includes/navbar.php';
@@ -73,7 +91,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
 
         <div class="ms-auto p-2 bd-highlight">
-            <a href="<?php echo htmlspecialchars($returnUrl); ?>" class="btn btn-secondary me-2">
+            <a href="<?= h($returnUrl) ?>" class="btn btn-secondary me-2">
                 <i class="bi bi-arrow-left me-1"></i> Retour
             </a>
             <?php if (canManageContracts()): ?>
@@ -219,31 +237,57 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             </button>
                                         <?php endif; ?>
                                     </div>
-
                                     <div class="<?= $isSingle ? '' : 'collapse' ?> rooms-detail-wrapper"
-                                        id="roomsDetail<?= $contract['id'] ?>">
+                                        id="roomsDetail<?= (int) $contract['id'] ?>">
                                         <?php foreach ($sites as $siteName => $siteRooms): ?>
+                                            <?php
+                                            $returnUrl = $_SERVER['REQUEST_URI'];
+                                            ?>
+                                            <?php
+                                            $siteId = !empty($siteRooms[0]['site_id'])
+                                                ? (int) $siteRooms[0]['site_id']
+                                                : 0;
+                                            ?>
+
                                             <div class="mb-2">
+
                                                 <strong class="text-primary small d-block mb-1 text-truncate">
                                                     <i class="bi bi-building me-1"></i>
-                                                    <?= h($siteName) ?>
+
+                                                    <?php if ($siteId): ?>
+
+                                                        <a
+                                                            href="<?= BASE_URL ?>clients/view/<?= (int) $contract['client_id'] ?>?return_to=contracts/view&contract_id=<?= (int) $contract['id'] ?>">
+                                                            <?= h($siteName) ?>
+                                                        </a>
+
+                                                    <?php else: ?>
+
+                                                        <?= h($siteName) ?>
+
+                                                    <?php endif; ?>
+
                                                 </strong>
+
                                                 <div class="d-flex flex-wrap gap-1 ms-3">
-                                                    <?php
-                                                    $returnUrl = BASE_URL . 'contracts/view/' . (int) $contract['id'];
-                                                    ?>
 
                                                     <?php foreach ($siteRooms as $room): ?>
-                                                        <a href="<?= BASE_URL ?>room/edit/<?= (int) $room['room_id'] ?>?return_url=<?= urlencode($returnUrl) ?>"
+
+                                                        <a href="<?= BASE_URL ?>clients/view/<?= (int) $contract['client_id'] ?>?return_to=contracts/view&contract_id=<?= (int) $contract['id'] ?>"
                                                             class="badge bg-secondary-subtle text-dark border fw-normal text-decoration-none"
                                                             title="Modifier la salle">
                                                             <i class="bi bi-door-open text-muted me-1"></i>
                                                             <?= h($room['room_name']) ?>
                                                         </a>
+
                                                     <?php endforeach; ?>
+
                                                 </div>
+
                                             </div>
+
                                         <?php endforeach; ?>
+
                                     </div>
                                 <?php else: ?>
                                     <span class="text-muted">Aucune salle associée</span>
