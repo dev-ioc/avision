@@ -86,7 +86,68 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="delivery_date" class="form-label">
+                                    <i class="bi bi-calendar-check me-1"></i>Date de livraison
+                                </label>
+                                <input type="date" class="form-control" id="delivery_date" name="delivery_date"
+                                    value="<?= htmlspecialchars($room['delivery_date'] ?? '') ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label d-block">
+                                    <i class="bi bi-check2-circle me-1"></i>Statut de l'installation
+                                </label>
+                                <?php
+                                $deliveryDate = $room['delivery_date'] ?? null;
+                                $isClosed = !empty($room['installation_closed']);
+                                $isOverdue = false;
+                                if ($deliveryDate && !$isClosed) {
+                                    $deadline = (new DateTime($deliveryDate))->modify('+1 month');
+                                    $isOverdue = new DateTime() > $deadline;
+                                }
+                                ?>
+                                <?php if ($deliveryDate): ?>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="installation_closed"
+                                            name="installation_closed" <?= $isClosed ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="installation_closed">
+                                            <?= $isClosed ? 'Installation clôturée' : 'Installation en cours' ?>
+                                        </label>
+                                    </div>
+                                    <?php
+                                    $deadlineInfo = getInstallationDeadlineStatus($deliveryDate, $isClosed);
+                                    ?>
+                                    <?php if ($deadlineInfo['status'] === 'overdue'): ?>
+                                        <span class="badge bg-danger mt-1">
+                                            <i class="bi bi-exclamation-triangle me-1"></i>
+                                            Délai dépassé de
+                                            <?= $deadlineInfo['days'] ?> jour
+                                            <?= $deadlineInfo['days'] > 1 ? 's' : '' ?>
+                                        </span>
+                                    <?php elseif ($deadlineInfo['status'] === 'ok'): ?>
+                                        <span
+                                            class="badge bg-<?= $deadlineInfo['days'] <= 7 ? 'warning text-dark' : 'info' ?> mt-1">
+                                            <i class="bi bi-hourglass-split me-1"></i>
+                                            <?= $deadlineInfo['days'] ?> jour
+                                            <?= $deadlineInfo['days'] > 1 ? 's' : '' ?> restant
+                                            <?= $deadlineInfo['days'] > 1 ? 's' : '' ?>
+                                            (échéance :
+                                            <?= date('d/m/Y', strtotime($deadlineInfo['deadline'])) ?>)
+                                        </span>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <span class="text-muted">
+                                        <i class="bi bi-info-circle me-1"></i>Renseignez une date de livraison pour activer le
+                                        suivi d'installation
+                                    </span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="form-check form-switch mb-3">

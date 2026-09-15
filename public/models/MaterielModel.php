@@ -1077,4 +1077,24 @@ class MaterielModel extends BaseModel
 
         return $counts;
     }
+    /**
+     * Met à jour l'état de configuration d'un matériel
+     */
+    public function toggleConfiguration(int $id, bool $configured): bool
+    {
+        $stmt = $this->db->prepare(
+            "UPDATE materiel SET has_configuration = :configured WHERE id = :id"
+        );
+        return $stmt->execute([
+            ':configured' => $configured ? 1 : 0,
+            ':id' => $id,
+        ]);
+    }
+
+    public function exists($id): bool
+    {
+        $stmt = $this->db->prepare("SELECT 1 FROM materiel WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        return (bool) $stmt->fetchColumn();
+    }
 }

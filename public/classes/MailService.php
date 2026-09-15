@@ -1799,4 +1799,61 @@ class MailService
         $intervention['contact_client'] = '';
         return $intervention;
     }
+    /**
+     * Envoie une alerte de suivi d'installation pour une salle
+     * dont le délai d'1 mois après livraison est dépassé.
+     *
+     * @param array $room Données de la salle (name, delivery_date, client_name, building_name)
+     * @param array $recipients Liste des destinataires [['email'=>, 'name'=>], ...]
+     * @return bool Succès de l'envoi
+     */
+    public function sendInstallationAlert($room, $recipients)
+    {
+        try {
+            if (empty($recipients)) {
+                throw new Exception("Aucun destinataire pour l'alerte d'installation salle " . $room['id']);
+            }
+
+            $subject = 'Alerte installation : délai dépassé - ' . $room['name'];
+
+            $roomUrl = BASE_URL . 'room/edit/' . $room['id'];
+
+            $body = '
+                    <html><body style="font-family: Arial, sans-serif; color: #333;">
+                        <h2>Installation non clôturée</h2>
+                        <p>La salle <strong>' . h($room['name']) . '</strong> (' . h($room['client_name']) . ' - ' . h($room['building_name']) . ')
+                        n\'est pas encore clôturée, alors que la date de livraison
+                        (<strong>' . date('d/m/Y', strtotime($room['delivery_date'])) . '</strong>) remonte à plus d\'un mois.</p>
+                        <p>Merci de finaliser l\'installation ou de vérifier son statut.</p>
+                        <p style="margin: 24px 0;">
+                            <a href="' . $roomUrl . '"
+                            style="background:#0d6efd;color:#fff;padding:12px 24px;
+                                    border-radius:6px;text-decoration:none;display:inline-block;">
+                                Consulter la salle
+                            </a>
+                        </p>
+                    </body></html>';
+
+            $success = true;
+            foreach ($recipients as $recipient) {
+                $oauth2Enabled = $this->config->get('oauth2_enabled', '0');
+                if ($oauth2Enabled === '1') {
+                    $sent = $this->sendEmailOAuth2($recipient['email'], $recipient['name'], $subject, $body);
+                } else {
+                    $sent = $this->sendEmailBasic($recipient['email'], $recipient['name'], $subject, $body);
+                }
+                if (!$sent) {
+                    $success = false;
+                }
+            }
+
+            custom_log_mail("Alerte installation envoyée pour la salle " . $room['id'] . " (" . $room['name'] . ")", 'INFO');
+
+            return $success;
+
+        } catch (Exception $e) {
+            custom_log_mail("Erreur envoi alerte installation salle " . ($room['id'] ?? '?') . " : " . $e->getMessage(), 'ERROR');
+            return false;
+        }
+    }
 }

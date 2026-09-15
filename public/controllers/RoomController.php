@@ -207,9 +207,7 @@ class RoomController
         }
 
         $defaultReturn = BASE_URL . 'clients/view/' . (int) $building['client_id'];
-        $defaultReturn = BASE_URL . 'clients/view/' . (int) $building['client_id'];
 
-        $returnUrl = $_POST['return_url'] ?? $_GET['return_url'] ?? $defaultReturn;
         $returnUrl = $_POST['return_url'] ?? $_GET['return_url'] ?? $defaultReturn;
 
         // Sécurité : uniquement des URL internes à l'application
@@ -224,13 +222,27 @@ class RoomController
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $deliveryDate = !empty($_POST['delivery_date']) ? $_POST['delivery_date'] : null;
+            $installationClosed = isset($_POST['installation_closed']) ? 1 : 0;
+
+            $installationClosedAt = $room['installation_closed_at'] ?? null;
+            if ($installationClosed && empty($room['installation_closed'])) {
+                $installationClosedAt = date('Y-m-d H:i:s');
+            } elseif (!$installationClosed) {
+                $installationClosedAt = null;
+            }
+
             $data = [
                 'name' => $_POST['name'] ?? '',
                 'comment' => $_POST['comment'] ?? '',
                 'main_contact_id' => !empty($_POST['main_contact_id'])
                     ? $_POST['main_contact_id']
                     : null,
-                'status' => isset($_POST['status']) ? 1 : 0
+                'status' => isset($_POST['status']) ? 1 : 0,
+                'delivery_date' => $deliveryDate,
+                'installation_closed' => $installationClosed,
+                'installation_closed_at' => $installationClosedAt
             ];
 
             if ($this->roomModel->updateRoom($id, $data)) {

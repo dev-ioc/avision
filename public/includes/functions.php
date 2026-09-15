@@ -127,3 +127,34 @@ function setUserPreference(string $key, string $value): bool
         return false;
     }
 }
+/**
+ * Calcule le statut du délai d'installation d'une salle
+ * @param string|null $deliveryDate Date de livraison (Y-m-d)
+ * @param bool $isClosed Si l'installation est déjà clôturée
+ * @return array ['status' => 'none'|'ok'|'overdue', 'days' => int, 'deadline' => string|null]
+ */
+function getInstallationDeadlineStatus($deliveryDate, $isClosed)
+{
+    if (empty($deliveryDate) || $isClosed) {
+        return ['status' => 'none', 'days' => 0, 'deadline' => null];
+    }
+
+    $deadline = (new DateTime($deliveryDate))->modify('+1 month');
+    $today = new DateTime();
+    $diff = $today->diff($deadline);
+    $daysRemaining = (int) $diff->days;
+
+    if ($today > $deadline) {
+        return [
+            'status' => 'overdue',
+            'days' => $daysRemaining,
+            'deadline' => $deadline->format('Y-m-d')
+        ];
+    }
+
+    return [
+        'status' => 'ok',
+        'days' => $daysRemaining,
+        'deadline' => $deadline->format('Y-m-d')
+    ];
+}

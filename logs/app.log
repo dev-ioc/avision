@@ -138380,3 +138380,1250 @@ Quant à l’écran n°1, il est HS
 [2026-09-15 12:45:16][INFO] 15 
 [2026-09-15 12:45:16][INFO] 16 
 [2026-09-15 12:45:16][INFO] 14 
+[2026-09-15 12:46:02][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:02][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:02][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:03][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-09-15 12:46:03][Array] CONTRACT "INFO"
+[2026-09-15 12:46:06][INFO] 1 
+[2026-09-15 12:46:11][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:11][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:11][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:12][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-09-15 12:46:12][Array] CONTRACT "INFO"
+[2026-09-15 12:46:12][DEBUG] Tentative d'aperçu contrat pour l'ID: 476 
+[2026-09-15 12:46:12][DEBUG] Pièce jointe trouvée: {"id":476,"nom_fichier":"CC16594.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":"CC16594.pdf","chemin_fichier":"uploads\/contracts\/17\/1779954878_CC16594.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":581950,"commentaire":null,"date_creation":"2026-05-28 10:54:38","masque_client":0,"type_id":null,"created_by":2} 
+[2026-09-15 12:46:12][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-09-15 12:46:12][ERROR] Le fichier n'existe pas: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-09-15 12:46:12][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-09-15 12:46:12][DEBUG] Tentative d'aperçu contrat pour l'ID: 91 
+[2026-09-15 12:46:12][DEBUG] Pièce jointe trouvée: {"id":91,"nom_fichier":"GROUPAMA ANTONY FC16587.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/17\/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":447289,"commentaire":null,"date_creation":"2025-09-11 11:56:28","masque_client":1,"type_id":null,"created_by":2} 
+[2026-09-15 12:46:12][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf 
+[2026-09-15 12:46:12][DEBUG] Fichier trouvé, taille: 447289 
+[2026-09-15 12:46:12][DEBUG] Type MIME détecté: application/pdf 
+[2026-09-15 12:46:12][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:12][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:13][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:14][INFO] 13 
+[2026-09-15 12:46:14][INFO] 17 
+[2026-09-15 12:46:14][INFO] 15 
+[2026-09-15 12:46:14][INFO] 16 
+[2026-09-15 12:46:14][INFO] 14 
+[2026-09-15 12:46:17][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:17][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:17][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:19][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-09-15 12:46:19][Array] CONTRACT "INFO"
+[2026-09-15 12:46:19][DEBUG] Tentative d'aperçu contrat pour l'ID: 476 
+[2026-09-15 12:46:19][DEBUG] Pièce jointe trouvée: {"id":476,"nom_fichier":"CC16594.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":"CC16594.pdf","chemin_fichier":"uploads\/contracts\/17\/1779954878_CC16594.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":581950,"commentaire":null,"date_creation":"2026-05-28 10:54:38","masque_client":0,"type_id":null,"created_by":2} 
+[2026-09-15 12:46:19][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-09-15 12:46:19][ERROR] Le fichier n'existe pas: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-09-15 12:46:19][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-09-15 12:46:19][DEBUG] Tentative d'aperçu contrat pour l'ID: 91 
+[2026-09-15 12:46:19][DEBUG] Pièce jointe trouvée: {"id":91,"nom_fichier":"GROUPAMA ANTONY FC16587.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/17\/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":447289,"commentaire":null,"date_creation":"2025-09-11 11:56:28","masque_client":1,"type_id":null,"created_by":2} 
+[2026-09-15 12:46:19][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf 
+[2026-09-15 12:46:19][DEBUG] Fichier trouvé, taille: 447289 
+[2026-09-15 12:46:19][DEBUG] Type MIME détecté: application/pdf 
+[2026-09-15 12:46:20][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:20][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:46:20][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:47:11][INFO] 13 
+[2026-09-15 12:47:11][INFO] 17 
+[2026-09-15 12:47:11][INFO] 15 
+[2026-09-15 12:47:11][INFO] 16 
+[2026-09-15 12:47:11][INFO] 14 
+[2026-09-15 12:47:16][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:47:16][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:47:16][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:47:18][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-09-15 12:47:18][Array] CONTRACT "INFO"
+[2026-09-15 12:47:21][INFO] 1 
+[2026-09-15 12:47:43][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:47:43][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:47:43][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:47:44][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-09-15 12:47:44][Array] CONTRACT "INFO"
+[2026-09-15 12:47:49][INFO] 1 
+[2026-09-15 12:47:57][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 12:47:58][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:47:58][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:47:58][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:47:59][INFO] 55 
+[2026-09-15 12:47:59][INFO] 109 
+[2026-09-15 13:03:43][INFO] 55 
+[2026-09-15 13:03:43][INFO] 109 
+[2026-09-15 13:04:06][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 13:04:06][INFO] 55 
+[2026-09-15 13:04:06][INFO] 109 
+[2026-09-15 13:04:23][INFO] 55 
+[2026-09-15 13:04:23][INFO] 109 
+[2026-09-15 13:04:31][INFO] 55 
+[2026-09-15 13:04:31][INFO] 109 
+[2026-09-15 13:04:38][INFO] 55 
+[2026-09-15 13:04:38][INFO] 109 
+[2026-09-15 13:04:50][INFO] 55 
+[2026-09-15 13:04:50][INFO] 109 
+[2026-09-15 13:04:51][INFO] 55 
+[2026-09-15 13:04:51][INFO] 109 
+[2026-09-15 13:04:58][INFO] 55 
+[2026-09-15 13:04:58][INFO] 109 
+[2026-09-15 13:05:10][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 13:05:10][INFO] 55 
+[2026-09-15 13:05:10][INFO] 109 
+[2026-09-15 13:05:51][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 13:05:51][INFO] 55 
+[2026-09-15 13:05:51][INFO] 109 
+[2026-09-15 13:08:14][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 13:08:14][INFO] 55 
+[2026-09-15 13:08:14][INFO] 109 
+[2026-09-15 13:08:25][INFO] 55 
+[2026-09-15 13:08:25][INFO] 109 
+[2026-09-15 13:08:41][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 13:08:41][INFO] 55 
+[2026-09-15 13:08:41][INFO] 109 
+[2026-09-15 13:08:57][INFO] 55 
+[2026-09-15 13:08:57][INFO] 109 
+[2026-09-15 13:11:45][INFO] 55 
+[2026-09-15 13:11:45][INFO] 109 
+[2026-09-15 13:11:45][ERROR] json_decode(): Argument #1 ($json) must be of type string, array given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":581,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php(581): json_decode(Array)\n#1 C:\\xampp\\htdocs\\avision\\public\\controllers\\ClientController.php(148): require_once('C:\\\\xampp\\\\htdocs...')\n#2 C:\\xampp\\htdocs\\avision\\public\\index.php(486): ClientController->view('35')\n#3 {main}","type":"TypeError"}
+[2026-09-15 13:12:12][INFO] 55 
+[2026-09-15 13:12:12][INFO] 109 
+[2026-09-15 13:12:13][WARNING] Undefined array key "rooms" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":552,"errno":2}
+[2026-09-15 13:12:13][INFO] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":552,"errno":8192}
+[2026-09-15 13:12:13][ERROR] json_decode(): Argument #1 ($json) must be of type string, array given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":552,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php(552): json_decode(Array)\n#1 C:\\xampp\\htdocs\\avision\\public\\controllers\\ClientController.php(148): require_once('C:\\\\xampp\\\\htdocs...')\n#2 C:\\xampp\\htdocs\\avision\\public\\index.php(486): ClientController->view('35')\n#3 {main}","type":"TypeError"}
+[2026-09-15 13:12:25][INFO] 55 
+[2026-09-15 13:12:25][INFO] 109 
+[2026-09-15 13:12:49][INFO] 55 
+[2026-09-15 13:12:49][INFO] 109 
+[2026-09-15 13:12:49][WARNING] Undefined array key "rooms" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":460,"errno":2}
+[2026-09-15 13:12:49][INFO] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":460,"errno":8192}
+[2026-09-15 13:12:53][INFO] 55 
+[2026-09-15 13:12:53][INFO] 109 
+[2026-09-15 13:12:53][WARNING] Undefined array key "rooms" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":460,"errno":2}
+[2026-09-15 13:12:53][INFO] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":460,"errno":8192}
+[2026-09-15 13:13:15][INFO] 55 
+[2026-09-15 13:13:15][INFO] 109 
+[2026-09-15 13:13:15][WARNING] Undefined array key "rooms" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":460,"errno":2}
+[2026-09-15 13:15:21][INFO] 55 
+[2026-09-15 13:15:21][INFO] 109 
+[2026-09-15 13:16:07][INFO] 55 
+[2026-09-15 13:16:07][INFO] 109 
+[2026-09-15 13:16:24][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 13:16:24][INFO] 55 
+[2026-09-15 13:16:24][INFO] 109 
+[2026-09-15 13:16:41][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 13:16:41][INFO] 55 
+[2026-09-15 13:16:41][INFO] 109 
+[2026-09-15 13:21:35][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 13:21:35][INFO] 55 
+[2026-09-15 13:21:35][INFO] 109 
+[2026-09-15 13:21:43][INFO] 55 
+[2026-09-15 13:21:43][INFO] 109 
+[2026-09-15 13:21:54][INFO] 55 
+[2026-09-15 13:21:54][INFO] 109 
+[2026-09-15 14:05:08][INFO] 55 
+[2026-09-15 14:05:15][INFO] 55 
+[2026-09-15 14:05:23][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 14:05:24][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:05:24][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:05:24][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:08:26][INFO] 55 
+[2026-09-15 14:08:26][INFO] 109 
+[2026-09-15 14:10:37][INFO] 55 
+[2026-09-15 14:10:37][INFO] 109 
+[2026-09-15 14:10:39][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:10:40][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:10:41][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:10:42][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:10:43][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:10:44][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:20:23][INFO] 55 
+[2026-09-15 14:20:23][INFO] 109 
+[2026-09-15 14:20:57][INFO] 55 
+[2026-09-15 14:20:57][INFO] 109 
+[2026-09-15 14:21:20][INFO] 55 
+[2026-09-15 14:21:20][INFO] 109 
+[2026-09-15 14:21:57][INFO] 55 
+[2026-09-15 14:21:57][INFO] 109 
+[2026-09-15 14:24:19][INFO] 55 
+[2026-09-15 14:24:19][INFO] 109 
+[2026-09-15 14:24:19][WARNING] Undefined variable $materiel {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":1109,"errno":2}
+[2026-09-15 14:24:38][INFO] 55 
+[2026-09-15 14:24:38][INFO] 109 
+[2026-09-15 14:24:38][WARNING] Undefined variable $materiel_list {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":1109,"errno":2}
+[2026-09-15 14:25:35][INFO] 55 
+[2026-09-15 14:25:35][INFO] 109 
+[2026-09-15 14:33:38][INFO] 55 
+[2026-09-15 14:33:38][INFO] 109 
+[2026-09-15 14:33:42][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:33:45][INFO] 55 
+[2026-09-15 14:33:45][INFO] 109 
+[2026-09-15 14:33:48][INFO] 55 
+[2026-09-15 14:33:48][INFO] 109 
+[2026-09-15 14:34:22][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:46:31][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:46:33][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:46:38][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:47:24][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:47:27][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:47:44][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:47:50][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:47:51][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:50:22][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:50:49][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:52:08][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:52:10][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:52:11][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:52:40][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:53:16][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 14:53:17][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:53:17][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:53:17][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:53:18][INFO] 81 
+[2026-09-15 14:53:22][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:54:12][INFO] 81 
+[2026-09-15 14:54:28][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:54:29][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:54:30][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:54:59][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 14:54:59][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:54:59][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:54:59][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:55:04][INFO] 55 
+[2026-09-15 14:55:04][INFO] 109 
+[2026-09-15 14:55:08][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:55:34][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 14:55:34][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:55:34][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:55:35][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:55:44][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:55:47][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 14:55:47][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:55:47][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:55:47][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:55:48][INFO] 55 
+[2026-09-15 14:55:48][INFO] 109 
+[2026-09-15 14:56:55][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:57:53][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:58:07][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:58:30][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 14:58:31][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:58:31][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:58:31][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 14:58:32][INFO] 81 
+[2026-09-15 14:58:39][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 15:04:27][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 15:04:27][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 15:04:28][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 15:04:28][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 15:04:30][INFO] 81 
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":960,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:04:30][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 36c5aebc76ec276a4cae... 
+[2026-09-15 15:05:02][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-15 15:05:02][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-15 15:05:02][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-15 15:05:04][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 15:05:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 36c5aebc76ec276a4cae... 
+[2026-09-15 15:05:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 36c5aebc76ec276a4cae... 
+[2026-09-15 15:05:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 36c5aebc76ec276a4cae... 
+[2026-09-15 15:05:06][INFO] 81 
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":960,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:06][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][INFO] 81 
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":960,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][INFO] 81 
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":960,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:05:50][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:16][INFO] 81 
+[2026-09-15 15:06:16][ERROR] syntax error, unexpected token "else", expecting end of file {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":1026,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(486): ClientController->view('46')\n#1 {main}","type":"ParseError"}
+[2026-09-15 15:06:29][INFO] 81 
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":960,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:06:29][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][INFO] 81 
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:22][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][INFO] 81 
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][INFO] 81 
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:48][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][INFO] 81 
+[2026-09-15 15:07:57][WARNING] Undefined variable $userTypes {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":960,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:57][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:58][INFO] 81 
+[2026-09-15 15:07:59][WARNING] Undefined variable $userTypes {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":960,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:07:59][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][INFO] 81 
+[2026-09-15 15:08:00][WARNING] Undefined variable $userTypes {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":960,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:00][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][INFO] 81 
+[2026-09-15 15:08:33][WARNING] Undefined variable $userTypes {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":960,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:33][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][INFO] 81 
+[2026-09-15 15:08:35][WARNING] Undefined variable $userTypes {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":960,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:35][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][INFO] 81 
+[2026-09-15 15:08:43][WARNING] Undefined variable $userTypes {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":960,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:43][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][INFO] 81 
+[2026-09-15 15:08:46][WARNING] Undefined variable $userTypes {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":960,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:08:46][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":996,"errno":2}
+[2026-09-15 15:10:02][INFO] 81 
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:02][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][INFO] 81 
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:03][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][INFO] 81 
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:04][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][INFO] 81 
+[2026-09-15 15:10:52][WARNING] Undefined variable $typeUser {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":961,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:10:52][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][INFO] 81 
+[2026-09-15 15:11:41][WARNING] Undefined variable $typeUser {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":961,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:41][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:43][INFO] 81 
+[2026-09-15 15:11:44][WARNING] Undefined variable $typeUser {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":961,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:44][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][INFO] 81 
+[2026-09-15 15:11:45][WARNING] Undefined variable $typeUser {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":961,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:45][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][INFO] 81 
+[2026-09-15 15:11:47][WARNING] Undefined variable $typeUser {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":961,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:11:47][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][INFO] 81 
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:19][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][INFO] 81 
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:21][WARNING] Undefined variable $technicien {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":997,"errno":2}
+[2026-09-15 15:12:30][INFO] 81 
+[2026-09-15 15:12:43][INFO] 81 
+[2026-09-15 15:12:45][INFO] 81 
+[2026-09-15 15:12:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 0dca751e9de9e55fbf91... 
+[2026-09-15 15:12:49][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-15 15:12:49][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-15 15:12:49][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-15 15:12:51][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 15:12:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 0dca751e9de9e55fbf91... 
+[2026-09-15 15:12:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 0dca751e9de9e55fbf91... 
+[2026-09-15 15:12:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 0dca751e9de9e55fbf91... 
+[2026-09-15 15:12:53][INFO] 81 
+[2026-09-15 15:12:57][INFO] 81 
+[2026-09-15 15:13:48][INFO] 81 
+[2026-09-15 15:13:49][INFO] 81 
+[2026-09-15 15:13:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 19f74e61992f8e68fb49... 
+[2026-09-15 15:13:53][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-15 15:13:53][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":1,"client_id":0}
+[2026-09-15 15:13:53][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-15 15:13:57][DEBUG] CSRF: Token trouvé dans la requête - Token: a01794da3d77e265a4fe... 
+[2026-09-15 15:13:57][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-15 15:13:57][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":1,"client_id":0}
+[2026-09-15 15:13:57][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-15 15:14:04][DEBUG] CSRF: Token trouvé dans la requête - Token: ea24df699859781b5ad8... 
+[2026-09-15 15:14:04][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-15 15:14:04][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":1,"client_id":0}
+[2026-09-15 15:14:04][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-15 15:14:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 7745e479e25978cb86fd... 
+[2026-09-15 15:14:26][DEBUG] Permissions chargées pour Dev : {"role":"client","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-15 15:14:26][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"client","user_group":"Externe","is_admin":1,"client_id":0}
+[2026-09-15 15:14:26][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-15 15:14:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 7f65c0a7d8a015fd97d4... 
+[2026-09-15 15:14:43][DEBUG] Permissions chargées pour Dev : {"role":"adv","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-15 15:14:43][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"adv","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-15 15:14:43][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-15 15:14:46][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 15:14:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 7f65c0a7d8a015fd97d4... 
+[2026-09-15 15:14:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 7f65c0a7d8a015fd97d4... 
+[2026-09-15 15:14:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 7f65c0a7d8a015fd97d4... 
+[2026-09-15 15:14:47][INFO] 81 
+[2026-09-15 15:15:01][INFO] 81 
+[2026-09-15 15:15:11][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:15:12][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-15 15:15:12][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-15 15:15:12][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-15 15:15:13][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 15:15:14][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:15:14][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:15:14][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:15:15][INFO] 81 
+[2026-09-15 15:16:10][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:16:11][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:16:11][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:16:13][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-09-15 15:16:13][Array] CONTRACT "INFO"
+[2026-09-15 15:16:13][DEBUG] Tentative d'aperçu contrat pour l'ID: 476 
+[2026-09-15 15:16:13][DEBUG] Pièce jointe trouvée: {"id":476,"nom_fichier":"CC16594.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":"CC16594.pdf","chemin_fichier":"uploads\/contracts\/17\/1779954878_CC16594.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":581950,"commentaire":null,"date_creation":"2026-05-28 10:54:38","masque_client":0,"type_id":null,"created_by":2} 
+[2026-09-15 15:16:13][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-09-15 15:16:13][ERROR] Le fichier n'existe pas: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-09-15 15:16:13][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-09-15 15:16:14][DEBUG] Tentative d'aperçu contrat pour l'ID: 91 
+[2026-09-15 15:16:14][DEBUG] Pièce jointe trouvée: {"id":91,"nom_fichier":"GROUPAMA ANTONY FC16587.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/17\/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":447289,"commentaire":null,"date_creation":"2025-09-11 11:56:28","masque_client":1,"type_id":null,"created_by":2} 
+[2026-09-15 15:16:14][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf 
+[2026-09-15 15:16:14][DEBUG] Fichier trouvé, taille: 447289 
+[2026-09-15 15:16:14][DEBUG] Type MIME détecté: application/pdf 
+[2026-09-15 15:16:14][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:16:14][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:16:14][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:16:17][INFO] 13 
+[2026-09-15 15:16:17][INFO] 17 
+[2026-09-15 15:16:17][INFO] 15 
+[2026-09-15 15:16:17][INFO] 16 
+[2026-09-15 15:16:17][INFO] 14 
+[2026-09-15 15:24:31][INFO] 13 
+[2026-09-15 15:24:31][INFO] 17 
+[2026-09-15 15:24:31][INFO] 15 
+[2026-09-15 15:24:31][INFO] 16 
+[2026-09-15 15:24:31][INFO] 14 
+[2026-09-15 15:24:40][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 15:24:40][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:24:40][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:24:41][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:24:42][INFO] 55 
+[2026-09-15 15:24:42][INFO] 109 
+[2026-09-15 15:25:05][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:25:05][INFO] 55 
+[2026-09-15 15:25:05][INFO] 109 
+[2026-09-15 15:25:30][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:25:30][INFO] 55 
+[2026-09-15 15:25:30][INFO] 109 
+[2026-09-15 15:25:55][INFO] 55 
+[2026-09-15 15:25:55][INFO] 109 
+[2026-09-15 15:26:14][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:26:14][INFO] 55 
+[2026-09-15 15:26:14][INFO] 109 
+[2026-09-15 15:26:39][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:26:40][INFO] 55 
+[2026-09-15 15:26:40][INFO] 109 
+[2026-09-15 15:26:49][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:26:49][INFO] 55 
+[2026-09-15 15:26:49][INFO] 109 
+[2026-09-15 15:26:58][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:26:58][INFO] 55 
+[2026-09-15 15:26:58][INFO] 109 
+[2026-09-15 15:27:18][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:27:18][INFO] 55 
+[2026-09-15 15:27:18][INFO] 109 
+[2026-09-15 15:27:30][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:27:30][INFO] 55 
+[2026-09-15 15:27:30][INFO] 109 
+[2026-09-15 15:27:43][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:27:43][INFO] 55 
+[2026-09-15 15:27:43][INFO] 109 
+[2026-09-15 15:31:12][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:31:12][INFO] 55 
+[2026-09-15 15:31:12][INFO] 109 
+[2026-09-15 15:32:01][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:32:01][INFO] 55 
+[2026-09-15 15:32:01][INFO] 109 
+[2026-09-15 15:33:02][INFO] 55 
+[2026-09-15 15:33:02][INFO] 109 
+[2026-09-15 15:33:10][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:33:11][INFO] 55 
+[2026-09-15 15:33:11][INFO] 109 
+[2026-09-15 15:35:37][INFO] 55 
+[2026-09-15 15:35:37][INFO] 109 
+[2026-09-15 15:35:46][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:35:46][INFO] 55 
+[2026-09-15 15:35:47][INFO] 109 
+[2026-09-15 15:36:56][INFO] 55 
+[2026-09-15 15:36:56][INFO] 109 
+[2026-09-15 15:37:04][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
+[2026-09-15 15:37:04][INFO] 55 
+[2026-09-15 15:37:04][INFO] 109 

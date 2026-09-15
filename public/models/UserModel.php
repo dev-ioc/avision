@@ -1604,4 +1604,28 @@ class UserModel extends BaseModel
             return false;
         }
     }
+    /**
+     * Récupère les administrateurs actifs avec un email valide
+     * (pour l'envoi de notifications/alertes système)
+     * @return array Liste des admins [['id', 'email', 'first_name', 'last_name'], ...]
+     */
+    public function getActiveAdmins()
+    {
+        try {
+            $sql = "SELECT id, email, first_name, last_name 
+                FROM " . $this->table . " 
+                WHERE is_admin = 1 
+                  AND status = 1 
+                  AND email IS NOT NULL 
+                  AND email != ''
+                ORDER BY last_name, first_name";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            custom_log("Erreur lors de la récupération des administrateurs actifs : " . $e->getMessage(), 'ERROR');
+            return [];
+        }
+    }
 }

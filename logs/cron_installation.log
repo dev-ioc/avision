@@ -1,0 +1,36 @@
+PHP Warning:  require_once(C:\xampp\htdocs\avision\cron/config/config.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\avision\cron\installation_alerts.php on line 2
+
+Warning: require_once(C:\xampp\htdocs\avision\cron/config/config.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\avision\cron\installation_alerts.php on line 2
+PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\avision\cron/config/config.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\avision\cron\installation_alerts.php:2
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\avision\cron\installation_alerts.php on line 2
+
+Fatal error: Uncaught Error: Failed opening required 'C:\xampp\htdocs\avision\cron/config/config.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\avision\cron\installation_alerts.php:2
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\avision\cron\installation_alerts.php on line 2
+PHP Warning:  require_once(C:\xampp\htdocs\avision\cron/../models/Room.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\avision\cron\installation_alerts.php on line 3
+
+Warning: require_once(C:\xampp\htdocs\avision\cron/../models/Room.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\avision\cron\installation_alerts.php on line 3
+PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\avision\cron/../models/Room.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\avision\cron\installation_alerts.php:3
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\avision\cron\installation_alerts.php on line 3
+
+Fatal error: Uncaught Error: Failed opening required 'C:\xampp\htdocs\avision\cron/../models/Room.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\avision\cron\installation_alerts.php:3
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\avision\cron\installation_alerts.php on line 3
+PHP Warning:  require_once(C:\xampp\htdocs\avision\cron/../models/Room.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\avision\cron\installation_alerts.php on line 3
+
+Warning: require_once(C:\xampp\htdocs\avision\cron/../models/Room.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\avision\cron\installation_alerts.php on line 3
+PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\avision\cron/../models/Room.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\avision\cron\installation_alerts.php:3
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\avision\cron\installation_alerts.php on line 3
+
+Fatal error: Uncaught Error: Failed opening required 'C:\xampp\htdocs\avision\cron/../models/Room.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\avision\cron\installation_alerts.php:3
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\avision\cron\installation_alerts.php on line 3

@@ -128,6 +128,7 @@ if (!empty($filters['salle_id'])) {
 }
 // Définir toutes les colonnes disponibles avec leurs configurations
 $allColumns = [
+  ['label' => 'Configuration', 'field' => 'has_configuration', 'default' => true],
   ['label' => 'Marque', 'field' => 'marque', 'default' => true],
   ['label' => 'Modèle', 'field' => 'modele', 'default' => true],
   ['label' => 'Type', 'field' => 'type_materiel', 'default' => true],
@@ -179,6 +180,7 @@ $marqueIndex = array_search('marque', array_column($allColumns, 'field'));
 $modeleIndex = array_search('modele', array_column($allColumns, 'field'));
 $idIndex = array_search('id', array_column($allColumns, 'field'));
 $piecesJointesIndex = array_search('pieces_jointes', array_column($allColumns, 'field'));
+$configIndex = array_search('has_configuration', array_column($allColumns, 'field'));
 
 /**
  * Petit helper local pour générer le bloc HTML d'un accordéon "client"
@@ -271,6 +273,9 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
                   'id' => $m['id'],
                   'name' => ($m['marque'] ?? '') . ' ' . ($m['modele'] ?? ''),
                 ];
+              } elseif ($col['field'] === 'has_configuration') {
+                // Handsontable attend un booléen JS natif pour une colonne de type checkbox
+                $rowData[] = !empty($m['has_configuration']);
               } else {
                 $rowData[] = $m[$col['field']] ?? '';
               }
@@ -894,6 +899,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
     const MODELE_INDEX = <?= $modeleIndex ?>;
     const ID_INDEX = <?= $idIndex ?>;
     const PIECES_JOINTES_INDEX = <?= $piecesJointesIndex ?>;
+    const CONFIG_INDEX = <?= $configIndex ?>;
     const FIELD_VALIDATORS = {
       date_fin_maintenance: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Expiration', example: '2026-12-31' },
       date_fin_garantie: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Date Garantie', example: '2026-12-31' },
@@ -902,6 +908,8 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
     const allColumnFields = <?= json_encode(array_column($allColumns, 'field')) ?>;
     const colHeadersGlobal = <?= json_encode($colHeaders) ?>;
     const DEFAULT_HIDDEN_COLUMNS = <?= json_encode($hiddenColumns) ?>;
+    const CAN_MODIFY_CLIENT = <?= canModifyClients() ? 'true' : 'false' ?>;
+    const CSRF_TOKEN = '<?= csrf_token() ?>';
 
     function validateRow(row, rowIndex) {
       const errors = [];
@@ -970,6 +978,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       const colCount = allColumnFields.length;
       const newRow = Array(colCount).fill('');
       newRow[PIECES_JOINTES_INDEX] = { count: 0, id: null, name: '' };
+      newRow[CONFIG_INDEX] = true; // coché par défaut, cohérent avec le DEFAULT 1 en base
       data.push(newRow);
       hot.loadData(data);
       const newRowIndex = data.length - 1;
@@ -1423,6 +1432,9 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           if (field === 'pieces_jointes') {
             return { count: (piecesJointesCount && piecesJointesCount[m.id]) || 0, id: m.id, name: `${m.marque || ''} ${m.modele || ''}` };
           }
+          if (field === 'has_configuration') {
+            return m.has_configuration == 1 || m.has_configuration === true;
+          }
           return m[field] ?? '';
         }));
         createSalleTable(tableId, rows, dbSalleId);
@@ -1611,6 +1623,9 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
 
     function buildHandsontableColumns() {
       return allColumnFields.map(field => {
+        if (field === 'has_configuration') {
+          return { type: 'checkbox', className: 'htCenter' };
+        }
         const fmt = COLUMN_FORMATS[field];
         const ph = COLUMN_PLACEHOLDERS[field];
         if (!fmt) return ph ? { type: 'text', renderer: makePlaceholderRenderer(ph) } : { type: 'text' };
@@ -1649,6 +1664,14 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
 
     function hotCellsFn(row, col) {
       const header = this.colHeaders[col];
+
+      if (header === 'Configuration') {
+        return {
+          type: 'checkbox',
+          className: 'htCenter htMiddle',
+          readOnly: !CAN_MODIFY_CLIENT
+        };
+      }
 
       if (header === 'Marque') {
         return {
@@ -1707,6 +1730,28 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       return {};
     }
 
+    function toggleMaterielConfiguration(hot, row, materielId, configured, previousValue) {
+      fetch(baseUrl + 'materiel/toggleConfiguration/' + materielId, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': CSRF_TOKEN
+        },
+        body: JSON.stringify({ configured: configured, csrf_token: CSRF_TOKEN })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success) {
+            showToast(data.message || 'Erreur lors de la mise à jour.', 'danger');
+            hot.setDataAtCell(row, CONFIG_INDEX, previousValue, 'revertConfig');
+          }
+        })
+        .catch(() => {
+          showToast('Erreur réseau lors de la mise à jour.', 'danger');
+          hot.setDataAtCell(row, CONFIG_INDEX, previousValue, 'revertConfig');
+        });
+    }
+
     function createSalleTable(tableId, rows, dbSalleId) {
       const container = document.getElementById(tableId);
       if (!container) return null;
@@ -1734,6 +1779,18 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         },
         afterColumnResize: function (newSize, column) {
           saveColumnWidth(tableId, column, newSize);
+        },
+        afterChange: function (changes, source) {
+          if (!changes || source === 'loadData' || source === 'revertConfig') return;
+          changes.forEach(([row, prop, oldValue, newValue]) => {
+            if (parseInt(prop, 10) !== CONFIG_INDEX) return;
+            if (oldValue === newValue) return;
+
+            const materielId = this.getDataAtCell(row, ID_INDEX);
+            if (!materielId) return;
+
+            toggleMaterielConfiguration(this, row, materielId, !!newValue, !!oldValue);
+          });
         }
       });
 
@@ -2034,7 +2091,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
             const obj = {};
             obj['id'] = row[ID_INDEX];
             <?php foreach ($allColumns as $col): ?>
-            <?php if ($col['field'] === 'pieces_jointes')
+            <?php if (in_array($col['field'], ['pieces_jointes', 'has_configuration'], true))
               continue; ?>
             obj['<?= $col['field'] ?>'] = row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || null;
             <?php endforeach; ?>
@@ -2082,7 +2139,11 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           <?php foreach ($allColumns as $col): ?>
           <?php if ($col['field'] === 'pieces_jointes')
             continue; ?>
+          <?php if ($col['field'] === 'has_configuration'): ?>
+          fd.append('has_configuration', row[<?= $configIndex ?>] ? '1' : '0');
+          <?php else: ?>
           fd.append('<?= $col['field'] ?>', row[<?= array_search($col['field'], array_column($allColumns, 'field')) ?>] || '');
+          <?php endif; ?>
           <?php endforeach; ?>
           if (filters.client_id) fd.append('return_client_id', filters.client_id);
           if (filters.site_id) fd.append('return_site_id', filters.site_id);

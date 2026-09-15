@@ -32,7 +32,7 @@ class RoomModel extends BaseModel
      */
     public function getRoomsByBuildingId($buildingId, $activeOnly = false)
     {
-        $query = "SELECT DISTINCT r.id, r.building_id, r.name, r.comment, r.status, r.qr_code_edited, r.created_at, r.updated_at,
+        $query = "SELECT DISTINCT r.id, r.building_id,r.delivery_date,r.installation_closed, r.name, r.comment, r.status, r.qr_code_edited, r.created_at, r.updated_at,
                     c.first_name, c.last_name, b.client_id 
              FROM rooms r 
              LEFT JOIN contacts c ON r.main_contact_id = c.id 
@@ -133,13 +133,16 @@ class RoomModel extends BaseModel
         }
 
         $query = "UPDATE rooms 
-                 SET name = :name, 
-                     comment = :comment, 
-                     main_contact_id = :main_contact_id, 
-                     status = :status, 
-                     client_id = :client_id,
-                     updated_at = NOW() 
-                 WHERE id = :id";
+             SET name = :name, 
+                 comment = :comment, 
+                 main_contact_id = :main_contact_id, 
+                 status = :status, 
+                 client_id = :client_id,
+                 delivery_date = :delivery_date,
+                 installation_closed = :installation_closed,
+                 installation_closed_at = :installation_closed_at,
+                 updated_at = NOW() 
+             WHERE id = :id";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -148,6 +151,9 @@ class RoomModel extends BaseModel
         $stmt->bindParam(':main_contact_id', $data['main_contact_id'], PDO::PARAM_INT);
         $stmt->bindParam(':status', $data['status'], PDO::PARAM_INT);
         $stmt->bindParam(':client_id', $site['client_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':delivery_date', $data['delivery_date'], PDO::PARAM_STR);
+        $stmt->bindParam(':installation_closed', $data['installation_closed'], PDO::PARAM_INT);
+        $stmt->bindParam(':installation_closed_at', $data['installation_closed_at'], PDO::PARAM_STR);
 
         return $stmt->execute();
     }
@@ -263,5 +269,37 @@ class RoomModel extends BaseModel
         $stmt = $this->db->prepare($query);
         $stmt->execute([':site_id' => $siteId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    /**
+     * Récupère les salles dont l'installation dépasse le délai d'1 mois
+     * et qui n'ont pas encore reçu d'alerte
+     */
+    public function getRoomsNeedingInstallationAlert()
+    {
+        $query = "SELECT r.id, r.name, r.delivery_date, r.main_contact_id,
+                     b.client_id, b.name AS building_name,
+                     c.name AS client_name
+              FROM rooms r
+              INNER JOIN buildings b ON r.building_id = b.id
+              INNER JOIN clients c ON b.client_id = c.id
+              WHERE r.delivery_date IS NOT NULL
+                AND DATE_ADD(r.delivery_date, INTERVAL 1 MONTH) <= NOW()
+                AND r.installation_closed = 0
+                AND r.installation_alert_sent = 0";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Marque l'alerte comme envoyée pour éviter les doublons
+     */
+    public function markInstallationAlertSent($roomId)
+    {
+        $query = "UPDATE rooms SET installation_alert_sent = 1 WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $roomId, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 }

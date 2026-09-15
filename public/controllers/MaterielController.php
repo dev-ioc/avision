@@ -2369,4 +2369,52 @@ class MaterielController
             echo json_encode(['error' => 'Erreur lors de la récupération des salles']);
         }
     }
+    /**
+     * POST materiel/toggleConfiguration/{id}
+     * Retour JSON : {success: bool, message: string}
+     */
+    public function toggleConfiguration($id)
+    {
+        header('Content-Type: application/json; charset=utf-8');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'message' => 'Méthode non autorisée.']);
+            return;
+        }
+
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Session expirée, veuillez vous reconnecter.']);
+            return;
+        }
+
+        // Droits : même règle que la modification client / matériel
+        if (!canModifyClients()) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => "Vous n'avez pas les droits pour modifier ce champ."]);
+            return;
+        }
+
+        $payload = json_decode(file_get_contents('php://input'), true) ?: [];
+
+        $id = (int) $id;
+        if ($id <= 0 || !$this->materielModel->exists($id)) {
+            http_response_code(404);
+            echo json_encode(['success' => false, 'message' => 'Matériel introuvable.']);
+            return;
+        }
+
+        $configured = !empty($payload['configured']);
+
+        if ($this->materielModel->toggleConfiguration($id, $configured)) {
+            echo json_encode([
+                'success' => true,
+                'message' => $configured ? 'Matériel marqué comme configuré.' : 'Configuration retirée.',
+            ]);
+        } else {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Erreur lors de la mise à jour.']);
+        }
+    }
 }

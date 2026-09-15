@@ -1780,6 +1780,18 @@ try {
                 case 'search_api':
                     $materielController->searchApi();
                     break;
+                case 'toggleConfiguration':
+                    if ($id) {
+                        $materielController->toggleConfiguration((int) $id);
+                    } else {
+                        header('Content-Type: application/json; charset=utf-8');
+                        http_response_code(400);
+                        echo json_encode([
+                            'success' => false,
+                            'message' => 'Identifiant matériel manquant.'
+                        ]);
+                    }
+                    break;
                 default:
                     header('Location: ' . BASE_URL . 'materiel');
                     break;

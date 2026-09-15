@@ -549,6 +549,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </div>
 
                         <!-- Bâtiments et Salles -->
+                        
                         <div class="mt-4">
                           <h6 class="fw-bold mb-3"><i class="bi bi-building text-warning me-2"></i>Bâtiments et Salles</h6>
                           <?php if (!empty($site['buildings'])): ?>
@@ -571,11 +572,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <th>Nom</th>
                                             <th>Contact principal</th>
                                             <th>Statut</th>
+                                            <th>Livraison</th>
+                                            <th>Installation</th>
                                             <th class="text-center">QR Code édité</th>
                                             <th>Commentaire</th>
                                           </tr>
                                         </thead>
                                         <tbody>
+                                          
                                           <?php foreach ($building['rooms'] as $room): ?>
                                             <?php
                                             $roomEditUrl = BASE_URL . 'room/edit/' . $room['id'] . '?return_to=client&client_id=' . $client['id'] . '&active_tab=sites-tab&open_site_id=' . $site['id'];
@@ -594,7 +598,29 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                   <?php echo ($room['status'] ?? 0) == 1 ? 'Actif' : 'Inactif'; ?>
                                                 </span>
                                               </td>
-                                              <td class="text-center" onclick="event.stopPropagation();">
+                                              <td>
+                                                  <?php echo !empty($room['delivery_date']) ? date('d/m/Y', strtotime($room['delivery_date'])) : '<span class="text-muted">-</span>'; ?>
+                                              </td>
+                                             <td>
+                                                <?php
+                                                $deadlineInfo = getInstallationDeadlineStatus($room['delivery_date'] ?? null, !empty($room['installation_closed']));
+                                                ?>
+                                                <?php if (!empty($room['installation_closed'])): ?>
+                                                    <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Clôturée</span>
+                                                <?php elseif ($deadlineInfo['status'] === 'overdue'): ?>
+                                                    <span class="badge bg-danger" title="Échéance dépassée">
+                                                        <i class="bi bi-exclamation-triangle me-1"></i>+<?= $deadlineInfo['days'] ?>j
+                                                    </span>
+                                                <?php elseif ($deadlineInfo['status'] === 'ok'): ?>
+                                                    <span class="badge bg-<?= $deadlineInfo['days'] <= 7 ? 'warning text-dark' : 'secondary' ?>"
+                                                        title="Échéance le <?= date('d/m/Y', strtotime($deadlineInfo['deadline'])) ?>">
+                                                        <?= $deadlineInfo['days'] ?>j restants
+                                                    </span>
+                                                <?php else: ?>
+                                                    <span class="text-muted">-</span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td class="text-center" onclick="event.stopPropagation();">
                                                 <input class="form-check-input qr-code-toggle" type="checkbox"
                                                   data-room-id="<?php echo $room['id']; ?>" <?php echo !empty($room['qr_code_edited']) ? 'checked' : ''; ?>
                                                 <?php echo !$canModifyClient ? 'disabled title="Vous n\'avez pas les droits pour modifier ce champ"' : ''; ?>>
@@ -933,7 +959,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                       <th class="sortable" data-sort="numero_serie">S/N <i class="bi bi-arrow-down-up sort-icon"></i></th>
                       <th class="sortable" data-sort="adresse_ip">IP <i class="bi bi-arrow-down-up sort-icon"></i></th>
                       <th class="sortable" data-sort="adresse_mac">MAC <i class="bi bi-arrow-down-up sort-icon"></i></th>
-                      <!-- <th>Actions</th> -->
+                      
+                     <?php if ($userType=="technicien"): ?><th class="text-center">Configuration</th><?php endif; ?>
                     </tr>
                   </thead>
                   <tbody>
@@ -969,6 +996,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <td data-sort-value="<?php echo htmlspecialchars(strtolower($item['adresse_mac'] ?? '')); ?>">
                           <?php echo htmlspecialchars($item['adresse_mac'] ?? '-'); ?>
                         </td>
+                        <?php if($userType=="technicien"): ?>
+                        <td class="text-center" onclick="event.stopPropagation();">
+                          <input class="form-check-input materiel-config-toggle" type="checkbox"
+                            data-materiel-id="<?php echo (int) $item['id']; ?>"
+                            <?php echo !empty($item['has_configuration']) ? 'checked' : ''; ?>
+                            <?php echo !$canModifyClient ? 'disabled title="Vous n\'avez pas les droits pour modifier ce champ"' : ''; ?>>
+                        </td>
+                        <?php endif; ?>
                       <?php endforeach; ?>
                   </tbody>
                 </table>
@@ -997,8 +1032,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
   <?php endif; ?>
 </div>
-
-<?php include_once __DIR__ . '/../../includes/footer.php'; ?>
 
 <style>
   .sortable {
@@ -1077,7 +1110,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 <script>
   initBaseUrl('<?php echo BASE_URL; ?>');
-
+  console.log('matériel :', <?php echo json_encode($materielList) ?>)
   console.log('Client:', <?php echo json_encode($client); ?>);
   console.log('Sites:', <?php echo json_encode($sites); ?>);
   console.log('Stats:', <?php echo json_encode($stats); ?>);
@@ -1090,7 +1123,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
   }
   document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.qr-code-toggle').forEach(function (checkbox) {
+    
       checkbox.addEventListener('change', function () {
+       
         const roomId = this.dataset.roomId;
         const edited = this.checked;
         const originalState = !edited;
@@ -1469,3 +1504,44 @@ document.querySelectorAll('tr.room-row').forEach(function (row) {
     renderPage();
   })();
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const csrfToken = '<?= csrf_token() ?>';
+
+  document.querySelectorAll('.materiel-config-toggle').forEach(function (checkbox) {
+    checkbox.addEventListener('change', function () {
+      const materielId    = this.dataset.materielId;
+      const configured    = this.checked;
+      const originalState = !configured;
+      const wasEnabled    = !this.disabled;
+
+      this.disabled = true;
+
+      fetch(BASE_URL + 'materiel/toggleConfiguration/' + materielId, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken
+        },
+        body: JSON.stringify({ configured: configured, csrf_token: csrfToken })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (!data.success) {
+            alert(data.message || 'Erreur lors de la mise à jour.');
+            this.checked = originalState;
+          }
+        })
+        .catch(() => {
+          alert('Erreur réseau lors de la mise à jour.');
+          this.checked = originalState;
+        })
+        .finally(() => {
+          this.disabled = !wasEnabled;
+        });
+    });
+  });
+});
+</script>
+
+<?php include_once __DIR__ . '/../../includes/footer.php'; ?>
