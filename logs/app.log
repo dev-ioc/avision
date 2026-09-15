@@ -138353,3 +138353,30 @@ Quant à l’écran n°1, il est HS
 [2026-09-15 10:17:46][INFO] 15 
 [2026-09-15 10:17:46][INFO] 16 
 [2026-09-15 10:17:46][INFO] 14 
+[2026-09-15 10:18:19][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-15 10:18:19][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 10:18:20][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 10:18:20][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:45:13][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:45:13][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:45:13][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:45:15][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-09-15 12:45:15][Array] CONTRACT "INFO"
+[2026-09-15 12:45:15][DEBUG] Tentative d'aperçu contrat pour l'ID: 91 
+[2026-09-15 12:45:15][DEBUG] Pièce jointe trouvée: {"id":91,"nom_fichier":"GROUPAMA ANTONY FC16587.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":null,"chemin_fichier":"uploads\/contracts\/17\/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":447289,"commentaire":null,"date_creation":"2025-09-11 11:56:28","masque_client":1,"type_id":null,"created_by":2} 
+[2026-09-15 12:45:15][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1757580988_0_GROUPAMA_ANTONY_FC16587.pdf 
+[2026-09-15 12:45:15][DEBUG] Fichier trouvé, taille: 447289 
+[2026-09-15 12:45:15][DEBUG] Type MIME détecté: application/pdf 
+[2026-09-15 12:45:15][DEBUG] Tentative d'aperçu contrat pour l'ID: 476 
+[2026-09-15 12:45:15][DEBUG] Pièce jointe trouvée: {"id":476,"nom_fichier":"CC16594.pdf","version":1,"is_signed":0,"signature_status":"non_signe","nom_personnalise":"CC16594.pdf","chemin_fichier":"uploads\/contracts\/17\/1779954878_CC16594.pdf","type_fichier":"pdf","category_id":null,"content":null,"taille_fichier":581950,"commentaire":null,"date_creation":"2026-05-28 10:54:38","masque_client":0,"type_id":null,"created_by":2} 
+[2026-09-15 12:45:15][DEBUG] Chemin du fichier: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-09-15 12:45:15][ERROR] Le fichier n'existe pas: C:\xampp\htdocs\avision\public\controllers/../../uploads/contracts/17/1779954878_CC16594.pdf 
+[2026-09-15 12:45:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-09-15 12:45:16][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:45:16][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:45:16][DEBUG] CSRF: Token trouvé dans la requête - Token: e2e08e9ed63a3190680c... 
+[2026-09-15 12:45:16][INFO] 13 
+[2026-09-15 12:45:16][INFO] 17 
+[2026-09-15 12:45:16][INFO] 15 
+[2026-09-15 12:45:16][INFO] 16 
+[2026-09-15 12:45:16][INFO] 14 
