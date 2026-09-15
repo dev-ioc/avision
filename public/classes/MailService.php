@@ -1816,8 +1816,7 @@ class MailService
 
             $subject = 'Alerte installation : délai dépassé - ' . $room['name'];
 
-            $roomUrl = BASE_URL . 'room/edit/' . $room['id'];
-
+            $roomUrl = $this->config->get('site_url') . 'room/edit/' . $room['id'];
             $body = '
                     <html><body style="font-family: Arial, sans-serif; color: #333;">
                         <h2>Installation non clôturée</h2>
@@ -1836,14 +1835,28 @@ class MailService
 
             $success = true;
             foreach ($recipients as $recipient) {
-                $oauth2Enabled = $this->config->get('oauth2_enabled', '0');
-                if ($oauth2Enabled === '1') {
-                    $sent = $this->sendEmailOAuth2($recipient['email'], $recipient['name'], $subject, $body);
-                } else {
-                    $sent = $this->sendEmailBasic($recipient['email'], $recipient['name'], $subject, $body);
-                }
-                if (!$sent) {
-                    $success = false;
+
+                echo "-----------------------------------" . PHP_EOL;
+                echo "Envoi vers : " . $recipient['email'] . PHP_EOL;
+
+                try {
+                    // appel actuel d'envoi
+                    $result = $this->sendEmailBasic(
+                        $recipient['email'],
+                        $recipient['name'] ?? '',
+                        $subject,
+                        $body
+                    );
+
+                    if (!$result) {
+                        echo "ECHEC pour : " . $recipient['email'] . PHP_EOL;
+                    } else {
+                        echo "SUCCES pour : " . $recipient['email'] . PHP_EOL;
+                    }
+
+                } catch (Exception $e) {
+                    echo "ERREUR pour " . $recipient['email'] . " : "
+                        . $e->getMessage() . PHP_EOL;
                 }
             }
 
