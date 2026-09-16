@@ -90,7 +90,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="delivery_date" class="form-label">
-                                    <i class="bi bi-calendar-check me-1"></i>Date de livraison
+                                    Date de livraison
                                 </label>
                                 <input type="date" class="form-control" id="delivery_date" name="delivery_date"
                                     value="<?= htmlspecialchars($room['delivery_date'] ?? '') ?>">
@@ -99,7 +99,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label d-block">
-                                    <i class="bi bi-check2-circle me-1"></i>Statut de l'installation
+                                    Statut de l'installation
                                 </label>
                                 <?php
                                 $deliveryDate = $room['delivery_date'] ?? null;

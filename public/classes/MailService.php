@@ -1805,7 +1805,7 @@ class MailService
      *
      * @param array $room Données de la salle (name, delivery_date, client_name, building_name)
      * @param array $recipients Liste des destinataires [['email'=>, 'name'=>], ...]
-     * @return bool Succès de l'envoi
+     * @return bool Succès de l'envoi (true seulement si TOUS les destinataires ont reçu le mail)
      */
     public function sendInstallationAlert($room, $recipients)
     {
@@ -1818,25 +1818,26 @@ class MailService
 
             $roomUrl = $this->config->get('site_url') . 'room/edit/' . $room['id'];
             $body = '
-                    <html><body style="font-family: Arial, sans-serif; color: #333;">
-                        <h2>Installation non clôturée</h2>
-                        <p>La salle <strong>' . h($room['name']) . '</strong> (' . h($room['client_name']) . ' - ' . h($room['building_name']) . ')
-                        n\'est pas encore clôturée, alors que la date de livraison
-                        (<strong>' . date('d/m/Y', strtotime($room['delivery_date'])) . '</strong>) remonte à plus d\'un mois.</p>
-                        <p>Merci de finaliser l\'installation ou de vérifier son statut.</p>
-                        <p style="margin: 24px 0;">
-                            <a href="' . $roomUrl . '"
-                            style="background:#0d6efd;color:#fff;padding:12px 24px;
-                                    border-radius:6px;text-decoration:none;display:inline-block;">
-                                Consulter la salle
-                            </a>
-                        </p>
-                    </body></html>';
+                <html><body style="font-family: Arial, sans-serif; color: #333;">
+                    <h2>Installation non clôturée</h2>
+                    <p>La salle <strong>' . h($room['name']) . '</strong> (' . h($room['client_name']) . ' - ' . h($room['building_name']) . ')
+                    n\'est pas encore clôturée, alors que la date de livraison
+                    (<strong>' . date('d/m/Y', strtotime($room['delivery_date'])) . '</strong>) remonte à plus d\'un mois.</p>
+                    <p>Merci de finaliser l\'installation ou de vérifier son statut.</p>
+                    <p style="margin: 24px 0;">
+                        <a href="' . $roomUrl . '"
+                        style="background:#0d6efd;color:#fff;padding:12px 24px;
+                                border-radius:6px;text-decoration:none;display:inline-block;">
+                            Consulter la salle
+                        </a>
+                    </p>
+                </body></html>';
 
-            $success = true;
+            $overallSuccess = true;
+            $failedRecipients = [];
+
             foreach ($recipients as $recipient) {
                 try {
-                    // appel actuel d'envoi
                     $result = $this->sendEmailBasic(
                         $recipient['email'],
                         $recipient['name'] ?? '',
@@ -1845,20 +1846,22 @@ class MailService
                     );
 
                     if (!$result) {
-                        $_SESSION['error'] = "ECHEC pour : " . $recipient['email'] . PHP_EOL;
+                        $overallSuccess = false;
+                        $failedRecipients[] = $recipient['email'];
+                        custom_log_mail("Echec envoi alerte installation salle " . $room['id'] . " à " . $recipient['email'], 'ERROR');
                     } else {
-                        $_SESSION['succes'] = "SUCCES pour : " . $recipient['email'] . PHP_EOL;
+                        custom_log_mail("Alerte installation envoyée pour la salle " . $room['id'] . " à " . $recipient['email'], 'INFO');
                     }
 
                 } catch (Exception $e) {
-                    echo "ERREUR pour " . $recipient['email'] . " : "
-                        . $e->getMessage() . PHP_EOL;
+                    $overallSuccess = false;
+                    $failedRecipients[] = $recipient['email'];
+                    custom_log_mail("Exception envoi alerte salle " . $room['id'] . " à " . $recipient['email'] . " : " . $e->getMessage(), 'ERROR');
                 }
             }
 
-            custom_log_mail("Alerte installation envoyée pour la salle " . $room['id'] . " (" . $room['name'] . ")", 'INFO');
-
-            return $success;
+            // On ne marque la salle comme "alerte envoyée" que si TOUS les destinataires l'ont reçue
+            return $overallSuccess;
 
         } catch (Exception $e) {
             custom_log_mail("Erreur envoi alerte installation salle " . ($room['id'] ?? '?') . " : " . $e->getMessage(), 'ERROR');

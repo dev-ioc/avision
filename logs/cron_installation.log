@@ -34,3 +34,87 @@ Fatal error: Uncaught Error: Failed opening required 'C:\xampp\htdocs\avision\cr
 Stack trace:
 #0 {main}
   thrown in C:\xampp\htdocs\avision\cron\installation_alerts.php on line 3
+=== DEBUT CRON INSTALLATION ALERTS ===
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 32
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 32
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 36
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 36
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 37
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 37
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 38
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 38
+PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 55
+
+Warning: session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 55
+PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+
+Warning: session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+Fichiers chargés OK
+Configuration et DB OK
+Models et MailService OK
+Destinataire TEST : dev_mdg@caspeo.fr
+Aucune alerte à envoyer.
+=== FIN CRON INSTALLATION ALERTS ===
+=== DEBUT CRON INSTALLATION ALERTS ===
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 32
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 32
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 36
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 36
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 37
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 37
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 38
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 38
+PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 55
+
+Warning: session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 55
+PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+
+Warning: session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+Fichiers chargés OK
+Configuration et DB OK
+Models et MailService OK
+Destinataire TEST : dev_mdg@caspeo.fr
+Aucune alerte à envoyer.
+=== FIN CRON INSTALLATION ALERTS ===
+=== DEBUT CRON INSTALLATION ALERTS ===
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 32
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 32
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 36
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 36
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 37
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 37
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 38
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 38
+PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 55
+
+Warning: session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 55
+PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+
+Warning: session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+Fichiers chargés OK
+Configuration et DB OK
+Models et MailService OK
+Destinataire TEST : dev_mdg@caspeo.fr
+Aucune alerte à envoyer.
+=== FIN CRON INSTALLATION ALERTS ===
