@@ -1800,29 +1800,32 @@ class MailService
         return $intervention;
     }
     /**
-     * Envoie une alerte de suivi d'installation pour une salle
-     * dont le délai d'1 mois après livraison est dépassé.
-     *
-     * @param array $room Données de la salle (name, delivery_date, client_name, building_name)
-     * @param array $recipients Liste des destinataires [['email'=>, 'name'=>], ...]
-     * @return bool Succès de l'envoi (true seulement si TOUS les destinataires ont reçu le mail)
+     * Envoie une alerte de suivi d'installation, avec un contenu
+     * adapté au palier (premier rappel / rappel mensuel / rappel hebdo)
      */
-    public function sendInstallationAlert($room, $recipients)
+    public function sendInstallationAlert($room, $recipients, $stageLabel)
     {
         try {
             if (empty($recipients)) {
                 throw new Exception("Aucun destinataire pour l'alerte d'installation salle " . $room['id']);
             }
 
-            $subject = 'Alerte installation : délai dépassé - ' . $room['name'];
+            $labels = [
+                'first' => 'Premier rappel (3 semaines après livraison)',
+                'month' => 'Rappel : délai d\'un mois dépassé',
+                'weekly' => 'Rappel hebdomadaire : installation toujours en attente'
+            ];
+            $labelText = $labels[$stageLabel] ?? 'Rappel installation';
+
+            $subject = $labelText . ' - ' . $room['name'];
 
             $roomUrl = $this->config->get('site_url') . 'room/edit/' . $room['id'];
             $body = '
                 <html><body style="font-family: Arial, sans-serif; color: #333;">
-                    <h2>Installation non clôturée</h2>
+                    <h2>' . h($labelText) . '</h2>
                     <p>La salle <strong>' . h($room['name']) . '</strong> (' . h($room['client_name']) . ' - ' . h($room['building_name']) . ')
-                    n\'est pas encore clôturée, alors que la date de livraison
-                    (<strong>' . date('d/m/Y', strtotime($room['delivery_date'])) . '</strong>) remonte à plus d\'un mois.</p>
+                    n\'est pas encore clôturée. Date de livraison :
+                    <strong>' . date('d/m/Y', strtotime($room['delivery_date'])) . '</strong>.</p>
                     <p>Merci de finaliser l\'installation ou de vérifier son statut.</p>
                     <p style="margin: 24px 0;">
                         <a href="' . $roomUrl . '"
@@ -1833,39 +1836,88 @@ class MailService
                     </p>
                 </body></html>';
 
-            $overallSuccess = true;
-            $failedRecipients = [];
-
-            foreach ($recipients as $recipient) {
-                try {
-                    $result = $this->sendEmailBasic(
-                        $recipient['email'],
-                        $recipient['name'] ?? '',
-                        $subject,
-                        $body
-                    );
-
-                    if (!$result) {
-                        $overallSuccess = false;
-                        $failedRecipients[] = $recipient['email'];
-                        custom_log_mail("Echec envoi alerte installation salle " . $room['id'] . " à " . $recipient['email'], 'ERROR');
-                    } else {
-                        custom_log_mail("Alerte installation envoyée pour la salle " . $room['id'] . " à " . $recipient['email'], 'INFO');
-                    }
-
-                } catch (Exception $e) {
-                    $overallSuccess = false;
-                    $failedRecipients[] = $recipient['email'];
-                    custom_log_mail("Exception envoi alerte salle " . $room['id'] . " à " . $recipient['email'] . " : " . $e->getMessage(), 'ERROR');
-                }
-            }
-
-            // On ne marque la salle comme "alerte envoyée" que si TOUS les destinataires l'ont reçue
-            return $overallSuccess;
+            return $this->dispatchToRecipients($recipients, $subject, $body, $room['id']);
 
         } catch (Exception $e) {
             custom_log_mail("Erreur envoi alerte installation salle " . ($room['id'] ?? '?') . " : " . $e->getMessage(), 'ERROR');
             return false;
         }
+    }
+
+    /**
+     * Alerte interne aux admins : email de la salle non configuré
+     */
+    public function sendMissingAlertEmailNotice($room, $admins)
+    {
+        $subject = 'Configuration manquante : email d\'alerte non renseigné - ' . $room['name'];
+        $roomUrl = $this->config->get('site_url') . 'room/edit/' . $room['id'];
+
+        $body = '
+            <html><body style="font-family: Arial, sans-serif; color: #333;">
+                <h2>Email d\'alerte manquant</h2>
+                <p>La salle <strong>' . h($room['name']) . '</strong> (' . h($room['client_name']) . ' - ' . h($room['building_name']) . ')
+                a dépassé un délai de suivi d\'installation, mais aucun email n\'est configuré sur sa fiche pour recevoir les alertes.</p>
+                <p>Merci de renseigner un email d\'alerte sur cette salle.</p>
+                <p style="margin: 24px 0;">
+                    <a href="' . $roomUrl . '"
+                    style="background:#dc3545;color:#fff;padding:12px 24px;
+                            border-radius:6px;text-decoration:none;display:inline-block;">
+                        Configurer la salle
+                    </a>
+                </p>
+            </body></html>';
+
+        return $this->dispatchToRecipients($admins, $subject, $body, $room['id']);
+    }
+
+    /**
+     * Parse un champ email potentiellement multi-adresses (séparées par virgule)
+     * en tableau de destinataires ['email' => ..., 'name' => '']
+     */
+    public function parseAlertEmails($rawEmails)
+    {
+        if (empty($rawEmails)) {
+            return [];
+        }
+        $emails = array_map('trim', explode(',', $rawEmails));
+        $recipients = [];
+        foreach ($emails as $email) {
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $recipients[] = ['email' => $email, 'name' => ''];
+            }
+        }
+        return $recipients;
+    }
+
+    /**
+     * Envoie un email à une liste de destinataires, retourne true seulement
+     * si TOUS les envois ont réussi
+     */
+    private function dispatchToRecipients($recipients, $subject, $body, $roomId)
+    {
+        $overallSuccess = true;
+
+        foreach ($recipients as $recipient) {
+            try {
+                $result = $this->sendEmailBasic(
+                    $recipient['email'],
+                    $recipient['name'] ?? '',
+                    $subject,
+                    $body
+                );
+
+                if (!$result) {
+                    $overallSuccess = false;
+                    custom_log_mail("Echec envoi pour salle $roomId à " . $recipient['email'], 'ERROR');
+                } else {
+                    custom_log_mail("Envoi réussi pour salle $roomId à " . $recipient['email'], 'INFO');
+                }
+            } catch (Exception $e) {
+                $overallSuccess = false;
+                custom_log_mail("Exception envoi salle $roomId à " . $recipient['email'] . " : " . $e->getMessage(), 'ERROR');
+            }
+        }
+
+        return $overallSuccess;
     }
 }

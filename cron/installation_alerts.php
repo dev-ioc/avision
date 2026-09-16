@@ -20,81 +20,93 @@ echo "Fichiers chargés OK\n";
 $config = Config::getInstance();
 $db = $config->getDb();
 
-echo "Configuration et DB OK\n";
-
 $roomModel = new RoomModel($db);
 $userModel = new UserModel($db);
-$contactModel = new ContactModel($db);
 $mailService = new MailService($db);
 
 echo "Models et MailService OK\n";
 
-/**
- * Récupération des vrais destinataires : les administrateurs actifs
- */
+// Admins toujours nécessaires en secours (email manquant)
 try {
     $admins = $userModel->getActiveAdmins();
 } catch (Exception $e) {
-    echo "ERREUR récupération des admins : " . $e->getMessage() . "\n";
+    $msg = "ERREUR récupération des admins : " . $e->getMessage();
+    echo $msg . "\n";
     exit(1);
 }
 
-if (empty($admins)) {
-    echo "AUCUN ADMIN TROUVÉ — impossible d'envoyer les alertes. Vérifiez la table users.\n";
-    exit(1);
-}
-
-$recipients = array_map(function ($admin) {
+$adminRecipients = array_map(function ($admin) {
     return [
         'email' => $admin['email'],
         'name' => trim(($admin['first_name'] ?? '') . ' ' . ($admin['last_name'] ?? ''))
     ];
 }, $admins);
 
-echo "Nombre d'admins destinataires : " . count($recipients) . "\n";
-
 try {
     $roomsToAlert = $roomModel->getRoomsNeedingInstallationAlert();
 } catch (Exception $e) {
-    echo "ERREUR récupération des salles : " . $e->getMessage() . "\n";
+    $msg = "ERREUR récupération des salles : " . $e->getMessage();
+    echo $msg . "\n";
     exit(1);
 }
 
 if (empty($roomsToAlert)) {
-    echo "Aucune alerte à envoyer.\n";
+    $msg = "Aucune alerte à envoyer.";
+    echo $msg . "\n";
+    echo "=== FIN CRON INSTALLATION ALERTS ===\n";
     exit(0);
 }
 
-echo "Nombre de salles à alerter : " . count($roomsToAlert) . "\n";
+echo "Nombre de salles à traiter : " . count($roomsToAlert) . "\n";
+
+$roomsSucceeded = [];
+$roomsFailed = [];
 
 foreach ($roomsToAlert as $room) {
 
     echo "\n-----------------------------------\n";
-    echo "Traitement salle #{$room['id']}\n";
-    echo "Nom : {$room['name']}\n";
-    echo "Delivery date : {$room['delivery_date']}\n";
-    echo "Contact principal ID : " . ($room['main_contact_id'] ?? 'Aucun') . "\n";
-    echo "Tentative d'envoi du mail à " . count($recipients) . " admin(s)...\n";
+    echo "Salle #{$room['id']} - {$room['name']}\n";
+
+    $stageLabel = $roomModel->getAlertStageLabel((int) $room['installation_alert_stage']);
+    echo "Palier : $stageLabel\n";
+
+    $roomEmails = $mailService->parseAlertEmails($room['installation_alert_email']);
 
     try {
-        $success = $mailService->sendInstallationAlert($room, $recipients);
+        if (empty($roomEmails)) {
+            // Pas d'email configuré sur la salle -> notifier les admins
+            echo "AUCUN EMAIL CONFIGURÉ sur la salle -> notification aux admins\n";
+            $success = $mailService->sendMissingAlertEmailNotice($room, $adminRecipients);
+        } else {
+            echo "Envoi à : " . implode(', ', array_column($roomEmails, 'email')) . "\n";
+            $success = $mailService->sendInstallationAlert($room, $roomEmails, $stageLabel);
+        }
 
         if ($success) {
-            echo "MAIL ENVOYÉ AVEC SUCCÈS à tous les admins\n";
-
-            $marked = $roomModel->markInstallationAlertSent($room['id']);
-
-            echo $marked
-                ? "Salle marquée comme alerte envoyée.\n"
-                : "ATTENTION : impossible de marquer la salle.\n";
-
+            echo "ENVOI RÉUSSI\n";
+            $roomModel->advanceInstallationAlertStage($room['id'], (int) $room['installation_alert_stage']);
+            $roomsSucceeded[] = $room['name'] . " ($stageLabel)";
         } else {
-            echo "ECHEC PARTIEL OU TOTAL DE L'ENVOI, la salle ne sera PAS marquée, nouvel essai au prochain passage du cron.\n";
+            echo "ECHEC — la salle ne sera pas avancée au palier suivant, retenté au prochain passage.\n";
+            $roomsFailed[] = $room['name'];
         }
 
     } catch (Exception $e) {
-        echo "EXCEPTION LORS DE L'ENVOI DU MAIL : " . $e->getMessage() . "\n";
+        echo "EXCEPTION : " . $e->getMessage() . "\n";
+        $roomsFailed[] = $room['name'];
     }
 }
+
+$totalProcessed = count($roomsToAlert);
+$status = empty($roomsFailed) ? 'success' : (empty($roomsSucceeded) ? 'error' : 'warning');
+
+$summary = sprintf(
+    "%d salle(s) traitée(s) — %d réussi(s), %d échec(s).%s%s",
+    $totalProcessed,
+    count($roomsSucceeded),
+    count($roomsFailed),
+    !empty($roomsSucceeded) ? " Réussi : " . implode(', ', $roomsSucceeded) . "." : "",
+    !empty($roomsFailed) ? " Échoué : " . implode(', ', $roomsFailed) . "." : ""
+);
 
 echo "\n=== FIN CRON INSTALLATION ALERTS ===\n";
