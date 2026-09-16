@@ -13,16 +13,12 @@ require_once __DIR__ . '/../config/config.php';
 
 // Modèles et service mail
 require_once __DIR__ . '/../public/models/RoomModel.php';
-
 require_once __DIR__ . '/../public/models/UserModel.php';
 require_once __DIR__ . '/../public/models/ContactModel.php';
-
 require_once __DIR__ . '/../public/classes/MailService.php';
 
 $config = Config::getInstance();
-
 $db = $config->getDb();
-
 
 $roomModel = new RoomModel($db);
 $userModel = new UserModel($db);
@@ -30,103 +26,63 @@ $contactModel = new ContactModel($db);
 $mailService = new MailService($db);
 
 /**
+ * Destinataire de TEST uniquement
+ */
+$testRecipient = [
+    'email' => 'dev_mdg@caspeo.fr',
+    'name' => 'Dev MDG'
+];
+
+/**
  * Récupérer les salles nécessitant une alerte
  */
 $roomsToAlert = $roomModel->getRoomsNeedingInstallationAlert();
-
 
 if (empty($roomsToAlert)) {
     echo "Aucune alerte à envoyer.\n";
     exit(0);
 }
 
-/**
- * Récupérer les admins
- */
-$admins = $userModel->getActiveAdmins();
-
-$adminRecipients = [];
-
-foreach ($admins as $admin) {
-
-    if (!empty($admin['email'])) {
-
-        $adminRecipients[] = [
-            'email' => $admin['email'],
-            'name' => trim(
-                ($admin['first_name'] ?? '') . ' ' .
-                ($admin['last_name'] ?? '')
-            )
-        ];
-
-        echo "Admin destinataire : {$admin['email']}\n";
-    }
-}
-
+echo "Nombre de salles à alerter : " . count($roomsToAlert) . "\n";
+echo "Mode TEST : envoi uniquement à {$testRecipient['email']}\n";
 
 /**
  * Traiter chaque salle
  */
 foreach ($roomsToAlert as $room) {
 
-    $recipients = $adminRecipients;
-    /**
-     * Ajouter le contact principal
-     */
-    if (!empty($room['main_contact_id'])) {
-
-        $contact = $contactModel->getContactById(
-            $room['main_contact_id']
-        );
-
-        if ($contact && !empty($contact['email'])) {
-
-            $recipients[] = [
-                'email' => $contact['email'],
-                'name' => trim(
-                    ($contact['first_name'] ?? '') . ' ' .
-                    ($contact['last_name'] ?? '')
-                )
-            ];
-
-        } else {
-            echo "Aucun email trouvé pour le contact principal.\n";
-        }
-    }
-
+    echo "\n-----------------------------------\n";
+    echo "Traitement salle #{$room['id']}\n";
+    echo "Nom : {$room['name']}\n";
+    echo "Delivery date : {$room['delivery_date']}\n";
+    echo "Destinataire TEST : {$testRecipient['email']}\n";
+    echo "Tentative d'envoi du mail...\n";
 
     /**
-     * Vérifier les destinataires
-     */
-    if (empty($recipients)) {
-        echo "ERREUR : aucun destinataire.\n";
-        continue;
-    }
-
-
-    /**
-     * Envoyer le mail
+     * IMPORTANT :
+     * On envoie uniquement au destinataire de test.
      */
     $success = $mailService->sendInstallationAlert(
         $room,
-        array('dev_mdg@caspeo.fr')
+        [$testRecipient]
     );
-
 
     if ($success) {
 
-        $marked = $roomModel->markInstallationAlertSent(
-            $room['id']
-        );
+        echo "MAIL ENVOYÉ AVEC SUCCÈS à {$testRecipient['email']}\n";
 
-        if ($marked) {
-            echo "Salle marquée comme alerte envoyée.\n";
-        } else {
-            echo "ATTENTION : impossible de marquer la salle.\n";
-        }
+        /*
+         * Pour le test, on ne marque PAS encore la salle
+         * comme "alerte envoyée".
+         *
+         * Cela permet de refaire le test plusieurs fois.
+         */
+        echo "Salle NON marquée comme alerte envoyée (mode TEST).\n";
 
     } else {
 
-        echo "ECHEC DE L'ENVOI DU MAIL\n";
+        echo "ECHEC DE L'ENVOI DU MAIL à {$testRecipient['email']}\n";
     }
 }
+
+echo "\n=== FIN CRON INSTALLATION ALERTS ===\n";
