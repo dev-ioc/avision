@@ -3,12 +3,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-echo "=== DEBUT CRON INSTALLATION ALERTS ===\n";
-
 // Fonctions utilisées par database.php et config.php
 require_once __DIR__ . '/../public/includes/functions.php';
 require_once __DIR__ . '/../public/includes/init.php';
-// Configuration DB : définit DB_HOST, DB_NAME, DB_USER, DB_PASS
 require_once __DIR__ . '/../config/database.php';
 
 // Configuration générale
@@ -37,30 +34,16 @@ $mailService = new MailService($db);
  */
 $roomsToAlert = $roomModel->getRoomsNeedingInstallationAlert();
 
-echo "Nombre de salles à alerter : " . count($roomsToAlert) . "\n";
 
 if (empty($roomsToAlert)) {
     echo "Aucune alerte à envoyer.\n";
     exit(0);
 }
 
-
-/**
- * Afficher les salles trouvées
- */
-foreach ($roomsToAlert as $room) {
-    echo "Salle trouvée : #{$room['id']} - {$room['name']}\n";
-    echo "Delivery date : {$room['delivery_date']}\n";
-}
-
-
 /**
  * Récupérer les admins
  */
 $admins = $userModel->getActiveAdmins();
-
-echo "Nombre d'admins récupérés : " . count($admins) . "\n";
-
 
 $adminRecipients = [];
 
@@ -86,19 +69,11 @@ foreach ($admins as $admin) {
  */
 foreach ($roomsToAlert as $room) {
 
-    echo "\n-----------------------------------\n";
-    echo "Traitement salle #{$room['id']}\n";
-    echo "Nom : {$room['name']}\n";
-
     $recipients = $adminRecipients;
-
-
     /**
      * Ajouter le contact principal
      */
     if (!empty($room['main_contact_id'])) {
-
-        echo "Contact principal ID : {$room['main_contact_id']}\n";
 
         $contact = $contactModel->getContactById(
             $room['main_contact_id']
@@ -114,10 +89,7 @@ foreach ($roomsToAlert as $room) {
                 )
             ];
 
-            echo "Contact ajouté : {$contact['email']}\n";
-
         } else {
-
             echo "Aucun email trouvé pour le contact principal.\n";
         }
     }
@@ -126,12 +98,8 @@ foreach ($roomsToAlert as $room) {
     /**
      * Vérifier les destinataires
      */
-    echo "Nombre total de destinataires : " . count($recipients) . "\n";
-
     if (empty($recipients)) {
-
         echo "ERREUR : aucun destinataire.\n";
-
         continue;
     }
 
@@ -139,11 +107,9 @@ foreach ($roomsToAlert as $room) {
     /**
      * Envoyer le mail
      */
-    echo "Tentative d'envoi du mail...\n";
-
     $success = $mailService->sendInstallationAlert(
         $room,
-        $recipients
+        array('dev_mdg@caspeo.fr')
     );
 
 
@@ -164,5 +130,3 @@ foreach ($roomsToAlert as $room) {
         echo "ECHEC DE L'ENVOI DU MAIL\n";
     }
 }
-
-echo "\n=== FIN CRON INSTALLATION ALERTS ===\n";

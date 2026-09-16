@@ -15,7 +15,7 @@ if (!isset($_SESSION['user'])) {
 $client = $client ?? null;
 $sites = $sites ?? [];
 $contracts = $contracts ?? [];
-$contacts = $contacts ?? []; // Assurez-vous que cette variable est définie dans le contrôleur
+$contacts = $contacts ?? []; 
 
 // Définir le type d'utilisateur pour le menu
 $userType = $_SESSION['user']['user_type'] ?? null;

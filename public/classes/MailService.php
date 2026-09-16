@@ -1835,10 +1835,6 @@ class MailService
 
             $success = true;
             foreach ($recipients as $recipient) {
-
-                echo "-----------------------------------" . PHP_EOL;
-                echo "Envoi vers : " . $recipient['email'] . PHP_EOL;
-
                 try {
                     // appel actuel d'envoi
                     $result = $this->sendEmailBasic(
@@ -1849,9 +1845,9 @@ class MailService
                     );
 
                     if (!$result) {
-                        echo "ECHEC pour : " . $recipient['email'] . PHP_EOL;
+                        $_SESSION['error'] = "ECHEC pour : " . $recipient['email'] . PHP_EOL;
                     } else {
-                        echo "SUCCES pour : " . $recipient['email'] . PHP_EOL;
+                        $_SESSION['succes'] = "SUCCES pour : " . $recipient['email'] . PHP_EOL;
                     }
 
                 } catch (Exception $e) {

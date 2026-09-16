@@ -139750,3 +139750,9 @@ Quant à l’écran n°1, il est HS
 [2026-09-16 08:02:57][INFO] Champs remplis (3/33): salle_id, modele, marque 
 [2026-09-16 08:02:57][INFO] === FIN DES DONNEES === 
 [2026-09-16 08:02:57][INFO] MATERIEL CREE AVEC SUCCES - ID: 3834 
+[2026-09-16 08:19:33][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-16 08:19:33][DEBUG] CSRF: Token trouvé dans la requête - Token: ce32089b740fb57e27c8... 
+[2026-09-16 08:19:33][DEBUG] CSRF: Token trouvé dans la requête - Token: ce32089b740fb57e27c8... 
+[2026-09-16 08:19:34][DEBUG] CSRF: Token trouvé dans la requête - Token: ce32089b740fb57e27c8... 
+[2026-09-16 08:19:35][INFO] 81 
+[2026-09-16 08:19:48][INFO] 81 
