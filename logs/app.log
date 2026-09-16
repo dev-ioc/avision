@@ -139653,3 +139653,100 @@ Quant à l’écran n°1, il est HS
 [2026-09-15 16:10:18][DEBUG] CSRF: Token trouvé dans la requête - Token: e65d9f7d8fc7d03e0889... 
 [2026-09-15 16:10:18][INFO] 55 
 [2026-09-15 16:10:18][INFO] 109 
+[2026-09-16 08:01:46][DEBUG] CSRF: Token trouvé dans la requête - Token: ce32089b740fb57e27c8... 
+[2026-09-16 08:01:46][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-16 08:01:46][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-16 08:01:46][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-16 08:02:57][DEBUG] CSRF: Token trouvé dans la requête - Token: ce32089b740fb57e27c8... 
+[2026-09-16 08:02:57][INFO] === STORE CALLED FROM EXCEL === 
+[2026-09-16 08:02:57][INFO] POST data: Array
+(
+    [salle_id] => 181
+    [has_configuration] => 1
+    [marque] => TEST
+    [modele] => TEST
+    [type_materiel] => 
+    [numero_serie] => 
+    [version_firmware] => 
+    [adresse_ip] => 
+    [adresse_mac] => 
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [id] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 46
+)
+ 
+[2026-09-16 08:02:57][INFO] FILES: Array
+(
+)
+ 
+[2026-09-16 08:02:57][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-09-16 08:02:57][INFO] Données complètes reçues: 
+[2026-09-16 08:02:57][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-09-16 08:02:57][INFO] Array 
+[2026-09-16 08:02:57][INFO] INSERTION MATERIEL - Salle: 181 | Type:  | Modèle: TEST | Marque: TEST | N° Série:  | MAC:  | IP:  
+[2026-09-16 08:02:57][INFO] JSON DATA: {
+    "timestamp": "2026-09-16 08:02:57",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "181",
+        "type_materiel": "",
+        "modele": "TEST",
+        "marque": "TEST",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "",
+        "version_firmware": "",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "",
+        "adresse_ip": "",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-09-16 08:02:57][INFO] Champs remplis (3/33): salle_id, modele, marque 
+[2026-09-16 08:02:57][INFO] === FIN DES DONNEES === 
+[2026-09-16 08:02:57][INFO] MATERIEL CREE AVEC SUCCES - ID: 3834 

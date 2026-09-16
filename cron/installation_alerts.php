@@ -149,8 +149,6 @@ foreach ($roomsToAlert as $room) {
 
     if ($success) {
 
-        echo "MAIL ENVOYE AVEC SUCCES\n";
-
         $marked = $roomModel->markInstallationAlertSent(
             $room['id']
         );
