@@ -1821,20 +1821,141 @@ class MailService
 
             $roomUrl = $this->config->get('site_url') . 'room/edit/' . $room['id'];
             $body = '
-                <html><body style="font-family: Arial, sans-serif; color: #333;">
-                    <h2>' . h($labelText) . '</h2>
-                    <p>La salle <strong>' . h($room['name']) . '</strong> (' . h($room['client_name']) . ' - ' . h($room['building_name']) . ')
-                    n\'est pas encore clôturée. Date de livraison :
-                    <strong>' . date('d/m/Y', strtotime($room['delivery_date'])) . '</strong>.</p>
-                    <p>Merci de finaliser l\'installation ou de vérifier son statut.</p>
-                    <p style="margin: 24px 0;">
-                        <a href="' . $roomUrl . '"
-                        style="background:#0d6efd;color:#fff;padding:12px 24px;
-                                border-radius:6px;text-decoration:none;display:inline-block;">
-                            Consulter la salle
-                        </a>
-                    </p>
-                </body></html>';
+                    <!DOCTYPE html>
+                    <html lang="fr">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>' . h($labelText) . '</title>
+                    </head>
+
+                    <body style="margin:0; padding:0; background-color:#f4f6f9; font-family:Arial, Helvetica, sans-serif; color:#333;">
+
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f6f9; padding:30px 15px;">
+                            <tr>
+                                <td align="center">
+
+                                    <!-- Conteneur principal -->
+                                    <table width="600" cellpadding="0" cellspacing="0" border="0"
+                                        style="max-width:600px; width:100%; background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+
+                                        <!-- En-tête -->
+                                        <tr>
+                                            <td style="background:#0d6efd; padding:24px 30px; text-align:center;">
+                                                <h1 style="margin:0; color:#ffffff; font-size:22px; font-weight:600;">
+                                                    ' . h($labelText) . '
+                                                </h1>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Contenu -->
+                                        <tr>
+                                            <td style="padding:30px;">
+
+                                                <p style="margin:0 0 18px; font-size:15px; line-height:1.6;">
+                                                    Bonjour,
+                                                </p>
+
+                                                <p style="margin:0 0 24px; font-size:15px; line-height:1.6;">
+                                                    La salle suivante <strong>' . h($room['name']) . '</strong>
+                                                    n\'est pas encore clôturée.
+                                                </p>
+
+                                                <!-- Informations salle -->
+                                                <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                                                    style="background:#f8f9fa; border:1px solid #e5e7eb; border-radius:8px;">
+
+                                                    <tr>
+                                                        <td style="padding:16px 18px; border-bottom:1px solid #e5e7eb;">
+                                                            <span style="font-size:12px; color:#6b7280;">
+                                                                SALLE
+                                                            </span>
+                                                            <br>
+                                                            <strong style="font-size:15px; color:#222;">
+                                                                ' . h($room['name']) . '
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="padding:16px 18px; border-bottom:1px solid #e5e7eb;">
+                                                            <span style="font-size:12px; color:#6b7280;">
+                                                                CLIENT
+                                                            </span>
+                                                            <br>
+                                                            <strong style="font-size:15px; color:#222;">
+                                                                ' . h($room['client_name']) . '
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="padding:16px 18px; border-bottom:1px solid #e5e7eb;">
+                                                            <span style="font-size:12px; color:#6b7280;">
+                                                                BÂTIMENT
+                                                            </span>
+                                                            <br>
+                                                            <strong style="font-size:15px; color:#222;">
+                                                                ' . h($room['building_name']) . '
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="padding:16px 18px;">
+                                                            <span style="font-size:12px; color:#6b7280;">
+                                                                DATE DE LIVRAISON
+                                                            </span>
+                                                            <br>
+                                                            <strong style="font-size:16px; color:#dc3545;">
+                                                                ' . date('d/m/Y', strtotime($room['delivery_date'])) . '
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+
+                                                <!-- Message -->
+                                                <p style="margin:25px 0 10px; font-size:15px; line-height:1.6;">
+                                                    Merci de finaliser l\'installation ou de vérifier son statut
+                                                    afin de clôturer la salle.
+                                                </p>
+
+                                                <!-- Bouton -->
+                                                <table cellpadding="0" cellspacing="0" border="0" style="margin:28px auto 10px;">
+                                                    <tr>
+                                                        <td align="center" style="border-radius:6px; background:#0d6efd;">
+                                                            <a href="' . h($roomUrl) . '"
+                                                            style="display:inline-block; padding:13px 26px;
+                                                                    font-size:15px; font-weight:bold;
+                                                                    color:#ffffff; text-decoration:none;
+                                                                    border-radius:6px;">
+                                                                Consulter la salle
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                            </td>
+                                        </tr>
+
+                                        <!-- Footer -->
+                                        <tr>
+                                            <td style="padding:18px 30px; background:#f8f9fa; text-align:center; border-top:1px solid #eeeeee;">
+                                                <p style="margin:0; font-size:12px; color:#888;">
+                                                    Ceci est un message automatique. Merci de ne pas répondre directement à cet email.
+                                                </p>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                    </body>
+                    </html>';
 
             return $this->dispatchToRecipients($recipients, $subject, $body, $room['id']);
 
