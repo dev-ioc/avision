@@ -151,7 +151,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label for="installation_alert_email" class="form-label">
-                                        <i class="bi bi-envelope me-1"></i>Email(s) d'alerte installation
+                                        Email(s) d'alerte installation
                                     </label>
                                     <input type="text" class="form-control" id="installation_alert_email"
                                         name="installation_alert_email"
