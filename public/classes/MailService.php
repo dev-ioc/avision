@@ -2148,48 +2148,32 @@ class MailService
     }
 
     /**
-     * Envoie l'email uniquement à l'adresse de test.
-     * À remettre en version normale après les tests.
+     * Envoie un email à une liste de destinataires, retourne true seulement
+     * si TOUS les envois ont réussi
      */
     private function dispatchToRecipients($recipients, $subject, $body, $roomId)
     {
         $overallSuccess = true;
 
-        // Destinataire fixe pour les tests
-        $testRecipient = [
-            'email' => 'nimeg99591@duidir.com',
-            'name' => 'Test'
-        ];
+        foreach ($recipients as $recipient) {
+            try {
+                $result = $this->sendEmailBasic(
+                    $recipient['email'],
+                    $recipient['name'] ?? '',
+                    $subject,
+                    $body
+                );
 
-        try {
-            $result = $this->sendEmailBasic(
-                $testRecipient['email'],
-                $testRecipient['name'],
-                $subject,
-                $body
-            );
-
-            if (!$result) {
+                if (!$result) {
+                    $overallSuccess = false;
+                    custom_log_mail("Echec envoi pour salle $roomId à " . $recipient['email'], 'ERROR');
+                } else {
+                    custom_log_mail("Envoi réussi pour salle $roomId à " . $recipient['email'], 'INFO');
+                }
+            } catch (Exception $e) {
                 $overallSuccess = false;
-                custom_log_mail(
-                    "Echec envoi pour salle $roomId à " . $testRecipient['email'],
-                    'ERROR'
-                );
-            } else {
-                custom_log_mail(
-                    "Envoi réussi pour salle $roomId à " . $testRecipient['email'],
-                    'INFO'
-                );
+                custom_log_mail("Exception envoi salle $roomId à " . $recipient['email'] . " : " . $e->getMessage(), 'ERROR');
             }
-
-        } catch (Exception $e) {
-            $overallSuccess = false;
-
-            custom_log_mail(
-                "Exception envoi salle $roomId à " .
-                $testRecipient['email'] . " : " . $e->getMessage(),
-                'ERROR'
-            );
         }
 
         return $overallSuccess;
