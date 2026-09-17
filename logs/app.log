@@ -139843,3 +139843,14 @@ Quant à l’écran n°1, il est HS
 [2026-09-17 08:22:14][INFO] 81 
 [2026-09-17 08:23:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 85a9d8312cbd7a595ede... 
 [2026-09-17 08:23:02][INFO] 81 
+[2026-09-17 15:02:35][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-17 15:02:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 85a9d8312cbd7a595ede... 
+[2026-09-17 15:02:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 85a9d8312cbd7a595ede... 
+[2026-09-17 15:02:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 85a9d8312cbd7a595ede... 
+[2026-09-17 15:02:40][INFO] 55 
+[2026-09-17 15:02:40][INFO] 109 
+[2026-09-17 15:02:42][INFO] 55 
+[2026-09-17 15:02:48][INFO] 55 
+[2026-09-17 15:02:48][INFO] 109 
+[2026-09-17 15:02:57][INFO] 55 
+[2026-09-17 15:02:57][INFO] 109 

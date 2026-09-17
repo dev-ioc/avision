@@ -2146,7 +2146,6 @@ class MailService
         }
         return $recipients;
     }
-
     /**
      * Envoie un email à une liste de destinataires, retourne true seulement
      * si TOUS les envois ont réussi
