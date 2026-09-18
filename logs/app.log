@@ -139880,3 +139880,11 @@ Quant à l’écran n°1, il est HS
 [2026-09-18 08:03:00][DEBUG] Passkey enregistrée pour user_id: 40 
 [2026-09-18 08:03:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 2fcad113f90fd725470f... 
 [2026-09-18 08:03:29][DEBUG] Connexion passkey réussie - user_id: 40 
+[2026-09-18 08:08:22][DEBUG] CSRF: Token trouvé dans la requête - Token: c29ae59ca2390656ef09... 
+[2026-09-18 08:08:22][DEBUG] Permissions chargées pour Dever : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-18 08:08:22][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-18 08:08:22][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
+[2026-09-18 08:12:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 791c1865fd4c840e9974... 
+[2026-09-18 08:12:47][DEBUG] Permissions chargées pour Dever : {"role":"client","rights":{"client_view_contracts":true,"client_manage_contacts":true,"client_add_documentation":true,"client_view_documentation":true,"client_view_materiel":true,"client_add_intervention":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":35,"site_id":55,"room_id":null},{"client_id":35,"site_id":109,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-18 08:12:47][INFO] Utilisateur connecté : karijatsilefilaza@gmail.com {"user_id":47,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":35}
+[2026-09-18 08:12:47][DEBUG] Login réussi (étape mot de passe) - user_id: 47 
