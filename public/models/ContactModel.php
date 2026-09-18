@@ -163,16 +163,17 @@ class ContactModel extends BaseModel
     {
         try {
             $query = "UPDATE contacts SET 
-                    first_name = :first_name,
-                    last_name = :last_name,
-                    fonction = :fonction,
-                    phone1 = :phone1,
-                    phone2 = :phone2,
-                    email = :email,
-                    comment = :comment,
-                    is_vip = :is_vip,
-                    updated_at = NOW()
-                WHERE id = :id";
+                first_name = :first_name,
+                last_name = :last_name,
+                fonction = :fonction,
+                phone1 = :phone1,
+                phone2 = :phone2,
+                email = :email,
+                comment = :comment,
+                is_vip = :is_vip,
+                has_user_account = :has_user_account,
+                updated_at = NOW()
+            WHERE id = :id";
 
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -184,10 +185,27 @@ class ContactModel extends BaseModel
             $stmt->bindParam(':email', $data['email'], PDO::PARAM_STR);
             $stmt->bindParam(':comment', $data['comment'], PDO::PARAM_STR);
             $stmt->bindValue(':is_vip', $data['is_vip'] ?? 0, PDO::PARAM_INT);
+            $stmt->bindValue(':has_user_account', $data['has_user_account'] ?? 0, PDO::PARAM_INT);
 
             return $stmt->execute();
         } catch (PDOException $e) {
             error_log("Erreur lors de la mise à jour du contact: " . $e->getMessage());
+            return false;
+        }
+    }
+    public function linkUserAccount($contactId, $userId)
+    {
+        try {
+            $stmt = $this->db->prepare("
+            UPDATE contacts 
+            SET user_id = :user_id, has_user_account = 1, updated_at = NOW() 
+            WHERE id = :id
+        ");
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->bindParam(':id', $contactId, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Erreur lors de la liaison du compte utilisateur: " . $e->getMessage());
             return false;
         }
     }

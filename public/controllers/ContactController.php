@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
-
+require_once __DIR__ . '/../models/UserModel.php';
 class ContactController
 {
     use AccessControlTrait;
@@ -176,7 +176,6 @@ class ContactController
         require_once VIEWS_PATH . '/contact/add.php';
     }
 
-
     public function edit($id = null)
     {
         // Récupérer d'abord le contact pour obtenir l'ID du client
@@ -209,10 +208,70 @@ class ContactController
                 'phone2' => $_POST['phone2'] ?? '',
                 'email' => $_POST['email'] ?? '',
                 'comment' => $_POST['comment'] ?? '',
-                'is_vip' => isset($_POST['is_vip']) ? 1 : 0
+                'is_vip' => isset($_POST['is_vip']) ? 1 : 0,
+                'has_user_account' => isset($_POST['has_user_account']) ? 1 : 0,
             ];
 
+            custom_log("Données POST reçues pour modification du contact #$id: " . json_encode($_POST), 'INFO');
+
             if ($this->contactModel->updateContact($id, $data)) {
+
+                // Gestion de la création/liaison du compte utilisateur si la case est cochée
+                // et que le contact n'a pas déjà de compte lié
+                if ($data['has_user_account'] && empty($contact['user_id'])) {
+
+                    // Vérifier si un compte utilisateur existe déjà avec cet email
+                    $existingUser = $this->userModel->getUserByEmail($data['email']);
+
+                    if ($existingUser) {
+                        // Un compte existe déjà (créé via /user/add par ex.) : on se contente de le lier
+                        custom_log("Utilisateur existant trouvé pour l'email {$data['email']}, liaison au contact #$id", 'INFO');
+
+                        if (!$this->contactModel->linkUserAccount($id, $existingUser['id'])) {
+                            custom_log("Échec de la liaison du compte existant #{$existingUser['id']} au contact #$id", 'ERROR');
+                            $_SESSION['error'] = "Contact modifié, mais la liaison au compte utilisateur existant a échoué.";
+                            header('Location: ' . BASE_URL . 'clients/edit/' . $contact['client_id'] . '#contacts');
+                            exit;
+                        }
+                    } else {
+                        // Aucun compte existant : on en crée un nouveau
+                        $username = trim($_POST['username'] ?? '');
+                        $password = $_POST['password'] ?? '';
+
+                        if (empty($password)) {
+                            $_SESSION['error'] = "Contact modifié, mais un mot de passe est requis pour créer le compte utilisateur.";
+                            header('Location: ' . BASE_URL . 'clients/edit/' . $contact['client_id'] . '#contacts');
+                            exit;
+                        }
+
+                        $userData = [
+                            'email' => $data['email'],
+                            'password' => $password,
+                            'first_name' => $data['first_name'],
+                            'last_name' => $data['last_name'],
+                            'type' => 'client',
+                            'is_admin' => 0,
+                            'status' => 1,
+                            'coef_utilisateur' => null,
+                            'client_id' => $contact['client_id'],
+                        ];
+
+                        custom_log("Création du compte utilisateur pour le contact #$id: " . json_encode($userData), 'INFO');
+
+                        $userId = $this->userModel->createUser($userData);
+
+                        if ($userId) {
+                            custom_log("Compte utilisateur #$userId créé, liaison au contact #$id", 'INFO');
+                            $this->contactModel->linkUserAccount($id, $userId);
+                        } else {
+                            custom_log("Échec de la création du compte utilisateur pour le contact #$id", 'ERROR');
+                            $_SESSION['error'] = "Contact modifié, mais la création du compte utilisateur a échoué.";
+                            header('Location: ' . BASE_URL . 'clients/edit/' . $contact['client_id'] . '#contacts');
+                            exit;
+                        }
+                    }
+                }
+
                 $_SESSION['success'] = "Contact modifié avec succès.";
                 header('Location: ' . BASE_URL . 'clients/edit/' . $contact['client_id'] . '#contacts');
                 exit;

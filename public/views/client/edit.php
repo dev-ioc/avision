@@ -232,8 +232,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                     <td>
                                                         <?php if ($contact['has_user_account']): ?>
                                                             <span class="badge bg-success">Oui</span>
-                                                            <?php if ($contact['user_username']): ?>
-                                                                <br><small><?php echo h($contact['user_username']); ?></small>
+                                                            <?php if ($contact['username']): ?>
+                                                                <br><small><?php echo h($contact['username']); ?></small>
                                                             <?php endif; ?>
                                                         <?php else: ?>
                                                             <span class="badge bg-secondary">Non</span>
