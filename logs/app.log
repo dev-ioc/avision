@@ -140022,3 +140022,5 @@ Quant à l’écran n°1, il est HS
 [2026-09-18 13:34:52][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":432,"errno":2}
 [2026-09-18 13:34:52][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":432,"errno":2}
 [2026-09-18 13:34:59][INFO] 37 
+[2026-09-18 13:58:36][INFO] 37 
+[2026-09-18 14:02:24][ERROR] Call to undefined method QrCodeModel::resolveCode() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\QRCodeController.php","line":155,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(2256): QRCodeController->redirectByCode('9FD171C9')\n#1 {main}","type":"Error"}

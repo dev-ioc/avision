@@ -142,8 +142,7 @@ class QRCodeController
     }
     public function generateMasterQRUrl($clientId)
     {
-        $qrCodeModel = new QrCodeModel($this->db);
-        $code = $qrCodeModel->getOrCreateCode('client_master', $clientId);
+        $code = $this->qrCodeModel->getOrCreateCode('client_master', $clientId);
         return BASE_URL . 'r/' . $code;
     }
     /**
