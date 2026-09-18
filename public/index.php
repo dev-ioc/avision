@@ -2245,17 +2245,17 @@ try {
                 case 'redirect':
                     $qrcodeController->redirect();
                     break;
-                case 'r':
-                    $qrcodeController = new QRCodeController();
-                    if ($action) {
-                        $qrcodeController->redirectByCode($action);
-                    } else {
-                        header('Location: ' . BASE_URL . 'dashboard');
-                    }
-                    break;
                 default:
                     header('Location: ' . BASE_URL . 'dashboard');
                     break;
+            }
+            break;
+        case 'r':
+            $qrcodeController = new QRCodeController();
+            if ($action) {
+                $qrcodeController->redirectByCode($action);
+            } else {
+                header('Location: ' . BASE_URL . 'dashboard');
             }
             break;
         case 'stats':
