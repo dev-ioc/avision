@@ -268,7 +268,7 @@ $public_routes = [
 ];
 $current_route = $controller . '/' . $action;
 
-if (!in_array($current_route, $public_routes) && !isset($_SESSION['user'])) {
+if (!in_array($current_route, $public_routes) && $controller !== 'r' && !isset($_SESSION['user'])) {
     // Vérifier si c'est une requête AJAX
     $isAjaxRequest = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
         strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
@@ -2244,6 +2244,14 @@ try {
                     break;
                 case 'redirect':
                     $qrcodeController->redirect();
+                    break;
+                case 'r':
+                    $qrcodeController = new QRCodeController();
+                    if ($action) {
+                        $qrcodeController->redirectByCode($action);
+                    } else {
+                        header('Location: ' . BASE_URL . 'dashboard');
+                    }
                     break;
                 default:
                     header('Location: ' . BASE_URL . 'dashboard');

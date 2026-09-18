@@ -5,6 +5,7 @@ require_once __DIR__ . '/../models/MaterielModel.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 require_once __DIR__ . '/../models/BuildingModel.php';
+require_once __DIR__ . '/../models/QrCodeModel.php';
 
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
@@ -17,6 +18,7 @@ class QRCodeController
     private $roomModel;
     private $materielModel;
     private $buildingModel;
+    private $qrCodeModel;
 
     public function __construct()
     {
@@ -26,6 +28,7 @@ class QRCodeController
         $this->roomModel = new RoomModel($this->db);
         $this->materielModel = new MaterielModel($this->db);
         $this->buildingModel = new BuildingModel($this->db);
+        $this->qrCodeModel = new QrCodeModel($this->db);
     }
 
 
@@ -132,10 +135,63 @@ class QRCodeController
      */
     public function generateQRUrl($salleId, $type = 'staff')
     {
-        // URL simplifiée pour éviter les problèmes de longueur
-        return BASE_URL . 'auth/login?qr=' . $salleId . '&t=' . $type;
-    }
 
+        $targetType = $type === 'client' ? 'salle_client' : 'salle_staff';
+        $code = $this->qrCodeModel->getOrCreateCode($targetType, $salleId);
+        return BASE_URL . 'r/' . $code;
+    }
+    public function generateMasterQRUrl($clientId)
+    {
+        $qrCodeModel = new QrCodeModel($this->db);
+        $code = $qrCodeModel->getOrCreateCode('client_master', $clientId);
+        return BASE_URL . 'r/' . $code;
+    }
+    /**
+     * Point d'entrée unique pour tous les QR codes imprimés.
+     * Ne changera plus jamais, quoi qu'il arrive derrière.
+     */
+    public function redirectByCode($code)
+    {
+        $qr = $this->qrCodeModel->resolveCode($code);
+
+        if (!$qr) {
+            $_SESSION['error'] = "Code QR invalide.";
+            header('Location: ' . BASE_URL . 'auth/login');
+            exit;
+        }
+
+        switch ($qr['target_type']) {
+            case 'salle_staff':
+                $_SESSION['qr_salle'] = $qr['target_id'];
+                $_SESSION['qr_type'] = 'staff';
+                if (!isset($_SESSION['user'])) {
+                    header('Location: ' . BASE_URL . 'auth/login');
+                } else {
+                    header('Location: ' . BASE_URL . 'materiel/salle/' . $qr['target_id']);
+                }
+                break;
+
+            case 'salle_client':
+                $_SESSION['qr_salle'] = $qr['target_id'];
+                $_SESSION['qr_type'] = 'client';
+                if (!isset($_SESSION['user'])) {
+                    header('Location: ' . BASE_URL . 'auth/login');
+                } else {
+                    header('Location: ' . BASE_URL . 'materiel_client/salle/' . $qr['target_id']);
+                }
+                break;
+
+            case 'client_master':
+                if (!isset($_SESSION['user'])) {
+                    $_SESSION['qr_client_master'] = $qr['target_id'];
+                    header('Location: ' . BASE_URL . 'auth/login');
+                } else {
+                    header('Location: ' . BASE_URL . 'profileClient');
+                }
+                break;
+        }
+        exit;
+    }
     /**
      * Génère les données pour les QR codes (pour les vues)
      */

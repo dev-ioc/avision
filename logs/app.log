@@ -139958,3 +139958,67 @@ Quant à l’écran n°1, il est HS
 [2026-09-18 11:49:45][INFO] 38 
 [2026-09-18 11:49:45][INFO] 36 
 [2026-09-18 11:49:45][WARNING] Undefined array key "username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":235,"errno":2}
+[2026-09-18 11:58:23][DEBUG] CSRF: Token trouvé dans la requête - Token: c56032d7a8fa3ef2bb4e... 
+[2026-09-18 11:58:23][INFO] Données POST reçues pour modification du contact #104: {"csrf_token":"c56032d7a8fa3ef2bb4e7d54d291762d7a569d19d102c3f4af266fe9cd02d17e","first_name":"TEST","last_name":"TEST","fonction":"TEST","phone1":"","phone2":"","email":"dev_mdgtest@caspeo.fr","comment":"","has_user_account":"1","is_vip":"1","username":"dev mdg","password":"WW@cce$$95"} 
+[2026-09-18 11:58:23][INFO] Création du compte utilisateur pour le contact #104: {"email":"dev_mdgtest@caspeo.fr","password":"WW@cce$$95","first_name":"TEST","last_name":"TEST","type":"client","is_admin":0,"status":1,"coef_utilisateur":null,"client_id":23} 
+[2026-09-18 11:58:23][INFO] Compte utilisateur #52 créé, liaison au contact #104 
+[2026-09-18 11:58:23][INFO] 37 
+[2026-09-18 11:58:23][INFO] 38 
+[2026-09-18 11:58:23][INFO] 36 
+[2026-09-18 11:58:23][WARNING] Undefined array key "username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":235,"errno":2}
+[2026-09-18 11:58:23][WARNING] Undefined array key "username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":235,"errno":2}
+[2026-09-18 11:58:42][DEBUG] CSRF: Token trouvé dans la requête - Token: d0fd93b729a3fcdf0ada... 
+[2026-09-18 11:58:42][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-18 11:58:42][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-18 11:58:42][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-18 11:59:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 5489aa36edd283dc165c... 
+[2026-09-18 11:59:08][WARNING] Tentative de connexion échouée pour l'utilisateur : dev_mdg@caspeo.fr 
+[2026-09-18 11:59:08][WARNING] Tentative de connexion échouée pour l'utilisateur : dev_mdg@caspeo.fr 
+[2026-09-18 11:59:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 5489aa36edd283dc165c... 
+[2026-09-18 11:59:17][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-18 11:59:17][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-18 11:59:17][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-18 11:59:19][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-18 11:59:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 5489aa36edd283dc165c... 
+[2026-09-18 11:59:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 5489aa36edd283dc165c... 
+[2026-09-18 11:59:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 5489aa36edd283dc165c... 
+[2026-09-18 11:59:21][INFO] 37 
+[2026-09-18 11:59:21][INFO] 38 
+[2026-09-18 11:59:21][INFO] 36 
+[2026-09-18 11:59:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":432,"errno":2}
+[2026-09-18 11:59:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":432,"errno":2}
+[2026-09-18 11:59:27][INFO] 37 
+[2026-09-18 11:59:27][INFO] 38 
+[2026-09-18 11:59:27][INFO] 36 
+[2026-09-18 11:59:27][WARNING] Undefined array key "username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":235,"errno":2}
+[2026-09-18 11:59:27][WARNING] Undefined array key "username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":235,"errno":2}
+[2026-09-18 13:12:16][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-18 13:12:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 5489aa36edd283dc165c... 
+[2026-09-18 13:12:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 5489aa36edd283dc165c... 
+[2026-09-18 13:12:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 5489aa36edd283dc165c... 
+[2026-09-18 13:12:22][INFO] 81 
+[2026-09-18 13:12:22][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":432,"errno":2}
+[2026-09-18 13:12:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 28c3dd058c909629fc97... 
+[2026-09-18 13:12:36][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-18 13:12:36][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-18 13:12:36][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-18 13:13:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 88c033dae54ff07f442c... 
+[2026-09-18 13:13:48][WARNING] Tentative de connexion échouée pour l'utilisateur : TEST USER CONTACT 
+[2026-09-18 13:13:48][WARNING] Tentative de connexion échouée pour l'utilisateur : TEST USER CONTACT 
+[2026-09-18 13:33:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 88c033dae54ff07f442c... 
+[2026-09-18 13:33:15][WARNING] require_once(C:\xampp\htdocs\avision\public\controllers/../models/QrCodeModel.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\QRCodeController.php","line":8,"errno":2}
+[2026-09-18 13:33:15][ERROR] Failed opening required 'C:\xampp\htdocs\avision\public\controllers/../models/QrCodeModel.php' (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\QRCodeController.php","line":8,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\index.php(213): require_once()\n#1 {main}","type":"Error"}
+[2026-09-18 13:34:46][DEBUG] CSRF: Token trouvé dans la requête - Token: 88c033dae54ff07f442c... 
+[2026-09-18 13:34:46][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-18 13:34:46][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-18 13:34:46][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-18 13:34:49][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-18 13:34:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 88c033dae54ff07f442c... 
+[2026-09-18 13:34:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 88c033dae54ff07f442c... 
+[2026-09-18 13:34:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 88c033dae54ff07f442c... 
+[2026-09-18 13:34:52][INFO] 37 
+[2026-09-18 13:34:52][INFO] 38 
+[2026-09-18 13:34:52][INFO] 36 
+[2026-09-18 13:34:52][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":432,"errno":2}
+[2026-09-18 13:34:52][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\view.php","line":432,"errno":2}
+[2026-09-18 13:34:59][INFO] 37 

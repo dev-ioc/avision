@@ -49,9 +49,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <div class="card h-100 border">
                                         <div class="card-body text-center">
                                             <h6 class="card-title mb-3">
-                                                <?php echo h($salle['batiment_name']); ?> — <?php echo h($salle['name']); ?>
+                                                <?php echo !empty($salle['batiment_name'])
+                                                    ? h($salle['batiment_name']) . ' — ' . h($salle['name'])
+                                                    : h($salle['name']); ?>
                                             </h6>
-
                                             <!-- QR Codes côte à côte -->
                                             <div class="row">
                                                 <!-- QR Code VideoSonic -->
