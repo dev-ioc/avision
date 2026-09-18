@@ -142,44 +142,44 @@ include_once __DIR__ . '/../../includes/navbar.php';
               </div>
             </div>
             <!-- 2FA -->
-            <!-- <div class="mb-3">
-                            <div class="card border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h6 class="text-primary mb-3">
-                                        <i class="bi bi-shield-check"></i> Double authentification (2FA)
-                                    </h6>
+            <div class="mb-3">
+              <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                  <h6 class="text-primary mb-3">
+                    <i class="bi bi-shield-check"></i> Double authentification (2FA)
+                  </h6>
 
-                                    <?php if (!empty($user['totp_enabled'])): ?>
-                                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                                            <div>
-                                                <span class="badge bg-success mb-1">
-                                                    <i class="bi bi-shield-check"></i> Activée
-                                                </span>
-                                                <p class="text-muted small mb-0">
-                                                    Votre compte est protégé par une double authentification.
-                                                </p>
-                                            </div>
-                                            <button type="button" class="btn btn-outline-danger btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#disable2faModal">
-                                                Désactiver
-                                            </button>
-                                        </div>
-                                    <?php else: ?>
-                                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                                            <div>
-                                                <span class="badge bg-light text-muted border mb-1">Désactivée</span>
-                                                <p class="text-muted small mb-0">
-                                                    Ajoutez une couche de sécurité supplémentaire à votre compte.
-                                                </p>
-                                            </div>
-                                            <a href="<?= BASE_URL ?>auth/setup-2fa" class="btn btn-primary btn-sm">
-                                                Activer la 2FA
-                                            </a>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </div> -->
+                  <?php if (!empty($user['totp_enabled'])): ?>
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                      <div>
+                        <span class="badge bg-success mb-1">
+                          <i class="bi bi-shield-check"></i> Activée
+                        </span>
+                        <p class="text-muted small mb-0">
+                          Votre compte est protégé par une double authentification.
+                        </p>
+                      </div>
+                      <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#disable2faModal">
+                        Désactiver
+                      </button>
+                    </div>
+                  <?php else: ?>
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                      <div>
+                        <span class="badge bg-light text-muted border mb-1">Désactivée</span>
+                        <p class="text-muted small mb-0">
+                          Ajoutez une couche de sécurité supplémentaire à votre compte.
+                        </p>
+                      </div>
+                      <a href="<?= BASE_URL ?>auth/setup-2fa" class="btn btn-primary btn-sm">
+                        Activer la 2FA
+                      </a>
+                    </div>
+                  <?php endif; ?>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

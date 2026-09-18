@@ -288,7 +288,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
         <?php endif; ?>
     </div>
-    <!-- <div class="col-lg-12 card shadow-sm mt-4">
+    <div class="col-lg-12 card shadow-sm mt-4">
         <div class="card-body">
             <?php if ($user['email'] == $_SESSION['user']['email']): ?>
                 <?php $totpEnabled = !empty($_SESSION['user']['totp_enabled']); ?>
@@ -325,7 +325,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <?php endif; ?>
             <?php endif; ?>
         </div>
-    </div> -->
+    </div>
     <!-- Ajouter une section pour l'historique des réinitialisations -->
     <div class="row mt-8">
         <div class="col-12">

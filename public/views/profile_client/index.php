@@ -143,7 +143,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
 
             <!-- Sécurité / Double authentification -->
-            <!-- <div class="col-lg-12">
+            <div class="col-lg-12">
                 <div class="card shadow-sm border-0 h-100">
                     <div class="card-body">
 
@@ -184,8 +184,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
                     </div>
                 </div>
-            </div> -->
-            <!-- <div class="card shadow-sm mt-4">
+            </div>
+            <div class="card shadow-sm mt-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h2 class="h5 mb-0">Mes passkeys</h2>
@@ -197,11 +197,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         clé de sécurité.</p>
 
                     <ul id="passkey-list" class="list-group">
-                        <!-- rempli en JS 
+                        <!-- rempli en JS -->
                     </ul>
                     <p id="passkey-empty" class="text-muted small d-none">Aucune passkey enregistrée.</p>
                 </div>
-            </div> -->
+            </div>
 
             <?= csrf_field() ?>
             <script>const BASE_URL = <?php echo json_encode(BASE_URL); ?>;</script>

@@ -63,15 +63,15 @@ if (!defined('BASE_URL')) {
             <div id="webauthn-error" class="alert alert-danger d-none"></div>
 
             <!-- Bouton passkey : affiché uniquement si le navigateur le supporte (JS) -->
-            <!-- <button type="button" id="passkey-login-btn" class="btn btn-outline-primary w-100 mb-3 d-none"
-                            onclick="loginWithPasskey(this)">
-                            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                                class="bi bi-fingerprint me-2" viewBox="0 0 16 16">
-                                <path
-                                    d="M8.06 6.5a.5.5 0 0 1 .5.5c0 .98-.06 1.926-.364 2.717a.5.5 0 0 1-.933-.359C7.5 9.075 7.56 8.34 7.56 7.5a.5.5 0 0 1 .5-.5Z" />
-                            </svg> 
-                            Se connecter avec une passkey
-                        </button> -->
+            <button type="button" id="passkey-login-btn" class="btn btn-outline-primary w-100 mb-3 d-none"
+              onclick="loginWithPasskey(this)">
+              <!-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                class="bi bi-fingerprint me-2" viewBox="0 0 16 16">
+                <path
+                  d="M8.06 6.5a.5.5 0 0 1 .5.5c0 .98-.06 1.926-.364 2.717a.5.5 0 0 1-.933-.359C7.5 9.075 7.56 8.34 7.56 7.5a.5.5 0 0 1 .5-.5Z" />
+              </svg> -->
+              Se connecter avec une passkey
+            </button>
 
             <div class="text-center text-muted small mb-3" id="passkey-divider" style="display:none;">
               <hr class="d-inline-block" style="width:40%; vertical-align:middle;">
