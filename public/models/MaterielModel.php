@@ -73,7 +73,10 @@ class MaterielModel extends BaseModel
             $sql .= " AND sal.id = ?";
             $params[] = $filters['salle_id'];
         }
-
+        if (isset($filters['has_configuration']) && $filters['has_configuration'] !== '' && $filters['has_configuration'] !== null) {
+            $sql .= " AND m.has_configuration = ?";
+            $params[] = (int) $filters['has_configuration'];
+        }
         $sql .= " ORDER BY c.name, s.name, b.name, sal.name, m.marque, m.modele";
 
         $stmt = $this->db->prepare($sql);

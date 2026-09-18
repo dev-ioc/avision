@@ -47,6 +47,8 @@ class MaterielController
             'site_id' => isset($_GET['site_id']) ? (int) $_GET['site_id'] : null,
             'building_id' => isset($_GET['building_id']) ? (int) $_GET['building_id'] : null,
             'salle_id' => isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null,
+            'has_configuration' => isset($_GET['has_configuration']) && $_GET['has_configuration'] !== ''
+                ? (int) $_GET['has_configuration'] : null,
             'search' => isset($_GET['search']) ? $_GET['search'] : null
         ];
 

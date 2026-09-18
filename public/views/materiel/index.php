@@ -44,7 +44,8 @@ $hasAnyFilter = $isGlobalSearch
   || !empty($filters['client_id'])
   || !empty($filters['site_id'])
   || !empty($filters['building_id'])
-  || !empty($filters['salle_id']);
+  || !empty($filters['salle_id'])
+  || isset($filters['has_configuration']) && $filters['has_configuration'] !== null;
 
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
@@ -505,7 +506,15 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
               <select class="form-select bg-body text-body" id="salle_id" name="salle_id">
               </select>
             </div>
-            <div class="col-md-4 d-flex justify-content-end gap-2">
+            <div class="col-md-2">
+              <label for="has_configuration" class="form-label fw-bold mb-0">Configuration</label>
+              <select class="form-select bg-body text-body" id="has_configuration" name="has_configuration">
+                <option value="">Tous</option>
+                <option value="1">Configuré</option>
+                <option value="0">Non configuré</option>
+              </select>
+            </div>
+            <div class="col-md-2 d-flex justify-content-end gap-2">
               <a href="<?= BASE_URL ?>materiel" class="btn btn-outline-secondary">
                 <i class="bi bi-x-lg me-1"></i>Réinitialiser
               </a>
@@ -514,118 +523,6 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         </form>
       </div>
     </div>
-
-    <style>
-      .card,
-      .card-body,
-      .accordion-body,
-      .table-wrapper {
-        overflow: visible !important;
-      }
-
-      .dropdown-menu {
-        z-index: 9999 !important;
-      }
-
-      .handsontable td {
-        transition: background-color 0.2s;
-      }
-
-      .handsontable tr.hidden-row {
-        display: none !important;
-      }
-
-      /* =========================================================
-   TOM SELECT
-   ========================================================= */
-
-      .ts-wrapper {
-        width: 100%;
-      }
-
-      .ts-dropdown {
-        z-index: 99999 !important;
-        box-sizing: border-box !important;
-
-        /* Taille par défaut au premier chargement */
-        width: 350px !important;
-        height: 300px !important;
-
-        min-width: 100px !important;
-        min-height: 50px !important;
-
-        max-width: none !important;
-        max-height: none !important;
-
-        overflow: hidden !important;
-      }
-
-      /* Contenu du dropdown */
-      .ts-dropdown .ts-dropdown-content {
-        width: 100% !important;
-        height: 100% !important;
-
-        max-height: none !important;
-
-        overflow-x: auto !important;
-        overflow-y: auto !important;
-
-        box-sizing: border-box !important;
-      }
-
-      /* Options */
-      .ts-dropdown .option {
-        white-space: normal !important;
-        word-break: break-word;
-      }
-
-      /* Ne pas couper le dropdown */
-      #filterForm,
-      #filterForm .row,
-      #filterForm .col-md-2,
-      #filterForm .ts-wrapper {
-        overflow: visible !important;
-      }
-
-
-      /* =========================================================
-   POIGNÉE DE REDIMENSIONNEMENT
-   ========================================================= */
-
-      .filter-dropdown-resizer {
-        position: absolute;
-
-        right: 0;
-        bottom: 0;
-
-        width: 18px;
-        height: 18px;
-
-        cursor: nwse-resize;
-
-        z-index: 100000;
-
-        background:
-          linear-gradient(135deg,
-            transparent 0%,
-            transparent 45%,
-            #999 46%,
-            #999 52%,
-            transparent 53%),
-          linear-gradient(135deg,
-            transparent 0%,
-            transparent 62%,
-            #999 63%,
-            #999 69%,
-            transparent 70%);
-
-        opacity: 0.7;
-      }
-
-      .filter-dropdown-resizer:hover {
-        opacity: 1;
-      }
-    </style>
 
     <div class="card mb-4" id="columnControlsCard" style="display: <?= $hasAnyFilter ? 'block' : 'none' ?>;">
       <div class="card-body">
@@ -775,122 +672,6 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       </div>
     </div>
   </div>
-  <style>
-    body {
-      background: #f4f6f9;
-      font-family: "Segoe UI", sans-serif;
-    }
-
-    .card-body {
-      overflow: hidden;
-    }
-
-    .table-wrapper {
-      overflow-x: auto;
-    }
-
-    .handsontable {
-      width: auto !important;
-    }
-
-    .handsontable th {
-      background-color: #f1f3f5 !important;
-      color: #495057;
-      font-weight: 600;
-      text-align: center;
-    }
-
-    .handsontable td:nth-child(2) {
-      background-color: #ffffff !important;
-      color: #000000 !important;
-      font-weight: normal;
-    }
-
-    .handsontable td {
-      background-color: #ffffff;
-      border-bottom: 1px solid #dee2e6;
-      padding: 8px;
-      vertical-align: middle;
-    }
-
-    .handsontable td:not(:first-child) {
-      background-color: #f3e1b5 !important;
-    }
-
-    .handsontable td:nth-child(7) {
-      background-color: #f8f9fa !important;
-      text-align: center;
-    }
-
-    .handsontable tbody tr:hover td {
-      background-color: #eef3ff !important;
-    }
-
-    .handsontable td:first-child {
-      background-color: #f8f9fa !important;
-      text-align: center;
-      vertical-align: middle;
-      width: 100px;
-      min-width: 100px;
-    }
-
-    .handsontable td:first-child button {
-      white-space: nowrap;
-      font-size: 12px;
-      padding: 4px 8px;
-    }
-
-    .handsontable col:first-child {
-      width: 100px;
-    }
-
-    .handsontable td.htInvalid {
-      background-color: #ffe0e0 !important;
-      border: 1px solid #dc3545 !important;
-    }
-
-    .drop-zone {
-      border: 2px dashed var(--bs-border-color);
-      border-radius: 8px;
-      padding: 30px;
-      text-align: center;
-      background-color: var(--bs-body-bg);
-      transition: all 0.3s ease;
-      min-height: 150px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .drop-zone.dragover {
-      border-color: var(--bs-primary);
-      background-color: var(--bs-primary-bg-subtle);
-    }
-
-    .file-list {
-      margin-top: 15px;
-      max-height: 200px;
-      overflow-y: auto;
-    }
-
-    .file-item {
-      display: flex;
-      align-items: center;
-      padding: 8px;
-      margin: 3px 0;
-      border-radius: 5px;
-      border: 1px solid var(--bs-border-color);
-    }
-
-    .file-item.valid {
-      background-color: var(--bs-success-bg-subtle);
-    }
-
-    .file-item.invalid {
-      background-color: var(--bs-danger-bg-subtle);
-    }
-  </style>
   <script>
     const baseUrl = '<?= BASE_URL ?>';
     let hotInstances = {};
@@ -992,12 +773,14 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       const siteId = document.getElementById('site_id').value;
       const buildingId = document.getElementById('building_id').value;
       const salleId = document.getElementById('salle_id').value;
+      const hasConfig = document.getElementById('has_configuration').value;
       let url = baseUrl + 'materiel?';
       const params = [];
       if (clientId) params.push('client_id=' + clientId);
       if (siteId) params.push('site_id=' + siteId);
       if (buildingId) params.push('building_id=' + buildingId);
       if (salleId) params.push('salle_id=' + salleId);
+      if (hasConfig !== '') params.push('has_configuration=' + hasConfig);
       window.location.href = url + params.join('&');
     }
     function refreshFilterOptions() {
@@ -1260,6 +1043,8 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
     }
 
     function initAllFilters() {
+      document.getElementById('has_configuration').value = '<?= h($filters['has_configuration'] ?? '') ?>';
+      document.getElementById('has_configuration').addEventListener('change', onFilterChange);
       const currentValues = {
         client_id: '<?= h($filters['client_id'] ?? '') ?>',
         site_id: '<?= h($filters['site_id'] ?? '') ?>',
@@ -1494,10 +1279,12 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       const siteId = document.getElementById('site_id').value;
       const buildingId = document.getElementById('building_id').value;
       const salleId = document.getElementById('salle_id').value;
+      const hasConfig = document.getElementById('has_configuration').value;
       if (clientId) params.set('client_id', clientId);
       if (siteId) params.set('site_id', siteId);
       if (buildingId) params.set('building_id', buildingId);
       if (salleId) params.set('salle_id', salleId);
+      if (hasConfig !== '') params.set('has_configuration', hasConfig);
 
       fetch(baseUrl + 'materiel/search_api?' + params.toString(), { signal: searchAbortController.signal })
         .then(res => res.json())
@@ -1515,6 +1302,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           if (siteId) url.searchParams.set('site_id', siteId); else url.searchParams.delete('site_id');
           if (buildingId) url.searchParams.set('building_id', buildingId); else url.searchParams.delete('building_id');
           if (salleId) url.searchParams.set('salle_id', salleId); else url.searchParams.delete('salle_id');
+          if (hasConfig !== '') url.searchParams.set('has_configuration', hasConfig); else url.searchParams.delete('has_configuration');
           history.pushState({ search: term }, '', url.toString());
         })
         .catch(err => {
@@ -2311,6 +2099,121 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
     });
   </script>
   <style>
+    body {
+      background: #f4f6f9;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    .card-body {
+      overflow: hidden;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    .handsontable {
+      width: auto !important;
+    }
+
+    .handsontable th {
+      background-color: #f1f3f5 !important;
+      color: #495057;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .handsontable td:nth-child(2) {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      font-weight: normal;
+    }
+
+    .handsontable td {
+      background-color: #ffffff;
+      border-bottom: 1px solid #dee2e6;
+      padding: 8px;
+      vertical-align: middle;
+    }
+
+    .handsontable td:not(:first-child) {
+      background-color: #f3e1b5 !important;
+    }
+
+    .handsontable td:nth-child(7) {
+      background-color: #f8f9fa !important;
+      text-align: center;
+    }
+
+    .handsontable tbody tr:hover td {
+      background-color: #eef3ff !important;
+    }
+
+    .handsontable td:first-child {
+      background-color: #f8f9fa !important;
+      text-align: center;
+      vertical-align: middle;
+      width: 100px;
+      min-width: 100px;
+    }
+
+    .handsontable td:first-child button {
+      white-space: nowrap;
+      font-size: 12px;
+      padding: 4px 8px;
+    }
+
+    .handsontable col:first-child {
+      width: 100px;
+    }
+
+    .handsontable td.htInvalid {
+      background-color: #ffe0e0 !important;
+      border: 1px solid #dc3545 !important;
+    }
+
+    .drop-zone {
+      border: 2px dashed var(--bs-border-color);
+      border-radius: 8px;
+      padding: 30px;
+      text-align: center;
+      background-color: var(--bs-body-bg);
+      transition: all 0.3s ease;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .drop-zone.dragover {
+      border-color: var(--bs-primary);
+      background-color: var(--bs-primary-bg-subtle);
+    }
+
+    .file-list {
+      margin-top: 15px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      margin: 3px 0;
+      border-radius: 5px;
+      border: 1px solid var(--bs-border-color);
+    }
+
+    .file-item.valid {
+      background-color: var(--bs-success-bg-subtle);
+    }
+
+    .file-item.invalid {
+      background-color: var(--bs-danger-bg-subtle);
+    }
+
     @keyframes spin {
       from {
         transform: rotate(0deg);
