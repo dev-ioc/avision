@@ -280,10 +280,19 @@ class ContactController
             }
         }
 
+        $contact = $this->contactModel->getContactById($id);
+
+        // Générer le QR VIP si le contact est marqué comme tel
+        require_once __DIR__ . '/../controllers/QRCodeController.php';
+        $qrcodeController = new QRCodeController();
+        $contactQR = (!empty($contact['is_vip'])) ? $qrcodeController->generateQRCodeBase64(
+            $qrcodeController->generateContactQRUrl($contact['id']),
+            130
+        ) : null;
+
         $pageTitle = "Modifier le contact - " . $contact['first_name'] . " " . $contact['last_name'];
         require_once VIEWS_PATH . '/contact/edit.php';
     }
-
     public function delete($id = null)
     {
         // Récupérer d'abord le contact pour obtenir l'ID du client
@@ -345,4 +354,57 @@ class ContactController
         header('Location: ' . BASE_URL . 'dashboard');
         exit;
     }
+    public function exportCsv()
+    {
+        if (!isset($_SESSION['user']) || !canModifyClients()) {
+            $_SESSION['error'] = "Vous n'avez pas les droits nécessaires.";
+            header('Location: ' . BASE_URL . 'dashboard');
+            exit;
+        }
+
+        $clientId = $_GET['client_id'] ?? null;
+        $vipOnly = isset($_GET['vip_only']) && $_GET['vip_only'] == '1';
+
+        $contacts = $this->contactModel->getContactsForExport($clientId ?: null, $vipOnly);
+
+        require_once __DIR__ . '/../controllers/QRCodeController.php';
+        $qrcodeController = new QRCodeController();
+
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="contacts_export_' . date('Y-m-d') . '.csv"');
+
+        $output = fopen('php://output', 'w');
+        fwrite($output, chr(0xEF) . chr(0xBB) . chr(0xBF)); // BOM UTF-8 pour Excel
+        fputcsv($output, ['Société', 'Nom', 'Prénom', 'Email', 'URL'], ';');
+
+        foreach ($contacts as $contact) {
+            $url = !empty($contact['is_vip'])
+                ? $qrcodeController->generateContactQRUrl($contact['id'])
+                : '';
+            fputcsv($output, [
+                $contact['client_name'] ?? '',
+                $contact['last_name'] ?? '',
+                $contact['first_name'] ?? '',
+                $contact['email'] ?? '',
+                $url
+            ], ';');
+        }
+
+        fclose($output);
+        exit;
+    }
+
+    public function exportForm()
+    {
+        if (!isset($_SESSION['user']) || !canModifyClients()) {
+            $_SESSION['error'] = "Vous n'avez pas les droits nécessaires.";
+            header('Location: ' . BASE_URL . 'dashboard');
+            exit;
+        }
+
+        $clients = $this->clientModel->getAllClients();
+        $pageTitle = "Export des contacts";
+        require_once VIEWS_PATH . '/contact/export.php';
+    }
+
 }

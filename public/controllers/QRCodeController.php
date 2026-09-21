@@ -6,6 +6,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 require_once __DIR__ . '/../models/BuildingModel.php';
 require_once __DIR__ . '/../models/QrCodeModel.php';
+require_once __DIR__ . '/../models/ContactModel.php';
+require_once __DIR__ . '/../models/ClientModel.php';
 
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
@@ -19,6 +21,9 @@ class QRCodeController
     private $materielModel;
     private $buildingModel;
     private $qrCodeModel;
+    private $contactModel;
+    private $clientModel;
+
 
     public function __construct()
     {
@@ -29,6 +34,8 @@ class QRCodeController
         $this->materielModel = new MaterielModel($this->db);
         $this->buildingModel = new BuildingModel($this->db);
         $this->qrCodeModel = new QrCodeModel($this->db);
+        $this->contactModel = new ContactModel($this->db);
+        $this->clientModel = new ClientModel($this->db);
     }
 
 
@@ -188,6 +195,20 @@ class QRCodeController
                     header('Location: ' . BASE_URL . 'profileClient');
                 }
                 break;
+
+            case 'contact_vip':
+                if (!isset($_SESSION['user'])) {
+                    $_SESSION['qr_contact_vip'] = $qr['target_id'];
+                    header('Location: ' . BASE_URL . 'auth/login');
+                } else {
+                    header('Location: ' . BASE_URL . 'profileClient');
+                }
+                break;
+
+            default:
+                $_SESSION['error'] = "Type de QR code non reconnu.";
+                header('Location: ' . BASE_URL . 'auth/login');
+                break;
         }
         exit;
     }
@@ -255,5 +276,29 @@ class QRCodeController
         imagedestroy($image);
 
         return 'data:image/png;base64,' . base64_encode($imageData);
+    }
+    public function generateContactQRUrl($contactId)
+    {
+        $code = $this->qrCodeModel->getOrCreateCode('contact_vip', $contactId);
+        return BASE_URL . 'r/' . $code;
+    }
+    /**
+     * Génère la fiche regroupant tous les QR codes VIP d'un client
+     */
+    public function generateVipContacts($clientId)
+    {
+        $this->checkAccess();
+
+        $client = $this->clientModel->getClientById($clientId);
+        if (!$client) {
+            $_SESSION['error'] = "Client non trouvé.";
+            header('Location: ' . BASE_URL . 'dashboard');
+            exit;
+        }
+
+        $contacts = $this->contactModel->getVipContactsByClientId($clientId);
+
+        $pageTitle = "QR Codes VIP - " . $client['name'];
+        require_once VIEWS_PATH . '/qrcode/vip.php';
     }
 }

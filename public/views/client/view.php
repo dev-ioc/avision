@@ -376,7 +376,19 @@ include_once __DIR__ . '/../../includes/navbar.php';
       <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
         <div class="card">
           <div class="card-header py-2">
-            <h5 class="card-title mb-0">Contacts</h5>
+             <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0">Contacts</h5>
+               <div>
+                 <a href="<?php echo BASE_URL; ?>contacts/exportCsv?client_id=<?php echo $client['id']; ?>"
+                    class="btn btn-sm btn-outline-success me-2">
+                    <i class="bi bi-download me-1"></i> Exporter CSV
+                </a>
+                <a href="<?php echo BASE_URL; ?>qrcode/generate/vip/<?php echo $client['id']; ?>"
+                    class="btn btn-sm btn-outline-primary me-2">
+                    <i class="bi bi-qr-code me-1"></i> QR Codes VIP
+                </a>
+               </div>
+            </div>
           </div>
           <div class="card-body py-2">
             <?php if (!empty($contacts)): ?>
@@ -429,9 +441,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                           data-sort-value="<?php echo $contact['has_user_account'] ? '1' : '0'; ?>">
                           <?php if ($contact['has_user_account']): ?>
                             <span class="badge bg-success">Oui</span>
-                            <?php if ($contact['user_username']): ?>
+                            <?php if ($contact['first_name']): ?>
                               <br><small>
-                                <?php echo h($contact['user_username']); ?>
+                                <?php echo h($contact['first_name']); ?>
                               </small>
                             <?php endif; ?>
                           <?php else: ?>

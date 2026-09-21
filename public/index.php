@@ -557,6 +557,12 @@ try {
                         exit;
                     }
                     break;
+                case 'export':
+                    $contactController->exportForm();
+                    break;
+                case 'exportCsv':
+                    $contactController->exportCsv();
+                    break;
                 default:
                     $_SESSION['error'] = "Action non valide pour les contacts.";
                     header('Location: ' . BASE_URL . 'dashboard');
@@ -2238,6 +2244,8 @@ try {
                         $qrcodeController->generateSite($parts[3]);
                     } elseif (isset($parts[2]) && $parts[2] === 'salle' && isset($parts[3])) {
                         $qrcodeController->generateSalle($parts[3]);
+                    } elseif (isset($parts[2]) && $parts[2] === 'vip' && isset($parts[3])) {   // AJOUT
+                        $qrcodeController->generateVipContacts($parts[3]);                     // AJOUT
                     } else {
                         header('Location: ' . BASE_URL . 'dashboard');
                     }
@@ -2256,6 +2264,14 @@ try {
                 $qrcodeController->redirectByCode($action);
             } else {
                 header('Location: ' . BASE_URL . 'dashboard');
+            }
+            break;
+        case 'contact_vip':
+            if (!isset($_SESSION['user'])) {
+                $_SESSION['qr_contact_vip'] = $qr['target_id'];
+                header('Location: ' . BASE_URL . 'auth/login');
+            } else {
+                header('Location: ' . BASE_URL . 'profileClient');
             }
             break;
         case 'stats':

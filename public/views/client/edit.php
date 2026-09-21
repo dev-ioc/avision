@@ -185,29 +185,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 </div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-4">
-                                    <div class="card h-100">
-                                        <div class="card-header py-2 d-flex justify-content-between align-items-center">
-                                            <h6 class="card-title mb-0">QR Code VIP</h6>
-                                            <button type="button" class="btn btn-sm btn-outline-primary"
-                                                onclick="window.print()">
-                                                <i class="bi bi-printer"></i>
-                                            </button>
-                                        </div>
-                                        <div class="card-body py-2 text-center">
-                                            <?php if ($masterQR): ?>
-                                                <img src="<?php echo $masterQR; ?>" alt="QR Code VIP"
-                                                    style="width:130px;height:130px;">
-                                                <small class="text-muted d-block mt-2">Accès direct au tableau de bord
-                                                    client</small>
-                                            <?php else: ?>
-                                                <p class="text-muted mb-0">QR indisponible</p>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card h-100">
+                                <div class="col-12">
+                                    <div class="card">
                                         <div class="card-header py-2">
                                             <h5 class="card-title mb-0">Commentaire</h5>
                                         </div>
@@ -221,354 +200,350 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Onglet Contacts -->
-                <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
-                    <div class="card">
-                        <div class="card-header py-2 d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">Contacts</h5>
-                            <a href="<?php echo BASE_URL; ?>contacts/add/<?php echo $client['id']; ?>"
-                                class="btn btn-sm btn-custom-add">
-                                <i class="bi bi-plus me-1"></i> Ajouter un contact
-                            </a>
-                        </div>
-                        <div class="card-body py-2">
-                            <?php if (!empty($contacts)): ?>
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
+            <!-- Onglet Contacts -->
+            <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+                <div class="card">
+                    <div class="card-header py-2 d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Contacts</h5>
+                        <a href="<?php echo BASE_URL; ?>contacts/add/<?php echo $client['id']; ?>"
+                            class="btn btn-sm btn-custom-add">
+                            <i class="bi bi-plus me-1"></i> Ajouter un contact
+                        </a>
+                    </div>
+                    <div class="card-body py-2">
+                        <?php if (!empty($contacts)): ?>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Prénom</th>
+                                            <th>Nom</th>
+                                            <th>Fonction</th>
+                                            <th>Téléphone fixe</th>
+                                            <th>Mobile</th>
+                                            <th>Email</th>
+                                            <th>Compte utilisateur</th>
+                                            <th>Commentaire</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($contacts as $contact): ?>
                                             <tr>
-                                                <th>Prénom</th>
-                                                <th>Nom</th>
-                                                <th>Fonction</th>
-                                                <th>Téléphone fixe</th>
-                                                <th>Mobile</th>
-                                                <th>Email</th>
-                                                <th>Compte utilisateur</th>
-                                                <th>Commentaire</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($contacts as $contact): ?>
-                                                <tr>
-                                                    <td><?php echo htmlspecialchars($contact['first_name'] ?? ''); ?></td>
-                                                    <td><?php echo htmlspecialchars($contact['last_name'] ?? ''); ?></td>
-                                                    <td><?php echo htmlspecialchars($contact['fonction'] ?? ''); ?></td>
-                                                    <td><?php echo htmlspecialchars($contact['phone1'] ?? ''); ?></td>
-                                                    <td><?php echo htmlspecialchars($contact['phone2'] ?? ''); ?></td>
-                                                    <td><?php echo htmlspecialchars($contact['email'] ?? ''); ?></td>
-                                                    <td>
-                                                        <?php if ($contact['has_user_account']): ?>
-                                                            <span class="badge bg-success">Oui</span>
-                                                            <?php if ($contact['username']): ?>
-                                                                <br><small><?php echo h($contact['username']); ?></small>
-                                                            <?php endif; ?>
-                                                        <?php else: ?>
-                                                            <span class="badge bg-secondary">Non</span>
+                                                <td><?php echo htmlspecialchars($contact['first_name'] ?? ''); ?></td>
+                                                <td><?php echo htmlspecialchars($contact['last_name'] ?? ''); ?></td>
+                                                <td><?php echo htmlspecialchars($contact['fonction'] ?? ''); ?></td>
+                                                <td><?php echo htmlspecialchars($contact['phone1'] ?? ''); ?></td>
+                                                <td><?php echo htmlspecialchars($contact['phone2'] ?? ''); ?></td>
+                                                <td><?php echo htmlspecialchars($contact['email'] ?? ''); ?></td>
+                                                <td>
+                                                    <?php if ($contact['has_user_account']): ?>
+                                                        <span class="badge bg-success">Oui</span>
+                                                        <?php if ($contact['first_name']): ?>
+                                                            <br><small><?php echo h($contact['first_name']); ?></small>
                                                         <?php endif; ?>
-                                                    </td>
-                                                    <td><?php echo htmlspecialchars($contact['comment'] ?? ''); ?></td>
-                                                    <td>
-                                                        <a href="<?php echo BASE_URL; ?>contacts/edit/<?php echo $contact['id']; ?>"
-                                                            class="btn btn-sm btn-outline-warning btn-action" title="Modifier">
-                                                            <i class="bi bi-pencil me-1"></i>
+                                                    <?php else: ?>
+                                                        <span class="badge bg-secondary">Non</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td><?php echo htmlspecialchars($contact['comment'] ?? ''); ?></td>
+                                                <td>
+                                                    <a href="<?php echo BASE_URL; ?>contacts/edit/<?php echo $contact['id']; ?>"
+                                                        class="btn btn-sm btn-outline-warning btn-action" title="Modifier">
+                                                        <i class="bi bi-pencil me-1"></i>
+                                                    </a>
+                                                    <?php if (isAdmin()): ?>
+                                                        <a href="<?php echo BASE_URL; ?>contacts/delete/<?php echo $contact['id']; ?>"
+                                                            class="btn btn-sm btn-outline-danger btn-action" title="Supprimer"
+                                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce contact ?');">
+                                                            <i class="bi bi-trash me-1"></i>
                                                         </a>
-                                                        <?php if (isAdmin()): ?>
-                                                            <a href="<?php echo BASE_URL; ?>contacts/delete/<?php echo $contact['id']; ?>"
-                                                                class="btn btn-sm btn-outline-danger btn-action" title="Supprimer"
-                                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce contact ?');">
-                                                                <i class="bi bi-trash me-1"></i>
-                                                            </a>
-                                                        <?php endif; ?>
-                                                    </td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            <?php else: ?>
-                                <p class="text-muted">Aucun contact trouvé.</p>
-                            <?php endif; ?>
-                        </div>
+                                                    <?php endif; ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php else: ?>
+                            <p class="text-muted">Aucun contact trouvé.</p>
+                        <?php endif; ?>
                     </div>
                 </div>
+            </div>
 
-                <!-- Onglet Sites -->
-                <div class="tab-pane fade" id="sites" role="tabpanel" aria-labelledby="sites-tab">
-                    <div class="card">
-                        <div class="card-header py-2 d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">Sites, Bâtiments et Salles</h5>
-                            <a href="<?php echo BASE_URL; ?>site/add/<?php echo $client['id']; ?>"
-                                class="btn btn-sm btn-custom-add">
-                                <i class="bi bi-plus me-1"></i> Ajouter un site
-                            </a>
-                        </div>
-                        <div class="card-body py-2">
-                            <?php if (!empty($sites)): ?>
-                                <div class="accordion" id="sitesAccordion">
-                                    <?php foreach ($sites as $index => $site): ?>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="siteHeading<?php echo $site['id']; ?>">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#siteCollapse<?php echo $site['id']; ?>" aria-expanded="false"
-                                                    aria-controls="siteCollapse<?php echo $site['id']; ?>" <?php echo (isset($_GET['open_site_id']) && $_GET['open_site_id'] == $site['id']) ? '' : ''; ?>>
-                                                    <i class="bi bi-building me-2 me-1"></i>
-                                                    <?php echo htmlspecialchars($site['name'] ?? ''); ?>
-                                                    <span
-                                                        class="badge bg-primary ms-2"><?php echo count($site['buildings'] ?? []); ?>
-                                                        bâtiment(s)</span>
-                                                    <span class="badge bg-info ms-1"><?php echo count($site['rooms'] ?? []); ?>
-                                                        salle(s)</span>
-                                                </button>
-                                            </h2>
-                                            <div id="siteCollapse<?php echo $site['id']; ?>" class="accordion-collapse collapse"
-                                                aria-labelledby="siteHeading<?php echo $site['id']; ?>"
-                                                data-bs-parent="#sitesAccordion" <?php echo (isset($_GET['open_site_id']) && $_GET['open_site_id'] == $site['id']) ? 'class="accordion-collapse collapse show"' : ''; ?>>
-                                                <div class="accordion-body">
-                                                    <div class="d-flex justify-content-end mb-3 gap-2">
-                                                        <a href="<?php echo BASE_URL; ?>building/add/<?php echo $site['id']; ?>?client_id=<?php echo $client['id']; ?>&return_to=edit"
-                                                            class="btn btn-sm btn-outline-warning" title="Ajouter un bâtiment">
-                                                            <i class="bi bi-building me-1"></i> Ajouter un bâtiment
+            <!-- Onglet Sites -->
+            <div class="tab-pane fade" id="sites" role="tabpanel" aria-labelledby="sites-tab">
+                <div class="card">
+                    <div class="card-header py-2 d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Sites, Bâtiments et Salles</h5>
+                        <a href="<?php echo BASE_URL; ?>site/add/<?php echo $client['id']; ?>"
+                            class="btn btn-sm btn-custom-add">
+                            <i class="bi bi-plus me-1"></i> Ajouter un site
+                        </a>
+                    </div>
+                    <div class="card-body py-2">
+                        <?php if (!empty($sites)): ?>
+                            <div class="accordion" id="sitesAccordion">
+                                <?php foreach ($sites as $index => $site): ?>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="siteHeading<?php echo $site['id']; ?>">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#siteCollapse<?php echo $site['id']; ?>" aria-expanded="false"
+                                                aria-controls="siteCollapse<?php echo $site['id']; ?>" <?php echo (isset($_GET['open_site_id']) && $_GET['open_site_id'] == $site['id']) ? '' : ''; ?>>
+                                                <i class="bi bi-building me-2 me-1"></i>
+                                                <?php echo htmlspecialchars($site['name'] ?? ''); ?>
+                                                <span class="badge bg-primary ms-2"><?php echo count($site['buildings'] ?? []); ?>
+                                                    bâtiment(s)</span>
+                                                <span class="badge bg-info ms-1"><?php echo count($site['rooms'] ?? []); ?>
+                                                    salle(s)</span>
+                                            </button>
+                                        </h2>
+                                        <div id="siteCollapse<?php echo $site['id']; ?>" class="accordion-collapse collapse"
+                                            aria-labelledby="siteHeading<?php echo $site['id']; ?>" data-bs-parent="#sitesAccordion"
+                                            <?php echo (isset($_GET['open_site_id']) && $_GET['open_site_id'] == $site['id']) ? 'class="accordion-collapse collapse show"' : ''; ?>>
+                                            <div class="accordion-body">
+                                                <div class="d-flex justify-content-end mb-3 gap-2">
+                                                    <a href="<?php echo BASE_URL; ?>building/add/<?php echo $site['id']; ?>?client_id=<?php echo $client['id']; ?>&return_to=edit"
+                                                        class="btn btn-sm btn-outline-warning" title="Ajouter un bâtiment">
+                                                        <i class="bi bi-building me-1"></i> Ajouter un bâtiment
+                                                    </a>
+                                                    <a href="<?php echo BASE_URL; ?>qrcode/generate/site/<?php echo $site['id']; ?>"
+                                                        class="btn btn-sm btn-outline-primary btn-action"
+                                                        title="Générer les QR codes des salles">
+                                                        <i class="bi bi-qr-code me-1"></i> QR Codes
+                                                    </a>
+                                                    <a href="<?php echo BASE_URL; ?>site/edit/<?php echo $site['id']; ?>"
+                                                        class="btn btn-sm btn-outline-warning btn-action" title="Modifier le site">
+                                                        <i class="bi bi-pencil me-1"></i>
+                                                    </a>
+                                                    <?php if (isAdmin()): ?>
+                                                        <a href="<?php echo BASE_URL; ?>site/delete/<?php echo $site['id']; ?>"
+                                                            class="btn btn-sm btn-outline-danger btn-action" title="Supprimer le site"
+                                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce site ? Cette action supprimera également tous les bâtiments et salles associés.');">
+                                                            <i class="bi bi-trash me-1"></i>
                                                         </a>
-                                                        <a href="<?php echo BASE_URL; ?>qrcode/generate/site/<?php echo $site['id']; ?>"
-                                                            class="btn btn-sm btn-outline-primary btn-action"
-                                                            title="Générer les QR codes des salles">
-                                                            <i class="bi bi-qr-code me-1"></i> QR Codes
-                                                        </a>
-                                                        <a href="<?php echo BASE_URL; ?>site/edit/<?php echo $site['id']; ?>"
-                                                            class="btn btn-sm btn-outline-warning btn-action"
-                                                            title="Modifier le site">
-                                                            <i class="bi bi-pencil me-1"></i>
-                                                        </a>
-                                                        <?php if (isAdmin()): ?>
-                                                            <a href="<?php echo BASE_URL; ?>site/delete/<?php echo $site['id']; ?>"
-                                                                class="btn btn-sm btn-outline-danger btn-action"
-                                                                title="Supprimer le site"
-                                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce site ? Cette action supprimera également tous les bâtiments et salles associés.');">
-                                                                <i class="bi bi-trash me-1"></i>
-                                                            </a>
-                                                        <?php endif; ?>
+                                                    <?php endif; ?>
+                                                </div>
+
+                                                <!-- Informations du site -->
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <table class="table table-sm">
+                                                            <tr>
+                                                                <th style="width: 30%">Adresse</th>
+                                                                <td><?php echo htmlspecialchars($site['address'] ?? ''); ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Code Postal</th>
+                                                                <td><?php echo htmlspecialchars($site['postal_code'] ?? ''); ?>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Ville</th>
+                                                                <td><?php echo htmlspecialchars($site['city'] ?? ''); ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Téléphone</th>
+                                                                <td><?php echo htmlspecialchars($site['phone'] ?? ''); ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Email</th>
+                                                                <td><?php echo htmlspecialchars($site['email'] ?? ''); ?></td>
+                                                            </tr>
+                                                        </table>
                                                     </div>
-
-                                                    <!-- Informations du site -->
-                                                    <div class="row mb-3">
-                                                        <div class="col-md-6">
-                                                            <table class="table table-sm">
-                                                                <tr>
-                                                                    <th style="width: 30%">Adresse</th>
-                                                                    <td><?php echo htmlspecialchars($site['address'] ?? ''); ?></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>Code Postal</th>
-                                                                    <td><?php echo htmlspecialchars($site['postal_code'] ?? ''); ?>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>Ville</th>
-                                                                    <td><?php echo htmlspecialchars($site['city'] ?? ''); ?></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>Téléphone</th>
-                                                                    <td><?php echo htmlspecialchars($site['phone'] ?? ''); ?></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>Email</th>
-                                                                    <td><?php echo htmlspecialchars($site['email'] ?? ''); ?></td>
-                                                                </tr>
-                                                            </table>
+                                                    <div class="col-md-6">
+                                                        <div class="card">
+                                                            <div class="card-header py-2">
+                                                                <h6 class="card-title mb-0">Commentaire</h6>
+                                                            </div>
+                                                            <div class="card-body py-2">
+                                                                <p class="card-text">
+                                                                    <?php echo nl2br(htmlspecialchars($site['comment'] ?? '')); ?>
+                                                                </p>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <div class="card">
+
+                                                        <?php if (!empty($site['primary_contact'])): ?>
+                                                            <div class="card mt-3">
                                                                 <div class="card-header py-2">
-                                                                    <h6 class="card-title mb-0">Commentaire</h6>
+                                                                    <h6 class="card-title mb-0">Contact principal</h6>
                                                                 </div>
                                                                 <div class="card-body py-2">
-                                                                    <p class="card-text">
-                                                                        <?php echo nl2br(htmlspecialchars($site['comment'] ?? '')); ?>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-
-                                                            <?php if (!empty($site['primary_contact'])): ?>
-                                                                <div class="card mt-3">
-                                                                    <div class="card-header py-2">
-                                                                        <h6 class="card-title mb-0">Contact principal</h6>
-                                                                    </div>
-                                                                    <div class="card-body py-2">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <div class="flex-shrink-0">
-                                                                                <i class="fas fa-user-circle fa-2x text-light"></i>
-                                                                            </div>
-                                                                            <div class="flex-grow-1 ms-3">
-                                                                                <h6 class="mb-1">
-                                                                                    <?php echo htmlspecialchars($site['primary_contact']['first_name'] . ' ' . $site['primary_contact']['last_name']); ?>
-                                                                                </h6>
-                                                                                <?php if (!empty($site['primary_contact']['phone1'])): ?>
-                                                                                    <p class="mb-1 small">
-                                                                                        <i class="fas fa-phone-alt me-1"></i>
-                                                                                        <?php echo htmlspecialchars($site['primary_contact']['phone1']); ?>
-                                                                                    </p>
-                                                                                <?php endif; ?>
-                                                                                <?php if (!empty($site['primary_contact']['email'])): ?>
-                                                                                    <p class="mb-0 small">
-                                                                                        <i class="bi bi-envelope me-1 me-1"></i>
-                                                                                        <?php echo htmlspecialchars($site['primary_contact']['email']); ?>
-                                                                                    </p>
-                                                                                <?php endif; ?>
-                                                                            </div>
+                                                                    <div class="d-flex align-items-center">
+                                                                        <div class="flex-shrink-0">
+                                                                            <i class="fas fa-user-circle fa-2x text-light"></i>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                            <?php endif; ?>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Bâtiments du site -->
-                                                    <div class="mt-4">
-                                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                                            <h6 class="mb-0">
-                                                                <i class="bi bi-building text-warning me-2"></i>Bâtiments
-                                                            </h6>
-                                                        </div>
-
-                                                        <?php if (!empty($site['buildings'])): ?>
-                                                            <?php foreach ($site['buildings'] as $building): ?>
-                                                                <div class="card mb-3">
-                                                                    <div
-                                                                        class="card-header py-2 d-flex justify-content-between align-items-center">
-                                                                        <strong><?php echo h($building['name']); ?></strong>
-                                                                        <div class="btn-group">
-                                                                            <a href="<?php echo BASE_URL; ?>building/edit/<?php echo $building['id']; ?>?return_to=edit&client_id=<?php echo $client['id']; ?>"
-                                                                                class="btn btn-sm btn-outline-warning"
-                                                                                title="Modifier le bâtiment">
-                                                                                <i class="bi bi-pencil"></i>
-                                                                            </a>
-                                                                            <?php if (isAdmin()): ?>
-                                                                                <button type="button" class="btn btn-sm btn-outline-danger"
-                                                                                    title="Supprimer le bâtiment"
-                                                                                    onclick="confirmDeleteBuilding(<?php echo $building['id']; ?>, '<?php echo h($building['name']); ?>', <?php echo $client['id']; ?>)">
-                                                                                    <i class="bi bi-trash"></i>
-                                                                                </button>
+                                                                        <div class="flex-grow-1 ms-3">
+                                                                            <h6 class="mb-1">
+                                                                                <?php echo htmlspecialchars($site['primary_contact']['first_name'] . ' ' . $site['primary_contact']['last_name']); ?>
+                                                                            </h6>
+                                                                            <?php if (!empty($site['primary_contact']['phone1'])): ?>
+                                                                                <p class="mb-1 small">
+                                                                                    <i class="fas fa-phone-alt me-1"></i>
+                                                                                    <?php echo htmlspecialchars($site['primary_contact']['phone1']); ?>
+                                                                                </p>
                                                                             <?php endif; ?>
-                                                                            <button type="button"
-                                                                                class="btn btn-sm btn-outline-info toggle-rooms-btn"
-                                                                                data-building-id="<?php echo $building['id']; ?>"
-                                                                                title="Afficher/Masquer les salles">
-                                                                                <i class="bi bi-chevron-down"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="card-body py-2">
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <strong>Commentaire :</strong>
-                                                                                <?php echo nl2br(htmlspecialchars($building['comment'] ?? '')); ?>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="building-rooms-<?php echo $building['id']; ?>"
-                                                                        style="display: none;">
-                                                                        <div class="card-body py-2 bg-light">
-                                                                            <div
-                                                                                class="d-flex justify-content-between align-items-center mb-2">
-                                                                                <h6 class="mb-0">
-                                                                                    <i class="bi bi-door-open text-info me-2"></i>Salles
-                                                                                </h6>
-                                                                                <a href="<?php echo BASE_URL; ?>room/add/0?building_id=<?php echo $building['id']; ?>&client_id=<?php echo $client['id']; ?>&return_to=edit"
-                                                                                    class="btn btn-sm btn-custom-add">
-                                                                                    <i class="bi bi-plus me-1"></i> Ajouter une salle
-                                                                                </a>
-                                                                            </div>
-                                                                            <?php if (!empty($building['rooms'])): ?>
-                                                                                <div class="table-responsive">
-                                                                                    <table class="table table-sm table-striped">
-                                                                                        <thead>
-                                                                                            <tr>
-                                                                                                <th>Nom</th>
-                                                                                                <th>Contact principal</th>
-                                                                                                <th>Commentaire</th>
-                                                                                                <th>Actions</th>
-                                                                                            </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                            <?php foreach ($building['rooms'] as $room): ?>
-                                                                                                <tr>
-                                                                                                    <td><?php echo htmlspecialchars($room['name'] ?? ''); ?>
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        <?php
-                                                                                                        if (!empty($room['first_name']) && !empty($room['last_name'])) {
-                                                                                                            echo htmlspecialchars($room['first_name'] . ' ' . $room['last_name']);
-                                                                                                        } else {
-                                                                                                            echo '<span class="text-muted">Aucun contact</span>';
-                                                                                                        }
-                                                                                                        ?>
-                                                                                                    </td>
-                                                                                                    <td><?php echo nl2br(htmlspecialchars($room['comment'] ?? '')); ?>
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        <div class="btn-group">
-                                                                                                            <a href="<?php echo BASE_URL; ?>room/edit/<?php echo $room['id']; ?>"
-                                                                                                                class="btn btn-sm btn-outline-warning"
-                                                                                                                title="Modifier la salle">
-                                                                                                                <i class="bi bi-pencil"></i>
-                                                                                                            </a>
-                                                                                                            <?php if (isAdmin()): ?>
-                                                                                                                <a href="<?php echo BASE_URL; ?>room/delete/<?php echo $room['id']; ?>"
-                                                                                                                    class="btn btn-sm btn-outline-danger"
-                                                                                                                    title="Supprimer la salle"
-                                                                                                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette salle ?');">
-                                                                                                                    <i class="bi bi-trash"></i>
-                                                                                                                </a>
-                                                                                                            <?php endif; ?>
-                                                                                                        </div>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            <?php endforeach; ?>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-                                                                            <?php else: ?>
-                                                                                <div class="alert alert-info mt-2">
-                                                                                    Aucune salle dans ce bâtiment.
-                                                                                    <a href="<?php echo BASE_URL; ?>room/add/0?building_id=<?php echo $building['id']; ?>&client_id=<?php echo $client['id']; ?>&return_to=edit"
-                                                                                        class="alert-link">
-                                                                                        Ajouter une salle
-                                                                                    </a>
-                                                                                </div>
+                                                                            <?php if (!empty($site['primary_contact']['email'])): ?>
+                                                                                <p class="mb-0 small">
+                                                                                    <i class="bi bi-envelope me-1 me-1"></i>
+                                                                                    <?php echo htmlspecialchars($site['primary_contact']['email']); ?>
+                                                                                </p>
                                                                             <?php endif; ?>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            <?php endforeach; ?>
-                                                        <?php else: ?>
-                                                            <div class="alert alert-info">
-                                                                <i class="bi bi-info-circle me-2"></i> Aucun bâtiment pour ce site.
-                                                                <a href="<?php echo BASE_URL; ?>building/add/<?php echo $site['id']; ?>?client_id=<?php echo $client['id']; ?>&return_to=edit"
-                                                                    class="alert-link">
-                                                                    Ajouter un bâtiment
-                                                                </a>
                                                             </div>
                                                         <?php endif; ?>
                                                     </div>
                                                 </div>
+
+                                                <!-- Bâtiments du site -->
+                                                <div class="mt-4">
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <h6 class="mb-0">
+                                                            <i class="bi bi-building text-warning me-2"></i>Bâtiments
+                                                        </h6>
+                                                    </div>
+
+                                                    <?php if (!empty($site['buildings'])): ?>
+                                                        <?php foreach ($site['buildings'] as $building): ?>
+                                                            <div class="card mb-3">
+                                                                <div
+                                                                    class="card-header py-2 d-flex justify-content-between align-items-center">
+                                                                    <strong><?php echo h($building['name']); ?></strong>
+                                                                    <div class="btn-group">
+                                                                        <a href="<?php echo BASE_URL; ?>building/edit/<?php echo $building['id']; ?>?return_to=edit&client_id=<?php echo $client['id']; ?>"
+                                                                            class="btn btn-sm btn-outline-warning"
+                                                                            title="Modifier le bâtiment">
+                                                                            <i class="bi bi-pencil"></i>
+                                                                        </a>
+                                                                        <?php if (isAdmin()): ?>
+                                                                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                                                                title="Supprimer le bâtiment"
+                                                                                onclick="confirmDeleteBuilding(<?php echo $building['id']; ?>, '<?php echo h($building['name']); ?>', <?php echo $client['id']; ?>)">
+                                                                                <i class="bi bi-trash"></i>
+                                                                            </button>
+                                                                        <?php endif; ?>
+                                                                        <button type="button"
+                                                                            class="btn btn-sm btn-outline-info toggle-rooms-btn"
+                                                                            data-building-id="<?php echo $building['id']; ?>"
+                                                                            title="Afficher/Masquer les salles">
+                                                                            <i class="bi bi-chevron-down"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-body py-2">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <strong>Commentaire :</strong>
+                                                                            <?php echo nl2br(htmlspecialchars($building['comment'] ?? '')); ?>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="building-rooms-<?php echo $building['id']; ?>"
+                                                                    style="display: none;">
+                                                                    <div class="card-body py-2 bg-light">
+                                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                                            <h6 class="mb-0">
+                                                                                <i class="bi bi-door-open text-info me-2"></i>Salles
+                                                                            </h6>
+                                                                            <a href="<?php echo BASE_URL; ?>room/add/0?building_id=<?php echo $building['id']; ?>&client_id=<?php echo $client['id']; ?>&return_to=edit"
+                                                                                class="btn btn-sm btn-custom-add">
+                                                                                <i class="bi bi-plus me-1"></i> Ajouter une salle
+                                                                            </a>
+                                                                        </div>
+                                                                        <?php if (!empty($building['rooms'])): ?>
+                                                                            <div class="table-responsive">
+                                                                                <table class="table table-sm table-striped">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th>Nom</th>
+                                                                                            <th>Contact principal</th>
+                                                                                            <th>Commentaire</th>
+                                                                                            <th>Actions</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <?php foreach ($building['rooms'] as $room): ?>
+                                                                                            <tr>
+                                                                                                <td><?php echo htmlspecialchars($room['name'] ?? ''); ?>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <?php
+                                                                                                    if (!empty($room['first_name']) && !empty($room['last_name'])) {
+                                                                                                        echo htmlspecialchars($room['first_name'] . ' ' . $room['last_name']);
+                                                                                                    } else {
+                                                                                                        echo '<span class="text-muted">Aucun contact</span>';
+                                                                                                    }
+                                                                                                    ?>
+                                                                                                </td>
+                                                                                                <td><?php echo nl2br(htmlspecialchars($room['comment'] ?? '')); ?>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <div class="btn-group">
+                                                                                                        <a href="<?php echo BASE_URL; ?>room/edit/<?php echo $room['id']; ?>"
+                                                                                                            class="btn btn-sm btn-outline-warning"
+                                                                                                            title="Modifier la salle">
+                                                                                                            <i class="bi bi-pencil"></i>
+                                                                                                        </a>
+                                                                                                        <?php if (isAdmin()): ?>
+                                                                                                            <a href="<?php echo BASE_URL; ?>room/delete/<?php echo $room['id']; ?>"
+                                                                                                                class="btn btn-sm btn-outline-danger"
+                                                                                                                title="Supprimer la salle"
+                                                                                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette salle ?');">
+                                                                                                                <i class="bi bi-trash"></i>
+                                                                                                            </a>
+                                                                                                        <?php endif; ?>
+                                                                                                    </div>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        <?php endforeach; ?>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        <?php else: ?>
+                                                                            <div class="alert alert-info mt-2">
+                                                                                Aucune salle dans ce bâtiment.
+                                                                                <a href="<?php echo BASE_URL; ?>room/add/0?building_id=<?php echo $building['id']; ?>&client_id=<?php echo $client['id']; ?>&return_to=edit"
+                                                                                    class="alert-link">
+                                                                                    Ajouter une salle
+                                                                                </a>
+                                                                            </div>
+                                                                        <?php endif; ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    <?php else: ?>
+                                                        <div class="alert alert-info">
+                                                            <i class="bi bi-info-circle me-2"></i> Aucun bâtiment pour ce site.
+                                                            <a href="<?php echo BASE_URL; ?>building/add/<?php echo $site['id']; ?>?client_id=<?php echo $client['id']; ?>&return_to=edit"
+                                                                class="alert-link">
+                                                                Ajouter un bâtiment
+                                                            </a>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </div>
                                             </div>
                                         </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            <?php else: ?>
-                                <p class="text-muted">Aucun site trouvé.</p>
-                                <div class="text-center mt-3">
-                                    <a href="<?php echo BASE_URL; ?>site/add/<?php echo $client['id']; ?>"
-                                        class="btn btn-primary">
-                                        <i class="bi bi-plus me-1"></i> Ajouter un premier site
-                                    </a>
-                                </div>
-                            <?php endif; ?>
-                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php else: ?>
+                            <p class="text-muted">Aucun site trouvé.</p>
+                            <div class="text-center mt-3">
+                                <a href="<?php echo BASE_URL; ?>site/add/<?php echo $client['id']; ?>" class="btn btn-primary">
+                                    <i class="bi bi-plus me-1"></i> Ajouter un premier site
+                                </a>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
+            </div>
         </form>
     <?php else: ?>
         <div class="alert alert-warning">
