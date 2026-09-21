@@ -372,99 +372,108 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
       </div>
 
-      <!-- Onglet Contacts -->
+     <!-- Onglet Contacts -->
       <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
-        <div class="card">
-          <div class="card-header py-2">
-             <div class="d-flex justify-content-between align-items-center">
-              <h5 class="card-title mb-0">Contacts</h5>
-               <div>
-                 <a href="<?php echo BASE_URL; ?>contacts/exportCsv?client_id=<?php echo $client['id']; ?>"
-                    class="btn btn-sm btn-outline-success me-2">
-                    <i class="bi bi-download me-1"></i> Exporter CSV
-                </a>
-                <a href="<?php echo BASE_URL; ?>qrcode/generate/vip/<?php echo $client['id']; ?>"
-                    class="btn btn-sm btn-outline-primary me-2">
-                    <i class="bi bi-qr-code me-1"></i> QR Codes VIP
-                </a>
-               </div>
-            </div>
-          </div>
-          <div class="card-body py-2">
-            <?php if (!empty($contacts)): ?>
-              <div class="table-responsive">
-                <table class="table table-striped" id="contactsTable">
-                  <thead>
-                    <tr>
-                      <th class="sortable" data-sort="first_name">Prénom <i class="bi bi-arrow-down-up sort-icon"></i>
-                      </th>
-                      <th class="sortable" data-sort="last_name">Nom <i class="bi bi-arrow-down-up sort-icon"></i></th>
-                      <th class="sortable" data-sort="fonction">Fonction <i class="bi bi-arrow-down-up sort-icon"></i>
-                      </th>
-                      <th class="sortable" data-sort="phone1">Téléphone fixe <i class="bi bi-arrow-down-up sort-icon"></i>
-                      </th>
-                      <th class="sortable" data-sort="phone2">Mobile <i class="bi bi-arrow-down-up sort-icon"></i></th>
-                      <th class="sortable" data-sort="email">Email <i class="bi bi-arrow-down-up sort-icon"></i></th>
-                      <th class="sortable" data-sort="has_user_account">Compte utilisateur <i
-                          class="bi bi-arrow-down-up sort-icon"></i></th>
-                      <th class="sortable" data-sort="is_vip">VIP <i class="bi bi-arrow-down-up sort-icon"></i></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php foreach ($contacts as $contact): ?>
-                      <tr>
-                        <td data-label="Prénom"
-                          data-sort-value="<?php echo htmlspecialchars(strtolower($contact['first_name'] ?? '')); ?>">
-                          <?php echo htmlspecialchars($contact['first_name'] ?? ''); ?>
-                        </td>
-                        <td data-label="Nom"
-                          data-sort-value="<?php echo htmlspecialchars(strtolower($contact['last_name'] ?? '')); ?>">
-                          <?php echo htmlspecialchars($contact['last_name'] ?? ''); ?>
-                        </td>
-                        <td data-label="Fonction"
-                          data-sort-value="<?php echo htmlspecialchars(strtolower($contact['fonction'] ?? '')); ?>">
-                          <?php echo htmlspecialchars($contact['fonction'] ?? ''); ?>
-                        </td>
-                        <td data-label="Téléphone fixe"
-                          data-sort-value="<?php echo htmlspecialchars(strtolower($contact['phone1'] ?? '')); ?>">
-                          <?php echo htmlspecialchars($contact['phone1'] ?? ''); ?>
-                        </td>
-                        <td data-label="Mobile"
-                          data-sort-value="<?php echo htmlspecialchars(strtolower($contact['phone2'] ?? '')); ?>">
-                          <?php echo htmlspecialchars($contact['phone2'] ?? ''); ?>
-                        </td>
-                        <td data-label="Email"
-                          data-sort-value="<?php echo htmlspecialchars(strtolower($contact['email'] ?? '')); ?>">
-                          <?php echo htmlspecialchars($contact['email'] ?? ''); ?>
-                        </td>
-                        <td data-label="Compte utilisateur"
-                          data-sort-value="<?php echo $contact['has_user_account'] ? '1' : '0'; ?>">
-                          <?php if ($contact['has_user_account']): ?>
-                            <span class="badge bg-success">Oui</span>
-                            <?php if ($contact['first_name']): ?>
-                              <br><small>
-                                <?php echo h($contact['first_name']); ?>
-                              </small>
-                            <?php endif; ?>
-                          <?php else: ?>
-                            <span class="badge bg-secondary">Non</span>
-                          <?php endif; ?>
-                        </td>
-                        <td data-label="VIP" data-sort-value="<?php echo !empty($contact['is_vip']) ? '1' : '0'; ?>">
-                          <?php if (!empty($contact['is_vip'])): ?>
-                            <i class="bi bi-check-circle-fill text-success" title="Contact VIP"></i>
-                          <?php endif; ?>
-                        </td>
-                      </tr>
-                    <?php endforeach; ?>
-                  </tbody>
-                </table>
+          <div class="card">
+              <div class="card-header py-2">
+                  <div class="d-flex justify-content-between align-items-center">
+                      <h5 class="card-title mb-0">Contacts</h5>
+                      <div class="d-flex align-items-center gap-2">
+                          <form action="<?php echo BASE_URL; ?>contacts/exportCsv" method="GET"
+                              class="d-flex align-items-center gap-2 mb-0">
+                              <input type="hidden" name="client_id" value="<?php echo $client['id']; ?>">
+                              <div class="form-check form-check-inline mb-0">
+                                  <input class="form-check-input" type="checkbox" id="vip_only_client" name="vip_only" value="1">
+                                  <label class="form-check-label small" for="vip_only_client">
+                                      Uniquement les contacts VIP dans l'export
+                                  </label>
+                              </div>
+                              <button type="submit" class="btn btn-sm btn-outline-success">
+                                  <i class="bi bi-download me-1"></i> Exporter CSV
+                              </button>
+                          </form>
+                          <a href="<?php echo BASE_URL; ?>qrcode/generate/vip/<?php echo $client['id']; ?>"
+                              class="btn btn-sm btn-outline-primary">
+                              <i class="bi bi-qr-code me-1"></i> QR Codes VIP
+                          </a>
+                      </div>
+                  </div>
               </div>
-            <?php else: ?>
-              <p class="text-muted">Aucun contact enregistré pour ce client.</p>
-            <?php endif; ?>
+              <div class="card-body py-2">
+                  <?php if (!empty($contacts)): ?>
+                      <div class="table-responsive">
+                          <table class="table table-striped" id="contactsTable">
+                              <thead>
+                                  <tr>
+                                      <th class="sortable" data-sort="first_name">Prénom <i class="bi bi-arrow-down-up sort-icon"></i>
+                                      </th>
+                                      <th class="sortable" data-sort="last_name">Nom <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                                      <th class="sortable" data-sort="fonction">Fonction <i class="bi bi-arrow-down-up sort-icon"></i>
+                                      </th>
+                                      <th class="sortable" data-sort="phone1">Téléphone fixe <i class="bi bi-arrow-down-up sort-icon"></i>
+                                      </th>
+                                      <th class="sortable" data-sort="phone2">Mobile <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                                      <th class="sortable" data-sort="email">Email <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                                      <th class="sortable" data-sort="has_user_account">Compte utilisateur <i
+                                              class="bi bi-arrow-down-up sort-icon"></i></th>
+                                      <th class="sortable" data-sort="is_vip">VIP <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <?php foreach ($contacts as $contact): ?>
+                                      <tr>
+                                          <td data-label="Prénom"
+                                              data-sort-value="<?php echo htmlspecialchars(strtolower($contact['first_name'] ?? '')); ?>">
+                                              <?php echo htmlspecialchars($contact['first_name'] ?? ''); ?>
+                                          </td>
+                                          <td data-label="Nom"
+                                              data-sort-value="<?php echo htmlspecialchars(strtolower($contact['last_name'] ?? '')); ?>">
+                                              <?php echo htmlspecialchars($contact['last_name'] ?? ''); ?>
+                                          </td>
+                                          <td data-label="Fonction"
+                                              data-sort-value="<?php echo htmlspecialchars(strtolower($contact['fonction'] ?? '')); ?>">
+                                              <?php echo htmlspecialchars($contact['fonction'] ?? ''); ?>
+                                          </td>
+                                          <td data-label="Téléphone fixe"
+                                              data-sort-value="<?php echo htmlspecialchars(strtolower($contact['phone1'] ?? '')); ?>">
+                                              <?php echo htmlspecialchars($contact['phone1'] ?? ''); ?>
+                                          </td>
+                                          <td data-label="Mobile"
+                                              data-sort-value="<?php echo htmlspecialchars(strtolower($contact['phone2'] ?? '')); ?>">
+                                              <?php echo htmlspecialchars($contact['phone2'] ?? ''); ?>
+                                          </td>
+                                          <td data-label="Email"
+                                              data-sort-value="<?php echo htmlspecialchars(strtolower($contact['email'] ?? '')); ?>">
+                                              <?php echo htmlspecialchars($contact['email'] ?? ''); ?>
+                                          </td>
+                                          <td data-label="Compte utilisateur"
+                                              data-sort-value="<?php echo $contact['has_user_account'] ? '1' : '0'; ?>">
+                                              <?php if ($contact['has_user_account']): ?>
+                                                  <span class="badge bg-success">Oui</span>
+                                                  <?php if ($contact['first_name']): ?>
+                                                      <br><small>
+                                                          <?php echo h($contact['first_name']); ?>
+                                                      </small>
+                                                  <?php endif; ?>
+                                              <?php else: ?>
+                                                  <span class="badge bg-secondary">Non</span>
+                                              <?php endif; ?>
+                                          </td>
+                                          <td data-label="VIP" data-sort-value="<?php echo !empty($contact['is_vip']) ? '1' : '0'; ?>">
+                                              <?php if (!empty($contact['is_vip'])): ?>
+                                                  <i class="bi bi-check-circle-fill text-success" title="Contact VIP"></i>
+                                              <?php endif; ?>
+                                          </td>
+                                      </tr>
+                                  <?php endforeach; ?>
+                              </tbody>
+                          </table>
+                      </div>
+                  <?php else: ?>
+                      <p class="text-muted">Aucun contact enregistré pour ce client.</p>
+                  <?php endif; ?>
+              </div>
           </div>
-        </div>
       </div>
       <div class="tab-pane fade" id="sites" role="tabpanel" aria-labelledby="sites-tab">
         <div class="card">

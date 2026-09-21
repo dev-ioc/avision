@@ -140653,3 +140653,38 @@ Quant à l’écran n°1, il est HS
 [2026-09-21 11:14:15][INFO] 37 
 [2026-09-21 11:14:15][INFO] 38 
 [2026-09-21 11:14:15][INFO] 36 
+[2026-09-21 13:32:02][INFO] 37 
+[2026-09-21 13:32:02][INFO] 38 
+[2026-09-21 13:32:02][INFO] 36 
+[2026-09-21 13:36:43][INFO] 37 
+[2026-09-21 13:36:43][INFO] 38 
+[2026-09-21 13:36:43][INFO] 36 
+[2026-09-21 13:39:05][DEBUG] Redirection vers login - URL sauvegardée: contacts/exportCsv?vip_only=1 (Session ID: vvdime4s4sleknrs34j3u8tvkf) 
+[2026-09-21 13:43:28][INFO] 37 
+[2026-09-21 13:43:28][INFO] 38 
+[2026-09-21 13:43:28][INFO] 36 
+[2026-09-21 13:44:22][WARNING] Undefined variable $clients {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\qrcode\\vip.php","line":22,"errno":2}
+[2026-09-21 13:44:22][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\qrcode\\vip.php","line":22,"errno":2}
+[2026-09-21 13:44:43][INFO] 37 
+[2026-09-21 13:44:43][INFO] 38 
+[2026-09-21 13:44:43][INFO] 36 
+[2026-09-21 13:44:45][WARNING] Undefined variable $clients {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\qrcode\\vip.php","line":22,"errno":2}
+[2026-09-21 13:44:45][WARNING] foreach() argument must be of type array|object, null given {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\qrcode\\vip.php","line":22,"errno":2}
+[2026-09-21 13:44:47][INFO] 37 
+[2026-09-21 13:44:47][INFO] 38 
+[2026-09-21 13:44:47][INFO] 36 
+[2026-09-21 13:47:08][INFO] 37 
+[2026-09-21 13:47:08][INFO] 38 
+[2026-09-21 13:47:08][INFO] 36 
+[2026-09-21 13:47:12][INFO] 37 
+[2026-09-21 13:47:12][INFO] 38 
+[2026-09-21 13:47:12][INFO] 36 
+[2026-09-21 13:47:51][INFO] 37 
+[2026-09-21 13:47:51][INFO] 38 
+[2026-09-21 13:47:51][INFO] 36 
+[2026-09-21 13:48:06][INFO] 37 
+[2026-09-21 13:48:06][INFO] 38 
+[2026-09-21 13:48:06][INFO] 36 
+[2026-09-21 13:50:01][INFO] 37 
+[2026-09-21 13:50:01][INFO] 38 
+[2026-09-21 13:50:01][INFO] 36 
