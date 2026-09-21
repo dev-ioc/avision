@@ -140691,3 +140691,19 @@ Quant à l’écran n°1, il est HS
 [2026-09-21 13:57:16][INFO] 37 
 [2026-09-21 13:57:16][INFO] 38 
 [2026-09-21 13:57:16][INFO] 36 
+[2026-09-21 14:03:22][INFO] 37 
+[2026-09-21 14:03:22][INFO] 38 
+[2026-09-21 14:03:22][INFO] 36 
+[2026-09-21 14:04:51][INFO] 37 
+[2026-09-21 14:04:51][INFO] 38 
+[2026-09-21 14:04:51][INFO] 36 
+[2026-09-21 14:31:07][INFO] 37 
+[2026-09-21 14:31:07][INFO] 38 
+[2026-09-21 14:31:07][INFO] 36 
+[2026-09-21 15:30:32][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-21 15:30:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 0bb59d7fe973a3e661a3... 
+[2026-09-21 15:30:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 0bb59d7fe973a3e661a3... 
+[2026-09-21 15:30:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 0bb59d7fe973a3e661a3... 
+[2026-09-21 15:30:36][INFO] 37 
+[2026-09-21 15:30:36][INFO] 38 
+[2026-09-21 15:30:36][INFO] 36 
