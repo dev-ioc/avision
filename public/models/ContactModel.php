@@ -13,7 +13,8 @@ class ContactModel extends BaseModel
     {
         $query = "SELECT 
                     c.*,
-                    u.email as user_email
+                    u.email as user_email,
+                    c.first_name
                 FROM contacts c
                 LEFT JOIN users u ON c.user_id = u.id
                 WHERE c.client_id = :client_id AND c.status = 1
@@ -234,5 +235,44 @@ class ContactModel extends BaseModel
             error_log("Erreur lors de la suppression du contact: " . $e->getMessage());
             return false;
         }
+    }
+    public function getContactsForExport($clientId = null, $vipOnly = false)
+    {
+        $query = "SELECT c.*, cl.name as client_name
+              FROM contacts c
+              INNER JOIN clients cl ON c.client_id = cl.id
+              WHERE c.status = 1";
+
+        $params = [];
+        if ($clientId) {
+            $query .= " AND c.client_id = :client_id";
+            $params[':client_id'] = $clientId;
+        }
+        if ($vipOnly) {
+            $query .= " AND c.is_vip = 1";
+        }
+        $query .= " ORDER BY cl.name, c.last_name, c.first_name";
+
+        $stmt = $this->db->prepare($query);
+        foreach ($params as $key => $val) {
+            $stmt->bindValue($key, $val, PDO::PARAM_INT);
+        }
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getVipContactsByClientId($clientId)
+    {
+        $query = "SELECT 
+                c.*,
+                u.email as user_email
+            FROM contacts c
+            LEFT JOIN users u ON c.user_id = u.id
+            WHERE c.client_id = :client_id AND c.status = 1 AND c.is_vip = 1
+            ORDER BY c.last_name, c.first_name";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':client_id', $clientId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -821,7 +821,10 @@ class AuthController
             unset($_SESSION['qr_client_master']);
             return BASE_URL . 'profileClient';
         }
-
+        if (isset($_SESSION['qr_contact_vip'])) {
+            unset($_SESSION['qr_contact_vip']);
+            return BASE_URL . 'profileClient';
+        }
         // === Priorité 2 : QR salle (staff/client) — logique existante ===
         if (isset($_SESSION['qr_salle']) && isset($_SESSION['qr_type'])) {
             return BASE_URL . 'qrcode/redirect';

@@ -121,6 +121,22 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         <i class="bi bi-star-fill text-warning me-1"></i> Contact VIP
                                     </label>
                                 </div>
+
+                                                                <?php if (!empty($contact['is_vip']) && !empty($contactQR)): ?>
+                                    <div class="card mb-3">
+                                        <div class="card-header py-2 d-flex justify-content-between align-items-center">
+                                            <h6 class="card-title mb-0">QR Code VIP</h6>
+                                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.print()">
+                                                <i class="bi bi-printer"></i>
+                                            </button>
+                                        </div>
+                                        <div class="card-body py-2 text-center">
+                                            <img src="<?php echo $contactQR; ?>" alt="QR Code VIP"
+                                                style="width:130px;height:130px;">
+                                            <small class="text-muted d-block mt-2">Accès direct au tableau de bord client</small>
+                                        </div>
+                                    </div>
+                                                                <?php endif; ?>
                                 <!-- Sous-formulaire pour la création de compte utilisateur -->
                                 <div id="userAccountForm" class="card mt-3 mb-3"
                                     style="display: <?php echo $contact['has_user_account'] ? 'block' : 'none'; ?>;">
@@ -128,11 +144,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         <h5 class="card-title mb-0">Compte utilisateur</h5>
                                     </div>
                                     <div class="card-body">
-                                            <?php if ($contact['user_id']): ?>
+                                        <?php if ($contact['user_id']): ?>
                                             <div class="alert alert-info">
                                                 <i class="bi bi-info-circle me-1"></i> Ce contact a déjà un compte utilisateur.
                                             </div>
-                                            <?php else: ?>
+                                        <?php else: ?>
                                             <div class="mb-3">
                                                 <label for="username" class="form-label">Nom d'utilisateur <span
                                                         class="text-danger">*</span></label>
@@ -163,7 +179,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <?php endif; ?>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             <?php endif; ?>
