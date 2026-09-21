@@ -362,6 +362,10 @@ class ContactController
             exit;
         }
 
+        // Empêcher toute notice/warning PHP de polluer le flux CSV
+        $previousDisplayErrors = ini_set('display_errors', '0');
+        error_reporting(0);
+
         $clientId = $_GET['client_id'] ?? null;
         $vipOnly = isset($_GET['vip_only']) && $_GET['vip_only'] == '1';
 
@@ -370,11 +374,16 @@ class ContactController
         require_once __DIR__ . '/../controllers/QRCodeController.php';
         $qrcodeController = new QRCodeController();
 
+        // Vider tout buffer de sortie déjà rempli par d'éventuelles notices précédentes
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename="contacts_export_' . date('Y-m-d') . '.csv"');
 
         $output = fopen('php://output', 'w');
-        fwrite($output, chr(0xEF) . chr(0xBB) . chr(0xBF)); // BOM UTF-8 pour Excel
+        fwrite($output, chr(0xEF) . chr(0xBB) . chr(0xBF));
         fputcsv($output, ['Société', 'Nom', 'Prénom', 'Email', 'URL'], ';');
 
         foreach ($contacts as $contact) {
@@ -393,7 +402,6 @@ class ContactController
         fclose($output);
         exit;
     }
-
     public function exportForm()
     {
         if (!isset($_SESSION['user']) || !canModifyClients()) {
