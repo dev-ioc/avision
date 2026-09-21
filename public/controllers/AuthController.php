@@ -826,7 +826,6 @@ class AuthController
         if (isset($_SESSION['qr_salle']) && isset($_SESSION['qr_type'])) {
             return BASE_URL . 'qrcode/redirect';
         }
-
         $redirectAfterLogin = $_SESSION['redirect_after_login'] ?? null;
         if ($redirectAfterLogin && trim($redirectAfterLogin) !== '') {
             $redirectUrl = trim($redirectAfterLogin);
