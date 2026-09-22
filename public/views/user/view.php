@@ -131,7 +131,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 ?>
                             </td>
                         </tr>
-                        <?php if (isset($user['user_type']) && in_array($user['user_type'], ['technicien', 'client']) && !empty($userPermissions)): ?>
+                        <?php if (isset($user['user_type']) && in_array($user['user_type'], ['technicien']) && !empty($userPermissions)): ?>
                             <tr>
                                 <th>Coefficient :</th>
                                 <td>
