@@ -8,6 +8,7 @@ require_once __DIR__ . '/../models/BuildingModel.php';
 require_once __DIR__ . '/../models/QrCodeModel.php';
 require_once __DIR__ . '/../models/ContactModel.php';
 require_once __DIR__ . '/../models/ClientModel.php';
+require_once __DIR__ . '/../models/UserModel.php';
 
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
@@ -23,6 +24,7 @@ class QRCodeController
     private $qrCodeModel;
     private $contactModel;
     private $clientModel;
+    private $userModel;
 
 
     public function __construct()
@@ -36,6 +38,7 @@ class QRCodeController
         $this->qrCodeModel = new QrCodeModel($this->db);
         $this->contactModel = new ContactModel($this->db);
         $this->clientModel = new ClientModel($this->db);
+        $this->userModel = new UserModel($this->db);
     }
 
 
@@ -192,7 +195,7 @@ class QRCodeController
                     $_SESSION['qr_client_master'] = $qr['target_id'];
                     header('Location: ' . BASE_URL . 'auth/login');
                 } else {
-                    header('Location: ' . BASE_URL . 'profileClient');
+                    header('Location: ' . BASE_URL . 'dashboard');
                 }
                 break;
 
@@ -201,10 +204,17 @@ class QRCodeController
                     $_SESSION['qr_contact_vip'] = $qr['target_id'];
                     header('Location: ' . BASE_URL . 'auth/login');
                 } else {
-                    header('Location: ' . BASE_URL . 'profileClient');
+                    header('Location: ' . BASE_URL . 'dashboard');
                 }
                 break;
-
+            case 'staff_member':
+                if (!isset($_SESSION['user'])) {
+                    $_SESSION['qr_staff_member'] = $qr['target_id'];
+                    header('Location: ' . BASE_URL . 'auth/login');
+                } else {
+                    header('Location: ' . BASE_URL . 'dashboard');
+                }
+                break;
             default:
                 $_SESSION['error'] = "Type de QR code non reconnu.";
                 header('Location: ' . BASE_URL . 'auth/login');
@@ -300,5 +310,24 @@ class QRCodeController
 
         $pageTitle = "QR Codes VIP - " . $client['name'];
         require_once VIEWS_PATH . '/qrcode/vip.php';
+    }
+
+    public function generateStaffQRUrl($userId)
+    {
+        $code = $this->qrCodeModel->getOrCreateCode('staff_member', $userId);
+        return BASE_URL . 'r/' . $code;
+    }
+
+    /**
+     * Génère la fiche regroupant tous les QR codes du staff
+     */
+    public function generateStaff()
+    {
+        $this->checkAccess();
+
+        $staffMembers = $this->userModel->getTechnicians();
+
+        $pageTitle = "QR Codes - Staff";
+        require_once VIEWS_PATH . '/qrcode/staff.php';
     }
 }

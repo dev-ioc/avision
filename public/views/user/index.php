@@ -37,6 +37,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
 
         <div class="ms-auto p-2 bd-highlight">
+            <a href="<?php echo BASE_URL; ?>qrcode/generate/staff" id="btn-generate-staff-qr"
+                class="btn btn-outline-primary me-2" style="display:none;">
+                <i class="bi bi-qr-code me-1"></i> QR Codes Staff
+            </a>
             <a href="<?php echo BASE_URL; ?>user/add" class="btn btn-primary">
                 <i class="bi bi-plus me-1"></i> Nouvel utilisateur
             </a>
@@ -223,8 +227,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         tabs.forEach(tab => {
             tab.addEventListener('click', function (e) {
                 e.preventDefault();
-
-                // Activer le tab cliqué
                 tabs.forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
 
@@ -237,6 +239,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         row.style.display = 'none';
                     }
                 });
+
+                document.getElementById('btn-generate-staff-qr').style.display =
+                    (filter === 'videosonic') ? '' : 'none';
             });
         });
     });
