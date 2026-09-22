@@ -823,7 +823,7 @@ class AuthController
         }
         if (isset($_SESSION['qr_contact_vip'])) {
             unset($_SESSION['qr_contact_vip']);
-            return BASE_URL . 'profileClient';
+            return BASE_URL . 'dashboard';
         }
         // === Priorité 2 : QR salle (staff/client)
         if (isset($_SESSION['qr_salle']) && isset($_SESSION['qr_type'])) {
