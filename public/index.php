@@ -75,7 +75,6 @@ if (strpos($path, '/api/') === 0) {
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-
     // Extraire le chemin API (enlever /api/)
     $apiPath = substr($path, 5); // Enlève '/api/'
     $apiParts = explode('/', $apiPath);
@@ -2271,7 +2270,7 @@ try {
                 $_SESSION['qr_contact_vip'] = $qr['target_id'];
                 header('Location: ' . BASE_URL . 'auth/login');
             } else {
-                header('Location: ' . BASE_URL . 'profileClient');
+                header('Location: ' . BASE_URL . 'dashboard');
             }
             break;
         case 'stats':
