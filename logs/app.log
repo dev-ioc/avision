@@ -140712,3 +140712,11 @@ Quant à l’écran n°1, il est HS
 [2026-09-22 07:59:21][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
 [2026-09-22 07:59:21][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
 [2026-09-22 07:59:21][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-22 08:25:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 9ced13b85ecde696b362... 
+[2026-09-22 08:25:15][DEBUG] AttachmentService::normalizeFilesArray - Tableau de fichiers détecté, count: 1 
+[2026-09-22 08:25:15][DEBUG] AttachmentService::upload - Type: materiel, EntityId: 1663, Files count: 1, UploadDir: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/materiel/1663 
+[2026-09-22 08:25:15][DEBUG] AttachmentService::upload - Tentative de déplacement: C:\xampp\tmp\php2DA2.tmp -> C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/materiel/1663/1790058315_coursUML_compressed_1.pdf 
+[2026-09-22 08:25:15][DEBUG] AttachmentService::upload - Fichier déplacé avec succès: C:\xampp\htdocs\avision\public\classes\Services/../../../uploads/materiel/1663/1790058315_coursUML_compressed_1.pdf 
+[2026-09-22 08:25:15][DEBUG] AttachmentService::upload - Fichier uploadé avec succès: coursUML_compressed (1).pdf (ID: 594) 
+[2026-09-22 09:38:54][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 
+[2026-09-22 09:39:07][ERROR] Erreur lors de l'aperçu: Fichier non trouvé sur le serveur 

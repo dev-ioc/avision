@@ -392,10 +392,10 @@ foreach ($documentation_list as $doc) {
                                                 </div>
                                               <?php elseif (in_array($fileType, ['jpg', 'jpeg', 'png', 'gif', 'webp'])): ?>
                                                 <div class="text-center p-3" style="max-height: 75vh; overflow: auto;">
-                                                  <img src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>" class="img-fluid"
-                                                    style="max-width: 100%; cursor: zoom-in;"
+                                                  <img data-src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>"
+                                                    class="img-fluid img-lazy-preview" style="max-width: 100%; cursor: zoom-in;"
                                                     alt="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>"
-                                                    onerror="handleImageError(this, <?= $doc['id'] ?>, '<?= h($doc['nom_fichier']) ?>')">
+                                                    data-doc-id="<?= $doc['id'] ?>" data-doc-name="<?= h($doc['nom_fichier']) ?>">
                                                 </div>
                                               <?php endif; ?>
                                             </div>
@@ -824,39 +824,71 @@ foreach ($documentation_list as $doc) {
 
   document.addEventListener('DOMContentLoaded', function () {
 
-    document.querySelectorAll('.pdf-preview-wrapper').forEach(function (wrapper) {
-      const previewUrl = wrapper.dataset.previewUrl;
-      const downloadUrl = wrapper.dataset.downloadUrl;
-      const filename = wrapper.dataset.filename;
+    document.querySelectorAll('.modal').forEach(function (modal) {
+      const wrapper = modal.querySelector('.pdf-preview-wrapper');
+      const lazyImg = modal.querySelector('img.img-lazy-preview');
 
-      if (isIOS()) {
-        wrapper.innerHTML = `
-        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; padding:2rem; text-align:center; background:#f8f9fa;">
-          <div style="font-size:3rem; margin-bottom:1rem;">📄</div>
-          <p style="font-size:1rem; color:#6c757d; margin-bottom:1.5rem;">
-            L'aperçu PDF n'est pas disponible sur iOS.<br>
-            Ouvrez le fichier dans un nouvel onglet pour le consulter.
-          </p>
-          <a href="${previewUrl}" target="_blank" class="btn btn-primary">
-            <i class="bi bi-box-arrow-up-right me-1"></i> Ouvrir le PDF
-          </a>
-          <a href="${downloadUrl}" class="btn btn-outline-secondary mt-2">
-            <i class="bi bi-download me-1"></i> Télécharger
-          </a>
-        </div>`;
-      } else {
-        wrapper.innerHTML = `
-        <iframe 
-          src="${previewUrl}#toolbar=1&navpanes=0&scrollbar=1&zoom=page-fit"
-          width="100%"
-          height="100%"
-          style="min-height:75vh; border:none; display:block;"
-          title="${filename}">
-          <p>Votre navigateur ne supporte pas l'aperçu PDF. 
-            <a href="${downloadUrl}">Téléchargez le fichier</a>.
-          </p>
-        </iframe>`;
-      }
+      if (!wrapper && !lazyImg) return; // ce modal ne contient ni PDF ni image à charger
+
+      modal.addEventListener('shown.bs.modal', function () {
+        // --- PDF : chargé uniquement à l'ouverture ---
+        if (wrapper && wrapper.dataset.loaded !== 'true') {
+          const previewUrl = wrapper.dataset.previewUrl;
+          const downloadUrl = wrapper.dataset.downloadUrl;
+          const filename = wrapper.dataset.filename;
+
+          if (isIOS()) {
+            wrapper.innerHTML = `
+          <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; padding:2rem; text-align:center; background:#f8f9fa;">
+            <div style="font-size:3rem; margin-bottom:1rem;">📄</div>
+            <p style="font-size:1rem; color:#6c757d; margin-bottom:1.5rem;">
+              L'aperçu PDF n'est pas disponible sur iOS.<br>
+              Ouvrez le fichier dans un nouvel onglet pour le consulter.
+            </p>
+            <a href="${previewUrl}" target="_blank" class="btn btn-primary">
+              <i class="bi bi-box-arrow-up-right me-1"></i> Ouvrir le PDF
+            </a>
+            <a href="${downloadUrl}" class="btn btn-outline-secondary mt-2">
+              <i class="bi bi-download me-1"></i> Télécharger
+            </a>
+          </div>`;
+          } else {
+            wrapper.innerHTML = `
+          <iframe 
+            src="${previewUrl}#toolbar=1&navpanes=0&scrollbar=1&zoom=page-fit"
+            width="100%"
+            height="100%"
+            style="min-height:75vh; border:none; display:block;"
+            title="${filename}">
+            <p>Votre navigateur ne supporte pas l'aperçu PDF. 
+              <a href="${downloadUrl}">Téléchargez le fichier</a>.
+            </p>
+          </iframe>`;
+          }
+          wrapper.dataset.loaded = 'true';
+        }
+
+        // --- Image : chargée uniquement à l'ouverture ---
+        if (lazyImg && !lazyImg.src) {
+          const docId = lazyImg.dataset.docId;
+          const docName = lazyImg.dataset.docName;
+          lazyImg.addEventListener('error', function () {
+            handleImageError(lazyImg, docId, docName);
+          }, { once: true });
+          lazyImg.src = lazyImg.dataset.src;
+        }
+      });
+
+      // Libère la mémoire à la fermeture (PDF et image)
+      modal.addEventListener('hidden.bs.modal', function () {
+        if (wrapper && wrapper.dataset.loaded === 'true') {
+          wrapper.innerHTML = '';
+          wrapper.dataset.loaded = 'false';
+        }
+        if (lazyImg) {
+          lazyImg.removeAttribute('src');
+        }
+      });
     });
 
     document.querySelectorAll('.preview-container img').forEach(function (img) {
