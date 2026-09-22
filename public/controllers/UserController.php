@@ -705,4 +705,45 @@ class UserController
         }
         exit;
     }
+    public function exportStaffCsv()
+    {
+        if (!isset($_SESSION['user']) || !isAdmin()) {
+            $_SESSION['error'] = "Vous n'avez pas les droits nécessaires.";
+            header('Location: ' . BASE_URL . 'dashboard');
+            exit;
+        }
+
+        // Empêcher toute notice/warning PHP de polluer le flux CSV
+        $previousDisplayErrors = ini_set('display_errors', '0');
+        error_reporting(0);
+
+        $staffMembers = $this->userModel->getTechnicians();
+
+        require_once __DIR__ . '/../controllers/QRCodeController.php';
+        $qrcodeController = new QRCodeController();
+
+        // Vider tout buffer de sortie déjà rempli par d'éventuelles notices précédentes
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="staff_export_' . date('Y-m-d') . '.csv"');
+
+        $output = fopen('php://output', 'w');
+        fwrite($output, chr(0xEF) . chr(0xBB) . chr(0xBF));
+        fputcsv($output, ['Nom', 'Prénom', 'URL'], ';');
+
+        foreach ($staffMembers as $staff) {
+            $url = $qrcodeController->generateStaffQRUrl($staff['id']);
+            fputcsv($output, [
+                $staff['last_name'] ?? '',
+                $staff['first_name'] ?? '',
+                $url
+            ], ';');
+        }
+
+        fclose($output);
+        exit;
+    }
 }

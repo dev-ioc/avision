@@ -440,6 +440,9 @@ try {
                         echo json_encode(['success' => false, 'message' => 'ID utilisateur manquant.']);
                     }
                     break;
+                case 'export_csv':
+                    $userController->exportStaffCsv();
+                    break;
                 default:
                     header('Location: ' . BASE_URL . 'user');
                     break;

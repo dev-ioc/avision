@@ -41,6 +41,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 class="btn btn-outline-primary me-2" style="display:none;">
                 <i class="bi bi-qr-code me-1"></i> QR Codes Staff
             </a>
+            <a href="<?php echo BASE_URL; ?>user/export_csv" id="btn-export-staff-csv"
+                class="btn btn-outline-secondary me-2" style="display:none;">
+                <i class="bi bi-file-earmark-spreadsheet me-1"></i> Exporter CSV
+            </a>
             <a href="<?php echo BASE_URL; ?>user/add" class="btn btn-primary">
                 <i class="bi bi-plus me-1"></i> Nouvel utilisateur
             </a>
@@ -241,6 +245,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 });
 
                 document.getElementById('btn-generate-staff-qr').style.display =
+                    (filter === 'videosonic') ? '' : 'none';
+                document.getElementById('btn-export-staff-csv').style.display =
                     (filter === 'videosonic') ? '' : 'none';
             });
         });
