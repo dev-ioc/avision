@@ -140707,3 +140707,8 @@ Quant à l’écran n°1, il est HS
 [2026-09-21 15:30:36][INFO] 37 
 [2026-09-21 15:30:36][INFO] 38 
 [2026-09-21 15:30:36][INFO] 36 
+[2026-09-22 07:56:08][DEBUG] Redirection vers login - URL sauvegardée: contacts/edit/58 (Session ID: 4ut4sd9mipgdvjlo3gr4tf7ncf) 
+[2026-09-22 07:59:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 9ced13b85ecde696b362... 
+[2026-09-22 07:59:21][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-22 07:59:21][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-22 07:59:21][DEBUG] Login réussi (étape mot de passe) - user_id: 40 

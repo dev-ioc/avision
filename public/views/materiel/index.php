@@ -488,7 +488,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           <div class="row g-3 align-items-end">
             <div class="col-md-2">
               <label for="client_id" class="form-label fw-bold mb-0">Client</label>
-              <select class="form-select bg-body text-body" id="client_id" name="client_id">
+              <select class="form-select bg-body text-body" id="client_id" name="client_id" style="z-index: 99">
               </select>
             </div>
             <div class="col-md-2">
@@ -1009,6 +1009,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         placeholder: 'Rechercher...',
         allowEmptyOption: true,
         maxOptions: null,
+        dropdownParent: "body",
         render: {
           option: renderFn,
           item: (data, escape) => `<div>${escape(data.text)}</div>`
@@ -2232,6 +2233,39 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
     .btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+    }
+
+    /* Poignée de redimensionnement des dropdowns de filtres */
+    .ts-dropdown {
+      overflow: visible !important;
+      /* laisse dépasser la poignée si besoin */
+    }
+
+    .ts-dropdown-content {
+      max-height: none !important;
+      height: 100% !important;
+      overflow-y: auto !important;
+      box-sizing: border-box;
+    }
+
+    .filter-dropdown-resizer {
+      position: absolute;
+      right: 2px;
+      bottom: 2px;
+      width: 16px;
+      height: 16px;
+      cursor: nwse-resize;
+      z-index: 20;
+      background:
+        linear-gradient(135deg, transparent 0 40%, #adb5bd 40% 46%, transparent 46% 60%, #adb5bd 60% 66%, transparent 66% 80%, #adb5bd 80% 86%, transparent 86% 100%);
+      opacity: 0.6;
+      border-radius: 2px;
+    }
+
+    .filter-dropdown-resizer:hover {
+      opacity: 1;
+      background:
+        linear-gradient(135deg, transparent 0 40%, #0d6efd 40% 46%, transparent 46% 60%, #0d6efd 60% 66%, transparent 66% 80%, #0d6efd 80% 86%, transparent 86% 100%);
     }
   </style>
 </body>
