@@ -57,14 +57,14 @@ class QRCodeController
         }
 
         // Récupérer tous les bâtiments du site
-        $batiments = $this->buildingModel->getBuildingsBySiteId($siteId, true); // activeOnly = true
+        $batiments = $this->buildingModel->getBuildingsBySiteId($siteId, true);
 
         // Récupérer toutes les salles de chaque bâtiment
         $salles = [];
         foreach ($batiments as $batiment) {
             $sallesDuBatiment = $this->roomModel->getRoomsByBuildingId($batiment['id'], true);
             foreach ($sallesDuBatiment as $salle) {
-                $salle['batiment_name'] = $batiment['name']; // utile pour l'affichage
+                $salle['batiment_name'] = $batiment['name'];
                 $salles[] = $salle;
             }
         }

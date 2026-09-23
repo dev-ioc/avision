@@ -6,16 +6,22 @@
 
 // Inclure les fonctions utilitaires
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../controllers/QRCodeController.php';
+require_once __DIR__ . '/../classes/MailService.php';
 
 class UserController
 {
     private $userModel;
     private $db;
+    private $qrcodeController;
+    private $mailService;
 
     public function __construct($db)
     {
         $this->db = $db;
         $this->userModel = new UserModel($db);
+        $this->qrcodeController = new QRCodeController();
+        $this->mailService = new MailService($db);
     }
 
     /**
@@ -687,9 +693,7 @@ class UserController
             $this->userModel->savePasswordResetToken($userId, $resetToken, $expiresAt, $_SESSION['user']['id']);
 
             // Envoyer l'email
-            require_once __DIR__ . '/../classes/MailService.php';
-            $mailService = new MailService($this->db);
-            $mailService->sendPasswordResetLink($user, $resetToken);
+            $this->mailService->sendPasswordResetLink($user, $resetToken);
 
             echo json_encode([
                 'success' => true,
@@ -712,17 +716,11 @@ class UserController
             header('Location: ' . BASE_URL . 'dashboard');
             exit;
         }
-
-        // Empêcher toute notice/warning PHP de polluer le flux CSV
         $previousDisplayErrors = ini_set('display_errors', '0');
         error_reporting(0);
 
         $staffMembers = $this->userModel->getTechnicians();
 
-        require_once __DIR__ . '/../controllers/QRCodeController.php';
-        $qrcodeController = new QRCodeController();
-
-        // Vider tout buffer de sortie déjà rempli par d'éventuelles notices précédentes
         while (ob_get_level()) {
             ob_end_clean();
         }
@@ -735,7 +733,7 @@ class UserController
         fputcsv($output, ['Nom', 'Prénom', 'URL'], ';');
 
         foreach ($staffMembers as $staff) {
-            $url = $qrcodeController->generateStaffQRUrl($staff['id']);
+            $url = $this->qrcodeController->generateStaffQRUrl($staff['id']);
             fputcsv($output, [
                 $staff['last_name'] ?? '',
                 $staff['first_name'] ?? '',
