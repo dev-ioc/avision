@@ -338,10 +338,17 @@ class UserController
         }
 
         // Validation du mot de passe (uniquement pour la création ou si fourni)
-        if (!isset($data['password']) && !$excludeId) {
-            $errors[] = "Le mot de passe est requis";
-        } elseif (isset($data['password']) && strlen($data['password']) < 8) {
-            $errors[] = "Le mot de passe doit contenir au moins 8 caractères";
+        if (!empty($data['password'])) {
+            $pwd = $data['password'];
+            if (
+                strlen($pwd) < 8
+                || !preg_match('/[A-Z]/', $pwd)
+                || !preg_match('/[a-z]/', $pwd)
+                || !preg_match('/\d/', $pwd)
+                || !preg_match('/[^A-Za-z0-9]/', $pwd)
+            ) {
+                $errors[] = "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial";
+            }
         }
 
         // Validation du type
