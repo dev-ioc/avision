@@ -1753,6 +1753,9 @@ try {
                 case 'get_room_access_level':
                     $materielController->get_room_access_level();
                     break;
+                case 'check_serial':
+                    $materielController->check_serial();
+                    break;
                 case 'getAttachments':
                     if ($id) {
                         $materielController->getAttachments($id);

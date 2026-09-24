@@ -915,9 +915,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </div>
                         </div>
                     </div>
-
-
-
                     <!-- Liste des fichiers avec options individuelles -->
                     <div id="filesOptions" style="display: none;">
                         <h6 class="mt-3 mb-2">Options par fichier :</h6>
@@ -937,7 +934,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 </div>
-
 <style>
     .drop-zone {
         border: 2px dashed var(--bs-border-color);

@@ -2419,4 +2419,31 @@ class MaterielController
             echo json_encode(['success' => false, 'message' => 'Erreur lors de la mise à jour.']);
         }
     }
+    /**
+     * Vérifie l'existence d'un numéro de série (AJAX)
+     * GET materiel/check_serial?numero_serie=XXX[&exclude_id=12]
+     */
+    public function check_serial()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            return;
+        }
+
+        $serial = trim($_GET['numero_serie'] ?? '');
+        $excludeId = !empty($_GET['exclude_id']) ? (int) $_GET['exclude_id'] : null;
+
+        try {
+            echo json_encode([
+                'duplicates' => $this->materielModel->findBySerialNumber($serial, $excludeId)
+            ]);
+        } catch (Throwable $e) {
+            custom_log("Erreur check_serial : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur lors de la vérification']);
+        }
+    }
 }
