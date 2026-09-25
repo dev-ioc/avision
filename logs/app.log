@@ -142240,3 +142240,317 @@ Quant à l’écran n°1, il est HS
 [2026-09-25 15:23:12][INFO] 80 
 [2026-09-25 15:23:12][ERROR] Erreur lors de la récupération des salles : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.delivery_date' in 'field list' 
 [2026-09-25 15:23:12][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-25 15:30:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:30:57][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-25 15:30:57][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-25 15:30:57][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-25 15:31:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:18][DEBUG] load_permissions - Session ID: pc0v2rbmnan46sgvd9uja5thtu, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-25 15:31:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:18][DEBUG] load_client_locations - Session ID: pc0v2rbmnan46sgvd9uja5thtu, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-25 15:31:18][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-09-25 15:31:24][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-25 15:31:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:25][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:31:33][INFO] 112 
+[2026-09-25 15:31:33][ERROR] Erreur : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.delivery_date' in 'field list' {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\RoomModel.php","line":48}
+[2026-09-25 15:38:39][INFO] 112 
+[2026-09-25 15:38:39][INFO] 79 
+[2026-09-25 15:38:39][INFO] 80 
+[2026-09-25 15:38:39][INFO] 93 
+[2026-09-25 15:38:39][INFO] 116 
+[2026-09-25 15:38:39][INFO] 115 
+[2026-09-25 15:38:39][INFO] 82 
+[2026-09-25 15:38:55][INFO] 112 
+[2026-09-25 15:38:55][INFO] 79 
+[2026-09-25 15:38:55][INFO] 80 
+[2026-09-25 15:38:55][INFO] 93 
+[2026-09-25 15:38:55][INFO] 116 
+[2026-09-25 15:38:55][INFO] 115 
+[2026-09-25 15:38:55][INFO] 82 
+[2026-09-25 15:40:00][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: k849mc1i61g9ikfbrjltqj1h1a) 
+[2026-09-25 15:40:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:40:59][DEBUG] load_permissions - Session ID: pc0v2rbmnan46sgvd9uja5thtu, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-25 15:40:59][DEBUG] CSRF: Token trouvé dans la requête - Token: 070b6ce65c32e69fb976... 
+[2026-09-25 15:41:00][DEBUG] load_client_locations - Session ID: pc0v2rbmnan46sgvd9uja5thtu, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-25 15:41:00][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-09-25 15:41:10][DEBUG] CSRF: Token trouvé dans la requête - Token: f7528d26ed0a8aefa6f3... 
+[2026-09-25 15:41:11][WARNING] Tentative de connexion échouée pour l'utilisateur : mery@chateauform.com 
+[2026-09-25 15:41:11][WARNING] Tentative de connexion échouée pour l'utilisateur : mery@chateauform.com 
+[2026-09-25 15:41:51][DEBUG] CSRF: Token trouvé dans la requête - Token: f7528d26ed0a8aefa6f3... 
+[2026-09-25 15:41:51][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-25 15:41:51][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-25 15:41:51][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-25 15:43:17][DEBUG] CSRF: Token trouvé dans la requête - Token: ba12a9704c8be877fadf... 
+[2026-09-25 15:43:17][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-25 15:43:17][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-25 15:43:17][DEBUG] Login réussi (étape mot de passe) - user_id: 70 
+[2026-09-25 15:43:27][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-25 15:43:28][DEBUG] CSRF: Token trouvé dans la requête - Token: ba12a9704c8be877fadf... 
+[2026-09-25 15:43:28][DEBUG] CSRF: Token trouvé dans la requête - Token: ba12a9704c8be877fadf... 
+[2026-09-25 15:43:28][DEBUG] CSRF: Token trouvé dans la requête - Token: ba12a9704c8be877fadf... 
+[2026-09-25 15:43:31][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-25 15:43:31][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-25 15:43:31][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - START 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-25 15:43:31][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-25 15:43:31][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-25 15:43:31][INFO] 80 
+[2026-09-25 15:43:31][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-25 15:43:42][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:43:42][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.first_name as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-09-25 15:43:42][DEBUG] DocumentationClientController::index - Paramètres: [50] 
+[2026-09-25 15:43:42][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-09-25 15:43:42][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=, building_id=, salle_id= 
+[2026-09-25 15:43:44][DEBUG] MaterielClientController::index - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:43:44][DEBUG] getSitesByLocations - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:43:44][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 50 AND s.id = 80)) 
+[2026-09-25 15:43:44][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 50 AND s.id = 80)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-25 15:43:44][DEBUG] getSitesByLocations - result count: 1 
+[2026-09-25 15:43:44][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:43:44][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 50 AND s.id = 80)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-09-25 15:43:44][DEBUG] getBuildingsByLocations - result count: 1 
+[2026-09-25 15:43:44][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 80)) 
+[2026-09-25 15:43:44][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 80)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-25 15:43:44][DEBUG] getAllByLocations - Params: [] 
+[2026-09-25 15:43:44][DEBUG] getAllByLocations - Results count: 66 
+[2026-09-25 15:43:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ba12a9704c8be877fadf... 
+[2026-09-25 15:44:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:08][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-25 15:44:08][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-25 15:44:08][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-25 15:44:11][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-25 15:44:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:44:19][INFO] 112 
+[2026-09-25 15:44:19][INFO] 79 
+[2026-09-25 15:44:19][INFO] 80 
+[2026-09-25 15:44:19][INFO] 93 
+[2026-09-25 15:44:19][INFO] 116 
+[2026-09-25 15:44:19][INFO] 115 
+[2026-09-25 15:44:19][INFO] 82 
+[2026-09-25 15:44:31][INFO] 112 
+[2026-09-25 15:44:31][INFO] 79 
+[2026-09-25 15:44:31][INFO] 80 
+[2026-09-25 15:44:32][INFO] 93 
+[2026-09-25 15:44:32][INFO] 116 
+[2026-09-25 15:44:32][INFO] 115 
+[2026-09-25 15:44:32][INFO] 82 
+[2026-09-25 15:44:32][ERROR] Call to undefined function imagecreate() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\QRCodeController.php","line":265,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\QRCodeController.php(255): QRCodeController->generatePlaceholderQR('http:\/\/localhos...', 130)\n#1 C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php(46): QRCodeController->generateQRCodeBase64('http:\/\/localhos...', 130)\n#2 C:\\xampp\\htdocs\\avision\\public\\controllers\\ClientController.php(258): require_once('C:\\\\xampp\\\\htdocs...')\n#3 C:\\xampp\\htdocs\\avision\\public\\index.php(495): ClientController->edit('50')\n#4 {main}","type":"Error"}
+[2026-09-25 15:45:08][INFO] 112 
+[2026-09-25 15:45:08][INFO] 79 
+[2026-09-25 15:45:08][INFO] 80 
+[2026-09-25 15:45:08][INFO] 93 
+[2026-09-25 15:45:08][INFO] 116 
+[2026-09-25 15:45:08][INFO] 115 
+[2026-09-25 15:45:08][INFO] 82 
+[2026-09-25 15:45:08][ERROR] Call to undefined function imagecreate() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\QRCodeController.php","line":265,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\QRCodeController.php(255): QRCodeController->generatePlaceholderQR('http:\/\/localhos...', 130)\n#1 C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php(46): QRCodeController->generateQRCodeBase64('http:\/\/localhos...', 130)\n#2 C:\\xampp\\htdocs\\avision\\public\\controllers\\ClientController.php(258): require_once('C:\\\\xampp\\\\htdocs...')\n#3 C:\\xampp\\htdocs\\avision\\public\\index.php(495): ClientController->edit('50')\n#4 {main}","type":"Error"}
+[2026-09-25 15:51:49][INFO] 112 
+[2026-09-25 15:51:49][INFO] 79 
+[2026-09-25 15:51:49][INFO] 80 
+[2026-09-25 15:51:49][INFO] 93 
+[2026-09-25 15:51:49][INFO] 116 
+[2026-09-25 15:51:49][INFO] 115 
+[2026-09-25 15:51:49][INFO] 82 
+[2026-09-25 15:51:49][ERROR] Call to undefined function imagecreate() {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\QRCodeController.php","line":265,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\QRCodeController.php(255): QRCodeController->generatePlaceholderQR('http:\/\/localhos...', 130)\n#1 C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php(46): QRCodeController->generateQRCodeBase64('http:\/\/localhos...', 130)\n#2 C:\\xampp\\htdocs\\avision\\public\\controllers\\ClientController.php(258): require_once('C:\\\\xampp\\\\htdocs...')\n#3 C:\\xampp\\htdocs\\avision\\public\\index.php(495): ClientController->edit('50')\n#4 {main}","type":"Error"}
+[2026-09-25 15:55:26][INFO] 112 
+[2026-09-25 15:55:26][INFO] 79 
+[2026-09-25 15:55:26][INFO] 80 
+[2026-09-25 15:55:26][INFO] 93 
+[2026-09-25 15:55:26][INFO] 116 
+[2026-09-25 15:55:26][INFO] 115 
+[2026-09-25 15:55:26][INFO] 82 
+[2026-09-25 15:55:41][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-25 15:55:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:55:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:55:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 15:55:44][INFO] 81 
+[2026-09-25 15:55:49][INFO] 81 
+[2026-09-25 16:07:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:07:21][INFO] Données POST reçues pour modification du contact #58: {"csrf_token":"95ae18c472c990d66b017b4807561d00561ab26a13bccf42f34c93684553b3cc","first_name":"Fr\u00e9d\u00e9ric","last_name":"CHAMBON","fonction":"Directeur de Programmes Immobilier d\u2019Entreprise","phone1":"","phone2":"07 67 38 75 78","email":"F.chambon@sefri-cime.fr","comment":"","has_user_account":"1","username":"TEST","password":""} 
+[2026-09-25 16:07:22][INFO] 81 
+[2026-09-25 16:11:52][INFO] 81 
+[2026-09-25 16:12:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:12:00][INFO] Données POST reçues pour modification du contact #58: {"csrf_token":"95ae18c472c990d66b017b4807561d00561ab26a13bccf42f34c93684553b3cc","first_name":"Fr\u00e9d\u00e9ric","last_name":"CHAMBON","fonction":"Directeur de Programmes Immobilier d\u2019Entreprise","phone1":"","phone2":"07 67 38 75 78","email":"F.chambon@sefri-cime.fr","comment":"","username":"","password":""} 
+[2026-09-25 16:12:00][INFO] 81 
+[2026-09-25 16:12:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:12:53][INFO] Données POST reçues pour modification du contact #58: {"csrf_token":"95ae18c472c990d66b017b4807561d00561ab26a13bccf42f34c93684553b3cc","first_name":"Fr\u00e9d\u00e9ric","last_name":"CHAMBON","fonction":"Directeur de Programmes Immobilier d\u2019Entreprise","phone1":"","phone2":"07 67 38 75 78","email":"F.chambon@sefri-cime.fr","comment":"","has_user_account":"1","username":"trets","password":""} 
+[2026-09-25 16:12:54][INFO] 81 
+[2026-09-25 16:13:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:13:13][INFO] Données POST reçues pour modification du contact #58: {"csrf_token":"95ae18c472c990d66b017b4807561d00561ab26a13bccf42f34c93684553b3cc","first_name":"Fr\u00e9d\u00e9ric","last_name":"CHAMBON","fonction":"Directeur de Programmes Immobilier d\u2019Entreprise","phone1":"","phone2":"07 67 38 75 78","email":"F.chambon@sefri-cime.fr","comment":"","has_user_account":"1","username":"","password":""} 
+[2026-09-25 16:13:13][INFO] Mot de passe généré automatiquement pour le contact #58 
+[2026-09-25 16:13:13][INFO] Création du compte utilisateur pour le contact #58: {"email":"F.chambon@sefri-cime.fr","password":"45bad1904133","first_name":"Fr\u00e9d\u00e9ric","last_name":"CHAMBON","type":"client","is_admin":0,"status":1,"coef_utilisateur":null,"client_id":46} 
+[2026-09-25 16:13:13][INFO] Compte utilisateur #72 créé, liaison au contact #58 
+[2026-09-25 16:13:13][INFO] 81 
+[2026-09-25 16:13:21][INFO] 81 
+[2026-09-25 16:26:40][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:27:13][INFO] 81 
+[2026-09-25 16:27:19][INFO] 81 
+[2026-09-25 16:28:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:28:58][INFO] 81 
+[2026-09-25 16:30:57][INFO] 81 
+[2026-09-25 16:31:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:31:32][INFO] Mot de passe généré automatiquement pour le nouveau contact (client #46) 
+[2026-09-25 16:31:32][INFO] CONTACT_USER_CREATION: Tentative de création d'utilisateur pour contact {"client_id":"46","email":"testr2@efee.com","type":"client"}
+[2026-09-25 16:31:32][INFO] CONTACT_USER_CREATION: Résultat création utilisateur {"success":true,"user_id":"73","email":"testr2@efee.com"}
+[2026-09-25 16:31:32][INFO] 81 
+[2026-09-25 16:31:43][INFO] 81 
+[2026-09-25 16:32:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:32:05][INFO] Données POST reçues pour modification du contact #121: {"csrf_token":"95ae18c472c990d66b017b4807561d00561ab26a13bccf42f34c93684553b3cc","first_name":"ETSAHSVA","last_name":"SDFSFDS","fonction":"","phone1":"","phone2":"","email":"testr2@efee.com","comment":"","has_user_account":"1","username":"dffafaa@dfgd.fr","password":"dada"} 
+[2026-09-25 16:32:05][INFO] 81 
+[2026-09-25 16:32:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:32:28][INFO] Données POST reçues pour modification du contact #121: {"csrf_token":"95ae18c472c990d66b017b4807561d00561ab26a13bccf42f34c93684553b3cc","first_name":"ETSAHSVA","last_name":"SDFSFDS","fonction":"","phone1":"","phone2":"","email":"testr2@efee.com","comment":"","username":"","password":""} 
+[2026-09-25 16:32:28][INFO] 81 
+[2026-09-25 16:32:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:32:52][INFO] Données POST reçues pour modification du contact #121: {"csrf_token":"95ae18c472c990d66b017b4807561d00561ab26a13bccf42f34c93684553b3cc","first_name":"ETSAHSVA","last_name":"SDFSFDS","fonction":"","phone1":"","phone2":"","email":"testr2@efee.com","comment":"","has_user_account":"1","username":"contactwe@contact.fr","password":"dsada"} 
+[2026-09-25 16:32:53][INFO] 81 
+[2026-09-25 16:33:03][INFO] 81 
+[2026-09-25 16:33:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:33:47][INFO] 81 
+[2026-09-25 16:33:51][INFO] 81 
+[2026-09-25 16:34:16][INFO] 81 
+[2026-09-25 16:34:24][INFO] 81 
+[2026-09-25 16:34:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:34:37][INFO] Données POST reçues pour modification du contact #58: {"csrf_token":"95ae18c472c990d66b017b4807561d00561ab26a13bccf42f34c93684553b3cc","first_name":"Fr\u00e9d\u00e9ric","last_name":"CHAMBON","fonction":"Directeur de Programmes Immobilier d\u2019Entreprise","phone1":"","phone2":"07 67 38 75 78","email":"F.chambon@sefri-cime.fr","comment":""} 
+[2026-09-25 16:34:37][INFO] 81 
+[2026-09-25 16:34:44][INFO] 81 
+[2026-09-25 16:34:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:34:58][INFO] Données POST reçues pour modification du contact #58: {"csrf_token":"95ae18c472c990d66b017b4807561d00561ab26a13bccf42f34c93684553b3cc","first_name":"Fr\u00e9d\u00e9ric","last_name":"CHAMBON","fonction":"Directeur de Programmes Immobilier d\u2019Entreprise","phone1":"","phone2":"07 67 38 75 78","email":"F.chambon@sefri-cime.fr","comment":"","has_user_account":"1"} 
+[2026-09-25 16:34:58][INFO] 81 
+[2026-09-25 16:40:29][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:40:29][INFO] Données POST reçues pour modification du contact #121: {"csrf_token":"95ae18c472c990d66b017b4807561d00561ab26a13bccf42f34c93684553b3cc","first_name":"ETSAHSVA","last_name":"SDFSFDS","fonction":"","phone1":"","phone2":"","email":"testr2@efee.com","comment":"","has_user_account":"1","username":"sdvsvsvsv","password":""} 
+[2026-09-25 16:40:29][INFO] 81 
+[2026-09-25 16:46:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 95ae18c472c990d66b01... 
+[2026-09-25 16:46:16][INFO] Données POST reçues pour modification du contact #121: {"csrf_token":"95ae18c472c990d66b017b4807561d00561ab26a13bccf42f34c93684553b3cc","first_name":"ETSAHSVA","last_name":"SDFSFDS","fonction":"","phone1":"","phone2":"","email":"testr62@efee.com","comment":"","has_user_account":"1","username":"testr62@efee.com","password":""} 
+[2026-09-25 16:46:16][INFO] Mot de passe généré automatiquement pour le contact #121 
+[2026-09-25 16:46:16][INFO] Création du compte utilisateur pour le contact #121: {"email":"testr62@efee.com","password":"0481b587569e","first_name":"ETSAHSVA","last_name":"SDFSFDS","type":"client","is_admin":0,"status":1,"coef_utilisateur":null,"client_id":46} 
+[2026-09-25 16:46:16][INFO] Compte utilisateur #74 créé, liaison au contact #121 
+[2026-09-25 16:46:16][INFO] 81 

@@ -152,33 +152,27 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <div class="mb-3">
                                                 <label for="username" class="form-label">Nom d'utilisateur <span
                                                         class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="username" name="username">
+                                                <input type="text" class="form-control" id="username" name="username" value="">
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="password" class="form-label">Mot de passe <span
-                                                        class="text-danger">*</span></label>
-                                                <div class="input-group">
-                                                    <input type="password" class="form-control" id="password" name="password">
-                                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                                        <i class="bi bi-eye me-1"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="password-rules mt-2">
-                                                    <small class="d-block text-muted">Le mot de passe doit contenir :</small>
-                                                    <ul class="list-unstyled mb-0">
-                                                        <li id="length" class="text-danger"><i class="bi bi-x-lg me-1"></i> Au moins
-                                                            8 caractères</li>
-                                                        <li id="uppercase" class="text-danger"><i class="bi bi-x-lg me-1"></i> Une
-                                                            majuscule</li>
-                                                        <li id="lowercase" class="text-danger"><i class="bi bi-x-lg me-1"></i> Une
-                                                            minuscule</li>
-                                                        <li id="number" class="text-danger"><i class="bi bi-x-lg me-1"></i> Un
-                                                            chiffre</li>
-                                                        <li id="special" class="text-danger"><i class="bi bi-x-lg me-1"></i> Un
-                                                            caractère spécial</li>
-                                                    </ul>
-                                                </div>
+                                          <div class="mb-3">
+                                            <label for="password" class="form-label">Mot de passe <span class="text-muted">(optionnel)</span></label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="password" name="password">
+                                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                                    <i class="bi bi-eye me-1"></i>
+                                                </button>
                                             </div>
+                                            <div class="password-rules mt-2" id="passwordRules" style="display: none;">
+                                                <small class="d-block text-muted">Le mot de passe doit contenir :</small>
+                                                <ul class="list-unstyled mb-0">
+                                                    <li id="length" class="text-danger"><i class="bi bi-x-lg me-1"></i> Au moins 8 caractères</li>
+                                                    <li id="uppercase" class="text-danger"><i class="bi bi-x-lg me-1"></i> Une majuscule</li>
+                                                    <li id="lowercase" class="text-danger"><i class="bi bi-x-lg me-1"></i> Une minuscule</li>
+                                                    <li id="number" class="text-danger"><i class="bi bi-x-lg me-1"></i> Un chiffre</li>
+                                                    <li id="special" class="text-danger"><i class="bi bi-x-lg me-1"></i> Un caractère spécial</li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -195,73 +189,167 @@ include_once __DIR__ . '/../../includes/navbar.php';
     <?php endif; ?>
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const hasUserAccountCheckbox = document.getElementById('has_user_account');
+    const userAccountForm = document.getElementById('userAccountForm');
+    const usernameInput = document.getElementById('username');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordRulesBlock = document.getElementById('passwordRules');
+        if (hasUserAccountCheckbox && userAccountForm) {
+                hasUserAccountCheckbox.addEventListener('change', function() {
+                userAccountForm.style.display = this.checked ? 'block' : 'none';
+                if (this.checked && usernameInput && emailInput) {
+                    usernameInput.value = emailInput.value;
+                }
+            });
+        }
+
+        // Le username suit l'email en temps réel
+        if (emailInput && usernameInput) {
+            emailInput.addEventListener('input', function() {
+                usernameInput.value = this.value;
+            });
+        }
+
+    const passwordRules = {
+        length: /.{8,}/,
+        uppercase: /[A-Z]/,
+        lowercase: /[a-z]/,
+        number: /[0-9]/,
+        special: /[!@#$%^&*(),.?":{}|<>]/
+    };
+
+    /*
+     * Affiche ou masque le formulaire de compte utilisateur
+     */
+    function updateUserAccountForm() {
+        if (!hasUserAccountCheckbox || !userAccountForm) {
+            return;
+        }
+
+        const accountEnabled = hasUserAccountCheckbox.checked;
+
+        userAccountForm.style.display = accountEnabled ? 'block' : 'none';
+
+        /*
+         * Le nom d'utilisateur est obligatoire uniquement
+         * lorsque la création du compte est activée.
+         */
+        if (usernameInput) {
+            usernameInput.required = accountEnabled;
+        }
+
+        /*
+         * Le mot de passe reste toujours facultatif.
+         */
+        if (passwordInput) {
+            passwordInput.required = false;
+        }
+    }
+
+    /*
+     * Met à jour visuellement une règle de mot de passe
+     */
+    function updatePasswordRule(ruleId, isValid) {
+        const ruleElement = document.getElementById(ruleId);
+
+        if (!ruleElement) {
+            return;
+        }
+
+        const icon = ruleElement.querySelector('i');
+
+        ruleElement.classList.toggle('text-success', isValid);
+        ruleElement.classList.toggle('text-danger', !isValid);
+
+        if (icon) {
+            icon.classList.toggle('bi-check-lg', isValid);
+            icon.classList.toggle('bi-x-lg', !isValid);
+        }
+    }
+
+    /*
+     * Valide le mot de passe et affiche les conditions
+     */
+    function validatePassword() {
+        if (!passwordInput) {
+            return;
+        }
+
+        const value = passwordInput.value;
+
+        /*
+         * Le champ est vide :
+         * le mot de passe étant facultatif, on masque les règles.
+         */
+        if (value.length === 0) {
+            if (passwordRulesBlock) {
+                passwordRulesBlock.style.display = 'none';
+            }
+
+            return;
+        }
+
+        /*
+         * Le champ contient une valeur :
+         * on affiche les conditions nécessaires.
+         */
+        if (passwordRulesBlock) {
+            passwordRulesBlock.style.display = 'block';
+        }
+
+        Object.entries(passwordRules).forEach(function ([ruleId, regex]) {
+            updatePasswordRule(ruleId, regex.test(value));
+        });
+    }
+
+    /*
+     * Initialisation de l'affichage au chargement de la page
+     */
+    updateUserAccountForm();
+    validatePassword();
+
+    /*
+     * Gestion de l'affichage du compte utilisateur
+     */
+    if (hasUserAccountCheckbox) {
+        hasUserAccountCheckbox.addEventListener('change', function () {
+            updateUserAccountForm();
+        });
+    }
+
+    /*
+     * Affichage ou masquage du mot de passe
+     */
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', function () {
+            const passwordIsHidden = passwordInput.type === 'password';
+
+            passwordInput.type = passwordIsHidden ? 'text' : 'password';
+
+            const icon = togglePassword.querySelector('i');
+
+            if (icon) {
+                icon.classList.toggle('bi-eye', !passwordIsHidden);
+                icon.classList.toggle('bi-eye-slash', passwordIsHidden);
+            }
+        });
+    }
+
+    /*
+     * Validation en temps réel pendant la saisie
+     */
+    if (passwordInput) {
+        passwordInput.addEventListener('input', function () {
+            validatePassword();
+        });
+    }
+});
+</script>
+
 <?php
 include_once __DIR__ . '/../../includes/footer.php';
 ?>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const hasUserAccountCheckbox = document.getElementById('has_user_account');
-        const userAccountForm = document.getElementById('userAccountForm');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const togglePassword = document.getElementById('togglePassword');
-
-        if (hasUserAccountCheckbox && userAccountForm) {
-            hasUserAccountCheckbox.addEventListener('change', function () {
-                if (this.checked) {
-                    userAccountForm.style.display = 'block';
-                    if (usernameInput) usernameInput.required = true;
-                    if (passwordInput) passwordInput.required = true;
-                } else {
-                    userAccountForm.style.display = 'none';
-                    if (usernameInput) usernameInput.required = false;
-                    if (passwordInput) passwordInput.required = false;
-                }
-            });
-        }
-
-        // Gestion de l'affichage/masquage du mot de passe
-        if (togglePassword) {
-            togglePassword.addEventListener('click', function (e) {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                this.querySelector('i').classList.toggle('bi-eye');
-                this.querySelector('i').classList.toggle('bi-eye-slash');
-            });
-        }
-
-        // Validation en temps réel du mot de passe
-        const passwordRules = {
-            length: /.{8,}/,
-            uppercase: /[A-Z]/,
-            lowercase: /[a-z]/,
-            number: /[0-9]/,
-            special: /[!@#$%^&*(),.?":{}|<>]/
-        };
-
-        if (passwordInput) {
-            passwordInput.addEventListener('input', function () {
-                const value = this.value;
-
-                // Vérifier chaque règle
-                for (const [rule, regex] of Object.entries(passwordRules)) {
-                    const element = document.getElementById(rule);
-                    const isValid = regex.test(value);
-
-                    if (isValid) {
-                        element.classList.remove('text-danger');
-                        element.classList.add('text-success');
-                        element.querySelector('i').classList.remove('bi-x-lg');
-                        element.querySelector('i').classList.add('bi-check-lg');
-                    } else {
-                        element.classList.remove('text-success');
-                        element.classList.add('text-danger');
-                        element.querySelector('i').classList.remove('bi-check-lg');
-                        element.querySelector('i').classList.add('bi-x-lg');
-                    }
-                }
-            });
-        }
-    });
-</script>
