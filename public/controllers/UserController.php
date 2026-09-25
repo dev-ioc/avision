@@ -6,16 +6,22 @@
 
 // Inclure les fonctions utilitaires
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../controllers/QRCodeController.php';
+require_once __DIR__ . '/../classes/MailService.php';
 
 class UserController
 {
     private $userModel;
     private $db;
+    private $qrcodeController;
+    private $mailService;
 
     public function __construct($db)
     {
         $this->db = $db;
         $this->userModel = new UserModel($db);
+        $this->qrcodeController = new QRCodeController();
+        $this->mailService = new MailService($db);
     }
 
     /**
@@ -332,10 +338,17 @@ class UserController
         }
 
         // Validation du mot de passe (uniquement pour la création ou si fourni)
-        if (!isset($data['password']) && !$excludeId) {
-            $errors[] = "Le mot de passe est requis";
-        } elseif (isset($data['password']) && strlen($data['password']) < 8) {
-            $errors[] = "Le mot de passe doit contenir au moins 8 caractères";
+        if (!empty($data['password'])) {
+            $pwd = $data['password'];
+            if (
+                strlen($pwd) < 8
+                || !preg_match('/[A-Z]/', $pwd)
+                || !preg_match('/[a-z]/', $pwd)
+                || !preg_match('/\d/', $pwd)
+                || !preg_match('/[^A-Za-z0-9]/', $pwd)
+            ) {
+                $errors[] = "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial";
+            }
         }
 
         // Validation du type
@@ -687,9 +700,7 @@ class UserController
             $this->userModel->savePasswordResetToken($userId, $resetToken, $expiresAt, $_SESSION['user']['id']);
 
             // Envoyer l'email
-            require_once __DIR__ . '/../classes/MailService.php';
-            $mailService = new MailService($this->db);
-            $mailService->sendPasswordResetLink($user, $resetToken);
+            $this->mailService->sendPasswordResetLink($user, $resetToken);
 
             echo json_encode([
                 'success' => true,
@@ -703,6 +714,41 @@ class UserController
                 'message' => 'Erreur lors de l\'envoi : ' . $e->getMessage()
             ]);
         }
+        exit;
+    }
+    public function exportStaffCsv()
+    {
+        if (!isset($_SESSION['user']) || !isAdmin()) {
+            $_SESSION['error'] = "Vous n'avez pas les droits nécessaires.";
+            header('Location: ' . BASE_URL . 'dashboard');
+            exit;
+        }
+        $previousDisplayErrors = ini_set('display_errors', '0');
+        error_reporting(0);
+
+        $staffMembers = $this->userModel->getTechnicians();
+
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="staff_export_' . date('Y-m-d') . '.csv"');
+
+        $output = fopen('php://output', 'w');
+        fwrite($output, chr(0xEF) . chr(0xBB) . chr(0xBF));
+        fputcsv($output, ['Nom', 'Prénom', 'URL'], ';');
+
+        foreach ($staffMembers as $staff) {
+            $url = $this->qrcodeController->generateStaffQRUrl($staff['id']);
+            fputcsv($output, [
+                $staff['last_name'] ?? '',
+                $staff['first_name'] ?? '',
+                $url
+            ], ';');
+        }
+
+        fclose($output);
         exit;
     }
 }

@@ -121,34 +121,23 @@ echo '<script>const baseUrl = "' . BASE_URL . '";</script>';
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Mot de passe *</label>
+                       <div class="mb-3">
+                            <label for="password" class="form-label">Mot de passe <span class="text-muted">(optionnel)</span></label>
                             <div class="input-group">
-                                <input type="password" class="form-control bg-body text-body" id="password" name="password" required>
+                                <input type="password" class="form-control bg-body text-body" id="password" name="password" autocomplete="new-password">
                                 <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                                     <i class="bi bi-eye me-1"></i>
                                 </button>
                             </div>
-                            <div class="password-rules mt-2">
-                                <small class="d-block text-muted">Le mot de passe doit contenir :</small>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <ul class="list-unstyled mb-0">
-                                            <li id="length" class="text-danger"><i class="bi bi-x-lg me-1"></i> Au moins 8 caractères</li>
-                                            <li id="uppercase" class="text-danger"><i class="bi bi-x-lg me-1"></i> Une majuscule</li>
-                                            <li id="lowercase" class="text-danger"><i class="bi bi-x-lg me-1"></i> Une minuscule</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-6">
-                                        <ul class="list-unstyled mb-0">
-                                            <li id="number" class="text-danger"><i class="bi bi-x-lg me-1"></i> Un chiffre</li>
-                                            <li id="special" class="text-danger"><i class="bi bi-x-lg me-1"></i> Un caractère spécial</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                            <div class="form-text text-muted">
+                                <i class="bi bi-info-circle me-1"></i>
+                                Laissez vide : l'utilisateur définira son mot de passe via « Mot de passe oublié » avec son adresse email.
+                            </div>
+                            <div class="password-rules mt-2" style="display:none;">
+                                <!-- contenu inchangé -->
                             </div>
                             <div class="invalid-feedback">
-                                Veuillez saisir un mot de passe valide.
+                                Le mot de passe saisi n'est pas valide.
                             </div>
                         </div>
 
@@ -275,6 +264,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialiser la validation du mot de passe
     const passwordRules = document.querySelector('.password-rules');
     initPasswordValidation('password', passwordRules);
+    const pwdInput = document.getElementById('password');
+    passwordRules.style.display = pwdInput.value === '' ? 'none' : 'block'; 
+    pwdInput.addEventListener('input', function () {
+        const empty = this.value === '';
+        passwordRules.style.display = empty ? 'none' : 'block';
+        if (empty) {
+            this.classList.remove('is-invalid', 'is-valid');
+            this.setCustomValidity('');
+        }
+    });
 
     // Gestion des sections en fonction du type d'utilisateur
     const typeSelect = document.getElementById('type');

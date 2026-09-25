@@ -440,6 +440,9 @@ try {
                         echo json_encode(['success' => false, 'message' => 'ID utilisateur manquant.']);
                     }
                     break;
+                case 'export_csv':
+                    $userController->exportStaffCsv();
+                    break;
                 default:
                     header('Location: ' . BASE_URL . 'user');
                     break;
@@ -1750,6 +1753,9 @@ try {
                 case 'get_room_access_level':
                     $materielController->get_room_access_level();
                     break;
+                case 'check_serial':
+                    $materielController->check_serial();
+                    break;
                 case 'getAttachments':
                     if ($id) {
                         $materielController->getAttachments($id);
@@ -2243,8 +2249,10 @@ try {
                         $qrcodeController->generateSite($parts[3]);
                     } elseif (isset($parts[2]) && $parts[2] === 'salle' && isset($parts[3])) {
                         $qrcodeController->generateSalle($parts[3]);
-                    } elseif (isset($parts[2]) && $parts[2] === 'vip' && isset($parts[3])) {   // AJOUT
-                        $qrcodeController->generateVipContacts($parts[3]);                     // AJOUT
+                    } elseif (isset($parts[2]) && $parts[2] === 'vip' && isset($parts[3])) {
+                        $qrcodeController->generateVipContacts($parts[3]);
+                    } elseif (isset($parts[2]) && $parts[2] === 'staff') {
+                        $qrcodeController->generateStaff();
                     } else {
                         header('Location: ' . BASE_URL . 'dashboard');
                     }
@@ -2268,6 +2276,14 @@ try {
         case 'contact_vip':
             if (!isset($_SESSION['user'])) {
                 $_SESSION['qr_contact_vip'] = $qr['target_id'];
+                header('Location: ' . BASE_URL . 'auth/login');
+            } else {
+                header('Location: ' . BASE_URL . 'dashboard');
+            }
+            break;
+        case 'staff_member':
+            if (!isset($_SESSION['user'])) {
+                $_SESSION['qr_staff_member'] = $qr['target_id'];
                 header('Location: ' . BASE_URL . 'auth/login');
             } else {
                 header('Location: ' . BASE_URL . 'dashboard');

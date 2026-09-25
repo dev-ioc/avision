@@ -672,6 +672,41 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       </div>
     </div>
   </div>
+  <div class="modal fade" id="duplicateSerialModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+            Doublons détectés
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <p class="mb-2">
+            Le numéro de série suivant est déjà utilisé :
+          </p>
+
+          <div id="duplicateSerialList" class="alert alert-warning mb-3"></div>
+
+          <p class="mb-0">
+            Voulez-vous quand même enregistrer ces données ?
+          </p>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Fermer
+          </button>
+
+          <!-- <button type="button" class="btn btn-warning" id="confirmDuplicateSave">
+            Enregistrer quand même
+          </button> -->
+        </div>
+      </div>
+    </div>
+  </div>
   <script>
     const baseUrl = '<?= BASE_URL ?>';
     let hotInstances = {};
@@ -681,6 +716,7 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
     const ID_INDEX = <?= $idIndex ?>;
     const PIECES_JOINTES_INDEX = <?= $piecesJointesIndex ?>;
     const CONFIG_INDEX = <?= $configIndex ?>;
+    const SERIAL_INDEX = <?= array_search('numero_serie', array_column($allColumns, 'field')) ?>;
     const FIELD_VALIDATORS = {
       date_fin_maintenance: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Expiration', example: '2026-12-31' },
       date_fin_garantie: { regex: /^\d{4}-\d{2}-\d{2}$/, label: 'Date Garantie', example: '2026-12-31' },
@@ -1946,11 +1982,12 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
               body: fd
             })
               .then(async response => {
-                if (response.status >= 200 && response.status < 400) {
+                const failed = response.redirected && /\/materiel\/add(\?|$)/.test(response.url);
+                if (!failed && response.status >= 200 && response.status < 400) {
                   totalCreated++;
                 } else {
                   totalErrors++;
-                  errorDetails.push(`Échec création "${marqueRef} ${modeleRef}" : ${response.status}`);
+                  errorDetails.push(`Création refusée pour "${marqueRef} ${modeleRef}" (numéro de série déjà existant ?)`);
                 }
               })
               .catch(() => { totalErrors++; errorDetails.push(`Erreur réseau pour "${marqueRef} ${modeleRef}"`); })
@@ -2015,7 +2052,69 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         );
       });
     };
+    const saveAllTablesDataOriginal = window.saveAllTablesData;
 
+    window.saveAllTablesData = async function () {
+      // Numéros de série des lignes NOUVELLES (sans id) uniquement
+      const serials = [];
+      Object.values(hotInstances).forEach(hot => {
+        hot.getSourceData().forEach(row => {
+          const s = String(row[SERIAL_INDEX] ?? '').trim();
+          if (!row[ID_INDEX] && s) serials.push(s);
+        });
+      });
+
+      if (serials.length) {
+        const problems = [];
+
+        // Doublons à l'intérieur du lot saisi
+        const seen = new Set();
+        serials.forEach(s => {
+          const k = s.toLowerCase();
+          if (seen.has(k)) problems.push(`• ${s} : saisi plusieurs fois dans cette sauvegarde`);
+          seen.add(k);
+        });
+
+        // Doublons avec la base
+        const unique = [...new Set(serials)];
+        let checkFailed = false;
+        const results = await Promise.all(unique.map(s =>
+          fetch(baseUrl + 'materiel/check_serial?numero_serie=' + encodeURIComponent(s), { credentials: 'include' })
+            .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+            .then(d => ({ s, dups: d.duplicates || [] }))
+            .catch(err => { console.error('check_serial', err); checkFailed = true; return { s, dups: [] }; })
+        ));
+        if (checkFailed) showToast('Vérification des doublons impossible (voir la console).', 'info');
+        results.forEach(({ s, dups }) => dups.forEach(d => {
+          const where = [d.client_nom, d.site_nom, d.building_nom, d.salle_nom].filter(Boolean).join(' › ');
+          problems.push(`• ${s} : déjà présent (${(d.marque || '') + ' ' + (d.modele || '')}${where ? ' — ' + where : ''})`);
+        }));
+
+        if (problems.length) {
+          const list = problems.slice(0, 8);
+
+          $('#duplicateSerialList').html(
+            list.map(serial => `<div>${escapeHtml(serial)}</div>`).join('')
+          );
+
+          if (problems.length > 8) {
+            $('#duplicateSerialList').append(
+              `<div class="mt-1 text-muted">... et ${problems.length - 8} autre(s)</div>`
+            );
+          }
+
+          const modal = new bootstrap.Modal(
+            document.getElementById('duplicateSerialModal')
+          );
+
+          modal.show();
+
+          return;
+        }
+      }
+
+      saveAllTablesDataOriginal();
+    };
     document.addEventListener('DOMContentLoaded', function () {
       initAllFilters();
       <?php if ($hasAnyFilter && !empty($materiel_organise)): ?>
@@ -2099,14 +2198,75 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
       });
     });
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.modal').forEach(function (modal) {
+        modal.addEventListener('hidden.bs.modal', function () {
+          const dialog = modal.querySelector('.modal-dialog');
+          if (dialog) {
+            dialog.style.position = '';
+            dialog.style.left = '';
+            dialog.style.top = '';
+            dialog.style.margin = '';
+            dialog.style.width = '';
+            dialog.style.maxWidth = '';
+          }
+        });
+
+        modal.addEventListener('shown.bs.modal', function () {
+          const dialog = modal.querySelector('.modal-dialog');
+          const header = modal.querySelector('.modal-header');
+          if (!dialog || !header) return;
+          if (header.dataset.draggable) return;
+          header.dataset.draggable = 'true';
+
+          header.style.cursor = 'grab';
+
+          let isDragging = false;
+          let startX, startY, startLeft, startTop;
+
+          header.addEventListener('mousedown', function (e) {
+            if (e.target.closest('button')) return;
+
+            isDragging = true;
+            header.style.cursor = 'grabbing';
+
+            const rect = dialog.getBoundingClientRect();
+            startX = e.clientX;
+            startY = e.clientY;
+            startLeft = rect.left;
+            startTop = rect.top;
+            dialog.style.width = rect.width + 'px';
+            dialog.style.maxWidth = 'none';
+            dialog.style.position = 'fixed';
+            dialog.style.left = startLeft + 'px';
+            dialog.style.top = startTop + 'px';
+            dialog.style.margin = '0';
+          });
+
+          document.addEventListener('mousemove', function (e) {
+            if (!isDragging) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            dialog.style.left = (startLeft + dx) + 'px';
+            dialog.style.top = (startTop + dy) + 'px';
+          });
+
+          document.addEventListener('mouseup', function () {
+            if (isDragging) {
+              isDragging = false;
+              header.style.cursor = 'grab';
+            }
+          });
+        });
+
+      });
+    });
+  </script>
   <style>
     body {
       background: #f4f6f9;
       font-family: "Segoe UI", sans-serif;
-    }
-
-    .card-body {
-      overflow: hidden;
     }
 
     .table-wrapper {
@@ -2271,4 +2431,5 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
 </body>
 
 </html>
+<script src="<?= BASE_URL ?>assets/js/pages/materiel-serial-check.js"></script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

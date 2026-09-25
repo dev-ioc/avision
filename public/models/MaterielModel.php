@@ -1100,4 +1100,36 @@ class MaterielModel extends BaseModel
         $stmt->execute([':id' => $id]);
         return (bool) $stmt->fetchColumn();
     }
+    /**
+     * Cherche les matériels ayant le même numéro de série (avec leur localisation).
+     * $excludeId permet d'ignorer le matériel en cours de modification.
+     */
+    public function findBySerialNumber(string $serial, ?int $excludeId = null): array
+    {
+        $serial = trim($serial);
+        if ($serial === '') {
+            return [];
+        }
+
+        $sql = "SELECT m.id, m.marque, m.modele, m.numero_serie,
+                   r.name AS salle_nom, b.name AS building_nom,
+                   s.name AS site_nom, c.name AS client_nom
+            FROM materiel m
+            LEFT JOIN rooms r ON m.salle_id = r.id
+            LEFT JOIN buildings b ON r.building_id = b.id
+            LEFT JOIN sites s ON b.site_id = s.id
+            LEFT JOIN clients c ON s.client_id = c.id
+            WHERE TRIM(m.numero_serie) = :serial";
+        $params = [':serial' => $serial];
+
+        if ($excludeId) {
+            $sql .= " AND m.id <> :exclude_id";
+            $params[':exclude_id'] = $excludeId;
+        }
+        $sql .= " LIMIT 10";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
