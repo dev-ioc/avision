@@ -226,54 +226,54 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </div>
             <?php endif; ?>
 
-            <!-- Section des localisations autorisées -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">
-                                <i class="bi bi-building me-2"></i>Localisations autorisées
-                            </h5>
-                        </div>
-                        <div class="card-body">
+           <!-- Section des localisations autorisées -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-building me-2"></i>Localisations autorisées
+                </h5>
+            </div>
+            <div class="card-body">
 
-                            <?php if (empty($sitesWithAccess)): ?>
-                                <div class="text-center py-5">
-                                    <div class="text-muted">
-                                        <i class="bi bi-building fs-1 mb-3"></i>
-                                        <p>Aucune localisation disponible</p>
-                                    </div>
-                                </div>
-                            <?php else: ?>
-                                <div class="list-group">
-                                    <?php foreach ($sitesWithAccess as $site): ?>
-                                        <div class="list-group-item p-0 border-0 mb-1">
-                                            <div
-                                                class="d-flex align-items-center p-2 <?php echo isset($site['authorized']) && $site['authorized'] ? 'bg-success bg-opacity-10 border-start border-success border-4' : 'bg-light border-start border-secondary border-4'; ?>">
-                                                <div class="flex-grow-1">
-                                                    <div class="d-flex align-items-center">
-                                                        <i
-                                                            class="bi bi-building me-2 <?php echo isset($site['authorized']) && $site['authorized'] ? 'text-success' : 'text-secondary'; ?>"></i>
-                                                        <span
-                                                            class="<?php echo isset($site['authorized']) && $site['authorized'] ? 'text-success' : 'text-secondary'; ?>">
-                                                            <?php echo h($site['name']); ?>
-                                                        </span>
-                                                        <?php if (isset($site['authorized']) && $site['authorized']): ?>
-                                                            <span class="badge bg-success ms-2">Autorisé</span>
-                                                        <?php else: ?>
-                                                            <span class="badge bg-secondary ms-2">Non autorisé</span>
-                                                        <?php endif; ?>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            <?php endif; ?>
+                <?php
+                // On ne garde que les sites autorisés
+                $authorizedSites = array_filter($sitesWithAccess, function ($site) {
+                    return isset($site['authorized']) && $site['authorized'];
+                });
+                ?>
+
+                <?php if (empty($authorizedSites)): ?>
+                    <div class="text-center py-5">
+                        <div class="text-muted">
+                            <i class="bi bi-building fs-1 mb-3"></i>
+                            <p>Aucune localisation disponible</p>
                         </div>
                     </div>
-                </div>
+                <?php else: ?>
+                    <div class="list-group">
+                        <?php foreach ($authorizedSites as $site): ?>
+                            <div class="list-group-item p-0 border-0 mb-1">
+                                <div class="d-flex align-items-center p-2 bg-success bg-opacity-10 border-start border-success border-4">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-building me-2 text-success"></i>
+                                            <span class="text-success">
+                                                <?php echo h($site['name']); ?>
+                                            </span>
+                                            <span class="badge bg-success ms-2">Autorisé</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             </div>
+        </div>
+    </div>
+</div>
         </div>
     </div>
 </div>
