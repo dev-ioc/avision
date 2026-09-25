@@ -9,7 +9,9 @@ if (!isset($_SESSION['user'])) {
     header('Location: ' . BASE_URL . 'auth/login');
     exit;
 }
-
+$flashSuccess = $_SESSION['success'] ?? null;
+$flashError   = $_SESSION['error'] ?? null;
+unset($_SESSION['success'], $_SESSION['error']);
 
 // Inclure les fonctions utilitaires (seulement si pas déjà inclus)
 if (!function_exists('setPageVariables')) {

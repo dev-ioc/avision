@@ -196,14 +196,12 @@ require_once __DIR__ . '/functions.php';
           <div data-i18n="Page 1">Tableau de bord</div>
         </a>
       </li>
-    <?php if (hasPermission('client_view_contracts')): ?>
       <li class="menu-item <?php echo isActivePage('interventions_client'); ?>">
         <a href="<?php echo BASE_URL; ?>interventions_client" class="menu-link">
           <i class="menu-icon bi bi-tools"></i>
           <div data-i18n="interventions">Interventions</div>
         </a>
       </li>
-    <?php endif; ?>
 
       <li class="menu-item <?php echo isActivePage('contracts_client'); ?>">
         <a href="<?php echo BASE_URL; ?>contracts_client" class="menu-link">

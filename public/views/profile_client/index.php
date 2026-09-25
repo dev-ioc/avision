@@ -60,20 +60,18 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
 
         <!-- ALERTES -->
-        <?php if (isset($_SESSION['success'])): ?>
+       <?php if ($flashSuccess): ?>
             <div class="alert alert-success alert-dismissible fade show">
-                <?= $_SESSION['success'] ?>
+                <?= $flashSuccess ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
-            <?php unset($_SESSION['success']); ?>
         <?php endif; ?>
 
-        <?php if (isset($_SESSION['error'])): ?>
+        <?php if ($flashError): ?>
             <div class="alert alert-danger alert-dismissible fade show">
-                <?= $_SESSION['error'] ?>
+                <?= $flashError ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
-            <?php unset($_SESSION['error']); ?>
         <?php endif; ?>
 
         <!-- INFOS -->

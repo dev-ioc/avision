@@ -141836,3 +141836,407 @@ Quant à l’écran n°1, il est HS
 [2026-09-25 14:29:21][DEBUG] DocumentationClientController::index - Paramètres: [50] 
 [2026-09-25 14:29:21][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
 [2026-09-25 14:29:21][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=, building_id=, salle_id= 
+[2026-09-25 14:43:31][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:31][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-25 14:43:31][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-25 14:43:31][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-25 14:43:39][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:39][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:39][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:44][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:44][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:44][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:44][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:44][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:45][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:45][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:45][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:45][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:46][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:47][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:47][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:52][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:52][DEBUG] load_permissions - Session ID: latba39o5vcnv3lkq7rnbmjuhe, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-25 14:43:52][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:43:52][DEBUG] load_client_locations - Session ID: latba39o5vcnv3lkq7rnbmjuhe, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-25 14:43:52][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-09-25 14:44:14][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:44:14][INFO] Sauvegarde des localisations pour l'utilisateur 48, type: client 
+[2026-09-25 14:44:14][DEBUG] Localisations reçues: {"sites":["80"]} 
+[2026-09-25 14:44:14][INFO] Début de saveUserLocations pour l'utilisateur 48 
+[2026-09-25 14:44:14][INFO] Localisations reçues: {"sites":["80"]} 
+[2026-09-25 14:44:14][INFO] Type d'utilisateur récupéré: client 
+[2026-09-25 14:44:14][DEBUG] DEBUG - Client ID récupéré: 50 (depuis POST: 50, depuis user: 50) 
+[2026-09-25 14:44:14][INFO] Traitement de 1 sites pour l'utilisateur 48 
+[2026-09-25 14:44:14][INFO] Site 80 (MERY) enregistré pour l'utilisateur 48 
+[2026-09-25 14:44:14][INFO] Sauvegarde des localisations terminée avec succès pour l'utilisateur 48 
+[2026-09-25 14:44:14][INFO] Résultat de saveUserLocations: SUCCÈS 
+[2026-09-25 14:44:15][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:44:15][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:44:16][DEBUG] CSRF: Token trouvé dans la requête - Token: f83b09726608eefa331e... 
+[2026-09-25 14:44:27][DEBUG] CSRF: Token trouvé dans la requête - Token: f5b51a9f4e93b8b0eb2e... 
+[2026-09-25 14:44:27][DEBUG] Permissions chargées pour TEST CLIENT : {"role":"client","rights":{"client_modify_info":true,"client_view_materiel":true,"client_view_documentation":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-25 14:44:27][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":48,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-25 14:44:27][DEBUG] Login réussi (étape mot de passe) - user_id: 48 
+[2026-09-25 14:54:48][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-25 14:54:48][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-25 14:54:48][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - START 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-25 14:54:48][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-25 14:54:48][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-25 14:54:49][INFO] 80 
+[2026-09-25 14:54:49][ERROR] Erreur lors de la récupération des salles : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.delivery_date' in 'field list' 
+[2026-09-25 14:54:49][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-25 14:54:56][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-25 14:54:56][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-25 14:54:56][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - START 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-25 14:54:56][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-25 14:54:56][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-25 14:54:56][INFO] 80 
+[2026-09-25 14:54:56][ERROR] Erreur lors de la récupération des salles : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.delivery_date' in 'field list' 
+[2026-09-25 14:54:56][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-25 15:04:16][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-25 15:04:16][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-25 15:04:16][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - START 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-25 15:04:16][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-25 15:04:16][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-25 15:04:16][INFO] 80 
+[2026-09-25 15:04:16][ERROR] Erreur lors de la récupération des salles : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.delivery_date' in 'field list' 
+[2026-09-25 15:04:16][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-25 15:04:33][DEBUG] MaterielClientController::index - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:04:33][DEBUG] getSitesByLocations - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:04:33][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 50 AND s.id = 80)) 
+[2026-09-25 15:04:33][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 50 AND s.id = 80)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-25 15:04:33][DEBUG] getSitesByLocations - result count: 1 
+[2026-09-25 15:04:33][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:04:33][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 50 AND s.id = 80)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-09-25 15:04:33][DEBUG] getBuildingsByLocations - result count: 1 
+[2026-09-25 15:04:33][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 80)) 
+[2026-09-25 15:04:33][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 80)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-25 15:04:33][DEBUG] getAllByLocations - Params: [] 
+[2026-09-25 15:04:33][DEBUG] getAllByLocations - Results count: 66 
+[2026-09-25 15:04:35][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:04:35][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.first_name as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?)))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-09-25 15:04:35][DEBUG] DocumentationClientController::index - Paramètres: [50] 
+[2026-09-25 15:04:35][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 0 
+[2026-09-25 15:04:35][WARNING] DocumentationClientController::index - Aucun document trouvé avec les filtres: site_id=, building_id=, salle_id= 
+[2026-09-25 15:11:25][DEBUG] MaterielClientController::index - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:11:25][DEBUG] getSitesByLocations - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:11:25][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 50 AND s.id = 80)) 
+[2026-09-25 15:11:25][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 50 AND s.id = 80)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-25 15:11:25][DEBUG] getSitesByLocations - result count: 1 
+[2026-09-25 15:11:25][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:11:25][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 50 AND s.id = 80)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-09-25 15:11:25][DEBUG] getBuildingsByLocations - result count: 1 
+[2026-09-25 15:11:25][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 80)) 
+[2026-09-25 15:11:25][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 80)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-25 15:11:25][DEBUG] getAllByLocations - Params: [] 
+[2026-09-25 15:11:25][DEBUG] getAllByLocations - Results count: 66 
+[2026-09-25 15:20:00][DEBUG] MaterielClientController::index - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:20:00][DEBUG] getSitesByLocations - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:20:00][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 50 AND s.id = 80)) 
+[2026-09-25 15:20:00][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 50 AND s.id = 80)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-25 15:20:00][DEBUG] getSitesByLocations - result count: 1 
+[2026-09-25 15:20:00][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:20:00][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 50 AND s.id = 80)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-09-25 15:20:00][DEBUG] getBuildingsByLocations - result count: 1 
+[2026-09-25 15:20:00][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 80)) 
+[2026-09-25 15:20:00][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 80)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-25 15:20:00][DEBUG] getAllByLocations - Params: [] 
+[2026-09-25 15:20:00][DEBUG] getAllByLocations - Results count: 66 
+[2026-09-25 15:20:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 9cb9446899bb7f26f402... 
+[2026-09-25 15:20:45][DEBUG] Permissions chargées pour TEST CLIENT : {"role":"client","rights":{"client_modify_info":true,"client_view_materiel":true,"client_view_documentation":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-25 15:20:45][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":48,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-25 15:20:45][DEBUG] Login réussi (étape mot de passe) - user_id: 48 
+[2026-09-25 15:20:50][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-25 15:20:50][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-25 15:20:50][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - START 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-25 15:20:50][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-25 15:20:50][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-25 15:20:50][INFO] 80 
+[2026-09-25 15:20:50][ERROR] Erreur lors de la récupération des salles : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.delivery_date' in 'field list' 
+[2026-09-25 15:20:50][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-25 15:21:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:00][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-25 15:21:00][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-25 15:21:00][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-25 15:21:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:11][DEBUG] load_permissions - Session ID: ob8hp8uk6ed5lvdi2vvduc8qq4, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-25 15:21:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:12][DEBUG] load_client_locations - Session ID: ob8hp8uk6ed5lvdi2vvduc8qq4, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-25 15:21:12][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-09-25 15:21:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:32][INFO] Sauvegarde des localisations pour l'utilisateur 48, type: client 
+[2026-09-25 15:21:32][DEBUG] Localisations reçues: {"sites":["80"]} 
+[2026-09-25 15:21:32][INFO] Début de saveUserLocations pour l'utilisateur 48 
+[2026-09-25 15:21:32][INFO] Localisations reçues: {"sites":["80"]} 
+[2026-09-25 15:21:32][INFO] Type d'utilisateur récupéré: client 
+[2026-09-25 15:21:32][DEBUG] DEBUG - Client ID récupéré: 50 (depuis POST: 50, depuis user: 50) 
+[2026-09-25 15:21:32][INFO] Traitement de 1 sites pour l'utilisateur 48 
+[2026-09-25 15:21:32][INFO] Site 80 (MERY) enregistré pour l'utilisateur 48 
+[2026-09-25 15:21:32][INFO] Sauvegarde des localisations terminée avec succès pour l'utilisateur 48 
+[2026-09-25 15:21:32][INFO] Résultat de saveUserLocations: SUCCÈS 
+[2026-09-25 15:21:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 8617a52b1c389f332085... 
+[2026-09-25 15:21:37][DEBUG] CSRF: Token trouvé dans la requête - Token: c2692b3f7900b38cc238... 
+[2026-09-25 15:21:37][DEBUG] Permissions chargées pour TEST CLIENT : {"role":"client","rights":{"client_view_materiel":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-25 15:21:37][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":48,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-25 15:21:37][DEBUG] Login réussi (étape mot de passe) - user_id: 48 
+[2026-09-25 15:21:47][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-25 15:21:48][DEBUG] CSRF: Token trouvé dans la requête - Token: c2692b3f7900b38cc238... 
+[2026-09-25 15:21:48][DEBUG] CSRF: Token trouvé dans la requête - Token: c2692b3f7900b38cc238... 
+[2026-09-25 15:21:48][DEBUG] CSRF: Token trouvé dans la requête - Token: c2692b3f7900b38cc238... 
+[2026-09-25 15:22:26][DEBUG] CSRF: Token trouvé dans la requête - Token: c2692b3f7900b38cc238... 
+[2026-09-25 15:22:34][DEBUG] CSRF: Token trouvé dans la requête - Token: c2692b3f7900b38cc238... 
+[2026-09-25 15:22:38][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-25 15:22:38][DEBUG] CSRF: Token trouvé dans la requête - Token: c2692b3f7900b38cc238... 
+[2026-09-25 15:22:38][DEBUG] CSRF: Token trouvé dans la requête - Token: c2692b3f7900b38cc238... 
+[2026-09-25 15:22:39][DEBUG] CSRF: Token trouvé dans la requête - Token: c2692b3f7900b38cc238... 
+[2026-09-25 15:22:46][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-25 15:22:46][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-25 15:22:46][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - START 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-25 15:22:46][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-25 15:22:46][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-25 15:22:46][INFO] 80 
+[2026-09-25 15:22:46][ERROR] Erreur lors de la récupération des salles : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.delivery_date' in 'field list' 
+[2026-09-25 15:22:46][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-25 15:22:50][INFO] 80 
+[2026-09-25 15:22:50][ERROR] Erreur lors de la récupération des salles : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.delivery_date' in 'field list' 
+[2026-09-25 15:22:58][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-25 15:22:58][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-25 15:22:58][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - START 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-25 15:22:58][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-25 15:22:58][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-25 15:22:58][INFO] 80 
+[2026-09-25 15:22:58][ERROR] Erreur lors de la récupération des salles : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.delivery_date' in 'field list' 
+[2026-09-25 15:22:58][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-25 15:23:12][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-25 15:23:12][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-25 15:23:12][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - START 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-25 15:23:12][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-25 15:23:12][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-25 15:23:12][INFO] 80 
+[2026-09-25 15:23:12][ERROR] Erreur lors de la récupération des salles : SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.delivery_date' in 'field list' 
+[2026-09-25 15:23:12][DEBUG] SiteClientController::index - sites count: 1 
