@@ -42,7 +42,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <a href="<?php echo BASE_URL; ?>user" class="btn btn-secondary me-2">
                 <i class="bi bi-arrow-left me-1"></i> Retour
             </a>
-            <a href="<?php echo BASE_URL; ?>user/edit/<?php echo $user['id']; ?>" class="btn btn-warning me-2">
+            <a href="<?php echo BASE_URL; ?>user/edit/<?php echo $user['id']; ?><?php echo isset($returnUrl) ? '?return_url=' . urlencode($returnUrl) : ''; ?>" class="btn btn-warning me-2">
                 <i class="bi bi-pencil me-1"></i> Modifier
             </a>
             <button type="button" class="btn btn-info me-2" onclick="sendResetLink(<?php echo $user['id']; ?>)">

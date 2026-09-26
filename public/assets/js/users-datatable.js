@@ -9,6 +9,49 @@ document.addEventListener("DOMContentLoaded", function () {
   const dt_users_table = document.querySelector("#usersTable");
 
   if (dt_users_table) {
+    const searchStorageKey = "users_search_value";
+
+    function getUsersSearchInput() {
+      return document.querySelector(
+        '#usersTable_wrapper input[type="search"], ' +
+          '#usersTable_wrapper input[aria-controls="usersTable"], ' +
+          '#usersTable_filter input[type="search"], ' +
+          'input[aria-controls="usersTable"]',
+      );
+    }
+
+    function saveUsersSearch() {
+      const searchInput = getUsersSearchInput();
+
+      if (searchInput) {
+        sessionStorage.setItem(searchStorageKey, searchInput.value);
+      }
+    }
+
+    // Sauvegarder la recherche pendant la saisie.
+    document.addEventListener("input", function (event) {
+      if (
+        event.target.matches(
+          '#usersTable_wrapper input[type="search"], ' +
+            '#usersTable_wrapper input[aria-controls="usersTable"], ' +
+            '#usersTable_filter input[type="search"], ' +
+            'input[aria-controls="usersTable"]',
+        )
+      ) {
+        sessionStorage.setItem(searchStorageKey, event.target.value);
+      }
+    });
+
+    // Sauvegarder la recherche avant l'ouverture de la modification.
+    // Cette délégation fonctionne aussi si le lien est généré en JavaScript.
+    document.addEventListener("click", function (event) {
+      const editLink = event.target.closest('a[href*="/user/edit/"]');
+
+      if (editLink) {
+        saveUsersSearch();
+      }
+    });
+
     // v4 : bump obligatoire à chaque changement de structure de colonnes
     // (ici, suppression de la colonne "Nom d'utilisateur" : 7 → 6 colonnes)
     const tableConfigKey = "usersTable_v4";
@@ -34,8 +77,37 @@ document.addEventListener("DOMContentLoaded", function () {
         ? savedConfig.order
         : [[0, "asc"]];
 
+    const pageLength = savedConfig.pageLength || 10;
+
+    // Lire la recherche sauvegardée AVANT de construire la table : si une
+    // recherche va être restaurée, la page sauvegardée n'a plus de sens
+    // (le nombre de résultats filtrés change), donc on l'ignore et on
+    // repart de la page 0.
+    const savedSearch = sessionStorage.getItem(searchStorageKey);
+
+    // Nombre réel de lignes présentes côté serveur (avant tout filtrage
+    // DataTables), pour éviter un displayStart hors bornes si la liste
+    // a changé depuis la dernière sauvegarde (ex: utilisateur supprimé).
+    const actualRowCount = dt_users_table.querySelectorAll("tbody tr").length;
+
+    let initialDisplayStart = 0;
+
+    if (!savedSearch) {
+      const candidateStart =
+        Number.isInteger(savedConfig.page) && savedConfig.page >= 0
+          ? savedConfig.page * pageLength
+          : 0;
+
+      // Sécurité : ne jamais dépasser le nombre de lignes réellement
+      // disponibles, sinon DataTables (Responsive) peut se retrouver dans
+      // un état invalide (page vide, warning "unknown parameter").
+      initialDisplayStart =
+        candidateStart < actualRowCount ? candidateStart : 0;
+    }
+
     const dt_users = new DataTable(dt_users_table, {
-      pageLength: savedConfig.pageLength || 10,
+      pageLength: pageLength,
+      displayStart: initialDisplayStart,
 
       lengthMenu: [10, 25, 50, 100],
 
@@ -173,6 +245,15 @@ document.addEventListener("DOMContentLoaded", function () {
       ],
 
       initComplete: function () {
+        if (savedSearch !== null) {
+          this.api().search(savedSearch).draw();
+
+          const searchInput = getUsersSearchInput();
+          if (searchInput) {
+            searchInput.value = savedSearch;
+          }
+        }
+
         console.log("Users DataTable initialized");
       },
 
