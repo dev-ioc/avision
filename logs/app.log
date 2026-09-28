@@ -142321,3 +142321,42 @@ Quant à l’écran n°1, il est HS
 [2026-09-24 16:14:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 0435802bf654db502122... 
 [2026-09-24 16:15:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 0435802bf654db502122... 
 [2026-09-24 16:15:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 0435802bf654db502122... 
+[2026-09-24 16:28:45][DEBUG] MaterielClientController::index - userLocations: [{"client_id":46,"site_id":81,"building_id":null,"room_id":null}] 
+[2026-09-24 16:28:45][DEBUG] getSitesByLocations - userLocations: [{"client_id":46,"site_id":81,"building_id":null,"room_id":null}] 
+[2026-09-24 16:28:45][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 46 AND s.id = 81)) 
+[2026-09-24 16:28:45][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 46 AND s.id = 81)) AND s.status = 1
+                ORDER BY s.name 
+[2026-09-24 16:28:45][DEBUG] getSitesByLocations - result count: 1 
+[2026-09-24 16:28:45][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":46,"site_id":81,"building_id":null,"room_id":null}] 
+[2026-09-24 16:28:45][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 46 AND s.id = 81)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-09-24 16:28:45][DEBUG] getBuildingsByLocations - result count: 1 
+[2026-09-24 16:28:45][DEBUG] getAllByLocations - Cleaned locationWhere: ((s.id = 81)) 
+[2026-09-24 16:28:45][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((s.id = 81)) ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-09-24 16:28:45][DEBUG] getAllByLocations - Params: [] 
+[2026-09-24 16:28:45][DEBUG] getAllByLocations - Results count: 35 
+[2026-09-24 16:28:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 63e018655bdb20de669b... 
+[2026-09-24 16:28:49][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_clients":true,"tech_manage_contrats":true,"tech_delete_documentation":true,"tech_manage_documentation":true,"tech_manage_interventions":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-24 16:28:49][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-24 16:28:49][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-24 16:29:03][INFO] 81 
+[2026-09-24 16:29:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 63e018655bdb20de669b... 
+[2026-09-24 16:29:44][INFO] 81 
+[2026-09-24 16:29:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 63e018655bdb20de669b... 
