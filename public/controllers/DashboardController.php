@@ -234,7 +234,7 @@ class DashboardController
             $sitesWithAccess = $this->markAuthorizedLocations($allSites, $userLocations);
 
             // Récupérer les contrats ticket du client
-            $ticketContracts = $this->getTicketContracts($db, $clientId);
+            $ticketContracts = $this->getTicketContracts($db, $clientId, $userLocations);
 
             // Récupérer les interventions ouvertes si l'utilisateur a la permission
             $openInterventions = [];
@@ -337,24 +337,36 @@ class DashboardController
 
         return $sitesWithAccess;
     }
-
     /**
-     * Récupère les contrats ticket du client
+     * Récupère les contrats ticket du client, filtrés par les localisations autorisées
      */
-    private function getTicketContracts($db, $clientId)
+    private function getTicketContracts($db, $clientId, $userLocations)
     {
         try {
+            $whereLocation = buildLocationWhereClause(
+                $userLocations,
+                's.client_id',
+                's.id',
+                'b.id',
+                'r.id'
+            );
+
             $stmt = $db->prepare("
-                SELECT c.id, c.name, c.start_date, c.end_date, 
-                       c.tickets_number, c.tickets_remaining, c.tarif,
-                       ct.name as contract_type_name
-                FROM contracts c
-                LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
-                WHERE c.client_id = :client_id 
-                AND c.status = 'actif' 
-                AND c.tickets_number > 0
-                ORDER BY c.end_date ASC
-            ");
+            SELECT DISTINCT c.id, c.name, c.start_date, c.end_date, 
+                   c.tickets_number, c.tickets_remaining, c.tarif,
+                   ct.name as contract_type_name
+            FROM contracts c
+            LEFT JOIN contract_types ct ON c.contract_type_id = ct.id
+            JOIN contract_rooms cr ON cr.contract_id = c.id
+            JOIN rooms r ON cr.room_id = r.id
+            JOIN buildings b ON r.building_id = b.id
+            JOIN sites s ON b.site_id = s.id
+            WHERE c.client_id = :client_id 
+            AND c.status = 'actif' 
+            AND c.tickets_number > 0
+            AND {$whereLocation}
+            ORDER BY c.end_date ASC
+        ");
             $stmt->execute(['client_id' => $clientId]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
