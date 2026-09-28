@@ -65,8 +65,11 @@ class ProfileClientController
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // var_dump($_POST);
-            // die();
+
+            denyDuringImpersonation(
+                "Modification du profil impossible en mode « connecté en tant que ».",
+                BASE_URL . 'profileClient'
+            );
             $firstName = trim($_POST['first_name'] ?? '');
             $lastName = trim($_POST['last_name'] ?? '');
             $email = trim($_POST['email'] ?? '');

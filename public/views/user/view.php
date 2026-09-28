@@ -42,7 +42,19 @@ include_once __DIR__ . '/../../includes/navbar.php';
             <a href="<?php echo BASE_URL; ?>user" class="btn btn-secondary me-2">
                 <i class="bi bi-arrow-left me-1"></i> Retour
             </a>
-            <a href="<?php echo BASE_URL; ?>user/edit/<?php echo $user['id']; ?><?php echo isset($returnUrl) ? '?return_url=' . urlencode($returnUrl) : ''; ?>" class="btn btn-warning me-2">
+            <?php if (isAdmin() && !isImpersonating() && ($user['user_type'] ?? '') === 'client' && !empty($user['status'])): ?>
+                <form method="POST" action="<?php echo BASE_URL; ?>user/impersonate/<?php echo (int) $user['id']; ?>"
+                    class="d-inline"
+                    onsubmit="return confirm('Naviguer en tant que ce client ? Vos actions seront tracées à votre nom.');">
+                    <?= csrf_field() ?>
+                    <button type="submit" class="btn btn-outline-warning me-2">
+                        <i class="bi bi-person-badge me-1"></i> Se connecter en tant que
+                        <?php echo h($user['first_name']); ?>
+                    </button>
+                </form>
+            <?php endif; ?>
+            <a href="<?php echo BASE_URL; ?>user/edit/<?php echo $user['id']; ?><?php echo isset($returnUrl) ? '?return_url=' . urlencode($returnUrl) : ''; ?>"
+                class="btn btn-warning me-2">
                 <i class="bi bi-pencil me-1"></i> Modifier
             </a>
             <button type="button" class="btn btn-info me-2" onclick="sendResetLink(<?php echo $user['id']; ?>)">

@@ -190,8 +190,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
       <a href="<?= BASE_URL ?>profileClient" class="btn btn-light me-2">
         Annuler
       </a>
-      <button type="submit" class="btn btn-primary">
-        <i class="bi bi-check"></i> Enregistrer
+      <button type="submit" class="btn btn-primary" <?php echo isImpersonating() ? 'disabled title="Indisponible en mode client"' : ''; ?>>
+        Enregistrer
       </button>
     </div>
 

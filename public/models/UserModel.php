@@ -335,32 +335,8 @@ class UserModel extends BaseModel
             $user = $stmt->fetch();
 
             if ($user && password_verify($password, $user['password'])) {
-                $this->id = $user['id'];
-                // $this->username = $user['username'];
-                $this->email = $user['email'];
-                $this->firstName = $user['first_name'];
-                $this->lastName = $user['last_name'];
-                $this->type = $user['user_type'];
-                $this->status = $user['status'];
-                $this->coefUtilisateur = $user['coef_utilisateur'];
-                $this->isAdmin = $user['is_admin'];
-
-                // Chargement des permissions
-                $this->loadPermissions();
-
-                // Stockage dans la session
-                $_SESSION['user'] = [
-                    'id' => $this->id,
-                    'email' => $this->email,
-                    'first_name' => $this->firstName,
-                    'last_name' => $this->lastName,
-                    'user_type' => $user['user_type'],
-                    'user_group' => $user['user_group'],
-                    'is_admin' => $user['is_admin'],
-                    'client_id' => $user['client_id'],
-                    'totp_enabled' => $user['totp_enabled'], // <-- ajouter
-                    'permissions' => $this->permissions
-                ];
+                // Chargement des permissions + stockage dans la session
+                $_SESSION['user'] = $this->buildSessionData($user);
 
                 // Log de la connexion
                 custom_log("Utilisateur connecté : {$this->email}", 'INFO', [
@@ -382,7 +358,58 @@ class UserModel extends BaseModel
             return false;
         }
     }
+    /**
+     * Construit le tableau stocké dans $_SESSION['user'] à partir d'une ligne users.
+     * Source unique de vérité : utilisée par le login ET par l'impersonation.
+     */
+    public function buildSessionData(array $user): array
+    {
+        $this->id = $user['id'];
+        $this->email = $user['email'];
+        $this->firstName = $user['first_name'];
+        $this->lastName = $user['last_name'];
+        $this->type = $user['user_type'];
+        $this->status = $user['status'];
+        $this->coefUtilisateur = $user['coef_utilisateur'];
+        $this->isAdmin = $user['is_admin'];
 
+        $this->loadPermissions();
+
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'first_name' => $this->firstName,
+            'last_name' => $this->lastName,
+            'user_type' => $user['user_type'],
+            'user_group' => $user['user_group'],
+            'is_admin' => $user['is_admin'],
+            'client_id' => $user['client_id'],
+            'totp_enabled' => $user['totp_enabled'],
+            'permissions' => $this->permissions,
+        ];
+    }
+
+    /**
+     * Retourne les données de session complètes d'un utilisateur actif (sans vérifier le mot de passe).
+     * À utiliser uniquement après une authentification déjà validée (2FA, passkey, impersonation admin).
+     */
+    public function getSessionDataById(int $userId): ?array
+    {
+        $stmt = $this->db->prepare("
+        SELECT u.id, u.email, u.first_name, u.last_name,
+               u.status, u.coef_utilisateur, u.client_id, u.is_admin,
+               u.totp_enabled,
+               ut.name as user_type, ug.name as user_group
+        FROM users u
+        JOIN user_types ut ON u.user_type_id = ut.id
+        JOIN user_groups ug ON ut.group_id = ug.id
+        WHERE u.id = :id AND u.status = 1
+    ");
+        $stmt->execute(['id' => $userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user ? $this->buildSessionData($user) : null;
+    }
     /**
      * Charge les permissions de l'utilisateur
      */

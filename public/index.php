@@ -320,7 +320,7 @@ if (!in_array($current_route, $public_routes) && $controller !== 'r' && !isset($
     header('Location: ' . BASE_URL . 'auth/login');
     exit;
 }
-
+enforceImpersonationReadOnly($controller, $action);
 // Routage
 try {
     switch ($controller) {
@@ -439,6 +439,16 @@ try {
                         header('Content-Type: application/json');
                         echo json_encode(['success' => false, 'message' => 'ID utilisateur manquant.']);
                     }
+                    break;
+                case 'impersonate':
+                    if ($id) {
+                        $userController->impersonate($id);
+                    } else {
+                        header('Location: ' . BASE_URL . 'user');
+                    }
+                    break;
+                case 'stop-impersonation':
+                    $userController->stopImpersonation();
                     break;
                 case 'export_csv':
                     $userController->exportStaffCsv();

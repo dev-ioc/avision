@@ -60,7 +60,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
 
         <!-- ALERTES -->
-       <?php if ($flashSuccess): ?>
+        <?php if ($flashSuccess): ?>
             <div class="alert alert-success alert-dismissible fade show">
                 <?= $flashSuccess ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -167,7 +167,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </div>
 
                             <div>
-                                <?php if ($totpEnabled): ?>
+                                <?php if (isImpersonating()): ?>
+                                    <span class="d-inline-block" tabindex="0"
+                                        title="<?php echo h(impersonationLockMessage()); ?>">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm" disabled
+                                            style="pointer-events:none;">
+                                            <?php echo $totpEnabled ? 'Désactiver' : 'Activer la 2FA'; ?>
+                                        </button>
+                                    </span>
+                                <?php elseif ($totpEnabled): ?>
                                     <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#disable2faModal">
                                         Désactiver

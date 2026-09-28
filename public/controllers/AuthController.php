@@ -227,6 +227,7 @@ class AuthController
      */
     public function setup2fa()
     {
+        denyDuringImpersonation();
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASE_URL . 'auth/login');
             exit;
@@ -384,6 +385,13 @@ class AuthController
      */
     public function logout()
     {
+        if (!empty($_SESSION['impersonation_log_id'])) {
+            $stmt = $this->db->prepare(
+                "UPDATE impersonation_log SET ended_at = NOW() WHERE id = ? AND ended_at IS NULL"
+            );
+            $stmt->execute([(int) $_SESSION['impersonation_log_id']]);
+        }
+
         session_destroy();
         header('Location: ' . BASE_URL . 'auth/login');
         exit;
