@@ -196,7 +196,6 @@ require_once __DIR__ . '/functions.php';
           <div data-i18n="Page 1">Tableau de bord</div>
         </a>
       </li>
-
       <li class="menu-item <?php echo isActivePage('interventions_client'); ?>">
         <a href="<?php echo BASE_URL; ?>interventions_client" class="menu-link">
           <i class="menu-icon bi bi-tools"></i>

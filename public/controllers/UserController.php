@@ -148,7 +148,7 @@ class UserController
                         $this->userModel->saveUserLocations($userId, $_POST['locations']);
                     }
 
-                    header('Location: ' . BASE_URL . 'user');
+                    header('Location: ' . $returnUrl);
                     exit;
                 } else {
                     $errors[] = "Erreur lors de la création de l'utilisateur";
@@ -160,7 +160,7 @@ class UserController
         require_once __DIR__ . '/../views/user/add.php';
     }
 
-    /**
+   /**
      * Affiche le formulaire de modification d'utilisateur
      */
     public function edit($id)
@@ -169,6 +169,24 @@ class UserController
         if (!isset($_SESSION['user']) || !isAdmin()) {
             header('Location: ' . BASE_URL . 'auth/login');
             exit;
+        }
+
+        // URL de retour vers la liste, avec conservation des filtres.
+        $defaultReturnUrl = BASE_URL . 'user';
+        $candidateReturnUrl = $_GET['return_url']
+            ?? $_POST['return_url']
+            ?? '';
+
+        $returnUrl = $defaultReturnUrl;
+
+        if (!empty($candidateReturnUrl)) {
+            $candidatePath = parse_url($candidateReturnUrl, PHP_URL_PATH);
+            $expectedPath = rtrim((string) parse_url(BASE_URL, PHP_URL_PATH), '/') . '/user';
+
+            // Autoriser uniquement la liste locale des utilisateurs.
+            if (rtrim((string) $candidatePath, '/') === $expectedPath) {
+                $returnUrl = $candidateReturnUrl;
+            }
         }
 
         $user = $this->userModel->getUserById($id);
@@ -282,7 +300,7 @@ class UserController
                             $this->userModel->saveUserLocations($id, []);
                         }
                     }
-                    header('Location: ' . BASE_URL . 'user');
+                    header('Location: ' . $returnUrl);
                     exit;
                 } else {
                     $errors[] = "Erreur lors de la modification de l'utilisateur";
@@ -293,7 +311,6 @@ class UserController
         // Chargement de la vue
         require_once __DIR__ . '/../views/user/edit.php';
     }
-
     /**
      * Supprime un utilisateur
      */

@@ -188,27 +188,27 @@ function getUserLocationsFormatted()
         }
 
         // Si aucune localisation trouvée, utiliser le client_id de la session
-        if (empty($formattedLocations) && !empty($user['client_id'])) {
-            $clientId = (int) $user['client_id'];
-            $formattedLocations[$clientId] = [
-                ['site_id' => null, 'building_id' => null, 'room_id' => null]
-            ];
+        // if (empty($formattedLocations) && !empty($user['client_id'])) {
+        //     $clientId = (int) $user['client_id'];
+        //     $formattedLocations[$clientId] = [
+        //         ['site_id' => null, 'building_id' => null, 'room_id' => null]
+        //     ];
+        // }
+        if (empty($formattedLocations)) {
+            custom_log('getUserLocationsFormatted - Aucune localisation en base pour user_id=' . $user['id'] . ', accès vide retourné', 'WARNING');
         }
 
-        // Mettre en cache en session
         $_SESSION['user_locations_formatted_cache'] = $formattedLocations;
-
         return $formattedLocations;
+        // // Mettre en cache en session
+        // $_SESSION['user_locations_formatted_cache'] = $formattedLocations;
+
+        // return $formattedLocations;
     } catch (Exception $e) {
         custom_log("Erreur lors du chargement des localisations : " . $e->getMessage(), 'ERROR');
-
-        // Fallback : utiliser le client_id de la session
-        if (!empty($user['client_id'])) {
-            $clientId = (int) $user['client_id'];
-            return [$clientId => [['site_id' => null, 'building_id' => null, 'room_id' => null]]];
-        }
+        // En cas d'erreur, ne rien accorder plutôt que tout accorder.
         return [];
-    }
+}
 }
 
 /**

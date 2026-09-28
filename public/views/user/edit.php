@@ -25,6 +25,14 @@ setPageVariables(
 // Définir la page courante pour le menu
 $currentPage = 'users';
 
+// Conserver l'URL de la liste des utilisateurs et ses filtres.
+$returnUrl = $returnUrl
+    ?? $_GET['return_url']
+    ?? $_POST['return_url']
+    ?? (BASE_URL . 'user');
+
+$returnUrl = htmlspecialchars($returnUrl, ENT_QUOTES, 'UTF-8');
+
 // Inclure le header qui contient le menu latéral
 include_once __DIR__ . '/../../includes/header.php';
 include_once __DIR__ . '/../../includes/sidebar.php';
@@ -46,7 +54,7 @@ echo '</script>';
     <div class="p-2 bd-highlight"><h4 class="py-4 mb-6">Modifier l'utilisateur</h4></div>
 
     <div class="ms-auto p-2 bd-highlight">
-        <a href="<?php echo BASE_URL; ?>user" class="btn btn-secondary me-2">
+        <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary me-2">
             <i class="bi bi-arrow-left me-1"></i> Retour
         </a>
     </div>
@@ -85,6 +93,8 @@ echo '</script>';
 
             <form method="POST" class="needs-validation" novalidate>
                 <?= csrf_field() ?>
+
+                <input type="hidden" name="return_url" value="<?php echo $returnUrl; ?>">
                 <div class="row">
                     <!-- Colonne 1 : Informations de base -->
                     <div class="col-md-4">
@@ -271,7 +281,7 @@ echo '</script>';
                 <div class="row mt-4">
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
-                        <a href="<?php echo BASE_URL; ?>user" class="btn btn-secondary">Annuler</a>
+                        <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary">Annuler</a>
                     </div>
                 </div>
             </form>
@@ -279,33 +289,55 @@ echo '</script>';
     </div>
 </div>
 
-<!-- Variables JavaScript pour les données existantes -->
-<script>
-// Les permissions existantes sont déjà définies en haut du fichier
-</script>
-
 <!-- Script pour la validation des formulaires Bootstrap et la gestion dynamique des sections -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialiser BASE_URL pour les fonctions communes
-    initBaseUrl(baseUrl);
-    
-    // Initialiser la validation Bootstrap
-    initBootstrapValidation();
-    
-    // Initialiser la gestion du mot de passe
-    initPasswordToggle('new_password', 'toggleNewPassword');
-    initPasswordToggle('current_password', 'toggleCurrentPassword');
-    
-    // Initialiser la validation du mot de passe
-    const passwordRules = document.querySelector('.password-rules');
-    initPasswordValidation('new_password', passwordRules);
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser BASE_URL pour les fonctions communes
+        initBaseUrl(baseUrl);
+        
+        // Initialiser la validation Bootstrap
+        initBootstrapValidation();
+        
+        // Initialiser la gestion du mot de passe
+        initPasswordToggle('new_password', 'toggleNewPassword');
+        initPasswordToggle('current_password', 'toggleCurrentPassword');
+        
+        // Initialiser la validation du mot de passe
+        const passwordRules = document.querySelector('.password-rules');
+        initPasswordValidation('new_password', passwordRules);
 
-    // Gestion des sections en fonction du type d'utilisateur
-    const typeSelect = document.getElementById('type');
-    const clientSelect = document.getElementById('client_id');
+        // Gestion des sections en fonction du type d'utilisateur
+        const typeSelect = document.getElementById('type');
+        const clientSelect = document.getElementById('client_id');
 
-    typeSelect.addEventListener('change', function() {
+        typeSelect.addEventListener('change', function() {
+            toggleUserSections('type', {
+                coefficientSection: 'coefficientSection',
+                adminCheckbox: 'is_admin',
+                clientSection: 'clientSection',
+                permissionsSection: 'permissionsSection',
+                locationsContainer: 'locations-container'
+            });
+            
+            // Mettre à jour les attributs required selon le type
+            updateRequiredFields();
+        });
+
+        clientSelect.addEventListener('change', function() {
+            const clientId = this.value;
+            const locationsContainer = document.getElementById('locations-container');
+            
+            if (clientId) {
+                // Charger les localisations du client avec l'ID de l'utilisateur pour pré-sélection
+                const userId = <?php echo $userId ? $userId : 'null'; ?>;
+                loadClientLocationsSimple(clientId, 'locations-content', userId);
+                locationsContainer.style.display = 'block';
+            } else {
+                locationsContainer.style.display = 'none';
+            }
+        });
+
+        // Appliquer les sections initiales en fonction du type d'utilisateur actuel
         toggleUserSections('type', {
             coefficientSection: 'coefficientSection',
             adminCheckbox: 'is_admin',
@@ -313,75 +345,48 @@ document.addEventListener('DOMContentLoaded', function() {
             permissionsSection: 'permissionsSection',
             locationsContainer: 'locations-container'
         });
-        
-        // Mettre à jour les attributs required selon le type
+
+        // Forcer le chargement des localisations si un client est déjà sélectionné (édition)
+        if (typeSelect.value === 'client' && clientSelect.value) {
+            clientSelect.dispatchEvent(new Event('change'));
+        }
+            
+        // Mettre à jour les champs requis initialement
         updateRequiredFields();
-    });
-
-    clientSelect.addEventListener('change', function() {
-        const clientId = this.value;
-        const locationsContainer = document.getElementById('locations-container');
         
-        if (clientId) {
-            // Charger les localisations du client avec l'ID de l'utilisateur pour pré-sélection
-            const userId = <?php echo $userId ? $userId : 'null'; ?>;
-            loadClientLocationsSimple(clientId, 'locations-content', userId);
-            locationsContainer.style.display = 'block';
-        } else {
-            locationsContainer.style.display = 'none';
-        }
-    });
-
-    // Appliquer les sections initiales en fonction du type d'utilisateur actuel
-    toggleUserSections('type', {
-        coefficientSection: 'coefficientSection',
-        adminCheckbox: 'is_admin',
-        clientSection: 'clientSection',
-        permissionsSection: 'permissionsSection',
-        locationsContainer: 'locations-container'
-    });
-
-    // Forcer le chargement des localisations si un client est déjà sélectionné (édition)
-    if (typeSelect.value === 'client' && clientSelect.value) {
-        clientSelect.dispatchEvent(new Event('change'));
-    }
+        // Fonction pour mettre à jour les champs requis
+        function updateRequiredFields() {
+            const userType = typeSelect.value;
+            const coefInput = document.getElementById('coef_utilisateur');
+            const clientSelect = document.getElementById('client_id');
+            
+            // Déterminer le groupe en fonction du type sélectionné
+            let userGroup = '';
+            if (userType === 'technicien' || userType === 'adv') {
+                userGroup = 'Staff';
+            } else if (userType === 'client') {
+                userGroup = 'Externe';
+            }
         
-    // Mettre à jour les champs requis initialement
-    updateRequiredFields();
-    
-    // Fonction pour mettre à jour les champs requis
-    function updateRequiredFields() {
-        const userType = typeSelect.value;
-        const coefInput = document.getElementById('coef_utilisateur');
-        const clientSelect = document.getElementById('client_id');
-        
-        // Déterminer le groupe en fonction du type sélectionné
-        let userGroup = '';
-        if (userType === 'technicien' || userType === 'adv') {
-            userGroup = 'Staff';
-        } else if (userType === 'client') {
-            userGroup = 'Externe';
-        }
-    
-        // Coefficient requis pour les membres du staff
-        if (coefInput) {
-            if (userGroup === 'Staff') {
-                coefInput.setAttribute('required', 'required');
-            } else {
-                coefInput.removeAttribute('required');
+            // Coefficient requis pour les membres du staff
+            if (coefInput) {
+                if (userGroup === 'Staff') {
+                    coefInput.setAttribute('required', 'required');
+                } else {
+                    coefInput.removeAttribute('required');
+                }
+            }
+
+            // Client requis pour les utilisateurs externes
+            if (clientSelect) {
+                if (userGroup === 'Externe') {
+                    clientSelect.setAttribute('required', 'required');
+                } else {
+                    clientSelect.removeAttribute('required');
+                }
             }
         }
-
-        // Client requis pour les utilisateurs externes
-        if (clientSelect) {
-            if (userGroup === 'Externe') {
-                clientSelect.setAttribute('required', 'required');
-            } else {
-                clientSelect.removeAttribute('required');
-            }
-        }
-    }
-});
+    });
 </script>
 
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?> 
