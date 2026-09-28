@@ -47,25 +47,6 @@ $sites = array_values($uniqueSites);
             <h4 class="py-4 mb-6">Mes Sites, Bâtiments et Salles</h4>
         </div>
     </div>
-
-    <?php if (isset($_SESSION['error'])): ?>
-        <div class="alert alert-danger">
-            <?php
-            echo $_SESSION['error'];
-            unset($_SESSION['error']);
-            ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['success'])): ?>
-        <div class="alert alert-success">
-            <?php
-            echo $_SESSION['success'];
-            unset($_SESSION['success']);
-            ?>
-        </div>
-    <?php endif; ?>
-
     <?php if (!empty($sites)): ?>
         <!-- Liste des sites -->
         <div class="row">

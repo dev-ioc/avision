@@ -309,12 +309,12 @@ class ContactClientController
             $phone = trim($_POST['phone'] ?? '');
             $function = trim($_POST['function'] ?? '');
 
-            // Validation des champs obligatoires
-            if (empty($firstName) || empty($lastName)) {
-                $_SESSION['error'] = 'Les champs nom et prénom sont obligatoires.';
-                header('Location: ' . BASE_URL . 'contactClient/edit/' . $id);
-                exit;
-            }
+            // // Validation des champs obligatoires
+            // if (empty($firstName) || empty($lastName)) {
+            //     $_SESSION['error'] = 'Les champs nom et prénom sont obligatoires.';
+            //     header('Location: ' . BASE_URL . 'contactClient/edit/' . $id);
+            //     exit;
+            // }
 
             // Validation de l'email si fourni
             if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {

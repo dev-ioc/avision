@@ -5,14 +5,16 @@ require_once __DIR__ . '/../models/ClientModel.php';
 require_once __DIR__ . '/../models/RoomModel.php';
 require_once __DIR__ . '/../includes/functions.php';
 
-class SettingsController {
+class SettingsController
+{
     private $db;
     private $accessLevelModel;
     private $materielModel;
     private $clientModel;
     private $roomModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         global $db;
         $this->db = $db;
         $this->accessLevelModel = new AccessLevelModel($this->db);
@@ -21,7 +23,8 @@ class SettingsController {
         $this->roomModel = new RoomModel($this->db);
     }
 
-    private function checkAdmin() {
+    private function checkAdmin()
+    {
         checkStaffAccess();
         if (!isAdmin()) {
             $_SESSION['error'] = "Accès réservé aux administrateurs.";
@@ -33,9 +36,10 @@ class SettingsController {
     /**
      * Page d'accueil des paramètres
      */
-    public function index() {
+    public function index()
+    {
         $this->checkAdmin();
-        
+
         // Définir les variables de page
         setPageVariables('Paramètres', 'settings');
         $currentPage = 'settings';
@@ -47,9 +51,10 @@ class SettingsController {
     /**
      * Page de configuration système
      */
-    public function configuration() {
+    public function configuration()
+    {
         $this->checkAdmin();
-        
+
         // Définir les variables de page
         setPageVariables('Configuration système', 'settings');
         $currentPage = 'settings';
@@ -61,9 +66,10 @@ class SettingsController {
     /**
      * Sauvegarde de la configuration
      */
-    public function saveConfiguration() {
+    public function saveConfiguration()
+    {
         $this->checkAdmin();
-        
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $_SESSION['error'] = "Méthode non autorisée.";
             header('Location: ' . BASE_URL . 'settings/configuration');
@@ -73,12 +79,12 @@ class SettingsController {
         try {
             $tarif_ticket = trim($_POST['tarif_ticket'] ?? '');
             $coef_intervention = trim($_POST['coef_intervention'] ?? '');
-            
+
             // Validation
             if (empty($tarif_ticket) || !is_numeric($tarif_ticket) || $tarif_ticket < 0) {
                 throw new Exception("Le tarif du ticket doit être un nombre positif.");
             }
-            
+
             if (empty($coef_intervention) || !is_numeric($coef_intervention) || $coef_intervention < 0 || $coef_intervention > 1) {
                 throw new Exception("Le coefficient d'intervention doit être un nombre entre 0 et 1.");
             }
@@ -119,7 +125,7 @@ class SettingsController {
             $config->reloadSettings();
 
             $_SESSION['success'] = "Configuration sauvegardée avec succès.";
-            
+
         } catch (Exception $e) {
             $_SESSION['error'] = "Erreur lors de la sauvegarde : " . $e->getMessage();
         }
@@ -129,33 +135,35 @@ class SettingsController {
     }
 
     // Page de paramétrage des niveaux d'accès
-    public function accessLevels() {
+    public function accessLevels()
+    {
         $this->checkAdmin();
         $accessLevels = $this->accessLevelModel->getAllAccessLevels();
         $selectedId = $_GET['access_level_id'] ?? ($accessLevels[0]['id'] ?? null);
         $selectedLevel = $selectedId ? $this->accessLevelModel->getAccessLevelById($selectedId) : null;
         $fields = $this->materielModel->getChampsVisibilite();
         $rules = $selectedId ? $this->accessLevelModel->getVisibilityRulesForLevel($selectedId) : [];
-        
+
         // Passer le modèle à la vue
         $accessLevelModel = $this->accessLevelModel;
-        
+
         require_once VIEWS_PATH . '/settings/access_levels.php';
     }
 
     // Enregistrement des règles de visibilité
-    public function saveAccessLevelVisibility() {
+    public function saveAccessLevelVisibility()
+    {
         $this->checkAdmin();
         $accessLevelId = $_POST['access_level_id'] ?? null;
         $fields = $_POST['fields'] ?? [];
         $applyToExisting = isset($_POST['apply_to_existing']) && $_POST['apply_to_existing'] == '1';
-        
+
         if ($accessLevelId) {
             $success = $this->accessLevelModel->updateVisibilityRules($accessLevelId, $fields);
-            
+
             if ($success) {
                 $message = "Règles de visibilité mises à jour.";
-                
+
                 // Si on doit appliquer aux matériels existants
                 if ($applyToExisting) {
                     try {
@@ -169,7 +177,7 @@ class SettingsController {
                         $message .= " Erreur lors de l'application aux matériels existants : " . $e->getMessage();
                     }
                 }
-                
+
                 $_SESSION['success'] = $message;
             } else {
                 $_SESSION['error'] = "Erreur lors de la mise à jour des règles de visibilité.";
@@ -177,13 +185,14 @@ class SettingsController {
         } else {
             $_SESSION['error'] = "ID du niveau d'accès manquant.";
         }
-        
+
         header('Location: ' . BASE_URL . 'settings/accessLevels');
         exit;
     }
 
     // Création d'un nouveau niveau d'accès
-    public function createAccessLevel() {
+    public function createAccessLevel()
+    {
         $this->checkAdmin();
         $name = trim($_POST['name'] ?? '');
         $description = trim($_POST['description'] ?? '');
@@ -201,10 +210,11 @@ class SettingsController {
     }
 
     // Récupérer les contrats par niveau d'accès
-    public function getContractsByAccessLevel($accessLevelId) {
+    public function getContractsByAccessLevel($accessLevelId)
+    {
         $this->checkAdmin();
         header('Content-Type: application/json');
-        
+
         try {
             $contracts = $this->accessLevelModel->getContractsByAccessLevel($accessLevelId);
             echo json_encode(['success' => true, 'contracts' => $contracts]);
@@ -214,18 +224,19 @@ class SettingsController {
     }
 
     // Appliquer la visibilité à tous les matériels existants
-    public function applyVisibilityToAllMaterials() {
+    public function applyVisibilityToAllMaterials()
+    {
         $this->checkAdmin();
         header('Content-Type: application/json');
-        
+
         try {
             $input = json_decode(file_get_contents('php://input'), true);
             $accessLevelId = $input['access_level_id'] ?? null;
-            
+
             if (!$accessLevelId) {
                 throw new Exception('ID du niveau d\'accès manquant');
             }
-            
+
             $updatedCount = $this->accessLevelModel->applyVisibilityToAllMaterials($accessLevelId);
             echo json_encode(['success' => true, 'updated_count' => $updatedCount]);
         } catch (Exception $e) {
@@ -234,10 +245,11 @@ class SettingsController {
     }
 
     // Générer un aperçu des changements
-    public function getVisibilityPreview($accessLevelId) {
+    public function getVisibilityPreview($accessLevelId)
+    {
         $this->checkAdmin();
         header('Content-Type: application/json');
-        
+
         try {
             $preview = $this->accessLevelModel->getVisibilityPreview($accessLevelId);
             echo json_encode(['success' => true, 'preview' => $preview]);
@@ -247,9 +259,10 @@ class SettingsController {
     }
 
     // Mettre à jour un niveau d'accès
-    public function updateAccessLevel() {
+    public function updateAccessLevel()
+    {
         $this->checkAdmin();
-        
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: ' . BASE_URL . 'settings/accessLevels');
             exit;
@@ -267,7 +280,7 @@ class SettingsController {
 
         try {
             $success = $this->accessLevelModel->updateAccessLevel($id, $name, $description);
-            
+
             if ($success) {
                 $_SESSION['success'] = "Niveau d'accès mis à jour avec succès.";
             } else {
@@ -276,23 +289,24 @@ class SettingsController {
         } catch (Exception $e) {
             $_SESSION['error'] = "Erreur : " . $e->getMessage();
         }
-        
+
         header('Location: ' . BASE_URL . 'settings/accessLevels');
         exit;
     }
 
     // Vérifier si un niveau d'accès peut être supprimé
-    public function checkAccessLevelDeletion() {
+    public function checkAccessLevelDeletion()
+    {
         $this->checkAdmin();
         header('Content-Type: application/json');
-        
+
         $id = $_GET['id'] ?? null;
-        
+
         if (!$id) {
             echo json_encode(['success' => false, 'error' => 'ID manquant']);
             return;
         }
-        
+
         try {
             $canDelete = $this->accessLevelModel->canDeleteAccessLevel($id);
             echo json_encode([
@@ -306,9 +320,10 @@ class SettingsController {
     }
 
     // Supprimer un niveau d'accès
-    public function deleteAccessLevel() {
+    public function deleteAccessLevel()
+    {
         $this->checkAdmin();
-        
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: ' . BASE_URL . 'settings/accessLevels');
             exit;
@@ -325,7 +340,7 @@ class SettingsController {
         try {
             // Vérifier si le niveau d'accès peut être supprimé
             $canDelete = $this->accessLevelModel->canDeleteAccessLevel($id);
-            
+
             if (!$canDelete['can_delete']) {
                 $_SESSION['error'] = "Ce niveau d'accès ne peut pas être supprimé car il est utilisé par " . $canDelete['contracts_count'] . " contrat(s).";
                 header('Location: ' . BASE_URL . 'settings/accessLevels');
@@ -333,7 +348,7 @@ class SettingsController {
             }
 
             $success = $this->accessLevelModel->deleteAccessLevel($id);
-            
+
             if ($success) {
                 $_SESSION['success'] = "Niveau d'accès supprimé avec succès.";
             } else {
@@ -342,13 +357,14 @@ class SettingsController {
         } catch (Exception $e) {
             $_SESSION['error'] = "Erreur : " . $e->getMessage();
         }
-        
+
         header('Location: ' . BASE_URL . 'settings/accessLevels');
         exit;
     }
 
     // Mettre à jour l'ordre d'affichage des niveaux d'accès
-    public function updateAccessLevelOrder() {
+    public function updateAccessLevelOrder()
+    {
         $this->checkAdmin();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -358,14 +374,14 @@ class SettingsController {
 
         try {
             $ordersJson = $_POST['orders'] ?? '';
-            
+
             if (empty($ordersJson)) {
                 throw new Exception("Aucun ordre à mettre à jour.");
             }
 
             // Décoder le JSON reçu
             $orders = json_decode($ordersJson, true);
-            
+
             if ($orders === null) {
                 throw new Exception("Format de données invalide.");
             }
@@ -396,28 +412,30 @@ class SettingsController {
     /**
      * Page de gestion des icônes
      */
-    public function icons() {
+    public function icons()
+    {
         $this->checkAdmin();
-        
+
         // Récupérer toutes les icônes configurées
         $sql = "SELECT id, icon_key, icon_class, icon_library, description, is_active, created_at, updated_at FROM settings_icons ORDER BY icon_key";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $icons = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
         // Définir les variables de page
         setPageVariables('Gestion des icônes', 'settings');
         $currentPage = 'settings';
-        
+
         require_once VIEWS_PATH . '/settings/icons.php';
     }
 
     /**
      * Mise à jour des icônes
      */
-    public function updateIcons() {
+    public function updateIcons()
+    {
         $this->checkAdmin();
-        
+
         if (isset($_POST['icons']) && is_array($_POST['icons'])) {
             try {
                 foreach ($_POST['icons'] as $key => $data) {
@@ -432,15 +450,16 @@ class SettingsController {
         } else {
             $_SESSION['error'] = "Aucune donnée reçue.";
         }
-        
+
         header('Location: ' . BASE_URL . 'settings/icons');
         exit;
     }
 
     // Page de gestion des extensions de fichiers
-    public function fileExtensions() {
+    public function fileExtensions()
+    {
         $this->checkAdmin();
-        
+
         // Traitement des actions POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             switch ($_POST['action']) {
@@ -455,42 +474,43 @@ class SettingsController {
                     return; // deleteExtension() fait déjà la réponse JSON
             }
         }
-        
+
         // Récupérer les données pour la vue
         require_once INCLUDES_PATH . '/FileUploadValidator.php';
         $allowedExtensions = FileUploadValidator::getAllExtensions($this->db);
         $blacklistedExtensions = FileUploadValidator::getBlacklistedExtensions();
-        
+
         // Définir les variables de page
         setPageVariables('Extensions de fichiers autorisées', 'settings');
         $currentPage = 'settings';
-        
+
         // Inclure la vue
         require_once VIEWS_PATH . '/settings/file_extensions.php';
     }
 
     // Ajouter une extension
-    public function addExtension() {
+    public function addExtension()
+    {
         $this->checkAdmin();
-        
+
         $extension = strtolower(trim($_POST['extension'] ?? ''));
         $mimeType = trim($_POST['mime_type'] ?? '');
         $description = trim($_POST['description'] ?? '');
-        
+
         // Validation
         if (empty($extension)) {
             $_SESSION['error'] = "Extension vide";
             header('Location: ' . BASE_URL . 'settings/fileExtensions');
             exit;
         }
-        
+
         // Vérifier le format (lettres et chiffres uniquement)
         if (!preg_match('/^[a-z0-9]+$/', $extension)) {
             $_SESSION['error'] = "Format d'extension invalide";
             header('Location: ' . BASE_URL . 'settings/fileExtensions');
             exit;
         }
-        
+
         // Vérifier si l'extension est blacklistée
         require_once INCLUDES_PATH . '/FileUploadValidator.php';
         if (FileUploadValidator::isExtensionBlacklisted($extension)) {
@@ -498,7 +518,7 @@ class SettingsController {
             header('Location: ' . BASE_URL . 'settings/fileExtensions');
             exit;
         }
-        
+
         // Vérifier si l'extension existe déjà
         $stmt = $this->db->prepare("SELECT id FROM settings_allowed_extensions WHERE extension = ?");
         $stmt->execute([$extension]);
@@ -507,7 +527,7 @@ class SettingsController {
             header('Location: ' . BASE_URL . 'settings/fileExtensions');
             exit;
         }
-        
+
         // Ajouter l'extension
         try {
             $stmt = $this->db->prepare("INSERT INTO settings_allowed_extensions (extension, mime_type, description) VALUES (?, ?, ?)");
@@ -516,18 +536,19 @@ class SettingsController {
         } catch (Exception $e) {
             $_SESSION['error'] = "Erreur lors de l'ajout de l'extension : " . $e->getMessage();
         }
-        
+
         header('Location: ' . BASE_URL . 'settings/fileExtensions');
         exit;
     }
 
     // Activer/désactiver une extension
-    public function toggleExtension() {
+    public function toggleExtension()
+    {
         $this->checkAdmin();
-        
+
         $extensionId = $_POST['extension_id'] ?? null;
         $isActive = $_POST['is_active'] ?? 0;
-        
+
         if ($extensionId) {
             try {
                 $stmt = $this->db->prepare("UPDATE settings_allowed_extensions SET is_active = ? WHERE id = ?");
@@ -543,23 +564,24 @@ class SettingsController {
     }
 
     // Supprimer une extension
-    public function deleteExtension() {
+    public function deleteExtension()
+    {
         $this->checkAdmin();
-        
+
         $extensionId = $_POST['extension_id'] ?? null;
-        
+
         if ($extensionId) {
             try {
                 // Récupérer l'extension avant suppression pour le message
                 $stmt = $this->db->prepare("SELECT extension FROM settings_allowed_extensions WHERE id = ?");
                 $stmt->execute([$extensionId]);
                 $extension = $stmt->fetch();
-                
+
                 if ($extension) {
                     // Supprimer l'extension
                     $stmt = $this->db->prepare("DELETE FROM settings_allowed_extensions WHERE id = ?");
                     $stmt->execute([$extensionId]);
-                    
+
                     echo json_encode(['success' => true]);
                 } else {
                     echo json_encode(['success' => false, 'message' => 'Extension non trouvée']);
@@ -574,15 +596,16 @@ class SettingsController {
     }
 
     // Récupérer les extensions autorisées (pour validation côté client)
-    public function getAllowedExtensions() {
+    public function getAllowedExtensions()
+    {
         require_once INCLUDES_PATH . '/FileUploadValidator.php';
         $extensions = FileUploadValidator::getAllowedExtensions($this->db);
         $extensionList = [];
-        
+
         foreach ($extensions as $ext) {
             $extensionList[] = $ext['extension'];
         }
-        
+
         header('Content-Type: application/json');
         echo json_encode(['extensions' => $extensionList]);
         exit;
@@ -591,9 +614,10 @@ class SettingsController {
     /**
      * Page de configuration email
      */
-    public function email() {
+    public function email()
+    {
         $this->checkAdmin();
-        
+
         // Définir les variables de page
         setPageVariables('Configuration email', 'settings');
         $currentPage = 'settings';
@@ -627,9 +651,10 @@ class SettingsController {
     /**
      * Sauvegarde la configuration SMTP
      */
-    public function saveEmailConfig() {
+    public function saveEmailConfig()
+    {
         $this->checkAdmin();
-        
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: ' . BASE_URL . 'settings/email');
             exit;
@@ -637,7 +662,7 @@ class SettingsController {
 
         try {
             $config = Config::getInstance();
-            
+
             // Paramètres SMTP
             $smtpSettings = [
                 'mail_host' => $_POST['mail_host'] ?? '',
@@ -680,7 +705,7 @@ class SettingsController {
                 'password_set' => !empty($smtpSettings['mail_password'] ?? ''),
             ]);
             $_SESSION['success'] = "Configuration SMTP et OAuth2 sauvegardée avec succès.";
-            
+
         } catch (Exception $e) {
             custom_log_mail("Erreur sauvegarde config email : " . $e->getMessage(), 'ERROR', [
                 'exception' => get_class($e),
@@ -701,9 +726,10 @@ class SettingsController {
     /**
      * Sauvegarde les paramètres d'envoi automatique
      */
-    public function saveEmailSettings() {
+    public function saveEmailSettings()
+    {
         $this->checkAdmin();
-        
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: ' . BASE_URL . 'settings/email');
             exit;
@@ -711,7 +737,7 @@ class SettingsController {
 
         try {
             $config = Config::getInstance();
-            
+
             // Paramètres d'envoi automatique
             // Verrouillage temporaire: on empêche l'activation des envois automatiques.
             $emailSettings = [
@@ -727,7 +753,7 @@ class SettingsController {
             }
 
             $_SESSION['success'] = "Paramètres d'envoi automatique sauvegardés avec succès.";
-            
+
         } catch (Exception $e) {
             $_SESSION['error'] = "Erreur lors de la sauvegarde : " . $e->getMessage();
         }
@@ -739,18 +765,19 @@ class SettingsController {
     /**
      * Page de gestion des templates email
      */
-    public function emailTemplate($templateId = null) {
+    public function emailTemplate($templateId = null)
+    {
         $this->checkAdmin();
-        
+
         // Définir les variables de page
         setPageVariables('Gestion des templates email', 'settings');
         $currentPage = 'settings';
 
         // Si aucun ID n'est passé en paramètre, essayer de le récupérer depuis l'URL
         if ($templateId === null) {
-            $templateId = isset($_GET['id']) ? (int)$_GET['id'] : null;
+            $templateId = isset($_GET['id']) ? (int) $_GET['id'] : null;
         }
-        
+
         $template = null;
         $isEdit = false;
 
@@ -775,9 +802,10 @@ class SettingsController {
     /**
      * Sauvegarde un template email
      */
-    public function saveEmailTemplate() {
+    public function saveEmailTemplate()
+    {
         $this->checkAdmin();
-        
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: ' . BASE_URL . 'settings/email');
             exit;
@@ -794,13 +822,15 @@ class SettingsController {
             ];
 
             // Validation
-            if (empty($templateData['name']) || empty($templateData['template_type']) || 
-                empty($templateData['subject']) || empty($templateData['body'])) {
+            if (
+                empty($templateData['name']) || empty($templateData['template_type']) ||
+                empty($templateData['subject']) || empty($templateData['body'])
+            ) {
                 throw new Exception("Tous les champs obligatoires doivent être remplis.");
             }
 
             $isEdit = !empty($_POST['template_id']);
-            
+
             if ($isEdit) {
                 // Mise à jour
                 $sql = "UPDATE mail_templates SET 
@@ -833,7 +863,7 @@ class SettingsController {
                 ]);
                 $_SESSION['success'] = "Template créé avec succès.";
             }
-            
+
         } catch (Exception $e) {
             $_SESSION['error'] = "Erreur lors de la sauvegarde : " . $e->getMessage();
         }
@@ -845,11 +875,12 @@ class SettingsController {
     /**
      * Supprime un template email
      */
-    public function deleteEmailTemplate() {
+    public function deleteEmailTemplate()
+    {
         $this->checkAdmin();
-        
+
         $templateId = $_GET['id'] ?? null;
-        
+
         if (!$templateId) {
             $_SESSION['error'] = "ID du template manquant.";
             header('Location: ' . BASE_URL . 'settings/email');
@@ -860,9 +891,9 @@ class SettingsController {
             $sql = "DELETE FROM mail_templates WHERE id = ?";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$templateId]);
-            
+
             $_SESSION['success'] = "Template supprimé avec succès.";
-            
+
         } catch (Exception $e) {
             $_SESSION['error'] = "Erreur lors de la suppression : " . $e->getMessage();
         }
@@ -875,9 +906,10 @@ class SettingsController {
     /**
      * Test de la configuration OAuth2
      */
-    public function testOAuth2() {
+    public function testOAuth2()
+    {
         $this->checkAdmin();
-        
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'message' => 'Méthode non autorisée']);
@@ -902,22 +934,22 @@ class SettingsController {
 
             // Test de la configuration OAuth2
             $result = $this->performOAuth2Test($oauth2Settings);
-            
+
             if ($result['success']) {
                 echo json_encode([
-                    'success' => true, 
+                    'success' => true,
                     'message' => 'Configuration OAuth2 valide. ' . $result['message']
                 ]);
             } else {
                 echo json_encode([
-                    'success' => false, 
+                    'success' => false,
                     'message' => $result['message']
                 ]);
             }
 
         } catch (Exception $e) {
             echo json_encode([
-                'success' => false, 
+                'success' => false,
                 'message' => $e->getMessage()
             ]);
         }
@@ -927,12 +959,13 @@ class SettingsController {
     /**
      * Effectue le test de configuration OAuth2
      */
-    private function performOAuth2Test($settings) {
+    private function performOAuth2Test($settings)
+    {
         try {
             // Vérifier la connectivité vers Microsoft
             // Utiliser le tenant commun pour éviter les problèmes de timeout
             $discoveryUrl = "https://login.microsoftonline.com/common/v2.0/.well-known/openid_configuration";
-            
+
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $discoveryUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -941,7 +974,7 @@ class SettingsController {
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_USERAGENT, 'Avision/1.0');
-            
+
             $response = curl_exec($ch);
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $error = curl_error($ch);
@@ -997,9 +1030,10 @@ class SettingsController {
     /**
      * Callback OAuth2 - traite la réponse d'autorisation
      */
-    public function oauth2Callback() {
+    public function oauth2Callback()
+    {
         $this->checkAdmin();
-        
+
         try {
             $code = $_GET['code'] ?? '';
             $state = $_GET['state'] ?? '';
@@ -1020,13 +1054,13 @@ class SettingsController {
 
             // Échanger le code contre un token
             $tokenData = $this->exchangeCodeForToken($code);
-            
+
             if ($tokenData) {
                 // Sauvegarder les tokens
                 $config = Config::getInstance();
                 $config->set('oauth2_access_token', $tokenData['access_token']);
                 $config->set('oauth2_refresh_token', $tokenData['refresh_token']);
-                
+
                 $expiresIn = $tokenData['expires_in'] ?? 3600;
                 $expiresAt = date('Y-m-d H:i:s', time() + $expiresIn);
                 $config->set('oauth2_token_expires', $expiresAt);
@@ -1047,7 +1081,8 @@ class SettingsController {
     /**
      * Échange le code d'autorisation contre un token d'accès
      */
-    private function exchangeCodeForToken($code) {
+    private function exchangeCodeForToken($code)
+    {
         try {
             $config = Config::getInstance();
             $clientId = $config->get('oauth2_client_id', '');
@@ -1060,7 +1095,7 @@ class SettingsController {
             }
 
             $tokenUrl = "https://login.microsoftonline.com/$tenantId/oauth2/v2.0/token";
-            
+
             $postData = [
                 'client_id' => $clientId,
                 'client_secret' => $clientSecret,
@@ -1103,13 +1138,14 @@ class SettingsController {
     /**
      * Test d'envoi d'email
      */
-    public function testEmailSend() {
+    public function testEmailSend()
+    {
         // Désactiver l'affichage des erreurs pour éviter les problèmes JSON
         error_reporting(0);
         ini_set('display_errors', 0);
-        
+
         $this->checkAdmin();
-        
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'message' => 'Méthode non autorisée']);
@@ -1120,7 +1156,7 @@ class SettingsController {
 
         try {
             $testEmail = $_POST['test_email'] ?? '';
-            
+
             if (empty($testEmail)) {
                 throw new Exception('Adresse email de test requise');
             }
@@ -1128,22 +1164,22 @@ class SettingsController {
             // Vérifier la configuration
             $config = Config::getInstance();
             $oauth2Enabled = $config->get('oauth2_enabled', '0');
-            
+
             if ($oauth2Enabled === '1') {
                 // Test avec OAuth2
                 require_once __DIR__ . '/../classes/MailService.php';
                 global $db;
                 $mailService = new MailService($db);
-                
+
                 $subject = "Test OAuth2 - Avision";
                 $message = "Ceci est un email de test pour vérifier le fonctionnement d'OAuth2 avec Exchange 365.\n\n";
                 $message .= "Date d'envoi : " . date('Y-m-d H:i:s') . "\n";
                 $message .= "Configuration : OAuth2 activé\n";
                 $message .= "Serveur : " . $_SERVER['SERVER_NAME'] . "\n\n";
                 $message .= "Si vous recevez cet email, la configuration OAuth2 fonctionne correctement !";
-                
+
                 $result = $mailService->sendTestEmail($testEmail, $subject, $message);
-                
+
                 if ($result) {
                     echo json_encode([
                         'success' => true,
@@ -1157,16 +1193,16 @@ class SettingsController {
                 require_once __DIR__ . '/../classes/MailService.php';
                 global $db;
                 $mailService = new MailService($db);
-                
+
                 $subject = "Test SMTP - Avision";
                 $message = "Ceci est un email de test pour vérifier le fonctionnement SMTP.\n\n";
                 $message .= "Date d'envoi : " . date('Y-m-d H:i:s') . "\n";
                 $message .= "Configuration : SMTP classique\n";
                 $message .= "Serveur : " . $_SERVER['SERVER_NAME'] . "\n\n";
                 $message .= "Si vous recevez cet email, la configuration SMTP fonctionne correctement !";
-                
+
                 $result = $mailService->sendTestEmail($testEmail, $subject, $message);
-                
+
                 if ($result) {
                     echo json_encode([
                         'success' => true,
@@ -1202,10 +1238,11 @@ class SettingsController {
     /**
      * Test SMTP simple (sans OAuth2)
      */
-    public function testSmtp() {
+    public function testSmtp()
+    {
         error_reporting(0);
         ini_set('display_errors', 0);
-        
+
         try {
             // Vérifier si c'est une requête de test SMTP
             if (!isset($_POST['test_smtp'])) {
@@ -1253,11 +1290,11 @@ class SettingsController {
 
             // Test de connexion SMTP
             $result = $this->testSmtpConnection($mailHost, $mailPort, $mailUsername ?? '', $mailPassword ?? '', $mailEncryption);
-            
+
             if ($result['success']) {
                 // Test d'envoi d'email
                 $emailResult = $this->sendTestEmailSmtp($mailHost, $mailPort, $mailUsername, $mailPassword, $mailEncryption, $mailFromAddress, $mailFromName);
-                
+
                 if ($emailResult['success']) {
                     custom_log_mail("Test SMTP - Connexion et envoi réussis", 'INFO', ['host' => $mailHost, 'port' => $mailPort]);
                     echo json_encode([
@@ -1325,11 +1362,12 @@ class SettingsController {
     /**
      * Test de connexion SMTP
      */
-    private function testSmtpConnection($host, $port, $username, $password, $encryption) {
+    private function testSmtpConnection($host, $port, $username, $password, $encryption)
+    {
         try {
             // Test de connexion basique
             $connection = @fsockopen($host, $port, $errno, $errstr, 10);
-            
+
             if (!$connection) {
                 return [
                     'success' => false,
@@ -1338,12 +1376,12 @@ class SettingsController {
                     'errstr' => $errstr,
                 ];
             }
-            
+
             fclose($connection);
-            
+
             // Test avec socket (sans PHPMailer)
             return $this->testSmtpWithSocket($host, $port, $username, $password, $encryption);
-            
+
         } catch (Exception $e) {
             return [
                 'success' => false,
@@ -1356,7 +1394,8 @@ class SettingsController {
     /**
      * Test SMTP avec socket (sans PHPMailer)
      */
-    private function testSmtpWithSocket($host, $port, $username, $password, $encryption) {
+    private function testSmtpWithSocket($host, $port, $username, $password, $encryption)
+    {
         try {
             // Créer une socket pour tester la connexion
             $context = stream_context_create([
@@ -1370,11 +1409,12 @@ class SettingsController {
             // Déterminer le protocole selon l'encryption
             $protocol = '';
             $testPort = $port;
-            
+
             switch ($encryption) {
                 case 'ssl':
                     $protocol = 'ssl://';
-                    if ($port == 587) $testPort = 465; // Port SSL par défaut
+                    if ($port == 587)
+                        $testPort = 465; // Port SSL par défaut
                     break;
                 case 'tls':
                     $protocol = 'tcp://';
@@ -1385,12 +1425,12 @@ class SettingsController {
             }
 
             $hostWithProtocol = $protocol . $host;
-            
+
             // Tentative de connexion
             $socket = @stream_socket_client(
-                $hostWithProtocol . ':' . $testPort, 
-                $errno, 
-                $errstr, 
+                $hostWithProtocol . ':' . $testPort,
+                $errno,
+                $errstr,
                 10, // timeout 10 secondes
                 STREAM_CLIENT_CONNECT,
                 $context
@@ -1418,19 +1458,19 @@ class SettingsController {
             // Envoyer EHLO
             fwrite($socket, "EHLO " . ($_SERVER['HTTP_HOST'] ?? 'localhost') . "\r\n");
             $response = fgets($socket, 1024);
-            
+
             // Lire toutes les lignes de la réponse EHLO
             $ehloResponse = $response;
             while (preg_match('/^250-/', $response)) {
                 $response = fgets($socket, 1024);
                 $ehloResponse .= $response;
             }
-            
+
             // Si TLS est demandé, essayer de l'activer
             if ($encryption === 'tls' && preg_match('/STARTTLS/i', $ehloResponse)) {
                 fwrite($socket, "STARTTLS\r\n");
                 $response = fgets($socket, 1024);
-                
+
                 if (preg_match('/^220/', $response)) {
                     // Activer le chiffrement TLS
                     if (!stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
@@ -1440,11 +1480,11 @@ class SettingsController {
                             'message' => "Impossible d'activer le chiffrement TLS"
                         ];
                     }
-                    
+
                     // Renvoyer EHLO après TLS
                     fwrite($socket, "EHLO " . ($_SERVER['HTTP_HOST'] ?? 'localhost') . "\r\n");
                     $response = fgets($socket, 1024);
-                    
+
                     // Lire toutes les lignes de la nouvelle réponse EHLO
                     $ehloResponse = $response;
                     while (preg_match('/^250-/', $response)) {
@@ -1461,17 +1501,17 @@ class SettingsController {
                     // Essayer l'authentification LOGIN
                     fwrite($socket, "AUTH LOGIN\r\n");
                     $response = fgets($socket, 1024);
-                    
+
                     if (preg_match('/^334/', $response)) {
                         // Envoyer le nom d'utilisateur (base64)
                         fwrite($socket, base64_encode($username) . "\r\n");
                         $response = fgets($socket, 1024);
-                        
+
                         if (preg_match('/^334/', $response)) {
                             // Envoyer le mot de passe (base64)
                             fwrite($socket, base64_encode($password) . "\r\n");
                             $response = fgets($socket, 1024);
-                            
+
                             if (preg_match('/^235/', $response)) {
                                 fclose($socket);
                                 return [
@@ -1514,7 +1554,7 @@ class SettingsController {
                     'message' => 'Connexion SMTP réussie (sans authentification)'
                 ];
             }
-            
+
         } catch (Exception $e) {
             return [
                 'success' => false,
@@ -1526,16 +1566,17 @@ class SettingsController {
     /**
      * Envoi d'email de test SMTP (vrai envoi)
      */
-    private function sendTestEmailSmtp($host, $port, $username, $password, $encryption, $fromAddress, $fromName) {
+    private function sendTestEmailSmtp($host, $port, $username, $password, $encryption, $fromAddress, $fromName)
+    {
         try {
             // Utiliser la classe MailService pour un vrai envoi
             require_once __DIR__ . '/../classes/MailService.php';
-            
+
             // Créer une instance de MailService avec la base de données
             $config = Config::getInstance();
             $db = $config->getDb();
             $mailService = new MailService($db);
-            
+
             // Configuration temporaire pour le test SMTP
             $originalOAuth2Enabled = $config->get('oauth2_enabled');
             $originalMailHost = $config->get('mail_host');
@@ -1545,7 +1586,7 @@ class SettingsController {
             $originalMailEncryption = $config->get('mail_encryption');
             $originalMailFromAddress = $config->get('mail_from_address');
             $originalMailFromName = $config->get('mail_from_name');
-            
+
             // Configurer temporairement les paramètres SMTP pour le test
             $config->set('oauth2_enabled', '0'); // Désactiver OAuth2 pour le test
             $config->set('mail_host', $host);
@@ -1555,20 +1596,20 @@ class SettingsController {
             $config->set('mail_encryption', $encryption);
             $config->set('mail_from_address', $fromAddress ?: ($username ?: 'noreply@localhost'));
             $config->set('mail_from_name', $fromName ?: 'Test SMTP');
-            
+
             // Destinataire du test : utilisateur configuré, ou email de test, ou adresse from, ou Mailpit (accepte tout)
             $to = $username ?: $config->get('test_email', '') ?: $fromAddress ?: 'test@mailpit.local';
             $subject = 'Test SMTP - ' . date('Y-m-d H:i:s');
             $body = 'Ceci est un email de test SMTP envoyé le ' . date('Y-m-d H:i:s') . '.<br><br>' .
-                   'Configuration testée :<br>' .
-                   '• Serveur : ' . $host . '<br>' .
-                   '• Port : ' . $port . '<br>' .
-                   '• Chiffrement : ' . $encryption . '<br>' .
-                   '• Utilisateur : ' . $username . '<br><br>' .
-                   'Si vous recevez cet email, la configuration SMTP fonctionne correctement !';
-            
+                'Configuration testée :<br>' .
+                '• Serveur : ' . $host . '<br>' .
+                '• Port : ' . $port . '<br>' .
+                '• Chiffrement : ' . $encryption . '<br>' .
+                '• Utilisateur : ' . $username . '<br><br>' .
+                'Si vous recevez cet email, la configuration SMTP fonctionne correctement !';
+
             $result = $mailService->sendTestEmail($to, $subject, $body);
-            
+
             // Restaurer les paramètres originaux
             $config->set('oauth2_enabled', $originalOAuth2Enabled);
             $config->set('mail_host', $originalMailHost);
@@ -1578,7 +1619,7 @@ class SettingsController {
             $config->set('mail_encryption', $originalMailEncryption);
             $config->set('mail_from_address', $originalMailFromAddress);
             $config->set('mail_from_name', $originalMailFromName);
-            
+
             if ($result) {
                 return [
                     'success' => true,
@@ -1591,7 +1632,7 @@ class SettingsController {
                     'to' => $to,
                 ];
             }
-            
+
         } catch (Exception $e) {
             // Restaurer les paramètres en cas d'erreur
             if (isset($config)) {
@@ -1604,7 +1645,7 @@ class SettingsController {
                 $config->set('mail_from_address', $originalMailFromAddress ?? '');
                 $config->set('mail_from_name', $originalMailFromName ?? '');
             }
-            
+
             return [
                 'success' => false,
                 'message' => $e->getMessage(),
@@ -1618,47 +1659,51 @@ class SettingsController {
      * Exporte toutes les URLs des salles en Excel
      * Un onglet par client avec les colonnes : Nom du site, Nom de la salle, URL
      */
-    public function exportRoomsUrls() {
+    public function exportRoomsUrls()
+    {
         $this->checkAdmin();
-        
+
         try {
             // Charger PhpSpreadsheet
             require_once __DIR__ . '/../vendor/autoload.php';
-            
+            require_once __DIR__ . '/../models/QrCodeModel.php';   // AJOUT
+
+            $qrCodeModel = new QrCodeModel($this->db);              // AJOUT
+
             // Créer un nouveau classeur
             $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
             $spreadsheet->removeSheetByIndex(0); // Supprimer la feuille par défaut
-            
+
             // Récupérer tous les clients
             $clients = $this->clientModel->getAllClients();
-            
+
             if (empty($clients)) {
                 $_SESSION['error'] = "Aucun client trouvé.";
                 header('Location: ' . BASE_URL . 'settings');
                 exit;
             }
-            
+
             // Pour chaque client, créer un onglet
             foreach ($clients as $client) {
                 // Récupérer toutes les salles du client avec leurs sites
                 $rooms = $this->roomModel->getRoomsByClientId($client['id'], false);
-                
+
                 // Si le client n'a pas de salles, passer au client suivant
                 if (empty($rooms)) {
                     continue;
                 }
-                
+
                 // Créer un nouvel onglet pour ce client
                 $sheet = $spreadsheet->createSheet();
                 $sheetName = $this->sanitizeSheetName($client['name']);
                 $sheet->setTitle($sheetName);
-                
+
                 // En-têtes
                 $sheet->setCellValue('A1', 'Nom du site');
                 $sheet->setCellValue('B1', 'Nom de la salle');
                 $sheet->setCellValue('C1', 'URL Technicien');
                 $sheet->setCellValue('D1', 'URL Client');
-                
+
                 // Style des en-têtes
                 $headerStyle = [
                     'font' => [
@@ -1674,25 +1719,29 @@ class SettingsController {
                     ],
                 ];
                 $sheet->getStyle('A1:D1')->applyFromArray($headerStyle);
-                
+
                 // Largeur des colonnes
                 $sheet->getColumnDimension('A')->setWidth(30);
                 $sheet->getColumnDimension('B')->setWidth(30);
                 $sheet->getColumnDimension('C')->setWidth(60);
                 $sheet->getColumnDimension('D')->setWidth(60);
-                
+
                 // Remplir les données
                 $row = 2;
                 foreach ($rooms as $room) {
                     $sheet->setCellValue('A' . $row, $room['site_name']);
                     $sheet->setCellValue('B' . $row, $room['name']);
-                    // Générer l'URL pour les techniciens
-                    $roomUrlTech = BASE_URL . 'materiel/salle/' . $room['id'];
+
+                    // Générer/récupérer le code unique existant pour la salle (technicien)
+                    $codeStaff = $qrCodeModel->getOrCreateCode('salle_staff', $room['id']);   // MODIFIÉ
+                    $roomUrlTech = BASE_URL . 'r/' . $codeStaff;                                // MODIFIÉ
                     $sheet->setCellValue('C' . $row, $roomUrlTech);
-                    // Générer l'URL pour les clients
-                    $roomUrlClient = BASE_URL . 'materiel_client/salle/' . $room['id'];
+
+                    // Générer/récupérer le code unique existant pour la salle (client)
+                    $codeClient = $qrCodeModel->getOrCreateCode('salle_client', $room['id']);  // MODIFIÉ
+                    $roomUrlClient = BASE_URL . 'r/' . $codeClient;                             // MODIFIÉ
                     $sheet->setCellValue('D' . $row, $roomUrlClient);
-                    
+
                     // Ajouter un style pour les cellules de données
                     $sheet->getStyle('A' . $row . ':D' . $row)->applyFromArray([
                         'borders' => [
@@ -1701,36 +1750,36 @@ class SettingsController {
                             ],
                         ],
                     ]);
-                    
+
                     $row++;
                 }
-                
+
                 // Geler la première ligne
                 $sheet->freezePane('A2');
             }
-            
+
             // Vérifier qu'il y a au moins un onglet créé
             if ($spreadsheet->getSheetCount() === 0) {
                 $_SESSION['error'] = "Aucune salle trouvée pour l'export.";
                 header('Location: ' . BASE_URL . 'settings');
                 exit;
             }
-            
+
             // Activer le premier onglet
             $spreadsheet->setActiveSheetIndex(0);
-            
+
             // Générer le nom du fichier
             $filename = 'export_urls_salles_' . date('Y-m-d_His') . '.xlsx';
-            
+
             // Envoyer le fichier au navigateur
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="' . $filename . '"');
             header('Cache-Control: max-age=0');
-            
+
             $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
             $writer->save('php://output');
             exit;
-            
+
         } catch (Exception $e) {
             custom_log("Erreur lors de l'export des URLs des salles : " . $e->getMessage(), 'ERROR');
             $_SESSION['error'] = "Erreur lors de l'export : " . $e->getMessage();
@@ -1738,25 +1787,26 @@ class SettingsController {
             exit;
         }
     }
-    
+
     /**
      * Nettoie le nom de l'onglet pour qu'il soit valide dans Excel
      * Excel limite à 31 caractères et interdit certains caractères
      */
-    private function sanitizeSheetName($name) {
+    private function sanitizeSheetName($name)
+    {
         // Remplacer les caractères interdits
         $name = str_replace(['\\', '/', '?', '*', '[', ']', ':', "'"], '', $name);
-        
+
         // Limiter à 31 caractères (limite Excel)
         if (strlen($name) > 31) {
             $name = substr($name, 0, 31);
         }
-        
+
         // Si le nom est vide après nettoyage, utiliser un nom par défaut
         if (empty($name)) {
             $name = 'Client';
         }
-        
+
         return $name;
     }
-} 
+}

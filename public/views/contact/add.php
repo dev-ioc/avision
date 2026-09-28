@@ -127,35 +127,35 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <i class="bi bi-star-fill text-warning me-1"></i> Contact VIP
                                 </label>
                             </div>
-                            <!-- Sous-formulaire pour la création de compte utilisateur -->
+                           <!-- Sous-formulaire pour la création de compte utilisateur -->
                             <div id="userAccountForm" class="card mt-3 mb-3" style="display: none;">
                                 <div class="card-header py-2">
                                     <h5 class="card-title mb-0">Création du compte utilisateur</h5>
                                 </div>
                                 <div class="card-body py-2">
                                     <div class="mb-3">
-                                        <label for="username" class="form-label">Nom d'utilisateur <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="username" name="username">
+                                    <label for="username" class="form-label">Nom d'utilisateur</label>
+                                    <input type="text" class="form-control" id="username" name="username" value="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Mot de passe <span class="text-muted">(optionnel)</span></label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="password" name="password">
+                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                            <i class="bi bi-eye me-1"></i>
+                                        </button>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Mot de passe <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <input type="password" class="form-control" id="password" name="password">
-                                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                                <i class="bi bi-eye me-1"></i>
-                                            </button>
-                                        </div>
-                                        <div class="password-rules mt-2">
-                                            <small class="d-block text-muted">Le mot de passe doit contenir :</small>
-                                            <ul class="list-unstyled mb-0">
-                                                <li id="length" class="text-danger"><i class="bi bi-x-lg me-1"></i> Au moins 8 caractères</li>
-                                                <li id="uppercase" class="text-danger"><i class="bi bi-x-lg me-1"></i> Une majuscule</li>
-                                                <li id="lowercase" class="text-danger"><i class="bi bi-x-lg me-1"></i> Une minuscule</li>
-                                                <li id="number" class="text-danger"><i class="bi bi-x-lg me-1"></i> Un chiffre</li>
-                                                <li id="special" class="text-danger"><i class="bi bi-x-lg me-1"></i> Un caractère spécial</li>
-                                            </ul>
-                                        </div>
+                                    <div class="password-rules mt-2" id="passwordRules" style="display: none;">
+                                        <small class="d-block text-muted">Le mot de passe doit contenir :</small>
+                                        <ul class="list-unstyled mb-0">
+                                            <li id="length" class="text-danger"><i class="bi bi-x-lg me-1"></i> Au moins 8 caractères</li>
+                                            <li id="uppercase" class="text-danger"><i class="bi bi-x-lg me-1"></i> Une majuscule</li>
+                                            <li id="lowercase" class="text-danger"><i class="bi bi-x-lg me-1"></i> Une minuscule</li>
+                                            <li id="number" class="text-danger"><i class="bi bi-x-lg me-1"></i> Un chiffre</li>
+                                            <li id="special" class="text-danger"><i class="bi bi-x-lg me-1"></i> Un caractère spécial</li>
+                                        </ul>
                                     </div>
+                                </div>
                                 </div>
                             </div>
                             <?php endif; ?>
@@ -176,20 +176,24 @@ include_once __DIR__ . '/../../includes/navbar.php';
         const hasUserAccountCheckbox = document.getElementById('has_user_account');
         const userAccountForm = document.getElementById('userAccountForm');
         const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
         const togglePassword = document.getElementById('togglePassword');
-        
+        const passwordRulesBlock = document.getElementById('passwordRules');
+
         if (hasUserAccountCheckbox && userAccountForm) {
             hasUserAccountCheckbox.addEventListener('change', function() {
-                if (this.checked) {
-                    userAccountForm.style.display = 'block';
-                    usernameInput.required = true;
-                    passwordInput.required = true;
-                } else {
-                    userAccountForm.style.display = 'none';
-                    usernameInput.required = false;
-                    passwordInput.required = false;
+                userAccountForm.style.display = this.checked ? 'block' : 'none';
+                if (this.checked && usernameInput && emailInput) {
+                    usernameInput.value = emailInput.value;
                 }
+            });
+        }
+
+        // Le username suit l'email en temps réel
+        if (emailInput && usernameInput) {
+            emailInput.addEventListener('input', function() {
+                usernameInput.value = this.value;
             });
         }
 
@@ -198,12 +202,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
             togglePassword.addEventListener('click', function (e) {
                 const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
                 passwordInput.setAttribute('type', type);
-                this.querySelector('i').classList.toggle('fa-eye');
-                this.querySelector('i').classList.toggle('fa-eye-slash');
+                this.querySelector('i').classList.toggle('bi-eye');
+                this.querySelector('i').classList.toggle('bi-eye-slash');
             });
         }
 
-        // Validation en temps réel du mot de passe
+        // Validation en temps réel du mot de passe, affichée seulement si saisie
         const passwordRules = {
             length: /.{8,}/,
             uppercase: /[A-Z]/,
@@ -215,29 +219,28 @@ include_once __DIR__ . '/../../includes/navbar.php';
         if (passwordInput) {
             passwordInput.addEventListener('input', function() {
                 const value = this.value;
-                
-                // Vérifier chaque règle
+                if (passwordRulesBlock) {
+                    passwordRulesBlock.style.display = value.length > 0 ? 'block' : 'none';
+                }
                 for (const [rule, regex] of Object.entries(passwordRules)) {
                     const element = document.getElementById(rule);
                     const isValid = regex.test(value);
-                    
                     if (isValid) {
                         element.classList.remove('text-danger');
                         element.classList.add('text-success');
-                        element.querySelector('i').classList.remove('fa-times');
-                        element.querySelector('i').classList.add('fa-check');
+                        element.querySelector('i').classList.remove('bi-x-lg');
+                        element.querySelector('i').classList.add('bi-check-lg');
                     } else {
                         element.classList.remove('text-success');
                         element.classList.add('text-danger');
-                        element.querySelector('i').classList.remove('fa-check');
-                        element.querySelector('i').classList.add('fa-times');
+                        element.querySelector('i').classList.remove('bi-check-lg');
+                        element.querySelector('i').classList.add('bi-x-lg');
                     }
                 }
             });
         }
     });
 </script>
-
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';

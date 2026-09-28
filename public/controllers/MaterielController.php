@@ -47,6 +47,8 @@ class MaterielController
             'site_id' => isset($_GET['site_id']) ? (int) $_GET['site_id'] : null,
             'building_id' => isset($_GET['building_id']) ? (int) $_GET['building_id'] : null,
             'salle_id' => isset($_GET['salle_id']) ? (int) $_GET['salle_id'] : null,
+            'has_configuration' => isset($_GET['has_configuration']) && $_GET['has_configuration'] !== ''
+                ? (int) $_GET['has_configuration'] : null,
             'search' => isset($_GET['search']) ? $_GET['search'] : null
         ];
 
@@ -2415,6 +2417,33 @@ class MaterielController
         } else {
             http_response_code(500);
             echo json_encode(['success' => false, 'message' => 'Erreur lors de la mise à jour.']);
+        }
+    }
+    /**
+     * Vérifie l'existence d'un numéro de série (AJAX)
+     * GET materiel/check_serial?numero_serie=XXX[&exclude_id=12]
+     */
+    public function check_serial()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            return;
+        }
+
+        $serial = trim($_GET['numero_serie'] ?? '');
+        $excludeId = !empty($_GET['exclude_id']) ? (int) $_GET['exclude_id'] : null;
+
+        try {
+            echo json_encode([
+                'duplicates' => $this->materielModel->findBySerialNumber($serial, $excludeId)
+            ]);
+        } catch (Throwable $e) {
+            custom_log("Erreur check_serial : " . $e->getMessage(), 'ERROR');
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur lors de la vérification']);
         }
     }
 }

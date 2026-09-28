@@ -149,94 +149,46 @@
     const isEditMode = contractIdInput !== null;
 
     if (isEditMode) {
-      // Mode édition : client fixe, charger les salles avec pré-sélection
-      const clientId =
-        contractIdInput.dataset.clientId ||
-        (document.getElementById("client_id")
-          ? document.getElementById("client_id").value
-          : null);
+      // Mode édition : les salles sont déjà rendues côté serveur (edit.php),
+      // avec les cases site/bâtiment. Ne pas les écraser par un appel AJAX.
+      return;
+    }
 
-      if (
-        clientId &&
-        roomsContainer &&
-        typeof loadContractRoomsSimple === "function"
-      ) {
-        loadContractRoomsSimple(
-          clientId,
-          "rooms-container",
-          contractIdInput.value,
-        );
-      }
-    } else {
-      // Mode ajout : client sélectionnable
-      if (clientSelect && roomsContainer) {
-        clientSelect.addEventListener("change", function () {
-          if (this.value) {
-            if (typeof loadContractRoomsSimple === "function") {
-              loadContractRoomsSimple(this.value, "rooms-container");
-            } else if (typeof Utils !== "undefined" && Utils.loadRoomsBySite) {
-              // Fallback : utiliser Utils.loadRoomsBySite si disponible
-              // Note: loadContractRoomsSimple gère plusieurs sites, loadRoomsBySite gère un seul site
-              console.warn(
-                "loadContractRoomsSimple non disponible, utilisation de fallback",
-              );
-            }
-          } else {
-            roomsContainer.innerHTML = `
-                            <div class="text-center text-muted">
-                                <i class="bi bi-info-circle me-1"></i>
-                                Sélectionnez d'abord un client
-                            </div>
-                        `;
-          }
-        });
-
-        // Si un client est déjà sélectionné (ex: rechargement avec erreur de formulaire), charger ses salles
-        if (clientSelect.value) {
+    // Mode ajout : client sélectionnable
+    if (clientSelect && roomsContainer) {
+      clientSelect.addEventListener("change", function () {
+        if (this.value) {
           if (typeof loadContractRoomsSimple === "function") {
-            loadContractRoomsSimple(clientSelect.value, "rooms-container");
+            loadContractRoomsSimple(this.value, "rooms-container");
+          } else {
+            console.warn("loadContractRoomsSimple non disponible");
           }
+        } else {
+          roomsContainer.innerHTML = `
+            <div class="text-center text-muted">
+              <i class="bi bi-info-circle me-1"></i>
+              Sélectionnez d'abord un client
+            </div>
+          `;
         }
-      }
+      });
 
-      // Si le client est fixé (passé par l'URL via data-attribute)
-      const clientIdFromData = clientSelect
-        ? clientSelect.dataset.clientId
-        : null;
-      if (
-        clientIdFromData &&
-        roomsContainer &&
-        typeof loadContractRoomsSimple === "function"
-      ) {
-        loadContractRoomsSimple(clientIdFromData, "rooms-container");
+      // Si un client est déjà sélectionné (ex: rechargement avec erreur de formulaire), charger ses salles
+      if (clientSelect.value && typeof loadContractRoomsSimple === "function") {
+        loadContractRoomsSimple(clientSelect.value, "rooms-container");
       }
     }
+
+    // Si le client est fixé (passé par l'URL via data-attribute)
+    const clientIdFromData = clientSelect
+      ? clientSelect.dataset.clientId
+      : null;
+    if (
+      clientIdFromData &&
+      roomsContainer &&
+      typeof loadContractRoomsSimple === "function"
+    ) {
+      loadContractRoomsSimple(clientIdFromData, "rooms-container");
+    }
   }
-  fetch(baseUrl + "contracts/load_client_rooms", {
-    method: "POST",
-    body: formData,
-  })
-    .then((r) => r.json())
-    .then((data) => {
-      if (data.session_expired) {
-        // Afficher un lien de reconnexion plutôt qu'un message brut
-        document.getElementById("rooms-container").innerHTML =
-          '<div class="alert alert-warning">' +
-          '<i class="bi bi-exclamation-triangle me-1"></i>' +
-          'Votre session a expiré. <a href="' +
-          baseUrl +
-          'auth/login">Veuillez vous reconnecter.</a>' +
-          "</div>";
-        return;
-      }
-      if (data.error) {
-        document.getElementById("rooms-container").innerHTML =
-          '<div class="text-danger">' + data.error + "</div>";
-        return;
-      }
-      document.getElementById("rooms-container").innerHTML = data.html;
-    })
-    .catch((err) => {
-      console.error("Erreur chargement salles:", err);
-    });
 })();

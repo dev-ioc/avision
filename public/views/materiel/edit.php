@@ -81,7 +81,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </h5>
         </div>
         <div class="card-body">
-            <form method="POST" action="<?= BASE_URL ?>materiel/update/<?= $materiel['id'] ?>" id="materielEditForm">
+            <form method="POST" action="<?= BASE_URL ?>materiel/update/<?= $materiel['id'] ?>" id="materielEditForm" data-exclude-id="<?= (int) $materiel['id'] ?>">
                 <?= csrf_field() ?>
                 <!-- Champs cachés pour conserver les filtres -->
                 <?php if (isset($_GET['client_id']) && !empty($_GET['client_id'])): ?>
@@ -209,6 +209,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                             <i class="fas fa-barcode me-2"></i>Numéro de série
                                         </label>
                                         <input type="text" class="form-control bg-body text-body" id="numero_serie" name="numero_serie" value="<?= htmlspecialchars($materiel['numero_serie'] ?? '') ?>">
+                                        <div id="serialWarning" class="alert alert-warning mt-2 mb-0 py-2 d-none" role="alert"></div>
                                     </div>
                                 </div>
 
@@ -264,21 +265,32 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         <label for="login" class="form-label fw-bold">
                                             <i class="fas fa-user me-2"></i>Login
                                         </label>
-                                        <input type="text" class="form-control bg-body text-body" id="login" name="login" value="<?= htmlspecialchars($materiel['login'] ?? '') ?>">
+                                        <input type="text"
+                                            class="form-control bg-body text-body"
+                                            id="login"
+                                            name="login"
+                                            value="">
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="password" class="form-label fw-bold">
-                                            <i class="fas fa-lock me-2"></i>Password
-                                        </label>
-                                        <div class="input-group">
-                                            <input type="password" class="form-control bg-body text-body" id="password" name="password" value="<?= htmlspecialchars($materiel['password'] ?? '') ?>">
-                                            <button class="btn btn-outline-secondary" type="button" id="togglePassword" title="Afficher/Masquer le mot de passe">
-                                                <i class="<?php echo getIcon('visibility', 'bi bi-eye'); ?>" id="passwordIcon"></i>
-                                            </button>
-                                        </div>
+                                 <div class="col-md-6">
+                                    <label for="password" class="form-label fw-bold">
+                                        <i class="fas fa-lock me-2"></i>Password
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="password"
+                                            class="form-control bg-body text-body"
+                                            id="password"
+                                            name="password"
+                                            value="">
+                                        <button class="btn btn-outline-secondary"
+                                                type="button"
+                                                id="togglePassword"
+                                                title="Afficher/Masquer le mot de passe">
+                                            <i class="<?php echo getIcon('visibility', 'bi bi-eye'); ?>"
+                                            id="passwordIcon"></i>
+                                        </button>
                                     </div>
                                 </div>
-
+                                </div>
                                 <!-- Modèle (obligatoire) -->
                                 <div class="row mb-3">
                                     <div class="col-md-6">

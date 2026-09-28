@@ -148,8 +148,10 @@ class UserModel extends BaseModel
 
             $stmt = $this->db->prepare($sql);
             // $stmt->bindValue(':username', $data['username']);
+            $plainPassword = !empty($data['password']) ? $data['password'] : bin2hex(random_bytes(32));
+
             $stmt->bindValue(':email', $data['email']);
-            $stmt->bindValue(':password', password_hash($data['password'], PASSWORD_DEFAULT));
+            $stmt->bindValue(':password', password_hash($plainPassword, PASSWORD_DEFAULT));
             $stmt->bindValue(':first_name', $data['first_name']);
             $stmt->bindValue(':last_name', $data['last_name']);
             $stmt->bindValue(':user_type_id', $userType['id']);

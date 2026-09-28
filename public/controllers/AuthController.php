@@ -815,10 +815,24 @@ class AuthController
      */
     private function computeRedirectUrl(): string
     {
+        // === Priorité 1 : QR master client (VIP/boss) ===
+        if (isset($_SESSION['qr_client_master'])) {
+            $clientId = $_SESSION['qr_client_master'];
+            unset($_SESSION['qr_client_master']);
+            return BASE_URL . 'profileClient';
+        }
+        if (isset($_SESSION['qr_contact_vip'])) {
+            unset($_SESSION['qr_contact_vip']);
+            return BASE_URL . 'dashboard';
+        }
+        if (isset($_SESSION['qr_staff_member'])) {
+            unset($_SESSION['qr_staff_member']);
+            return BASE_URL . 'dashboard';
+        }
+        // === Priorité 2 : QR salle (staff/client)
         if (isset($_SESSION['qr_salle']) && isset($_SESSION['qr_type'])) {
             return BASE_URL . 'qrcode/redirect';
         }
-
         $redirectAfterLogin = $_SESSION['redirect_after_login'] ?? null;
         if ($redirectAfterLogin && trim($redirectAfterLogin) !== '') {
             $redirectUrl = trim($redirectAfterLogin);
@@ -829,7 +843,6 @@ class AuthController
 
         return BASE_URL . 'dashboard';
     }
-
     /**
      * Redirection factorisée après une authentification COMPLÈTE (mot de passe + 2FA le cas échéant)
      */

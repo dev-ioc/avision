@@ -213,7 +213,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         <label for="numero_serie" class="form-label fw-bold">
                                             <i class="fas fa-barcode me-2"></i>Numéro de série
                                         </label>
-                                        <input type="text" class="form-control bg-body text-body" id="numero_serie" name="numero_serie">
+                                    <input type="text" class="form-control bg-body text-body" id="numero_serie" name="numero_serie" autocomplete="off">
+                                    <div id="serialWarning" class="alert alert-warning mt-2 mb-0 py-2 d-none" role="alert"></div>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="version_firmware" class="form-label fw-bold">
@@ -714,7 +715,7 @@ function addAnotherMateriel() {
     window.location.href = url;
 }
 </script>
-
+<script src="<?= BASE_URL ?>assets/js/pages/materiel-serial-check.js"></script>
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';

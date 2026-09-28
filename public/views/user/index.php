@@ -37,6 +37,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
 
         <div class="ms-auto p-2 bd-highlight">
+            <a href="<?php echo BASE_URL; ?>qrcode/generate/staff" id="btn-generate-staff-qr"
+                class="btn btn-outline-primary me-2" style="display:none;">
+                <i class="bi bi-qr-code me-1"></i> QR Codes Staff
+            </a>
+            <a href="<?php echo BASE_URL; ?>user/export_csv" id="btn-export-staff-csv"
+                class="btn btn-outline-secondary me-2" style="display:none;">
+                <i class="bi bi-file-earmark-spreadsheet me-1"></i> Exporter CSV
+            </a>
             <a href="<?php echo BASE_URL; ?>user/add" class="btn btn-primary">
                 <i class="bi bi-plus me-1"></i> Nouvel utilisateur
             </a>
@@ -202,43 +210,50 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
 <!-- Page JS -->
 <script src="<?php echo BASE_URL; ?>assets/js/users-datatable.js"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const tabs = document.querySelectorAll('#userTypeTabs .nav-link');
         const rows = document.querySelectorAll('#usersTable tbody tr');
+        const tabStorageKey = 'users_active_tab';
 
-        // Calculer les compteurs
         let counts = { all: 0, videosonic: 0, client: 0 };
         rows.forEach(row => {
             const type = row.dataset.userType;
             counts.all++;
             if (counts[type] !== undefined) counts[type]++;
         });
-
         document.getElementById('count-all').textContent = counts.all;
         document.getElementById('count-videosonic').textContent = counts.videosonic;
         document.getElementById('count-client').textContent = counts.client;
 
-        // Filtrage au clic sur un tab
+        function applyTabFilter(filter) {
+            rows.forEach(row => {
+                row.style.display = (filter === 'all' || row.dataset.userType === filter) ? '' : 'none';
+            });
+            document.getElementById('btn-generate-staff-qr').style.display = (filter === 'videosonic') ? '' : 'none';
+            document.getElementById('btn-export-staff-csv').style.display = (filter === 'videosonic') ? '' : 'none';
+        }
+
         tabs.forEach(tab => {
             tab.addEventListener('click', function (e) {
                 e.preventDefault();
-
-                // Activer le tab cliqué
                 tabs.forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
-
                 const filter = this.dataset.filter;
-
-                rows.forEach(row => {
-                    if (filter === 'all' || row.dataset.userType === filter) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
+                sessionStorage.setItem(tabStorageKey, filter);
+                applyTabFilter(filter);
             });
         });
+
+        // Restaurer l'onglet actif au chargement (retour d'édition, etc.)
+        const savedTab = sessionStorage.getItem(tabStorageKey) || 'all';
+        const savedLink = document.querySelector(`#userTypeTabs .nav-link[data-filter="${savedTab}"]`);
+        if (savedLink) {
+            tabs.forEach(t => t.classList.remove('active'));
+            savedLink.classList.add('active');
+        }
+        applyTabFilter(savedTab);
     });
 </script>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

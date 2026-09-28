@@ -5,6 +5,10 @@ require_once __DIR__ . '/../models/MaterielModel.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../classes/Traits/AccessControlTrait.php';
 require_once __DIR__ . '/../models/BuildingModel.php';
+require_once __DIR__ . '/../models/QrCodeModel.php';
+require_once __DIR__ . '/../models/ContactModel.php';
+require_once __DIR__ . '/../models/ClientModel.php';
+require_once __DIR__ . '/../models/UserModel.php';
 
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
@@ -17,6 +21,11 @@ class QRCodeController
     private $roomModel;
     private $materielModel;
     private $buildingModel;
+    private $qrCodeModel;
+    private $contactModel;
+    private $clientModel;
+    private $userModel;
+
 
     public function __construct()
     {
@@ -26,6 +35,10 @@ class QRCodeController
         $this->roomModel = new RoomModel($this->db);
         $this->materielModel = new MaterielModel($this->db);
         $this->buildingModel = new BuildingModel($this->db);
+        $this->qrCodeModel = new QrCodeModel($this->db);
+        $this->contactModel = new ContactModel($this->db);
+        $this->clientModel = new ClientModel($this->db);
+        $this->userModel = new UserModel($this->db);
     }
 
 
@@ -44,14 +57,14 @@ class QRCodeController
         }
 
         // Récupérer tous les bâtiments du site
-        $batiments = $this->buildingModel->getBuildingsBySiteId($siteId, true); // activeOnly = true
+        $batiments = $this->buildingModel->getBuildingsBySiteId($siteId, true);
 
         // Récupérer toutes les salles de chaque bâtiment
         $salles = [];
         foreach ($batiments as $batiment) {
             $sallesDuBatiment = $this->roomModel->getRoomsByBuildingId($batiment['id'], true);
             foreach ($sallesDuBatiment as $salle) {
-                $salle['batiment_name'] = $batiment['name']; // utile pour l'affichage
+                $salle['batiment_name'] = $batiment['name'];
                 $salles[] = $salle;
             }
         }
@@ -132,10 +145,83 @@ class QRCodeController
      */
     public function generateQRUrl($salleId, $type = 'staff')
     {
-        // URL simplifiée pour éviter les problèmes de longueur
-        return BASE_URL . 'auth/login?qr=' . $salleId . '&t=' . $type;
-    }
 
+        $targetType = $type === 'client' ? 'salle_client' : 'salle_staff';
+        $code = $this->qrCodeModel->getOrCreateCode($targetType, $salleId);
+        return BASE_URL . 'r/' . $code;
+    }
+    public function generateMasterQRUrl($clientId)
+    {
+        $code = $this->qrCodeModel->getOrCreateCode('client_master', $clientId);
+        return BASE_URL . 'r/' . $code;
+    }
+    /**
+     * Point d'entrée unique pour tous les QR codes imprimés.
+     * Ne changera plus jamais, quoi qu'il arrive derrière.
+     */
+    public function redirectByCode($code)
+    {
+        $qr = $this->qrCodeModel->resolveCode($code);
+
+        if (!$qr) {
+            $_SESSION['error'] = "Code QR invalide.";
+            header('Location: ' . BASE_URL . 'auth/login');
+            exit;
+        }
+
+        switch ($qr['target_type']) {
+            case 'salle_staff':
+                $_SESSION['qr_salle'] = $qr['target_id'];
+                $_SESSION['qr_type'] = 'staff';
+                if (!isset($_SESSION['user'])) {
+                    header('Location: ' . BASE_URL . 'auth/login');
+                } else {
+                    header('Location: ' . BASE_URL . 'materiel/salle/' . $qr['target_id']);
+                }
+                break;
+
+            case 'salle_client':
+                $_SESSION['qr_salle'] = $qr['target_id'];
+                $_SESSION['qr_type'] = 'client';
+                if (!isset($_SESSION['user'])) {
+                    header('Location: ' . BASE_URL . 'auth/login');
+                } else {
+                    header('Location: ' . BASE_URL . 'materiel_client/salle/' . $qr['target_id']);
+                }
+                break;
+
+            case 'client_master':
+                if (!isset($_SESSION['user'])) {
+                    $_SESSION['qr_client_master'] = $qr['target_id'];
+                    header('Location: ' . BASE_URL . 'auth/login');
+                } else {
+                    header('Location: ' . BASE_URL . 'dashboard');
+                }
+                break;
+
+            case 'contact_vip':
+                if (!isset($_SESSION['user'])) {
+                    $_SESSION['qr_contact_vip'] = $qr['target_id'];
+                    header('Location: ' . BASE_URL . 'auth/login');
+                } else {
+                    header('Location: ' . BASE_URL . 'dashboard');
+                }
+                break;
+            case 'staff_member':
+                if (!isset($_SESSION['user'])) {
+                    $_SESSION['qr_staff_member'] = $qr['target_id'];
+                    header('Location: ' . BASE_URL . 'auth/login');
+                } else {
+                    header('Location: ' . BASE_URL . 'dashboard');
+                }
+                break;
+            default:
+                $_SESSION['error'] = "Type de QR code non reconnu.";
+                header('Location: ' . BASE_URL . 'auth/login');
+                break;
+        }
+        exit;
+    }
     /**
      * Génère les données pour les QR codes (pour les vues)
      */
@@ -200,5 +286,48 @@ class QRCodeController
         imagedestroy($image);
 
         return 'data:image/png;base64,' . base64_encode($imageData);
+    }
+    public function generateContactQRUrl($contactId)
+    {
+        $code = $this->qrCodeModel->getOrCreateCode('contact_vip', $contactId);
+        return BASE_URL . 'r/' . $code;
+    }
+    /**
+     * Génère la fiche regroupant tous les QR codes VIP d'un client
+     */
+    public function generateVipContacts($clientId)
+    {
+        $this->checkAccess();
+
+        $client = $this->clientModel->getClientById($clientId);
+        if (!$client) {
+            $_SESSION['error'] = "Client non trouvé.";
+            header('Location: ' . BASE_URL . 'dashboard');
+            exit;
+        }
+
+        $contacts = $this->contactModel->getVipContactsByClientId($clientId);
+
+        $pageTitle = "QR Codes VIP - " . $client['name'];
+        require_once VIEWS_PATH . '/qrcode/vip.php';
+    }
+
+    public function generateStaffQRUrl($userId)
+    {
+        $code = $this->qrCodeModel->getOrCreateCode('staff_member', $userId);
+        return BASE_URL . 'r/' . $code;
+    }
+
+    /**
+     * Génère la fiche regroupant tous les QR codes du staff
+     */
+    public function generateStaff()
+    {
+        $this->checkAccess();
+
+        $staffMembers = $this->userModel->getTechnicians();
+
+        $pageTitle = "QR Codes - Staff";
+        require_once VIEWS_PATH . '/qrcode/staff.php';
     }
 }

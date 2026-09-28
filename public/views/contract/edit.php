@@ -31,26 +31,12 @@ setPageVariables(
 // Définir la page courante pour le menu
 $currentPage = 'contracts';
 
-// Déterminer l'URL de retour dynamiquement
-$returnUrl = $_GET['return_url'] ?? null;
+// Déterminer l'URL de retour (uniquement une URL interne)
+$returnUrl = $_GET['return_url'] ?? '';
+$returnUrl = $returnUrl !== '' ? urldecode($returnUrl) : '';
 
-// Si une URL de retour est fournie, l'utiliser
-if (!empty($returnUrl)) {
-
-    // Décoder l'URL si elle a été encodée
-    $returnUrl = urldecode($returnUrl);
-
-$returnUrl = $_GET['return_url'] ?? null;
-
-// Si une URL de retour est fournie, l'utiliser
-if (!empty($returnUrl)) {
-
-    // Décoder l'URL si elle a été encodée
-    $returnUrl = urldecode($returnUrl);
-
-} else {
+if ($returnUrl === '' || !str_starts_with($returnUrl, BASE_URL)) {
     $returnUrl = BASE_URL . 'clients/edit/' . $client['id'] . '#contracts';
-}
 }
 // Inclure le header qui contient le menu latéral
 include_once __DIR__ . '/../../includes/header.php';
@@ -118,22 +104,58 @@ echo '<script>const baseUrl = "' . BASE_URL . '";</script>';
                        <!-- Salles associées -->
                         <div class="mb-3">
                             <label class="form-label">Salles associées</label>
+                          <?php
+                            // Regroupement site > bâtiment > salles
+                            $selectedRoomIds = array_column($contract['rooms'] ?? [], 'room_id');
+                            $grouped = [];
+                            foreach ($allRooms ?? [] as $room) {
+                                $sid = $room['site_id'];
+                                $bid = $room['building_id'];
+                                $grouped[$sid]['name'] = $room['site_name'];
+                                $grouped[$sid]['buildings'][$bid]['name'] = $room['building_name'];
+                                $grouped[$sid]['buildings'][$bid]['rooms'][] = $room;
+                            }
+                            ?>
+
                             <div id="rooms-container" class="border rounded p-3" style="max-height: 300px; overflow-y: auto;">
-                                <?php if (!empty($allRooms)): ?>
-                                    <?php foreach ($allRooms as $room): ?>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="rooms[]" value="<?php echo $room['id']; ?>"
-                                                id="room_<?php echo $room['id']; ?>"
-                                                <?php echo (isset($contract['rooms']) && in_array($room['id'], array_column($contract['rooms'] ?? [], 'room_id'))) ? 'checked' : ''; ?>>
-                                            <label class="form-check-label" for="room_<?php echo $room['id']; ?>">
-                                                <?php echo h($room['site_name'] ?? ''); ?> - <?php echo h($room['building_name'] ?? ''); ?> - <?php echo h($room['name']); ?>
-                                            </label>
+                                <?php if (!empty($grouped)): ?>
+                                    <?php foreach ($grouped as $siteId => $site): ?>
+                                        <div class="site-group mb-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input site-toggle" type="checkbox" id="site_<?= (int)$siteId ?>">
+                                                <label class="form-check-label fw-semibold text-primary" for="site_<?= (int)$siteId ?>">
+                                                    <i class="bi bi-geo-alt-fill me-1"></i><?= h($site['name']) ?>
+                                                    <small class="text-muted site-counter"></small>
+                                                </label>
+                                            </div>
+
+                                            <?php foreach ($site['buildings'] as $buildingId => $building): ?>
+                                                <div class="building-group ms-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input building-toggle" type="checkbox" id="building_<?= (int)$buildingId ?>">
+                                                        <label class="form-check-label text-muted" for="building_<?= (int)$buildingId ?>">
+                                                            <i class="bi bi-building me-1"></i><?= h($building['name']) ?>
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="ms-4">
+                                                        <?php foreach ($building['rooms'] as $room): ?>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" name="rooms[]"
+                                                                    value="<?= (int)$room['id'] ?>" id="room_<?= (int)$room['id'] ?>"
+                                                                    <?= in_array($room['id'], $selectedRoomIds) ? 'checked' : '' ?>>
+                                                                <label class="form-check-label" for="room_<?= (int)$room['id'] ?>">
+                                                                    <?= h($room['name']) ?>
+                                                                </label>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
                                         </div>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <div class="text-center text-muted">
-                                        Aucune salle disponible pour ce client.
-                                    </div>
+                                    <div class="text-center text-muted">Aucune salle disponible pour ce client.</div>
                                 <?php endif; ?>
                             </div>
                             <small class="form-text text-muted">Cochez les salles que vous souhaitez associer à ce contrat.</small>
@@ -323,7 +345,45 @@ echo '<script>const baseUrl = "' . BASE_URL . '";</script>';
 
 <!-- JavaScript spécifique aux formulaires de contrats -->
 <script src="<?php echo BASE_URL; ?>assets/js/pages/contracts-form.js" onerror="console.error('ERREUR: contracts-form.js n\'a pas pu être chargé. Vérifiez que le fichier existe et est accessible.')"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('rooms-container');
+    if (!container) return;
 
+    const ROOM_SELECTOR = 'input[name="rooms[]"]';
+
+        function syncToggle(toggle, scope) {
+            const rooms = [...scope.querySelectorAll(ROOM_SELECTOR)];
+            const checked = rooms.filter(r => r.checked).length;
+            if (toggle) {
+                toggle.checked = rooms.length > 0 && checked === rooms.length;
+                toggle.indeterminate = checked > 0 && checked < rooms.length;
+            }
+            return { checked, total: rooms.length };
+        }
+    function refreshAll() {
+        container.querySelectorAll('.building-group').forEach(g => {
+            syncToggle(g.querySelector('.building-toggle'), g);
+        });
+        container.querySelectorAll('.site-group').forEach(g => {
+            const { checked, total } = syncToggle(g.querySelector('.site-toggle'), g);
+            const counter = g.querySelector('.site-counter');
+            if (counter) counter.textContent = `(${checked}/${total})`;
+        });
+    }
+
+    container.addEventListener('change', e => {
+        const el = e.target;
+        if (el.matches('.site-toggle, .building-toggle')) {
+            const scope = el.closest('.building-group') || el.closest('.site-group');
+            scope.querySelectorAll(ROOM_SELECTOR).forEach(r => { r.checked = el.checked; });
+        }
+        refreshAll();
+    });
+
+    refreshAll(); // état initial (salles déjà cochées)
+});
+</script>
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';

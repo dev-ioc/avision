@@ -63,74 +63,6 @@ foreach ($documentation_list as $doc) {
 }
 ?>
 
-<style>
-  .documentation-row {
-    background-color: var(--bs-body-bg);
-  }
-
-  .documentation-row .card {
-    border: 1px solid var(--bs-border-color);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .documentation-list .list-group-item {
-    border: 1px solid var(--bs-border-color);
-    border-radius: 0.375rem;
-    transition: all 0.2s ease-in-out;
-    background-color: var(--bs-body-bg);
-    color: var(--bs-body-color);
-    padding: 0.75rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .documentation-list .list-group-item:hover {
-    background-color: var(--bs-secondary-bg);
-    border-color: var(--bs-primary);
-    box-shadow: 0 2px 4px rgba(var(--bs-primary-rgb), 0.15);
-  }
-
-  .btn-action {
-    transition: all 0.2s ease-in-out;
-  }
-
-  .btn-action:hover {
-    transform: scale(1.05);
-  }
-
-  .documentation-row td {
-    border-top: none;
-    border-bottom: 1px solid var(--bs-border-color);
-  }
-
-  .min-w-0 {
-    min-width: 0;
-  }
-
-  .documentation-list .btn-group {
-    flex-shrink: 0;
-  }
-
-  .file-icon {
-    font-size: 1.2rem;
-    margin-right: 0.5rem;
-  }
-
-  .file-type-badge {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-  }
-
-  .document-link {
-    color: var(--bs-primary);
-    text-decoration: none;
-    font-weight: 500;
-  }
-
-  .document-link:hover {
-    color: var(--bs-primary);
-    text-decoration: underline;
-  }
-</style>
 <header>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css">
   <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
@@ -460,10 +392,10 @@ foreach ($documentation_list as $doc) {
                                                 </div>
                                               <?php elseif (in_array($fileType, ['jpg', 'jpeg', 'png', 'gif', 'webp'])): ?>
                                                 <div class="text-center p-3" style="max-height: 75vh; overflow: auto;">
-                                                  <img src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>" class="img-fluid"
-                                                    style="max-width: 100%; cursor: zoom-in;"
+                                                  <img data-src="<?= BASE_URL ?>documentation/preview/<?= $doc['id'] ?>"
+                                                    class="img-fluid img-lazy-preview" style="max-width: 100%; cursor: zoom-in;"
                                                     alt="<?= h($doc['nom_personnalise'] ?? $doc['nom_fichier']) ?>"
-                                                    onerror="handleImageError(this, <?= $doc['id'] ?>, '<?= h($doc['nom_fichier']) ?>')">
+                                                    data-doc-id="<?= $doc['id'] ?>" data-doc-name="<?= h($doc['nom_fichier']) ?>">
                                                 </div>
                                               <?php endif; ?>
                                             </div>
@@ -518,6 +450,70 @@ foreach ($documentation_list as $doc) {
     };
   }
 
+  function makeDocFilterDropdownResizable(fieldId, dropdown) {
+    if (!dropdown) return;
+
+    let resizer = dropdown.querySelector('.filter-dropdown-resizer');
+    if (!resizer) {
+      resizer = document.createElement('div');
+      resizer.className = 'filter-dropdown-resizer';
+      dropdown.appendChild(resizer);
+    }
+
+    const savedWidth = localStorage.getItem('filter-dropdown-width-' + fieldId);
+    const savedHeight = localStorage.getItem('filter-dropdown-height-' + fieldId);
+    const DEFAULT_WIDTH = 350;
+    const DEFAULT_HEIGHT = 300;
+
+    dropdown.style.setProperty('width', (savedWidth || DEFAULT_WIDTH) + 'px', 'important');
+    dropdown.style.setProperty('height', (savedHeight || DEFAULT_HEIGHT) + 'px', 'important');
+
+    if (resizer.dataset.initialized === 'true') return;
+    resizer.dataset.initialized = 'true';
+
+    resizer.addEventListener('mousedown', function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const startX = event.clientX;
+      const startY = event.clientY;
+      const startWidth = dropdown.offsetWidth;
+      const startHeight = dropdown.offsetHeight;
+
+      function onMouseMove(moveEvent) {
+        const deltaX = moveEvent.clientX - startX;
+        const deltaY = moveEvent.clientY - startY;
+
+        let newWidth = Math.max(100, startWidth + deltaX);
+        let newHeight = Math.max(50, startHeight + deltaY);
+
+        const rect = dropdown.getBoundingClientRect();
+        const maxWidth = window.innerWidth - rect.left - 20;
+        const maxHeight = window.innerHeight - rect.top - 20;
+
+        newWidth = Math.min(newWidth, maxWidth);
+        newHeight = Math.min(newHeight, maxHeight);
+
+        dropdown.style.setProperty('width', newWidth + 'px', 'important');
+        dropdown.style.setProperty('height', newHeight + 'px', 'important');
+      }
+
+      function onMouseUp() {
+        localStorage.setItem('filter-dropdown-width-' + fieldId, Math.round(dropdown.offsetWidth));
+        localStorage.setItem('filter-dropdown-height-' + fieldId, Math.round(dropdown.offsetHeight));
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+        document.body.style.userSelect = '';
+        document.body.style.cursor = '';
+      }
+
+      document.body.style.userSelect = 'none';
+      document.body.style.cursor = 'nwse-resize';
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
+  }
+
   function initDocFilterTomSelect(fieldId, searchFields, renderFn) {
     if (tomSelectsDoc[fieldId]) { tomSelectsDoc[fieldId].destroy(); }
     tomSelectsDoc[fieldId] = new TomSelect('#' + fieldId, {
@@ -527,11 +523,20 @@ foreach ($documentation_list as $doc) {
       placeholder: 'Rechercher...',
       allowEmptyOption: true,
       maxOptions: null,
+      dropdownParent: 'body',
       render: {
         option: renderFn,
         item: (data, escape) => `<div>${escape(data.text)}</div>`
       },
-      onChange: onDocFilterChange
+      onChange: onDocFilterChange,
+      onDropdownOpen: function (dropdown) {
+        requestAnimationFrame(() => {
+          if (!dropdown) return;
+          dropdown.style.setProperty('box-sizing', 'border-box', 'important');
+          dropdown.style.setProperty('overflow', 'hidden', 'important');
+          makeDocFilterDropdownResizable(fieldId, dropdown);
+        });
+      }
     });
   }
 
@@ -819,39 +824,71 @@ foreach ($documentation_list as $doc) {
 
   document.addEventListener('DOMContentLoaded', function () {
 
-    document.querySelectorAll('.pdf-preview-wrapper').forEach(function (wrapper) {
-      const previewUrl = wrapper.dataset.previewUrl;
-      const downloadUrl = wrapper.dataset.downloadUrl;
-      const filename = wrapper.dataset.filename;
+    document.querySelectorAll('.modal').forEach(function (modal) {
+      const wrapper = modal.querySelector('.pdf-preview-wrapper');
+      const lazyImg = modal.querySelector('img.img-lazy-preview');
 
-      if (isIOS()) {
-        wrapper.innerHTML = `
-        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; padding:2rem; text-align:center; background:#f8f9fa;">
-          <div style="font-size:3rem; margin-bottom:1rem;">📄</div>
-          <p style="font-size:1rem; color:#6c757d; margin-bottom:1.5rem;">
-            L'aperçu PDF n'est pas disponible sur iOS.<br>
-            Ouvrez le fichier dans un nouvel onglet pour le consulter.
-          </p>
-          <a href="${previewUrl}" target="_blank" class="btn btn-primary">
-            <i class="bi bi-box-arrow-up-right me-1"></i> Ouvrir le PDF
-          </a>
-          <a href="${downloadUrl}" class="btn btn-outline-secondary mt-2">
-            <i class="bi bi-download me-1"></i> Télécharger
-          </a>
-        </div>`;
-      } else {
-        wrapper.innerHTML = `
-        <iframe 
-          src="${previewUrl}#toolbar=1&navpanes=0&scrollbar=1&zoom=page-fit"
-          width="100%"
-          height="100%"
-          style="min-height:75vh; border:none; display:block;"
-          title="${filename}">
-          <p>Votre navigateur ne supporte pas l'aperçu PDF. 
-            <a href="${downloadUrl}">Téléchargez le fichier</a>.
-          </p>
-        </iframe>`;
-      }
+      if (!wrapper && !lazyImg) return; // ce modal ne contient ni PDF ni image à charger
+
+      modal.addEventListener('shown.bs.modal', function () {
+        // --- PDF : chargé uniquement à l'ouverture ---
+        if (wrapper && wrapper.dataset.loaded !== 'true') {
+          const previewUrl = wrapper.dataset.previewUrl;
+          const downloadUrl = wrapper.dataset.downloadUrl;
+          const filename = wrapper.dataset.filename;
+
+          if (isIOS()) {
+            wrapper.innerHTML = `
+          <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; padding:2rem; text-align:center; background:#f8f9fa;">
+            <div style="font-size:3rem; margin-bottom:1rem;">📄</div>
+            <p style="font-size:1rem; color:#6c757d; margin-bottom:1.5rem;">
+              L'aperçu PDF n'est pas disponible sur iOS.<br>
+              Ouvrez le fichier dans un nouvel onglet pour le consulter.
+            </p>
+            <a href="${previewUrl}" target="_blank" class="btn btn-primary">
+              <i class="bi bi-box-arrow-up-right me-1"></i> Ouvrir le PDF
+            </a>
+            <a href="${downloadUrl}" class="btn btn-outline-secondary mt-2">
+              <i class="bi bi-download me-1"></i> Télécharger
+            </a>
+          </div>`;
+          } else {
+            wrapper.innerHTML = `
+          <iframe 
+            src="${previewUrl}#toolbar=1&navpanes=0&scrollbar=1&zoom=page-fit"
+            width="100%"
+            height="100%"
+            style="min-height:75vh; border:none; display:block;"
+            title="${filename}">
+            <p>Votre navigateur ne supporte pas l'aperçu PDF. 
+              <a href="${downloadUrl}">Téléchargez le fichier</a>.
+            </p>
+          </iframe>`;
+          }
+          wrapper.dataset.loaded = 'true';
+        }
+
+        // --- Image : chargée uniquement à l'ouverture ---
+        if (lazyImg && !lazyImg.src) {
+          const docId = lazyImg.dataset.docId;
+          const docName = lazyImg.dataset.docName;
+          lazyImg.addEventListener('error', function () {
+            handleImageError(lazyImg, docId, docName);
+          }, { once: true });
+          lazyImg.src = lazyImg.dataset.src;
+        }
+      });
+
+      // Libère la mémoire à la fermeture (PDF et image)
+      modal.addEventListener('hidden.bs.modal', function () {
+        if (wrapper && wrapper.dataset.loaded === 'true') {
+          wrapper.innerHTML = '';
+          wrapper.dataset.loaded = 'false';
+        }
+        if (lazyImg) {
+          lazyImg.removeAttribute('src');
+        }
+      });
     });
 
     document.querySelectorAll('.preview-container img').forEach(function (img) {
@@ -1215,4 +1252,105 @@ foreach ($documentation_list as $doc) {
     });
   });
 </script>
+<style>
+  .documentation-row {
+    background-color: var(--bs-body-bg);
+  }
+
+  .documentation-row .card {
+    border: 1px solid var(--bs-border-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .documentation-list .list-group-item {
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.375rem;
+    transition: all 0.2s ease-in-out;
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .documentation-list .list-group-item:hover {
+    background-color: var(--bs-secondary-bg);
+    border-color: var(--bs-primary);
+    box-shadow: 0 2px 4px rgba(var(--bs-primary-rgb), 0.15);
+  }
+
+  .btn-action {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .btn-action:hover {
+    transform: scale(1.05);
+  }
+
+  .documentation-row td {
+    border-top: none;
+    border-bottom: 1px solid var(--bs-border-color);
+  }
+
+  .min-w-0 {
+    min-width: 0;
+  }
+
+  .documentation-list .btn-group {
+    flex-shrink: 0;
+  }
+
+  .file-icon {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+  }
+
+  .file-type-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .document-link {
+    color: var(--bs-primary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .document-link:hover {
+    color: var(--bs-primary);
+    text-decoration: underline;
+  }
+
+  /* Poignée de redimensionnement des dropdowns de filtres */
+  .ts-dropdown {
+    overflow: visible !important;
+    /* laisse dépasser la poignée si besoin */
+  }
+
+  .ts-dropdown-content {
+    max-height: none !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    box-sizing: border-box;
+  }
+
+  .filter-dropdown-resizer {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    width: 16px;
+    height: 16px;
+    cursor: nwse-resize;
+    z-index: 20;
+    background:
+      linear-gradient(135deg, transparent 0 40%, #adb5bd 40% 46%, transparent 46% 60%, #adb5bd 60% 66%, transparent 66% 80%, #adb5bd 80% 86%, transparent 86% 100%);
+    opacity: 0.6;
+    border-radius: 2px;
+  }
+
+  .filter-dropdown-resizer:hover {
+    opacity: 1;
+    background:
+      linear-gradient(135deg, transparent 0 40%, #0d6efd 40% 46%, transparent 46% 60%, #0d6efd 60% 66%, transparent 66% 80%, #0d6efd 80% 86%, transparent 86% 100%);
+  }
+</style>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

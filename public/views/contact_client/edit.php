@@ -67,7 +67,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <label for="last_name" class="form-label">Nom <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="last_name" name="last_name"
-                                        value="<?= htmlspecialchars($contact['last_name'] ?? '') ?>" required>
+                                        value="<?= htmlspecialchars($contact['last_name'] ?? '') ?>">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -75,7 +75,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                     <label for="first_name" class="form-label">Prénom <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="first_name" name="first_name"
-                                        value="<?= htmlspecialchars($contact['first_name'] ?? '') ?>" required>
+                                        value="<?= htmlspecialchars($contact['first_name'] ?? '') ?>">
                                 </div>
                             </div>
                         </div>
@@ -158,8 +158,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
             utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/js/utils.js'
         });
 
-        <?php if (!empty($user['phone'])): ?>
-            iti.setNumber(<?= json_encode($user['phone']) ?>);
+        <?php if (!empty($contact['phone1'])): ?>
+            iti.setNumber(<?= json_encode($contact['phone1']) ?>);
         <?php endif; ?>
 
         const form = phoneInput.closest('form');
