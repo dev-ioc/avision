@@ -78,7 +78,7 @@ class RoomModel extends BaseModel
      */
     public function getRoomsByClientId($clientId)
     {
-        $query = "SELECT r.id, r.name, r.building_id, b.site_id, s.name as site_name, b.name as building_name
+        $query = "SELECT r.id, r.name, r.building_id, r.qr_code_edited, b.site_id, s.name as site_name, b.name as building_name
               FROM rooms r
               JOIN buildings b ON r.building_id = b.id
               JOIN sites s ON b.site_id = s.id

@@ -68,7 +68,7 @@ class QRCodeController
                 $salles[] = $salle;
             }
         }
-
+        $this->markRoomsQrEdited(array_column($salles, 'id'));
         // Compter le matériel par salle
         $materielCounts = [];
         foreach ($salles as $salle) {
@@ -78,7 +78,26 @@ class QRCodeController
         $pageTitle = "QR Codes - " . $site['name'];
         require_once VIEWS_PATH . '/qrcode/site.php';
     }
+    /**
+     * Marque des salles comme "QR code édité"
+     */
+    private function markRoomsQrEdited(array $roomIds)
+    {
+        if (empty($roomIds) || !canModifyClients()) {
+            return;
+        }
 
+        try {
+            $placeholders = implode(',', array_fill(0, count($roomIds), '?'));
+            $stmt = $this->db->prepare(
+                "UPDATE rooms SET qr_code_edited = 1 WHERE id IN ($placeholders)"
+            );
+            $stmt->execute(array_map('intval', $roomIds));
+        } catch (Exception $e) {
+            // Ne pas bloquer l'affichage de la fiche si la mise à jour échoue
+            custom_log("Erreur marquage QR édité : " . $e->getMessage(), 'ERROR');
+        }
+    }
     /**
      * Génère une fiche QR code pour une salle spécifique
      */

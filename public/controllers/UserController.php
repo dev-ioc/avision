@@ -53,7 +53,34 @@ class UserController
         // Chargement de la vue
         require_once __DIR__ . '/../views/user/index.php';
     }
+    /**
+     * Détermine l'URL de retour vers la liste des utilisateurs.
+     * N'autorise que la liste locale, sur le même hôte (anti open-redirect).
+     */
+    private function resolveReturnUrl(): string
+    {
+        $defaultReturnUrl = BASE_URL . 'user';
+        $candidate = $_GET['return_url'] ?? $_POST['return_url'] ?? '';
 
+        if (empty($candidate)) {
+            return $defaultReturnUrl;
+        }
+
+        // Refuser tout hôte externe (ex: https://autre-site.com/.../user ou //autre-site.com/...)
+        $candidateHost = parse_url($candidate, PHP_URL_HOST);
+        if (!empty($candidateHost) && $candidateHost !== parse_url(BASE_URL, PHP_URL_HOST)) {
+            return $defaultReturnUrl;
+        }
+
+        $candidatePath = parse_url($candidate, PHP_URL_PATH);
+        $expectedPath = rtrim((string) parse_url(BASE_URL, PHP_URL_PATH), '/') . '/user';
+
+        if (rtrim((string) $candidatePath, '/') === $expectedPath) {
+            return $candidate;
+        }
+
+        return $defaultReturnUrl;
+    }
     /**
      * Affiche le formulaire de création d'utilisateur
      */
@@ -66,7 +93,7 @@ class UserController
             header('Location: ' . BASE_URL . 'dashboard');
             exit;
         }
-
+        $returnUrl = $this->resolveReturnUrl();
         // Récupérer les types d'utilisateurs depuis la base de données
         $userTypes = [];
         try {
@@ -160,7 +187,7 @@ class UserController
         require_once __DIR__ . '/../views/user/add.php';
     }
 
-   /**
+    /**
      * Affiche le formulaire de modification d'utilisateur
      */
     public function edit($id)

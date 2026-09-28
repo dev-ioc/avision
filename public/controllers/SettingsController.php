@@ -1666,13 +1666,19 @@ class SettingsController
         try {
             // Charger PhpSpreadsheet
             require_once __DIR__ . '/../vendor/autoload.php';
-            require_once __DIR__ . '/../models/QrCodeModel.php';   // AJOUT
+            require_once __DIR__ . '/../models/QrCodeModel.php';
 
-            $qrCodeModel = new QrCodeModel($this->db);              // AJOUT
+            $qrCodeModel = new QrCodeModel($this->db);
+
+            // Filtre sur l'état de la coche QR : 'oui', 'non' ou 'tous' (défaut)
+            $qrFilter = $_GET['qr_filter'] ?? 'tous';
+            if (!in_array($qrFilter, ['oui', 'non', 'tous'])) {
+                $qrFilter = 'tous';
+            }
 
             // Créer un nouveau classeur
             $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-            $spreadsheet->removeSheetByIndex(0); // Supprimer la feuille par défaut
+            $spreadsheet->removeSheetByIndex(0);
 
             // Récupérer tous les clients
             $clients = $this->clientModel->getAllClients();
@@ -1683,67 +1689,62 @@ class SettingsController
                 exit;
             }
 
-            // Pour chaque client, créer un onglet
             foreach ($clients as $client) {
-                // Récupérer toutes les salles du client avec leurs sites
                 $rooms = $this->roomModel->getRoomsByClientId($client['id'], false);
 
-                // Si le client n'a pas de salles, passer au client suivant
+                // Appliquer le filtre sur l'état de la coche
+                if ($qrFilter !== 'tous') {
+                    $rooms = array_filter($rooms, function ($room) use ($qrFilter) {
+                        $edited = !empty($room['qr_code_edited']);
+                        return $qrFilter === 'oui' ? $edited : !$edited;
+                    });
+                }
+
                 if (empty($rooms)) {
                     continue;
                 }
 
-                // Créer un nouvel onglet pour ce client
                 $sheet = $spreadsheet->createSheet();
                 $sheetName = $this->sanitizeSheetName($client['name']);
                 $sheet->setTitle($sheetName);
 
-                // En-têtes
+                // En-têtes (colonne E ajoutée)
                 $sheet->setCellValue('A1', 'Nom du site');
                 $sheet->setCellValue('B1', 'Nom de la salle');
                 $sheet->setCellValue('C1', 'URL Technicien');
                 $sheet->setCellValue('D1', 'URL Client');
+                $sheet->setCellValue('E1', 'QR Code édité');
 
-                // Style des en-têtes
                 $headerStyle = [
-                    'font' => [
-                        'bold' => true,
-                        'color' => ['rgb' => 'FFFFFF'],
-                    ],
+                    'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
                     'fill' => [
                         'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                         'startColor' => ['rgb' => '4472C4'],
                     ],
-                    'alignment' => [
-                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                    ],
+                    'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
                 ];
-                $sheet->getStyle('A1:D1')->applyFromArray($headerStyle);
+                $sheet->getStyle('A1:E1')->applyFromArray($headerStyle);
 
-                // Largeur des colonnes
                 $sheet->getColumnDimension('A')->setWidth(30);
                 $sheet->getColumnDimension('B')->setWidth(30);
                 $sheet->getColumnDimension('C')->setWidth(60);
                 $sheet->getColumnDimension('D')->setWidth(60);
+                $sheet->getColumnDimension('E')->setWidth(15);
 
-                // Remplir les données
                 $row = 2;
                 foreach ($rooms as $room) {
                     $sheet->setCellValue('A' . $row, $room['site_name']);
                     $sheet->setCellValue('B' . $row, $room['name']);
 
-                    // Générer/récupérer le code unique existant pour la salle (technicien)
-                    $codeStaff = $qrCodeModel->getOrCreateCode('salle_staff', $room['id']);   // MODIFIÉ
-                    $roomUrlTech = BASE_URL . 'r/' . $codeStaff;                                // MODIFIÉ
-                    $sheet->setCellValue('C' . $row, $roomUrlTech);
+                    $codeStaff = $qrCodeModel->getOrCreateCode('salle_staff', $room['id']);
+                    $sheet->setCellValue('C' . $row, BASE_URL . 'r/' . $codeStaff);
 
-                    // Générer/récupérer le code unique existant pour la salle (client)
-                    $codeClient = $qrCodeModel->getOrCreateCode('salle_client', $room['id']);  // MODIFIÉ
-                    $roomUrlClient = BASE_URL . 'r/' . $codeClient;                             // MODIFIÉ
-                    $sheet->setCellValue('D' . $row, $roomUrlClient);
+                    $codeClient = $qrCodeModel->getOrCreateCode('salle_client', $room['id']);
+                    $sheet->setCellValue('D' . $row, BASE_URL . 'r/' . $codeClient);
 
-                    // Ajouter un style pour les cellules de données
-                    $sheet->getStyle('A' . $row . ':D' . $row)->applyFromArray([
+                    $sheet->setCellValue('E' . $row, !empty($room['qr_code_edited']) ? 'OUI' : 'NON');
+
+                    $sheet->getStyle('A' . $row . ':E' . $row)->applyFromArray([
                         'borders' => [
                             'allBorders' => [
                                 'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
@@ -1754,24 +1755,18 @@ class SettingsController
                     $row++;
                 }
 
-                // Geler la première ligne
                 $sheet->freezePane('A2');
             }
 
-            // Vérifier qu'il y a au moins un onglet créé
             if ($spreadsheet->getSheetCount() === 0) {
-                $_SESSION['error'] = "Aucune salle trouvée pour l'export.";
+                $_SESSION['error'] = "Aucune salle trouvée pour l'export (avec ce filtre).";
                 header('Location: ' . BASE_URL . 'settings');
                 exit;
             }
 
-            // Activer le premier onglet
             $spreadsheet->setActiveSheetIndex(0);
-
-            // Générer le nom du fichier
             $filename = 'export_urls_salles_' . date('Y-m-d_His') . '.xlsx';
 
-            // Envoyer le fichier au navigateur
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="' . $filename . '"');
             header('Cache-Control: max-age=0');

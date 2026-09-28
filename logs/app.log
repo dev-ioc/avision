@@ -144957,3 +144957,580 @@ Quant à l’écran n°1, il est HS
 [2026-09-28 11:30:35][DEBUG] Permissions chargées pour Régisseur : {"role":"client","rights":{"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
 [2026-09-28 11:30:35][INFO] Utilisateur connecté : r.mery@chateauform.com {"user_id":63,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
 [2026-09-28 11:30:35][DEBUG] Login réussi (étape mot de passe) - user_id: 63 
+[2026-09-28 13:00:18][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: 7119cec1ghe3j4vvju2t0d33gc) 
+[2026-09-28 13:07:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d227d10cfe0bef861df... 
+[2026-09-28 13:07:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d227d10cfe0bef861df... 
+[2026-09-28 13:07:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d227d10cfe0bef861df... 
+[2026-09-28 13:08:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d227d10cfe0bef861df... 
+[2026-09-28 13:08:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d227d10cfe0bef861df... 
+[2026-09-28 13:08:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d227d10cfe0bef861df... 
+[2026-09-28 13:08:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d227d10cfe0bef861df... 
+[2026-09-28 13:08:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d227d10cfe0bef861df... 
+[2026-09-28 13:08:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d227d10cfe0bef861df... 
+[2026-09-28 13:08:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d227d10cfe0bef861df... 
+[2026-09-28 13:08:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d227d10cfe0bef861df... 
+[2026-09-28 13:08:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 4d227d10cfe0bef861df... 
+[2026-09-28 14:04:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:04:58][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-28 14:04:58][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-28 14:04:58][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-28 14:05:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:05:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:10:59][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 14:11:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:11:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:11:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:11:01][INFO] 81 
+[2026-09-28 14:11:13][INFO] 81 
+[2026-09-28 14:11:15][INFO] 81 
+[2026-09-28 14:11:19][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 14:11:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:11:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:11:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:11:24][INFO] 81 
+[2026-09-28 14:11:37][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 14:11:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:11:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:11:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:11:40][INFO] 55 
+[2026-09-28 14:11:40][INFO] 109 
+[2026-09-28 14:11:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:11:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:11:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:11:56][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-09-28 14:11:56][Array] CONTRACT "INFO"
+[2026-09-28 14:12:09][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 14:12:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:12:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:12:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:12:13][INFO] 81 
+[2026-09-28 14:13:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:13:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:13:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:13:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:13:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:13:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:13:08][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 14:13:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:13:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:13:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:13:10][INFO] 81 
+[2026-09-28 14:14:12][INFO] 81 
+[2026-09-28 14:14:18][INFO] 81 
+[2026-09-28 14:14:23][INFO] 81 
+[2026-09-28 14:14:25][INFO] 81 
+[2026-09-28 14:14:27][INFO] 81 
+[2026-09-28 14:26:50][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 14:26:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:26:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:26:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:26:53][INFO] 55 
+[2026-09-28 14:26:53][INFO] 109 
+[2026-09-28 14:27:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:27:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:27:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:27:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:27:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:27:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:27:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:30:02][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 14:30:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:30:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:30:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:30:08][INFO] 81 
+[2026-09-28 14:30:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:30:22][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 14:30:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:30:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:30:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:30:32][INFO] 55 
+[2026-09-28 14:30:32][INFO] 109 
+[2026-09-28 14:30:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:30:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:30:45][INFO] 109 
+[2026-09-28 14:30:48][INFO] 55 
+[2026-09-28 14:30:48][INFO] 109 
+[2026-09-28 14:30:56][INFO] 55 
+[2026-09-28 14:30:56][INFO] 109 
+[2026-09-28 14:30:58][INFO] 55 
+[2026-09-28 14:31:01][INFO] 55 
+[2026-09-28 14:31:01][INFO] 109 
+[2026-09-28 14:31:08][INFO] 109 
+[2026-09-28 14:31:10][INFO] 55 
+[2026-09-28 14:31:10][INFO] 109 
+[2026-09-28 14:31:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:31:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:31:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:31:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:31:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:31:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:33:44][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 14:33:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:33:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:33:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:33:46][INFO] 81 
+[2026-09-28 14:33:49][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 14:33:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:33:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:33:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:33:51][INFO] 55 
+[2026-09-28 14:33:51][INFO] 109 
+[2026-09-28 14:33:54][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:35:00][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 14:35:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:35:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:35:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 14:35:04][INFO] 55 
+[2026-09-28 14:35:04][INFO] 109 
+[2026-09-28 14:35:06][INFO] 55 
+[2026-09-28 14:35:10][INFO] 55 
+[2026-09-28 14:35:10][INFO] 109 
+[2026-09-28 14:35:17][INFO] 55 
+[2026-09-28 14:35:17][INFO] 109 
+[2026-09-28 15:06:41][INFO] 55 
+[2026-09-28 15:10:40][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 15:10:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:10:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:10:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:10:43][INFO] 81 
+[2026-09-28 15:10:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:10:50][INFO] 81 
+[2026-09-28 15:10:53][INFO] 81 
+[2026-09-28 15:11:02][INFO] 81 
+[2026-09-28 15:11:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:11:09][INFO] 81 
+[2026-09-28 15:11:12][INFO] 81 
+[2026-09-28 15:11:14][INFO] 81 
+[2026-09-28 15:11:17][INFO] 81 
+[2026-09-28 15:11:49][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 15:11:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:11:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:11:50][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:11:51][INFO] 112 
+[2026-09-28 15:11:51][INFO] 79 
+[2026-09-28 15:11:51][INFO] 80 
+[2026-09-28 15:11:51][INFO] 93 
+[2026-09-28 15:11:51][INFO] 116 
+[2026-09-28 15:11:51][INFO] 115 
+[2026-09-28 15:11:51][INFO] 82 
+[2026-09-28 15:12:06][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:12:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:12:19][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:12:24][INFO] 82 
+[2026-09-28 15:12:28][INFO] 112 
+[2026-09-28 15:12:28][INFO] 79 
+[2026-09-28 15:12:28][INFO] 80 
+[2026-09-28 15:12:28][INFO] 93 
+[2026-09-28 15:12:28][INFO] 116 
+[2026-09-28 15:12:28][INFO] 115 
+[2026-09-28 15:12:28][INFO] 82 
+[2026-09-28 15:13:30][INFO] 112 
+[2026-09-28 15:13:30][INFO] 79 
+[2026-09-28 15:13:30][INFO] 80 
+[2026-09-28 15:13:30][INFO] 93 
+[2026-09-28 15:13:30][INFO] 116 
+[2026-09-28 15:13:30][INFO] 115 
+[2026-09-28 15:13:30][INFO] 82 
+[2026-09-28 15:13:51][INFO] 112 
+[2026-09-28 15:13:51][INFO] 79 
+[2026-09-28 15:13:51][INFO] 80 
+[2026-09-28 15:13:51][INFO] 93 
+[2026-09-28 15:13:51][INFO] 116 
+[2026-09-28 15:13:51][INFO] 115 
+[2026-09-28 15:13:51][INFO] 82 
+[2026-09-28 15:14:20][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 15:14:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:14:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:14:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:14:22][INFO] 55 
+[2026-09-28 15:14:22][INFO] 109 
+[2026-09-28 15:14:28][INFO] 55 
+[2026-09-28 15:14:30][INFO] 55 
+[2026-09-28 15:14:30][INFO] 109 
+[2026-09-28 15:14:37][INFO] 55 
+[2026-09-28 15:14:37][INFO] 109 
+[2026-09-28 15:15:50][INFO] 55 
+[2026-09-28 15:15:50][INFO] 109 
+[2026-09-28 15:15:53][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 15:15:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:15:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:15:53][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:15:54][INFO] 81 
+[2026-09-28 15:15:57][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 15:15:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:15:57][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:15:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:16:00][INFO] 112 
+[2026-09-28 15:16:00][INFO] 79 
+[2026-09-28 15:16:00][INFO] 80 
+[2026-09-28 15:16:00][INFO] 93 
+[2026-09-28 15:16:00][INFO] 116 
+[2026-09-28 15:16:00][INFO] 115 
+[2026-09-28 15:16:00][INFO] 82 
+[2026-09-28 15:16:15][INFO] 112 
+[2026-09-28 15:16:16][INFO] 112 
+[2026-09-28 15:16:16][INFO] 79 
+[2026-09-28 15:16:16][INFO] 80 
+[2026-09-28 15:16:16][INFO] 93 
+[2026-09-28 15:16:16][INFO] 116 
+[2026-09-28 15:16:16][INFO] 115 
+[2026-09-28 15:16:16][INFO] 82 
+[2026-09-28 15:16:31][INFO] 112 
+[2026-09-28 15:16:31][INFO] 79 
+[2026-09-28 15:16:31][INFO] 80 
+[2026-09-28 15:16:31][INFO] 93 
+[2026-09-28 15:16:31][INFO] 116 
+[2026-09-28 15:16:31][INFO] 115 
+[2026-09-28 15:16:31][INFO] 82 
+[2026-09-28 15:16:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:16:38][INFO] 112 
+[2026-09-28 15:16:38][INFO] 79 
+[2026-09-28 15:16:38][INFO] 80 
+[2026-09-28 15:16:38][INFO] 93 
+[2026-09-28 15:16:38][INFO] 116 
+[2026-09-28 15:16:38][INFO] 115 
+[2026-09-28 15:16:38][INFO] 82 
+[2026-09-28 15:19:46][INFO] 112 
+[2026-09-28 15:19:46][INFO] 79 
+[2026-09-28 15:19:46][INFO] 80 
+[2026-09-28 15:19:46][INFO] 93 
+[2026-09-28 15:19:46][INFO] 116 
+[2026-09-28 15:19:46][INFO] 115 
+[2026-09-28 15:19:46][INFO] 82 
+[2026-09-28 15:19:56][INFO] 112 
+[2026-09-28 15:19:56][INFO] 79 
+[2026-09-28 15:19:56][INFO] 80 
+[2026-09-28 15:19:56][INFO] 93 
+[2026-09-28 15:19:56][INFO] 116 
+[2026-09-28 15:19:56][INFO] 115 
+[2026-09-28 15:19:56][INFO] 82 
+[2026-09-28 15:20:04][INFO] 112 
+[2026-09-28 15:20:04][INFO] 79 
+[2026-09-28 15:20:04][INFO] 80 
+[2026-09-28 15:20:04][INFO] 93 
+[2026-09-28 15:20:04][INFO] 116 
+[2026-09-28 15:20:04][INFO] 115 
+[2026-09-28 15:20:04][INFO] 82 
+[2026-09-28 15:20:13][INFO] 112 
+[2026-09-28 15:20:13][INFO] 79 
+[2026-09-28 15:20:13][INFO] 80 
+[2026-09-28 15:20:13][INFO] 93 
+[2026-09-28 15:20:13][INFO] 116 
+[2026-09-28 15:20:13][INFO] 115 
+[2026-09-28 15:20:13][INFO] 82 
+[2026-09-28 15:20:23][INFO] 112 
+[2026-09-28 15:20:23][INFO] 79 
+[2026-09-28 15:20:23][INFO] 80 
+[2026-09-28 15:20:23][INFO] 93 
+[2026-09-28 15:20:23][INFO] 116 
+[2026-09-28 15:20:23][INFO] 115 
+[2026-09-28 15:20:23][INFO] 82 
+[2026-09-28 15:20:57][INFO] 112 
+[2026-09-28 15:20:57][INFO] 79 
+[2026-09-28 15:20:57][INFO] 80 
+[2026-09-28 15:20:57][INFO] 93 
+[2026-09-28 15:20:57][INFO] 116 
+[2026-09-28 15:20:57][INFO] 115 
+[2026-09-28 15:20:57][INFO] 82 
+[2026-09-28 15:20:59][INFO] 112 
+[2026-09-28 15:20:59][INFO] 79 
+[2026-09-28 15:20:59][INFO] 80 
+[2026-09-28 15:20:59][INFO] 93 
+[2026-09-28 15:20:59][INFO] 116 
+[2026-09-28 15:20:59][INFO] 115 
+[2026-09-28 15:20:59][INFO] 82 
+[2026-09-28 15:22:13][INFO] 112 
+[2026-09-28 15:22:13][INFO] 79 
+[2026-09-28 15:22:13][INFO] 80 
+[2026-09-28 15:22:13][INFO] 93 
+[2026-09-28 15:22:13][INFO] 116 
+[2026-09-28 15:22:13][INFO] 115 
+[2026-09-28 15:22:13][INFO] 82 
+[2026-09-28 15:24:28][INFO] 112 
+[2026-09-28 15:24:28][INFO] 79 
+[2026-09-28 15:24:28][INFO] 80 
+[2026-09-28 15:24:28][INFO] 93 
+[2026-09-28 15:24:28][INFO] 116 
+[2026-09-28 15:24:28][INFO] 115 
+[2026-09-28 15:24:28][INFO] 82 
+[2026-09-28 15:24:43][INFO] 112 
+[2026-09-28 15:24:43][INFO] 79 
+[2026-09-28 15:24:43][INFO] 80 
+[2026-09-28 15:24:43][INFO] 93 
+[2026-09-28 15:24:43][INFO] 116 
+[2026-09-28 15:24:43][INFO] 115 
+[2026-09-28 15:24:43][INFO] 82 
+[2026-09-28 15:24:47][INFO] 112 
+[2026-09-28 15:24:47][INFO] 79 
+[2026-09-28 15:24:47][INFO] 80 
+[2026-09-28 15:24:47][INFO] 93 
+[2026-09-28 15:24:47][INFO] 116 
+[2026-09-28 15:24:47][INFO] 115 
+[2026-09-28 15:24:47][INFO] 82 
+[2026-09-28 15:24:49][INFO] 112 
+[2026-09-28 15:24:49][INFO] 79 
+[2026-09-28 15:24:49][INFO] 80 
+[2026-09-28 15:24:49][INFO] 93 
+[2026-09-28 15:24:49][INFO] 116 
+[2026-09-28 15:24:49][INFO] 115 
+[2026-09-28 15:24:49][INFO] 82 
+[2026-09-28 15:24:52][INFO] 112 
+[2026-09-28 15:24:52][INFO] 79 
+[2026-09-28 15:24:52][INFO] 80 
+[2026-09-28 15:24:52][INFO] 93 
+[2026-09-28 15:24:52][INFO] 116 
+[2026-09-28 15:24:52][INFO] 115 
+[2026-09-28 15:24:52][INFO] 82 
+[2026-09-28 15:24:56][INFO] 112 
+[2026-09-28 15:24:56][INFO] 79 
+[2026-09-28 15:24:56][INFO] 80 
+[2026-09-28 15:24:56][INFO] 93 
+[2026-09-28 15:24:56][INFO] 116 
+[2026-09-28 15:24:56][INFO] 115 
+[2026-09-28 15:24:56][INFO] 82 
+[2026-09-28 15:25:02][INFO] 112 
+[2026-09-28 15:25:02][INFO] 79 
+[2026-09-28 15:25:02][INFO] 80 
+[2026-09-28 15:25:02][INFO] 93 
+[2026-09-28 15:25:02][INFO] 116 
+[2026-09-28 15:25:02][INFO] 115 
+[2026-09-28 15:25:02][INFO] 82 
+[2026-09-28 15:25:36][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 15:25:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:25:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:25:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:25:37][INFO] 81 
+[2026-09-28 15:25:41][INFO] 81 
+[2026-09-28 15:26:12][INFO] 81 
+[2026-09-28 15:26:14][INFO] 81 
+[2026-09-28 15:26:15][INFO] 81 
+[2026-09-28 15:26:17][INFO] 81 
+[2026-09-28 15:26:19][INFO] 81 
+[2026-09-28 15:32:31][INFO] 81 
+[2026-09-28 15:32:42][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 15:32:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:32:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:32:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:32:46][INFO] 112 
+[2026-09-28 15:32:46][INFO] 79 
+[2026-09-28 15:32:46][INFO] 80 
+[2026-09-28 15:32:46][INFO] 93 
+[2026-09-28 15:32:46][INFO] 116 
+[2026-09-28 15:32:46][INFO] 115 
+[2026-09-28 15:32:46][INFO] 82 
+[2026-09-28 15:32:49][INFO] 112 
+[2026-09-28 15:32:49][INFO] 79 
+[2026-09-28 15:32:49][INFO] 80 
+[2026-09-28 15:32:49][INFO] 93 
+[2026-09-28 15:32:49][INFO] 116 
+[2026-09-28 15:32:49][INFO] 115 
+[2026-09-28 15:32:49][INFO] 82 
+[2026-09-28 15:32:53][INFO] 112 
+[2026-09-28 15:32:53][INFO] 79 
+[2026-09-28 15:32:53][INFO] 80 
+[2026-09-28 15:32:53][INFO] 93 
+[2026-09-28 15:32:53][INFO] 116 
+[2026-09-28 15:32:53][INFO] 115 
+[2026-09-28 15:32:53][INFO] 82 
+[2026-09-28 15:33:03][INFO] 112 
+[2026-09-28 15:33:03][INFO] 79 
+[2026-09-28 15:33:03][INFO] 80 
+[2026-09-28 15:33:03][INFO] 93 
+[2026-09-28 15:33:03][INFO] 116 
+[2026-09-28 15:33:03][INFO] 115 
+[2026-09-28 15:33:03][INFO] 82 
+[2026-09-28 15:33:08][INFO] 112 
+[2026-09-28 15:33:08][INFO] 79 
+[2026-09-28 15:33:08][INFO] 80 
+[2026-09-28 15:33:08][INFO] 93 
+[2026-09-28 15:33:08][INFO] 116 
+[2026-09-28 15:33:08][INFO] 115 
+[2026-09-28 15:33:08][INFO] 82 
+[2026-09-28 15:33:46][INFO] 112 
+[2026-09-28 15:33:46][INFO] 79 
+[2026-09-28 15:33:46][INFO] 80 
+[2026-09-28 15:33:46][INFO] 93 
+[2026-09-28 15:33:46][INFO] 116 
+[2026-09-28 15:33:46][INFO] 115 
+[2026-09-28 15:33:46][INFO] 82 
+[2026-09-28 15:33:49][INFO] 112 
+[2026-09-28 15:33:49][INFO] 79 
+[2026-09-28 15:33:49][INFO] 80 
+[2026-09-28 15:33:49][INFO] 93 
+[2026-09-28 15:33:50][INFO] 116 
+[2026-09-28 15:33:50][INFO] 115 
+[2026-09-28 15:33:50][INFO] 82 
+[2026-09-28 15:37:21][INFO] 112 
+[2026-09-28 15:37:21][INFO] 79 
+[2026-09-28 15:37:21][INFO] 80 
+[2026-09-28 15:37:21][INFO] 93 
+[2026-09-28 15:37:21][INFO] 116 
+[2026-09-28 15:37:21][INFO] 115 
+[2026-09-28 15:37:21][INFO] 82 
+[2026-09-28 15:37:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined variable $stats {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":1061,"errno":2}
+[2026-09-28 15:37:21][WARNING] Undefined variable $interventionsGrouped {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":1062,"errno":2}
+[2026-09-28 15:37:24][INFO] 112 
+[2026-09-28 15:37:24][INFO] 79 
+[2026-09-28 15:37:24][INFO] 80 
+[2026-09-28 15:37:24][INFO] 93 
+[2026-09-28 15:37:24][INFO] 116 
+[2026-09-28 15:37:24][INFO] 115 
+[2026-09-28 15:37:24][INFO] 82 
+[2026-09-28 15:37:24][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined variable $stats {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":1061,"errno":2}
+[2026-09-28 15:37:24][WARNING] Undefined variable $interventionsGrouped {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":1062,"errno":2}
+[2026-09-28 15:37:33][INFO] 112 
+[2026-09-28 15:37:33][INFO] 79 
+[2026-09-28 15:37:33][INFO] 80 
+[2026-09-28 15:37:33][INFO] 93 
+[2026-09-28 15:37:33][INFO] 116 
+[2026-09-28 15:37:33][INFO] 115 
+[2026-09-28 15:37:33][INFO] 82 
+[2026-09-28 15:37:33][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined variable $stats {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":1061,"errno":2}
+[2026-09-28 15:37:33][WARNING] Undefined variable $interventionsGrouped {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":1062,"errno":2}
+[2026-09-28 15:37:55][INFO] 112 
+[2026-09-28 15:37:55][INFO] 79 
+[2026-09-28 15:37:55][INFO] 80 
+[2026-09-28 15:37:55][INFO] 93 
+[2026-09-28 15:37:55][INFO] 116 
+[2026-09-28 15:37:55][INFO] 115 
+[2026-09-28 15:37:55][INFO] 82 
+[2026-09-28 15:37:55][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined array key "user_username" {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":425,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined variable $stats {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":1061,"errno":2}
+[2026-09-28 15:37:55][WARNING] Undefined variable $interventionsGrouped {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\edit.php","line":1062,"errno":2}
+[2026-09-28 15:38:01][INFO] 112 
+[2026-09-28 15:38:01][INFO] 79 
+[2026-09-28 15:38:01][INFO] 80 
+[2026-09-28 15:38:01][INFO] 93 
+[2026-09-28 15:38:01][INFO] 116 
+[2026-09-28 15:38:01][INFO] 115 
+[2026-09-28 15:38:01][INFO] 82 
+[2026-09-28 15:38:13][INFO] 112 
+[2026-09-28 15:38:13][INFO] 79 
+[2026-09-28 15:38:13][INFO] 80 
+[2026-09-28 15:38:13][INFO] 93 
+[2026-09-28 15:38:13][INFO] 116 
+[2026-09-28 15:38:13][INFO] 115 
+[2026-09-28 15:38:13][INFO] 82 
+[2026-09-28 15:38:15][INFO] 112 
+[2026-09-28 15:38:15][INFO] 79 
+[2026-09-28 15:38:15][INFO] 80 
+[2026-09-28 15:38:15][INFO] 93 
+[2026-09-28 15:38:15][INFO] 116 
+[2026-09-28 15:38:15][INFO] 115 
+[2026-09-28 15:38:15][INFO] 82 
+[2026-09-28 15:38:17][INFO] 112 
+[2026-09-28 15:38:17][INFO] 79 
+[2026-09-28 15:38:17][INFO] 80 
+[2026-09-28 15:38:17][INFO] 93 
+[2026-09-28 15:38:17][INFO] 116 
+[2026-09-28 15:38:17][INFO] 115 
+[2026-09-28 15:38:17][INFO] 82 
+[2026-09-28 15:38:18][INFO] 112 
+[2026-09-28 15:38:18][INFO] 79 
+[2026-09-28 15:38:18][INFO] 80 
+[2026-09-28 15:38:18][INFO] 93 
+[2026-09-28 15:38:18][INFO] 116 
+[2026-09-28 15:38:18][INFO] 115 
+[2026-09-28 15:38:18][INFO] 82 
+[2026-09-28 15:38:48][INFO] 112 
+[2026-09-28 15:38:48][INFO] 79 
+[2026-09-28 15:38:48][INFO] 80 
+[2026-09-28 15:38:48][INFO] 93 
+[2026-09-28 15:38:48][INFO] 116 
+[2026-09-28 15:38:48][INFO] 115 
+[2026-09-28 15:38:48][INFO] 82 
+[2026-09-28 15:39:07][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 15:39:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:39:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:39:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:39:09][INFO] 81 
+[2026-09-28 15:39:11][INFO] 81 
+[2026-09-28 15:39:17][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 15:39:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:39:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:39:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:39:19][INFO] 55 
+[2026-09-28 15:39:19][INFO] 109 
+[2026-09-28 15:39:23][INFO] 55 
+[2026-09-28 15:39:23][INFO] 109 
+[2026-09-28 15:39:43][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-28 15:39:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:39:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:39:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 5085e7840180bf1867fb... 
+[2026-09-28 15:39:46][INFO] 50 
+[2026-09-28 15:39:48][INFO] 50 
+[2026-09-28 15:40:58][INFO] 50 
+[2026-09-28 15:41:11][INFO] 50 
+[2026-09-28 15:41:33][INFO] 50 
+[2026-09-28 15:41:37][INFO] 50 
+[2026-09-28 15:41:40][INFO] 50 
