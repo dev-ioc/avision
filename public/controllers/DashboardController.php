@@ -369,33 +369,41 @@ class DashboardController
     private function getOpenInterventions($db, $clientId, $userLocations)
     {
         try {
+            $whereLocation = buildLocationWhereClause(
+                $userLocations,
+                'i.client_id',
+                'i.site_id',
+                'i.building_id',
+                'i.room_id'
+            );
+
             $stmt = $db->prepare("
-                SELECT i.*, 
-                       s.name as site_name,
-                       b.name as building_name,
-                       r.name as room_name,
-                       its.name as status_name,
-                       its.color as status_color,
-                       it.name as type_name,
-                       ip.name as priority_name,
-                       ip.color as priority_color,
-                       GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') as technicians_names
-                FROM interventions i
-                LEFT JOIN sites s ON i.site_id = s.id
-                LEFT JOIN buildings b ON i.building_id = b.id
-                LEFT JOIN rooms r ON i.room_id = r.id
-                LEFT JOIN intervention_statuses its ON i.status_id = its.id
-                LEFT JOIN intervention_types it ON i.type_id = it.id
-                LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
-                LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
-                LEFT JOIN users u ON itech.technicien_id = u.id
-                WHERE i.client_id = :client_id 
-                AND its.name NOT IN ('Fermé', 'Annulé', 'Terminé')
-                GROUP BY i.id
-                ORDER BY i.created_at DESC
-                LIMIT 10
-            ");
-            $stmt->execute(['client_id' => $clientId]);
+            SELECT i.*, 
+                   s.name as site_name,
+                   b.name as building_name,
+                   r.name as room_name,
+                   its.name as status_name,
+                   its.color as status_color,
+                   it.name as type_name,
+                   ip.name as priority_name,
+                   ip.color as priority_color,
+                   GROUP_CONCAT(DISTINCT CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ') as technicians_names
+            FROM interventions i
+            LEFT JOIN sites s ON i.site_id = s.id
+            LEFT JOIN buildings b ON i.building_id = b.id
+            LEFT JOIN rooms r ON i.room_id = r.id
+            LEFT JOIN intervention_statuses its ON i.status_id = its.id
+            LEFT JOIN intervention_types it ON i.type_id = it.id
+            LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+            LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+            LEFT JOIN users u ON itech.technicien_id = u.id
+            WHERE {$whereLocation}
+            AND its.name NOT IN ('Fermé', 'Annulé', 'Terminé')
+            GROUP BY i.id
+            ORDER BY i.created_at DESC
+            LIMIT 10
+        ");
+            $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             custom_log("Erreur lors de la récupération des interventions ouvertes : " . $e->getMessage(), 'ERROR');
