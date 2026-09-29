@@ -486,6 +486,8 @@ document.addEventListener('DOMContentLoaded', function () {
         submitBtn.disabled = true;
         spinner.classList.remove('d-none');
 
+        let success = false;
+
         try {
             const response = await fetch(baseUrl + 'user/recover-account/' + recoverUserId, {
                 method: 'POST',
@@ -506,20 +508,72 @@ document.addEventListener('DOMContentLoaded', function () {
             const data = await response.json().catch(() => ({}));
 
             if (response.ok && data.success) {
+                success = true;
                 bootstrap.Modal.getOrCreateInstance(modalEl).hide();
-                alert(data.message);
-                window.location.reload();
+
+                // Toast orange si l'un des e-mails n'a pas pu partir, vert sinon
+                const type = data.message.includes('Attention') ? 'warning' : 'success';
+
+                // Rechargement de la page une fois le toast disparu
+                showToast(data.message, type, function () {
+                    window.location.reload();
+                });
             } else {
                 showError(data.message || data.error || 'Une erreur est survenue.');
             }
         } catch (e) {
             showError('Erreur réseau, veuillez réessayer.');
         } finally {
-            submitBtn.disabled = false;
-            spinner.classList.add('d-none');
+            // En cas de succès, le bouton reste bloqué jusqu'au rechargement
+            if (!success) {
+                submitBtn.disabled = false;
+                spinner.classList.add('d-none');
+            }
         }
     });
 });
+
+function showToast(message, type = 'success', onHidden = null) {
+    let container = document.getElementById('toastContainer');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toastContainer';
+        container.className = 'toast-container position-fixed top-0 end-0 p-3';
+        container.style.zIndex = '3000';
+        document.body.appendChild(container);
+    }
+
+    const toastEl = document.createElement('div');
+    toastEl.className = 'toast align-items-center text-bg-' + type + ' border-0';
+    toastEl.setAttribute('role', 'alert');
+    toastEl.setAttribute('aria-live', 'assertive');
+    toastEl.setAttribute('aria-atomic', 'true');
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'd-flex';
+
+    const body = document.createElement('div');
+    body.className = 'toast-body';
+    body.textContent = message; // textContent : pas d'injection HTML
+
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'btn-close btn-close-white me-2 m-auto';
+    closeBtn.setAttribute('data-bs-dismiss', 'toast');
+    closeBtn.setAttribute('aria-label', 'Fermer');
+
+    wrapper.appendChild(body);
+    wrapper.appendChild(closeBtn);
+    toastEl.appendChild(wrapper);
+    container.appendChild(toastEl);
+
+    toastEl.addEventListener('hidden.bs.toast', function () {
+        toastEl.remove();
+        if (onHidden) onHidden();
+    });
+
+    new bootstrap.Toast(toastEl, { delay: 4000 }).show();
+}
 </script>
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
