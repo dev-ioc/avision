@@ -1156,7 +1156,7 @@ class UserModel extends BaseModel
             $result = $stmt->execute([
                 $userId,
                 $user['email'],
-                $token,
+                $this->hashToken($token),
                 $expiresAt,
                 $adminId,
                 $requestIp,
@@ -1320,10 +1320,8 @@ class UserModel extends BaseModel
 
     public function deleteResetToken($token)
     {
-        $stmt = $this->db->prepare(
-            "DELETE FROM password_reset_tokens WHERE token = ?"
-        );
-        $stmt->execute([$token]);
+        $stmt = $this->db->prepare("DELETE FROM password_reset_tokens WHERE token = ?");
+        $stmt->execute([$this->hashToken($token)]);
     }
     public function getUserByEmail($email)
     {
