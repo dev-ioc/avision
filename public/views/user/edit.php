@@ -277,12 +277,10 @@ echo '</script>';
 
                 <div class="row mt-4">
                     <div class="col-12">
-                        <?php if ($userId && empty($user['is_admin']) && (int) $userId !== (int) ($_SESSION['user']['id'] ?? 0)): ?>
                                 <button type="button" class="btn btn-outline-warning"
                                         data-bs-toggle="modal" data-bs-target="#recoverModal">
                                     <i class="bi bi-life-preserver me-1"></i> E-mail inaccessible ?
                                 </button>
-                            <?php endif; ?>
                         <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                         <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary">Annuler</a>
                     </div>
@@ -554,7 +552,7 @@ function showToast(message, type = 'success', onHidden = null) {
 
     const body = document.createElement('div');
     body.className = 'toast-body';
-    body.textContent = message; // textContent : pas d'injection HTML
+    body.textContent = message; 
 
     const closeBtn = document.createElement('button');
     closeBtn.type = 'button';
