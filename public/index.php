@@ -264,6 +264,8 @@ $public_routes = [
     'auth/process-reset',
     'auth/webauthn-login-options',
     'auth/webauthn-login-verify',
+    'auth/request-recovery',        // <-- à ajouter
+    'auth/confirm-recovery-email',
 ];
 $current_route = $controller . '/' . $action;
 
