@@ -1728,7 +1728,7 @@ class SettingsController
                 $sheet->getColumnDimension('A')->setWidth(30);
                 $sheet->getColumnDimension('B')->setWidth(30);
                 $sheet->getColumnDimension('C')->setWidth(60);
-                $sheet->getColumnDimension('D')->setWidth(60);
+                $sheet->getColumnDimension('D')->setWidth(100);
                 $sheet->getColumnDimension('E')->setWidth(15);
 
                 $row = 2;
