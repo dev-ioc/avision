@@ -115,13 +115,6 @@ echo '</script>';
                             <input type="email" class="form-control bg-body text-body" id="email" name="email"
                                 value="<?php echo isset($user['email']) ? h($user['email']) : ''; ?>"
                                 readonly required>
-
-                            <?php if ($userId && empty($user['is_admin']) && (int) $userId !== (int) ($_SESSION['user']['id'] ?? 0)): ?>
-                                <button type="button" class="btn btn-sm btn-outline-warning mt-2"
-                                        data-bs-toggle="modal" data-bs-target="#recoverModal">
-                                    <i class="bi bi-life-preserver me-1"></i> E-mail inaccessible ?
-                                </button>
-                            <?php endif; ?>
                         </div>
 
                         <div class="mb-3">
@@ -284,6 +277,12 @@ echo '</script>';
 
                 <div class="row mt-4">
                     <div class="col-12">
+                        <?php if ($userId && empty($user['is_admin']) && (int) $userId !== (int) ($_SESSION['user']['id'] ?? 0)): ?>
+                                <button type="button" class="btn btn-outline-warning"
+                                        data-bs-toggle="modal" data-bs-target="#recoverModal">
+                                    <i class="bi bi-life-preserver me-1"></i> E-mail inaccessible ?
+                                </button>
+                            <?php endif; ?>
                         <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                         <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary">Annuler</a>
                     </div>
@@ -298,9 +297,9 @@ echo '</script>';
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="alert alert-warning small">
+                                <div class="alert alert-danger small">
                                     L'e-mail actuel (<strong><?php echo h($user['email']); ?></strong>) sera remplacé,
-                                    les sessions ouvertes seront fermées, et un lien de définition de mot de passe
+                                    les sessions ouvertes seront fermées, et un lien de réinitialisation de mot de passe
                                     sera envoyé à la <strong>nouvelle</strong> adresse. L'ancienne adresse sera prévenue.
                                 </div>
 

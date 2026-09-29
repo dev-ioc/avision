@@ -1924,25 +1924,97 @@ class MailService
 
         return mb_substr($parts[0], 0, 1) . '***@' . mb_substr($domainName, 0, 1) . '***' . $tld;
     }
-    public function sendRecoveryRequestToAdmins(array $admins, string $name, string $oldEmail, string $contact, string $message)
+    public function sendRecoveryRequestToAdmins(array $admins, string $name, string $oldEmail, string $contact, string $message): bool
     {
-        $body = '<html><body style="font-family: Arial, sans-serif; color: #333;">
-        <h2>Demande de récupération de compte</h2>
-        <p><strong>Nom indiqué :</strong> ' . h($name) . '<br>
-           <strong>Ancien e-mail indiqué :</strong> ' . h($oldEmail) . '<br>
-           <strong>Moyen de contact alternatif :</strong> ' . h($contact) . '</p>
-        <p>' . nl2br(h($message)) . '</p>
-        <p style="color:#888;font-size:13px;">Demande non vérifiée. Contrôlez l\'identité de la personne par un autre moyen
-        avant d\'utiliser « E-mail inaccessible ? » dans la fiche utilisateur.</p>
-    </body></html>';
+        if (empty($admins)) {
+            throw new Exception("Aucun administrateur actif avec une adresse e-mail valide.");
+        }
 
+        // Ligne de détail réutilisable (libellé + valeur déjà échappée)
+        $row = function (string $label, string $valueHtml, bool $last = false): string {
+            $border = $last ? '' : 'border-bottom:1px solid #e9ecef;';
+            return '<tr><td style="padding:12px 20px;' . $border . '">
+                    <div style="font-size:12px;color:#6c757d;text-transform:uppercase;letter-spacing:0.4px;">' . $label . '</div>
+                    <div style="font-size:15px;font-weight:bold;color:#212529;margin-top:2px;">' . $valueHtml . '</div>
+                </td></tr>';
+        };
+
+        $oldEmailHtml = trim($oldEmail) !== ''
+            ? h($oldEmail)
+            : '<span style="font-weight:normal;color:#adb5bd;">Non renseigné</span>';
+
+        $messageBlock = '';
+        if (trim($message) !== '') {
+            $messageBlock = '<p style="margin:0 0 6px;font-size:12px;color:#6c757d;text-transform:uppercase;letter-spacing:0.4px;">Précisions</p>
+            <div style="background:#f8f9fa;border-left:4px solid #0d6efd;border-radius:4px;padding:12px 16px;margin:0 0 20px;font-size:14px;line-height:1.5;">'
+                . nl2br(h($message)) . '</div>';
+        }
+
+        $body = '<!DOCTYPE html>
+                <html lang="fr">
+                <body style="margin:0;padding:0;background:#f4f6fb;font-family:Arial,Helvetica,sans-serif;color:#333;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6fb;padding:24px 12px;">
+                <tr><td align="center">
+                    <table role="presentation" width="600" cellpadding="0" cellspacing="0"
+                        style="max-width:600px;width:100%;background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+
+                        <!-- En-tête -->
+                        <tr><td style="background:#0d6efd;padding:28px 24px;text-align:center;">
+                            <h1 style="margin:0;font-size:22px;line-height:1.3;color:#ffffff;">Demande de récupération de compte</h1>
+                        </td></tr>
+
+                        <!-- Contenu -->
+                        <tr><td style="padding:28px 28px 8px;font-size:15px;line-height:1.6;">
+                            <p style="margin:0 0 16px;">Bonjour,</p>
+                            <p style="margin:0 0 20px;">Une personne indique ne plus avoir accès à l\'adresse e-mail de son compte et demande votre aide.</p>
+
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                                style="background:#f8f9fa;border:1px solid #e9ecef;border-radius:8px;margin:0 0 20px;">'
+            . $row('Nom indiqué', h($name))
+            . $row('Ancien e-mail indiqué', $oldEmailHtml)
+            . $row('Moyen de contact alternatif', h($contact), true) . '
+                            </table>'
+            . $messageBlock . '
+
+                            <!-- Avertissement -->
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                                style="background:#fff8e1;border:1px solid #ffe08a;border-radius:8px;margin:0 0 24px;">
+                                <tr><td style="padding:14px 18px;font-size:13px;line-height:1.5;color:#7a5c00;">
+                                    <strong>Demande non vérifiée.</strong> Contrôlez l\'identité de la personne par un autre moyen
+                                    avant d\'utiliser « E-mail inaccessible ? » dans la fiche utilisateur.
+                                </td></tr>
+                            </table>
+                        </td></tr>
+
+                        <!-- Pied de page -->
+                        <tr><td style="background:#f8f9fa;border-top:1px solid #e9ecef;padding:16px 24px;text-align:center;font-size:12px;color:#6c757d;">
+                            Ceci est un message automatique. Merci de ne pas répondre directement à cet e-mail.
+                        </td></tr>
+                    </table>
+                </td></tr>
+                </table>
+                </body>
+                </html>';
+
+        $sent = 0;
+        $lastError = '';
         foreach ($admins as $a) {
             try {
                 $this->sendEmailBasic($a['email'], '', 'Demande de récupération de compte', $body);
+                $sent++;
             } catch (Exception $e) {
-                custom_log_mail("Recovery request: " . $e->getMessage(), 'ERROR');
+                $lastError = $e->getMessage();
+                custom_log_mail("Recovery request: " . $lastError, 'ERROR');
+                if (stripos($lastError, 'connecter au serveur SMTP') !== false) {
+                    break;
+                }
             }
         }
+
+        if ($sent === 0) {
+            throw new Exception($lastError !== '' ? $lastError : "Aucun e-mail n'a pu être envoyé.");
+        }
+
         return true;
     }
 }

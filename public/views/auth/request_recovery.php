@@ -32,10 +32,34 @@ if (!defined('BASE_URL')) {
         .card-body {
             padding: 2rem;
         }
+
+        /* Overlay qui bloque toute la page pendant l'envoi */
+        #loadingOverlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(255, 255, 255, 0.8);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            cursor: wait;
+        }
+
+        #loadingOverlay.active {
+            display: flex;
+        }
     </style>
 </head>
 
 <body class="login-page">
+    <!-- Spinner de blocage -->
+    <div id="loadingOverlay" role="status" aria-live="polite">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" aria-hidden="true"></div>
+        <div class="fw-semibold text-secondary">Envoi de la demande en cours…</div>
+    </div>
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-5">
@@ -56,7 +80,7 @@ if (!defined('BASE_URL')) {
                             </div>
                         <?php endif; ?>
 
-                        <form method="POST" action="<?php echo BASE_URL; ?>auth/request-recovery">
+                        <form id="recoveryForm" method="POST" action="<?php echo BASE_URL; ?>auth/request-recovery">
                             <?= csrf_field() ?>
 
                             <!-- Honeypot anti-robot : doit rester vide -->
@@ -88,7 +112,10 @@ if (!defined('BASE_URL')) {
                                     placeholder="Société, site concerné, fonction..."></textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100">Envoyer la demande</button>
+                            <button type="submit" id="submitBtn" class="btn btn-primary w-100">
+                                <span class="btn-label">Envoyer la demande</span>
+                                <span class="spinner-border spinner-border-sm ms-2 d-none" aria-hidden="true"></span>
+                            </button>
                         </form>
 
                         <div class="text-center mt-3">
@@ -100,6 +127,42 @@ if (!defined('BASE_URL')) {
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            var form = document.getElementById('recoveryForm');
+            var overlay = document.getElementById('loadingOverlay');
+            var btn = document.getElementById('submitBtn');
+            var submitting = false;
+
+            form.addEventListener('submit', function (e) {
+                // Empêche le double envoi
+                if (submitting) {
+                    e.preventDefault();
+                    return;
+                }
+
+                // Laisse la validation HTML5 (required, type=email) se faire d'abord
+                if (!form.checkValidity()) {
+                    return;
+                }
+
+                submitting = true;
+                overlay.classList.add('active');
+                btn.querySelector('.spinner-border').classList.remove('d-none');
+                btn.querySelector('.btn-label').textContent = 'Envoi en cours…';
+            });
+
+            // Si l'utilisateur revient en arrière (cache bfcache), on réinitialise l'état
+            window.addEventListener('pageshow', function (e) {
+                if (e.persisted) {
+                    submitting = false;
+                    overlay.classList.remove('active');
+                    btn.querySelector('.spinner-border').classList.add('d-none');
+                    btn.querySelector('.btn-label').textContent = 'Envoyer la demande';
+                }
+            });
+        })();
+    </script>
 </body>
 
 </html>

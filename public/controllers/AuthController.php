@@ -868,26 +868,58 @@ class AuthController
             require_once VIEWS_PATH . '/auth/request_recovery.php';
             return;
         }
-        // Anti-abus simple : 3 demandes par session et par heure (à compléter par une limite par IP)
-        $_SESSION['recovery_requests'] = array_filter($_SESSION['recovery_requests'] ?? [], fn($t) => $t > time() - 3600);
-        if (count($_SESSION['recovery_requests']) < 3) {
-            $_SESSION['recovery_requests'][] = time();
-            $name = mb_substr(trim($_POST['name'] ?? ''), 0, 100);
-            $old = mb_substr(trim($_POST['old_email'] ?? ''), 0, 255);
-            $contact = mb_substr(trim($_POST['contact'] ?? ''), 0, 255);
-            $message = mb_substr(trim($_POST['message'] ?? ''), 0, 1000);
 
-            if ($name !== '' && $contact !== '') {
-                require_once __DIR__ . '/../classes/MailService.php';
-                (new MailService($this->db))->sendRecoveryRequestToAdmins(
-                    $this->userModel->getActiveAdmins(),
-                    $name,
-                    $old,
-                    $contact,
-                    $message
-                );
-            }
+        if (!empty($_POST['website'])) {
+            $_SESSION['success'] = "Votre demande a été transmise. Un administrateur vous contactera.";
+            header('Location: ' . BASE_URL . 'auth/login');
+            exit;
         }
+
+        // Anti-abus simple : 3 demandes par session et par heure
+        $_SESSION['recovery_requests'] = array_values(
+            array_filter($_SESSION['recovery_requests'] ?? [], fn($t) => $t > time() - 3600)
+        );
+        if (count($_SESSION['recovery_requests']) >= 3) {
+            $_SESSION['error'] = "Trop de demandes. Veuillez réessayer plus tard.";
+            header('Location: ' . BASE_URL . 'auth/request-recovery');
+            exit;
+        }
+
+        $name = mb_substr(trim($_POST['name'] ?? ''), 0, 100);
+        $old = mb_substr(trim($_POST['old_email'] ?? ''), 0, 255);
+        $contact = mb_substr(trim($_POST['contact'] ?? ''), 0, 255);
+        $message = mb_substr(trim($_POST['message'] ?? ''), 0, 1000);
+
+        if ($name === '' || $contact === '') {
+            $_SESSION['error'] = "Veuillez renseigner votre nom et un moyen de vous contacter.";
+            header('Location: ' . BASE_URL . 'auth/request-recovery');
+            exit;
+        }
+
+        $_SESSION['recovery_requests'][] = time();
+
+        $errorMessage = null;
+        try {
+            require_once __DIR__ . '/../classes/MailService.php';
+            (new MailService($this->db))->sendRecoveryRequestToAdmins(
+                $this->userModel->getActiveAdmins(),
+                $name,
+                $old,
+                $contact,
+                $message
+            );
+        } catch (Throwable $e) {
+            custom_log("requestRecovery: " . $e->getMessage(), 'ERROR');
+            $errorMessage = $e->getMessage();
+        }
+
+        if ($errorMessage !== null) {
+            array_pop($_SESSION['recovery_requests']);
+            $_SESSION['error'] = "L'envoi de la demande a échoué : " . "Impossible de se connecter au serveur SMTP";
+            header('Location: ' . BASE_URL . 'auth/request-recovery');
+            exit;
+        }
+
         $_SESSION['success'] = "Votre demande a été transmise. Un administrateur vous contactera.";
         header('Location: ' . BASE_URL . 'auth/login');
         exit;
