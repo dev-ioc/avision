@@ -59,19 +59,24 @@ if (!defined('BASE_URL')) {
                 <?php unset($_SESSION['error']); ?>
               </div>
             <?php endif; ?>
-
+            <?php if (isset($_SESSION['success'])): ?>
+              <div class="alert alert-success">
+                <?php echo h($_SESSION['success']); ?>
+                <?php unset($_SESSION['success']); ?>
+              </div>
+            <?php endif; ?>
             <div id="webauthn-error" class="alert alert-danger d-none"></div>
 
-            <!-- Bouton passkey : affiché uniquement si le navigateur le supporte (JS) -->
-            <!-- <button type="button" id="passkey-login-btn" class="btn btn-outline-primary w-100 mb-3 d-none"
-                            onclick="loginWithPasskey(this)">
-                            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                                class="bi bi-fingerprint me-2" viewBox="0 0 16 16">
-                                <path
-                                    d="M8.06 6.5a.5.5 0 0 1 .5.5c0 .98-.06 1.926-.364 2.717a.5.5 0 0 1-.933-.359C7.5 9.075 7.56 8.34 7.56 7.5a.5.5 0 0 1 .5-.5Z" />
-                            </svg> 
-                            Se connecter avec une passkey
-                        </button> -->
+            <!-- Bouton passkey : affiché uniquement si le navigateur le supporte (JS)  -->
+            <button type="button" id="passkey-login-btn" class="btn btn-outline-primary w-100 mb-3 d-none"
+              onclick="loginWithPasskey(this)">
+              <!-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                class="bi bi-fingerprint me-2" viewBox="0 0 16 16">
+                <path
+                  d="M8.06 6.5a.5.5 0 0 1 .5.5c0 .98-.06 1.926-.364 2.717a.5.5 0 0 1-.933-.359C7.5 9.075 7.56 8.34 7.56 7.5a.5.5 0 0 1 .5-.5Z" />
+              </svg> -->
+              Se connecter avec une passkey
+            </button>
 
             <div class="text-center text-muted small mb-3" id="passkey-divider" style="display:none;">
               <hr class="d-inline-block" style="width:40%; vertical-align:middle;">
@@ -97,13 +102,19 @@ if (!defined('BASE_URL')) {
               <a href="<?php echo BASE_URL; ?>auth/forgot-password" type="button"
                 class="btn w-100 forgot-password-link">Mot de passe oublié ?</a>
             </div>
+            <div class="text-center mt-1">
+              <a href="<?php echo BASE_URL; ?>auth/request-recovery" class="small text-muted">
+                Je n'ai plus accès à mon e-mail
+              </a>
+            </div>
           </div>
 
           <script>const BASE_URL = <?php echo json_encode(BASE_URL); ?>;</script>
           <script src="<?php echo BASE_URL; ?>assets/js/webauthn.js"></script>
           <script>
-            if (isWebauthnSupported()) {
-              document.getElementById('passkey-login-btn').classList.remove('d-none');
+            const pkBtn = document.getElementById('passkey-login-btn');
+            if (pkBtn && isWebauthnSupported()) {
+              pkBtn.classList.remove('d-none');
               document.getElementById('passkey-divider').style.display = 'block';
             }
           </script>

@@ -862,4 +862,34 @@ class AuthController
         }
         return base64_decode($data);
     }
+    public function requestRecovery()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !csrf_verify($_POST['csrf_token'] ?? null)) {
+            require_once VIEWS_PATH . '/auth/request_recovery.php';
+            return;
+        }
+        // Anti-abus simple : 3 demandes par session et par heure (à compléter par une limite par IP)
+        $_SESSION['recovery_requests'] = array_filter($_SESSION['recovery_requests'] ?? [], fn($t) => $t > time() - 3600);
+        if (count($_SESSION['recovery_requests']) < 3) {
+            $_SESSION['recovery_requests'][] = time();
+            $name = mb_substr(trim($_POST['name'] ?? ''), 0, 100);
+            $old = mb_substr(trim($_POST['old_email'] ?? ''), 0, 255);
+            $contact = mb_substr(trim($_POST['contact'] ?? ''), 0, 255);
+            $message = mb_substr(trim($_POST['message'] ?? ''), 0, 1000);
+
+            if ($name !== '' && $contact !== '') {
+                require_once __DIR__ . '/../classes/MailService.php';
+                (new MailService($this->db))->sendRecoveryRequestToAdmins(
+                    $this->userModel->getActiveAdmins(),
+                    $name,
+                    $old,
+                    $contact,
+                    $message
+                );
+            }
+        }
+        $_SESSION['success'] = "Votre demande a été transmise. Un administrateur vous contactera.";
+        header('Location: ' . BASE_URL . 'auth/login');
+        exit;
+    }
 }

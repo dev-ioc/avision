@@ -322,7 +322,7 @@ class UserModel extends BaseModel
     {
         try {
             $stmt = $this->db->prepare("
-                SELECT u.id, u.password, u.email, u.first_name, u.last_name, 
+                SELECT u.id, u.password, u.email, u.first_name, u.last_name, u.auth_version,
                     u.status, u.coef_utilisateur, u.client_id, u.is_admin,
                     u.totp_enabled,
                     ut.name as user_type, ug.name as user_group
@@ -359,7 +359,8 @@ class UserModel extends BaseModel
                     'is_admin' => $user['is_admin'],
                     'client_id' => $user['client_id'],
                     'totp_enabled' => $user['totp_enabled'], // <-- ajouter
-                    'permissions' => $this->permissions
+                    'permissions' => $this->permissions,
+                    'auth_version' => $user['auth_version']
                 ];
 
                 // Log de la connexion
@@ -1298,17 +1299,17 @@ class UserModel extends BaseModel
             return false;
         }
     }
-    public function getUserByResetToken($token)
-    {
-        $stmt = $this->db->prepare(
-            "SELECT u.* FROM users u
-         INNER JOIN password_reset_tokens prt ON u.id = prt.user_id
-         WHERE prt.token = ?
-         AND prt.expires_at > NOW()"
-        );
-        $stmt->execute([$token]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    // public function getUserByResetToken($token)
+    // {
+    //     $stmt = $this->db->prepare(
+    //         "SELECT u.* FROM users u
+    //      INNER JOIN password_reset_tokens prt ON u.id = prt.user_id
+    //      WHERE prt.token = ?
+    //      AND prt.expires_at > NOW()"
+    //     );
+    //     $stmt->execute([$token]);
+    //     return $stmt->fetch(PDO::FETCH_ASSOC);
+    // }
     public function updatePassword($userId, $hashedPassword)
     {
         $stmt = $this->db->prepare(
@@ -1629,5 +1630,48 @@ class UserModel extends BaseModel
             custom_log("Erreur lors de la récupération des administrateurs actifs : " . $e->getMessage(), 'ERROR');
             return [];
         }
+    }
+    private function hashToken(string $t): string
+    {
+        return hash('sha256', $t);
+    }
+
+    // dans savePasswordResetToken(): remplacer $token par $this->hashToken($token) dans execute([...])
+
+    public function getUserByResetToken($token)
+    {
+        $stmt = $this->db->prepare("
+        SELECT u.* FROM users u
+        JOIN password_reset_tokens prt ON u.id = prt.user_id
+        WHERE prt.token = ? AND prt.used_at IS NULL
+          AND prt.expires_at > NOW()
+          AND u.status = 1
+          AND prt.email = u.email   -- un changement d'e-mail invalide les anciens liens
+    ");
+        $stmt->execute([$this->hashToken($token)]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function bumpAuthVersion(int $id): bool
+    {
+        return $this->db->prepare("UPDATE users SET auth_version = auth_version + 1 WHERE id = ?")->execute([$id]);
+    }
+
+    public function logAccountRecovery($userId, $adminId, $old, $new, $reason, $reset2fa): bool
+    {
+        return $this->db->prepare("INSERT INTO account_recovery_log
+        (user_id, admin_id, old_email, new_email, reason, reset_2fa, ip_address, created_at)
+        VALUES (?,?,?,?,?,?,?,NOW())")
+            ->execute([$userId, $adminId, $old, $new, $reason, $reset2fa ? 1 : 0, $_SERVER['REMOTE_ADDR'] ?? null]);
+    }
+    public function updateUserEmail(int $id, string $email): bool
+    {
+        $stmt = $this->db->prepare("UPDATE users SET email = ?, auth_version = auth_version + 1 WHERE id = ?");
+        return $stmt->execute([$email, $id]);
+    }
+
+    public function deleteAllWebauthnCredentials(int $userId): bool
+    {
+        $stmt = $this->db->prepare("DELETE FROM webauthn_credentials WHERE user_id = ?");
+        return $stmt->execute([$userId]);
     }
 }

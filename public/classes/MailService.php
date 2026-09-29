@@ -1869,4 +1869,80 @@ class MailService
             return false;
         }
     }
+    /**
+     * Prévient l'ancienne adresse que l'e-mail du compte a été remplacé (récupération de compte)
+     * @param string $oldEmail Ancienne adresse (destinataire de l'alerte)
+     * @param string $newEmail Nouvelle adresse (affichée masquée)
+     * @return bool
+     */
+    public function sendEmailChangedNotice($oldEmail, $newEmail)
+    {
+        try {
+            if (empty($oldEmail) || !filter_var($oldEmail, FILTER_VALIDATE_EMAIL)) {
+                throw new Exception("Ancienne adresse email invalide");
+            }
+
+            $subject = "L'adresse e-mail de votre compte a été modifiée";
+            $maskedNew = $this->maskEmail($newEmail);
+
+            $body = '
+<html><body style="font-family: Arial, sans-serif; color: #333;">
+    <h2>Adresse e-mail modifiée</h2>
+    <p>Bonjour,</p>
+    <p>L\'adresse e-mail associée à votre compte a été remplacée par
+       <strong>' . h($maskedNew) . '</strong> à la suite d\'une demande de récupération de compte
+       effectuée par un administrateur.</p>
+    <p>Vous ne pourrez plus vous connecter avec cette adresse-ci.</p>
+    <p style="color:#888;font-size:13px;">
+        Si vous n\'êtes pas à l\'origine de cette demande, contactez immédiatement votre administrateur.
+    </p>
+</body></html>';
+
+            custom_log_mail("ENVOI NOTICE CHANGEMENT EMAIL - Destinataire: $oldEmail", 'INFO');
+
+            return $this->sendEmailBasic($oldEmail, '', $subject, $body);
+
+        } catch (Exception $e) {
+            custom_log_mail("Erreur envoi notice changement email : " . $e->getMessage(), 'ERROR');
+            throw $e;
+        }
+    }
+
+    /**
+     * Masque une adresse e-mail : jean.dupont@exemple.fr => j***@e***.fr
+     */
+    private function maskEmail($email)
+    {
+        $parts = explode('@', (string) $email, 2);
+        if (count($parts) !== 2) {
+            return '***';
+        }
+        $domain = $parts[1];
+        $dot = strrpos($domain, '.');
+        $domainName = $dot !== false ? substr($domain, 0, $dot) : $domain;
+        $tld = $dot !== false ? substr($domain, $dot) : '';
+
+        return mb_substr($parts[0], 0, 1) . '***@' . mb_substr($domainName, 0, 1) . '***' . $tld;
+    }
+    public function sendRecoveryRequestToAdmins(array $admins, string $name, string $oldEmail, string $contact, string $message)
+    {
+        $body = '<html><body style="font-family: Arial, sans-serif; color: #333;">
+        <h2>Demande de récupération de compte</h2>
+        <p><strong>Nom indiqué :</strong> ' . h($name) . '<br>
+           <strong>Ancien e-mail indiqué :</strong> ' . h($oldEmail) . '<br>
+           <strong>Moyen de contact alternatif :</strong> ' . h($contact) . '</p>
+        <p>' . nl2br(h($message)) . '</p>
+        <p style="color:#888;font-size:13px;">Demande non vérifiée. Contrôlez l\'identité de la personne par un autre moyen
+        avant d\'utiliser « E-mail inaccessible ? » dans la fiche utilisateur.</p>
+    </body></html>';
+
+        foreach ($admins as $a) {
+            try {
+                $this->sendEmailBasic($a['email'], '', 'Demande de récupération de compte', $body);
+            } catch (Exception $e) {
+                custom_log_mail("Recovery request: " . $e->getMessage(), 'ERROR');
+            }
+        }
+        return true;
+    }
 }

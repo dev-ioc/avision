@@ -297,7 +297,7 @@ class UserController
                 'coef_utilisateur' => $_POST['coef_utilisateur'] ?? null,
                 'client_id' => $_POST['client_id'] ?? null
             ];
-
+            $data['email'] = $user['email'];
             // Validation
             $errors = $this->validateUserData($data, $id);
             if (empty($errors)) {
@@ -794,5 +794,98 @@ class UserController
 
         fclose($output);
         exit;
+    }
+    /**
+     * Répond en JSON et termine (helper pour recoverAccount)
+     */
+    private function jsonResponse(bool $success, string $message, int $status = 200): void
+    {
+        http_response_code($status);
+        header('Content-Type: application/json; charset=UTF-8');
+        echo json_encode(['success' => $success, 'message' => $message]);
+        exit;
+    }
+
+    /**
+     * Récupération de compte : remplace l'e-mail perdu et envoie un lien de définition de mot de passe (AJAX, admin)
+     */
+    public function recoverAccount($userId)
+    {
+        // Garde-fous (mêmes que sendResetLink)
+        if (strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') !== 'xmlhttprequest') {
+            $this->jsonResponse(false, 'Accès non autorisé.', 403);
+        }
+        if (!isset($_SESSION['user']) || !isAdmin()) {
+            $this->jsonResponse(false, 'Accès refusé.', 403);
+        }
+
+        $input = json_decode(file_get_contents('php://input'), true) ?? [];
+        if (!csrf_verify($input['csrf_token'] ?? ($_POST['csrf_token'] ?? null))) {
+            $this->jsonResponse(false, 'Token CSRF invalide.', 403);
+        }
+
+        $newEmail = trim($input['new_email'] ?? '');
+        $confirm = trim($input['confirm_email'] ?? '');
+        $reason = trim($input['reason'] ?? '');
+        $reset2fa = !empty($input['reset_2fa']);
+        $adminId = (int) $_SESSION['user']['id'];
+        $userId = (int) $userId;
+
+        $user = $this->userModel->getUserById($userId);
+        if (!$user)
+            $this->jsonResponse(false, 'Utilisateur introuvable.', 404);
+        if ($userId === $adminId)
+            $this->jsonResponse(false, 'Action interdite sur votre propre compte.', 400);
+        if (!empty($user['is_admin']))
+            $this->jsonResponse(false, "La récupération d'un compte admin se fait hors interface.", 403);
+        if (strcasecmp($newEmail, $confirm) !== 0)
+            $this->jsonResponse(false, 'Les deux adresses ne correspondent pas.', 400);
+        if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL) || $this->userModel->emailExists($newEmail, $userId)) {
+            $this->jsonResponse(false, 'Adresse invalide ou déjà utilisée.', 400);
+        }
+        if ($reason === '')
+            $this->jsonResponse(false, 'Un motif est requis.', 400);
+
+        $oldEmail = $user['email'];
+        $token = bin2hex(random_bytes(32));
+
+        try {
+            $this->db->beginTransaction();
+
+            if (!$this->userModel->updateUserEmail($userId, $newEmail)) {
+                throw new Exception('update email');
+            }
+            if ($reset2fa) {
+                $this->userModel->disableTotp($userId);
+                $this->userModel->deleteAllWebauthnCredentials($userId);
+            }
+            if (!$this->userModel->savePasswordResetToken($userId, $token, date('Y-m-d H:i:s', time() + 3600), $adminId)) {
+                throw new Exception('save token'); // la méthode avale ses exceptions et renvoie false
+            }
+            if (!$this->userModel->logAccountRecovery($userId, $adminId, $oldEmail, $newEmail, $reason, $reset2fa)) {
+                throw new Exception('audit log');
+            }
+
+            $this->db->commit();
+        } catch (Exception $e) {
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
+            custom_log('recoverAccount: ' . $e->getMessage(), 'ERROR');
+            $this->jsonResponse(false, 'Une erreur est survenue.', 500);
+        }
+
+        // Après commit : un échec d'e-mail ne doit pas annuler la récupération
+        $warning = null;
+        try {
+            $user['email'] = $newEmail;
+            $this->mailService->sendPasswordResetLink($user, $token);
+            $this->mailService->sendEmailChangedNotice($oldEmail, $newEmail);
+        } catch (Exception $e) {
+            custom_log('recoverAccount mail: ' . $e->getMessage(), 'ERROR');
+            $warning = " Attention : l'envoi d'un e-mail a échoué.";
+        }
+
+        $this->jsonResponse(true, 'Récupération effectuée, lien envoyé à ' . $newEmail . '.' . ($warning ?? ''));
     }
 }

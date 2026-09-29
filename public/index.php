@@ -381,6 +381,9 @@ try {
                 case 'webauthn-login-verify':
                     $authController->webauthnLoginVerify();
                     break;
+                case 'request-recovery':
+                    $authController->requestRecovery();
+                    break;
                 default:
                     header('Location: ' . BASE_URL . 'auth/login');
                     break;
@@ -442,6 +445,14 @@ try {
                     break;
                 case 'export_csv':
                     $userController->exportStaffCsv();
+                    break;
+                case 'recover-account':
+                    if ($id) {
+                        $userController->recoverAccount($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => false, 'message' => 'ID utilisateur manquant.']);
+                    }
                     break;
                 default:
                     header('Location: ' . BASE_URL . 'user');
