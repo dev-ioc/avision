@@ -275,4 +275,61 @@ class ContactModel extends BaseModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getContactsByScope($clientId, array $siteIds = [], array $buildingIds = [], array $roomIds = [])
+    {
+        // Aucun périmètre => tout le client
+        if (!$siteIds && !$buildingIds && !$roomIds) {
+            return $this->getContactsByClientId($clientId);
+        }
+
+        $params = [':client_id' => (int) $clientId];
+        $n = 0;
+
+        // Génère une liste de placeholders UNIQUES à chaque appel
+        $ph = function (array $ids) use (&$params, &$n) {
+            $keys = [];
+            foreach ($ids as $id) {
+                $k = ':p' . $n++;
+                $keys[] = $k;
+                $params[$k] = (int) $id;
+            }
+            return implode(',', $keys);
+        };
+
+        $conds = [];
+
+        if ($siteIds) {
+            $conds[] = "c.id IN (SELECT main_contact_id FROM sites
+                             WHERE id IN (" . $ph($siteIds) . ") AND main_contact_id IS NOT NULL)";
+            $conds[] = "c.id IN (SELECT main_contact_id FROM buildings
+                             WHERE site_id IN (" . $ph($siteIds) . ") AND main_contact_id IS NOT NULL)";
+            $conds[] = "c.id IN (SELECT r.main_contact_id FROM rooms r
+                             JOIN buildings b ON b.id = r.building_id
+                             WHERE b.site_id IN (" . $ph($siteIds) . ") AND r.main_contact_id IS NOT NULL)";
+        }
+        if ($buildingIds) {
+            $conds[] = "c.id IN (SELECT main_contact_id FROM buildings
+                             WHERE id IN (" . $ph($buildingIds) . ") AND main_contact_id IS NOT NULL)";
+            $conds[] = "c.id IN (SELECT main_contact_id FROM rooms
+                             WHERE building_id IN (" . $ph($buildingIds) . ") AND main_contact_id IS NOT NULL)";
+        }
+        if ($roomIds) {
+            $conds[] = "c.id IN (SELECT main_contact_id FROM rooms
+                             WHERE id IN (" . $ph($roomIds) . ") AND main_contact_id IS NOT NULL)";
+        }
+
+        $query = "SELECT c.*, u.email AS user_email
+              FROM contacts c
+              LEFT JOIN users u ON c.user_id = u.id
+              WHERE c.client_id = :client_id AND c.status = 1
+                AND (" . implode(' OR ', $conds) . ")
+              ORDER BY c.last_name, c.first_name";
+
+        $stmt = $this->db->prepare($query);
+        foreach ($params as $k => $v) {
+            $stmt->bindValue($k, $v, PDO::PARAM_INT);
+        }
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
