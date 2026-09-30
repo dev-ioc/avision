@@ -785,7 +785,6 @@ class InterventionsClientModel extends BaseModel
                 $clientIds[] = (int) $location['client_id'];
             }
         }
-
         custom_log("EXPORT DEBUG - clientIds extraits: " . json_encode($clientIds), 'DEBUG');
 
         if (empty($clientIds)) {
