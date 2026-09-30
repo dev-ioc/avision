@@ -1,0 +1,281 @@
+[2026-09-30 09:17:49] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] Input reçu
+Array
+(
+    [raw_length] => 3470
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] Traitement ID: 1529
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, usage_materiel = :usage_materiel WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :usage_materiel
+            [8] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] Mise à jour réussie ID: 1529
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] Traitement ID: 1446
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, usage_materiel = :usage_materiel, masque = :masque, login = :login, password = :password WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :usage_materiel
+            [8] => :masque
+            [9] => :login
+            [10] => :password
+            [11] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] Mise à jour réussie ID: 1446
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] Traitement ID: 1530
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, usage_materiel = :usage_materiel WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :usage_materiel
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] Mise à jour réussie ID: 1530
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] Traitement ID: 1531
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, usage_materiel = :usage_materiel WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :usage_materiel
+            [4] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] Mise à jour réussie ID: 1531
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] Traitement ID: 1532
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, usage_materiel = :usage_materiel WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :usage_materiel
+            [4] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] Mise à jour réussie ID: 1532
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] Réponse
+Array
+(
+    [status] => success
+    [message] => 5 ligne(s) mise(s) à jour
+    [updated] => 5
+    [total_rows] => 5
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:17:49] === FIN ===
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] Input reçu
+Array
+(
+    [raw_length] => 3479
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] Traitement ID: 1529
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, usage_materiel = :usage_materiel WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :usage_materiel
+            [8] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] Mise à jour réussie ID: 1529
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] Traitement ID: 1446
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, usage_materiel = :usage_materiel, masque = :masque, login = :login, password = :password WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :usage_materiel
+            [8] => :masque
+            [9] => :login
+            [10] => :password
+            [11] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] Mise à jour réussie ID: 1446
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] Traitement ID: 1530
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, usage_materiel = :usage_materiel WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :usage_materiel
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] Mise à jour réussie ID: 1530
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] Traitement ID: 1531
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, usage_materiel = :usage_materiel WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :usage_materiel
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] Mise à jour réussie ID: 1531
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] Traitement ID: 1532
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, usage_materiel = :usage_materiel WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :usage_materiel
+            [4] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] Mise à jour réussie ID: 1532
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] Réponse
+Array
+(
+    [status] => success
+    [message] => 5 ligne(s) mise(s) à jour
+    [updated] => 5
+    [total_rows] => 5
+    [errors] => Array
+        (
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:18:07] === FIN ===
+--------------------------------------------------------------------------------

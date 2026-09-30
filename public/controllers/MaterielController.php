@@ -593,7 +593,13 @@ class MaterielController
                 'date_derniere_inter' => !empty($_POST['date_derniere_inter']) ? $_POST['date_derniere_inter'] : null,
                 'commentaire' => $_POST['commentaire'] ?? null
             ];
-
+            $serial = trim($data['numero_serie'] ?? '');
+            if ($serial !== '' && empty($_POST['confirm_duplicate'])) {
+                $dups = $this->materielModel->findBySerialNumber($serial, (int) $id);
+                if (!empty($dups)) {
+                    throw new Exception("Ce numéro de série existe déjà dans la base. Confirmez l'enregistrement pour continuer.");
+                }
+            }
             // Validation
             if (empty($data['salle_id']) || empty($data['modele']) || empty($data['marque'])) {
                 throw new Exception("Les champs salle, modèle et marque sont obligatoires");
