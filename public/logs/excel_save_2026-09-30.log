@@ -279,3 +279,215 @@ Array
 --------------------------------------------------------------------------------
 [2026-09-30 09:18:07] === FIN ===
 --------------------------------------------------------------------------------
+[2026-09-30 09:29:00] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] Input reçu
+Array
+(
+    [raw_length] => 3488
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] Traitement ID: 1529
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, usage_materiel = :usage_materiel WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :usage_materiel
+            [8] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] Mise à jour réussie ID: 1529
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] Traitement ID: 1446
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, usage_materiel = :usage_materiel, masque = :masque, login = :login, password = :password WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :usage_materiel
+            [8] => :masque
+            [9] => :login
+            [10] => :password
+            [11] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] Mise à jour réussie ID: 1446
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] Traitement ID: 1530
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] Traitement ID: 1531
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] Traitement ID: 1532
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, usage_materiel = :usage_materiel WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :usage_materiel
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] Mise à jour réussie ID: 1532
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] Réponse
+Array
+(
+    [status] => partial
+    [message] => 3 ligne(s) mise(s) à jour
+    [updated] => 3
+    [total_rows] => 5
+    [errors] => Array
+        (
+            [0] => Ligne 3 (ID 1530): le numéro de série « 18626742020 » existe déjà (sony FW50BZ30L)
+            [1] => Ligne 4 (ID 1531): le numéro de série « 18626742020 » existe déjà (sony FW50BZ30L)
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:29:00] === FIN ===
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] === DÉBUT ===
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] Input reçu
+Array
+(
+    [raw_length] => 3488
+    [has_data] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] Connexion BDD OK
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] Traitement ID: 1529
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, usage_materiel = :usage_materiel WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :usage_materiel
+            [8] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] Mise à jour réussie ID: 1529
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] Traitement ID: 1446
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, version_firmware = :version_firmware, adresse_ip = :adresse_ip, adresse_mac = :adresse_mac, usage_materiel = :usage_materiel, masque = :masque, login = :login, password = :password WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :version_firmware
+            [5] => :adresse_ip
+            [6] => :adresse_mac
+            [7] => :usage_materiel
+            [8] => :masque
+            [9] => :login
+            [10] => :password
+            [11] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] Mise à jour réussie ID: 1446
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] Traitement ID: 1530
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] Traitement ID: 1531
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] Traitement ID: 1532
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] SQL
+Array
+(
+    [sql] => UPDATE materiel SET marque = :marque, modele = :modele, type_materiel = :type_materiel, numero_serie = :numero_serie, usage_materiel = :usage_materiel WHERE id = :id
+    [params] => Array
+        (
+            [0] => :marque
+            [1] => :modele
+            [2] => :type_materiel
+            [3] => :numero_serie
+            [4] => :usage_materiel
+            [5] => :id
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] Mise à jour réussie ID: 1532
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] Réponse
+Array
+(
+    [status] => partial
+    [message] => 3 ligne(s) mise(s) à jour
+    [updated] => 3
+    [total_rows] => 5
+    [errors] => Array
+        (
+            [0] => Ligne 3 (ID 1530): le numéro de série « 18626742020 » existe déjà (sony FW50BZ30L)
+            [1] => Ligne 4 (ID 1531): le numéro de série « 18626742020 » existe déjà (sony FW50BZ30L)
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-09-30 09:30:34] === FIN ===
+--------------------------------------------------------------------------------

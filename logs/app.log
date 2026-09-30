@@ -145644,3 +145644,96 @@ Quant à l’écran n°1, il est HS
 [2026-09-30 09:17:01][ERROR] Erreur lors de la modification du matériel : Ce numéro de série existe déjà dans la base. Confirmez l'enregistrement pour continuer. 
 [2026-09-30 09:17:01][INFO] 109 
 [2026-09-30 09:17:21][DEBUG] CSRF: Token trouvé dans la requête - Token: d31a4c7d4968c2ddfe68... 
+[2026-09-30 09:30:34][DEBUG] CSRF: Token trouvé dans la requête - Token: d31a4c7d4968c2ddfe68... 
+[2026-09-30 09:30:34][INFO] === STORE CALLED FROM EXCEL === 
+[2026-09-30 09:30:34][INFO] POST data: Array
+(
+    [salle_id] => 158
+    [has_configuration] => 1
+    [marque] => TEST
+    [modele] => TEST
+    [type_materiel] => 
+    [numero_serie] => M1G4CR001959
+    [version_firmware] => 
+    [adresse_ip] => 
+    [adresse_mac] => 
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [id] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+    [return_client_id] => 49
+)
+ 
+[2026-09-30 09:30:34][INFO] FILES: Array
+(
+)
+ 
+[2026-09-30 09:30:34][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-09-30 09:30:34][INFO] Données complètes reçues: 
+[2026-09-30 09:30:34][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-09-30 09:30:34][INFO] Array 
+[2026-09-30 09:30:34][INFO] INSERTION MATERIEL - Salle: 158 | Type:  | Modèle: TEST | Marque: TEST | N° Série: M1G4CR001959 | MAC:  | IP:  
+[2026-09-30 09:30:34][INFO] JSON DATA: {
+    "timestamp": "2026-09-30 09:30:34",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "158",
+        "type_materiel": "",
+        "modele": "TEST",
+        "marque": "TEST",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "M1G4CR001959",
+        "version_firmware": "",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "",
+        "adresse_ip": "",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-09-30 09:30:34][INFO] Champs remplis (4/33): salle_id, modele, marque, numero_serie 
+[2026-09-30 09:30:34][INFO] === FIN DES DONNEES === 
+[2026-09-30 09:30:34][INFO] MATERIEL CREE AVEC SUCCES - ID: 4490 

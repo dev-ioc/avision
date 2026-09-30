@@ -690,8 +690,8 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
 
           <div id="duplicateSerialList" class="alert alert-warning mb-3"></div>
 
-          <p class="mb-0">
-            Voulez-vous quand même enregistrer ces données ?
+          <p class="mb-0 text-danger">
+            La sauvegarde a été annulée. Corrigez les numéros de série ci-dessus, puis sauvegardez à nouveau.
           </p>
         </div>
 
@@ -1576,7 +1576,29 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           hot.setDataAtCell(row, CONFIG_INDEX, previousValue, 'revertConfig');
         });
     }
+    function checkSerialOnEdit(hot, row, value) {
+      const serial = String(value ?? '').trim();
+      if (!serial) return;
+      const id = hot.getDataAtCell(row, ID_INDEX);
+      let url = baseUrl + 'materiel/check_serial?numero_serie=' + encodeURIComponent(serial);
+      if (id) url += '&exclude_id=' + encodeURIComponent(id);
 
+      fetch(url, { credentials: 'include' })
+        .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(d => {
+          const dups = d.duplicates || [];
+          if (!dups.length) return;
+          // ignorer si la cellule a changé entre-temps
+          if (String(hot.getDataAtCell(row, SERIAL_INDEX) ?? '').trim() !== serial) return;
+          const list = dups.slice(0, 3).map(x => {
+            const where = [x.client_nom, x.site_nom, x.building_nom, x.salle_nom].filter(Boolean).join(' › ');
+            return '• ' + escapeHtml(((x.marque || '') + ' ' + (x.modele || '')).trim()) +
+              (where ? ' — ' + escapeHtml(where) : '');
+          }).join('<br>');
+          showToast(`Le numéro de série <strong>${escapeHtml(serial)}</strong> existe déjà :<br>${list}`, 'danger');
+        })
+        .catch(err => console.error('check_serial', err));
+    }
     function createSalleTable(tableId, rows, dbSalleId) {
       const container = document.getElementById(tableId);
       if (!container) return null;
@@ -1608,7 +1630,13 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
         afterChange: function (changes, source) {
           if (!changes || source === 'loadData' || source === 'revertConfig') return;
           changes.forEach(([row, prop, oldValue, newValue]) => {
-            if (parseInt(prop, 10) !== CONFIG_INDEX) return;
+            const col = parseInt(prop, 10);
+
+            if (col === SERIAL_INDEX) {
+              if (oldValue !== newValue) checkSerialOnEdit(this, row, newValue);
+              return;
+            }
+            if (col !== CONFIG_INDEX) return;
             if (oldValue === newValue) return;
 
             const materielId = this.getDataAtCell(row, ID_INDEX);
@@ -1618,7 +1646,10 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
           });
         }
       });
-
+      hot.__origSerials = {};
+      rows.forEach(r => {
+        if (r[ID_INDEX]) hot.__origSerials[r[ID_INDEX]] = String(r[SERIAL_INDEX] ?? '').trim();
+      });
       hot.__salleId = dbSalleId ?? null;
       hotInstances[tableId] = hot;
       return hot;
@@ -2055,61 +2086,57 @@ function renderMaterielTableInitJs(array $materiel_organise, array $pieces_joint
     const saveAllTablesDataOriginal = window.saveAllTablesData;
 
     window.saveAllTablesData = async function () {
-      // Numéros de série des lignes NOUVELLES (sans id) uniquement
-      const serials = [];
+      // Lignes à contrôler : nouvelles, ou existantes dont le S/N a changé
+      const entries = [];
       Object.values(hotInstances).forEach(hot => {
+        const orig = hot.__origSerials || {};
         hot.getSourceData().forEach(row => {
           const s = String(row[SERIAL_INDEX] ?? '').trim();
-          if (!row[ID_INDEX] && s) serials.push(s);
+          if (!s) return;
+          const id = row[ID_INDEX];
+          if (!id) entries.push({ serial: s, excludeId: null });
+          else if (s !== (orig[id] ?? '')) entries.push({ serial: s, excludeId: id });
         });
       });
 
-      if (serials.length) {
+      if (entries.length) {
         const problems = [];
 
         // Doublons à l'intérieur du lot saisi
         const seen = new Set();
-        serials.forEach(s => {
-          const k = s.toLowerCase();
-          if (seen.has(k)) problems.push(`• ${s} : saisi plusieurs fois dans cette sauvegarde`);
+        entries.forEach(({ serial }) => {
+          const k = serial.toLowerCase();
+          if (seen.has(k)) problems.push(`• ${serial} : saisi plusieurs fois dans cette sauvegarde`);
           seen.add(k);
         });
 
-        // Doublons avec la base
-        const unique = [...new Set(serials)];
+        // Doublons avec la base (on exclut la ligne elle-même)
+        const uniq = new Map();
+        entries.forEach(e => uniq.set(e.serial + '|' + (e.excludeId ?? ''), e));
         let checkFailed = false;
-        const results = await Promise.all(unique.map(s =>
-          fetch(baseUrl + 'materiel/check_serial?numero_serie=' + encodeURIComponent(s), { credentials: 'include' })
+        const results = await Promise.all([...uniq.values()].map(({ serial, excludeId }) => {
+          let url = baseUrl + 'materiel/check_serial?numero_serie=' + encodeURIComponent(serial);
+          if (excludeId) url += '&exclude_id=' + encodeURIComponent(excludeId);
+          return fetch(url, { credentials: 'include' })
             .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-            .then(d => ({ s, dups: d.duplicates || [] }))
-            .catch(err => { console.error('check_serial', err); checkFailed = true; return { s, dups: [] }; })
-        ));
+            .then(d => ({ serial, dups: d.duplicates || [] }))
+            .catch(err => { console.error('check_serial', err); checkFailed = true; return { serial, dups: [] }; });
+        }));
         if (checkFailed) showToast('Vérification des doublons impossible (voir la console).', 'info');
-        results.forEach(({ s, dups }) => dups.forEach(d => {
+
+        results.forEach(({ serial, dups }) => dups.forEach(d => {
           const where = [d.client_nom, d.site_nom, d.building_nom, d.salle_nom].filter(Boolean).join(' › ');
-          problems.push(`• ${s} : déjà présent (${(d.marque || '') + ' ' + (d.modele || '')}${where ? ' — ' + where : ''})`);
+          problems.push(`• ${serial} : existe déjà (${((d.marque || '') + ' ' + (d.modele || '')).trim()}${where ? ' — ' + where : ''})`);
         }));
 
         if (problems.length) {
-          const list = problems.slice(0, 8);
-
-          $('#duplicateSerialList').html(
-            list.map(serial => `<div>${escapeHtml(serial)}</div>`).join('')
-          );
-
+          const box = document.getElementById('duplicateSerialList');
+          box.innerHTML = problems.slice(0, 8).map(p => `<div>${escapeHtml(p)}</div>`).join('');
           if (problems.length > 8) {
-            $('#duplicateSerialList').append(
-              `<div class="mt-1 text-muted">... et ${problems.length - 8} autre(s)</div>`
-            );
+            box.insertAdjacentHTML('beforeend', `<div class="mt-1 text-muted">... et ${problems.length - 8} autre(s)</div>`);
           }
-
-          const modal = new bootstrap.Modal(
-            document.getElementById('duplicateSerialModal')
-          );
-
-          modal.show();
-
-          return;
+          new bootstrap.Modal(document.getElementById('duplicateSerialModal')).show();
+          return; // sauvegarde bloquée
         }
       }
 
