@@ -145737,3 +145737,210 @@ Quant à l’écran n°1, il est HS
 [2026-09-30 09:30:34][INFO] Champs remplis (4/33): salle_id, modele, marque, numero_serie 
 [2026-09-30 09:30:34][INFO] === FIN DES DONNEES === 
 [2026-09-30 09:30:34][INFO] MATERIEL CREE AVEC SUCCES - ID: 4490 
+[2026-09-30 09:32:35][INFO] 81 
+[2026-09-30 09:32:42][DEBUG] CSRF: Token trouvé dans la requête - Token: d31a4c7d4968c2ddfe68... 
+[2026-09-30 09:32:42][ERROR] Erreur lors de la modification du matériel : Ce numéro de série existe déjà dans la base. Confirmez l'enregistrement pour continuer. 
+[2026-09-30 09:32:42][INFO] 81 
+[2026-09-30 09:32:44][INFO] 81 
+[2026-09-30 09:33:50][INFO] 81 
+[2026-09-30 09:33:50][INFO] 81 
+[2026-09-30 09:39:03][DEBUG] CSRF: Token trouvé dans la requête - Token: d31a4c7d4968c2ddfe68... 
+[2026-09-30 09:39:03][INFO] === STORE CALLED FROM EXCEL === 
+[2026-09-30 09:39:03][INFO] POST data: Array
+(
+    [csrf_token] => d31a4c7d4968c2ddfe6873c8e00862b5cdfc4f3ef320dc39549f20302a8f3632
+    [return_client_id] => 35
+    [return_site_id] => 55
+    [return_building_id] => 45
+    [return_salle_id] => 147
+    [client_id] => 35
+    [site_id] => 109
+    [building_id] => 96
+    [salle_id] => 369
+    [marque] => MARIKA IT
+    [modele] => MODELE IT
+    [numero_serie] => VC5A03558
+    [version_firmware] => 
+    [ancien_firmware] => 
+    [url_github] => 
+    [adresse_mac] => 
+    [adresse_ip] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [date_fin_maintenance] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [commentaire] => 
+    [visibilite_type_materiel] => on
+    [visibilite_marque] => on
+    [visibilite_modele] => on
+    [visibilite_reference] => on
+    [visibilite_usage_materiel] => on
+    [visibilite_numero_serie] => on
+    [visibilite_version_firmware] => on
+    [visibilite_ancien_firmware] => on
+    [visibilite_adresse_mac] => on
+)
+ 
+[2026-09-30 09:39:03][INFO] FILES: Array
+(
+)
+ 
+[2026-09-30 09:39:03][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-09-30 09:39:03][INFO] Données complètes reçues: 
+[2026-09-30 09:39:03][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-09-30 09:39:03][INFO] Array 
+[2026-09-30 09:39:03][INFO] INSERTION MATERIEL - Salle: 369 | Type: N/A | Modèle: MODELE IT | Marque: MARIKA IT | N° Série: VC5A03558 | MAC:  | IP:  
+[2026-09-30 09:39:03][INFO] JSON DATA: {
+    "timestamp": "2026-09-30 09:39:03",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "369",
+        "type_materiel": null,
+        "modele": "MODELE IT",
+        "marque": "MARIKA IT",
+        "reference": null,
+        "usage_materiel": null,
+        "numero_serie": "VC5A03558",
+        "version_firmware": "",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "",
+        "adresse_ip": "",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-09-30 09:39:03][INFO] Champs remplis (4/33): salle_id, modele, marque, numero_serie 
+[2026-09-30 09:39:03][INFO] === FIN DES DONNEES === 
+[2026-09-30 09:39:03][INFO] MATERIEL CREE AVEC SUCCES - ID: 4491 
+[2026-09-30 09:39:24][INFO] 55 
+[2026-09-30 09:39:24][INFO] 55 
+[2026-09-30 09:40:08][DEBUG] CSRF: Token trouvé dans la requête - Token: d31a4c7d4968c2ddfe68... 
+[2026-09-30 09:40:08][INFO] === STORE CALLED FROM EXCEL === 
+[2026-09-30 09:40:08][INFO] POST data: Array
+(
+    [salle_id] => 369
+    [has_configuration] => 1
+    [marque] => TEST
+    [modele] => YESY
+    [type_materiel] => 
+    [numero_serie] => VC5A03559
+    [version_firmware] => 
+    [adresse_ip] => 
+    [adresse_mac] => 
+    [date_fin_maintenance] => 
+    [reference] => 
+    [usage_materiel] => 
+    [ancien_firmware] => 
+    [masque] => 
+    [passerelle] => 
+    [login] => 
+    [password] => 
+    [id] => 
+    [ip_primaire] => 
+    [mac_primaire] => 
+    [ip_secondaire] => 
+    [mac_secondaire] => 
+    [stream_aes67_recu] => 
+    [stream_aes67_transmis] => 
+    [ssid] => 
+    [type_cryptage] => 
+    [password_wifi] => 
+    [libelle_pa_salle] => 
+    [numero_port_switch] => 
+    [vlan] => 
+    [date_fin_garantie] => 
+    [date_derniere_inter] => 
+    [commentaire] => 
+    [url_github] => 
+)
+ 
+[2026-09-30 09:40:08][INFO] FILES: Array
+(
+)
+ 
+[2026-09-30 09:40:08][INFO] === NOUVEAU MATERIEL A INSERER === 
+[2026-09-30 09:40:08][INFO] Données complètes reçues: 
+[2026-09-30 09:40:08][WARNING] Array to string conversion {"file":"C:\\xampp\\htdocs\\avision\\public\\includes\\init.php","line":35,"errno":2}
+[2026-09-30 09:40:08][INFO] Array 
+[2026-09-30 09:40:08][INFO] INSERTION MATERIEL - Salle: 369 | Type:  | Modèle: YESY | Marque: TEST | N° Série: VC5A03559 | MAC:  | IP:  
+[2026-09-30 09:40:08][INFO] JSON DATA: {
+    "timestamp": "2026-09-30 09:40:08",
+    "ip": "127.0.0.1",
+    "action": "MATERIEL_CREATION",
+    "data": {
+        "salle_id": "369",
+        "type_materiel": "",
+        "modele": "YESY",
+        "marque": "TEST",
+        "reference": "",
+        "usage_materiel": "",
+        "numero_serie": "VC5A03559",
+        "version_firmware": "",
+        "ancien_firmware": "",
+        "url_github": "",
+        "adresse_mac": "",
+        "adresse_ip": "",
+        "masque": "",
+        "passerelle": "",
+        "login": "",
+        "password": "",
+        "id_materiel": null,
+        "ip_primaire": "",
+        "mac_primaire": "",
+        "ip_secondaire": "",
+        "mac_secondaire": "",
+        "stream_aes67_recu": "",
+        "stream_aes67_transmis": "",
+        "ssid": "",
+        "type_cryptage": "",
+        "password_wifi": "",
+        "libelle_pa_salle": "",
+        "numero_port_switch": "",
+        "vlan": "",
+        "date_fin_maintenance": null,
+        "date_fin_garantie": null,
+        "date_derniere_inter": null,
+        "commentaire": ""
+    }
+} 
+[2026-09-30 09:40:08][INFO] Champs remplis (4/33): salle_id, modele, marque, numero_serie 
+[2026-09-30 09:40:08][INFO] === FIN DES DONNEES === 
+[2026-09-30 09:40:08][INFO] MATERIEL CREE AVEC SUCCES - ID: 4492 
+[2026-09-30 09:43:06][INFO] 109 
+[2026-09-30 09:49:17][INFO] 109 
