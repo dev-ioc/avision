@@ -4820,6 +4820,12 @@ class InterventionController
                 $isQualified = (int) ($tech['is_qualified'] ?? 0);
                 $startTime = !empty($tech['start_time']) ? $tech['start_time'] : null;
                 $endTime = !empty($tech['end_time']) ? $tech['end_time'] : null;
+                if ($startTime === null) {
+                    throw new InvalidArgumentException('La date et l\'heure de début sont obligatoires.');
+                }
+                if ($endTime !== null && strtotime($startTime) >= strtotime($endTime)) {
+                    throw new InvalidArgumentException('La date de fin doit être postérieure à la date de début.');
+                }
                 $deplacement = (int) ($tech['deplacement'] ?? 0);
                 $tempsPasse = !empty($tech['temps_passe']) ? (int) $tech['temps_passe'] : null;
                 $commentaire = $tech['commentaire'] ?? null;
@@ -4879,11 +4885,17 @@ class InterventionController
                 'deleted_count' => $replace ? (count($toDelete ?? [])) : 0
             ]);
 
+        } catch (InvalidArgumentException $e) {
+            if ($this->db->inTransaction())
+                $this->db->rollBack();
+            http_response_code(422);
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         } catch (Exception $e) {
             if ($this->db->inTransaction())
                 $this->db->rollBack();
+            custom_log('Erreur assignTechnicians : ' . $e->getMessage(), 'ERROR');
             http_response_code(500);
-            echo json_encode(['success' => false, 'error' => 'Erreur serveur : ' . $e->getMessage()]);
+            echo json_encode(['success' => false, 'error' => 'Une erreur est survenue lors de l\'enregistrement. Veuillez réessayer.']);
         }
     }
     /**

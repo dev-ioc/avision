@@ -147022,3 +147022,23 @@ Quant à l’écran n°1, il est HS
 [2026-09-30 16:16:54][DEBUG] CSRF: Token trouvé dans la requête - Token: bbb7e2ef274cb51bd216... 
 [2026-09-30 16:16:54][INFO] Technicien 40 mis à jour pour l'intervention 384 
 [2026-09-30 16:16:54][INFO] Technicien 10 mis à jour pour l'intervention 384 
+[2026-09-30 16:18:01][DEBUG] CSRF: Token trouvé dans la requête - Token: bbb7e2ef274cb51bd216... 
+[2026-09-30 16:18:01][INFO] Technicien 40 mis à jour pour l'intervention 384 
+[2026-09-30 16:18:01][INFO] Technicien 10 mis à jour pour l'intervention 384 
+[2026-09-30 16:18:26][DEBUG] CSRF: Token trouvé dans la requête - Token: bbb7e2ef274cb51bd216... 
+[2026-09-30 16:18:26][INFO] Technicien 40 mis à jour pour l'intervention 384 
+[2026-09-30 16:18:26][INFO] Technicien 10 mis à jour pour l'intervention 384 
+[2026-09-30 16:18:40][DEBUG] CSRF: Token trouvé dans la requête - Token: bbb7e2ef274cb51bd216... 
+[2026-09-30 16:18:40][INFO] Technicien 40 mis à jour pour l'intervention 384 
+[2026-09-30 16:18:40][INFO] Technicien 10 mis à jour pour l'intervention 384 
+[2026-09-30 16:18:40][INFO] Technicien 15 ajouté à l'intervention 384 
+[2026-09-30 16:20:42][DEBUG] CSRF: Token trouvé dans la requête - Token: bbb7e2ef274cb51bd216... 
+[2026-09-30 16:20:42][INFO] Technicien 40 mis à jour pour l'intervention 384 
+[2026-09-30 16:20:42][INFO] Technicien 10 mis à jour pour l'intervention 384 
+[2026-09-30 16:20:42][INFO] Technicien 15 mis à jour pour l'intervention 384 
+[2026-09-30 16:29:01][DEBUG] CSRF: Token trouvé dans la requête - Token: bbb7e2ef274cb51bd216... 
+[2026-09-30 16:29:01][INFO] Technicien 15 supprimé de l'intervention 384 
+[2026-09-30 16:29:30][DEBUG] CSRF: Token trouvé dans la requête - Token: bbb7e2ef274cb51bd216... 
+[2026-09-30 16:29:30][INFO] Technicien 40 mis à jour pour l'intervention 384 
+[2026-09-30 16:29:30][INFO] Technicien 10 mis à jour pour l'intervention 384 
+[2026-09-30 16:29:30][INFO] Technicien 3 ajouté à l'intervention 384 

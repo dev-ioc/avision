@@ -2677,6 +2677,13 @@ $closeReason = [];
 			var existingTech = assignedTechnicians[i];
 			toSave.push({ technicien_id: parseInt(existingTech.id), start_time: existingTech.start_time || null, end_time: existingTech.end_time || null, temps_passe: existingTech.temps_passe || null, deplacement: existingTech.deplacement || 0, is_qualified: existingTech.is_qualified || 0, commentaire: existingTech.commentaire || '', notify_technician: 0 });
 		}
+		for (var j = 0; j < toSave.length; j++) {
+			if (!toSave[j].start_time) {
+				var missing = assignedTechnicians.find(function (t) { return t.id == toSave[j].technicien_id; });
+				showToast('La date et l\'heure de début sont manquantes pour ' + (missing ? missing.name : 'un technicien') + '.', 'warning');
+				return;
+			}
+		}
 		var selectedNow = document.getElementById('techSelect').value;
 		if (
 			selectedNow && editingOriginalId &&
@@ -2689,6 +2696,11 @@ $closeReason = [];
 		var selectedValue = sel.value;
 		if (selectedValue) {
 			var st = document.getElementById('start_time').value, et = document.getElementById('end_time').value, tp = parseInt(document.getElementById('temps_passe').value) || 0, dep = parseInt(document.getElementById('deplacement').value) || 0, iq = parseInt(document.getElementById('is_qualified').value) || 0, comment = document.getElementById('commentaire').value;
+			if (!st) {
+				showToast('Veuillez renseigner la date et l\'heure de début.', 'warning');
+				document.getElementById('start_time').focus();
+				return;
+			}
 			if (st && et && new Date(st) >= new Date(et)) { showToast('La date de fin doit être postérieure à la date de début.', 'warning'); return; }
 			if (tp > 0) tp = roundToHalfHour(tp) || 30;
 			var existingIndex = toSave.findIndex(function (t) { return t.technicien_id == selectedValue; });
