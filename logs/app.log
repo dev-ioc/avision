@@ -146159,3 +146159,780 @@ Quant à l’écran n°1, il est HS
 [2026-09-30 10:42:43][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
 [2026-09-30 10:42:43][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
 [2026-09-30 10:42:43][DEBUG] Login réussi (étape mot de passe) - user_id: 70 
+[2026-09-30 13:27:04][DEBUG] CSRF: Token trouvé dans la requête - Token: c5fa86922baaaaf64833... 
+[2026-09-30 13:27:04][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-30 13:27:04][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-30 13:27:04][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-30 13:27:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 7d23988aaa385b5aff97... 
+[2026-09-30 13:27:12][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_view_interventions":true,"client_view_materiel":true,"client_view_documentation":true,"client_view_contracts":true,"client_manage_contacts":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":79,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 13:27:12][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 13:27:12][DEBUG] Login réussi (étape mot de passe) - user_id: 70 
+[2026-09-30 13:27:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:27:49][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-30 13:27:49][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-30 13:27:49][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-30 13:27:52][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-30 13:27:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:27:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:27:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:27:54][INFO] 112 
+[2026-09-30 13:27:54][INFO] 79 
+[2026-09-30 13:27:54][INFO] 80 
+[2026-09-30 13:27:54][INFO] 93 
+[2026-09-30 13:27:54][INFO] 116 
+[2026-09-30 13:27:54][INFO] 115 
+[2026-09-30 13:27:54][INFO] 82 
+[2026-09-30 13:28:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:04][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:09][DEBUG] load_client_locations - Session ID: 9i9ium4mimkfamv1tlpm5qe3t4, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:28:09][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-09-30 13:28:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:09][DEBUG] load_permissions - Session ID: 9i9ium4mimkfamv1tlpm5qe3t4, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:28:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:20][INFO] Sauvegarde des localisations pour l'utilisateur 70, type: client 
+[2026-09-30 13:28:20][DEBUG] Localisations reçues: {"sites":["80"]} 
+[2026-09-30 13:28:20][INFO] Début de saveUserLocations pour l'utilisateur 70 
+[2026-09-30 13:28:20][INFO] Localisations reçues: {"sites":["80"]} 
+[2026-09-30 13:28:20][INFO] Type d'utilisateur récupéré: client 
+[2026-09-30 13:28:20][DEBUG] DEBUG - Client ID récupéré: 50 (depuis POST: 50, depuis user: 50) 
+[2026-09-30 13:28:20][INFO] Traitement de 1 sites pour l'utilisateur 70 
+[2026-09-30 13:28:20][INFO] Site 80 (MERY) enregistré pour l'utilisateur 70 
+[2026-09-30 13:28:20][INFO] Sauvegarde des localisations terminée avec succès pour l'utilisateur 70 
+[2026-09-30 13:28:20][INFO] Résultat de saveUserLocations: SUCCÈS 
+[2026-09-30 13:28:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:21][DEBUG] CSRF: Token trouvé dans la requête - Token: 53e77e671dfe45a6b567... 
+[2026-09-30 13:28:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 6f2290ed6f5b2480d62d... 
+[2026-09-30 13:28:27][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_view_interventions":true,"client_view_materiel":true,"client_view_documentation":true,"client_view_contracts":true,"client_manage_contacts":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 13:28:27][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 13:28:27][DEBUG] Login réussi (étape mot de passe) - user_id: 70 
+[2026-09-30 13:28:45][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:28:45][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-30 13:28:45][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-30 13:28:45][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-30 13:28:48][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:28:48][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:28:48][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:28:48][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:28:48][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:28:48][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:28:51][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:28:51][DEBUG] load_permissions - Session ID: jccgu0radh9e1ekol21n3maaov, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:28:52][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:28:52][DEBUG] load_client_locations - Session ID: jccgu0radh9e1ekol21n3maaov, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:28:52][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-09-30 13:29:01][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:29:01][INFO] Sauvegarde des localisations pour l'utilisateur 70, type: client 
+[2026-09-30 13:29:01][DEBUG] Localisations reçues: {"sites":["79"]} 
+[2026-09-30 13:29:01][INFO] Début de saveUserLocations pour l'utilisateur 70 
+[2026-09-30 13:29:01][INFO] Localisations reçues: {"sites":["79"]} 
+[2026-09-30 13:29:01][INFO] Type d'utilisateur récupéré: client 
+[2026-09-30 13:29:01][DEBUG] DEBUG - Client ID récupéré: 50 (depuis POST: 50, depuis user: 50) 
+[2026-09-30 13:29:01][INFO] Traitement de 1 sites pour l'utilisateur 70 
+[2026-09-30 13:29:01][INFO] Site 79 (MELLO) enregistré pour l'utilisateur 70 
+[2026-09-30 13:29:01][INFO] Sauvegarde des localisations terminée avec succès pour l'utilisateur 70 
+[2026-09-30 13:29:01][INFO] Résultat de saveUserLocations: SUCCÈS 
+[2026-09-30 13:29:01][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:29:01][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:29:01][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:29:01][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:29:02][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:29:02][DEBUG] CSRF: Token trouvé dans la requête - Token: c28dab9c56a0ac0ece23... 
+[2026-09-30 13:29:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 16d621d85b51508c7282... 
+[2026-09-30 13:29:08][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_view_interventions":true,"client_view_materiel":true,"client_view_contracts":true,"client_view_documentation":true,"client_manage_contacts":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":79,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 13:29:08][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 13:29:08][DEBUG] Login réussi (étape mot de passe) - user_id: 70 
+[2026-09-30 13:29:16][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-30 13:29:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 16d621d85b51508c7282... 
+[2026-09-30 13:29:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 16d621d85b51508c7282... 
+[2026-09-30 13:29:17][DEBUG] CSRF: Token trouvé dans la requête - Token: 16d621d85b51508c7282... 
+[2026-09-30 13:29:37][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:37][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:37][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:37][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:37][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:37][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:37][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:37][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:37][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:37][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:37][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:37][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:37][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:37][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:37][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:38][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:38][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:38][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:38][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:38][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:38][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:38][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:38][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:38][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:38][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:38][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:38][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:38][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:38][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:38][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:38][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:38][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:38][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:38][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:38][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:38][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:38][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:38][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:38][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:38][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:38][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:38][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:39][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:39][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:39][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:39][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:39][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:39][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:39][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:39][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:39][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:39][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:39][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:39][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:39][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:39][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:39][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:39][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:39][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:39][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:39][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:39][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:39][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:39][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:39][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:39][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:39][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:39][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:39][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:39][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:40][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:40][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:40][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:40][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:40][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:40][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:40][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:40][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:40][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:40][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:40][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:40][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:40][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:40][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:40][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:40][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:40][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:40][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:40][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:40][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:40][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:40][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:40][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:40][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:40][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:40][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:41][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:41][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:41][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:41][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:41][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:41][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:41][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:41][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:41][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:41][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:41][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:41][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:41][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:41][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:41][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:41][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:41][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:41][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:41][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:41][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:29:41][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:41][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:29:42][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:29:42][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:29:42][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:29:42][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:35:08][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-30 13:35:08][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-30 13:35:08][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":79,"building_id":null,"room_id":null}]} 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - START 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":79,"building_id":null,"room_id":null}]} 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - locations: [{"site_id":79,"building_id":null,"room_id":null}] 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - Site autorisé directement: 79 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - allowedSiteIds: {"79":true} 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - Ajout du site 79 dans la map (accès restreint) 
+[2026-09-30 13:35:08][DEBUG] getSitesByLocations - résultat FINAL: [79] 
+[2026-09-30 13:35:08][DEBUG] SiteClientController::index - sites après dédoublonnage: [79] 
+[2026-09-30 13:35:08][INFO] 79 
+[2026-09-30 13:35:08][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-30 13:41:26][DEBUG] CSRF: Token trouvé dans la requête - Token: c3404c8dd5d5904715ee... 
+[2026-09-30 13:41:26][DEBUG] Permissions chargées pour Régisseur : {"role":"client","rights":{"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 13:41:26][INFO] Utilisateur connecté : r.mery@chateauform.com {"user_id":63,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 13:41:26][DEBUG] Login réussi (étape mot de passe) - user_id: 63 
+[2026-09-30 13:41:42][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:42][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-30 13:41:42][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-30 13:41:42][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-30 13:41:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:44][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:45][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:45][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:45][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:49][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:49][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:49][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:51][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:51][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:51][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:51][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:51][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:52][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:52][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:52][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:52][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:52][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:52][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:52][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:53][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:41:54][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:42:00][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:42:00][DEBUG] load_permissions - Session ID: hfeekk1oaknt11lq8brh7t31m1, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:42:00][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:42:00][DEBUG] load_client_locations - Session ID: hfeekk1oaknt11lq8brh7t31m1, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:42:00][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-09-30 13:42:12][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:42:12][INFO] Sauvegarde des localisations pour l'utilisateur 63, type: client 
+[2026-09-30 13:42:12][DEBUG] Localisations reçues: {"sites":["80"]} 
+[2026-09-30 13:42:12][INFO] Début de saveUserLocations pour l'utilisateur 63 
+[2026-09-30 13:42:12][INFO] Localisations reçues: {"sites":["80"]} 
+[2026-09-30 13:42:12][INFO] Type d'utilisateur récupéré: client 
+[2026-09-30 13:42:12][DEBUG] DEBUG - Client ID récupéré: 50 (depuis POST: 50, depuis user: 50) 
+[2026-09-30 13:42:12][INFO] Traitement de 1 sites pour l'utilisateur 63 
+[2026-09-30 13:42:12][INFO] Site 80 (MERY) enregistré pour l'utilisateur 63 
+[2026-09-30 13:42:12][INFO] Sauvegarde des localisations terminée avec succès pour l'utilisateur 63 
+[2026-09-30 13:42:12][INFO] Résultat de saveUserLocations: SUCCÈS 
+[2026-09-30 13:42:12][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:42:12][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:42:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:42:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:42:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:42:13][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:42:23][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:42:23][DEBUG] load_permissions - Session ID: hfeekk1oaknt11lq8brh7t31m1, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:42:23][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:42:24][DEBUG] load_client_locations - Session ID: hfeekk1oaknt11lq8brh7t31m1, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:42:24][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-09-30 13:42:40][INFO] 79 
+[2026-09-30 13:42:40][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-09-30 13:42:40][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-09-30 13:42:59][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:42:59][INFO] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated {"file":"C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php","line":585,"errno":8192}
+[2026-09-30 13:42:59][DEBUG] DEBUG - update() - Vérification de la fermeture 
+[2026-09-30 13:42:59][DEBUG] DEBUG - update() - data['status_id']: 6 
+[2026-09-30 13:42:59][DEBUG] DEBUG - update() - intervention['status_id']: 6 
+[2026-09-30 13:42:59][DEBUG] DEBUG - update() - isSaveBeforeClose: FAUX 
+[2026-09-30 13:42:59][INFO] Changement de contrat historisé pour intervention 497 : TICKET MELLO → Hors contrat facturable 
+[2026-09-30 13:42:59][INFO] Tickets recrédités au contrat 241 pour intervention 497 (changement vers contrat sans tickets) 
+[2026-09-30 13:43:10][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:10][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:10][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:10][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:10][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:10][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:16][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:16][DEBUG] load_permissions - Session ID: hfeekk1oaknt11lq8brh7t31m1, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:43:16][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:16][DEBUG] load_client_locations - Session ID: hfeekk1oaknt11lq8brh7t31m1, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:43:16][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-09-30 13:43:22][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:22][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:22][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:22][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:22][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:22][DEBUG] CSRF: Token trouvé dans la requête - Token: ac0c0d73c24d68fe01ea... 
+[2026-09-30 13:43:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 95de21eb412f8a8798f9... 
+[2026-09-30 13:43:28][DEBUG] Permissions chargées pour Régisseur : {"role":"client","rights":{"client_view_documentation":true,"client_manage_contacts":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 13:43:28][INFO] Utilisateur connecté : r.mery@chateauform.com {"user_id":63,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 13:43:28][DEBUG] Login réussi (étape mot de passe) - user_id: 63 
+[2026-09-30 13:43:42][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:42][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:42][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:42][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:43][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:43][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:43][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:43][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:43][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:43][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:43][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:43][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:43][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:43][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:43][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:43][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:43][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:43][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:43][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:43][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:43][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:43][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:43][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:43][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:43][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:44][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:44][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:44][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:44][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:44][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:44][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:44][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:44][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:44][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:44][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:44][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:44][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:44][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:44][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:44][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:44][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:44][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:44][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:44][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:44][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:44][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:44][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:44][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:44][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:44][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:44][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:44][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:44][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:44][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:45][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:45][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:45][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:45][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:45][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:45][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:45][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:45][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:45][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:45][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:45][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:45][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:45][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:45][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:45][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:45][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:45][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:45][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:45][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:45][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:45][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:45][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:45][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:46][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:46][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:46][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:46][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:46][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:46][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:46][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:46][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:46][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:46][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:46][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:46][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:46][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:46][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:46][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:46][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:46][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:46][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:46][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:46][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:46][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:46][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:46][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:46][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:46][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:46][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:46][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:46][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:47][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:47][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:47][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:47][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:47][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:47][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:47][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:47][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:47][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:47][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:47][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:47][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:47][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:47][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:47][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:47][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:47][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:47][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:47][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:47][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:47][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:47][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:48][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:48][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:48][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:48][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:48][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:48][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:48][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:48][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:48][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:48][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:48][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:48][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:48][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:48][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:48][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:48][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:48][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:48][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:48][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:48][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:48][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:48][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:48][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:48][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:48][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:48][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:48][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:49][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:49][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:49][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:49][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:49][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:49][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:49][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:49][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:49][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:49][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:49][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:49][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:49][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:49][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:49][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:49][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:49][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:49][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:49][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:49][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:49][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:49][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:49][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:49][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:49][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:49][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:49][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:49][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:49][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:50][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:50][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:50][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:50][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:50][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:50][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:50][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:50][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:50][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:50][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:50][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:50][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:50][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:50][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:50][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:50][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:50][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:43:50][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:50][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:50][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:50][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:43:50][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:43:50][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:43:50][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:43:50][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:01][DEBUG] CSRF: Token trouvé dans la requête - Token: 6fba5d74b177a5be5c88... 
+[2026-09-30 13:44:01][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_view_interventions":true,"client_view_materiel":true,"client_view_contracts":true,"client_view_documentation":true,"client_manage_contacts":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":79,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 13:44:01][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 13:44:01][DEBUG] Login réussi (étape mot de passe) - user_id: 70 
+[2026-09-30 13:44:20][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:20][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-30 13:44:20][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-30 13:44:20][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-30 13:44:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:28][DEBUG] load_permissions - Session ID: gklknf990ara09nlnsas5qnnhm, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:44:28][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:28][DEBUG] load_client_locations - Session ID: gklknf990ara09nlnsas5qnnhm, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:44:28][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-09-30 13:44:35][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:35][INFO] Sauvegarde des localisations pour l'utilisateur 70, type: client 
+[2026-09-30 13:44:35][DEBUG] Localisations reçues: {"sites":["80"]} 
+[2026-09-30 13:44:35][INFO] Début de saveUserLocations pour l'utilisateur 70 
+[2026-09-30 13:44:35][INFO] Localisations reçues: {"sites":["80"]} 
+[2026-09-30 13:44:35][INFO] Type d'utilisateur récupéré: client 
+[2026-09-30 13:44:35][DEBUG] DEBUG - Client ID récupéré: 50 (depuis POST: 50, depuis user: 50) 
+[2026-09-30 13:44:35][INFO] Traitement de 1 sites pour l'utilisateur 70 
+[2026-09-30 13:44:35][INFO] Site 80 (MERY) enregistré pour l'utilisateur 70 
+[2026-09-30 13:44:35][INFO] Sauvegarde des localisations terminée avec succès pour l'utilisateur 70 
+[2026-09-30 13:44:35][INFO] Résultat de saveUserLocations: SUCCÈS 
+[2026-09-30 13:44:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 8e7c655e04a73631eaa5... 
+[2026-09-30 13:44:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 44ce31b5864ddcf1abc7... 
+[2026-09-30 13:44:42][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_modify_info":true,"client_view_materiel":true,"client_view_contracts":true,"client_view_interventions":true,"client_view_documentation":true,"client_manage_contacts":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 13:44:42][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 13:44:42][DEBUG] Login réussi (étape mot de passe) - user_id: 70 
+[2026-09-30 13:44:48][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:48][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:48][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:48][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:48][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:48][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:48][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:48][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:48][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:48][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:48][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:48][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:48][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:48][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:48][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:48][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:48][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:48][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:48][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:48][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:49][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:49][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:49][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:49][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:49][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:49][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:49][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:49][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:49][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:49][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:49][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:49][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:49][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:49][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:49][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:49][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:49][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:49][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:49][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:49][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:49][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:49][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:49][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:49][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:50][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:50][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:50][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:50][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:50][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:50][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:50][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:50][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:50][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:50][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:50][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:50][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:50][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:50][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:50][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:50][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:50][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:50][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:50][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:50][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:51][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:51][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:51][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:51][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:51][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:51][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:51][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:51][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:51][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:51][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:51][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:51][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:51][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:51][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:51][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:51][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:51][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:51][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:51][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:51][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:52][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:52][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:52][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:52][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:52][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:52][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:52][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:52][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:52][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:52][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:52][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:52][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:52][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:52][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:52][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:52][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:52][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:52][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:52][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:52][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:52][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:52][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:52][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:53][ERROR] Erreur lors de l'aperçu de la pièce jointe (client) : Fichier non trouvé 
+[2026-09-30 13:44:53][DEBUG] DEBUG id reçu = '497' 
+[2026-09-30 13:44:53][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:53][DEBUG] Commentaires récupérés pour l'intervention 497: 0 
+[2026-09-30 13:44:53][DEBUG] Pièces jointes récupérées pour l'intervention 497: 2 
+[2026-09-30 13:44:53][DEBUG] DEBUG id reçu = 'interventions_client' 
+[2026-09-30 13:44:53][DEBUG] DEBUG clientId=50 userLocations=[{"client_id":50,"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:44:53][ERROR] Intervention non trouvée ou non autorisée pour l'ID: interventions_client 
+[2026-09-30 13:45:06][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-30 13:45:06][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-30 13:45:06][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - START 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-30 13:45:06][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-30 13:45:06][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-30 13:45:06][INFO] 80 
+[2026-09-30 13:45:06][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-30 13:45:09][INFO] 80 
+[2026-09-30 13:45:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 05d6a1e66f8a1614febd... 
+[2026-09-30 13:45:34][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-30 13:45:34][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-30 13:45:34][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-30 13:45:38][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-30 13:45:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 05d6a1e66f8a1614febd... 
+[2026-09-30 13:45:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 05d6a1e66f8a1614febd... 
+[2026-09-30 13:45:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 05d6a1e66f8a1614febd... 
+[2026-09-30 13:45:39][INFO] 112 
+[2026-09-30 13:45:39][INFO] 79 
+[2026-09-30 13:45:39][INFO] 80 
+[2026-09-30 13:45:40][INFO] 93 
+[2026-09-30 13:45:40][INFO] 116 
+[2026-09-30 13:45:40][INFO] 115 
+[2026-09-30 13:45:40][INFO] 82 
+[2026-09-30 13:46:29][INFO] 80 
+[2026-09-30 13:46:30][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-09-30 13:46:30][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-09-30 13:46:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 05d6a1e66f8a1614febd... 
+[2026-09-30 13:46:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 05d6a1e66f8a1614febd... 
+[2026-09-30 13:46:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 05d6a1e66f8a1614febd... 
+[2026-09-30 13:46:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 05d6a1e66f8a1614febd... 
+[2026-09-30 13:46:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 05d6a1e66f8a1614febd... 
+[2026-09-30 13:46:47][DEBUG] CSRF: Token trouvé dans la requête - Token: 05d6a1e66f8a1614febd... 
+[2026-09-30 13:46:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 05d6a1e66f8a1614febd... 
+[2026-09-30 13:46:55][DEBUG] load_permissions - Session ID: v677vn6o7e7hhmf4pl44sm6g4l, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:46:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 05d6a1e66f8a1614febd... 
+[2026-09-30 13:46:56][DEBUG] load_client_locations - Session ID: v677vn6o7e7hhmf4pl44sm6g4l, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 13:46:56][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-09-30 13:47:36][DEBUG] CSRF: Token trouvé dans la requête - Token: 0a289204301afd8518e6... 
+[2026-09-30 13:47:36][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_modify_info":true,"client_view_materiel":true,"client_view_contracts":true,"client_view_interventions":true,"client_view_documentation":true,"client_manage_contacts":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 13:47:36][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 13:47:36][DEBUG] Login réussi (étape mot de passe) - user_id: 70 
+[2026-09-30 13:47:49][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-30 13:47:49][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-30 13:47:49][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - START 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-30 13:47:49][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-30 13:47:49][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-30 13:47:49][INFO] 80 
+[2026-09-30 13:47:49][DEBUG] SiteClientController::index - sites count: 1 
