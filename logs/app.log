@@ -145944,3 +145944,218 @@ Quant à l’écran n°1, il est HS
 [2026-09-30 09:40:08][INFO] MATERIEL CREE AVEC SUCCES - ID: 4492 
 [2026-09-30 09:43:06][INFO] 109 
 [2026-09-30 09:49:17][INFO] 109 
+[2026-09-30 10:13:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 48ea78c72f2d5fe68cb1... 
+[2026-09-30 10:13:16][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 10:13:16][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 10:13:16][DEBUG] Login réussi (étape mot de passe) - user_id: 70 
+[2026-09-30 10:13:30][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-30 10:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 48ea78c72f2d5fe68cb1... 
+[2026-09-30 10:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 48ea78c72f2d5fe68cb1... 
+[2026-09-30 10:13:31][DEBUG] CSRF: Token trouvé dans la requête - Token: 48ea78c72f2d5fe68cb1... 
+[2026-09-30 10:13:46][DEBUG] CSRF: Token trouvé dans la requête - Token: ba6160109d72c5309cb9... 
+[2026-09-30 10:13:47][DEBUG] Permissions chargées pour Régisseur : {"role":"client","rights":{"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 10:13:47][INFO] Utilisateur connecté : r.mery@chateauform.com {"user_id":63,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 10:13:47][DEBUG] Login réussi (étape mot de passe) - user_id: 63 
+[2026-09-30 10:14:14][DEBUG] CSRF: Token trouvé dans la requête - Token: b6e445c87ecad819b0ab... 
+[2026-09-30 10:14:15][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 10:14:15][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 10:14:15][DEBUG] Login réussi (étape mot de passe) - user_id: 70 
+[2026-09-30 10:20:21][ERROR] Erreur : SQLSTATE[HY093]: Invalid parameter number {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ContactModel.php","line":335}
+[2026-09-30 10:22:26][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:26][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-30 10:22:26][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-30 10:22:26][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-30 10:22:29][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-30 10:22:29][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:32][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:41][DEBUG] load_permissions - Session ID: 3g9blr8be3ebd5rktevig4jf03, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 10:22:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:41][DEBUG] load_client_locations - Session ID: 3g9blr8be3ebd5rktevig4jf03, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 10:22:41][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-09-30 10:22:48][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-30 10:22:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:48][DEBUG] CSRF: Token trouvé dans la requête - Token: 6cf004569c6c954785d2... 
+[2026-09-30 10:22:50][INFO] 112 
+[2026-09-30 10:22:50][INFO] 79 
+[2026-09-30 10:22:50][INFO] 80 
+[2026-09-30 10:22:50][INFO] 93 
+[2026-09-30 10:22:50][INFO] 116 
+[2026-09-30 10:22:50][INFO] 115 
+[2026-09-30 10:22:50][INFO] 82 
+[2026-09-30 10:23:51][DEBUG] CSRF: Token trouvé dans la requête - Token: f419da3017ed73f1276f... 
+[2026-09-30 10:23:51][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 10:23:51][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 10:23:51][DEBUG] Login réussi (étape mot de passe) - user_id: 70 
+[2026-09-30 10:31:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:31:24][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-09-30 10:31:24][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-09-30 10:31:24][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-09-30 10:31:26][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-30 10:31:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:31:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:31:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:31:29][INFO] 112 
+[2026-09-30 10:31:29][INFO] 79 
+[2026-09-30 10:31:29][INFO] 80 
+[2026-09-30 10:31:29][INFO] 93 
+[2026-09-30 10:31:29][INFO] 116 
+[2026-09-30 10:31:29][INFO] 115 
+[2026-09-30 10:31:29][INFO] 82 
+[2026-09-30 10:31:35][INFO] 112 
+[2026-09-30 10:31:35][INFO] 79 
+[2026-09-30 10:31:35][INFO] 80 
+[2026-09-30 10:31:35][INFO] 93 
+[2026-09-30 10:31:35][INFO] 116 
+[2026-09-30 10:31:35][INFO] 115 
+[2026-09-30 10:31:35][INFO] 82 
+[2026-09-30 10:33:44][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\client\\index.php","line":130,"errno":2}
+[2026-09-30 10:33:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:33:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:33:44][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:33:53][INFO] 112 
+[2026-09-30 10:33:53][INFO] 79 
+[2026-09-30 10:33:53][INFO] 80 
+[2026-09-30 10:33:53][INFO] 93 
+[2026-09-30 10:33:53][INFO] 116 
+[2026-09-30 10:33:53][INFO] 115 
+[2026-09-30 10:33:53][INFO] 82 
+[2026-09-30 10:34:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:34:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:34:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:34:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:34:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:34:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:34:33][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:34:33][DEBUG] load_permissions - Session ID: bamhgp4397v170meh2tn1urooc, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 10:34:34][DEBUG] CSRF: Token trouvé dans la requête - Token: 7fbf9a3cc132007f1d11... 
+[2026-09-30 10:34:34][DEBUG] load_client_locations - Session ID: bamhgp4397v170meh2tn1urooc, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-09-30 10:34:34][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-09-30 10:36:22][DEBUG] CSRF: Token trouvé dans la requête - Token: 9b5546b5bbd906e7deee... 
+[2026-09-30 10:36:22][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 10:36:22][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 10:36:22][DEBUG] Login réussi (étape mot de passe) - user_id: 70 
+[2026-09-30 10:36:24][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-30 10:36:24][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-30 10:36:24][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - START 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-30 10:36:24][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-30 10:36:24][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-30 10:36:24][INFO] 80 
+[2026-09-30 10:36:24][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-30 10:36:31][INFO] 80 
+[2026-09-30 10:36:52][DEBUG] CSRF: Token trouvé dans la requête - Token: 0cdf2925443707f535c6... 
+[2026-09-30 10:36:52][DEBUG] Permissions chargées pour Régisseur : {"role":"client","rights":{"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 10:36:52][INFO] Utilisateur connecté : r.mery@chateauform.com {"user_id":63,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 10:36:52][DEBUG] Login réussi (étape mot de passe) - user_id: 63 
+[2026-09-30 10:36:54][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-30 10:36:54][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-30 10:36:54][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - START 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-30 10:36:54][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-30 10:36:54][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-30 10:36:54][INFO] 80 
+[2026-09-30 10:36:54][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-30 10:36:56][INFO] 80 
+[2026-09-30 10:37:20][DEBUG] CSRF: Token trouvé dans la requête - Token: cb9b84e21ddaba95a097... 
+[2026-09-30 10:37:20][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 10:37:20][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 10:37:20][DEBUG] Login réussi (étape mot de passe) - user_id: 70 
+[2026-09-30 10:37:26][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-30 10:37:26][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-30 10:37:26][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - START 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-30 10:37:26][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-30 10:37:26][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-30 10:37:26][INFO] 80 
+[2026-09-30 10:37:26][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-30 10:37:31][INFO] 80 
+[2026-09-30 10:37:46][DEBUG] CSRF: Token trouvé dans la requête - Token: cb9b84e21ddaba95a097... 
+[2026-09-30 10:37:47][INFO] 80 
+[2026-09-30 10:37:53][DEBUG] SiteClientController::index - DB set: yes 
+[2026-09-30 10:37:53][DEBUG] SiteClientController::index - clientId from session: 50 
+[2026-09-30 10:37:53][DEBUG] SiteClientController::index - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - START 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - userLocations: {"50":[{"site_id":80,"building_id":null,"room_id":null}]} 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - Traitement du clientId: 50 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - locations: [{"site_id":80,"building_id":null,"room_id":null}] 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - clientSites trouvés: 7 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - Site: ID=112, name=FILLERVAL 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - Site: ID=79, name=MELLO 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - Site: ID=80, name=MERY 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - Site: ID=93, name=NEUVILLE-BOSC 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - Site: ID=116, name=NOINTEL 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - Site: ID=115, name=ROYAUMONT 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - Site: ID=82, name=SAINT JUST 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - Site autorisé directement: 80 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - allowedSiteIds: {"80":true} 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - Ajout du site 80 dans la map (accès restreint) 
+[2026-09-30 10:37:53][DEBUG] getSitesByLocations - résultat FINAL: [80] 
+[2026-09-30 10:37:53][DEBUG] SiteClientController::index - sites après dédoublonnage: [80] 
+[2026-09-30 10:37:53][INFO] 80 
+[2026-09-30 10:37:53][DEBUG] SiteClientController::index - sites count: 1 
+[2026-09-30 10:37:57][INFO] 80 
+[2026-09-30 10:38:07][DEBUG] CSRF: Token trouvé dans la requête - Token: cb9b84e21ddaba95a097... 
+[2026-09-30 10:38:07][INFO] 80 
+[2026-09-30 10:38:54][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-09-30 10:38:54][DEBUG] CSRF: Token trouvé dans la requête - Token: cb9b84e21ddaba95a097... 
+[2026-09-30 10:38:54][DEBUG] CSRF: Token trouvé dans la requête - Token: cb9b84e21ddaba95a097... 
+[2026-09-30 10:38:55][DEBUG] CSRF: Token trouvé dans la requête - Token: cb9b84e21ddaba95a097... 
+[2026-09-30 10:42:42][DEBUG] CSRF: Token trouvé dans la requête - Token: 1cb240bc248769c1f6ac... 
+[2026-09-30 10:42:43][DEBUG] Permissions chargées pour Maison : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":50,"site_id":80,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-09-30 10:42:43][INFO] Utilisateur connecté : mery@chateauform.com {"user_id":70,"user_type":"client","user_group":"Externe","is_admin":0,"client_id":50}
+[2026-09-30 10:42:43][DEBUG] Login réussi (étape mot de passe) - user_id: 70 

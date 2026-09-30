@@ -406,12 +406,21 @@ class ContactClientController
     private function getContactsByLocations($userLocations)
     {
         $contacts = [];
-
         foreach ($userLocations as $clientId => $locations) {
-            $clientContacts = $this->contactModel->getContactsByClientId($clientId);
-            $contacts = array_merge($contacts, $clientContacts);
+            $siteIds = $buildingIds = $roomIds = [];
+            foreach ($locations as $loc) {
+                if (!empty($loc['room_id']))
+                    $roomIds[] = $loc['room_id'];
+                elseif (!empty($loc['building_id']))
+                    $buildingIds[] = $loc['building_id'];
+                elseif (!empty($loc['site_id']))
+                    $siteIds[] = $loc['site_id'];
+            }
+            $contacts = array_merge(
+                $contacts,
+                $this->contactModel->getContactsByScope($clientId, $siteIds, $buildingIds, $roomIds)
+            );
         }
-
         return $contacts;
     }
 }

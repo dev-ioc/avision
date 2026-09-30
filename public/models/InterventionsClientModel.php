@@ -22,20 +22,7 @@ class InterventionsClientModel extends BaseModel
     public function getAllByLocations($userLocations, $filters = [])
     {
         // Extraire les IDs des clients auxquels l'utilisateur a accès
-        $clientIds = [];
-
-        foreach ($userLocations as $location) {
-            if (isset($location['client_id']) && !in_array($location['client_id'], $clientIds)) {
-                $clientIds[] = (int) $location['client_id'];
-            }
-        }
-
-        if (empty($clientIds)) {
-            return [];
-        }
-
-        // Requête avec jointures pour les bâtiments
-        $placeholders = str_repeat('?,', count($clientIds) - 1) . '?';
+        [$scopeSql, $scopeParams] = $this->buildScopeClause($userLocations, 'i');
 
         $sql = "SELECT i.*, 
             c.name as client_name,
@@ -60,9 +47,9 @@ class InterventionsClientModel extends BaseModel
             LEFT JOIN intervention_statuses its ON i.status_id = its.id
             LEFT JOIN intervention_types it ON i.type_id = it.id
             LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
-            WHERE i.client_id IN ({$placeholders})";
+            WHERE {$scopeSql}";
 
-        $params = $clientIds;
+        $params = $scopeParams;
 
         // Appliquer les filtres supplémentaires
         if (!empty($filters['site_id'])) {
@@ -109,20 +96,7 @@ class InterventionsClientModel extends BaseModel
     public function getByIdWithAccess($id, $userLocations)
     {
         // Extraire les IDs des clients auxquels l'utilisateur a accès
-        $clientIds = [];
-
-        foreach ($userLocations as $location) {
-            if (isset($location['client_id']) && !in_array($location['client_id'], $clientIds)) {
-                $clientIds[] = (int) $location['client_id'];
-            }
-        }
-
-        if (empty($clientIds)) {
-            return null;
-        }
-
-        // Requête avec jointures pour les bâtiments
-        $placeholders = str_repeat('?,', count($clientIds) - 1) . '?';
+        [$scopeSql, $scopeParams] = $this->buildScopeClause($userLocations, 'i');
 
         $sql = "SELECT i.*, 
             c.name as client_name,
@@ -148,11 +122,11 @@ class InterventionsClientModel extends BaseModel
             LEFT JOIN intervention_types it ON i.type_id = it.id
             LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
             LEFT JOIN contracts co ON i.contract_id = co.id
-            WHERE i.id = ? AND i.client_id IN ({$placeholders})
+            WHERE i.id = ? AND {$scopeSql}
             GROUP BY i.id";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(array_merge([$id], $clientIds));
+        $stmt->execute(array_merge([$id], $scopeParams));
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -232,19 +206,7 @@ class InterventionsClientModel extends BaseModel
     public function getStatsByLocations($userLocations)
     {
         // Extraire les IDs des clients auxquels l'utilisateur a accès
-        $clientIds = [];
-
-        foreach ($userLocations as $location) {
-            if (isset($location['client_id']) && !in_array($location['client_id'], $clientIds)) {
-                $clientIds[] = (int) $location['client_id'];
-            }
-        }
-
-        if (empty($clientIds)) {
-            return ['total' => 0, 'new_count' => 0, 'in_progress_count' => 0, 'closed_count' => 0];
-        }
-
-        $placeholders = str_repeat('?,', count($clientIds) - 1) . '?';
+        [$scopeSql, $scopeParams] = $this->buildScopeClause($userLocations, 'i');
 
         $sql = "SELECT 
                 COUNT(*) as total,
@@ -252,10 +214,10 @@ class InterventionsClientModel extends BaseModel
                 SUM(CASE WHEN status_id = (SELECT id FROM intervention_statuses WHERE name = 'En cours') THEN 1 ELSE 0 END) as in_progress_count,
                 SUM(CASE WHEN status_id = (SELECT id FROM intervention_statuses WHERE name = 'Fermé') THEN 1 ELSE 0 END) as closed_count
                 FROM " . $this->table . " i
-                WHERE i.client_id IN ({$placeholders})";
+                WHERE {$scopeSql}";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->execute($clientIds);
+        $stmt->execute($scopeParams);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -269,19 +231,7 @@ class InterventionsClientModel extends BaseModel
         // Extraire les IDs des clients auxquels l'utilisateur a accès
         // (même logique que getAllByLocations : on affiche tout ce qui appartient au client,
         // pas seulement les sites/bâtiments/salles précis de userLocations)
-        $clientIds = [];
-
-        foreach ($userLocations as $location) {
-            if (isset($location['client_id']) && !in_array($location['client_id'], $clientIds)) {
-                $clientIds[] = (int) $location['client_id'];
-            }
-        }
-
-        if (empty($clientIds)) {
-            return [];
-        }
-
-        $placeholders = str_repeat('?,', count($clientIds) - 1) . '?';
+        [$scopeSql, $scopeParams] = $this->buildScopeClause($userLocations, 'i');
 
         $sql = "SELECT 
         its.id,
@@ -289,12 +239,12 @@ class InterventionsClientModel extends BaseModel
         its.color,
         COUNT(i.id) as count
         FROM intervention_statuses its
-        LEFT JOIN " . $this->table . " i ON its.id = i.status_id AND i.client_id IN ({$placeholders})
+        LEFT JOIN " . $this->table . " i ON its.id = i.status_id AND {$scopeSql}
         GROUP BY its.id, its.name, its.color
         ORDER BY its.id ASC";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->execute($clientIds);
+        $stmt->execute($scopeParams);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -779,48 +729,30 @@ class InterventionsClientModel extends BaseModel
         custom_log("EXPORT DEBUG - userLocations reçues: " . json_encode($userLocations), 'DEBUG');
         custom_log("EXPORT DEBUG - filters reçus: " . json_encode($filters), 'DEBUG');
 
-        $clientIds = [];
-        foreach ($userLocations as $location) {
-            if (isset($location['client_id']) && !in_array($location['client_id'], $clientIds)) {
-                $clientIds[] = (int) $location['client_id'];
-            }
-        }
-
-        custom_log("EXPORT DEBUG - clientIds extraits: " . json_encode($clientIds), 'DEBUG');
-
-        if (empty($clientIds)) {
-            custom_log("EXPORT DEBUG - clientIds vide, retour tableau vide", 'DEBUG');
-            return [];
-        }
-
-        if (empty($clientIds)) {
-            return [];
-        }
-
-        $placeholders = str_repeat('?,', count($clientIds) - 1) . '?';
+        [$scopeSql, $scopeParams] = $this->buildScopeClause($userLocations, 'i');
 
         $sql = "SELECT i.*,
-        c.name as client_name,
-        s.name as site_name,
-        b.name as building_name,
-        r.name as room_name,
-        its.name as status_name,
-        its.color as status_color,
-        ip.name as priority_name,
-        ip.color as priority_color,
-        GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
-        FROM " . $this->table . " i
-        LEFT JOIN clients c ON i.client_id = c.id
-        LEFT JOIN sites s ON i.site_id = s.id
-        LEFT JOIN buildings b ON i.building_id = b.id
-        LEFT JOIN rooms r ON i.room_id = r.id
-        LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
-        LEFT JOIN users ut ON itech.technicien_id = ut.id
-        LEFT JOIN intervention_statuses its ON i.status_id = its.id
-        LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
-        WHERE i.client_id IN ({$placeholders})";
+    c.name as client_name,
+    s.name as site_name,
+    b.name as building_name,
+    r.name as room_name,
+    its.name as status_name,
+    its.color as status_color,
+    ip.name as priority_name,
+    ip.color as priority_color,
+    GROUP_CONCAT(DISTINCT CONCAT(ut.first_name, ' ', ut.last_name) ORDER BY ut.first_name SEPARATOR ', ') as technicians_names
+    FROM " . $this->table . " i
+    LEFT JOIN clients c ON i.client_id = c.id
+    LEFT JOIN sites s ON i.site_id = s.id
+    LEFT JOIN buildings b ON i.building_id = b.id
+    LEFT JOIN rooms r ON i.room_id = r.id
+    LEFT JOIN intervention_techniciens itech ON i.id = itech.intervention_id
+    LEFT JOIN users ut ON itech.technicien_id = ut.id
+    LEFT JOIN intervention_statuses its ON i.status_id = its.id
+    LEFT JOIN intervention_priorities ip ON i.priority_id = ip.id
+    WHERE {$scopeSql}";
 
-        $params = $clientIds;
+        $params = $scopeParams;
 
         if (!empty($filters['date_start'])) {
             $sql .= " AND i.created_at >= ?";
@@ -879,5 +811,48 @@ class InterventionsClientModel extends BaseModel
         $stmt->execute([$interventionId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    /**
+     * Construit la clause de périmètre à partir des localisations de l'utilisateur.
+     * site/bâtiment/salle NULL = tout le niveau supérieur.
+     * @return array [string $sql, array $params]
+     */
+    private function buildScopeClause(array $userLocations, string $a = 'i'): array
+    {
+        $or = [];
+        $params = [];
 
+        foreach ($userLocations as $loc) {
+            if (empty($loc['client_id'])) {
+                continue;
+            }
+            $cid = (int) $loc['client_id'];
+            $sid = !empty($loc['site_id']) ? (int) $loc['site_id'] : null;
+            $bid = !empty($loc['building_id']) ? (int) $loc['building_id'] : null;
+            $rid = !empty($loc['room_id']) ? (int) $loc['room_id'] : null;
+
+            if ($rid) {
+                $or[] = "({$a}.client_id = ? AND {$a}.room_id = ?)";
+                array_push($params, $cid, $rid);
+            } elseif ($bid) {
+                $or[] = "({$a}.client_id = ? AND ({$a}.building_id = ?
+                      OR {$a}.room_id IN (SELECT id FROM rooms WHERE building_id = ?)))";
+                array_push($params, $cid, $bid, $bid);
+            } elseif ($sid) {
+                $or[] = "({$a}.client_id = ? AND ({$a}.site_id = ?
+                      OR {$a}.building_id IN (SELECT id FROM buildings WHERE site_id = ?)
+                      OR {$a}.room_id IN (SELECT r2.id FROM rooms r2
+                                          JOIN buildings b2 ON b2.id = r2.building_id
+                                          WHERE b2.site_id = ?)))";
+                array_push($params, $cid, $sid, $sid, $sid);
+            } else {
+                $or[] = "{$a}.client_id = ?";
+                $params[] = $cid;
+            }
+        }
+
+        if (!$or) {
+            return ['1 = 0', []]; // aucun accès
+        }
+        return ['(' . implode(' OR ', $or) . ')', $params];
+    }
 }
