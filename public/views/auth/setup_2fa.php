@@ -1,4 +1,9 @@
 <?php
+if (isImpersonating()) {
+    $_SESSION['impersonation_notice'] = impersonationLockMessage();
+    header('Location: ' . BASE_URL . 'profileClient');
+    exit;
+}
 if (!defined('BASE_URL')) {
     header('Location: ' . BASE_URL);
     exit;

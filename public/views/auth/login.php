@@ -66,7 +66,6 @@ if (!defined('BASE_URL')) {
               </div>
             <?php endif; ?>
             <div id="webauthn-error" class="alert alert-danger d-none"></div>
-
             <!-- Bouton passkey : affiché uniquement si le navigateur le supporte (JS)  -->
             <button type="button" id="passkey-login-btn" class="btn btn-outline-primary w-100 mb-3 d-none"
               onclick="loginWithPasskey(this)">

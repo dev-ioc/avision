@@ -127,11 +127,15 @@ foreach ($buildings as $building) {
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h6 class="card-title mb-0">Contact principal</h6>
                                     <?php if (canManageOwnContacts()): ?>
-                                        <button type="button" class="btn btn-outline-primary btn-sm"
-                                            onclick="toggleContactEdit('site', <?php echo $site['id']; ?>)"
-                                            title="Modifier le contact principal">
-                                            <i class="bi bi-pencil"></i> Modifier
-                                        </button>
+                                        <?php if (isImpersonating()): ?>
+                                            <?= lockedButton('Modifier', 'bi-pencil', 'btn btn-outline-primary btn-sm') ?>
+                                        <?php else: ?>
+                                            <button type="button" class="btn btn-outline-primary btn-sm"
+                                                onclick="toggleContactEdit('site', <?php echo $site['id']; ?>)"
+                                                title="Modifier le contact principal">
+                                                <i class="bi bi-pencil"></i> Modifier
+                                            </button>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -315,11 +319,21 @@ foreach ($buildings as $building) {
                                                                 </td>
                                                                 <?php if (canManageOwnContacts()): ?>
                                                                     <td>
-                                                                        <button type="button" class="btn btn-outline-primary btn-sm"
-                                                                            onclick="toggleContactEdit('room', <?php echo $room['id']; ?>)"
-                                                                            title="Modifier le contact principal">
-                                                                            <i class="bi bi-person"></i>
-                                                                        </button>
+                                                                        <?php if (isImpersonating()): ?>
+                                                                            <span class="d-inline-block" tabindex="0"
+                                                                                title="<?php echo h(impersonationLockMessage()); ?>">
+                                                                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                                                                    disabled style="pointer-events:none;">
+                                                                                    <i class="bi bi-person"></i>
+                                                                                </button>
+                                                                            </span>
+                                                                        <?php else: ?>
+                                                                            <button type="button" class="btn btn-outline-primary btn-sm"
+                                                                                onclick="toggleContactEdit('room', <?php echo (int) $room['id']; ?>)"
+                                                                                title="Modifier le contact principal">
+                                                                                <i class="bi bi-person"></i>
+                                                                            </button>
+                                                                        <?php endif; ?>
                                                                     </td>
                                                                 <?php endif; ?>
                                                             </tr>

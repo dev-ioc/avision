@@ -90,7 +90,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="delivery_date" class="form-label">
-                                    <i class="bi bi-calendar-check me-1"></i>Date de livraison
+                                    Date de livraison
                                 </label>
                                 <input type="date" class="form-control" id="delivery_date" name="delivery_date"
                                     value="<?= htmlspecialchars($room['delivery_date'] ?? '') ?>">
@@ -99,7 +99,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label d-block">
-                                    <i class="bi bi-check2-circle me-1"></i>Statut de l'installation
+                                    Statut de l'installation
                                 </label>
                                 <?php
                                 $deliveryDate = $room['delivery_date'] ?? null;
@@ -145,6 +145,21 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                         suivi d'installation
                                     </span>
                                 <?php endif; ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="installation_alert_email" class="form-label">
+                                        Email(s) d'alerte installation
+                                    </label>
+                                    <input type="text" class="form-control" id="installation_alert_email"
+                                        name="installation_alert_email"
+                                        value="<?= htmlspecialchars($room['installation_alert_email'] ?? '') ?>"
+                                        placeholder="ex: contact@client.fr, technicien@client.fr">
+                                    <small class="text-muted">Plusieurs adresses possibles, séparées par une
+                                        virgule.</small>
+                                </div>
                             </div>
                         </div>
                     </div>

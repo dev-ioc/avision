@@ -56,6 +56,69 @@ Warning: session_start(): Session cannot be started after headers have already b
 PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
 
 Warning: session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+Fichiers chargés OK
+Configuration et DB OK
+Models et MailService OK
+Destinataire TEST : dev_mdg@caspeo.fr
+Aucune alerte à envoyer.
+=== FIN CRON INSTALLATION ALERTS ===
+=== DEBUT CRON INSTALLATION ALERTS ===
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 32
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 32
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 36
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 36
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 37
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 37
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 38
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 38
+PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 55
+
+Warning: session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 55
+PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+
+Warning: session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+Fichiers chargés OK
+Configuration et DB OK
+Models et MailService OK
+Destinataire TEST : dev_mdg@caspeo.fr
+Aucune alerte à envoyer.
+=== FIN CRON INSTALLATION ALERTS ===
+=== DEBUT CRON INSTALLATION ALERTS ===
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 32
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 32
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 36
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 36
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 37
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 37
+PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 38
+
+Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 38
+PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 55
+
+Warning: session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 55
+PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+
+Warning: session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+Fichiers chargés OK
+Configuration et DB OK
+Models et MailService OK
+Destinataire TEST : dev_mdg@caspeo.fr
+Aucune alerte à envoyer.
+=== FIN CRON INSTALLATION ALERTS ===
+=== DEBUT CRON INSTALLATION ALERTS ===
 <div style='background: #fee; border: 2px solid #f00; padding: 15px; margin: 10px; font-family: monospace;'><h3>Exception non capturée</h3><p><strong>Type:</strong> PDOException</p><p><strong>Message:</strong> SQLSTATE[42S22]: Column not found: 1054 Unknown column &#039;r.installation_alert_sent&#039; in &#039;where clause&#039;</p><p><strong>Fichier:</strong> C:\xampp\htdocs\avision\public\models\RoomModel.php (ligne 290)</p><pre style='background: #fff; padding: 10px; overflow: auto;'>#0 C:\xampp\htdocs\avision\public\models\RoomModel.php(290): PDO-&gt;prepare(&#039;SELECT r.id, r....&#039;)
 #1 C:\xampp\htdocs\avision\cron\installation_alerts.php(38): RoomModel-&gt;getRoomsNeedingInstallationAlert()
 #2 {main}</pre></div>=== DEBUT CRON INSTALLATION ALERTS ===
@@ -80,9 +143,24 @@ Warning: session_start(): Session cannot be started after headers have already b
 PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
 
 Warning: session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+<<<<<<< HEAD
+Fichiers chargés OK
+Models et MailService OK
+Nombre de salles à traiter : 1
+
+-----------------------------------
+Salle #181 - Salle de conférence
+Palier : first
+Envoi à : dev_mdg@caspeo.fr, karijatsilefilaza@gmail.com
+ECHEC — la salle ne sera pas avancée au palier suivant, retenté au prochain passage.
+
+=== FIN CRON INSTALLATION ALERTS ===
+=== DEBUT CRON INSTALLATION ALERTS ===
+=======
 <div style='background: #fee; border: 2px solid #f00; padding: 15px; margin: 10px; font-family: monospace;'><h3>Exception non capturée</h3><p><strong>Type:</strong> PDOException</p><p><strong>Message:</strong> SQLSTATE[42S22]: Column not found: 1054 Unknown column &#039;r.installation_alert_sent&#039; in &#039;where clause&#039;</p><p><strong>Fichier:</strong> C:\xampp\htdocs\avision\public\models\RoomModel.php (ligne 290)</p><pre style='background: #fff; padding: 10px; overflow: auto;'>#0 C:\xampp\htdocs\avision\public\models\RoomModel.php(290): PDO-&gt;prepare(&#039;SELECT r.id, r....&#039;)
 #1 C:\xampp\htdocs\avision\cron\installation_alerts.php(38): RoomModel-&gt;getRoomsNeedingInstallationAlert()
 #2 {main}</pre></div>=== DEBUT CRON INSTALLATION ALERTS ===
+>>>>>>> b139e069352c9656a5f2e577e1c47bfa08b6b16f
 PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
 
 Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
@@ -104,9 +182,25 @@ Warning: session_start(): Session cannot be started after headers have already b
 PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
 
 Warning: session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+<<<<<<< HEAD
+Fichiers chargés OK
+Models et MailService OK
+Nombre de salles à traiter : 1
+
+-----------------------------------
+Salle #181 - Salle de conférence
+Palier : first
+Envoi à : dev_mdg@caspeo.fr, karijatsilefilaza@gmail.com
+=======
 <div style='background: #fee; border: 2px solid #f00; padding: 15px; margin: 10px; font-family: monospace;'><h3>Exception non capturée</h3><p><strong>Type:</strong> PDOException</p><p><strong>Message:</strong> SQLSTATE[42S22]: Column not found: 1054 Unknown column &#039;r.installation_alert_sent&#039; in &#039;where clause&#039;</p><p><strong>Fichier:</strong> C:\xampp\htdocs\avision\public\models\RoomModel.php (ligne 290)</p><pre style='background: #fff; padding: 10px; overflow: auto;'>#0 C:\xampp\htdocs\avision\public\models\RoomModel.php(290): PDO-&gt;prepare(&#039;SELECT r.id, r....&#039;)
 #1 C:\xampp\htdocs\avision\cron\installation_alerts.php(38): RoomModel-&gt;getRoomsNeedingInstallationAlert()
+<<<<<<< HEAD
 #2 {main}</pre></div>=== DEBUT CRON INSTALLATION ALERTS ===
+=======
+#2 {main}</pre></div>
+>>>>>>> b139e069352c9656a5f2e577e1c47bfa08b6b16f
+=== DEBUT CRON INSTALLATION ALERTS ===
+>>>>>>> fix/rooms
 PHP Warning:  ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
 
 Warning: ini_set(): Session ini settings cannot be changed after headers have already been sent in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 31
@@ -128,5 +222,19 @@ Warning: session_start(): Session cannot be started after headers have already b
 PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
 
 Warning: session_regenerate_id(): Session ID cannot be regenerated when there is no active session in C:\xampp\htdocs\avision\public\classes\Security\SessionManager.php on line 77
+<<<<<<< HEAD
 Nombre de salles à alerter : 0
 Aucune alerte à envoyer.
+=======
+Fichiers chargés OK
+Models et MailService OK
+Nombre de salles à traiter : 1
+
+-----------------------------------
+Salle #181 - Salle de conférence
+Palier : first
+Envoi à : dev_mdg@caspeo.fr, karijatsilefilaza@gmail.com
+ECHEC — la salle ne sera pas avancée au palier suivant, retenté au prochain passage.
+
+=== FIN CRON INSTALLATION ALERTS ===
+>>>>>>> fix/rooms

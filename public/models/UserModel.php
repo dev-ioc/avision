@@ -335,35 +335,7 @@ class UserModel extends BaseModel
             $user = $stmt->fetch();
 
             if ($user && password_verify($password, $user['password'])) {
-                $this->id = $user['id'];
-                // $this->username = $user['username'];
-                $this->email = $user['email'];
-                $this->firstName = $user['first_name'];
-                $this->lastName = $user['last_name'];
-                $this->type = $user['user_type'];
-                $this->status = $user['status'];
-                $this->coefUtilisateur = $user['coef_utilisateur'];
-                $this->isAdmin = $user['is_admin'];
-
-                // Chargement des permissions
-                $this->loadPermissions();
-
-                // Stockage dans la session
-                $_SESSION['user'] = [
-                    'id' => $this->id,
-                    'email' => $this->email,
-                    'first_name' => $this->firstName,
-                    'last_name' => $this->lastName,
-                    'user_type' => $user['user_type'],
-                    'user_group' => $user['user_group'],
-                    'is_admin' => $user['is_admin'],
-                    'client_id' => $user['client_id'],
-                    'totp_enabled' => $user['totp_enabled'], // <-- ajouter
-                    'permissions' => $this->permissions,
-                    'auth_version' => $user['auth_version']
-                ];
-
-                // Log de la connexion
+                $_SESSION['user'] = $this->buildSessionData($user);
                 custom_log("Utilisateur connecté : {$this->email}", 'INFO', [
                     'user_id' => $this->id,
                     'user_type' => $user['user_type'],
@@ -383,7 +355,58 @@ class UserModel extends BaseModel
             return false;
         }
     }
+    /**
+     * Construit le tableau stocké dans $_SESSION['user'] à partir d'une ligne users.
+     * Source unique de vérité : utilisée par le login ET par l'impersonation.
+     */
+    public function buildSessionData(array $user): array
+    {
+        $this->id = $user['id'];
+        $this->email = $user['email'];
+        $this->firstName = $user['first_name'];
+        $this->lastName = $user['last_name'];
+        $this->type = $user['user_type'];
+        $this->status = $user['status'];
+        $this->coefUtilisateur = $user['coef_utilisateur'];
+        $this->isAdmin = $user['is_admin'];
 
+        $this->loadPermissions();
+
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'first_name' => $this->firstName,
+            'last_name' => $this->lastName,
+            'user_type' => $user['user_type'],
+            'user_group' => $user['user_group'],
+            'is_admin' => $user['is_admin'],
+            'client_id' => $user['client_id'],
+            'totp_enabled' => $user['totp_enabled'],
+            'permissions' => $this->permissions,
+        ];
+    }
+
+    /**
+     * Retourne les données de session complètes d'un utilisateur actif (sans vérifier le mot de passe).
+     * À utiliser uniquement après une authentification déjà validée (2FA, passkey, impersonation admin).
+     */
+    public function getSessionDataById(int $userId): ?array
+    {
+        $stmt = $this->db->prepare("
+        SELECT u.id, u.email, u.first_name, u.last_name,
+               u.status, u.coef_utilisateur, u.client_id, u.is_admin,
+               u.totp_enabled,
+               ut.name as user_type, ug.name as user_group
+        FROM users u
+        JOIN user_types ut ON u.user_type_id = ut.id
+        JOIN user_groups ug ON ut.group_id = ug.id
+        WHERE u.id = :id AND u.status = 1
+    ");
+        $stmt->execute(['id' => $userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user ? $this->buildSessionData($user) : null;
+    }
     /**
      * Charge les permissions de l'utilisateur
      */
@@ -1608,25 +1631,28 @@ class UserModel extends BaseModel
     /**
      * Récupère les administrateurs actifs avec un email valide
      * (pour l'envoi de notifications/alertes système)
+     *
      * @return array Liste des admins [['id', 'email', 'first_name', 'last_name'], ...]
+     * @throws Exception En cas d'erreur de connexion ou de requête vers la base de données
      */
     public function getActiveAdmins()
     {
         try {
             $sql = "SELECT id, email, first_name, last_name 
-                FROM " . $this->table . " 
-                WHERE is_admin = 1 
-                  AND status = 1 
-                  AND email IS NOT NULL 
-                  AND email != ''
-                ORDER BY last_name, first_name";
+            FROM " . $this->table . " 
+            WHERE is_admin = 1 
+              AND status = 1 
+              AND email IS NOT NULL 
+              AND email != ''
+            ORDER BY last_name, first_name";
 
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         } catch (PDOException $e) {
             custom_log("Erreur lors de la récupération des administrateurs actifs : " . $e->getMessage(), 'ERROR');
-            return [];
+            throw new Exception("Impossible de récupérer la liste des administrateurs : " . $e->getMessage());
         }
     }
     private function hashToken(string $t): string
