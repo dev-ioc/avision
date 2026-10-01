@@ -4678,24 +4678,26 @@ class InterventionController
             }
 
             $stmt = $this->db->prepare("
-            SELECT
-                u.id             AS technicien_id,
-                u.first_name,
-                u.last_name,
-                u.email,
-                it.start_time,
-                it.end_time,
-                it.deplacement,
-                it.temps_passe,
-                COALESCE(it.is_qualified, 0) AS is_qualified,
-                it.commentaire,
-                CASE WHEN it.technicien_id IS NOT NULL THEN 1 ELSE 0 END AS is_assigned
-            FROM users u
-            LEFT JOIN intervention_techniciens it
-                ON u.id = it.technicien_id AND it.intervention_id = ?
-            WHERE u.user_type_id = 1
-            ORDER BY u.first_name, u.last_name
-        ");
+                SELECT
+                    u.id             AS technicien_id,
+                    u.first_name,
+                    u.last_name,
+                    u.email,
+                    it.start_time,
+                    it.end_time,
+                    it.deplacement,
+                    it.temps_passe,
+                    COALESCE(it.is_qualified, 0) AS is_qualified,
+                    it.commentaire,
+                    CASE WHEN it.technicien_id IS NOT NULL THEN 1 ELSE 0 END AS is_assigned
+                FROM users u
+                INNER JOIN user_types ut ON u.user_type_id = ut.id
+                LEFT JOIN intervention_techniciens it
+                    ON u.id = it.technicien_id AND it.intervention_id = ?
+                WHERE (ut.group_id = 1 AND u.status = 1)
+                OR it.technicien_id IS NOT NULL
+                ORDER BY u.first_name, u.last_name
+            ");
             $stmt->execute([$id]);
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
