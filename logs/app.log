@@ -144106,3 +144106,10 @@ Quant à l’écran n°1, il est HS
         WHERE ((c.id = 35)) AND m.deleted_at IS NULL AND s.id = ? ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
 [2026-10-02 10:39:57][DEBUG] getAllByLocations - Params: [109] 
 [2026-10-02 10:39:57][DEBUG] getAllByLocations - Results count: 12 
+[2026-10-02 10:43:43][DEBUG] CSRF: Token trouvé dans la requête - Token: 885f20358d7ccdeee19c... 
+[2026-10-02 10:43:43][INFO] Impersonation terminée : admin 40 <- client 65 
+[2026-10-02 10:43:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 885f20358d7ccdeee19c... 
+[2026-10-02 10:43:45][DEBUG] load_permissions - Session ID: 94tmak79tjamdg246jhb2h4q6r, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-10-02 10:43:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 885f20358d7ccdeee19c... 
+[2026-10-02 10:43:45][DEBUG] load_client_locations - Session ID: 94tmak79tjamdg246jhb2h4q6r, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-10-02 10:43:45][INFO] Localisations récupérées avec succès pour le client: 50 
