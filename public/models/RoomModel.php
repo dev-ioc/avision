@@ -141,6 +141,7 @@ class RoomModel extends BaseModel
                  delivery_date = :delivery_date,
                  installation_closed = :installation_closed,
                  installation_closed_at = :installation_closed_at,
+                 installation_alert_email = :installation_alert_email,
                  updated_at = NOW() 
              WHERE id = :id";
 
@@ -154,6 +155,7 @@ class RoomModel extends BaseModel
         $stmt->bindParam(':delivery_date', $data['delivery_date'], PDO::PARAM_STR);
         $stmt->bindParam(':installation_closed', $data['installation_closed'], PDO::PARAM_INT);
         $stmt->bindParam(':installation_closed_at', $data['installation_closed_at'], PDO::PARAM_STR);
+        $stmt->bindParam(':installation_alert_email', $data['installation_alert_email'], PDO::PARAM_STR);
 
         return $stmt->execute();
     }
@@ -270,27 +272,6 @@ class RoomModel extends BaseModel
         $stmt->execute([':site_id' => $siteId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    /**
-     * Récupère les salles dont l'installation dépasse le délai d'1 mois
-     * et qui n'ont pas encore reçu d'alerte
-     */
-    public function getRoomsNeedingInstallationAlert()
-    {
-        $query = "SELECT r.id, r.name, r.delivery_date, r.main_contact_id,
-                     b.client_id, b.name AS building_name,
-                     c.name AS client_name
-              FROM rooms r
-              INNER JOIN buildings b ON r.building_id = b.id
-              INNER JOIN clients c ON b.client_id = c.id
-              WHERE r.delivery_date IS NOT NULL
-                AND DATE_ADD(r.delivery_date, INTERVAL 1 MONTH) <= NOW()
-                AND r.installation_closed = 0
-                AND r.installation_alert_sent = 0";
-
-        $stmt = $this->db->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 
     /**
      * Marque l'alerte comme envoyée pour éviter les doublons
@@ -300,6 +281,82 @@ class RoomModel extends BaseModel
         $query = "UPDATE rooms SET installation_alert_sent = 1 WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $roomId, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    /**
+     * Constantes de calendrier des alertes
+     */
+    private const ALERT_FIRST_REMINDER_DAYS = 21;   // 3 semaines
+    private const ALERT_MONTH_REMINDER_DAYS = 30;   // 1 mois
+    private const ALERT_WEEKLY_INTERVAL_DAYS = 7;
+    private const ALERT_MAX_WEEKLY_REMINDERS = 5;   // à confirmer avec le client
+
+    /**
+     * Récupère les salles nécessitant un envoi d'alerte à cet instant,
+     * quel que soit le palier (3 semaines / 1 mois / rappel hebdo)
+     */
+    public function getRoomsNeedingInstallationAlert()
+    {
+        $maxStage = 2 + self::ALERT_MAX_WEEKLY_REMINDERS;
+
+        $query = "SELECT r.id, r.name, r.delivery_date, r.main_contact_id,
+                     r.installation_alert_email, r.installation_alert_stage,
+                     r.installation_last_alert_at,
+                     b.client_id, b.name AS building_name,
+                     c.name AS client_name
+              FROM rooms r
+              INNER JOIN buildings b ON r.building_id = b.id
+              INNER JOIN clients c ON b.client_id = c.id
+              WHERE r.delivery_date IS NOT NULL
+                AND r.installation_closed = 0
+                AND (
+                      (r.installation_alert_stage = 0 
+                          AND DATE_ADD(r.delivery_date, INTERVAL :firstDays DAY) <= NOW())
+                   OR (r.installation_alert_stage = 1 
+                          AND DATE_ADD(r.delivery_date, INTERVAL :monthDays DAY) <= NOW())
+                   OR (r.installation_alert_stage >= 2 
+                          AND r.installation_alert_stage < :maxStage
+                          AND r.installation_last_alert_at IS NOT NULL
+                          AND DATE_ADD(r.installation_last_alert_at, INTERVAL :weeklyDays DAY) <= NOW())
+                    )";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':firstDays', self::ALERT_FIRST_REMINDER_DAYS, PDO::PARAM_INT);
+        $stmt->bindValue(':monthDays', self::ALERT_MONTH_REMINDER_DAYS, PDO::PARAM_INT);
+        $stmt->bindValue(':weeklyDays', self::ALERT_WEEKLY_INTERVAL_DAYS, PDO::PARAM_INT);
+        $stmt->bindValue(':maxStage', $maxStage, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Détermine le libellé du palier d'alerte en fonction du stage actuel
+     * (utile pour construire le sujet/corps du mail)
+     */
+    public function getAlertStageLabel($currentStage)
+    {
+        if ($currentStage === 0) {
+            return 'first'; // sera envoyé -> deviendra stage 1
+        }
+        if ($currentStage === 1) {
+            return 'month'; // sera envoyé -> deviendra stage 2
+        }
+        return 'weekly'; // stage >= 2 -> rappel hebdo
+    }
+
+    /**
+     * Fait avancer la salle au palier d'alerte suivant
+     */
+    public function advanceInstallationAlertStage($roomId, $currentStage)
+    {
+        $newStage = $currentStage + 1;
+        $query = "UPDATE rooms 
+                  SET installation_alert_stage = :stage, installation_last_alert_at = NOW() 
+                  WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':stage', $newStage, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $roomId, PDO::PARAM_INT);
         return $stmt->execute();
     }
 }

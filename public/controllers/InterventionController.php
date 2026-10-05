@@ -2840,9 +2840,9 @@ class InterventionController
            it.is_qualified,
            it.deplacement,
            CONCAT(u.first_name,' ',u.last_name) AS technician_name
-    FROM intervention_techniciens it
-    JOIN users u ON it.technicien_id = u.id
-    WHERE it.intervention_id = ?";
+            FROM intervention_techniciens it
+            JOIN users u ON it.technicien_id = u.id
+            WHERE it.intervention_id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
         $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -3253,7 +3253,7 @@ class InterventionController
             return;
         }
 
-        $ticketsUsed = (int) ceil($ticketsUsed);
+        $ticketsUsed = (float) $ticketsUsed;
 
         if ($ticketsUsed <= 0) {
             custom_log("Tickets à déduire = 0, déduction ignorée", 'INFO');
@@ -3284,7 +3284,7 @@ class InterventionController
                 $comment = $interventionRef . ' - ' . $comment;
             }
         }
-        $newRemaining = max(0, $currentRemaining - $ticketsUsed);
+        $newRemaining = $currentRemaining - $ticketsUsed;
         $sql = "UPDATE contracts SET tickets_remaining = :new_remaining WHERE id = :contract_id";
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([
@@ -3785,10 +3785,13 @@ class InterventionController
                 $contract = $this->contractModel->getContractById($intervention['contract_id']);
 
                 if (!empty($contract)) {
-                    $intervention['tickets_remaining'] = $contract['tickets_remaining'] ?? 0;
                     $intervention['contract_end_date'] = $contract['end_date'] ?? null;
                     $intervention['contract_status'] = (($contract['status']) === "actif") ? 'Actif' : 'Inactif';
                     $intervention['tickets_number'] = $contract['tickets_number'] ?? 0;
+                    $intervention['tickets_remaining'] =
+                        !empty($contract['isticketcontract'])
+                        ? ($contract['tickets_remaining'] ?? 0)
+                        : 0;
                 }
             }
 

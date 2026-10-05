@@ -265,6 +265,7 @@
         var ticketsDisplay = "";
 
         if (isTicketContract) {
+          console.log("Ticket contrat :", data);
           if (data.tickets_remaining > 3) ticketColor = "success";
           else if (data.tickets_remaining > 0) ticketColor = "warning";
           else ticketColor = "danger";
@@ -272,7 +273,7 @@
             '<tr><th class="text-muted">Tickets restants:</th><td><span class="badge bg-' +
             ticketColor +
             '">' +
-            (data.tickets_remaining || 0) +
+            (data.tickets_remaining) +
             "</span></td></tr>";
         } else {
           ticketsDisplay =

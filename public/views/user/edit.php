@@ -110,14 +110,11 @@ echo '</script>';
                             </div>
                         </div> -->
 
-                        <div class="mb-3">
+                       <div class="mb-3">
                             <label for="email" class="form-label">Email *</label>
-                            <input type="email" class="form-control bg-body text-body" id="email" name="email" 
-                                   value="<?php echo isset($_POST['email']) ? h($_POST['email']) : (isset($user['email']) ? h($user['email']) : ''); ?>" 
-                                   required>
-                            <div class="invalid-feedback">
-                                Veuillez saisir une adresse email valide.
-                            </div>
+                            <input type="email" class="form-control bg-body text-body" id="email" name="email"
+                                value="<?php echo isset($user['email']) ? h($user['email']) : ''; ?>"
+                                readonly required>
                         </div>
 
                         <div class="mb-3">
@@ -280,11 +277,69 @@ echo '</script>';
 
                 <div class="row mt-4">
                     <div class="col-12">
+                                <button type="button" class="btn btn-outline-warning"
+                                        data-bs-toggle="modal" data-bs-target="#recoverModal">
+                                    <i class="bi bi-life-preserver me-1"></i> E-mail inaccessible ?
+                                </button>
                         <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                         <a href="<?php echo $returnUrl; ?>" class="btn btn-secondary">Annuler</a>
                     </div>
                 </div>
             </form>
+            <?php if ($userId && empty($user['is_admin']) && (int) $userId !== (int) ($_SESSION['user']['id'] ?? 0)): ?>
+                <div class="modal fade" id="recoverModal" tabindex="-1" aria-labelledby="recoverModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="recoverModalLabel">Récupération de compte</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-danger small">
+                                    L'e-mail actuel (<strong><?php echo h($user['email']); ?></strong>) sera remplacé,
+                                    les sessions ouvertes seront fermées, et un lien de réinitialisation de mot de passe
+                                    sera envoyé à la <strong>nouvelle</strong> adresse. L'ancienne adresse sera prévenue.
+                                </div>
+
+                                <div id="recoverAlert" class="alert alert-danger d-none"></div>
+
+                                <div class="mb-3">
+                                    <label for="recover_new_email" class="form-label">Nouvel e-mail *</label>
+                                    <input type="email" class="form-control bg-body text-body" id="recover_new_email" autocomplete="off">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="recover_confirm_email" class="form-label">Confirmer le nouvel e-mail *</label>
+                                    <input type="email" class="form-control bg-body text-body" id="recover_confirm_email" autocomplete="off">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="recover_reason" class="form-label">Motif (conservé dans le journal) *</label>
+                                    <textarea class="form-control bg-body text-body" id="recover_reason" rows="2"
+                                            placeholder="Ex : ancien e-mail supprimé, demande reçue par téléphone le ..."></textarea>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="recover_reset_2fa">
+                                    <label class="form-check-label" for="recover_reset_2fa">
+                                        Réinitialiser aussi la 2FA et les passkeys (téléphone perdu)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="recover_identity">
+                                    <label class="form-check-label" for="recover_identity">
+                                        J'ai vérifié l'identité de la personne par un autre moyen *
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                <button type="button" class="btn btn-warning" id="recoverSubmit">
+                                    <span class="spinner-border spinner-border-sm d-none me-1" id="recoverSpinner"></span>
+                                    Récupérer le compte
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>
@@ -388,5 +443,201 @@ echo '</script>';
         }
     });
 </script>
+<?php if ($userId): ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modalEl = document.getElementById('recoverModal');
+    if (!modalEl) return;
 
+    const recoverUserId = <?php echo (int) $userId; ?>;
+    const submitBtn = document.getElementById('recoverSubmit');
+    const spinner   = document.getElementById('recoverSpinner');
+    const alertBox  = document.getElementById('recoverAlert');
+
+    function showError(msg) {
+        alertBox.textContent = msg;
+        alertBox.classList.remove('d-none');
+    }
+
+    submitBtn.addEventListener('click', async function () {
+        alertBox.classList.add('d-none');
+
+        const newEmail = document.getElementById('recover_new_email').value.trim();
+        const confirmEmail = document.getElementById('recover_confirm_email').value.trim();
+        const reason = document.getElementById('recover_reason').value.trim();
+        const reset2fa = document.getElementById('recover_reset_2fa').checked;
+
+        if (!newEmail || !confirmEmail || !reason) {
+            return showError('Tous les champs marqués * sont requis.');
+        }
+        if (newEmail.toLowerCase() !== confirmEmail.toLowerCase()) {
+            return showError('Les deux adresses ne correspondent pas.');
+        }
+        if (!document.getElementById('recover_identity').checked) {
+            return showError("Confirmez avoir vérifié l'identité de la personne.");
+        }
+
+        // Récupère le token CSRF du formulaire principal (généré par csrf_field())
+        const csrfInput = document.querySelector('form input[name="csrf_token"]');
+        const csrfToken = csrfInput ? csrfInput.value : '';
+
+        submitBtn.disabled = true;
+        spinner.classList.remove('d-none');
+
+        let success = false;
+
+        try {
+            const response = await fetch(baseUrl + 'user/recover-account/' + recoverUserId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-Token': csrfToken
+                },
+                body: JSON.stringify({
+                    csrf_token: csrfToken,
+                    new_email: newEmail,
+                    confirm_email: confirmEmail,
+                    reason: reason,
+                    reset_2fa: reset2fa
+                })
+            });
+
+            const data = await response.json().catch(() => ({}));
+
+            if (response.ok && data.success) {
+                success = true;
+                bootstrap.Modal.getOrCreateInstance(modalEl).hide();
+
+                // Toast orange si l'un des e-mails n'a pas pu partir, vert sinon
+                const type = data.message.includes('Attention') ? 'warning' : 'success';
+
+                // Rechargement de la page une fois le toast disparu
+                showToast(data.message, type, function () {
+                    window.location.reload();
+                });
+            } else {
+                showError(data.message || data.error || 'Une erreur est survenue.');
+            }
+        } catch (e) {
+            showError('Erreur réseau, veuillez réessayer.');
+        } finally {
+            // En cas de succès, le bouton reste bloqué jusqu'au rechargement
+            if (!success) {
+                submitBtn.disabled = false;
+                spinner.classList.add('d-none');
+            }
+        }
+    });
+});
+
+function showToast(message, type = 'success', onHidden = null) {
+    let container = document.getElementById('toastContainer');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toastContainer';
+        container.className = 'toast-container position-fixed top-0 end-0 p-3';
+        container.style.zIndex = '3000';
+        document.body.appendChild(container);
+    }
+
+    const toastEl = document.createElement('div');
+    toastEl.className = 'toast align-items-center text-bg-' + type + ' border-0';
+    toastEl.setAttribute('role', 'alert');
+    toastEl.setAttribute('aria-live', 'assertive');
+    toastEl.setAttribute('aria-atomic', 'true');
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'd-flex';
+
+    const body = document.createElement('div');
+    body.className = 'toast-body';
+    body.textContent = message; 
+
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'btn-close btn-close-white me-2 m-auto';
+    closeBtn.setAttribute('data-bs-dismiss', 'toast');
+    closeBtn.setAttribute('aria-label', 'Fermer');
+
+    wrapper.appendChild(body);
+    wrapper.appendChild(closeBtn);
+    toastEl.appendChild(wrapper);
+    container.appendChild(toastEl);
+
+    toastEl.addEventListener('hidden.bs.toast', function () {
+        toastEl.remove();
+        if (onHidden) onHidden();
+    });
+
+    new bootstrap.Toast(toastEl, { delay: 4000 }).show();
+}
+</script>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		document.querySelectorAll('.modal').forEach(function (modal) {
+			modal.addEventListener('hidden.bs.modal', function () {
+				const dialog = modal.querySelector('.modal-dialog');
+				if (dialog) {
+					dialog.style.position = '';
+					dialog.style.left = '';
+					dialog.style.top = '';
+					dialog.style.margin = '';
+					dialog.style.width = '';
+					dialog.style.maxWidth = '';
+				}
+			});
+
+			modal.addEventListener('shown.bs.modal', function () {
+				const dialog = modal.querySelector('.modal-dialog');
+				const header = modal.querySelector('.modal-header');
+				if (!dialog || !header) return;
+				if (header.dataset.draggable) return;
+				header.dataset.draggable = 'true';
+
+				header.style.cursor = 'grab';
+
+				let isDragging = false;
+				let startX, startY, startLeft, startTop;
+
+				header.addEventListener('mousedown', function (e) {
+					if (e.target.closest('button')) return;
+
+					isDragging = true;
+					header.style.cursor = 'grabbing';
+
+					const rect = dialog.getBoundingClientRect();
+					startX = e.clientX;
+					startY = e.clientY;
+					startLeft = rect.left;
+					startTop = rect.top;
+					dialog.style.width = rect.width + 'px';
+					dialog.style.maxWidth = 'none';
+					dialog.style.position = 'fixed';
+					dialog.style.left = startLeft + 'px';
+					dialog.style.top = startTop + 'px';
+					dialog.style.margin = '0';
+				});
+
+				document.addEventListener('mousemove', function (e) {
+					if (!isDragging) return;
+					const dx = e.clientX - startX;
+					const dy = e.clientY - startY;
+					dialog.style.left = (startLeft + dx) + 'px';
+					dialog.style.top = (startTop + dy) + 'px';
+				});
+
+				document.addEventListener('mouseup', function () {
+					if (isDragging) {
+						isDragging = false;
+						header.style.cursor = 'grab';
+					}
+				});
+			});
+
+		});
+	});
+</script>
+
+<?php endif; ?>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?> 

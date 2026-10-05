@@ -2224,7 +2224,7 @@ $closeReason = [];
 
 		function renderFermeture(data) {
 			document.getElementById('fermetureConfirmer').style.display = 'block';
-			document.getElementById('fermetureConfirmer').disabled = (data.contract && data.contract.can_close === false);
+			document.getElementById('fermetureConfirmer').disabled = false;
 
 			var isTicketContract = data.contract && data.contract.is_ticket_contract == true;
 			var html = '';
@@ -2249,17 +2249,18 @@ $closeReason = [];
 				html += '</table>';
 
 				if (data.contract) {
-					var after = data.contract.tickets_after_close;
-					var cls = after > 3 ? 'success' : (after > 0 ? 'warning' : 'danger');
+
+					var after = parseFloat(data.contract.tickets_after_close) || 0;
+					var cls = after < 0 ? 'danger' : (after <= 3 ? 'warning' : 'success');
 					html += '<div class="alert alert-light border mb-3 py-2">';
 					html += '<strong>Contrat :</strong> ' + esc(data.contract.name);
 					html += ' &nbsp;|&nbsp; Solde actuel : <strong>' + data.contract.tickets_remaining + '</strong>';
-					html += ' &nbsp;→&nbsp; Après fermeture : <span class="badge bg-' + cls + '">' + after + '</span>';
+					html += ' &nbsp;→&nbsp; Après fermeture : <span id="ticketsAfterClose" class="badge bg-' + cls + '">' + after + '</span>';
 					if (after < 0) {
-						html += '<div class="alert alert-danger mt-2 mb-0 py-1">';
+						html += '<div class="alert alert-warning mt-2 mb-0 py-1">';
 						html += '<i class="bi bi-exclamation-triangle-fill me-2"></i>';
-						html += '<strong>⚠️ Attention !</strong> Cette fermeture rendrait le solde du contrat négatif.';
-						html += '<br>Veuillez réduire le nombre de tickets ou ajouter des tickets au contrat.';
+						html += '<strong>Attention :</strong> cette fermeture entraînera un solde de '
+							+ '<strong>' + after + '</strong> ticket(s).';
 						html += '</div>';
 					}
 					html += '</div>';
@@ -2293,11 +2294,40 @@ $closeReason = [];
 				var ticketsInput = document.getElementById('ticketsManuel');
 				if (ticketsInput && data.contract) {
 					var currentRemaining = data.contract.tickets_remaining;
+
 					function checkSolde() {
 						var value = parseFloat(ticketsInput.value) || 0;
 						var newRemaining = currentRemaining - value;
-						document.getElementById('ticketsWarning').style.display = 'none';
+
+						var afterBadge = document.getElementById('ticketsAfterClose');
+						var warning = document.getElementById('ticketsWarning');
+						var warningText = document.getElementById('ticketsWarningText');
+
+						if (afterBadge) {
+							afterBadge.textContent = newRemaining;
+
+							// Mise à jour de la couleur du badge
+							afterBadge.classList.remove('bg-success', 'bg-warning', 'bg-danger');
+
+							if (newRemaining < 0) {
+								afterBadge.classList.add('bg-danger');
+							} else if (newRemaining <= 3) {
+								afterBadge.classList.add('bg-warning');
+							} else {
+								afterBadge.classList.add('bg-success');
+							}
+						}
+
+						// Le solde négatif est autorisé
 						document.getElementById('fermetureConfirmer').disabled = false;
+
+						if (newRemaining < 0) {
+							warning.style.display = 'block';
+							warningText.textContent =
+								'Attention : le solde après fermeture sera de ' + newRemaining + ' ticket(s).';
+						} else {
+							warning.style.display = 'none';
+						}
 					}
 					ticketsInput.addEventListener('input', checkSolde);
 					ticketsInput.addEventListener('change', checkSolde);

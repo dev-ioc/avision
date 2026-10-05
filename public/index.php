@@ -264,6 +264,8 @@ $public_routes = [
     'auth/process-reset',
     'auth/webauthn-login-options',
     'auth/webauthn-login-verify',
+    'auth/request-recovery',        // <-- à ajouter
+    'auth/confirm-recovery-email',
 ];
 $current_route = $controller . '/' . $action;
 
@@ -320,7 +322,7 @@ if (!in_array($current_route, $public_routes) && $controller !== 'r' && !isset($
     header('Location: ' . BASE_URL . 'auth/login');
     exit;
 }
-
+enforceImpersonationReadOnly($controller, $action);
 // Routage
 try {
     switch ($controller) {
@@ -381,6 +383,9 @@ try {
                 case 'webauthn-login-verify':
                     $authController->webauthnLoginVerify();
                     break;
+                case 'request-recovery':
+                    $authController->requestRecovery();
+                    break;
                 default:
                     header('Location: ' . BASE_URL . 'auth/login');
                     break;
@@ -440,8 +445,26 @@ try {
                         echo json_encode(['success' => false, 'message' => 'ID utilisateur manquant.']);
                     }
                     break;
+                case 'impersonate':
+                    if ($id) {
+                        $userController->impersonate($id);
+                    } else {
+                        header('Location: ' . BASE_URL . 'user');
+                    }
+                    break;
+                case 'stop-impersonation':
+                    $userController->stopImpersonation();
+                    break;
                 case 'export_csv':
                     $userController->exportStaffCsv();
+                    break;
+                case 'recover-account':
+                    if ($id) {
+                        $userController->recoverAccount($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => false, 'message' => 'ID utilisateur manquant.']);
+                    }
                     break;
                 default:
                     header('Location: ' . BASE_URL . 'user');

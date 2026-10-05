@@ -1800,73 +1800,529 @@ class MailService
         return $intervention;
     }
     /**
-     * Envoie une alerte de suivi d'installation pour une salle
-     * dont le délai d'1 mois après livraison est dépassé.
-     *
-     * @param array $room Données de la salle (name, delivery_date, client_name, building_name)
-     * @param array $recipients Liste des destinataires [['email'=>, 'name'=>], ...]
-     * @return bool Succès de l'envoi
+     * Envoie une alerte de suivi d'installation, avec un contenu
+     * adapté au palier (premier rappel / rappel mensuel / rappel hebdo)
      */
-    public function sendInstallationAlert($room, $recipients)
+    public function sendInstallationAlert($room, $recipients, $stageLabel)
     {
         try {
             if (empty($recipients)) {
                 throw new Exception("Aucun destinataire pour l'alerte d'installation salle " . $room['id']);
             }
 
-            $subject = 'Alerte installation : délai dépassé - ' . $room['name'];
+            $labels = [
+                'first' => 'Premier rappel (3 semaines après livraison)',
+                'month' => 'Rappel : délai d\'un mois dépassé',
+                'weekly' => 'Rappel hebdomadaire : installation toujours en attente'
+            ];
+            $labelText = $labels[$stageLabel] ?? 'Rappel installation';
+
+            $subject = $labelText . ' - ' . $room['name'];
 
             $roomUrl = $this->config->get('site_url') . 'room/edit/' . $room['id'];
             $body = '
-                    <html><body style="font-family: Arial, sans-serif; color: #333;">
-                        <h2>Installation non clôturée</h2>
-                        <p>La salle <strong>' . h($room['name']) . '</strong> (' . h($room['client_name']) . ' - ' . h($room['building_name']) . ')
-                        n\'est pas encore clôturée, alors que la date de livraison
-                        (<strong>' . date('d/m/Y', strtotime($room['delivery_date'])) . '</strong>) remonte à plus d\'un mois.</p>
-                        <p>Merci de finaliser l\'installation ou de vérifier son statut.</p>
-                        <p style="margin: 24px 0;">
-                            <a href="' . $roomUrl . '"
-                            style="background:#0d6efd;color:#fff;padding:12px 24px;
-                                    border-radius:6px;text-decoration:none;display:inline-block;">
-                                Consulter la salle
-                            </a>
-                        </p>
-                    </body></html>';
+                    <!DOCTYPE html>
+                    <html lang="fr">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>' . h($labelText) . '</title>
+                    </head>
 
-            $success = true;
-            foreach ($recipients as $recipient) {
+                    <body style="margin:0; padding:0; background-color:#f4f6f9; font-family:Arial, Helvetica, sans-serif; color:#333;">
 
-                echo "-----------------------------------" . PHP_EOL;
-                echo "Envoi vers : " . $recipient['email'] . PHP_EOL;
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f6f9; padding:30px 15px;">
+                            <tr>
+                                <td align="center">
 
-                try {
-                    // appel actuel d'envoi
-                    $result = $this->sendEmailBasic(
-                        $recipient['email'],
-                        $recipient['name'] ?? '',
-                        $subject,
-                        $body
-                    );
+                                    <!-- Conteneur principal -->
+                                    <table width="600" cellpadding="0" cellspacing="0" border="0"
+                                        style="max-width:600px; width:100%; background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
 
-                    if (!$result) {
-                        echo "ECHEC pour : " . $recipient['email'] . PHP_EOL;
-                    } else {
-                        echo "SUCCES pour : " . $recipient['email'] . PHP_EOL;
-                    }
+                                        <!-- En-tête -->
+                                        <tr>
+                                            <td style="background:#0d6efd; padding:24px 30px; text-align:center;">
+                                                <h1 style="margin:0; color:#ffffff; font-size:22px; font-weight:600;">
+                                                    ' . h($labelText) . '
+                                                </h1>
+                                            </td>
+                                        </tr>
 
-                } catch (Exception $e) {
-                    echo "ERREUR pour " . $recipient['email'] . " : "
-                        . $e->getMessage() . PHP_EOL;
-                }
-            }
+                                        <!-- Contenu -->
+                                        <tr>
+                                            <td style="padding:30px;">
 
-            custom_log_mail("Alerte installation envoyée pour la salle " . $room['id'] . " (" . $room['name'] . ")", 'INFO');
+                                                <p style="margin:0 0 18px; font-size:15px; line-height:1.6;">
+                                                    Bonjour,
+                                                </p>
 
-            return $success;
+                                                <p style="margin:0 0 24px; font-size:15px; line-height:1.6;">
+                                                    La salle suivante <strong>' . h($room['name']) . '</strong>
+                                                    n\'est pas encore clôturée.
+                                                </p>
+
+                                                <!-- Informations salle -->
+                                                <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                                                    style="background:#f8f9fa; border:1px solid #e5e7eb; border-radius:8px;">
+
+                                                    <tr>
+                                                        <td style="padding:16px 18px; border-bottom:1px solid #e5e7eb;">
+                                                            <span style="font-size:12px; color:#6b7280;">
+                                                                SALLE
+                                                            </span>
+                                                            <br>
+                                                            <strong style="font-size:15px; color:#222;">
+                                                                ' . h($room['name']) . '
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="padding:16px 18px; border-bottom:1px solid #e5e7eb;">
+                                                            <span style="font-size:12px; color:#6b7280;">
+                                                                CLIENT
+                                                            </span>
+                                                            <br>
+                                                            <strong style="font-size:15px; color:#222;">
+                                                                ' . h($room['client_name']) . '
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="padding:16px 18px; border-bottom:1px solid #e5e7eb;">
+                                                            <span style="font-size:12px; color:#6b7280;">
+                                                                BÂTIMENT
+                                                            </span>
+                                                            <br>
+                                                            <strong style="font-size:15px; color:#222;">
+                                                                ' . h($room['building_name']) . '
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="padding:16px 18px;">
+                                                            <span style="font-size:12px; color:#6b7280;">
+                                                                DATE DE LIVRAISON
+                                                            </span>
+                                                            <br>
+                                                            <strong style="font-size:16px; color:#dc3545;">
+                                                                ' . date('d/m/Y', strtotime($room['delivery_date'])) . '
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+
+                                                <!-- Message -->
+                                                <p style="margin:25px 0 10px; font-size:15px; line-height:1.6;">
+                                                    Merci de finaliser l\'installation ou de vérifier son statut
+                                                    afin de clôturer la salle.
+                                                </p>
+
+                                                <!-- Bouton -->
+                                                <table cellpadding="0" cellspacing="0" border="0" style="margin:28px auto 10px;">
+                                                    <tr>
+                                                        <td align="center" style="border-radius:6px; background:#0d6efd;">
+                                                            <a href="' . h($roomUrl) . '"
+                                                            style="display:inline-block; padding:13px 26px;
+                                                                    font-size:15px; font-weight:bold;
+                                                                    color:#ffffff; text-decoration:none;
+                                                                    border-radius:6px;">
+                                                                Consulter la salle
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                            </td>
+                                        </tr>
+
+                                        <!-- Footer -->
+                                        <tr>
+                                            <td style="padding:18px 30px; background:#f8f9fa; text-align:center; border-top:1px solid #eeeeee;">
+                                                <p style="margin:0; font-size:12px; color:#888;">
+                                                    Ceci est un message automatique. Merci de ne pas répondre directement à cet email.
+                                                </p>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                    </body>
+                    </html>';
+
+            return $this->dispatchToRecipients($recipients, $subject, $body, $room['id']);
 
         } catch (Exception $e) {
             custom_log_mail("Erreur envoi alerte installation salle " . ($room['id'] ?? '?') . " : " . $e->getMessage(), 'ERROR');
             return false;
         }
+    }
+
+    /**
+     * Alerte interne aux admins : email de la salle non configuré
+     */
+    public function sendMissingAlertEmailNotice($room, $admins)
+    {
+        $subject = 'Configuration manquante : email d\'alerte non renseigné - ' . $room['name'];
+        $roomUrl = $this->config->get('site_url') . 'room/edit/' . $room['id'];
+        $body = '
+                <!DOCTYPE html>
+                <html lang="fr">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Email d\'alerte manquant</title>
+                </head>
+
+                <body style="margin:0; padding:0; background-color:#f4f6f9; font-family:Arial, Helvetica, sans-serif; color:#333;">
+
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                        style="background-color:#f4f6f9; padding:30px 15px;">
+                        <tr>
+                            <td align="center">
+
+                                <!-- Conteneur principal -->
+                                <table width="600" cellpadding="0" cellspacing="0" border="0"
+                                    style="max-width:600px; width:100%; background:#ffffff;
+                                            border-radius:10px; overflow:hidden;
+                                            box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+
+                                    <!-- En-tête -->
+                                    <tr>
+                                        <td style="background:#dc3545; padding:24px 30px; text-align:center;">
+                                            <h1 style="margin:0; color:#ffffff; font-size:22px; font-weight:600;">
+                                                Email d\'alerte manquant
+                                            </h1>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Contenu -->
+                                    <tr>
+                                        <td style="padding:30px;">
+
+                                            <p style="margin:0 0 18px; font-size:15px; line-height:1.6;">
+                                                Bonjour,
+                                            </p>
+
+                                            <p style="margin:0 0 24px; font-size:15px; line-height:1.6;">
+                                                La salle <strong>' . h($room['name']) . '</strong>
+                                                a dépassé le délai prévu pour le suivi de son installation.
+                                            </p>
+
+                                            <!-- Alerte -->
+                                            <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                                                style="background:#fff5f5; border:1px solid #f5c2c7;
+                                                        border-radius:8px; margin-bottom:24px;">
+                                                <tr>
+                                                    <td style="padding:16px 18px;">
+                                                        <strong style="color:#dc3545; font-size:15px;">
+                                                            ⚠ Aucun email d\'alerte n\'est configuré
+                                                        </strong>
+
+                                                        <p style="margin:8px 0 0; font-size:14px;
+                                                                line-height:1.5; color:#555;">
+                                                            Aucun destinataire n\'est renseigné sur la fiche
+                                                            de cette salle pour recevoir les alertes de suivi
+                                                            d\'installation.
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                            <!-- Informations salle -->
+                                            <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                                                style="background:#f8f9fa; border:1px solid #e5e7eb;
+                                                        border-radius:8px;">
+
+                                                <tr>
+                                                    <td style="padding:16px 18px; border-bottom:1px solid #e5e7eb;">
+                                                        <span style="font-size:12px; color:#6b7280;">
+                                                            SALLE
+                                                        </span>
+                                                        <br>
+                                                        <strong style="font-size:15px; color:#222;">
+                                                            ' . h($room['name']) . '
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="padding:16px 18px; border-bottom:1px solid #e5e7eb;">
+                                                        <span style="font-size:12px; color:#6b7280;">
+                                                            CLIENT
+                                                        </span>
+                                                        <br>
+                                                        <strong style="font-size:15px; color:#222;">
+                                                            ' . h($room['client_name']) . '
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="padding:16px 18px;">
+                                                        <span style="font-size:12px; color:#6b7280;">
+                                                            BÂTIMENT
+                                                        </span>
+                                                        <br>
+                                                        <strong style="font-size:15px; color:#222;">
+                                                            ' . h($room['building_name']) . '
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+
+                                            <!-- Action -->
+                                            <p style="margin:25px 0 10px; font-size:15px; line-height:1.6;">
+                                                Merci de renseigner une adresse email d\'alerte sur la fiche
+                                                de cette salle afin que les prochaines notifications puissent
+                                                être envoyées correctement.
+                                            </p>
+
+                                            <!-- Bouton -->
+                                            <table cellpadding="0" cellspacing="0" border="0"
+                                                style="margin:28px auto 10px;">
+                                                <tr>
+                                                    <td align="center"
+                                                        style="border-radius:6px; background:#dc3545;">
+                                                        <a href="' . h($roomUrl) . '"
+                                                        style="display:inline-block; padding:13px 26px;
+                                                                font-size:15px; font-weight:bold;
+                                                                color:#ffffff; text-decoration:none;
+                                                                border-radius:6px;">
+                                                            Configurer la salle
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </td>
+                                    </tr>
+
+                                    <!-- Footer -->
+                                    <tr>
+                                        <td style="padding:18px 30px; background:#f8f9fa;
+                                                text-align:center; border-top:1px solid #eeeeee;">
+                                            <p style="margin:0; font-size:12px; color:#888;">
+                                                Ceci est un message automatique de suivi d\'installation.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                            </td>
+                        </tr>
+                    </table>
+
+                </body>
+                </html>';
+
+        return $this->dispatchToRecipients($admins, $subject, $body, $room['id']);
+    }
+
+    /**
+     * Parse un champ email potentiellement multi-adresses (séparées par virgule)
+     * en tableau de destinataires ['email' => ..., 'name' => '']
+     */
+    public function parseAlertEmails($rawEmails)
+    {
+        if (empty($rawEmails)) {
+            return [];
+        }
+        $emails = array_map('trim', explode(',', $rawEmails));
+        $recipients = [];
+        foreach ($emails as $email) {
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $recipients[] = ['email' => $email, 'name' => ''];
+            }
+        }
+        return $recipients;
+    }
+    /**
+     * Envoie un email à une liste de destinataires, retourne true seulement
+     * si TOUS les envois ont réussi
+     */
+    private function dispatchToRecipients($recipients, $subject, $body, $roomId)
+    {
+        $overallSuccess = true;
+
+        foreach ($recipients as $recipient) {
+            try {
+                $result = $this->sendEmailBasic(
+                    $recipient['email'],
+                    $recipient['name'] ?? '',
+                    $subject,
+                    $body
+                );
+
+                if (!$result) {
+                    $overallSuccess = false;
+                    custom_log_mail("Echec envoi pour salle $roomId à " . $recipient['email'], 'ERROR');
+                } else {
+                    custom_log_mail("Envoi réussi pour salle $roomId à " . $recipient['email'], 'INFO');
+                }
+            } catch (Exception $e) {
+                $overallSuccess = false;
+                custom_log_mail("Exception envoi salle $roomId à " . $recipient['email'] . " : " . $e->getMessage(), 'ERROR');
+            }
+        }
+
+        return $overallSuccess;
+    }
+    /**
+     * Prévient l'ancienne adresse que l'e-mail du compte a été remplacé (récupération de compte)
+     * @param string $oldEmail Ancienne adresse (destinataire de l'alerte)
+     * @param string $newEmail Nouvelle adresse (affichée masquée)
+     * @return bool
+     */
+    public function sendEmailChangedNotice($oldEmail, $newEmail)
+    {
+        try {
+            if (empty($oldEmail) || !filter_var($oldEmail, FILTER_VALIDATE_EMAIL)) {
+                throw new Exception("Ancienne adresse email invalide");
+            }
+
+            $subject = "L'adresse e-mail de votre compte a été modifiée";
+            $maskedNew = $this->maskEmail($newEmail);
+
+            $body = '
+<html><body style="font-family: Arial, sans-serif; color: #333;">
+    <h2>Adresse e-mail modifiée</h2>
+    <p>Bonjour,</p>
+    <p>L\'adresse e-mail associée à votre compte a été remplacée par
+       <strong>' . h($maskedNew) . '</strong> à la suite d\'une demande de récupération de compte
+       effectuée par un administrateur.</p>
+    <p>Vous ne pourrez plus vous connecter avec cette adresse-ci.</p>
+    <p style="color:#888;font-size:13px;">
+        Si vous n\'êtes pas à l\'origine de cette demande, contactez immédiatement votre administrateur.
+    </p>
+</body></html>';
+
+            custom_log_mail("ENVOI NOTICE CHANGEMENT EMAIL - Destinataire: $oldEmail", 'INFO');
+
+            return $this->sendEmailBasic($oldEmail, '', $subject, $body);
+
+        } catch (Exception $e) {
+            custom_log_mail("Erreur envoi notice changement email : " . $e->getMessage(), 'ERROR');
+            throw $e;
+        }
+    }
+
+    /**
+     * Masque une adresse e-mail : jean.dupont@exemple.fr => j***@e***.fr
+     */
+    private function maskEmail($email)
+    {
+        $parts = explode('@', (string) $email, 2);
+        if (count($parts) !== 2) {
+            return '***';
+        }
+        $domain = $parts[1];
+        $dot = strrpos($domain, '.');
+        $domainName = $dot !== false ? substr($domain, 0, $dot) : $domain;
+        $tld = $dot !== false ? substr($domain, $dot) : '';
+
+        return mb_substr($parts[0], 0, 1) . '***@' . mb_substr($domainName, 0, 1) . '***' . $tld;
+    }
+    public function sendRecoveryRequestToAdmins(array $admins, string $name, string $oldEmail, string $contact, string $message): bool
+    {
+        if (empty($admins)) {
+            throw new Exception("Aucun administrateur actif avec une adresse e-mail valide.");
+        }
+
+        // Ligne de détail réutilisable (libellé + valeur déjà échappée)
+        $row = function (string $label, string $valueHtml, bool $last = false): string {
+            $border = $last ? '' : 'border-bottom:1px solid #e9ecef;';
+            return '<tr><td style="padding:12px 20px;' . $border . '">
+                    <div style="font-size:12px;color:#6c757d;text-transform:uppercase;letter-spacing:0.4px;">' . $label . '</div>
+                    <div style="font-size:15px;font-weight:bold;color:#212529;margin-top:2px;">' . $valueHtml . '</div>
+                </td></tr>';
+        };
+
+        $oldEmailHtml = trim($oldEmail) !== ''
+            ? h($oldEmail)
+            : '<span style="font-weight:normal;color:#adb5bd;">Non renseigné</span>';
+
+        $messageBlock = '';
+        if (trim($message) !== '') {
+            $messageBlock = '<p style="margin:0 0 6px;font-size:12px;color:#6c757d;text-transform:uppercase;letter-spacing:0.4px;">Précisions</p>
+            <div style="background:#f8f9fa;border-left:4px solid #0d6efd;border-radius:4px;padding:12px 16px;margin:0 0 20px;font-size:14px;line-height:1.5;">'
+                . nl2br(h($message)) . '</div>';
+        }
+
+        $body = '<!DOCTYPE html>
+                <html lang="fr">
+                <body style="margin:0;padding:0;background:#f4f6fb;font-family:Arial,Helvetica,sans-serif;color:#333;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6fb;padding:24px 12px;">
+                <tr><td align="center">
+                    <table role="presentation" width="600" cellpadding="0" cellspacing="0"
+                        style="max-width:600px;width:100%;background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+
+                        <!-- En-tête -->
+                        <tr><td style="background:#0d6efd;padding:28px 24px;text-align:center;">
+                            <h1 style="margin:0;font-size:22px;line-height:1.3;color:#ffffff;">Demande de récupération de compte</h1>
+                        </td></tr>
+
+                        <!-- Contenu -->
+                        <tr><td style="padding:28px 28px 8px;font-size:15px;line-height:1.6;">
+                            <p style="margin:0 0 16px;">Bonjour,</p>
+                            <p style="margin:0 0 20px;">Une personne indique ne plus avoir accès à l\'adresse e-mail de son compte et demande votre aide.</p>
+
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                                style="background:#f8f9fa;border:1px solid #e9ecef;border-radius:8px;margin:0 0 20px;">'
+            . $row('Nom indiqué', h($name))
+            . $row('Ancien e-mail indiqué', $oldEmailHtml)
+            . $row('Moyen de contact alternatif', h($contact), true) . '
+                            </table>'
+            . $messageBlock . '
+
+                            <!-- Avertissement -->
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                                style="background:#fff8e1;border:1px solid #ffe08a;border-radius:8px;margin:0 0 24px;">
+                                <tr><td style="padding:14px 18px;font-size:13px;line-height:1.5;color:#7a5c00;">
+                                    <strong>Demande non vérifiée.</strong> Contrôlez l\'identité de la personne par un autre moyen
+                                    avant d\'utiliser « E-mail inaccessible ? » dans la fiche utilisateur.
+                                </td></tr>
+                            </table>
+                        </td></tr>
+
+                        <!-- Pied de page -->
+                        <tr><td style="background:#f8f9fa;border-top:1px solid #e9ecef;padding:16px 24px;text-align:center;font-size:12px;color:#6c757d;">
+                            Ceci est un message automatique. Merci de ne pas répondre directement à cet e-mail.
+                        </td></tr>
+                    </table>
+                </td></tr>
+                </table>
+                </body>
+                </html>';
+
+        $sent = 0;
+        $lastError = '';
+        foreach ($admins as $a) {
+            try {
+                $this->sendEmailBasic($a['email'], '', 'Demande de récupération de compte', $body);
+                $sent++;
+            } catch (Exception $e) {
+                $lastError = $e->getMessage();
+                custom_log_mail("Recovery request: " . $lastError, 'ERROR');
+                if (stripos($lastError, 'connecter au serveur SMTP') !== false) {
+                    break;
+                }
+            }
+        }
+
+        if ($sent === 0) {
+            throw new Exception($lastError !== '' ? $lastError : "Aucun e-mail n'a pu être envoyé.");
+        }
+
+        return true;
     }
 }
