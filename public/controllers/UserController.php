@@ -896,7 +896,8 @@ class UserController
 
         $this->jsonResponse(true, 'Récupération effectuée, lien envoyé à ' . $newEmail . '.' . ($warning ?? ''));
     }
-    /* Démarre une session "se connecter en tant que" (admin -> client)
+    /**
+     * Démarre une session "se connecter en tant que" (admin -> client)
      */
     public function impersonate($id)
     {
@@ -943,7 +944,7 @@ class UserController
 
         $stmt = $this->db->prepare(
             "INSERT INTO impersonation_log (admin_id, target_user_id, started_at, ip, user_agent)
-             VALUES (?, ?, NOW(), ?, ?)"
+         VALUES (?, ?, NOW(), ?, ?)"
         );
         $stmt->execute([
             $admin['id'],
@@ -953,19 +954,19 @@ class UserController
         ]);
         $logId = (int) $this->db->lastInsertId();
 
-        session_regenerate_id(true);
-
-        $_SESSION['impersonator'] = $admin;
-        $_SESSION['impersonation_log_id'] = $logId;
-        $_SESSION['impersonation_started_at'] = time();
-        $_SESSION['user'] = $sessionUser;
-        $_SESSION['last_activity'] = time();
+        // Session entièrement réinitialisée (une seule régénération d'ID)
+        $this->resetSessionFor($sessionUser, [
+            'impersonator' => $admin,
+            'impersonation_log_id' => $logId,
+            'impersonation_started_at' => time(),
+        ]);
 
         custom_log("Impersonation démarrée : admin {$admin['id']} -> client {$target['id']}", 'INFO');
 
         header('Location: ' . BASE_URL . 'dashboard');
         exit;
     }
+
     /**
      * Termine l'impersonation et restaure la session admin
      */
@@ -983,24 +984,36 @@ class UserController
 
         $admin = $_SESSION['impersonator'];
         $targetId = (int) ($_SESSION['user']['id'] ?? 0);
+        $logId = (int) ($_SESSION['impersonation_log_id'] ?? 0);
 
-        if (!empty($_SESSION['impersonation_log_id'])) {
+        if ($logId > 0) {
             $stmt = $this->db->prepare("UPDATE impersonation_log SET ended_at = NOW() WHERE id = ?");
-            $stmt->execute([(int) $_SESSION['impersonation_log_id']]);
+            $stmt->execute([$logId]);
         }
 
-        session_regenerate_id(true);
-
-        $_SESSION['user'] = $admin;
-        unset(
-            $_SESSION['impersonator'],
-            $_SESSION['impersonation_log_id'],
-            $_SESSION['impersonation_started_at']
-        );
+        // Session admin restaurée à partir d'un état vierge (plus de reliquats du client)
+        $this->resetSessionFor($admin);
 
         custom_log("Impersonation terminée : admin {$admin['id']} <- client {$targetId}", 'INFO');
 
         header('Location: ' . BASE_URL . 'user/view/' . $targetId);
         exit;
+    }
+
+    private function resetSessionFor(array $newUser, array $extra = []): void
+    {
+        $csrf = $_SESSION['csrf_token'] ?? null; // adaptez au nom réel de votre clé CSRF
+
+        $_SESSION = [];                 // vide tout (filtres, caches, etc.)
+        session_regenerate_id(true);
+
+        if ($csrf) {
+            $_SESSION['csrf_token'] = $csrf;
+        }
+        $_SESSION['user'] = $newUser;
+        $_SESSION['last_activity'] = time();
+        foreach ($extra as $k => $v) {
+            $_SESSION[$k] = $v;
+        }
     }
 }
