@@ -47,12 +47,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     class="d-inline" id="impersonateForm">
                     <?= csrf_field() ?>
 
-                    <button type="button" class="btn btn-outline-warning me-2" data-bs-toggle="modal"
+                    <!-- <button type="button" class="btn btn-outline-warning me-2" data-bs-toggle="modal"
                         data-bs-target="#impersonateConfirmModal">
                         <i class="bi bi-person-badge me-1"></i>
                         Se connecter en tant que
                         <?php echo h($user['first_name']); ?>
-                    </button>
+                    </button> -->
                 </form>
             <?php endif; ?>
             <a href="<?php echo BASE_URL; ?>user/edit/<?php echo $user['id']; ?><?php echo isset($returnUrl) ? '?return_url=' . urlencode($returnUrl) : ''; ?>"
