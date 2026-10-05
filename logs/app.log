@@ -144113,3 +144113,186 @@ Quant à l’écran n°1, il est HS
 [2026-10-02 10:43:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 885f20358d7ccdeee19c... 
 [2026-10-02 10:43:45][DEBUG] load_client_locations - Session ID: 94tmak79tjamdg246jhb2h4q6r, Has User: yes, Is Admin: yes, Is AJAX: yes 
 [2026-10-02 10:43:45][INFO] Localisations récupérées avec succès pour le client: 50 
+[2026-10-02 11:27:03][DEBUG] CSRF: Token trouvé dans la requête - Token: 885f20358d7ccdeee19c... 
+[2026-10-02 11:27:03][INFO] Technicien 2 supprimé de l'intervention 384 
+[2026-10-02 11:27:03][INFO] Technicien 40 mis à jour pour l'intervention 384 
+[2026-10-02 11:27:03][INFO] Technicien 10 mis à jour pour l'intervention 384 
+[2026-10-02 11:27:03][INFO] Technicien 3 mis à jour pour l'intervention 384 
+[2026-10-02 11:27:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 885f20358d7ccdeee19c... 
+[2026-10-02 11:27:23][INFO] Technicien 3 supprimé de l'intervention 384 
+[2026-10-05 07:50:05][DEBUG] Redirection vers login - URL sauvegardée: dashboard (Session ID: 1fvsk9pt6hdsjngv65k5dvvrsp) 
+[2026-10-05 07:50:10][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 07:50:11][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-10-05 07:50:11][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-10-05 07:50:11][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-10-05 07:52:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 07:52:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 07:52:14][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 07:52:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 07:52:24][DEBUG] Permissions chargées pour regie : {"role":"client","rights":{"client_view_interventions":true,"client_view_materiel":true,"client_view_documentation":true,"client_add_documentation":true,"client_view_contracts":true,"client_manage_contacts":true,"client_modify_info":true},"locations":[{"client_id":30,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-10-05 07:52:24][INFO] Impersonation démarrée : admin 40 -> client 25 
+[2026-10-05 07:52:27][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 07:52:27][INFO] Impersonation terminée : admin 40 <- client 25 
+[2026-10-05 07:57:56][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 07:57:56][DEBUG] Permissions chargées pour regie : {"role":"client","rights":{"client_view_interventions":true,"client_view_materiel":true,"client_view_documentation":true,"client_add_documentation":true,"client_view_contracts":true,"client_manage_contacts":true,"client_modify_info":true},"locations":[{"client_id":30,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-10-05 07:57:56][INFO] Impersonation démarrée : admin 40 -> client 25 
+[2026-10-05 07:58:00][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 07:58:00][INFO] Impersonation terminée : admin 40 <- client 25 
+[2026-10-05 08:01:09][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:01:09][DEBUG] Permissions chargées pour regie : {"role":"client","rights":{"client_view_interventions":true,"client_view_materiel":true,"client_view_documentation":true,"client_add_documentation":true,"client_view_contracts":true,"client_manage_contacts":true,"client_modify_info":true},"locations":[{"client_id":30,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-10-05 08:01:09][INFO] Impersonation démarrée : admin 40 -> client 25 
+[2026-10-05 08:01:12][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-10-05 08:01:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:01:12][WARNING] [IMPERSONATION] Action bloquée : admin_id=40 client_id=25 route=preferences/save 
+[2026-10-05 08:01:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:01:12][WARNING] [IMPERSONATION] Action bloquée : admin_id=40 client_id=25 route=preferences/save 
+[2026-10-05 08:01:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:01:12][WARNING] [IMPERSONATION] Action bloquée : admin_id=40 client_id=25 route=preferences/save 
+[2026-10-05 08:02:41][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:02:41][INFO] Impersonation terminée : admin 40 <- client 25 
+[2026-10-05 08:03:02][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:03:02][DEBUG] Permissions chargées pour regie : {"role":"client","rights":{"client_view_interventions":true,"client_view_materiel":true,"client_view_documentation":true,"client_add_documentation":true,"client_view_contracts":true,"client_manage_contacts":true,"client_modify_info":true},"locations":[{"client_id":30,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-10-05 08:03:02][INFO] Impersonation démarrée : admin 40 -> client 25 
+[2026-10-05 08:03:05][WARNING] Undefined variable $baseUrlWithParams {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\contracts_client\\index.php","line":115,"errno":2}
+[2026-10-05 08:03:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:03:05][WARNING] [IMPERSONATION] Action bloquée : admin_id=40 client_id=25 route=preferences/save 
+[2026-10-05 08:03:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:03:05][WARNING] [IMPERSONATION] Action bloquée : admin_id=40 client_id=25 route=preferences/save 
+[2026-10-05 08:03:05][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:03:05][WARNING] [IMPERSONATION] Action bloquée : admin_id=40 client_id=25 route=preferences/save 
+[2026-10-05 08:03:07][DEBUG] SiteClientController::index - DB set: yes 
+[2026-10-05 08:03:07][DEBUG] SiteClientController::index - clientId from session: 30 
+[2026-10-05 08:03:07][DEBUG] SiteClientController::index - userLocations: {"30":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-10-05 08:03:07][DEBUG] getSitesByLocations - START 
+[2026-10-05 08:03:07][DEBUG] getSitesByLocations - userLocations: {"30":[{"site_id":null,"building_id":null,"room_id":null}]} 
+[2026-10-05 08:03:07][DEBUG] getSitesByLocations - Traitement du clientId: 30 
+[2026-10-05 08:03:07][DEBUG] getSitesByLocations - locations: [{"site_id":null,"building_id":null,"room_id":null}] 
+[2026-10-05 08:03:07][DEBUG] getSitesByLocations - clientSites trouvés: 1 
+[2026-10-05 08:03:07][DEBUG] getSitesByLocations - Site: ID=50, name=PARIS 
+[2026-10-05 08:03:07][DEBUG] getSitesByLocations - fullClientAccess: false 
+[2026-10-05 08:03:07][DEBUG] getSitesByLocations - fullClientAccess devient true (accès client complet) 
+[2026-10-05 08:03:07][DEBUG] getSitesByLocations - Accès complet au client 30 
+[2026-10-05 08:03:07][DEBUG] getSitesByLocations - Ajout du site 50 dans la map (accès complet) 
+[2026-10-05 08:03:07][DEBUG] getSitesByLocations - résultat FINAL: [50] 
+[2026-10-05 08:03:07][DEBUG] SiteClientController::index - sites après dédoublonnage: [50] 
+[2026-10-05 08:03:07][INFO] 50 
+[2026-10-05 08:03:07][DEBUG] SiteClientController::index - sites count: 1 
+[2026-10-05 08:03:17][INFO] 50 
+[2026-10-05 08:03:26][DEBUG] MaterielClientController::index - userLocations: [{"client_id":30,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-10-05 08:03:26][DEBUG] getSitesByLocations - userLocations: [{"client_id":30,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-10-05 08:03:26][DEBUG] getSitesByLocations - locationWhere: ((s.client_id = 30)) 
+[2026-10-05 08:03:26][DEBUG] getSitesByLocations - SQL: SELECT DISTINCT s.* 
+                FROM sites s
+                WHERE ((s.client_id = 30)) AND s.status = 1
+                ORDER BY s.name 
+[2026-10-05 08:03:26][DEBUG] getSitesByLocations - result count: 1 
+[2026-10-05 08:03:26][DEBUG] getBuildingsByLocations - userLocations: [{"client_id":30,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-10-05 08:03:26][DEBUG] getBuildingsByLocations - SQL: SELECT DISTINCT b.* 
+            FROM buildings b
+            JOIN sites s ON b.site_id = s.id
+            WHERE ((s.client_id = 30)) AND b.status = 1
+            ORDER BY s.name, b.name 
+[2026-10-05 08:03:26][DEBUG] getBuildingsByLocations - result count: 1 
+[2026-10-05 08:03:26][DEBUG] getAllByLocations - Cleaned locationWhere: ((c.id = 30)) 
+[2026-10-05 08:03:26][DEBUG] getAllByLocations - Final SQL: SELECT 
+        m.*,
+        r.name as salle_nom,
+        b.name as building_nom,
+        s.name as site_nom,
+        c.name as client_nom,
+        m.type_materiel as type_nom
+        FROM materiel m
+        LEFT JOIN rooms r ON m.salle_id = r.id
+        LEFT JOIN buildings b ON r.building_id = b.id
+        LEFT JOIN sites s ON b.site_id = s.id
+        LEFT JOIN clients c ON s.client_id = c.id
+        WHERE ((c.id = 30)) AND m.deleted_at IS NULL ORDER BY c.name, s.name, b.name, r.name, m.marque, m.modele 
+[2026-10-05 08:03:26][DEBUG] getAllByLocations - Params: [] 
+[2026-10-05 08:03:26][DEBUG] getAllByLocations - Results count: 126 
+[2026-10-05 08:03:28][DEBUG] DocumentationClientController::index - userLocations: [{"client_id":30,"site_id":null,"building_id":null,"room_id":null}] 
+[2026-10-05 08:03:28][DEBUG] DocumentationClientController::index - Requête SQL: 
+                SELECT 
+                    pj.*,
+                    COALESCE(pj.content, pj.commentaire) as description,
+                    u.first_name as uploader_name,
+                    pj.created_by,
+                    COALESCE(c.name, c2.name, c3.name, c4.name)       as client_nom,
+                    COALESCE(s.name, s2.name, s3.name)                as site_nom,
+                    COALESCE(bd.name, b2.name)                         as building_nom,
+                    r.name                                              as salle_nom,
+                    COALESCE(c.id, c2.id, c3.id, c4.id)                as client_id,
+                    COALESCE(s.id, s2.id, s3.id)                        as site_id,
+                    COALESCE(bd.id, b2.id)                              as building_id,
+                    r.id                                                 as salle_id
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                LEFT JOIN users u ON pj.created_by = u.id
+
+                -- Niveau client direct
+                LEFT JOIN clients c ON (lpj.type_liaison = 'documentation_client' AND lpj.entite_id = c.id)
+
+                -- Niveau site direct -> remonter au client
+                LEFT JOIN sites s ON (lpj.type_liaison = 'documentation_site' AND lpj.entite_id = s.id)
+                LEFT JOIN clients c2 ON s.client_id = c2.id
+
+                -- Niveau bâtiment direct -> remonter au site -> client
+                LEFT JOIN buildings bd ON (lpj.type_liaison = 'documentation_building' AND lpj.entite_id = bd.id)
+                LEFT JOIN sites s2 ON bd.site_id = s2.id
+                LEFT JOIN clients c3 ON s2.client_id = c3.id
+
+                -- Niveau salle direct -> remonter au bâtiment -> site -> client
+                LEFT JOIN rooms r ON (lpj.type_liaison = 'documentation_room' AND lpj.entite_id = r.id)
+                LEFT JOIN buildings b2 ON r.building_id = b2.id
+                LEFT JOIN sites s3 ON b2.site_id = s3.id
+                LEFT JOIN clients c4 ON s3.client_id = c4.id
+
+                WHERE pj.masque_client = 0
+                AND (((lpj.type_liaison = 'documentation_client' AND lpj.entite_id = ?) OR (lpj.type_liaison = 'documentation_site' 
+                      AND lpj.entite_id IN (SELECT id FROM sites WHERE client_id = ?)) OR (lpj.type_liaison = 'documentation_building' 
+                      AND lpj.entite_id IN (SELECT b.id FROM buildings b 
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?)) OR (lpj.type_liaison = 'documentation_room' 
+                      AND lpj.entite_id IN (SELECT r.id FROM rooms r 
+                                             JOIN buildings b ON r.building_id = b.id
+                                             JOIN sites s ON b.site_id = s.id 
+                                             WHERE s.client_id = ?))))
+             GROUP BY pj.id ORDER BY pj.date_creation DESC 
+[2026-10-05 08:03:28][DEBUG] DocumentationClientController::index - Paramètres: [30,30,30,30] 
+[2026-10-05 08:03:28][DEBUG] DocumentationClientController::index - Nombre de documents trouvés: 2 
+[2026-10-05 08:04:04][WARNING] [IMPERSONATION] Action bloquée : admin_id=40 client_id=25 route=contactClient/edit 
+[2026-10-05 08:04:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:04:58][INFO] Impersonation terminée : admin 40 <- client 25 
+[2026-10-05 08:12:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:12:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:12:51][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:13:49][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:13:49][DEBUG] load_permissions - Session ID: 94lt7op6aaqbab0dtu9u8i0on0, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-10-05 08:13:58][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:13:58][DEBUG] load_client_locations - Session ID: 94lt7op6aaqbab0dtu9u8i0on0, Has User: yes, Is Admin: yes, Is AJAX: yes 
+[2026-10-05 08:13:58][INFO] Localisations récupérées avec succès pour le client: 35 
+[2026-10-05 08:14:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:07][INFO] Données POST reçues pour création d'utilisateur: {"csrf_token":"9d6d0217d7da3ac8d27b1cf7a22304cb71cfed90655ec29c46043bccd5591e4e","email":"yalovo8485@flakeian.com","first_name":"Tsilefy","last_name":"TEST KARIJA","password":"","type":"client","status":"1","permissions":["17","15","19","18","24","23","14","16"],"coef_utilisateur":"1.00","client_id":"35","locations":{"client_full":"1"}} 
+[2026-10-05 08:14:07][INFO] Données traitées pour création d'utilisateur: {"email":"yalovo8485@flakeian.com","password":null,"first_name":"Tsilefy","last_name":"TEST KARIJA","type":"client","is_admin":0,"status":1,"coef_utilisateur":"1.00","client_id":"35"} 
+[2026-10-05 08:14:07][INFO] Résultat de la création d'utilisateur: Succès, ID: 75 
+[2026-10-05 08:14:07][INFO] Permissions à ajouter: ["17","15","19","18","24","23","14","16"] 
+[2026-10-05 08:14:07][INFO] Localisations à sauvegarder: {"client_full":"1"} 
+[2026-10-05 08:14:07][INFO] Début de saveUserLocations pour l'utilisateur 75 
+[2026-10-05 08:14:07][INFO] Localisations reçues: {"client_full":"1"} 
+[2026-10-05 08:14:07][INFO] Type d'utilisateur récupéré: client 
+[2026-10-05 08:14:07][DEBUG] DEBUG - Client ID récupéré: 35 (depuis POST: 35, depuis user: 35) 
+[2026-10-05 08:14:07][INFO] Accès complet au client 35 accordé à l'utilisateur 75 
+[2026-10-05 08:14:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:07][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:12][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 
+[2026-10-05 08:14:13][DEBUG] CSRF: Token trouvé dans la requête - Token: 9d6d0217d7da3ac8d27b... 

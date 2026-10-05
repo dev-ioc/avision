@@ -44,11 +44,13 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </a>
             <?php if (isAdmin() && !isImpersonating() && ($user['user_type'] ?? '') === 'client' && !empty($user['status'])): ?>
                 <form method="POST" action="<?php echo BASE_URL; ?>user/impersonate/<?php echo (int) $user['id']; ?>"
-                    class="d-inline"
-                    onsubmit="return confirm('Naviguer en tant que ce client ? Vos actions seront tracées à votre nom.');">
+                    class="d-inline" id="impersonateForm">
                     <?= csrf_field() ?>
-                    <button type="submit" class="btn btn-outline-warning me-2">
-                        <i class="bi bi-person-badge me-1"></i> Se connecter en tant que
+
+                    <button type="button" class="btn btn-outline-warning me-2" data-bs-toggle="modal"
+                        data-bs-target="#impersonateConfirmModal">
+                        <i class="bi bi-person-badge me-1"></i>
+                        Se connecter en tant que
                         <?php echo h($user['first_name']); ?>
                     </button>
                 </form>
@@ -440,7 +442,64 @@ include_once __DIR__ . '/../../includes/navbar.php';
     </div>
 <?php endif; ?>
 </div>
+<div class="modal fade" id="impersonateConfirmModal" tabindex="-1" aria-labelledby="impersonateConfirmModalLabel"
+    aria-hidden="true">
 
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="impersonateConfirmModalLabel">
+                    Se connecter en tant que client
+                </h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="d-flex align-items-start">
+                    <div class="me-3">
+                        <div class="rounded-circle bg-warning bg-opacity-10
+                                    text-warning d-flex align-items-center
+                                    justify-content-center" style="width: 48px; height: 48px;">
+                            <i class="bi bi-person-badge fs-4"></i>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="mb-2">
+                            Vous êtes sur le point de vous connecter en tant que :
+                        </p>
+
+                        <p class="fw-semibold mb-3">
+                            <?php echo h(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? '')); ?>
+                        </p>
+
+                        <div class="alert alert-warning mb-0">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Vous allez accéder à l'espace de ce client en tant qu'administrateur.
+                            <strong>Les actions de modification ne sont pas autorisées.</strong>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Annuler
+                </button>
+
+                <button type="button" class="btn btn-warning" id="confirmImpersonateBtn">
+                    <i class="bi bi-person-badge me-1"></i>
+                    Se connecter
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
 <script>
     function confirmDelete(userId, first_name) {
         if (confirm('Êtes-vous sûr de vouloir supprimer l\'utilisateur "' + first_name + '" ?\n\nCette action est irréversible et supprimera définitivement l\'utilisateur et toutes ses données associées.')) {
@@ -457,7 +516,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </script>
 
 <script>
-    // ─── TOAST NOTIFICATION (haut droite) ────────────────────────────────────
     function showToast(message, type) {
         type = type || 'info';
 
@@ -1096,6 +1154,15 @@ include_once __DIR__ . '/../../includes/navbar.php';
             });
 
         });
+        const form = document.getElementById('impersonateForm');
+        const confirmButton = document.getElementById('confirmImpersonateBtn');
+
+        if (form && confirmButton) {
+            confirmButton.addEventListener('click', function () {
+                form.submit();
+            });
+        }
+
     });
 </script>
 
