@@ -29,6 +29,9 @@ $canClose = true;
 $closeReason = [];
 ?>
 
+<head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.12.2/build/css/intlTelInput.css">
+</head>
 <div class="container-fluid flex-grow-1 container-p-y">
 
 	<div class="d-flex bd-highlight mb-3">
@@ -900,7 +903,10 @@ $closeReason = [];
 							});
 							tbody.innerHTML = html; setVisible(wrap, true);
 						})
-						.catch(function () { setVisible(loading, false); err.textContent = 'Erreur réseau.'; setVisible(err, true); });
+						.catch(function (e) {
+							setVisible(loading, false);
+							showToast('Erreur réseau : ' + e.message, 'danger');
+						});
 				}
 				modalEl.addEventListener('show.bs.modal', loadMailHistory);
 			})();
@@ -1583,8 +1589,7 @@ $closeReason = [];
 							<span class="text-muted fw-normal">(optionnel mais recommandé)</span>
 						</label>
 						<div class="input-group">
-							<span class="input-group-text"><i class="bi bi-phone"></i></span>
-							<input type="text" class="form-control" id="signerPhone" placeholder="+33 7 12 34 56 78">
+							<input type="tel" class="form-control" id="signerPhone">
 						</div>
 						<div class="form-text">
 							Si renseigné, SignNow enverra un code SMS au signataire pour authentification.
@@ -1655,7 +1660,18 @@ $closeReason = [];
 		</div>a
 	</div>
 </div>
+<div id="pageLoadingOverlay" class="page-loading-overlay">
+	<div class="text-center">
+		<div class="spinner-border text-light" role="status">
+			<span class="visually-hidden">Envoi en cours...</span>
+		</div>
 
+		<div class="mt-3 text-white fw-semibold">
+			Envoi en cours...
+		</div>
+	</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.12.2/build/js/intlTelInput.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.6/dist/signature_pad.umd.min.js"></script>
 <script>
 	// ID de la pièce jointe (bon déjà généré) que l'on est en train de signer
@@ -2025,7 +2041,56 @@ $closeReason = [];
 		});
 	}
 </script>
+<script>
+	const phoneInput = document.querySelector('#signerPhone');
 
+	const iti = window.intlTelInput(phoneInput, {
+		initialCountry: "fr",
+		separateDialCode: true,
+		nationalMode: true,
+
+		onlyCountries: [
+			"us", // United States
+			"ca", // Canada
+			"gb", // United Kingdom
+			"au", // Australia
+			"mx", // Mexico
+			"es", // Spain
+			"de", // Germany
+			"za", // South Africa
+			"fr", // France
+			"it", // Italy
+			"be", // Belgium
+			"nl", // Netherlands
+			"co", // Colombia
+			"my", // Malaysia
+			"ie", // Ireland
+			"pt", // Portugal
+			"gr", // Greece
+			"at", // Austria
+			"lt", // Lithuania
+			"fi", // Finland
+			"sk", // Slovakia
+			"hr", // Croatia
+			"cy", // Cyprus
+			"mt", // Malta
+			"si", // Slovenia
+			"lv", // Latvia
+			"ee", // Estonia
+			"lu", // Luxembourg
+			"me", // Montenegro
+			"ad", // Andorra
+			"mc", // Monaco
+			"sm"  // San Marino
+		],
+
+		strictMode: true,
+
+		loadUtils: () => import(
+			"https://cdn.jsdelivr.net/npm/intl-tel-input@25.12.2/build/js/utils.js"
+		)
+	});
+</script>
 <script src="<?= BASE_URL ?>assets/js/pages/interventions.js?v=<?= time() ?>"
 	onerror="console.error('ERREUR: interventions.js introuvable.');"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
@@ -2112,7 +2177,9 @@ $closeReason = [];
 					document.getElementById('sendEmailSubject').value = ''; document.getElementById('sendEmailMessage').value = ''; document.getElementById('sendEmailPreview').style.display = 'none';
 					showLoading(false); toggleMode(); document.getElementById('sendEmailSubmitBtn').disabled = !validateForm();
 				})
-				.catch(function () { document.getElementById('sendEmailModalError').textContent = 'Erreur réseau.'; document.getElementById('sendEmailModalError').style.display = 'block'; showLoading(false); document.getElementById('sendEmailModalContent').style.display = 'block'; });
+				.catch(function (e) {
+					showToast('Erreur réseau : ' + e.message, 'danger');
+				});
 		}
 		modalEl.addEventListener('show.bs.modal', loadEmailData);
 		document.getElementById('emailModeTemplate').addEventListener('change', toggleMode);
@@ -2126,29 +2193,72 @@ $closeReason = [];
 				.then(function (r) { return r.json(); })
 				.then(function (data) { var p = document.getElementById('sendEmailPreview'); if (data.success) { var s = (data.subject || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); p.innerHTML = '<strong>Sujet :</strong> ' + s + '<br><strong>Corps :</strong><div class="mt-2 pt-2 border-top">' + (data.body || '') + '</div>'; p.style.display = 'block'; } else { p.innerHTML = data.error || 'Erreur'; p.style.display = 'block'; } });
 		});
+
+
 		document.getElementById('sendEmailSubmitBtn').addEventListener('click', function () {
-			var btn = this; btn.disabled = true;
-			document.getElementById('sendEmailModalError').style.display = 'none';
+			var btn = this;
+			var originalHtml = btn.innerHTML;
+			var loadingOverlay = document.getElementById('pageLoadingOverlay');
+			var errorBox = document.getElementById('sendEmailModalError');
 			var token = window.CSRF_TOKEN || '';
-			var fd = new FormData(); fd.append('csrf_token', token);
+
+			// Validation avant envoi
+			if (!validateForm()) {
+				showToast('Veuillez remplir tous les champs requis.', 'warning');
+				return;
+			}
+
+			errorBox.style.display = 'none';
+			loadingOverlay.classList.add('active');
+			btn.disabled = true;
+
+			// Construction du FormData
+			var fd = new FormData();
+			fd.append('csrf_token', token);
+
 			var tid = document.getElementById('sendEmailTemplateId').value;
-			if (document.getElementById('emailModeTemplate').checked && tid) { fd.append('template_id', tid); }
-			else { fd.append('subject', document.getElementById('sendEmailSubject').value.trim()); fd.append('message', document.getElementById('sendEmailMessage').value.trim()); }
-			document.querySelectorAll('#sendEmailAttachmentsList input[name="attachments[]"]:checked').forEach(function (cb) { fd.append('attachments[]', cb.value); });
-			fetch(baseUrl + 'interventions/sendEmail/' + interventionId, { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': token } })
-				.then(function (r) { return r.json(); })
+			if (document.getElementById('emailModeTemplate').checked && tid) {
+				fd.append('template_id', tid);
+			} else {
+				fd.append('subject', document.getElementById('sendEmailSubject').value.trim());
+				fd.append('message', document.getElementById('sendEmailMessage').value.trim());
+			}
+
+			document.querySelectorAll('#sendEmailAttachmentsList input[name="attachments[]"]:checked')
+				.forEach(function (cb) {
+					fd.append('attachments[]', cb.value);
+				});
+
+			fetch(baseUrl + 'interventions/sendEmail/' + interventionId, {
+				method: 'POST',
+				body: fd,
+				headers: {
+					'X-Requested-With': 'XMLHttpRequest',
+					'X-CSRF-Token': token
+				}
+			})
+				.then(function (r) {
+					return r.json().catch(function () {
+						throw new Error('Réponse invalide du serveur (HTTP ' + r.status + ')');
+					});
+				})
 				.then(function (data) {
 					if (data.success) {
-						var mi = typeof bootstrap !== 'undefined' && bootstrap.Modal && bootstrap.Modal.getInstance(modalEl);
+						var mi = bootstrap.Modal.getInstance(modalEl);
 						if (mi) mi.hide();
 						showToast(data.message || 'Email envoyé.', 'success');
 					} else {
-						document.getElementById('sendEmailModalError').textContent = data.error || 'Échec';
-						document.getElementById('sendEmailModalError').style.display = 'block';
-						btn.disabled = false;
+						showToast(data.error || 'Échec de l\'envoi', 'danger');
 					}
 				})
-				.catch(function () { document.getElementById('sendEmailModalError').textContent = 'Erreur réseau.'; document.getElementById('sendEmailModalError').style.display = 'block'; btn.disabled = false; });
+				.catch(function (e) {
+					showToast('Erreur réseau : ' + e.message, 'danger');
+				})
+				.finally(function () {
+					loadingOverlay.classList.remove('active');
+					btn.disabled = !validateForm();
+					btn.innerHTML = originalHtml;
+				});
 		});
 	})();
 </script>
@@ -2465,64 +2575,163 @@ $closeReason = [];
 	function loadTechniciansInPage() {
 		var container = document.getElementById('techniciansListContainer');
 		if (!container) return;
+
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 		var canEdit = <?= ($intervention['status_id'] != 6) ? 'true' : 'false' ?>;
-		fetch(window.BASE_URL + 'interventions/interventionsTechnician?id=' + interventionId, {
-			method: 'GET',
-			headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-			credentials: 'same-origin'
-		})
-			.then(function (r) { return r.json(); })
+
+		fetch(
+			window.BASE_URL + 'interventions/interventionsTechnician?id=' + interventionId,
+			{
+				method: 'GET',
+				headers: {
+					'Accept': 'application/json',
+					'X-Requested-With': 'XMLHttpRequest'
+				},
+				credentials: 'same-origin'
+			}
+		)
+			.then(function (r) {
+				return r.json();
+			})
 			.then(function (data) {
 				var assigned = data.data?.assigned || data.assigned || [];
+
 				if (assigned.length === 0) {
-					container.innerHTML = '<div class="text-center py-3 text-muted">Aucun technicien affecté</div>';
+					container.innerHTML =
+						'<div class="text-center py-3 text-muted">Aucun technicien affecté</div>';
 					return;
 				}
+
 				var disabledAttr = canEdit ? '' : ' disabled';
 				var disabledClass = canEdit ? '' : ' disabled';
+
 				function formatDurationMinutes(totalMinutes) {
 					totalMinutes = parseInt(totalMinutes) || 0;
+
 					if (totalMinutes > 0) {
 						var hours = Math.floor(totalMinutes / 60);
 						var minutes = totalMinutes % 60;
+
 						var result = hours > 0 ? hours + 'h ' : '';
-						result += minutes > 0 ? minutes + 'min' : (hours > 0 ? '00' : 'Non défini');
+						result += minutes > 0
+							? minutes + 'min'
+							: (hours > 0 ? '00' : 'Non défini');
+
 						return result;
 					}
+
 					return 'Non défini';
 				}
+
 				var html = '<div class="list-group list-group-flush">';
+
 				assigned.forEach(function (tech) {
-					var name = tech.full_name || (tech.first_name + ' ' + tech.last_name);
-					var st = tech.start_time ? new Date(tech.start_time).toLocaleString('fr-FR') : 'Non défini';
-					var et = tech.end_time ? new Date(tech.end_time).toLocaleString('fr-FR') : 'Non défini';
-					var tp = tech.temps_passe ? formatDurationMinutes(tech.temps_passe) : 'Non défini';
+					var name = tech.full_name ||
+						(tech.first_name + ' ' + tech.last_name);
+
+					var st = tech.start_time
+						? new Date(tech.start_time).toLocaleString('fr-FR')
+						: 'Non défini';
+
+					var et = tech.end_time
+						? new Date(tech.end_time).toLocaleString('fr-FR')
+						: 'Non défini';
+
+					var tp = tech.temps_passe
+						? formatDurationMinutes(tech.temps_passe)
+						: 'Non défini';
+
 					var dep = tech.deplacement == 1 ? 'Oui' : 'Non';
+
 					var qual = tech.is_qualified == 1
 						? '<span class="badge bg-success text-dark">Qualifié</span>'
 						: '<span class="badge bg-secondary">Non qualifié</span>';
 
-					html += '<div class="list-group-item"><div class="d-flex justify-content-between align-items-start"><div style="flex:1;"><strong>' + escapeHtml(name) + '</strong> ' + qual + '<br><small>Début: ' + st + '<br>Fin: ' + et + '<br>Durée: ' + tp + '<br>Déplacement: ' + dep + '</small>' + (tech.commentaire ? '<br><small class="text-info">' + escapeHtml(tech.commentaire.substring(0, 100)) + '</small>' : '') + '</div><div class="d-flex gap-1">' +
-						'<button class="btn btn-sm btn-outline-warning' + disabledClass + '"' + disabledAttr + ' onclick="editTechnician(' + tech.technicien_id + ')" title="Modifier"><i class="bi bi-pencil"></i></button>' +
-						'<button class="btn btn-sm btn-outline-primary' + disabledClass + '"' + disabledAttr + ' onclick="sendEmailToTechnician(' + tech.technicien_id + ',\'' + escapeHtml(name) + '\')" title="Envoyer un email"><i class="bi bi-envelope"></i></button>' +
-						'<button class="btn btn-sm btn-outline-danger' + disabledClass + '"' + disabledAttr + ' onclick="removeTechnicianFromPage(' + tech.technicien_id + ')" title="Supprimer"><i class="bi bi-trash"></i></button>' +
-						'</div></div></div>';
+					html +=
+						'<div class="list-group-item">' +
+						'<div class="d-flex justify-content-between align-items-start">' +
+
+						'<div style="flex:1;">' +
+						'<strong>' + escapeHtml(name) + '</strong> ' + qual +
+						'<br>' +
+						'<small>' +
+						'Début: ' + st +
+						'<br>Fin: ' + et +
+						'<br>Durée: ' + tp +
+						'<br>Déplacement: ' + dep +
+						'</small>' +
+
+						(tech.commentaire
+							? '<br><small class="text-info">' +
+							escapeHtml(tech.commentaire.substring(0, 100)) +
+							'</small>'
+							: '') +
+
+						'</div>' +
+
+						'<div class="d-flex gap-1">' +
+
+						'<button class="btn btn-sm btn-outline-warning' +
+						disabledClass + '"' +
+						disabledAttr +
+						' onclick="editTechnician(' +
+						tech.technicien_id +
+						')" title="Modifier">' +
+						'<i class="bi bi-pencil"></i>' +
+						'</button>' +
+
+						'<button class="btn btn-sm btn-outline-primary' +
+						disabledClass + '"' +
+						disabledAttr +
+						' onclick="sendEmailToTechnician(' +
+						tech.technicien_id +
+						',\'' +
+						escapeHtml(name) +
+						'\')" title="Envoyer un email">' +
+						'<i class="bi bi-envelope"></i>' +
+						'</button>' +
+
+						'<button class="btn btn-sm btn-outline-danger' +
+						disabledClass + '"' +
+						disabledAttr +
+						' onclick="removeTechnicianFromPage(' +
+						tech.technicien_id +
+						')" title="Supprimer">' +
+						'<i class="bi bi-trash"></i>' +
+						'</button>' +
+
+						'</div>' +
+
+						'</div>' +
+						'</div>';
 				});
+
 				html += '</div>';
+
 				container.innerHTML = html;
 			})
 			.catch(function (e) {
-				container.innerHTML = '<div class="text-center py-3 text-danger">Erreur de chargement</div>';
-			});
+				console.error(e);
+
+				container.innerHTML =
+					'<div class="text-center py-3 text-danger">' +
+					'Erreur de chargement' +
+					'</div>';
+			})
 	}
+
 	async function removeTechnicianFromPage(technicianId) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 		var interventionStatus = <?= (int) ($intervention['status_id'] ?? 0) ?>;
+
 		if (interventionStatus === 6) {
-			showToast('Impossible de retirer un technicien d\'une intervention fermée. Veuillez la réouvrir d\'abord.', 'warning');
+			showToast(
+				'Impossible de retirer un technicien d\'une intervention fermée. Veuillez la réouvrir d\'abord.',
+				'warning'
+			);
 			return;
 		}
+
 		var confirmed = await showConfirm({
 			title: 'Retirer le technicien',
 			message: 'Voulez-vous vraiment retirer ce technicien de cette intervention ?',
@@ -2530,19 +2739,60 @@ $closeReason = [];
 			icon: 'bi-person-dash-fill text-danger',
 			confirmText: 'Retirer'
 		});
+
 		if (!confirmed) return;
 
-		fetch(window.BASE_URL + 'interventions/removeTechnician', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': window.CSRF_TOKEN || '' },
-			body: JSON.stringify({ intervention_id: interventionId, technician_id: technicianId })
-		})
-			.then(function (r) { return r.json(); })
-			.then(function (result) {
-				if (result.success) { loadTechniciansInPage(); showToast(result.message || 'Technicien retiré avec succès.', 'success'); }
-				else { showToast('Erreur : ' + (result.error || 'Suppression impossible'), 'danger'); loadTechniciansInPage(); }
-			})
-			.catch(function () { showToast('Erreur réseau.', 'danger'); loadTechniciansInPage(); });
+		// Récupérer l'overlay
+		var loadingOverlay = document.getElementById('pageLoadingOverlay');
+
+		// Bloquer toute la page
+		if (loadingOverlay) {
+			loadingOverlay.classList.add('active');
+		}
+
+		try {
+			var response = await fetch(
+				window.BASE_URL + 'interventions/removeTechnician',
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-Requested-With': 'XMLHttpRequest',
+						'X-CSRF-Token': window.CSRF_TOKEN || ''
+					},
+					body: JSON.stringify({
+						intervention_id: interventionId,
+						technician_id: technicianId
+					})
+				}
+			);
+
+			var result = await response.json();
+
+			if (result.success) {
+				showToast(
+					result.message || 'Technicien retiré avec succès.',
+					'success'
+				);
+
+				// Recharger la liste
+				await loadTechniciansInPage();
+
+			} else {
+				showToast(
+					'Erreur : ' + (result.error || 'Suppression impossible'),
+					'danger'
+				);
+			}
+
+		} catch (e) {
+			console.error(e);
+			showToast('Erreur réseau.', 'danger');
+		} finally {
+			if (loadingOverlay) {
+				loadingOverlay.classList.remove('active');
+			}
+		}
 	}
 	function editTechnician(technicianId) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
@@ -2761,13 +3011,10 @@ $closeReason = [];
 			})
 			.catch(function (e) { if (saveBtn) { saveBtn.innerHTML = originalText; saveBtn.disabled = false; } showToast('Erreur réseau : ' + e.message, 'danger'); });
 	}
+
 	async function sendEmailToTechnician(technicianId, technicianName) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
-		var interventionStatus = <?= (int) ($intervention['status_id'] ?? 0) ?>;
-		if (interventionStatus === 6) {
-			showToast('Impossible d\'envoyer un mail au technicien d\'une intervention fermée. Veuillez la réouvrir d\'abord.', 'warning');
-			return;
-		}
+
 		var confirmed = await showConfirm({
 			title: 'Envoyer un email',
 			message: 'Envoyer un email de notification à ' + technicianName + ' ?',
@@ -2775,18 +3022,61 @@ $closeReason = [];
 			icon: 'bi-envelope-fill text-primary',
 			confirmText: 'Envoyer'
 		});
-		if (!confirmed) return;
+
+		if (!confirmed) {
+			return;
+		}
+
+		// Afficher le spinner après avoir cliqué sur "Envoyer"
+		var loadingOverlay = document.getElementById('pageLoadingOverlay');
+
+		if (loadingOverlay) {
+			loadingOverlay.classList.add('active');
+		}
 
 		try {
 			var fd = new URLSearchParams();
 			fd.append('intervention_id', interventionId);
 			fd.append('technician_id', technicianId);
 			fd.append('csrf_token', window.CSRF_TOKEN || '');
-			var r = await fetch(window.BASE_URL + 'interventions/sendTechnicianEmail', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' }, body: fd });
+
+			var r = await fetch(
+				window.BASE_URL + 'interventions/sendTechnicianEmail',
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'X-Requested-With': 'XMLHttpRequest'
+					},
+					body: fd
+				}
+			);
+
 			var data = await r.json();
-			if (data.success) showToast('Email envoyé à ' + technicianName + '.', 'success');
-			else showToast('Erreur : ' + (data.error || 'Échec'), 'danger');
-		} catch (e) { showToast('Erreur : ' + e.message, 'danger'); }
+
+			if (data.success) {
+				showToast(
+					'Email envoyé à ' + technicianName + '.',
+					'success'
+				);
+			} else {
+				showToast(
+					'Erreur : ' + (data.error || 'Échec de l’envoi'),
+					'danger'
+				);
+			}
+
+		} catch (e) {
+			showToast(
+				'Erreur : ' + e.message,
+				'danger'
+			);
+
+		} finally {
+			if (loadingOverlay) {
+				loadingOverlay.classList.remove('active');
+			}
+		}
 	}
 	async function confirmDeleteLink(event, link, title, message) {
 		event.preventDefault();
@@ -2970,15 +3260,21 @@ $closeReason = [];
 	async function sendForSignature() {
 		const signer = getSelectedSigner();
 
-		if (!signer.email) {
-			showAlert('Aucun email défini pour le contact', 'warning');
+		// Il faut au moins un email ou un téléphone
+		if (!signer.email && !signer.phone) {
+			showAlert(
+				'Aucun email ou numéro de téléphone défini pour le contact',
+				'warning'
+			);
 			return;
 		}
 
-		const btn = document.getElementById('btnSendSignature');
 
-		btn.disabled = true;
-		btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Envoi en cours...';
+
+
+		const loadingOverlay = document.getElementById('pageLoadingOverlay');
+		loadingOverlay.classList.add('active');
+
 
 		try {
 			const response = await fetch(
@@ -2991,8 +3287,8 @@ $closeReason = [];
 						'Accept': 'application/json'
 					},
 					body: JSON.stringify({
-						contact_email: signer.email,
-						contact_phone: signer.phone,
+						contact_email: signer.email || null,
+						contact_phone: signer.phone || null,
 						contact_firstname: signer.firstname,
 						contact_lastname: signer.lastname,
 					})
@@ -3002,10 +3298,15 @@ $closeReason = [];
 			const data = await response.json();
 
 			if (data.success) {
-				showAlert('Demande de signature envoyée avec succès', 'success');
+				showAlert(
+					'Demande de signature envoyée avec succès',
+					'success'
+				);
+
 				if (signatureModal) {
 					signatureModal.hide();
 				}
+
 				setTimeout(cleanupModals, 300);
 			} else {
 				throw new Error(data.message || 'Erreur inconnue');
@@ -3013,7 +3314,9 @@ $closeReason = [];
 
 		} catch (error) {
 			showAlert('Erreur : ' + error.message, 'danger');
-		} finally {
+		}
+		finally {
+			loadingOverlay.classList.remove('active');
 			btn.disabled = false;
 			btn.innerHTML = '<i class="bi bi-send me-1"></i> Envoyer la demande';
 		}
@@ -3303,6 +3606,23 @@ $closeReason = [];
 		margin-top: 2px;
 		opacity: .7;
 		font-style: italic;
+	}
+
+	.page-loading-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.55);
+		display: none;
+		align-items: center;
+		justify-content: center;
+		z-index: 99999;
+	}
+
+	.page-loading-overlay.active {
+		display: flex;
 	}
 </style>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
