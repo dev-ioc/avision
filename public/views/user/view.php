@@ -500,21 +500,76 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 </div>
-<script>
-    function confirmDelete(userId, first_name) {
-        if (confirm('Êtes-vous sûr de vouloir supprimer l\'utilisateur "' + first_name + '" ?\n\nCette action est irréversible et supprimera définitivement l\'utilisateur et toutes ses données associées.')) {
-            window.location.href = '<?php echo BASE_URL; ?>user/delete/' + userId;
-        }
-    }
-</script>
-<script>
-    function confirmDelete(userId, first_name) {
-        if (confirm('Êtes-vous sûr de vouloir supprimer l\'utilisateur "' + first_name + '" ?\n\nCette action est irréversible et supprimera définitivement l\'utilisateur et toutes ses données associées.')) {
-            window.location.href = '<?php echo BASE_URL; ?>user/delete/' + userId;
-        }
-    }
-</script>
 
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteUserModalLabel">
+                    <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
+                    Confirmer la suppression
+                </h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer">
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <p class="mb-3">
+                    Êtes-vous sûr de vouloir supprimer l'utilisateur
+                    <strong id="deleteUserName"></strong> ?
+                </p>
+
+                <div class="alert alert-danger mb-0">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Attention :</strong>
+                    cette action est irréversible et supprimera définitivement
+                    l'utilisateur ainsi que toutes ses données associées.
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Annuler
+                </button>
+
+                <button type="button" class="btn btn-danger" id="confirmDeleteUser">
+                    <i class="bi bi-trash me-1"></i>
+                    Supprimer définitivement
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    let deleteUserId = null;
+
+    function confirmDelete(userId, firstName) {
+        deleteUserId = userId;
+
+        document.getElementById('deleteUserName').textContent = firstName;
+
+        const modal = new bootstrap.Modal(
+            document.getElementById('deleteUserModal')
+        );
+
+        modal.show();
+    }
+
+    document.getElementById('confirmDeleteUser')?.addEventListener('click', function () {
+        if (!deleteUserId) {
+            return;
+        }
+
+        window.location.href = '<?php echo BASE_URL; ?>user/delete/' + deleteUserId;
+    });
+</script>
 <script>
     function showToast(message, type) {
         type = type || 'info';

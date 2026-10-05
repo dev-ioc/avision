@@ -349,15 +349,23 @@ class UserController
             exit;
         }
 
-        if ($this->userModel->deleteUser($id)) {
-            header('Location: ' . BASE_URL . 'user');
-        } else {
-            // Gérer l'erreur
-            header('Location: ' . BASE_URL . 'user?error=delete_failed');
+        try {
+            if ($this->userModel->deleteUser($id)) {
+                $_SESSION['success'] = "L'utilisateur a été supprimé avec succès.";
+            } else {
+                $_SESSION['error'] = "La suppression de l'utilisateur a échoué.";
+            }
+        } catch (\Throwable $e) {
+            error_log(
+                'Erreur lors de la suppression de l\'utilisateur ID ' . $id .
+                ' : ' . $e->getMessage()
+            );
+
+            $_SESSION['error'] = "Une erreur est survenue lors de la suppression de l'utilisateur.";
         }
+        header('Location: ' . BASE_URL . 'user');
         exit;
     }
-
     /**
      * Valide les données d'un utilisateur
      */
