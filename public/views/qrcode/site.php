@@ -108,7 +108,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
     data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow">
-            <!-- En-tête : sert aussi de poignée pour déplacer la modale -->
             <div class="modal-header border-0 pb-0">
                 <h5 class="modal-title" id="printConfirmTitle">
                     Confirmer l'impression
@@ -163,8 +162,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
             const toastEl = document.getElementById('qrToast');
             const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
-
-            // Devient true uniquement après validation de la modale
             let pendingMark = false;
 
             function showToast(message, type) {
@@ -305,7 +302,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
             display: none !important;
         }
 
-        /* Compense la marge de page à 0 pour que le contenu ne colle pas aux bords */
         .container-fluid {
             padding: 15mm !important;
         }
@@ -364,7 +360,5 @@ include_once __DIR__ . '/../../includes/navbar.php';
         font-size: 1.8rem;
     }
 </style>
-
-
 
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>
