@@ -2280,6 +2280,15 @@ try {
                         header('Location: ' . BASE_URL . 'dashboard');
                     }
                     break;
+                case 'markPrinted':
+                    if (isset($parts[2]) && $parts[2] === 'site' && isset($parts[3])) {
+                        $qrcodeController->markPrintedSite($parts[3]);
+                    } else {
+                        header('Content-Type: application/json');
+                        http_response_code(400);
+                        echo json_encode(['success' => false, 'message' => 'Paramètres manquants.']);
+                    }
+                    break;
                 case 'redirect':
                     $qrcodeController->redirect();
                     break;

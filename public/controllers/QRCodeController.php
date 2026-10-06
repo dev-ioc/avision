@@ -56,10 +56,8 @@ class QRCodeController
             exit;
         }
 
-        // Récupérer tous les bâtiments du site
         $batiments = $this->buildingModel->getBuildingsBySiteId($siteId, true);
 
-        // Récupérer toutes les salles de chaque bâtiment
         $salles = [];
         foreach ($batiments as $batiment) {
             $sallesDuBatiment = $this->roomModel->getRoomsByBuildingId($batiment['id'], true);
@@ -68,8 +66,7 @@ class QRCodeController
                 $salles[] = $salle;
             }
         }
-        $this->markRoomsQrEdited(array_column($salles, 'id'));
-        // Compter le matériel par salle
+
         $materielCounts = [];
         foreach ($salles as $salle) {
             $materielCounts[$salle['id']] = $this->materielModel->getMaterielCountBySalle($salle['id']);
@@ -77,6 +74,54 @@ class QRCodeController
 
         $pageTitle = "QR Codes - " . $site['name'];
         require_once VIEWS_PATH . '/qrcode/site.php';
+    }
+    /**
+     * Marque toutes les salles d'un site comme "QR code édité" (appelé après impression)
+     */
+    public function markPrintedSite($siteId)
+    {
+        header('Content-Type: application/json');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'message' => 'Méthode non autorisée.']);
+            exit;
+        }
+
+        $this->checkAccess();
+
+        // Vérification CSRF
+        $input = json_decode(file_get_contents('php://input'), true) ?? [];
+        $token = $input['csrf_token'] ?? ($_SERVER['HTTP_X_CSRF_TOKEN'] ?? '');
+        if (empty($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $token)) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Token CSRF invalide.']);
+            exit;
+        }
+
+        if (!canModifyClients()) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Droits insuffisants.']);
+            exit;
+        }
+
+        $site = $this->siteModel->getSiteById($siteId);
+        if (!$site) {
+            echo json_encode(['success' => false, 'message' => 'Site non trouvé.']);
+            exit;
+        }
+
+        $roomIds = [];
+        foreach ($this->buildingModel->getBuildingsBySiteId($siteId, true) as $batiment) {
+            foreach ($this->roomModel->getRoomsByBuildingId($batiment['id'], true) as $salle) {
+                $roomIds[] = $salle['id'];
+            }
+        }
+
+        $this->markRoomsQrEdited($roomIds);
+
+        echo json_encode(['success' => true, 'count' => count($roomIds)]);
+        exit;
     }
     /**
      * Marque des salles comme "QR code édité"

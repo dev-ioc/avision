@@ -24,10 +24,11 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="card-title mb-0">
                         <i class="bi bi-qr-code me-2"></i>
-                        QR Codes - <?php echo h($site['name']); ?>
+                        QR Codes -
+                        <?php echo h($site['name']); ?>
                     </h4>
                     <div>
-                        <button type="button" class="btn btn-primary" onclick="window.print()">
+                        <button type="button" class="btn btn-primary" id="printQrBtn">
                             <i class="bi bi-printer me-1"></i> Imprimer
                         </button>
                         <a href="<?php echo BASE_URL; ?>clients/edit/<?php echo $site['client_id']; ?>#sites"
@@ -102,18 +103,211 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 </div>
+<!-- Modale de confirmation d'impression -->
+<div class="modal fade" id="printConfirmModal" tabindex="-1" aria-labelledby="printConfirmTitle" aria-hidden="true"
+    data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <!-- En-tête : sert aussi de poignée pour déplacer la modale -->
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title" id="printConfirmTitle">
+                    Confirmer l'impression
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body text-center p-4 pt-2">
+                <div class="print-confirm-icon mb-3">
+                    <i class="bi bi-printer"></i>
+                </div>
+                <p class="text-muted mb-4">
+                    Les QR codes vont être imprimés. Une fois l'impression terminée, les salles de ce site seront
+                    marquées comme <strong>« QR code édité »</strong>.
+                </p>
+                <div class="d-flex justify-content-center gap-2">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Annuler
+                    </button>
+                    <button type="button" class="btn btn-primary" id="confirmPrintedBtn">
+                        <i class="bi bi-printer me-1"></i>
+                        Imprimer et marquer comme édités
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Toast top right -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100;">
+    <div id="qrToast" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true"
+        data-bs-delay="4000">
+        <div class="d-flex">
+            <div class="toast-body d-flex align-items-center">
+                <i class="bi me-2 fs-5" id="qrToastIcon"></i>
+                <span id="qrToastMessage"></span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                aria-label="Fermer"></button>
+        </div>
+    </div>
+</div>
+<?php if (!empty($salles)): ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const csrfToken = '<?= csrf_token() ?>';
+            const markUrl = '<?= BASE_URL ?>qrcode/markPrinted/site/<?= (int) $site['id'] ?>';
+
+            const modalEl = document.getElementById('printConfirmModal');
+            const modal = new bootstrap.Modal(modalEl);
+            const confirmBtn = document.getElementById('confirmPrintedBtn');
+
+            const toastEl = document.getElementById('qrToast');
+            const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+
+            // Devient true uniquement après validation de la modale
+            let pendingMark = false;
+
+            function showToast(message, type) {
+                const isSuccess = type === 'success';
+                toastEl.classList.remove('text-bg-success', 'text-bg-danger');
+                toastEl.classList.add(isSuccess ? 'text-bg-success' : 'text-bg-danger');
+                document.getElementById('qrToastIcon').className =
+                    'bi me-2 fs-5 ' + (isSuccess ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill');
+                document.getElementById('qrToastMessage').textContent = message;
+                toast.show();
+            }
+
+            function markAsPrinted() {
+                fetch(markUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({ csrf_token: csrfToken })
+                })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            showToast('Les QR codes ont bien été marqués comme édités.', 'success');
+                        } else {
+                            showToast(data.message || 'Erreur lors de la mise à jour.', 'danger');
+                        }
+                    })
+                    .catch(() => {
+                        showToast('Erreur réseau lors de la mise à jour.', 'danger');
+                    });
+            }
+
+            // 1. Le clic sur Imprimer ouvre d'abord la modale de confirmation
+            document.getElementById('printQrBtn').addEventListener('click', function () {
+                modal.show();
+            });
+
+            // 2. Validation : on ferme la modale, puis on lance l'impression
+            confirmBtn.addEventListener('click', function () {
+                pendingMark = true;
+                modalEl.addEventListener('hidden.bs.modal', function () {
+                    // Petit délai pour que la modale et le fond soient bien retirés
+                    setTimeout(function () { window.print(); }, 150);
+                }, { once: true });
+                modal.hide();
+            });
+
+            // 3. Après l'impression, on marque les salles comme éditées
+            window.addEventListener('afterprint', function () {
+                if (!pendingMark) return;
+                pendingMark = false;
+                markAsPrinted();
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.modal').forEach(function (modal) {
+                modal.addEventListener('hidden.bs.modal', function () {
+                    const dialog = modal.querySelector('.modal-dialog');
+                    if (dialog) {
+                        dialog.style.position = '';
+                        dialog.style.left = '';
+                        dialog.style.top = '';
+                        dialog.style.margin = '';
+                        dialog.style.width = '';
+                        dialog.style.maxWidth = '';
+                    }
+                });
+
+                modal.addEventListener('shown.bs.modal', function () {
+                    const dialog = modal.querySelector('.modal-dialog');
+                    const header = modal.querySelector('.modal-header');
+                    if (!dialog || !header) return;
+                    if (header.dataset.draggable) return;
+                    header.dataset.draggable = 'true';
+
+                    header.style.cursor = 'grab';
+
+                    let isDragging = false;
+                    let startX, startY, startLeft, startTop;
+
+                    header.addEventListener('mousedown', function (e) {
+                        if (e.target.closest('button')) return;
+
+                        isDragging = true;
+                        header.style.cursor = 'grabbing';
+
+                        const rect = dialog.getBoundingClientRect();
+                        startX = e.clientX;
+                        startY = e.clientY;
+                        startLeft = rect.left;
+                        startTop = rect.top;
+                        dialog.style.width = rect.width + 'px';
+                        dialog.style.maxWidth = 'none';
+                        dialog.style.position = 'fixed';
+                        dialog.style.left = startLeft + 'px';
+                        dialog.style.top = startTop + 'px';
+                        dialog.style.margin = '0';
+                    });
+
+                    document.addEventListener('mousemove', function (e) {
+                        if (!isDragging) return;
+                        const dx = e.clientX - startX;
+                        const dy = e.clientY - startY;
+                        dialog.style.left = (startLeft + dx) + 'px';
+                        dialog.style.top = (startTop + dy) + 'px';
+                    });
+
+                    document.addEventListener('mouseup', function () {
+                        if (isDragging) {
+                            isDragging = false;
+                            header.style.cursor = 'grab';
+                        }
+                    });
+                });
+
+            });
+        });
+    </script>
+<?php endif; ?>
 <style>
+    @page {
+        margin: 0;
+    }
+
     @media print {
 
         .card-header .btn,
         .sidebar,
-        .navbar {
+        .navbar,
+        .modal,
+        .modal-backdrop,
+        .toast-container {
             display: none !important;
         }
 
+        /* Compense la marge de page à 0 pour que le contenu ne colle pas aux bords */
         .container-fluid {
-            padding: 0 !important;
+            padding: 15mm !important;
         }
 
         .card {
@@ -155,6 +349,19 @@ include_once __DIR__ . '/../../includes/navbar.php';
     .qr-code-placeholder i {
         font-size: 2rem;
         margin-bottom: 0.5rem;
+    }
+
+    .print-confirm-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+        font-size: 1.8rem;
     }
 </style>
 
