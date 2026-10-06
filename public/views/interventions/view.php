@@ -2567,10 +2567,11 @@ $closeReason = [];
 		document.body.style.paddingRight = '';
 	}
 </script>
+
 <script>
 	var assignedTechnicians = [];
 	var currentEditId = null;
-	var editingOriginalId = null;
+	var editingAssignmentId = null; // remplace editingOriginalId : id de la LIGNE intervention_techniciens
 
 	function loadTechniciansInPage() {
 		var container = document.getElementById('techniciansListContainer');
@@ -2671,15 +2672,17 @@ $closeReason = [];
 
 						'<div class="d-flex gap-1">' +
 
+						// MODIFIER : on passe l'id de la ligne (assignment_id)
 						'<button class="btn btn-sm btn-outline-warning' +
 						disabledClass + '"' +
 						disabledAttr +
 						' onclick="editTechnician(' +
-						tech.technicien_id +
+						tech.technicien_id + ',' + tech.assignment_id +
 						')" title="Modifier">' +
 						'<i class="bi bi-pencil"></i>' +
 						'</button>' +
 
+						// EMAIL : reste basé sur technicien_id
 						'<button class="btn btn-sm btn-outline-primary' +
 						disabledClass + '"' +
 						disabledAttr +
@@ -2691,11 +2694,12 @@ $closeReason = [];
 						'<i class="bi bi-envelope"></i>' +
 						'</button>' +
 
+						// SUPPRIMER : on passe l'id de la ligne (assignment_id)
 						'<button class="btn btn-sm btn-outline-danger' +
 						disabledClass + '"' +
 						disabledAttr +
 						' onclick="removeTechnicianFromPage(' +
-						tech.technicien_id +
+						tech.assignment_id +
 						')" title="Supprimer">' +
 						'<i class="bi bi-trash"></i>' +
 						'</button>' +
@@ -2720,7 +2724,7 @@ $closeReason = [];
 			})
 	}
 
-	async function removeTechnicianFromPage(technicianId) {
+	async function removeTechnicianFromPage(assignmentId) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 		var interventionStatus = <?= (int) ($intervention['status_id'] ?? 0) ?>;
 
@@ -2734,7 +2738,7 @@ $closeReason = [];
 
 		var confirmed = await showConfirm({
 			title: 'Retirer le technicien',
-			message: 'Voulez-vous vraiment retirer ce technicien de cette intervention ?',
+			message: 'Voulez-vous vraiment retirer cette affectation ?',
 			type: 'danger',
 			icon: 'bi-person-dash-fill text-danger',
 			confirmText: 'Retirer'
@@ -2742,10 +2746,7 @@ $closeReason = [];
 
 		if (!confirmed) return;
 
-		// Récupérer l'overlay
 		var loadingOverlay = document.getElementById('pageLoadingOverlay');
-
-		// Bloquer toute la page
 		if (loadingOverlay) {
 			loadingOverlay.classList.add('active');
 		}
@@ -2762,7 +2763,7 @@ $closeReason = [];
 					},
 					body: JSON.stringify({
 						intervention_id: interventionId,
-						technician_id: technicianId
+						assignment_id: assignmentId
 					})
 				}
 			);
@@ -2774,10 +2775,7 @@ $closeReason = [];
 					result.message || 'Technicien retiré avec succès.',
 					'success'
 				);
-
-				// Recharger la liste
 				await loadTechniciansInPage();
-
 			} else {
 				showToast(
 					'Erreur : ' + (result.error || 'Suppression impossible'),
@@ -2794,19 +2792,35 @@ $closeReason = [];
 			}
 		}
 	}
-	function editTechnician(technicianId) {
+
+	function editTechnician(technicianId, assignmentId) {
 		var interventionId = <?= (int) ($intervention['id'] ?? 0) ?>;
 		var interventionStatus = <?= (int) ($intervention['status_id'] ?? 0) ?>;
 		if (interventionStatus === 6) {
 			showToast('Impossible de modifier un technicien d\'une intervention fermée. Veuillez la réouvrir d\'abord.', 'warning');
 			return;
 		}
-		openTechModal(interventionId, technicianId);
+		openTechModal(interventionId, assignmentId);
 	}
-	function openTechModal(id, preselectTechnicianId) {
+
+	// Remplit le formulaire avec UNE affectation
+	function fillTechnicianForm(a) {
+		document.getElementById('selected_technician_id').value = a.id;
+		document.getElementById('selectedTechnicianName').textContent = a.name;
+		document.getElementById('start_time').value = a.start_time || '';
+		document.getElementById('end_time').value = a.end_time || '';
+		document.getElementById('temps_passe').value = a.temps_passe || '';
+		document.getElementById('deplacement').value = a.deplacement || '0';
+		document.getElementById('is_qualified').value = a.is_qualified || '0';
+		document.getElementById('commentaire').value = a.commentaire || '';
+	}
+
+	// assignmentId absent  => mode AJOUT (nouveau créneau)
+	// assignmentId présent => mode MODIFICATION de cette ligne précise
+	function openTechModal(id, assignmentId) {
 		if (!id) { alert('ID intervention manquant'); return; }
 		assignedTechnicians = []; currentEditId = null;
-		editingOriginalId = preselectTechnicianId ? String(preselectTechnicianId) : null;
+		editingAssignmentId = assignmentId ? String(assignmentId) : null;
 		document.getElementById('intervention_id').value = id;
 		resetTechnicianForm();
 		var sel = document.getElementById('techSelect');
@@ -2825,7 +2839,9 @@ $closeReason = [];
 					var tech = technicians.find(function (t) { return t.id == a.technicien_id; });
 					if (tech) {
 						assignedTechnicians.push({
-							id: tech.id, name: tech.full_name || (tech.first_name + ' ' + tech.last_name),
+							assignment_id: a.assignment_id,
+							id: tech.id,
+							name: tech.full_name || (tech.first_name + ' ' + tech.last_name),
 							start_time: a.start_time || '', end_time: a.end_time || '', temps_passe: a.temps_passe || '',
 							deplacement: a.deplacement || 0, is_qualified: a.is_qualified || 0, commentaire: a.commentaire || ''
 						});
@@ -2835,12 +2851,19 @@ $closeReason = [];
 				else { technicians.forEach(function (t) { var o = document.createElement('option'); o.value = t.id; o.text = t.full_name || (t.first_name + ' ' + t.last_name); sel.appendChild(o); }); }
 				if (typeof $ !== 'undefined' && $('#techSelect').select2) { $('#techSelect').select2({ placeholder: 'Rechercher un technicien', allowClear: true, width: '100%', dropdownParent: $('#techModal') }); }
 				var me = document.getElementById('techModal'); if (me) new bootstrap.Modal(me).show();
-				if (preselectTechnicianId) {
-					if (typeof $ !== 'undefined' && $('#techSelect').select2) {
-						$('#techSelect').val(String(preselectTechnicianId)).trigger('change');
-					} else {
-						sel.value = String(preselectTechnicianId);
-						sel.dispatchEvent(new Event('change'));
+
+				// Mode modification : on cible UNE affectation précise
+				if (editingAssignmentId) {
+					var cur = assignedTechnicians.find(function (t) { return String(t.assignment_id) === editingAssignmentId; });
+					if (cur) {
+						if (typeof $ !== 'undefined' && $('#techSelect').select2) {
+							$('#techSelect').val(String(cur.id)).trigger('change');
+						} else {
+							sel.value = String(cur.id);
+						}
+						fillTechnicianForm(cur);
+						currentEditId = editingAssignmentId;
+						document.getElementById('btnRemoveCurrent').style.display = 'inline-block';
 					}
 				}
 			})
@@ -2875,71 +2898,40 @@ $closeReason = [];
 		} else d.style.display = 'none';
 	}
 
+	// Le select ne charge PLUS les données d'un technicien déjà affecté :
+	// il définit seulement QUEL technicien est assigné au créneau en cours de saisie.
 	document.getElementById('techSelect')?.addEventListener('change', function () {
 		var tid = this.value;
 
 		if (!tid) {
-			if (!editingOriginalId) resetTechnicianForm();
-			currentEditId = null;
+			if (!editingAssignmentId) resetTechnicianForm();
 			return;
 		}
 
 		document.getElementById('selectedTechnicianName').textContent = this.options[this.selectedIndex].text;
 		document.getElementById('selected_technician_id').value = tid;
-
-		var ex = assignedTechnicians.find(function (t) { return t.id == tid; });
-		if (editingOriginalId && String(tid) !== editingOriginalId && !ex) {
-			document.getElementById('btnRemoveCurrent').style.display = 'none';
-			document.getElementById('technicianDetails').style.display = 'block';
-			currentEditId = null;
-			return;
-		}
-
-		if (ex) {
-			if (editingOriginalId && String(tid) !== editingOriginalId) {
-				editingOriginalId = null;
-				showToast('Ce technicien est déjà affecté, ses données ont été chargées.', 'warning');
-			}
-			document.getElementById('start_time').value = ex.start_time || '';
-			document.getElementById('end_time').value = ex.end_time || '';
-			document.getElementById('temps_passe').value = ex.temps_passe || '';
-			document.getElementById('deplacement').value = ex.deplacement || '0';
-			document.getElementById('is_qualified').value = ex.is_qualified || '0';
-			document.getElementById('commentaire').value = ex.commentaire || '';
-			document.getElementById('btnRemoveCurrent').style.display = 'inline-block';
-			currentEditId = tid;
-		} else {
-			document.getElementById('start_time').value = '';
-			document.getElementById('end_time').value = '';
-			document.getElementById('temps_passe').value = '';
-			document.getElementById('deplacement').value = '0';
-			document.getElementById('is_qualified').value = '0';
-			document.getElementById('commentaire').value = '';
-			document.getElementById('btnRemoveCurrent').style.display = 'none';
-			currentEditId = null;
-		}
 		document.getElementById('technicianDetails').style.display = 'block';
 	});
 
 	async function removeCurrentTechnician() {
-		var tid = document.getElementById('selected_technician_id').value;
-		if (!tid) return;
-		var tech = assignedTechnicians.find(function (t) { return t.id == tid; });
+		if (!editingAssignmentId) return;
+		var tech = assignedTechnicians.find(function (t) { return String(t.assignment_id) === editingAssignmentId; });
 		if (!tech) return;
 
 		var confirmed = await showConfirm({
 			title: 'Retirer le technicien',
-			message: 'Retirer ' + tech.name + ' de cette intervention ?',
+			message: 'Retirer cette affectation de ' + tech.name + ' ?',
 			type: 'danger',
 			icon: 'bi-person-dash-fill text-danger',
 			confirmText: 'Retirer'
 		});
 		if (confirmed) {
-			assignedTechnicians = assignedTechnicians.filter(function (t) { return t.id != tid; });
+			assignedTechnicians = assignedTechnicians.filter(function (t) { return String(t.assignment_id) !== editingAssignmentId; });
+			editingAssignmentId = null;
 			resetTechnicianForm();
 			document.getElementById('techSelect').value = '';
 			if (typeof $ !== 'undefined' && $('#techSelect').select2) { $('#techSelect').val('').trigger('change'); }
-			loadTechniciansInPage();
+			// Pas de loadTechniciansInPage() : la suppression n'est effective qu'à l'enregistrement
 		}
 	}
 
@@ -2952,41 +2944,73 @@ $closeReason = [];
 		}
 		if (!interventionId) { showToast('ID intervention manquant.', 'danger'); return; }
 
+		// 1) Toutes les affectations existantes, identifiées par assignment_id
 		var toSave = [];
 		for (var i = 0; i < assignedTechnicians.length; i++) {
 			var existingTech = assignedTechnicians[i];
-			toSave.push({ technicien_id: parseInt(existingTech.id), start_time: existingTech.start_time || null, end_time: existingTech.end_time || null, temps_passe: existingTech.temps_passe || null, deplacement: existingTech.deplacement || 0, is_qualified: existingTech.is_qualified || 0, commentaire: existingTech.commentaire || '', notify_technician: 0 });
+			toSave.push({
+				assignment_id: existingTech.assignment_id ? parseInt(existingTech.assignment_id) : null,
+				technicien_id: parseInt(existingTech.id),
+				start_time: existingTech.start_time || null,
+				end_time: existingTech.end_time || null,
+				temps_passe: existingTech.temps_passe || null,
+				deplacement: existingTech.deplacement || 0,
+				is_qualified: existingTech.is_qualified || 0,
+				commentaire: existingTech.commentaire || '',
+				notify_technician: 0
+			});
 		}
 		for (var j = 0; j < toSave.length; j++) {
 			if (!toSave[j].start_time) {
-				var missing = assignedTechnicians.find(function (t) { return t.id == toSave[j].technicien_id; });
+				var missing = assignedTechnicians[j];
 				showToast('La date et l\'heure de début sont manquantes pour ' + (missing ? missing.name : 'un technicien') + '.', 'warning');
 				return;
 			}
 		}
-		var selectedNow = document.getElementById('techSelect').value;
-		if (
-			selectedNow && editingOriginalId &&
-			String(selectedNow) !== editingOriginalId &&
-			!assignedTechnicians.some(function (t) { return t.id == selectedNow; })
-		) {
-			toSave = toSave.filter(function (t) { return String(t.technicien_id) !== editingOriginalId; });
-		}
-		var sel = document.getElementById('techSelect');
-		var selectedValue = sel.value;
+
+		// 2) Le formulaire en cours : modification d'une ligne OU nouveau créneau
+		var selectedValue = document.getElementById('techSelect').value;
 		if (selectedValue) {
-			var st = document.getElementById('start_time').value, et = document.getElementById('end_time').value, tp = parseInt(document.getElementById('temps_passe').value) || 0, dep = parseInt(document.getElementById('deplacement').value) || 0, iq = parseInt(document.getElementById('is_qualified').value) || 0, comment = document.getElementById('commentaire').value;
+			var st = document.getElementById('start_time').value,
+				et = document.getElementById('end_time').value,
+				tp = parseInt(document.getElementById('temps_passe').value) || 0,
+				dep = parseInt(document.getElementById('deplacement').value) || 0,
+				iq = parseInt(document.getElementById('is_qualified').value) || 0,
+				comment = document.getElementById('commentaire').value;
+
 			if (!st) {
 				showToast('Veuillez renseigner la date et l\'heure de début.', 'warning');
 				document.getElementById('start_time').focus();
 				return;
 			}
-			if (st && et && new Date(st) >= new Date(et)) { showToast('La date de fin doit être postérieure à la date de début.', 'warning'); return; }
+			if (et && new Date(st) >= new Date(et)) {
+				showToast('La date de fin doit être postérieure à la date de début.', 'warning');
+				return;
+			}
 			if (tp > 0) tp = roundToHalfHour(tp) || 30;
-			var existingIndex = toSave.findIndex(function (t) { return t.technicien_id == selectedValue; });
-			var techData = { technicien_id: parseInt(selectedValue), start_time: st || null, end_time: et || null, temps_passe: tp || null, deplacement: dep, is_qualified: iq, commentaire: comment, notify_technician: 1 };
-			if (existingIndex >= 0) { toSave[existingIndex] = techData; } else { toSave.push(techData); }
+
+			var techData = {
+				assignment_id: editingAssignmentId ? parseInt(editingAssignmentId) : null,
+				technicien_id: parseInt(selectedValue),
+				start_time: st || null,
+				end_time: et || null,
+				temps_passe: tp || null,
+				deplacement: dep,
+				is_qualified: iq,
+				commentaire: comment,
+				notify_technician: 1
+			};
+
+			if (editingAssignmentId) {
+				// Modification : on remplace uniquement la ligne éditée
+				var idx = toSave.findIndex(function (t) { return String(t.assignment_id) === editingAssignmentId; });
+				if (idx >= 0) toSave[idx] = techData; else toSave.push(techData);
+			} else {
+				// Ajout : nouveau créneau, même si ce technicien est déjà affecté
+				toSave.push(techData);
+			}
 		}
+
 		if (toSave.length === 0) { showToast('Veuillez sélectionner au moins un technicien.', 'warning'); return; }
 
 		var saveBtn = document.querySelector('#techModal .btn-primary');
@@ -3027,7 +3051,6 @@ $closeReason = [];
 			return;
 		}
 
-		// Afficher le spinner après avoir cliqué sur "Envoyer"
 		var loadingOverlay = document.getElementById('pageLoadingOverlay');
 
 		if (loadingOverlay) {
