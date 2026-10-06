@@ -110,7 +110,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
         <div class="modal-content border-0 shadow">
             <div class="modal-header border-0 pb-0">
                 <h5 class="modal-title" id="printConfirmTitle">
-                    <i class="bi bi-grip-horizontal me-2 text-muted"></i>Impression terminée ?
+                    Impression terminée ?
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
             </div>
