@@ -103,14 +103,14 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 </div>
-<!-- Modale de confirmation d'impression -->
+<!-- Modale de confirmation APRÈS impression -->
 <div class="modal fade" id="printConfirmModal" tabindex="-1" aria-labelledby="printConfirmTitle" aria-hidden="true"
     data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow">
             <div class="modal-header border-0 pb-0">
                 <h5 class="modal-title" id="printConfirmTitle">
-                    Confirmer l'impression
+                    <i class="bi bi-grip-horizontal me-2 text-muted"></i>Impression terminée ?
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
             </div>
@@ -119,16 +119,16 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     <i class="bi bi-printer"></i>
                 </div>
                 <p class="text-muted mb-4">
-                    Les QR codes vont être imprimés. Une fois l'impression terminée, les salles de ce site seront
-                    marquées comme <strong>« QR code édité »</strong>.
+                    Les QR codes ont-ils bien été imprimés ?<br>
+                    Si oui, les salles de ce site seront marquées comme <strong>« QR code édité »</strong>.
                 </p>
                 <div class="d-flex justify-content-center gap-2">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                        Annuler
+                        Non, l'impression a été annulée
                     </button>
-                    <button type="button" class="btn btn-primary" id="confirmPrintedBtn">
-                        <i class="bi bi-printer me-1"></i>
-                        Imprimer et marquer comme édités
+                    <button type="button" class="btn btn-success" id="confirmPrintedBtn">
+                        <i class="bi bi-check-lg me-1"></i>
+                        Oui, marquer comme édités
                     </button>
                 </div>
             </div>
@@ -162,7 +162,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
             const toastEl = document.getElementById('qrToast');
             const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
-            let pendingMark = false;
 
             function showToast(message, type) {
                 const isSuccess = type === 'success';
@@ -175,6 +174,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
             }
 
             function markAsPrinted() {
+                confirmBtn.disabled = true;
+
                 fetch(markUrl, {
                     method: 'POST',
                     headers: {
@@ -194,28 +195,26 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     })
                     .catch(() => {
                         showToast('Erreur réseau lors de la mise à jour.', 'danger');
+                    })
+                    .finally(() => {
+                        confirmBtn.disabled = false;
                     });
             }
 
-            // 1. Le clic sur Imprimer ouvre d'abord la modale de confirmation
+            // 1. Le clic sur Imprimer lance directement l'impression
             document.getElementById('printQrBtn').addEventListener('click', function () {
-                modal.show();
+                window.print();
             });
 
-            // 2. Validation : on ferme la modale, puis on lance l'impression
-            confirmBtn.addEventListener('click', function () {
-                pendingMark = true;
-                modalEl.addEventListener('hidden.bs.modal', function () {
-                    // Petit délai pour que la modale et le fond soient bien retirés
-                    setTimeout(function () { window.print(); }, 150);
-                }, { once: true });
-                modal.hide();
-            });
-
-            // 3. Après l'impression, on marque les salles comme éditées
+            // 2. À la fermeture de la boîte d'impression (Print OU Cancel),
+            //    on demande à l'utilisateur si l'impression a bien eu lieu
             window.addEventListener('afterprint', function () {
-                if (!pendingMark) return;
-                pendingMark = false;
+                setTimeout(function () { modal.show(); }, 300);
+            });
+
+            // 3. Seulement si l'utilisateur confirme, on marque les salles comme éditées
+            confirmBtn.addEventListener('click', function () {
+                modal.hide();
                 markAsPrinted();
             });
         });
