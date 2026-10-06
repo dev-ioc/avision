@@ -118,20 +118,29 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <div class="print-confirm-icon mb-3">
                     <i class="bi bi-printer"></i>
                 </div>
-                <p class="text-muted mb-4">
+                <p class="text-muted mb-3">
                     Les QR codes ont-ils bien été imprimés ?<br>
                     Si oui, les salles de ce site seront marquées comme <strong>« QR code édité »</strong>.
                 </p>
+
+                <div class="form-check d-inline-block text-start mb-4">
+                    <input class="form-check-input" type="checkbox" id="printedCheck">
+                    <label class="form-check-label" for="printedCheck">
+                        Je confirme que l'impression a bien été effectuée
+                    </label>
+                </div>
+
                 <div class="d-flex justify-content-center gap-2">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-outline-secondary" id="cancelPrintBtn" data-bs-dismiss="modal">
                         Non, l'impression a été annulée
                     </button>
-                    <button type="button" class="btn btn-success" id="confirmPrintedBtn">
+                    <button type="button" class="btn btn-success" id="confirmPrintedBtn" disabled>
                         <i class="bi bi-check-lg me-1"></i>
                         Oui, marquer comme édités
                     </button>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -159,6 +168,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
             const modalEl = document.getElementById('printConfirmModal');
             const modal = new bootstrap.Modal(modalEl);
             const confirmBtn = document.getElementById('confirmPrintedBtn');
+            const cancelBtn = document.getElementById('cancelPrintBtn');
+            const printedCheck = document.getElementById('printedCheck');
 
             const toastEl = document.getElementById('qrToast');
             const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
@@ -171,6 +182,12 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     'bi me-2 fs-5 ' + (isSuccess ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill');
                 document.getElementById('qrToastMessage').textContent = message;
                 toast.show();
+            }
+
+            function resetConfirmation() {
+                printedCheck.checked = false;
+                confirmBtn.disabled = true;
+                cancelBtn.disabled = false;
             }
 
             function markAsPrinted() {
@@ -197,9 +214,18 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         showToast('Erreur réseau lors de la mise à jour.', 'danger');
                     })
                     .finally(() => {
-                        confirmBtn.disabled = false;
+                        resetConfirmation();
                     });
             }
+
+            // « Oui » actif et « Non » grisé quand la case est cochée (et inversement)
+            printedCheck.addEventListener('change', function () {
+                confirmBtn.disabled = !printedCheck.checked;
+                cancelBtn.disabled = printedCheck.checked;
+            });
+
+            // À chaque ouverture de la modale, on remet à zéro
+            modalEl.addEventListener('show.bs.modal', resetConfirmation);
 
             // 1. Le clic sur Imprimer lance directement l'impression
             document.getElementById('printQrBtn').addEventListener('click', function () {
@@ -212,8 +238,9 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 setTimeout(function () { modal.show(); }, 300);
             });
 
-            // 3. Seulement si l'utilisateur confirme, on marque les salles comme éditées
+            // 3. Seulement si l'utilisateur confirme (case cochée), on marque les salles
             confirmBtn.addEventListener('click', function () {
+                if (!printedCheck.checked) return;
                 modal.hide();
                 markAsPrinted();
             });
