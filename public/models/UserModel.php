@@ -358,24 +358,11 @@ class UserModel extends BaseModel
                     'user_group' => $user['user_group'],
                     'is_admin' => $user['is_admin'],
                     'client_id' => $user['client_id'],
-                    'totp_enabled' => $user['totp_enabled'], // <-- ajouter
+                    'totp_enabled' => $user['totp_enabled'], 
                     'permissions' => $this->permissions
                 ];
-
-                // Log de la connexion
-                custom_log("Utilisateur connecté : {$this->email}", 'INFO', [
-                    'user_id' => $this->id,
-                    'user_type' => $user['user_type'],
-                    'user_group' => $user['user_group'],
-                    'is_admin' => $user['is_admin'],
-                    'client_id' => $user['client_id']
-                ]);
-
                 return true;
             }
-
-            custom_log("Tentative de connexion échouée pour l'utilisateur : $email", 'WARNING');
-            custom_log("Tentative de connexion échouée pour l'utilisateur : $email", 'WARNING');
             return false;
         } catch (PDOException $e) {
             custom_log("Erreur d'authentification : " . $e->getMessage(), 'ERROR');
