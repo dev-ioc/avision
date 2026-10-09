@@ -69,3 +69,27 @@ $config = Config::getInstance();
 // Définition des constantes de configuration
 define('BASE_URL', $config->getBaseUrl());
 define('SITE_NAME', $config->getSiteName());
+// ==== Contrôle de validité de la session (doit rester en dernier) ====
+if (isset($db) && isset($_SESSION['user']['id'])) {
+    $s = $db->prepare("SELECT status, auth_version FROM users WHERE id = ?");
+    $s->execute([$_SESSION['user']['id']]);
+    $row = $s->fetch(PDO::FETCH_ASSOC);
+
+    if (
+        !$row || !$row['status']
+        || (int) $row['auth_version'] !== (int) ($_SESSION['user']['auth_version'] ?? 0)
+    ) {
+
+        session_destroy();
+
+        $isAjax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
+        if ($isAjax) {
+            http_response_code(401);
+            header('Content-Type: application/json; charset=UTF-8');
+            echo json_encode(['error' => 'Session expirée.', 'redirect' => BASE_URL . 'auth/login']);
+        } else {
+            header('Location: ' . BASE_URL . 'auth/login');
+        }
+        exit;
+    }
+}

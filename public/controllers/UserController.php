@@ -53,7 +53,34 @@ class UserController
         // Chargement de la vue
         require_once __DIR__ . '/../views/user/index.php';
     }
+    /**
+     * Détermine l'URL de retour vers la liste des utilisateurs.
+     * N'autorise que la liste locale, sur le même hôte (anti open-redirect).
+     */
+    private function resolveReturnUrl(): string
+    {
+        $defaultReturnUrl = BASE_URL . 'user';
+        $candidate = $_GET['return_url'] ?? $_POST['return_url'] ?? '';
 
+
+        if (empty($candidate)) {
+            return $defaultReturnUrl;
+        }
+
+        // Refuser tout hôte externe (ex: https://autre-site.com/.../user ou //autre-site.com/...)
+        $candidateHost = parse_url($candidate, PHP_URL_HOST);
+        if (!empty($candidateHost) && $candidateHost !== parse_url(BASE_URL, PHP_URL_HOST)) {
+            return $defaultReturnUrl;
+        }
+        $candidatePath = parse_url($candidate, PHP_URL_PATH);
+        $expectedPath = rtrim((string) parse_url(BASE_URL, PHP_URL_PATH), '/') . '/user';
+
+        if (rtrim((string) $candidatePath, '/') === $expectedPath) {
+            return $candidate;
+        }
+
+        return $defaultReturnUrl;
+    }
     /**
      * Affiche le formulaire de création d'utilisateur
      */
@@ -66,7 +93,7 @@ class UserController
             header('Location: ' . BASE_URL . 'dashboard');
             exit;
         }
-
+        $returnUrl = $this->resolveReturnUrl();
         // Récupérer les types d'utilisateurs depuis la base de données
         $userTypes = [];
         try {
@@ -160,7 +187,7 @@ class UserController
         require_once __DIR__ . '/../views/user/add.php';
     }
 
-   /**
+    /**
      * Affiche le formulaire de modification d'utilisateur
      */
     public function edit($id)
@@ -270,7 +297,7 @@ class UserController
                 'coef_utilisateur' => $_POST['coef_utilisateur'] ?? null,
                 'client_id' => $_POST['client_id'] ?? null
             ];
-
+            $data['email'] = $user['email'];
             // Validation
             $errors = $this->validateUserData($data, $id);
             if (empty($errors)) {
@@ -322,15 +349,23 @@ class UserController
             exit;
         }
 
-        if ($this->userModel->deleteUser($id)) {
-            header('Location: ' . BASE_URL . 'user');
-        } else {
-            // Gérer l'erreur
-            header('Location: ' . BASE_URL . 'user?error=delete_failed');
+        try {
+            if ($this->userModel->deleteUser($id)) {
+                $_SESSION['success'] = "L'utilisateur a été supprimé avec succès.";
+            } else {
+                $_SESSION['error'] = "La suppression de l'utilisateur a échoué.";
+            }
+        } catch (\Throwable $e) {
+            error_log(
+                'Erreur lors de la suppression de l\'utilisateur ID ' . $id .
+                ' : ' . $e->getMessage()
+            );
+
+            $_SESSION['error'] = "Une erreur est survenue lors de la suppression de l'utilisateur.";
         }
+        header('Location: ' . BASE_URL . 'user');
         exit;
     }
-
     /**
      * Valide les données d'un utilisateur
      */
@@ -767,5 +802,218 @@ class UserController
 
         fclose($output);
         exit;
+    }
+    /**
+     * Répond en JSON et termine (helper pour recoverAccount)
+     */
+    private function jsonResponse(bool $success, string $message, int $status = 200): void
+    {
+        http_response_code($status);
+        header('Content-Type: application/json; charset=UTF-8');
+        echo json_encode(['success' => $success, 'message' => $message]);
+        exit;
+    }
+
+    /**
+     * Récupération de compte : remplace l'e-mail perdu et envoie un lien de définition de mot de passe (AJAX, admin)
+     */
+    public function recoverAccount($userId)
+    {
+        // Garde-fous (mêmes que sendResetLink)
+        if (strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') !== 'xmlhttprequest') {
+            $this->jsonResponse(false, 'Accès non autorisé.', 403);
+        }
+        if (!isset($_SESSION['user']) || !isAdmin()) {
+            $this->jsonResponse(false, 'Accès refusé.', 403);
+        }
+
+        $input = json_decode(file_get_contents('php://input'), true) ?? [];
+        if (!csrf_verify($input['csrf_token'] ?? ($_POST['csrf_token'] ?? null))) {
+            $this->jsonResponse(false, 'Token CSRF invalide.', 403);
+        }
+
+        $newEmail = trim($input['new_email'] ?? '');
+        $confirm = trim($input['confirm_email'] ?? '');
+        $reason = trim($input['reason'] ?? '');
+        $reset2fa = !empty($input['reset_2fa']);
+        $adminId = (int) $_SESSION['user']['id'];
+        $userId = (int) $userId;
+
+        $user = $this->userModel->getUserById($userId);
+        if (!$user)
+            $this->jsonResponse(false, 'Utilisateur introuvable.', 404);
+        if ($userId === $adminId)
+            $this->jsonResponse(false, 'Action interdite sur votre propre compte.', 400);
+        if (!empty($user['is_admin']))
+            $this->jsonResponse(false, "La récupération d'un compte admin se fait hors interface.", 403);
+        if (strcasecmp($newEmail, $confirm) !== 0)
+            $this->jsonResponse(false, 'Les deux adresses ne correspondent pas.', 400);
+        if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL) || $this->userModel->emailExists($newEmail, $userId)) {
+            $this->jsonResponse(false, 'Adresse invalide ou déjà utilisée.', 400);
+        }
+        if ($reason === '')
+            $this->jsonResponse(false, 'Un motif est requis.', 400);
+
+        $oldEmail = $user['email'];
+        $token = bin2hex(random_bytes(32));
+
+        try {
+            $this->db->beginTransaction();
+
+            if (!$this->userModel->updateUserEmail($userId, $newEmail)) {
+                throw new Exception('update email');
+            }
+            if ($reset2fa) {
+                $this->userModel->disableTotp($userId);
+                $this->userModel->deleteAllWebauthnCredentials($userId);
+            }
+            if (!$this->userModel->savePasswordResetToken($userId, $token, date('Y-m-d H:i:s', time() + 3600), $adminId)) {
+                throw new Exception('save token'); // la méthode avale ses exceptions et renvoie false
+            }
+            if (!$this->userModel->logAccountRecovery($userId, $adminId, $oldEmail, $newEmail, $reason, $reset2fa)) {
+                throw new Exception('audit log');
+            }
+
+            $this->db->commit();
+        } catch (Exception $e) {
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
+            custom_log('recoverAccount: ' . $e->getMessage(), 'ERROR');
+            $this->jsonResponse(false, 'Une erreur est survenue.', 500);
+        }
+
+        // Après commit : un échec d'e-mail ne doit pas annuler la récupération
+        $warning = null;
+        try {
+            $user['email'] = $newEmail;
+            $this->mailService->sendPasswordResetLink($user, $token);
+            $this->mailService->sendEmailChangedNotice($oldEmail, $newEmail);
+        } catch (Exception $e) {
+            custom_log('recoverAccount mail: ' . $e->getMessage(), 'ERROR');
+            $warning = " Attention : l'envoi d'un e-mail a échoué.";
+        }
+
+        $this->jsonResponse(true, 'Récupération effectuée, lien envoyé à ' . $newEmail . '.' . ($warning ?? ''));
+    }
+    /**
+     * Démarre une session "se connecter en tant que" (admin -> client)
+     */
+    public function impersonate($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            exit;
+        }
+
+        if (!isset($_SESSION['user']) || !isAdmin() || isImpersonating()) {
+            $_SESSION['error'] = "Action non autorisée.";
+            header('Location: ' . BASE_URL . 'user');
+            exit;
+        }
+
+        if (!csrf_verify($_POST['csrf_token'] ?? null)) {
+            $_SESSION['error'] = "Token CSRF invalide.";
+            header('Location: ' . BASE_URL . 'user');
+            exit;
+        }
+
+        $target = $this->userModel->getUserById((int) $id);
+
+        if (
+            !$target
+            || ($target['user_type'] ?? '') !== 'client'
+            || empty($target['status'])
+            || !empty($target['is_admin'])
+            || (int) $target['id'] === (int) $_SESSION['user']['id']
+        ) {
+            $_SESSION['error'] = "Cet utilisateur ne peut pas être impersonné.";
+            header('Location: ' . BASE_URL . 'user');
+            exit;
+        }
+
+        // Données de session complètes (droits + localisations), identiques à un vrai login
+        $sessionUser = $this->userModel->getSessionDataById((int) $target['id']);
+        if (!$sessionUser) {
+            $_SESSION['error'] = "Impossible de charger les droits de cet utilisateur.";
+            header('Location: ' . BASE_URL . 'user');
+            exit;
+        }
+
+        $admin = $_SESSION['user'];
+
+        $stmt = $this->db->prepare(
+            "INSERT INTO impersonation_log (admin_id, target_user_id, started_at, ip, user_agent)
+         VALUES (?, ?, NOW(), ?, ?)"
+        );
+        $stmt->execute([
+            $admin['id'],
+            $target['id'],
+            $_SERVER['REMOTE_ADDR'] ?? null,
+            substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 255),
+        ]);
+        $logId = (int) $this->db->lastInsertId();
+
+        // Session entièrement réinitialisée (une seule régénération d'ID)
+        $this->resetSessionFor($sessionUser, [
+            'impersonator' => $admin,
+            'impersonation_log_id' => $logId,
+            'impersonation_started_at' => time(),
+        ]);
+
+        custom_log("Impersonation démarrée : admin {$admin['id']} -> client {$target['id']}", 'INFO');
+
+        header('Location: ' . BASE_URL . 'dashboard');
+        exit;
+    }
+
+    /**
+     * Termine l'impersonation et restaure la session admin
+     */
+    public function stopImpersonation()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_SESSION['impersonator'])) {
+            header('Location: ' . BASE_URL . 'dashboard');
+            exit;
+        }
+
+        if (!csrf_verify($_POST['csrf_token'] ?? null)) {
+            http_response_code(403);
+            exit;
+        }
+
+        $admin = $_SESSION['impersonator'];
+        $targetId = (int) ($_SESSION['user']['id'] ?? 0);
+        $logId = (int) ($_SESSION['impersonation_log_id'] ?? 0);
+
+        if ($logId > 0) {
+            $stmt = $this->db->prepare("UPDATE impersonation_log SET ended_at = NOW() WHERE id = ?");
+            $stmt->execute([$logId]);
+        }
+
+        // Session admin restaurée à partir d'un état vierge (plus de reliquats du client)
+        $this->resetSessionFor($admin);
+
+        custom_log("Impersonation terminée : admin {$admin['id']} <- client {$targetId}", 'INFO');
+
+        header('Location: ' . BASE_URL . 'user/view/' . $targetId);
+        exit;
+    }
+
+    private function resetSessionFor(array $newUser, array $extra = []): void
+    {
+        $csrf = $_SESSION['csrf_token'] ?? null; // adaptez au nom réel de votre clé CSRF
+
+        $_SESSION = [];                 // vide tout (filtres, caches, etc.)
+        session_regenerate_id(true);
+
+        if ($csrf) {
+            $_SESSION['csrf_token'] = $csrf;
+        }
+        $_SESSION['user'] = $newUser;
+        $_SESSION['last_activity'] = time();
+        foreach ($extra as $k => $v) {
+            $_SESSION[$k] = $v;
+        }
     }
 }

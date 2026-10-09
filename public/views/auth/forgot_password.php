@@ -54,7 +54,7 @@ if (!defined('BASE_URL')) {
             <div class="col-md-6 col-lg-4">
                 <div class="card">
                     <div class="card-body">
-                        <h1 class="text-center mb-3">Mot de passe oublié</h1>
+                        <h1 class="text-center mb-3" style="font-size: 2rem;">Mot de passe oublié</h1>
                         <p class="text-muted text-center mb-4">
                             Saisissez votre email, nous vous enverrons un lien pour choisir un nouveau mot de passe.
                         </p>
@@ -79,13 +79,17 @@ if (!defined('BASE_URL')) {
 
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-
                                 <input type="email" class="form-control" id="email" name="email" required autofocus>
                             </div>
-
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" name="use_recovery" id="use_recovery"
+                                    value="1">
+                                <label class="form-check-label small" for="use_recovery">
+                                    Je n'ai plus accès à cette adresse : envoyer le lien à mon adresse de secours
+                                </label>
+                            </div>
                             <button type="submit" class="btn btn-primary w-100" id="submitBtn">
                                 <span id="submitText">Envoyer le lien</span>
-
                                 <span id="submitSpinner" class="spinner-border spinner-border-sm d-none" role="status"
                                     aria-hidden="true"></span>
                             </button>
@@ -94,6 +98,11 @@ if (!defined('BASE_URL')) {
 
                         <div class="text-center mt-3">
                             <a href="<?php echo BASE_URL; ?>auth/login">Retour à la connexion</a>
+                        </div>
+                        <div class="text-center mt-2">
+                            <a href="<?php echo BASE_URL; ?>auth/request-recovery" class="small text-muted">
+                                Pas d'adresse de secours ? Contacter un administrateur
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -173,6 +182,11 @@ if (!defined('BASE_URL')) {
                 submitText.textContent = 'Envoyer le lien';
                 submitSpinner.classList.add('d-none');
             }
+        });
+        const useRecovery = document.getElementById('use_recovery');
+        const emailLabel = document.querySelector('label[for="email"]');
+        useRecovery.addEventListener('change', function () {
+            emailLabel.textContent = this.checked ? 'Votre adresse principale (identifiant)' : 'Email';
         });
     </script>
 </body>

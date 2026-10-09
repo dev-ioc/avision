@@ -158,3 +158,117 @@ function getInstallationDeadlineStatus($deliveryDate, $isClosed)
         'deadline' => $deadline->format('Y-m-d')
     ];
 }
+/**
+ * Vrai si un admin navigue actuellement en tant que client
+ */
+function isImpersonating(): bool
+{
+    return !empty($_SESSION['impersonator']);
+}
+
+/**
+ * Identité RÉELLE de la personne qui agit :
+ * l'admin pendant une impersonation, sinon l'utilisateur connecté.
+ * À utiliser pour created_by / updated_by / historiques.
+ */
+function getRealActorId(): ?int
+{
+    $id = $_SESSION['impersonator']['id'] ?? $_SESSION['user']['id'] ?? null;
+    return $id ? (int) $id : null;
+}
+function denyDuringImpersonation(
+    string $message = "Action impossible en mode « connecté en tant que ».",
+    ?string $redirectUrl = null
+): void {
+    if (isImpersonating()) {
+        $_SESSION['error'] = $message;
+        header('Location: ' . ($redirectUrl ?? BASE_URL . 'dashboard'));
+        exit;
+    }
+}
+/**
+ * Refuse toute action qui modifie des données pendant une impersonation.
+ * Whitelist : uniquement quitter le mode ou se déconnecter.
+ */
+function enforceImpersonationReadOnly(string $controller, string $action): void
+{
+    if (!isImpersonating()) {
+        return;
+    }
+
+    // Toujours autorisé : quitter le mode ou se déconnecter
+    $allowed = [
+        'user' => ['stop-impersonation'],
+        'auth' => ['logout'],
+    ];
+    if (in_array($action, $allowed[$controller] ?? [], true)) {
+        return;
+    }
+
+    // Actions d'écriture : reconnues par leur préfixe (addComment, editComment, deleteAttachment...)
+    $writePrefix = '/^(add|create|edit|update|store|delete|remove|toggle|close|archive|activate|deactivate|reset|send|setPrimary|save|assign|reopen|import|upload|bulk|renew|quick)/i';
+
+    $isPost = ($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'GET';
+    $isWriteAction = (bool) preg_match($writePrefix, $action);
+
+    if (!$isPost && !$isWriteAction) {
+        return; // simple consultation
+    }
+
+    $notice = "Mode « connecté en tant que » : consultation uniquement. Cette action est désactivée.";
+
+    custom_log(
+        "[IMPERSONATION] Action bloquée : admin_id={$_SESSION['impersonator']['id']} "
+        . "client_id={$_SESSION['user']['id']} route={$controller}/{$action}",
+        'WARNING'
+    );
+
+    if (($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest') {
+        http_response_code(403);
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'message' => $notice, 'error' => $notice]);
+        exit;
+    }
+
+    // Clé dédiée (voir la remarque plus bas sur $_SESSION['error'])
+    $_SESSION['impersonation_notice'] = $notice;
+
+    // Page bloquée en GET : retour à la page d'origine si elle est locale, sinon dashboard
+    $back = BASE_URL . 'dashboard';
+    if (!$isPost) {
+        $ref = $_SERVER['HTTP_REFERER'] ?? '';
+        if (
+            $ref
+            && parse_url($ref, PHP_URL_HOST) === parse_url(BASE_URL, PHP_URL_HOST)
+            && parse_url($ref, PHP_URL_PATH) !== parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+        ) {
+            $back = $ref;
+        }
+    }
+
+    header('Location: ' . $back);
+    exit;
+}
+function impersonationLockMessage(): string
+{
+    return "Indisponible en mode « connecté en tant que » (consultation uniquement).";
+}
+
+// Bouton grisé (le span porte l'info-bulle, car un bouton disabled n'affiche pas son title)
+function lockedButton(string $label, string $iconClass = '', string $class = 'btn btn-primary'): string
+{
+    $icon = $iconClass !== '' ? '<i class="bi ' . h($iconClass) . ' me-1"></i>' : '';
+    return '<span class="d-inline-block" tabindex="0" title="' . h(impersonationLockMessage()) . '">'
+        . '<button type="button" class="' . h($class) . '" disabled style="pointer-events:none;">'
+        . $icon . h($label) . '</button></span>';
+}
+
+// Lien d'action normal, ou bouton grisé en mode impersonation
+function writeButton(string $url, string $label, string $iconClass = '', string $class = 'btn btn-primary'): string
+{
+    if (isImpersonating()) {
+        return lockedButton($label, $iconClass, $class);
+    }
+    $icon = $iconClass !== '' ? '<i class="bi ' . h($iconClass) . ' me-1"></i>' : '';
+    return '<a href="' . h($url) . '" class="' . h($class) . '">' . $icon . h($label) . '</a>';
+}

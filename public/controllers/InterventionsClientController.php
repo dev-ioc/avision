@@ -1054,6 +1054,7 @@ class InterventionsClientController
         $availableColumns = [
             'reference' => 'Reference',
             'title' => 'Titre',
+            'client_name' => 'Client',
             'site_name' => 'Site',
             'building_name' => 'Batiment',
             'room_name' => 'Salle',

@@ -30,7 +30,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     <?php if (isset($_SESSION['error'])): ?>
         <div class="alert alert-danger">
-            <?php 
+            <?php
             echo $_SESSION['error'];
             unset($_SESSION['error']);
             ?>
@@ -39,7 +39,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
 
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success">
-            <?php 
+            <?php
             echo $_SESSION['success'];
             unset($_SESSION['success']);
             ?>
@@ -58,19 +58,23 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </div>
                 <div class="card-body">
                     <div class="list-group list-group-flush">
-                        <a href="<?= BASE_URL ?>settings/contractTypes" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="<?= BASE_URL ?>settings/contractTypes"
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div>
                                 <i class="bi bi-tags me-2 text-info me-1"></i>
                                 <strong>Types de contrats</strong>
-                                <br><small class="text-muted">Gérer les types de contrats et leurs paramètres par défaut</small>
+                                <br><small class="text-muted">Gérer les types de contrats et leurs paramètres par
+                                    défaut</small>
                             </div>
                             <i class="bi bi-chevron-right text-muted me-1"></i>
                         </a>
-                        <a href="<?= BASE_URL ?>settings/accessLevels" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="<?= BASE_URL ?>settings/accessLevels"
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div>
                                 <i class="bi bi-layers me-2 text-warning me-1"></i>
                                 <strong>Niveaux d'accès matériels</strong>
-                                <br><small class="text-muted">Configurer la visibilité des champs matériels par niveau de contrat</small>
+                                <br><small class="text-muted">Configurer la visibilité des champs matériels par niveau
+                                    de contrat</small>
                             </div>
                             <i class="bi bi-chevron-right text-muted me-1"></i>
                         </a>
@@ -90,7 +94,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </div>
                 <div class="card-body">
                     <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center disabled">
+                        <a href="#"
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center disabled">
                             <div>
                                 <i class="bi bi-database me-2 text-secondary me-1"></i>
                                 <strong>Paramètres de base de données</strong>
@@ -98,7 +103,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </div>
                             <span class="badge bg-secondary">Bientôt</span>
                         </a>
-                        <a href="<?= BASE_URL ?>settings/icons" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="<?= BASE_URL ?>settings/icons"
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div>
                                 <i class="bi bi-palette me-2 text-primary me-1"></i>
                                 <strong>Configuration des icônes</strong>
@@ -107,7 +113,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </div>
                             <i class="bi bi-chevron-right text-muted me-1"></i>
                         </a>
-                        <a href="<?= BASE_URL ?>settings/fileExtensions" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="<?= BASE_URL ?>settings/fileExtensions"
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div>
                                 <i class="bi bi-file-earmark-arrow-up me-2 text-primary me-1"></i>
                                 <strong>Extensions de fichiers autorisées</strong>
@@ -115,31 +122,38 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </div>
                             <i class="bi bi-chevron-right text-muted me-1"></i>
                         </a>
-                        <a href="<?= BASE_URL ?>settings/interventionTypes" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="<?= BASE_URL ?>settings/interventionTypes"
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div>
                                 <i class="bi bi-tools me-2 text-primary me-1"></i>
                                 <strong>Types d'intervention</strong>
-                                <br><small class="text-muted">Gérer les types d'intervention et leurs paramètres de transport</small>
+                                <br><small class="text-muted">Gérer les types d'intervention et leurs paramètres de
+                                    transport</small>
                             </div>
                             <i class="bi bi-chevron-right text-muted me-1"></i>
                         </a>
-                        <a href="<?= BASE_URL ?>settings/userTypes" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="<?= BASE_URL ?>settings/userTypes"
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div>
                                 <i class="bi bi-people me-2 text-info me-1"></i>
                                 <strong>Types d'utilisateur</strong>
-                                <br><small class="text-muted">Gérer les types d'utilisateur et leurs descriptions</small>
+                                <br><small class="text-muted">Gérer les types d'utilisateur et leurs
+                                    descriptions</small>
                             </div>
                             <i class="bi bi-chevron-right text-muted me-1"></i>
                         </a>
-                        <a href="<?= BASE_URL ?>settings/configuration" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="<?= BASE_URL ?>settings/configuration"
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div>
                                 <i class="bi bi-sliders me-2 text-success me-1"></i>
                                 <strong>Configuration système</strong>
-                                <br><small class="text-muted">Paramètres d'intervention (tarifs, coefficients, etc.)</small>
+                                <br><small class="text-muted">Paramètres d'intervention (tarifs, coefficients,
+                                    etc.)</small>
                             </div>
                             <i class="bi bi-chevron-right text-muted me-1"></i>
                         </a>
-                        <a href="<?= BASE_URL ?>settings/email" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="<?= BASE_URL ?>settings/email"
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div>
                                 <i class="bi bi-envelope me-2 text-primary me-1"></i>
                                 <strong>Configuration email</strong>
@@ -165,15 +179,41 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </div>
                 <div class="card-body">
                     <div class="list-group list-group-flush">
-                        <a href="<?= BASE_URL ?>settings/exportRoomsUrls" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
                                 <i class="bi bi-file-earmark-excel me-2 text-success me-1"></i>
                                 <strong>Export URLs des salles</strong>
-                                <br><small class="text-muted">Exporter toutes les URLs des salles en Excel (un onglet par client)</small>
+                                <br><small class="text-muted">Exporter toutes les URLs des salles en Excel (un onglet
+                                    par client)</small>
                             </div>
-                            <i class="bi bi-chevron-right text-muted me-1"></i>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center disabled">
+                            <div class="dropdown">
+                                <a href="#" class="text-muted" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-chevron-down"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item"
+                                            href="<?= BASE_URL ?>settings/exportRoomsUrls?qr_filter=tous">
+                                            <i class="bi bi-list-ul me-2"></i>Toutes les salles
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                            href="<?= BASE_URL ?>settings/exportRoomsUrls?qr_filter=oui">
+                                            <i class="bi bi-check-circle me-2 text-success"></i>QR édités uniquement
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                            href="<?= BASE_URL ?>settings/exportRoomsUrls?qr_filter=non">
+                                            <i class="bi bi-x-circle me-2 text-danger"></i>QR non édités uniquement
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a href="#"
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center disabled">
                             <div>
                                 <i class="bi bi-download me-2 text-secondary me-1"></i>
                                 <strong>Sauvegardes</strong>
@@ -181,7 +221,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                             </div>
                             <span class="badge bg-secondary">Bientôt</span>
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center disabled">
+                        <a href="#"
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center disabled">
                             <div>
                                 <i class="bi bi-graph-up me-2 text-secondary me-1"></i>
                                 <strong>Logs et monitoring</strong>
@@ -211,7 +252,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                     // Récupérer la limite effective d'upload (en octets, puis formatée)
                     $max_upload_bytes = getServerMaxUploadSize();
                     $max_upload = formatFileSize($max_upload_bytes);
-                    
+
                     // Calculer la taille du répertoire d'upload
                     $uploadDirSize = 0;
                     $uploadDirFormatted = '0 B';
@@ -271,4 +312,4 @@ include_once __DIR__ . '/../../includes/navbar.php';
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';
-?> 
+?>

@@ -578,9 +578,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialiser BASE_URL pour JavaScript
-    window.BASE_URL = '<?php echo BASE_URL; ?>';
+    window.BASE_URL = '<?= BASE_URL ?>';
+    document.addEventListener('DOMContentLoaded', function() {
     
     const clientSelect = document.getElementById('client_id');
     const siteSelect = document.getElementById('site_id');
@@ -715,7 +714,71 @@ function toggleAll(checked) {
     });
 }
 </script>
+<script>
+(function () {
+    const base = '<?= BASE_URL ?>';
+    const excludeId = '<?= (int) $materiel['id'] ?>';
+    const input = document.getElementById('numero_serie');
+    const box = document.getElementById('serialWarning');
+    const form = document.getElementById('materielEditForm');
+    console.log('[serial-check] init', { input: !!input, box: !!box, form: !!form });
+    if (!input || !box || !form) return;
 
+    async function fetchDuplicates(serial) {
+        if (!serial) return [];
+        const url = `${base}materiel/check_serial?numero_serie=${encodeURIComponent(serial)}&exclude_id=${excludeId}`;
+        try {
+            const res = await fetch(url, { credentials: 'include' });
+            console.log('[serial-check]', res.status, url);
+            if (!res.ok) return [];
+            const data = await res.json();
+            return Array.isArray(data.duplicates) ? data.duplicates : [];
+        } catch (e) {
+            console.error('[serial-check] erreur', e);
+            return [];
+        }
+    }
+
+    function render(dups) {
+        box.replaceChildren();
+        if (!dups.length) { box.classList.add('d-none'); return; }
+
+        const title = document.createElement('strong');
+        title.textContent = 'Ce numéro de série existe déjà :';
+        box.appendChild(title);
+
+        const ul = document.createElement('ul');
+        ul.className = 'mb-0 mt-1';
+        dups.forEach(d => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = `${base}materiel/view/${encodeURIComponent(d.id)}`;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            a.textContent = `${d.marque || ''} ${d.modele || ''}`.trim() || `Matériel #${d.id}`;
+            li.appendChild(a);
+            const where = [d.client_nom, d.site_nom, d.building_nom, d.salle_nom].filter(Boolean).join(' › ');
+            if (where) li.append(' — ' + where);
+            ul.appendChild(li);
+        });
+        box.appendChild(ul);
+        box.classList.remove('d-none');
+    }
+
+    async function refresh() {
+        const serial = input.value.trim();
+        const dups = await fetchDuplicates(serial);
+        if (input.value.trim() !== serial) return;
+        render(dups);
+    }
+
+    input.addEventListener('blur', refresh);
+    input.addEventListener('change', refresh);
+
+    // Vérification dès l'ouverture de la page
+    if (input.value.trim()) refresh();
+})();
+</script>
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';

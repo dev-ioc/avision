@@ -60,7 +60,15 @@ try {
 
         $id = (int) $row['id'];
         simple_log("Traitement ID: $id");
-
+        $serial = trim($row['numero_serie'] ?? '');
+        if ($serial !== '') {
+            $dup = serialExists($db, $serial, $id);
+            if ($dup) {
+                $errors[] = "Ligne " . ($index + 1) . " (ID {$id}): le numéro de série « {$serial} » existe déjà ("
+                    . trim(($dup['marque'] ?? '') . ' ' . ($dup['modele'] ?? '')) . ")";
+                continue;
+            }
+        }
         try {
             // Mise à jour simple
             $updateFields = [];
@@ -247,6 +255,18 @@ function formatDateForDb($date)
     }
     return null;
 }
-
+function serialExists(PDO $db, string $serial, int $excludeId): array
+{
+    $stmt = $db->prepare(
+        "SELECT m.id, m.marque, m.modele
+         FROM materiel m
+         WHERE TRIM(m.numero_serie) = :serial
+           AND m.id <> :id
+           AND m.deleted_at IS NULL
+         LIMIT 1"
+    );
+    $stmt->execute([':serial' => $serial, ':id' => $excludeId]);
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+}
 simple_log("=== FIN ===");
 ?>

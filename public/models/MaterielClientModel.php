@@ -77,7 +77,7 @@ class MaterielClientModel extends BaseModel
         LEFT JOIN buildings b ON r.building_id = b.id
         LEFT JOIN sites s ON b.site_id = s.id
         LEFT JOIN clients c ON s.client_id = c.id
-        WHERE {$locationWhere}";
+        WHERE {$locationWhere} AND m.deleted_at IS NULL";
 
         $params = [];
 

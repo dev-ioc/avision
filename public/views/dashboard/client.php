@@ -44,9 +44,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 <h1 class="h3 mb-0">Tableau de bord</h1>
                 <div class="d-flex align-items-center gap-3">
                     <?php if (hasPermission('client_add_intervention')): ?>
-                        <a href="<?php echo BASE_URL; ?>interventions_client/add" class="btn btn-primary">
-                            <i class="bi bi-plus-circle me-1"></i> Créer une intervention
-                        </a>
+                        <?= writeButton(BASE_URL . 'interventions_client/add', 'Créer une intervention', 'bi-plus-circle') ?>
                     <?php endif; ?>
                 </div>
             </div>
@@ -148,7 +146,7 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                                     <tr>
                                                         <td>
                                                             <a href="<?php echo BASE_URL; ?>interventions_client/view/<?php echo $intervention['id'] ?>?return_url=<?= urlencode(BASE_URL . 'dashboard/' . $intervention['id']) ?>"
-                                                                            class=" badge bg-light text-dark text-decoration-none
+                                                                class=" badge bg-light text-dark text-decoration-none
                                                     intervention-link">
                                                                 <?php echo safeHtml($intervention['reference'], 'N/A'); ?>
                                                             </a>
@@ -226,54 +224,55 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 </div>
             <?php endif; ?>
 
-           <!-- Section des localisations autorisées -->
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">
-                    <i class="bi bi-building me-2"></i>Localisations autorisées
-                </h5>
-            </div>
-            <div class="card-body">
-
-                <?php
-                // On ne garde que les sites autorisés
-                $authorizedSites = array_filter($sitesWithAccess, function ($site) {
-                    return isset($site['authorized']) && $site['authorized'];
-                });
-                ?>
-
-                <?php if (empty($authorizedSites)): ?>
-                    <div class="text-center py-5">
-                        <div class="text-muted">
-                            <i class="bi bi-building fs-1 mb-3"></i>
-                            <p>Aucune localisation disponible</p>
+            <!-- Section des localisations autorisées -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-building me-2"></i>Localisations autorisées
+                            </h5>
                         </div>
-                    </div>
-                <?php else: ?>
-                    <div class="list-group">
-                        <?php foreach ($authorizedSites as $site): ?>
-                            <div class="list-group-item p-0 border-0 mb-1">
-                                <div class="d-flex align-items-center p-2 bg-success bg-opacity-10 border-start border-success border-4">
-                                    <div class="flex-grow-1">
-                                        <div class="d-flex align-items-center">
-                                            <i class="bi bi-building me-2 text-success"></i>
-                                            <span class="text-success">
-                                                <?php echo h($site['name']); ?>
-                                            </span>
-                                            <span class="badge bg-success ms-2">Autorisé</span>
-                                        </div>
+                        <div class="card-body">
+
+                            <?php
+                            // On ne garde que les sites autorisés
+                            $authorizedSites = array_filter($sitesWithAccess, function ($site) {
+                                return isset($site['authorized']) && $site['authorized'];
+                            });
+                            ?>
+
+                            <?php if (empty($authorizedSites)): ?>
+                                <div class="text-center py-5">
+                                    <div class="text-muted">
+                                        <i class="bi bi-building fs-1 mb-3"></i>
+                                        <p>Aucune localisation disponible</p>
                                     </div>
                                 </div>
-                            </div>
-                        <?php endforeach; ?>
+                            <?php else: ?>
+                                <div class="list-group">
+                                    <?php foreach ($authorizedSites as $site): ?>
+                                        <div class="list-group-item p-0 border-0 mb-1">
+                                            <div
+                                                class="d-flex align-items-center p-2 bg-success bg-opacity-10 border-start border-success border-4">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="bi bi-building me-2 text-success"></i>
+                                                        <span class="text-success">
+                                                            <?php echo h($site['name']); ?>
+                                                        </span>
+                                                        <span class="badge bg-success ms-2">Autorisé</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                     </div>
-                <?php endif; ?>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
         </div>
     </div>
 </div>

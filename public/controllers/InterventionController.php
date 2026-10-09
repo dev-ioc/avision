@@ -2840,9 +2840,9 @@ class InterventionController
            it.is_qualified,
            it.deplacement,
            CONCAT(u.first_name,' ',u.last_name) AS technician_name
-    FROM intervention_techniciens it
-    JOIN users u ON it.technicien_id = u.id
-    WHERE it.intervention_id = ?";
+            FROM intervention_techniciens it
+            JOIN users u ON it.technicien_id = u.id
+            WHERE it.intervention_id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
         $technicians = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -3253,7 +3253,7 @@ class InterventionController
             return;
         }
 
-        $ticketsUsed = (int) ceil($ticketsUsed);
+        $ticketsUsed = (float) $ticketsUsed;
 
         if ($ticketsUsed <= 0) {
             custom_log("Tickets à déduire = 0, déduction ignorée", 'INFO');
@@ -3284,7 +3284,7 @@ class InterventionController
                 $comment = $interventionRef . ' - ' . $comment;
             }
         }
-        $newRemaining = max(0, $currentRemaining - $ticketsUsed);
+        $newRemaining = $currentRemaining - $ticketsUsed;
         $sql = "UPDATE contracts SET tickets_remaining = :new_remaining WHERE id = :contract_id";
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([
@@ -3785,10 +3785,13 @@ class InterventionController
                 $contract = $this->contractModel->getContractById($intervention['contract_id']);
 
                 if (!empty($contract)) {
-                    $intervention['tickets_remaining'] = $contract['tickets_remaining'] ?? 0;
                     $intervention['contract_end_date'] = $contract['end_date'] ?? null;
                     $intervention['contract_status'] = (($contract['status']) === "actif") ? 'Actif' : 'Inactif';
                     $intervention['tickets_number'] = $contract['tickets_number'] ?? 0;
+                    $intervention['tickets_remaining'] =
+                        !empty($contract['isticketcontract'])
+                        ? ($contract['tickets_remaining'] ?? 0)
+                        : 0;
                 }
             }
 
@@ -4677,52 +4680,51 @@ class InterventionController
                 return;
             }
 
+            // Liste des techniciens sélectionnables (une ligne par utilisateur)
             $stmt = $this->db->prepare("
-            SELECT
-                u.id             AS technicien_id,
-                u.first_name,
-                u.last_name,
-                u.email,
-                it.start_time,
-                it.end_time,
-                it.deplacement,
-                it.temps_passe,
-                COALESCE(it.is_qualified, 0) AS is_qualified,
-                it.commentaire,
-                CASE WHEN it.technicien_id IS NOT NULL THEN 1 ELSE 0 END AS is_assigned
+            SELECT u.id, u.first_name, u.last_name, u.email
             FROM users u
-            LEFT JOIN intervention_techniciens it
-                ON u.id = it.technicien_id AND it.intervention_id = ?
-            WHERE u.user_type_id = 1
+            LEFT JOIN user_types ut ON u.user_type_id = ut.id
+            WHERE (ut.group_id = 1 AND u.status = 1)
+               OR u.id IN (SELECT technicien_id FROM intervention_techniciens WHERE intervention_id = ?)
             ORDER BY u.first_name, u.last_name
         ");
             $stmt->execute([$id]);
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
             $technicians = [];
-            $assigned = [];
-
-            foreach ($results as $row) {
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
                 $technicians[] = [
-                    'id' => (int) $row['technicien_id'],
+                    'id' => (int) $row['id'],
                     'first_name' => $row['first_name'],
                     'last_name' => $row['last_name'],
                     'full_name' => $row['first_name'] . ' ' . $row['last_name'],
                     'email' => $row['email'] ?? '',
                 ];
+            }
 
-                if ($row['is_assigned']) {
-                    $assigned[] = [
-                        'technicien_id' => (int) $row['technicien_id'],
-                        'start_time' => $row['start_time'],
-                        'end_time' => $row['end_time'],
-                        'deplacement' => (int) $row['deplacement'],
-                        'temps_passe' => $row['temps_passe'] !== null ? (int) $row['temps_passe'] : null,
-                        'is_qualified' => (int) ($row['is_qualified'] ?? 0),
-                        'commentaire' => $row['commentaire'],
-                        'full_name' => $row['first_name'] . ' ' . $row['last_name'],
-                    ];
-                }
+            // Affectations (une ligne par créneau, un même technicien peut apparaître plusieurs fois)
+            $stmt = $this->db->prepare("
+            SELECT it.id AS assignment_id, it.technicien_id, it.start_time, it.end_time,
+                   it.deplacement, it.temps_passe, COALESCE(it.is_qualified, 0) AS is_qualified,
+                   it.commentaire, u.first_name, u.last_name
+            FROM intervention_techniciens it
+            INNER JOIN users u ON u.id = it.technicien_id
+            WHERE it.intervention_id = ?
+            ORDER BY it.start_time ASC, it.id ASC
+        ");
+            $stmt->execute([$id]);
+            $assigned = [];
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $assigned[] = [
+                    'assignment_id' => (int) $row['assignment_id'],
+                    'technicien_id' => (int) $row['technicien_id'],
+                    'start_time' => $row['start_time'],
+                    'end_time' => $row['end_time'],
+                    'deplacement' => (int) $row['deplacement'],
+                    'temps_passe' => $row['temps_passe'] !== null ? (int) $row['temps_passe'] : null,
+                    'is_qualified' => (int) $row['is_qualified'],
+                    'commentaire' => $row['commentaire'],
+                    'full_name' => $row['first_name'] . ' ' . $row['last_name'],
+                ];
             }
 
             echo json_encode([
@@ -4733,7 +4735,6 @@ class InterventionController
                     'technicians' => $technicians,
                 ],
             ]);
-
         } catch (Exception $e) {
             http_response_code(500);
             echo json_encode(['success' => false, 'error' => 'Erreur serveur : ' . $e->getMessage()]);
@@ -4768,28 +4769,33 @@ class InterventionController
             }
 
             $this->db->beginTransaction();
-            $stmt = $this->db->prepare(
-                'SELECT technicien_id FROM intervention_techniciens WHERE intervention_id = ?'
-            );
+
+            $stmt = $this->db->prepare('SELECT id FROM intervention_techniciens WHERE intervention_id = ?');
             $stmt->execute([$interventionId]);
-            $currentIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
-            $newIds = array_column($technicians, 'technicien_id');
+            $currentIds = array_map('intval', $stmt->fetchAll(PDO::FETCH_COLUMN));
+
+            // Lignes conservées (celles qui ont un assignment_id valide)
+            $keptIds = [];
+            foreach ($technicians as $t) {
+                if (!empty($t['assignment_id'])) {
+                    $keptIds[] = (int) $t['assignment_id'];
+                }
+            }
+
+            $toDelete = [];
             if ($replace) {
-                $toDelete = array_diff($currentIds, $newIds);
+                $toDelete = array_diff($currentIds, $keptIds);
                 if (!empty($toDelete)) {
                     $delStmt = $this->db->prepare(
-                        'DELETE FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?'
+                        'DELETE FROM intervention_techniciens WHERE id = ? AND intervention_id = ?'
                     );
-                    foreach ($toDelete as $tid) {
-                        $delStmt->execute([$interventionId, $tid]);
-                        custom_log("Technicien $tid supprimé de l'intervention $interventionId", 'INFO');
+                    foreach ($toDelete as $aid) {
+                        $delStmt->execute([$aid, $interventionId]);
+                        custom_log("Affectation $aid supprimée de l'intervention $interventionId", 'INFO');
                     }
                 }
             }
 
-            $checkStmt = $this->db->prepare(
-                'SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?'
-            );
             $insertStmt = $this->db->prepare("
             INSERT INTO intervention_techniciens
                 (intervention_id, technicien_id, start_time, end_time,
@@ -4798,17 +4804,11 @@ class InterventionController
         ");
             $updateStmt = $this->db->prepare("
             UPDATE intervention_techniciens
-            SET start_time  = ?,
-                end_time    = ?,
-                deplacement = ?,
-                temps_passe = ?,
-                is_qualified = ?,
-                commentaire = ?,
-                updated_at = NOW()
-            WHERE intervention_id = ? AND technicien_id = ?
+            SET technicien_id = ?, start_time = ?, end_time = ?, deplacement = ?,
+                temps_passe = ?, is_qualified = ?, commentaire = ?, updated_at = NOW()
+            WHERE id = ? AND intervention_id = ?
         ");
 
-            $notify = (int) ($input['notify_technician'] ?? 0);
             $assignedCount = 0;
 
             foreach ($technicians as $tech) {
@@ -4817,28 +4817,35 @@ class InterventionController
                     continue;
                 }
 
+                $assignmentId = !empty($tech['assignment_id']) ? (int) $tech['assignment_id'] : null;
                 $isQualified = (int) ($tech['is_qualified'] ?? 0);
                 $startTime = !empty($tech['start_time']) ? $tech['start_time'] : null;
                 $endTime = !empty($tech['end_time']) ? $tech['end_time'] : null;
+
+                if ($startTime === null) {
+                    throw new InvalidArgumentException('La date et l\'heure de début sont obligatoires.');
+                }
+                if ($endTime !== null && strtotime($startTime) >= strtotime($endTime)) {
+                    throw new InvalidArgumentException('La date de fin doit être postérieure à la date de début.');
+                }
+
                 $deplacement = (int) ($tech['deplacement'] ?? 0);
                 $tempsPasse = !empty($tech['temps_passe']) ? (int) $tech['temps_passe'] : null;
                 $commentaire = $tech['commentaire'] ?? null;
 
-                $checkStmt->execute([$interventionId, $technicienId]);
-                $exists = (int) $checkStmt->fetchColumn() > 0;
-
-                if ($exists) {
+                if ($assignmentId && in_array($assignmentId, $currentIds, true)) {
                     $updateStmt->execute([
+                        $technicienId,
                         $startTime,
                         $endTime,
                         $deplacement,
                         $tempsPasse,
                         $isQualified,
                         $commentaire,
+                        $assignmentId,
                         $interventionId,
-                        $technicienId,
                     ]);
-                    custom_log("Technicien $technicienId mis à jour pour l'intervention $interventionId", 'INFO');
+                    custom_log("Affectation $assignmentId mise à jour (technicien $technicienId, intervention $interventionId)", 'INFO');
                 } else {
                     $insertStmt->execute([
                         $interventionId,
@@ -4855,7 +4862,8 @@ class InterventionController
 
                 $assignedCount++;
 
-                if ($notify === 1 && !empty($technicienId)) {
+                // notify_technician est envoyé par technicien par le JS
+                if ((int) ($tech['notify_technician'] ?? 0) === 1) {
                     try {
                         $this->mailService->sendTechnicianAssigned($interventionId, $technicienId);
                         custom_log_mail("Email envoyé au technicien $technicienId pour l'intervention $interventionId", 'INFO');
@@ -4867,23 +4875,29 @@ class InterventionController
 
             $this->db->commit();
 
-            $message = $assignedCount . ' technicien(s) affecté(s) avec succès';
-            if ($replace && !empty($toDelete)) {
-                $message .= ' (' . count($toDelete) . ' technicien(s) retiré(s))';
+            $message = $assignedCount . ' affectation(s) enregistrée(s) avec succès';
+            if (!empty($toDelete)) {
+                $message .= ' (' . count($toDelete) . ' retirée(s))';
             }
 
             echo json_encode([
                 'success' => true,
                 'message' => $message,
                 'assigned_count' => $assignedCount,
-                'deleted_count' => $replace ? (count($toDelete ?? [])) : 0
+                'deleted_count' => count($toDelete),
             ]);
 
+        } catch (InvalidArgumentException $e) {
+            if ($this->db->inTransaction())
+                $this->db->rollBack();
+            http_response_code(422);
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         } catch (Exception $e) {
             if ($this->db->inTransaction())
                 $this->db->rollBack();
+            custom_log('Erreur assignTechnicians : ' . $e->getMessage(), 'ERROR');
             http_response_code(500);
-            echo json_encode(['success' => false, 'error' => 'Erreur serveur : ' . $e->getMessage()]);
+            echo json_encode(['success' => false, 'error' => 'Une erreur est survenue lors de l\'enregistrement. Veuillez réessayer.']);
         }
     }
     /**
@@ -4994,15 +5008,12 @@ class InterventionController
             }
 
             $interventionId = $input['intervention_id'] ?? null;
-            $technicianId = $input['technician_id'] ?? null;
+            $assignmentId = $input['assignment_id'] ?? null;
 
-            if (!$interventionId) {
+            if (!$interventionId)
                 throw new Exception('ID intervention manquant');
-            }
-
-            if (!$technicianId) {
-                throw new Exception('ID technicien manquant');
-            }
+            if (!$assignmentId)
+                throw new Exception('ID affectation manquant');
 
             // Vérifier les permissions
             if (!isset($_SESSION['user']) || !canModifyInterventions()) {
@@ -5023,27 +5034,27 @@ class InterventionController
             $stmt = $this->db->prepare(
                 'SELECT COUNT(*) FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?'
             );
-            $stmt->execute([$interventionId, $technicianId]);
-            $exists = (int) $stmt->fetchColumn() > 0;
-
-            if (!$exists) {
-                throw new Exception('Ce technicien n\'est pas assigné à cette intervention');
+            $stmt = $this->db->prepare(
+                "SELECT it.technicien_id, CONCAT(u.first_name, ' ', u.last_name) AS name
+                FROM intervention_techniciens it
+                LEFT JOIN users u ON u.id = it.technicien_id
+                WHERE it.id = ? AND it.intervention_id = ?"
+            );
+            $stmt->execute([$assignmentId, $interventionId]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (!$row) {
+                throw new Exception('Cette affectation n\'existe pas pour cette intervention');
             }
-
-            $stmt = $this->db->prepare("SELECT CONCAT(first_name, ' ', last_name) as name FROM users WHERE id = ?");
-            $stmt->execute([$technicianId]);
-            $technician = $stmt->fetch(PDO::FETCH_ASSOC);
-            $technicianName = $technician['name'] ?? '#' . $technicianId;
+            $technicianId = (int) $row['technicien_id'];
+            $technicianName = $row['name'] ?: '#' . $technicianId;
 
             $stmt = $this->db->prepare(
-                'DELETE FROM intervention_techniciens WHERE intervention_id = ? AND technicien_id = ?'
+                'DELETE FROM intervention_techniciens WHERE id = ? AND intervention_id = ?'
             );
-            $result = $stmt->execute([$interventionId, $technicianId]);
-
+            $result = $stmt->execute([$assignmentId, $interventionId]);
             if (!$result) {
                 throw new Exception('Erreur lors de la suppression en base de données');
             }
-
             $sql = "INSERT INTO intervention_history (
                     intervention_id, field_name, old_value, new_value, changed_by, description
                 ) VALUES (
