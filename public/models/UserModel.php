@@ -382,6 +382,7 @@ class UserModel extends BaseModel
             'is_admin' => $user['is_admin'],
             'client_id' => $user['client_id'],
             'totp_enabled' => $user['totp_enabled'],
+            'auth_version' => (int) $user['auth_version'],
             'permissions' => $this->permissions,
         ];
     }
@@ -393,7 +394,7 @@ class UserModel extends BaseModel
     public function getSessionDataById(int $userId): ?array
     {
         $stmt = $this->db->prepare("
-        SELECT u.id, u.email, u.first_name, u.last_name,
+        SELECT u.id, u.email, u.first_name, u.last_name, u.auth_version,
                u.status, u.coef_utilisateur, u.client_id, u.is_admin,
                u.totp_enabled,
                ut.name as user_type, ug.name as user_group

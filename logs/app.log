@@ -145035,3 +145035,39 @@ Quant à l’écran n°1, il est HS
 [2026-10-06 15:31:59][INFO] 81 
 [2026-10-06 15:32:20][INFO] 81 
 [2026-10-06 15:32:40][INFO] 81 
+[2026-10-09 13:40:11][DEBUG] CSRF: Token trouvé dans la requête - Token: 12039919a4e1f08a5a80... 
+[2026-10-09 13:40:12][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-10-09 13:40:12][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-10-09 13:40:12][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-10-09 13:40:15][DEBUG] CSRF: Token trouvé dans la requête - Token: 154704ae45d322b924b8... 
+[2026-10-09 13:40:16][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-10-09 13:40:16][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-10-09 13:40:16][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-10-09 13:40:25][DEBUG] CSRF: Token trouvé dans la requête - Token: ea6ef8b1a7924fb8b019... 
+[2026-10-09 13:40:26][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-10-09 13:40:26][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-10-09 13:40:26][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-10-09 13:41:24][DEBUG] CSRF: Token trouvé dans la requête - Token: 3e6eab664686ca07f4c9... 
+[2026-10-09 13:41:25][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-10-09 13:41:25][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-10-09 13:41:25][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-10-09 13:43:54][DEBUG] CSRF: Token trouvé dans la requête - Token: d4a14f08b1217711f566... 
+[2026-10-09 13:43:54][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-10-09 13:43:54][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-10-09 13:43:54][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-10-09 13:44:18][DEBUG] CSRF: Token trouvé dans la requête - Token: d4a14f08b1217711f566... 
+[2026-10-09 13:44:18][DEBUG] CSRF: Token trouvé dans la requête - Token: d4a14f08b1217711f566... 
+[2026-10-09 13:44:19][DEBUG] CSRF: Token trouvé dans la requête - Token: d4a14f08b1217711f566... 
+[2026-10-09 13:44:33][DEBUG] CSRF: Token trouvé dans la requête - Token: d4a14f08b1217711f566... 
+[2026-10-09 13:44:33][DEBUG] Permissions chargées pour eric : {"role":"client","rights":{"client_manage_contacts":true,"client_view_contracts":true,"client_view_documentation":true,"client_view_materiel":true,"client_view_interventions":true,"client_modify_info":true},"locations":[{"client_id":52,"site_id":null,"room_id":null}],"coefficients":{"user_coef":null}} 
+[2026-10-09 13:44:33][INFO] Impersonation démarrée : admin 40 -> client 36 
+[2026-10-09 13:44:42][DEBUG] CSRF: Token trouvé dans la requête - Token: d4a14f08b1217711f566... 
+[2026-10-09 13:44:43][INFO] Impersonation terminée : admin 40 <- client 36 
+[2026-10-09 13:57:12][DEBUG] CSRF: Token trouvé dans la requête - Token: f48c009ca26598e09bb4... 
+[2026-10-09 13:57:12][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-10-09 13:57:12][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-10-09 13:57:12][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-10-09 14:07:08][DEBUG] CSRF: Token trouvé dans la requête - Token: 8d22b4490bc2e934e17d... 
+[2026-10-09 14:07:09][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-10-09 14:07:09][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-10-09 14:07:09][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
