@@ -129,7 +129,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
                         Je confirme que l'impression a bien été effectuée
                     </label>
                 </div>
-
                 <div class="d-flex justify-content-center gap-2">
                     <button type="button" class="btn btn-outline-secondary" id="cancelPrintBtn" data-bs-dismiss="modal">
                         Non, l'impression a été annulée

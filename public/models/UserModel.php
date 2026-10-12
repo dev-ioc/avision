@@ -312,9 +312,9 @@ class UserModel extends BaseModel
         return $stmt->fetch(PDO::FETCH_ASSOC)['count'] > 0;
     }
 
-    /**
+        /**
      * Authentifie un utilisateur
-     * @param string $email Nom d'utilisateur
+     * @param string $email Email
      * @param string $password Mot de passe
      * @return bool True si l'authentification réussit
      */
@@ -329,10 +329,10 @@ class UserModel extends BaseModel
                 FROM users u
                 JOIN user_types ut ON u.user_type_id = ut.id
                 JOIN user_groups ug ON ut.group_id = ug.id
-                WHERE u.email = :email AND u.status = 1;
+                WHERE u.email = :email AND u.status = 1
             ");
             $stmt->execute(['email' => $email]);
-            $user = $stmt->fetch();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user && password_verify($password, $user['password'])) {
                 $_SESSION['user'] = $this->buildSessionData($user);
@@ -343,11 +343,9 @@ class UserModel extends BaseModel
                     'is_admin' => $user['is_admin'],
                     'client_id' => $user['client_id']
                 ]);
-
                 return true;
             }
 
-            custom_log("Tentative de connexion échouée pour l'utilisateur : $email", 'WARNING');
             custom_log("Tentative de connexion échouée pour l'utilisateur : $email", 'WARNING');
             return false;
         } catch (PDOException $e) {
@@ -355,6 +353,7 @@ class UserModel extends BaseModel
             return false;
         }
     }
+
     /**
      * Construit le tableau stocké dans $_SESSION['user'] à partir d'une ligne users.
      * Source unique de vérité : utilisée par le login ET par l'impersonation.
@@ -382,6 +381,7 @@ class UserModel extends BaseModel
             'is_admin' => $user['is_admin'],
             'client_id' => $user['client_id'],
             'totp_enabled' => $user['totp_enabled'],
+            'auth_version' => (int) $user['auth_version'],
             'permissions' => $this->permissions,
         ];
     }
@@ -392,21 +392,27 @@ class UserModel extends BaseModel
      */
     public function getSessionDataById(int $userId): ?array
     {
-        $stmt = $this->db->prepare("
-        SELECT u.id, u.email, u.first_name, u.last_name,
-               u.status, u.coef_utilisateur, u.client_id, u.is_admin,
-               u.totp_enabled,
-               ut.name as user_type, ug.name as user_group
-        FROM users u
-        JOIN user_types ut ON u.user_type_id = ut.id
-        JOIN user_groups ug ON ut.group_id = ug.id
-        WHERE u.id = :id AND u.status = 1
-    ");
-        $stmt->execute(['id' => $userId]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        try {
+            $stmt = $this->db->prepare("
+                SELECT u.id, u.email, u.first_name, u.last_name, u.auth_version,
+                       u.status, u.coef_utilisateur, u.client_id, u.is_admin,
+                       u.totp_enabled,
+                       ut.name as user_type, ug.name as user_group
+                FROM users u
+                JOIN user_types ut ON u.user_type_id = ut.id
+                JOIN user_groups ug ON ut.group_id = ug.id
+                WHERE u.id = :id AND u.status = 1
+            ");
+            $stmt->execute(['id' => $userId]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $user ? $this->buildSessionData($user) : null;
+            return $user ? $this->buildSessionData($user) : null;
+        } catch (PDOException $e) {
+            custom_log("Erreur getSessionDataById : " . $e->getMessage(), 'ERROR');
+            return null;
+        }
     }
+
     /**
      * Charge les permissions de l'utilisateur
      */
