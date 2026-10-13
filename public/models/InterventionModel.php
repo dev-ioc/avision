@@ -1125,4 +1125,9 @@ class InterventionModel extends BaseModel
 
         return (int) ($ticketResult['total'] ?? 0);
     }
+    public function updateRoomsOkForBon($interventionId, array $roomsOk)
+    {
+        $stmt = $this->db->prepare("UPDATE interventions SET bon_rooms_ok = ? WHERE id = ?");
+        return $stmt->execute([json_encode($roomsOk, JSON_UNESCAPED_UNICODE), $interventionId]);
+    }
 }

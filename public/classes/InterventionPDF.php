@@ -80,7 +80,7 @@ class InterventionPDF extends TCPDF
 
         $this->renderDetails($intervention, $comments);
 
-        $this->renderParts($replacedParts, $equipment);
+        // $this->renderParts($replacedParts, $equipment);
 
         // =====================================================
         // SECTION 6 — Clôture & signatures
@@ -740,7 +740,7 @@ class InterventionPDF extends TCPDF
      */
     private function renderDetails($intervention, $comments)
     {
-        $this->sectionTitle("4. DÉTAIL DE L'INTERVENTION");
+        $this->sectionTitle("3. DÉTAIL DE L'INTERVENTION");
 
         // =====================================================
         // NATURE
@@ -865,6 +865,19 @@ class InterventionPDF extends TCPDF
         // =====================================================
 
         $descriptionText = $intervention['description'] ?? '';
+        $rasRooms = $intervention['rooms_ok'] ?? [];
+
+        [$descriptionText, $detectedRooms] = $this->groupRasRooms($descriptionText);
+        if (empty($rasRooms)) {
+            $rasRooms = $detectedRooms;
+        }
+
+        if (count($rasRooms) >= 2) {
+            $descriptionText = trim($descriptionText . "\n\n" . implode(', ', $rasRooms));
+        } elseif (count($rasRooms) === 1) {
+            $descriptionText = trim($descriptionText . "\nSalle " . $rasRooms[0] . ' : RAS');
+        }
+
         $this->renderTextBox('Description du problème :', $descriptionText);
 
         // =====================================================
@@ -883,9 +896,33 @@ class InterventionPDF extends TCPDF
             }
         }
 
-        $this->renderTextBox('Solution apportée / Commentaires :', trim($commentText));
+        $this->renderTextBox('', trim($commentText));
     }
+    /**
+     * Extrait les lignes "Salle X : RAS" de la description.
+     * Reconnaît "Salle X :\nRAS" et "Salle X :RAS".
+     * Retourne [texte nettoyé, liste des salles RAS].
+     */
+    private function groupRasRooms(string $text): array
+    {
+        // Normaliser les fins de ligne (\r\n et \r -> \n)
+        $text = str_replace(["\r\n", "\r"], "\n", $text);
 
+        $rooms = [];
+
+        $clean = preg_replace_callback(
+            '/^[ \t]*Salle[ \t]+(.+?)[ \t]*:\s*RAS[ \t]*$/miu',
+            function ($m) use (&$rooms) {
+                $rooms[] = trim($m[1]);
+                return '';
+            },
+            $text
+        );
+
+        $clean = trim(preg_replace("/\n{2,}/", "\n", $clean));
+
+        return [$clean, $rooms];
+    }
     /**
      * =========================================================
      * ENCADRÉ TITRE + TEXTE À HAUTEUR AUTOMATIQUE
@@ -945,67 +982,67 @@ class InterventionPDF extends TCPDF
      * SECTION 5 — PIÈCES REMPLACÉES & MATÉRIEL PRÊTÉ
      * =========================================================
      */
-    private function renderParts($replacedParts, $equipment = [])
-    {
-        // =====================================================
-        // TITRE SECTION
-        // =====================================================
-        $this->Ln(3);
-        $this->sectionTitle('5. PIÈCES REMPLACÉES & MATÉRIEL PRÊTÉ');
+    // private function renderParts($replacedParts, $equipment = [])
+    // {
+    //     // =====================================================
+    //     // TITRE SECTION
+    //     // =====================================================
+    //     $this->Ln(3);
+    //     $this->sectionTitle('5. PIÈCES REMPLACÉES & MATÉRIEL PRÊTÉ');
 
-        // =====================================================
-        // TABLEAU PIÈCES REMPLACÉES
-        // =====================================================
+    //     // =====================================================
+    //     // TABLEAU PIÈCES REMPLACÉES
+    //     // =====================================================
 
-        $w1 = 60;
-        $w2 = 40;
-        $w3 = 40;
-        $w4 = 30;
-        $w5 = 20;
+    //     $w1 = 60;
+    //     $w2 = 40;
+    //     $w3 = 40;
+    //     $w4 = 30;
+    //     $w5 = 20;
 
-        $this->headCell($w1, 'Désignation / Modèle');
-        $this->headCell($w2, 'Version précédente');
-        $this->headCell($w3, 'Version installée');
-        $this->headCell($w4, 'N° série');
-        $this->headCell($w5, 'Qté');
+    //     $this->headCell($w1, 'Désignation / Modèle');
+    //     $this->headCell($w2, 'Version précédente');
+    //     $this->headCell($w3, 'Version installée');
+    //     $this->headCell($w4, 'N° série');
+    //     $this->headCell($w5, 'Qté');
 
-        $this->Ln();
+    //     $this->Ln();
 
-        if (!empty($replacedParts) && is_array($replacedParts)) {
-            foreach ($replacedParts as $part) {
-                $designation = $part['designation'] ?? '-';
+    //     if (!empty($replacedParts) && is_array($replacedParts)) {
+    //         foreach ($replacedParts as $part) {
+    //             $designation = $part['designation'] ?? '-';
 
-                $oldVersion = $part['old_version'] ?? '-';
+    //             $oldVersion = $part['old_version'] ?? '-';
 
-                $newVersion = $part['new_version'] ?? '-';
+    //             $newVersion = $part['new_version'] ?? '-';
 
-                $serialNumber = $part['serial_number'] ?? '-';
-                $quantity = $part['quantity'] ?? 1;
+    //             $serialNumber = $part['serial_number'] ?? '-';
+    //             $quantity = $part['quantity'] ?? 1;
 
-                $this->bodyCell($w1, $designation, 7);
-                $this->bodyCell($w2, $oldVersion, 7);
-                $this->bodyCell($w3, $newVersion, 7);
-                $this->bodyCell($w4, $serialNumber, 7);
-                $this->bodyCell($w5, $quantity, 7);
-                $this->Ln();
-            }
-        } else {
-            // Lignes vides
-            for ($i = 0; $i < 3; $i++) {
-                $this->Cell($w1, 7, '', 1, 0);
-                $this->Cell($w2, 7, '', 1, 0);
-                $this->Cell($w3, 7, '', 1, 0);
-                $this->Cell($w4, 7, '', 1, 0);
-                $this->Cell($w5, 7, '', 1, 1);
-            }
-        }
+    //             $this->bodyCell($w1, $designation, 7);
+    //             $this->bodyCell($w2, $oldVersion, 7);
+    //             $this->bodyCell($w3, $newVersion, 7);
+    //             $this->bodyCell($w4, $serialNumber, 7);
+    //             $this->bodyCell($w5, $quantity, 7);
+    //             $this->Ln();
+    //         }
+    //     } else {
+    //         // Lignes vides
+    //         for ($i = 0; $i < 3; $i++) {
+    //             $this->Cell($w1, 7, '', 1, 0);
+    //             $this->Cell($w2, 7, '', 1, 0);
+    //             $this->Cell($w3, 7, '', 1, 0);
+    //             $this->Cell($w4, 7, '', 1, 0);
+    //             $this->Cell($w5, 7, '', 1, 1);
+    //         }
+    //     }
 
-        // =====================================================
-        // LIGNE "PRÊT DE MATÉRIEL" (rattachée à la section 5,
-        // conformément à la maquette client)
-        // =====================================================
-        $this->renderLoanRow($equipment);
-    }
+    //     // =====================================================
+    //     // LIGNE "PRÊT DE MATÉRIEL" (rattachée à la section 5,
+    //     // conformément à la maquette client)
+    //     // =====================================================
+    //     $this->renderLoanRow($equipment);
+    // }
 
     /**
      * =========================================================

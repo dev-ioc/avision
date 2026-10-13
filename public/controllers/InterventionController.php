@@ -3741,12 +3741,20 @@ class InterventionController
             $selectedComments = $input['comments'] ?? [];
             $selectedAttachments = $input['attachments'] ?? [];
 
+            // Nettoyage des salles RAS : chaînes non vides, sans doublons
+            $roomsOk = array_values(array_unique(array_filter(array_map(
+                fn($r) => trim((string) $r),
+                (array) ($input['rooms_ok'] ?? [])
+            ), fn($r) => $r !== '')));
+
             // Mettre à jour les commentaires
             $this->interventionModel->updateCommentsForBon($interventionId, $selectedComments);
 
             // Mettre à jour les pièces jointes
             $this->interventionModel->updateAttachmentsForBon($interventionId, $selectedAttachments);
 
+            // Enregistrer les salles sans anomalie
+            $this->interventionModel->updateRoomsOkForBon($interventionId, $roomsOk);
             echo json_encode(['success' => true, 'message' => 'Sélection sauvegardée avec succès']);
 
         } catch (Exception $e) {
@@ -6647,7 +6655,7 @@ class InterventionController
         }
         $materielClient = $this->clientController->getMaterielByClientId($intervention['client_id']);
         $materielClient = $this->filterMaterielForIntervention($materielClient, $intervention);
-
+        $intervention['rooms_ok'] = json_decode($intervention['bon_rooms_ok'] ?? '[]', true) ?: [];
         return [
             'intervention' => $intervention,
             'comments' => $this->getComments($interventionId),
