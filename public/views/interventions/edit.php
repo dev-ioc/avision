@@ -326,10 +326,10 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-3" id="plannedDateContainer" style="display: none;">
+                        <div class="col-md-3" id="plannedDateContainer" style="display: none;">
                             <label class="form-label fw-bold">Date prévisionnelle</label>
                             <input type="date" name="planned_date" id="planned_date" class="form-control">
-                        </div> -->
+                        </div>
                         <!-- Description -->
                         <div class="col-12 mt-3">
                             <div class="card">
@@ -1730,18 +1730,22 @@ include_once __DIR__ . '/../../includes/navbar.php';
         const plannedDateContainer = document.getElementById('plannedDateContainer');
         const plannedDateInput = document.getElementById('planned_date');
 
+        // Le champ date prévisionnelle est commenté dans le HTML : on ne fait rien s'il n'existe pas
+        if (!preventiveCheckbox || !plannedDateContainer) return;
+
         function togglePlannedDate() {
             if (preventiveCheckbox.checked) {
                 plannedDateContainer.style.display = 'block';
             } else {
                 plannedDateContainer.style.display = 'none';
-                plannedDateInput.value = '';
+                if (plannedDateInput) plannedDateInput.value = '';
             }
         }
         togglePlannedDate();
         preventiveCheckbox.addEventListener('change', togglePlannedDate);
     });
 </script>
+<?php include __DIR__ . '/_quick_create.php'; ?>
 <?php
 // Inclure le footer
 include_once __DIR__ . '/../../includes/footer.php';

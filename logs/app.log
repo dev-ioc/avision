@@ -145346,3 +145346,227 @@ Quant à l’écran n°1, il est HS
 [2026-10-14 07:50:41][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
 [2026-10-14 07:50:41][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
 [2026-10-14 07:50:41][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-10-14 08:49:20][INFO] 54 
+[2026-10-14 08:49:20][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:49:20][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:49:21][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:49:21][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:49:21][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:49:21][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:50:47][ERROR] Erreur : SQLSTATE[HY000]: General error: 126 Index for table '.\avision_test\clients.MYI' is corrupt; try to repair it {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ClientModel.php","line":80}
+[2026-10-14 08:53:51][ERROR] Erreur : SQLSTATE[HY000]: General error: 126 Index for table '.\avision_test\clients.MYI' is corrupt; try to repair it {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ClientModel.php","line":80}
+[2026-10-14 08:55:35][INFO] 18 
+[2026-10-14 08:55:35][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:55:35][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:55:36][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:55:36][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:55:36][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:57:27][INFO] 18 
+[2026-10-14 08:57:28][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:57:28][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:57:28][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:57:28][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:57:28][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:57:45][INFO] 18 
+[2026-10-14 08:57:46][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:57:46][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:57:47][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:57:47][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:57:47][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:58:41][INFO] 18 
+[2026-10-14 08:58:42][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:58:42][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:58:42][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:58:42][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:58:42][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 08:58:55][DEBUG] CSRF: Token trouvé dans la requête - Token: 55c3a542e58bc9cab394... 
+[2026-10-14 08:58:55][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-10-14 08:58:55][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-10-14 08:58:55][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-10-14 08:59:01][ERROR] Erreur : SQLSTATE[HY000]: General error: 126 Index for table '.\avision_test\clients.MYI' is corrupt; try to repair it {"file":"C:\\xampp\\htdocs\\avision\\public\\models\\ClientModel.php","line":80}
+[2026-10-14 09:02:03][INFO] 18 
+[2026-10-14 09:02:04][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:02:04][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:02:04][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:02:04][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:02:04][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:02:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 68f08caf765db3227496... 
+[2026-10-14 09:02:18][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-10-14 09:02:18][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-10-14 09:02:18][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-10-14 09:02:30][INFO] 54 
+[2026-10-14 09:02:30][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:02:30][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:02:30][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:02:30][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:02:30][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:02:31][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:20][INFO] 54 
+[2026-10-14 09:04:20][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:21][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:21][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:21][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:21][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:21][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:32][INFO] 54 
+[2026-10-14 09:04:32][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:33][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:33][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:33][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:33][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:33][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:49][INFO] 54 
+[2026-10-14 09:04:49][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:49][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:49][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:50][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:50][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:50][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:04:54][INFO] 54 
+[2026-10-14 09:04:59][INFO] 54 
+[2026-10-14 09:04:59][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:05:00][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:05:00][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:05:00][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:05:00][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:05:00][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:05:52][INFO] 54 
+[2026-10-14 09:05:53][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:05:53][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:05:53][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:05:54][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:05:54][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:05:54][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:07:19][INFO] 54 
+[2026-10-14 09:07:20][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:07:20][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:07:20][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:07:20][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:07:20][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:07:21][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:07:38][INFO] 54 
+[2026-10-14 09:07:38][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:07:38][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:07:39][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:07:39][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:07:39][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:07:39][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:08:26][INFO] 54 
+[2026-10-14 09:08:27][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:08:27][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:08:27][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:08:27][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:08:27][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:08:27][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:12:57][INFO] 54 
+[2026-10-14 09:12:57][WARNING] include(C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:12:57][WARNING] include(): Failed opening 'C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php' for inclusion (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:12:58][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:12:58][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:12:58][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:12:58][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:12:59][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:12:59][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:13:12][INFO] 54 
+[2026-10-14 09:13:12][WARNING] include(C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:13:12][WARNING] include(): Failed opening 'C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php' for inclusion (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:13:12][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:13:13][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:13:13][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:13:13][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:13:13][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:13:13][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:14:06][INFO] 54 
+[2026-10-14 09:14:06][WARNING] include(C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:14:06][WARNING] include(): Failed opening 'C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php' for inclusion (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:14:06][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:14:06][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:14:06][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:14:07][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:14:07][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:14:07][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:14:13][INFO] 54 
+[2026-10-14 09:14:13][WARNING] include(C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:14:13][WARNING] include(): Failed opening 'C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php' for inclusion (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:14:14][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:14:14][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:14:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:14:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:14:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:14:15][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:15:17][INFO] 54 
+[2026-10-14 09:15:17][WARNING] include(C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:15:17][WARNING] include(): Failed opening 'C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php' for inclusion (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:15:18][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:15:18][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:15:18][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:15:18][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:15:18][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:15:18][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:15:40][INFO] 54 
+[2026-10-14 09:15:40][WARNING] include(C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:15:40][WARNING] include(): Failed opening 'C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php' for inclusion (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:15:40][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:15:40][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:15:40][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:15:40][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:15:40][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:15:40][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:16:54][INFO] 54 
+[2026-10-14 09:16:54][WARNING] include(C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:16:54][WARNING] include(): Failed opening 'C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php' for inclusion (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:16:55][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:16:55][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:16:55][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:16:55][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:16:55][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:16:55][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:18:52][INFO] 54 
+[2026-10-14 09:18:52][WARNING] require(C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:18:52][ERROR] Failed opening required 'C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php' (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(456): require_once()\n#1 C:\\xampp\\htdocs\\avision\\public\\index.php(1175): InterventionController->edit('384')\n#2 {main}","type":"Error"}
+[2026-10-14 09:18:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:18:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:18:52][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:18:53][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:18:53][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:18:53][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:25:12][INFO] 54 
+[2026-10-14 09:25:12][WARNING] require(C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:25:12][ERROR] Failed opening required 'C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php' (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(456): require_once()\n#1 C:\\xampp\\htdocs\\avision\\public\\index.php(1175): InterventionController->edit('384')\n#2 {main}","type":"Error"}
+[2026-10-14 09:26:23][INFO] 54 
+[2026-10-14 09:26:23][WARNING] require(C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:26:23][ERROR] Failed opening required 'C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php' (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"trace":"#0 C:\\xampp\\htdocs\\avision\\public\\controllers\\InterventionController.php(456): require_once()\n#1 C:\\xampp\\htdocs\\avision\\public\\index.php(1175): InterventionController->edit('384')\n#2 {main}","type":"Error"}
+[2026-10-14 09:27:39][INFO] 54 
+[2026-10-14 09:27:39][WARNING] require(C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1750,"errno":2}
+[2026-10-14 09:27:39][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:27:40][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:27:40][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:27:40][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:27:40][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:27:40][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:28:55][INFO] 54 
+[2026-10-14 09:28:56][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:28:56][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:28:56][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:28:56][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:28:56][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:28:57][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:29:23][DEBUG] CSRF: Token trouvé dans la requête - Token: 68f08caf765db3227496... 
+[2026-10-14 09:29:38][DEBUG] CSRF: Token trouvé dans la requête - Token: 68f08caf765db3227496... 
+[2026-10-14 09:30:16][DEBUG] CSRF: Token trouvé dans la requête - Token: 68f08caf765db3227496... 
+[2026-10-14 09:30:54][INFO] 54 
+[2026-10-14 09:30:54][WARNING] include(C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php): Failed to open stream: No such file or directory {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:30:54][WARNING] include(): Failed opening 'C:\xampp\htdocs\avision\public\views\interventions/_quick-create.php' for inclusion (include_path='C:\xampp\php\PEAR') {"file":"C:\\xampp\\htdocs\\avision\\public\\views\\interventions\\edit.php","line":1748,"errno":2}
+[2026-10-14 09:30:54][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:30:55][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:30:55][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:30:55][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:30:55][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:30:55][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:31:09][INFO] 54 
+[2026-10-14 09:31:09][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:31:09][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:31:10][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:31:10][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:31:10][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
+[2026-10-14 09:31:10][ERROR] Erreur lors de l'aperçu de la pièce jointe : Fichier non trouvé 
