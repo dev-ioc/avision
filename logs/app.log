@@ -145342,3 +145342,7 @@ Quant à l’écran n°1, il est HS
 (
 )
  
+[2026-10-14 07:50:40][DEBUG] CSRF: Token trouvé dans la requête - Token: beb9aacb8c19e1df52ac... 
+[2026-10-14 07:50:41][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-10-14 07:50:41][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-10-14 07:50:41][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
