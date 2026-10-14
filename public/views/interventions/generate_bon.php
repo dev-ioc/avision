@@ -425,7 +425,32 @@ include_once __DIR__ . '/../../includes/navbar.php';
             </div>
         </div>
     </div>
+    <?php $savedRoomsOk = json_decode($intervention['bon_rooms_ok'] ?? '[]', true) ?: []; ?>
 
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header py-2 d-flex justify-content-between align-items-center">
+                    <h6 class="card-title mb-0">Autres salles </h6>
+                    <div>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="selectAllRooms()">Tout
+                            sélectionner</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="deselectAllRooms()">Tout
+                            désélectionner</button>
+                    </div>
+                </div>
+                <div class="card-body py-2">
+                    <p class="text-muted small mb-2">
+                        Les salles cochées seront ajoutées au bon dans la rubrique « Salle / Espace »,
+                        sous la salle de l'intervention, avec la mention « Autres salles vérifiées ».
+                    </p>
+                    <div id="roomsOkList" class="row g-2">
+                        <div class="col-12 text-muted">Chargement des salles...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Actions -->
     <div class="row">
         <div class="col-12">
@@ -438,8 +463,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
                                 d'intervention</p>
                         </div>
 
-                        <div>
-                            <button type="button" class="btn btn-outline-secondary me-2" onclick="saveSelection()">
+                        <div class="d-grid gap-2 d-sm-flex justify-content-sm-end">
+                            <button type="button" class="btn btn-outline-secondary" onclick="saveSelection()">
                                 <i class="bi bi-save me-1"></i> Sauvegarder la sélection
                             </button>
                             <button type="button" class="btn btn-primary" onclick="generateBon()">
@@ -479,11 +504,64 @@ include_once __DIR__ . '/../../includes/navbar.php';
             checkbox.checked = false;
         });
     }
+    const roomsBuildingId = <?= (int) ($intervention['building_id'] ?? 0) ?>;
+    const savedRoomsOk = <?= json_encode($savedRoomsOk) ?>;
+
+    function loadRoomsOk() {
+        const list = document.getElementById('roomsOkList');
+        if (!roomsBuildingId) {
+            list.innerHTML = '<div class="col-12 text-muted">Aucun bâtiment défini sur cette intervention.</div>';
+            return;
+        }
+        fetch(`<?php echo BASE_URL; ?>interventions/getRoomsByBuilding/${roomsBuildingId}`, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            credentials: 'same-origin'
+        })
+            .then(r => r.json())
+            .then(rooms => {
+                list.innerHTML = '';
+                if (!rooms || !rooms.length) {
+                    list.innerHTML = '<div class="col-12 text-muted">Aucune salle disponible.</div>';
+                    return;
+                }
+                rooms.forEach(room => {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-2 col-sm-6 col-6';
+                    const label = document.createElement('label');
+                    label.className = 'form-check';
+                    const input = document.createElement('input');
+                    input.type = 'checkbox';
+                    input.className = 'form-check-input';
+                    input.name = 'selected_rooms_ok[]';
+                    input.value = room.name;
+                    input.checked = savedRoomsOk.includes(room.name);
+                    const span = document.createElement('span');
+                    span.className = 'form-check-label';
+                    span.textContent = room.name;
+                    label.append(input, span);
+                    col.appendChild(label);
+                    list.appendChild(col);
+                });
+            })
+            .catch(() => {
+                list.innerHTML = '<div class="col-12 text-danger">Erreur de chargement des salles.</div>';
+            });
+    }
+
+    function selectAllRooms() {
+        document.querySelectorAll('input[name="selected_rooms_ok[]"]').forEach(c => c.checked = true);
+    }
+    function deselectAllRooms() {
+        document.querySelectorAll('input[name="selected_rooms_ok[]"]').forEach(c => c.checked = false);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadRoomsOk);
 
     // Sauvegarder la sélection
     function saveSelection() {
         const selectedComments = Array.from(document.querySelectorAll('input[name="selected_comments[]"]:checked')).map(cb => cb.value);
         const selectedAttachments = Array.from(document.querySelectorAll('input[name="selected_attachments[]"]:checked')).map(cb => cb.value);
+        const selectedRoomsOk = Array.from(document.querySelectorAll('input[name="selected_rooms_ok[]"]:checked')).map(cb => cb.value);
 
         return fetch(`<?php echo BASE_URL; ?>interventions/saveBonSelection/<?php echo $intervention['id']; ?>`, {
             method: 'POST',
@@ -493,7 +571,8 @@ include_once __DIR__ . '/../../includes/navbar.php';
             },
             body: JSON.stringify({
                 comments: selectedComments,
-                attachments: selectedAttachments
+                attachments: selectedAttachments,
+                rooms_ok: selectedRoomsOk
             })
         })
             .then(response => response.json())

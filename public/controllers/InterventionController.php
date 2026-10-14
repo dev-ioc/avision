@@ -3219,6 +3219,7 @@ class InterventionController
                 exit;
             }
         }
+        $intervention['rooms_ok'] = json_decode($intervention['bon_rooms_ok'] ?? '[]', true) ?: [];
         // Générer le PDF
         $pdfPath = $this->generateInterventionReport($intervention);
 
@@ -3935,6 +3936,8 @@ class InterventionController
 
             // 13. Récupérer les pièces remplacées 
             $replacedParts = $this->getReplacedPartsFromMaterials($materielClient);
+            // Salles cochées avant l'édition du bon
+            $intervention['rooms_ok'] = json_decode($intervention['bon_rooms_ok'] ?? '[]', true) ?: [];
 
             // Générer le PDF
             try {

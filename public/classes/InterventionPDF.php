@@ -453,45 +453,67 @@ class InterventionPDF extends TCPDF
             ($intervention['site_city'] ?? '')
         );
 
+        $this->SetFont('helvetica', '', 9);
         $this->MultiCell(95, 12, $address, 1, 'L', false, 0);
         $this->Cell(95, 12, $intervention['contact_phone'] ?? '', 1, 1);
 
-        // ligne 4 - bâtiment / étage / salle
+        // ligne 4 - bâtiment / étage / salle(s)
         $this->headCell($w, 'Bâtiment');
         $this->headCell($w, 'Étage');
         $this->headCell(95, 'Salle / Espace');
         $this->Ln();
 
         $y = $this->GetY();
-        $x = $this->GetX(); // = 10
 
-        $roomBlockHeight = 8;
-        $heightBlock = 7;
+        [$mainRoom, $otherRooms] = $this->collectRooms($intervention);
 
+        $cellW = 95;
+        $qrSize = 11;
+        $textW = $cellW - $qrSize - 6; // zone de texte à gauche du QR
+
+        $othersText = !empty($otherRooms)
+            ? 'Autres salles vérifiées : ' . implode(', ', $otherRooms)
+            : '';
+
+        // Mesure de la hauteur nécessaire
+        $this->SetFont('helvetica', '', 9);
+        $mainH = $mainRoom !== '' ? $this->getStringHeight($textW, $mainRoom) : 0;
+        $this->SetFont('helvetica', 'I', 8);
+        $othersH = $othersText !== '' ? $this->getStringHeight($textW, $othersText) : 0;
+
+        $roomBlockHeight = max(8, $mainH + $othersH + 2);
+
+        // Cellules bâtiment / étage
+        $this->SetFont('helvetica', '', 9);
         $this->Cell($w, $roomBlockHeight, $intervention['building_name'] ?? '', 1, 0);
         $this->Cell($w, $roomBlockHeight, $intervention['floor_level'] ?? '', 1, 0);
 
         // Cadre salle
         $salleX = $this->GetX();
-        $this->Cell(95, $roomBlockHeight, '', 1, 0);
+        $this->Cell($cellW, $roomBlockHeight, '', 1, 0);
 
-        // Contenu salle
-        $this->SetXY($salleX + 2, $y + 2);
-        $this->SetFont('helvetica', '', 9);
-        $this->Cell(50, 5, $intervention['room_name'] ?? '', 0);
+        // Salle principale
+        $textY = $y + 1;
+        if ($mainRoom !== '') {
+            $this->SetFont('helvetica', '', 9);
+            $this->SetXY($salleX + 1, $textY);
+            $this->MultiCell($textW, 4, $mainRoom, 0, 'L', false, 1);
+            $textY = $this->GetY();
+        }
 
-        // Mention AVision
-        // $this->SetXY($salleX + 2, $y + $roomBlockHeight - 4.5);
-        // $this->SetFont('helvetica', 'I', 8);
-        // $this->Cell(40, 4, 'AVision', 0);
+        // Autres salles vérifiées
+        if ($othersText !== '') {
+            $this->SetFont('helvetica', 'I', 8);
+            $this->SetXY($salleX + 1, $textY);
+            $this->MultiCell($textW, 4, $othersText, 0, 'L', false, 1);
+        }
 
-        // QR code
+        // QR code, aligné à droite du cadre
         $style = ['border' => 0, 'padding' => 0];
-        $qrSize = 11;
         $this->write2DBarcode(
             $intervention['avision_ref'] ?? 'AVision',
             'QRCODE,L',
-            $salleX + 58,
+            $salleX + $cellW - $qrSize - 2,
             $y + 2,
             $qrSize,
             $qrSize,
@@ -499,11 +521,9 @@ class InterventionPDF extends TCPDF
             'N'
         );
 
-        // $this->SetXY($salleX + 58 + $qrSize + 1, $y + $roomBlockHeight - 5.5);
-        // $this->SetFont('helvetica', 'I', 7);
-        // // $this->Cell(18, 4, 'Fiche salle', 0);
-
-        $this->Ln($heightBlock + 2);
+        // Position suivante : sous le cadre de la salle
+        $this->SetFont('helvetica', '', 9);
+        $this->SetXY(10, $y + $roomBlockHeight + 1);
     }
 
     /**
@@ -863,19 +883,17 @@ class InterventionPDF extends TCPDF
         // =====================================================
         // DESCRIPTION
         // =====================================================
-
         $descriptionText = $intervention['description'] ?? '';
-        $rasRooms = $intervention['rooms_ok'] ?? [];
 
-        [$descriptionText, $detectedRooms] = $this->groupRasRooms($descriptionText);
-        if (empty($rasRooms)) {
-            $rasRooms = $detectedRooms;
-        }
+        // Regroupe les lignes "Salle X : RAS" saisies dans la description
+        [$descriptionText, $rasFromDescription] = $this->groupRasRooms($descriptionText);
 
-        if (count($rasRooms) >= 2) {
-            $descriptionText = trim($descriptionText . "\n\n" . implode(', ', $rasRooms));
-        } elseif (count($rasRooms) === 1) {
-            $descriptionText = trim($descriptionText . "\nSalle " . $rasRooms[0] . ' : RAS');
+        if (count($rasFromDescription) >= 2) {
+            $descriptionText = trim(
+                $descriptionText . "\n\nSalles vérifiées, sans anomalie : " . implode(', ', $rasFromDescription)
+            );
+        } elseif (count($rasFromDescription) === 1) {
+            $descriptionText = trim($descriptionText . "\nSalle " . $rasFromDescription[0]);
         }
 
         $this->renderTextBox('Description du problème :', $descriptionText);
@@ -922,6 +940,29 @@ class InterventionPDF extends TCPDF
         $clean = trim(preg_replace("/\n{2,}/", "\n", $clean));
 
         return [$clean, $rooms];
+    }
+    /**
+     * Retourne [salle principale, salles cochées avant l'édition du bon].
+     * Les salles cochées viennent uniquement de bon_rooms_ok (rooms_ok),
+     * sans doublon et sans la salle principale.
+     */
+    private function collectRooms(array $intervention): array
+    {
+        $main = trim((string) ($intervention['room_name'] ?? ''));
+        $seen = [mb_strtolower($main)];
+        $others = [];
+
+        foreach (($intervention['rooms_ok'] ?? []) as $room) {
+            $room = trim((string) $room);
+            $key = mb_strtolower($room);
+            if ($room === '' || in_array($key, $seen, true)) {
+                continue;
+            }
+            $seen[] = $key;
+            $others[] = $room;
+        }
+
+        return [$main, $others];
     }
     /**
      * =========================================================
