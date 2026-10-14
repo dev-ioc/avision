@@ -890,7 +890,7 @@ class InterventionPDF extends TCPDF
 
         if (count($rasFromDescription) >= 2) {
             $descriptionText = trim(
-                $descriptionText . "\n\nSalles vérifiées, sans anomalie : " . implode(', ', $rasFromDescription)
+                $descriptionText . "\n\n " . implode(', ', $rasFromDescription)
             );
         } elseif (count($rasFromDescription) === 1) {
             $descriptionText = trim($descriptionText . "\nSalle " . $rasFromDescription[0]);
