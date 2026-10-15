@@ -266,8 +266,8 @@ class SignatureService
         $body = [
             'to' => [$signerData],
             'from' => 'dev_mdg@caspeo.fr',
-            'subject' => 'Demande de signature - Bon d\'intervention',
-            'message' => 'Veuillez signer le bon d\'intervention en cliquant sur le lien ci-dessous.',
+            // 'subject' => 'Demande de signature - Bon d\'intervention',
+            // 'message' => 'Veuillez signer le bon d\'intervention en cliquant sur le lien ci-dessous.',
         ];
 
         custom_log('SIGNNOW EMAIL INVITE BODY = ' . json_encode($body), 'DEBUG');
