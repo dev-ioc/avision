@@ -198,11 +198,11 @@ class SignatureService
         $fields = [
             'fields' => [
                 [
-                    'x' => 350,
-                    'y' => 465,
+                    'x' => 315,
+                    'y' => 310,
                     'width' => 200,
-                    'height' => 50,
-                    'page_number' => $pageNumber,   // 0 = première page
+                    'height' => 28,
+                    'page_number' => $pageNumber,
                     'type' => 'signature',
                     'role' => 'Signer 1',
                     'required' => true
