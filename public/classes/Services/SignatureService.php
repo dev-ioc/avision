@@ -82,8 +82,26 @@ class SignatureService
 
         $documentId = $document['id'];
 
-        // AJOUT CHAMP SIGNATURE
-        $this->addSignatureField($documentId);
+        // AJOUT CHAMP SIGNATURE (sur la dernière page du PDF, index 0)
+        $lastPage = $this->getPdfPageCount($pdfPath) - 1;
+        $fieldResult = $this->addSignatureField($documentId, $lastPage);
+        custom_log('SIGNNOW AddField: ' . json_encode($fieldResult), 'DEBUG');
+
+        // Vérifier que le champ de signature a bien été créé
+        $fieldStatus = $fieldResult['status'] ?? 0;
+        if ($fieldStatus < 200 || $fieldStatus >= 300) {
+            $errorMsg = $fieldResult['data']['errors'][0]['message']
+                ?? $fieldResult['data']['error']
+                ?? 'Impossible d\'ajouter le champ de signature (code ' . $fieldStatus . ')';
+
+            custom_log('SIGNNOW: Échec ajout champ - ' . $errorMsg, 'ERROR');
+
+            return [
+                'success' => false,
+                'document_id' => $documentId,
+                'error' => $errorMsg
+            ];
+        }
 
         // INVITATION - Utiliser SMS uniquement si téléphone fourni
         if (!empty($phone)) {
@@ -157,7 +175,7 @@ class SignatureService
         return $response;
     }
 
-    public function addSignatureField($documentId)
+    public function addSignatureField($documentId, $pageNumber = 0)
     {
         $ch = curl_init();
 
@@ -184,7 +202,7 @@ class SignatureService
                     'y' => 465,
                     'width' => 200,
                     'height' => 50,
-                    'page_number' => 2,
+                    'page_number' => $pageNumber,   // 0 = première page
                     'type' => 'signature',
                     'role' => 'Signer 1',
                     'required' => true
@@ -202,6 +220,13 @@ class SignatureService
             'status' => $httpCode,
             'data' => json_decode($response, true)
         ];
+    }
+
+    private function getPdfPageCount($pdfPath)
+    {
+        $content = file_get_contents($pdfPath);
+        $count = preg_match_all("/\/Type\s*\/Page[^s]/", $content, $m);
+        return max(1, $count);
     }
 
     /**

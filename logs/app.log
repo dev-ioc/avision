@@ -145668,3 +145668,26 @@ Quant à l’écran n°1, il est HS
 (
 )
  
+[2026-10-14 15:11:11][DEBUG] Redirection vers login - URL sauvegardée: interventions/generateBon/478 (Session ID: lcjm952vm67sp5vtbh657oqlfo) 
+[2026-10-14 15:11:18][DEBUG] CSRF: Token trouvé dans la requête - Token: 6e2334a74ad86d98d25c... 
+[2026-10-14 15:11:19][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-10-14 15:11:19][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-10-14 15:11:19][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
+[2026-10-14 15:11:30][DEBUG] CSRF: Token trouvé dans la requête - Token: 6e2334a74ad86d98d25c... 
+[2026-10-14 15:11:30][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-10-14 15:12:37][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-10-14 15:12:45][DEBUG] CSRF: Token trouvé dans la requête - Token: 6e2334a74ad86d98d25c... 
+[2026-10-14 15:12:45][INFO] Pièces jointes sélectionnées : Array
+(
+)
+ 
+[2026-10-15 08:05:37][DEBUG] CSRF: Token trouvé dans la requête - Token: 3561d324abf1f77ace18... 
+[2026-10-15 08:05:38][DEBUG] Permissions chargées pour Dev : {"role":"technicien","rights":{"tech_manage_interventions":true,"tech_manage_documentation":true,"tech_delete_documentation":true,"tech_manage_contrats":true,"tech_manage_clients":true},"locations":[],"coefficients":{"user_coef":"1.00"}} 
+[2026-10-15 08:05:38][INFO] Utilisateur connecté : dev_mdg@caspeo.fr {"user_id":40,"user_type":"technicien","user_group":"Staff","is_admin":1,"client_id":0}
+[2026-10-15 08:05:38][DEBUG] Login réussi (étape mot de passe) - user_id: 40 
