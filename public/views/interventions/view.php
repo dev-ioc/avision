@@ -647,7 +647,7 @@ $closeReason = [];
 												</button>
 											<?php endif; ?>
 											<?php if ($isBI && canModifyInterventions() && $intervention['status_id'] != 6): ?>
-												<button type="button" class="btn btn-sm btn-outline-secondary btn-action"
+												<button type="button" class="btn btn-sm btn-outline-success btn-action"
 													onclick="checkSignNowSignatures(true)" title="Vérifier la signature SignNow">
 													<i class="bi bi-arrow-repeat"></i>
 												</button>
@@ -3554,42 +3554,47 @@ $closeReason = [];
 </script>
 <script>
 	async function checkSignNowSignatures(manual) {
+		const intId = window.interventionIdForSignature;
+		console.log('[SignNow] vérification pour intervention', intId);
 		try {
-			const res = await fetch(
-				`${window.BASE_URL}interventions/checkSignatures/${window.interventionIdForSignature}`,
-				{
-					method: 'POST',
-					headers: {
-						'X-CSRF-Token': window.CSRF_TOKEN || '',
-						'Accept': 'application/json'
-					}
-				}
-			);
-			const data = await res.json();
+			const res = await fetch(`${window.BASE_URL}interventions/checkSignatures/${intId}`, {
+				method: 'POST',
+				headers: {
+					'X-CSRF-Token': window.CSRF_TOKEN || '',
+					'Accept': 'application/json'
+				},
+				credentials: 'same-origin'
+			});
+			const text = await res.text();
+			let data;
+			try { data = JSON.parse(text); }
+			catch (e) { console.error('[SignNow] réponse non JSON :', text.substring(0, 500)); return; }
+
+			console.log('[SignNow] réponse', data);
 
 			if (!data.success) {
+				console.error('[SignNow] erreur :', data.message);
 				if (manual) showAlert(data.message || 'Erreur de vérification', 'danger');
 				return;
 			}
-
 			if (data.updated > 0) {
 				showAlert('Signature client reçue via SignNow', 'success');
 				setTimeout(() => location.reload(), 1200);
 			} else if (manual) {
-				showAlert(
-					data.checked > 0
-						? 'Aucune nouvelle signature pour le moment'
-						: 'Aucune demande de signature en attente',
-					'info'
-				);
+				showAlert(data.checked > 0 ? 'Aucune nouvelle signature pour le moment' : 'Aucune demande de signature en attente', 'info');
 			}
 		} catch (e) {
+			console.error('[SignNow] erreur réseau', e);
 			if (manual) showAlert('Erreur réseau : ' + e.message, 'danger');
 		}
 	}
 
-	// Vérification automatique à l'ouverture de la fiche
-	document.addEventListener('DOMContentLoaded', () => checkSignNowSignatures(false));
+	// Lancement automatique (fonctionne que le DOM soit déjà chargé ou non)
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', () => checkSignNowSignatures(false));
+	} else {
+		checkSignNowSignatures(false);
+	}
 </script>
 <style>
 	.drop-zone {
