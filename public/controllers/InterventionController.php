@@ -7214,22 +7214,35 @@ class InterventionController
             throw new Exception('BI introuvable');
         }
 
-        // PDF signé enregistré à côté de l'original (chemin relatif, comme chemin_fichier)
-        $signedRelative = preg_replace('/\.pdf$/i', '', $pj['chemin_fichier']) . '_signnow.pdf';
-        $signedPath = __DIR__ . '/../../' . $signedRelative;
+        $biPath = __DIR__ . '/../../' . $pj['chemin_fichier'];
+        if (!file_exists($biPath)) {
+            throw new Exception('Fichier BI introuvable sur le serveur');
+        }
 
-        if (file_put_contents($signedPath, $pdf) === false) {
+        // Copie de l'original, créée une seule fois
+        $backupPath = preg_replace('/\.pdf$/i', '', $biPath) . '_original.pdf';
+        if (!file_exists($backupPath) && !copy($biPath, $backupPath)) {
+            throw new Exception('Impossible de sauvegarder le BI d\'origine');
+        }
+
+        // Remplacement du BI par la version signée (écriture temporaire puis rename)
+        $tmpPath = $biPath . '.tmp';
+        if (file_put_contents($tmpPath, $pdf) === false || !rename($tmpPath, $biPath)) {
+            @unlink($tmpPath);
             throw new Exception('Impossible d\'enregistrer le PDF signé');
         }
 
-        // Si le technicien avait déjà signé, la signature devient complète
-        $newStatus = ($pj['signature_status'] ?? '') === 'signe_tech'
+        // Si le technicien avait déjà signé, la signature reste complète
+        $current = $pj['signature_status'] ?? '';
+        $newStatus = in_array($current, ['signe_tech', 'signe_tech_client'], true)
             ? 'signe_tech_client'
             : 'signe_client';
 
         $this->db->prepare(
-            "UPDATE pieces_jointes SET signature_status = ?, signed_at = NOW() WHERE id = ?"
-        )->execute([$newStatus, $pj['id']]);
+            "UPDATE pieces_jointes
+         SET signature_status = ?, signed_at = NOW(), taille_fichier = ?
+         WHERE id = ?"
+        )->execute([$newStatus, strlen($pdf), $pj['id']]);
 
         $this->db->prepare(
             "UPDATE intervention_signatures
@@ -7237,7 +7250,7 @@ class InterventionController
              signed_file_path = ?,
              signed_at = NOW()
          WHERE id = ?"
-        )->execute([$signedRelative, $sig['id']]);
+        )->execute([$pj['chemin_fichier'], $sig['id']]);
 
         $this->insertHistory(
             $sig['intervention_id'],
