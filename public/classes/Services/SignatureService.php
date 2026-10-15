@@ -158,7 +158,7 @@ class SignatureService
         curl_setopt(
             $ch,
             CURLOPT_URL,
-            $this->apiUrl . "/document/$documentId/download"
+            $this->apiUrl . "/document/$documentId/download?type=collapsed"
         );
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -170,7 +170,13 @@ class SignatureService
         ]);
 
         $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+
+        if ($httpCode < 200 || $httpCode >= 300) {
+            custom_log('SIGNNOW: Échec téléchargement document signé (HTTP ' . $httpCode . ') - ' . substr((string) $response, 0, 500), 'ERROR');
+            return false;
+        }
 
         return $response;
     }
