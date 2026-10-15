@@ -447,4 +447,35 @@ class SignatureService
             'data' => json_decode($response, true)
         ];
     }
+    public function isDocumentFullySigned($documentId)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->apiUrl . "/document/$documentId");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $this->token
+        ]);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $doc = json_decode($response, true);
+        custom_log('SIGNNOW Document status: ' . substr($response, 0, 1500), 'DEBUG');
+
+        if (!is_array($doc)) {
+            return false;
+        }
+
+        $invites = $doc['field_invites'] ?? [];
+        if (empty($invites)) {
+            return !empty($doc['signatures']);
+        }
+        foreach ($invites as $invite) {
+            if (($invite['status'] ?? '') !== 'fulfilled') {
+                return false;
+            }
+        }
+        return true;
+    }
 }

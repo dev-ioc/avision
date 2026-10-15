@@ -6269,11 +6269,12 @@ class InterventionController
 
             // Sauvegarder en BDD
             $sql = "INSERT INTO intervention_signatures
-                (intervention_id, signnow_document_id, status, signer_email,
-                 signer_firstname, signer_lastname, signer_phone, created_at)
-                VALUES (:intervention_id, :document_id, 'pending', :email,
+                (intervention_id, piece_jointe_id, signnow_document_id, status, signer_email,
+                signer_firstname, signer_lastname, signer_phone, created_at)
+                VALUES (:intervention_id, :piece_jointe_id, :document_id, 'pending', :email,
                         :firstname, :lastname, :phone, NOW())
                 ON DUPLICATE KEY UPDATE
+                piece_jointe_id = VALUES(piece_jointe_id),
                 signnow_document_id = VALUES(signnow_document_id),
                 status = 'pending',
                 updated_at = NOW()";
@@ -6281,13 +6282,21 @@ class InterventionController
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
                 ':intervention_id' => $interventionId,
+                ':piece_jointe_id' => $attachmentId,
                 ':document_id' => $response['document_id'],
                 ':email' => $contactEmail,
                 ':firstname' => $contactFirstname,
                 ':lastname' => $contactLastname,
                 ':phone' => $contactPhone,
             ]);
-
+            // Marquer les anciennes demandes en attente du même BI comme remplacées
+            $this->db->prepare(
+                "UPDATE intervention_signatures
+                SET status = 'replaced'
+                WHERE piece_jointe_id = ?
+                AND status = 'pending'
+                AND signnow_document_id <> ?"
+            )->execute([$attachmentId, $response['document_id']]);
             // Historique
             $this->insertHistory(
                 $interventionId,
@@ -7139,5 +7148,105 @@ class InterventionController
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         }
         exit;
+    }
+    public function checkSignatures($interventionId)
+    {
+        header('Content-Type: application/json; charset=UTF-8');
+
+        try {
+            if (!isset($_SESSION['user'])) {
+                throw new Exception('Session expirée, veuillez vous reconnecter');
+            }
+            if (!CSRF::validateRequest()) {
+                throw new Exception('Token de sécurité invalide');
+            }
+
+            $stmt = $this->db->prepare(
+                "SELECT * FROM intervention_signatures
+             WHERE intervention_id = ?
+               AND status = 'pending'
+               AND piece_jointe_id IS NOT NULL
+               AND signnow_document_id IS NOT NULL"
+            );
+            $stmt->execute([(int) $interventionId]);
+            $pending = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $updated = 0;
+            if (!empty($pending)) {
+                $service = new SignatureService(); // une seule authentification pour tous
+                foreach ($pending as $sig) {
+                    if ($this->applySignNowSignature($service, $sig)) {
+                        $updated++;
+                    }
+                }
+            }
+
+            echo json_encode([
+                'success' => true,
+                'checked' => count($pending),
+                'updated' => $updated
+            ]);
+        } catch (Exception $e) {
+            error_log('checkSignatures error: ' . $e->getMessage());
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        }
+        exit;
+    }
+
+    /**
+     * Retourne true si le BI a été mis à jour.
+     */
+    private function applySignNowSignature(SignatureService $service, array $sig)
+    {
+        if (!$service->isDocumentFullySigned($sig['signnow_document_id'])) {
+            return false;
+        }
+
+        $pdf = $service->downloadSignedDocument($sig['signnow_document_id']);
+        if (!$pdf || strpos($pdf, '%PDF') !== 0) {
+            throw new Exception('PDF signé invalide');
+        }
+
+        $stmt = $this->db->prepare("SELECT * FROM pieces_jointes WHERE id = ?");
+        $stmt->execute([$sig['piece_jointe_id']]);
+        $pj = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$pj) {
+            throw new Exception('BI introuvable');
+        }
+
+        // PDF signé enregistré à côté de l'original (chemin relatif, comme chemin_fichier)
+        $signedRelative = preg_replace('/\.pdf$/i', '', $pj['chemin_fichier']) . '_signnow.pdf';
+        $signedPath = __DIR__ . '/../../' . $signedRelative;
+
+        if (file_put_contents($signedPath, $pdf) === false) {
+            throw new Exception('Impossible d\'enregistrer le PDF signé');
+        }
+
+        // Si le technicien avait déjà signé, la signature devient complète
+        $newStatus = ($pj['signature_status'] ?? '') === 'signe_tech'
+            ? 'signe_tech_client'
+            : 'signe_client';
+
+        $this->db->prepare(
+            "UPDATE pieces_jointes SET signature_status = ?, signed_at = NOW() WHERE id = ?"
+        )->execute([$newStatus, $pj['id']]);
+
+        $this->db->prepare(
+            "UPDATE intervention_signatures
+         SET status = 'signed',
+             signed_file_path = ?,
+             signed_at = NOW()
+         WHERE id = ?"
+        )->execute([$signedRelative, $sig['id']]);
+
+        $this->insertHistory(
+            $sig['intervention_id'],
+            'Signature',
+            '',
+            $sig['signer_email'] ?? '',
+            "BI #{$pj['id']} signé par le client via SignNow"
+        );
+
+        return true;
     }
 }

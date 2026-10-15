@@ -644,6 +644,12 @@ $closeReason = [];
 													<i class="bi bi-send"></i>
 												</button>
 											<?php endif; ?>
+											<?php if ($isBI && canModifyInterventions() && $intervention['status_id'] != 6): ?>
+												<button type="button" class="btn btn-sm btn-outline-secondary btn-action"
+													onclick="checkSignNowSignatures(true)" title="Vérifier la signature SignNow">
+													<i class="bi bi-arrow-repeat"></i>
+												</button>
+																						<?php endif; ?>
 											<?php if ($isPdf): ?>
 												<button type="button" class="btn btn-sm btn-outline-info btn-action"
 													onclick="openPdfViewer(<?= $attachment['id'] ?>, '<?= addslashes($attachment['nom_personnalise'] ?? $attachment['nom_fichier']) ?>')"
@@ -3531,7 +3537,45 @@ $closeReason = [];
 		});
 	});
 </script>
+<script>
+	async function checkSignNowSignatures(manual) {
+		try {
+			const res = await fetch(
+				`${window.BASE_URL}interventions/checkSignatures/${window.interventionIdForSignature}`,
+				{
+					method: 'POST',
+					headers: {
+						'X-CSRF-Token': window.CSRF_TOKEN || '',
+						'Accept': 'application/json'
+					}
+				}
+			);
+			const data = await res.json();
 
+			if (!data.success) {
+				if (manual) showAlert(data.message || 'Erreur de vérification', 'danger');
+				return;
+			}
+
+			if (data.updated > 0) {
+				showAlert('Signature client reçue via SignNow', 'success');
+				setTimeout(() => location.reload(), 1200);
+			} else if (manual) {
+				showAlert(
+					data.checked > 0
+						? 'Aucune nouvelle signature pour le moment'
+						: 'Aucune demande de signature en attente',
+					'info'
+				);
+			}
+		} catch (e) {
+			if (manual) showAlert('Erreur réseau : ' + e.message, 'danger');
+		}
+	}
+
+	// Vérification automatique à l'ouverture de la fiche
+	document.addEventListener('DOMContentLoaded', () => checkSignNowSignatures(false));
+</script>
 <style>
 	.drop-zone {
 		border: 2px dashed var(--bs-border-color);

@@ -1451,6 +1451,15 @@ try {
                         exit;
                     }
                     break;
+                case 'checkSignatures':
+                    if ($id) {
+                        $interventionController->checkSignatures($id);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => false, 'message' => 'ID manquant']);
+                        exit;
+                    }
+                    break;
             }
             break;
 
