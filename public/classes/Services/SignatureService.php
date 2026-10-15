@@ -265,7 +265,7 @@ class SignatureService
 
         $body = [
             'to' => [$signerData],
-            'from' => 'dev_mdg@caspeo.fr',
+            'from' => 'sanon91511@proguidex.com',
             // 'subject' => 'Demande de signature - Bon d\'intervention',
             // 'message' => 'Veuillez signer le bon d\'intervention en cliquant sur le lien ci-dessous.',
         ];
