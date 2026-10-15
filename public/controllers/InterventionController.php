@@ -4036,7 +4036,8 @@ class InterventionController
         $pdf = new InterventionPDF();
         $pdf->generateBonIntervention($intervention, $comments, $attachments, $technicians, $equipment, $replacedParts, $signatures);
         $pdf->saveToFile($filePath);
-
+        $zone = $pdf->getTechSignaturePos();
+        $data['signature_zone_tech'] = $zone ? json_encode($zone) : null;
         $data = [
             'nom_fichier' => $fileName,
             'nom_personnalise' => 'Bon_intervention_signe_' . date('Ymd'),
@@ -4048,7 +4049,11 @@ class InterventionController
             'created_by' => $_SESSION['user']['id']
         ];
 
-        $this->interventionModel->addPieceJointeWithType($intervention['id'], $data, 'bi');
+        $pjId = $this->interventionModel->addPieceJointeWithType($intervention['id'], $data, 'bi');
+        if ($zone) {
+            $this->db->prepare("UPDATE pieces_jointes SET signature_zone_tech = ? WHERE id = ?")
+                ->execute([json_encode($zone), $pjId]);
+        }
 
         return $filePath;
     }
@@ -6419,7 +6424,8 @@ class InterventionController
                 if (!file_exists($backup)) {
                     copy($pdfPath, $backup);
                 }
-                $this->stampTechnicianSignatureOnPdf($pdfPath, $techPath);
+                $zone = !empty($pj['signature_zone_tech']) ? json_decode($pj['signature_zone_tech'], true) : null;
+                $this->stampTechnicianSignatureOnPdf($pdfPath, $techPath, $zone);
             } else {
                 $pdfData = $this->prepareBonInterventionData($interventionId);
 
@@ -6542,7 +6548,7 @@ class InterventionController
      * Ajoute la signature technicien sur la dernière page d'un PDF existant
      * (PDF déjà signé par le client via SignNow), sans régénérer le document.
      */
-    private function stampTechnicianSignatureOnPdf(string $pdfPath, string $techSignatureRelPath): void
+    private function stampTechnicianSignatureOnPdf(string $pdfPath, string $techSignatureRelPath, ?array $zone = null): void
     {
         require_once __DIR__ . '/../../vendor/autoload.php';
 
@@ -6571,6 +6577,15 @@ class InterventionController
             $pdf->SetAutoPageBreak(false, 0);
 
             $pageCount = $pdf->setSourceFile($pdfPath);
+            $zone = $zone ?? ['page' => null, 'x' => 16, 'y' => 0, 'w' => 55, 'h' => 18];
+            if (empty($zone['y'])) {
+                throw new Exception("Position de la zone de signature inconnue pour ce bon.");
+            }
+            $x = $zone['x'];
+            $y = $zone['y'];
+            $w = $zone['w'];
+            $h = $zone['h'];
+            $targetPage = $zone['page'] ?? null;
             for ($i = 1; $i <= $pageCount; $i++) {
                 $tpl = $pdf->importPage($i);
                 $size = $pdf->getTemplateSize($tpl);
@@ -6578,6 +6593,9 @@ class InterventionController
                 $pdf->useTemplate($tpl);
 
                 if ($i === $pageCount) {
+                    $pdf->Image($sigFile, $x, $y, $w, $h, 'PNG');
+                }
+                if ($i === (int) ($targetPage ?: $pageCount)) {
                     $pdf->Image($sigFile, $x, $y, $w, $h, 'PNG');
                 }
             }

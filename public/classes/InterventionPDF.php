@@ -12,6 +12,7 @@ class InterventionPDF extends TCPDF
     private $border = [210, 210, 210];
     private $currentIntervention = [];
     private $showFooterOnLastPage = false;
+    private $techSignaturePos = null;
     public function __construct()
     {
         parent::__construct(
@@ -1377,7 +1378,13 @@ class InterventionPDF extends TCPDF
         $this->SetXY(111, $signY + 36);
         $this->SetTextColor(120, 120, 120);
         $this->Cell(80, 4, 'La signature vaut acceptation des travaux réalisés.');
-
+        $this->techSignaturePos = [
+            'page' => $this->getPage(),
+            'x' => 16,
+            'y' => $signY + 26,
+            'w' => 55,
+            'h' => 18,
+        ];
         // =========================================================
         // INTÉGRATION DES IMAGES DE SIGNATURE
         // Insérées EN DERNIER, après tout le texte/fond, pour ne pas
@@ -1452,6 +1459,10 @@ class InterventionPDF extends TCPDF
         $this->Cell(10, 1, $version, 'B', 0, 'L');
 
         $this->SetY($bottomY + 28);
+    }
+    public function getTechSignaturePos(): ?array
+    {
+        return $this->techSignaturePos;
     }
     /**
      * =========================================================
