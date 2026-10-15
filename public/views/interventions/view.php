@@ -611,6 +611,7 @@ $closeReason = [];
 							});
 							foreach ($attachments as $attachment):
 								$isBI = $attachment['type_liaison'] === 'bi';
+								$biSigStatus = $attachment['signature_status'] ?? 'non_signe';
 								$extension = strtolower(pathinfo($attachment['nom_fichier'], PATHINFO_EXTENSION));
 								if (empty($extension) && !empty($attachment['type_fichier'])) {
 									$extension = strtolower($attachment['type_fichier']);
@@ -632,7 +633,8 @@ $closeReason = [];
 											<?php if ($isBI && canModifyInterventions() && $intervention['status_id'] != 6): ?>
 												<button type="button" class="btn btn-sm btn-outline-success btn-action"
 													data-bs-toggle="modal" data-bs-target="#localSignatureModal"
-													onclick="openLocalSignatureModal(<?= $attachment['id'] ?>)" title="Signer ce bon">
+													onclick="openLocalSignatureModal(<?= $attachment['id'] ?>, '<?= h($biSigStatus) ?>')"
+													title="Signer ce bon">
 													<i class="bi bi-pen"></i>
 												</button>
 											<?php endif; ?>
@@ -649,7 +651,7 @@ $closeReason = [];
 													onclick="checkSignNowSignatures(true)" title="Vérifier la signature SignNow">
 													<i class="bi bi-arrow-repeat"></i>
 												</button>
-																						<?php endif; ?>
+											<?php endif; ?>
 											<?php if ($isPdf): ?>
 												<button type="button" class="btn btn-sm btn-outline-info btn-action"
 													onclick="openPdfViewer(<?= $attachment['id'] ?>, '<?= addslashes($attachment['nom_personnalise'] ?? $attachment['nom_fichier']) ?>')"
@@ -1683,8 +1685,21 @@ $closeReason = [];
 	// ID de la pièce jointe (bon déjà généré) que l'on est en train de signer
 	window.currentSignAttachmentId = null;
 
-	function openLocalSignatureModal(attachmentId) {
+	function openLocalSignatureModal(attachmentId, signatureStatus) {
 		window.currentSignAttachmentId = attachmentId;
+
+		const clientSigned = ['signe_client', 'signe_tech_client'].includes(signatureStatus);
+		const clientTabBtn = document.querySelector('#signTabs button[data-bs-target="#tab-client"]');
+		if (clientTabBtn) {
+			clientTabBtn.disabled = clientSigned;
+			clientTabBtn.classList.toggle('disabled', clientSigned);
+			clientTabBtn.title = clientSigned ? 'Le client a déjà signé ce bon' : '';
+			clientTabBtn.innerHTML = clientSigned
+				? 'Client <i class="bi bi-check-circle-fill text-success ms-1"></i>'
+				: 'Client';
+		}
+		const techTabBtn = document.querySelector('#signTabs button[data-bs-target="#tab-tech"]');
+		if (techTabBtn) bootstrap.Tab.getOrCreateInstance(techTabBtn).show();
 	}
 
 	const canvasTech = document.getElementById('signature-tech');

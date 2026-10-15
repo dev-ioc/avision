@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "36d9d4e7b8e1536a3b9f3afde396bb23",
+  "content-hash": "5c4f2140b597592f9877948bd838d72c",
   "packages": [
     {
       "name": "bacon/bacon-qr-code",
@@ -1203,6 +1203,77 @@
         "source": "https://github.com/php-fig/simple-cache/tree/3.0.0"
       },
       "time": "2021-10-29T13:26:27+00:00"
+    },
+    {
+      "name": "setasign/fpdi",
+      "version": "v2.6.9",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/Setasign/FPDI.git",
+        "reference": "d97ade6368aa0b51b6316d5dc16a567e2bf60167"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/Setasign/FPDI/zipball/d97ade6368aa0b51b6316d5dc16a567e2bf60167",
+        "reference": "d97ade6368aa0b51b6316d5dc16a567e2bf60167",
+        "shasum": ""
+      },
+      "require": {
+        "ext-zlib": "*",
+        "php": ">=7.2 <=8.6.99999"
+      },
+      "conflict": {
+        "setasign/tfpdf": "<1.31"
+      },
+      "require-dev": {
+        "phpunit/phpunit": "^8.5.52",
+        "setasign/fpdf": "^1.9.0",
+        "setasign/tfpdf": "~1.33",
+        "tecnickcom/tcpdf": "^6.8"
+      },
+      "suggest": {
+        "setasign/fpdf": "FPDI will extend this class but as it is also possible to use TCPDF or tFPDF as an alternative. There's no fixed dependency configured."
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "setasign\\Fpdi\\": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "Jan Slabon",
+          "email": "jan.slabon@setasign.com",
+          "homepage": "https://www.setasign.com"
+        },
+        {
+          "name": "Maximilian Kresse",
+          "email": "maximilian.kresse@setasign.com",
+          "homepage": "https://www.setasign.com"
+        }
+      ],
+      "description": "FPDI is a collection of PHP classes facilitating developers to read pages from existing PDF documents and use them as templates in FPDF. Because it is also possible to use FPDI with TCPDF, there are no fixed dependencies defined. Please see suggestions for packages which evaluates the dependencies automatically.",
+      "homepage": "https://www.setasign.com/fpdi",
+      "keywords": [
+        "fpdf",
+        "fpdi",
+        "pdf"
+      ],
+      "support": {
+        "issues": "https://github.com/Setasign/FPDI/issues",
+        "source": "https://github.com/Setasign/FPDI/tree/v2.6.9"
+      },
+      "funding": [
+        {
+          "url": "https://tidelift.com/funding/github/packagist/setasign/fpdi",
+          "type": "tidelift"
+        }
+      ],
+      "time": "2026-10-13T07:36:28+00:00"
     },
     {
       "name": "spomky-labs/cbor-php",

@@ -4,6 +4,7 @@
     "tecnickcom/tcpdf": "*",
     "endroid/qr-code": "^6.0",
     "spomky-labs/otphp": "^11.5",
-    "web-auth/webauthn-lib": "^5.3"
+    "web-auth/webauthn-lib": "^5.3",
+    "setasign/fpdi": "*"
   }
 }

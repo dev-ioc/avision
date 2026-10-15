@@ -6335,7 +6335,6 @@ class InterventionController
             echo json_encode(['success' => false, 'message' => 'Accès refusé']);
             exit;
         }
-
         if (!CSRF::validateRequest()) {
             http_response_code(403);
             echo json_encode(['success' => false, 'message' => 'Token CSRF invalide']);
@@ -6344,19 +6343,17 @@ class InterventionController
 
         try {
             $sql = "SELECT pj.*, lpj.entite_id AS intervention_id
-        FROM pieces_jointes pj
-        INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
-        WHERE pj.id = ? AND lpj.type_liaison = 'bi'";
+                FROM pieces_jointes pj
+                INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+                WHERE pj.id = ? AND lpj.type_liaison = 'bi'";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$attachmentId]);
             $pj = $stmt->fetch(PDO::FETCH_ASSOC);
-
             if (!$pj) {
                 throw new Exception("Bon d'intervention introuvable");
             }
 
             $interventionId = $pj['intervention_id'];
-
             $intervention = $this->interventionModel->getById($interventionId);
             if (!$intervention) {
                 throw new Exception('Intervention introuvable');
@@ -6371,8 +6368,16 @@ class InterventionController
             if (empty($techSignatureData) && empty($clientSignatureData)) {
                 throw new Exception('Aucune signature reçue');
             }
-            $pdfPath = __DIR__ . '/../../' . $pj['chemin_fichier'];
 
+            // Statut actuel du BI = source de vérité (le client SignNow n'a pas de PNG)
+            $currentStatus = $pj['signature_status'] ?? 'non_signe';
+            $clientAlreadySigned = in_array($currentStatus, ['signe_client', 'signe_tech_client'], true);
+
+            if ($clientAlreadySigned && !empty($clientSignatureData)) {
+                throw new Exception('Le client a déjà signé ce bon.');
+            }
+
+            $pdfPath = __DIR__ . '/../../' . $pj['chemin_fichier'];
             if (!file_exists($pdfPath)) {
                 throw new Exception("Le fichier PDF original n'existe plus");
             }
@@ -6381,41 +6386,97 @@ class InterventionController
             if (!file_exists($signatureDir)) {
                 mkdir($signatureDir, 0777, true);
             }
-            $existingSignature = $this->getExistingSignatureByAttachment($attachmentId);
 
+            $existingSignature = $this->getExistingSignatureByAttachment($attachmentId);
             $techPath = null;
             $clientPath = null;
             if ($existingSignature) {
-                if (!empty($existingSignature['technicien_signature_path'])) {
-                    $techPath = $existingSignature['technicien_signature_path'];
-                }
-                if (!empty($existingSignature['client_signature_path'])) {
-                    $clientPath = $existingSignature['client_signature_path'];
-                }
+                $techPath = !empty($existingSignature['technicien_signature_path']) ? $existingSignature['technicien_signature_path'] : null;
+                $clientPath = !empty($existingSignature['client_signature_path']) ? $existingSignature['client_signature_path'] : null;
+            }
+
+            // Bon signé client via SignNow (pas de PNG client) : on ne régénère jamais le PDF
+            $signedByClientViaSignNow = $clientAlreadySigned && empty($clientPath);
+
+            // Bon déjà complet via SignNow : plus de modification possible
+            if ($signedByClientViaSignNow && $currentStatus === 'signe_tech_client') {
+                throw new Exception('Ce bon a été signé par le client via SignNow et ne peut plus être modifié.');
             }
 
             if ($techSignatureData) {
                 $techPath = $this->saveBase64Signature($techSignatureData, $signatureDir, 'tech');
             }
-
             if ($clientSignatureData) {
                 $clientPath = $this->saveBase64Signature($clientSignatureData, $signatureDir, 'client');
             }
 
-            $sql = "INSERT INTO intervention_local_signatures 
-                    (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path, 
-                    client_name, client_email, client_send_email, technicien_id, signed_at, ip_address)
-                    VALUES (:iid, :source_id, :tech, :client, :client_name, :client_email, :client_send_email, :tid, NOW(), :ip)
-                    ON DUPLICATE KEY UPDATE
-                    technicien_signature_path = VALUES(technicien_signature_path),
-                    client_signature_path = VALUES(client_signature_path),
-                    client_name = VALUES(client_name),
-                    client_email = VALUES(client_email),
-                    client_send_email = VALUES(client_send_email),
-                    technicien_id = VALUES(technicien_id),
-                    signed_at = NOW(),
-                    ip_address = VALUES(ip_address)";
+            // ---- Mise à jour du PDF AVANT toute écriture en base ----
+            if ($signedByClientViaSignNow) {
+                if (!$techSignatureData) {
+                    throw new Exception('Signature technicien requise.');
+                }
+                $backup = preg_replace('/\.pdf$/i', '', $pdfPath) . '_avant_tech.pdf';
+                if (!file_exists($backup)) {
+                    copy($pdfPath, $backup);
+                }
+                $this->stampTechnicianSignatureOnPdf($pdfPath, $techPath);
+            } else {
+                $pdfData = $this->prepareBonInterventionData($interventionId);
 
+                require_once __DIR__ . '/../classes/InterventionPDF.php';
+                $pdf = new InterventionPDF();
+                $pdf->generateBonIntervention(
+                    $pdfData['intervention'],
+                    $pdfData['comments'],
+                    $pdfData['attachments'],
+                    $pdfData['technicians'],
+                    $pdfData['equipment'],
+                    $pdfData['replacedParts'],
+                    ['technicien' => $techPath, 'client' => $clientPath]
+                );
+                $tempDir = __DIR__ . '/../../uploads/interventions/' . $interventionId . '/temp/';
+                if (!file_exists($tempDir)) {
+                    mkdir($tempDir, 0777, true);
+                }
+                $tempFilePath = $tempDir . 'temp_signed_' . time() . '.pdf';
+                $pdf->saveToFile($tempFilePath);
+
+                if (file_exists($tempFilePath)) {
+                    if (file_exists($pdfPath)) {
+                        unlink($pdfPath);
+                    }
+                    rename($tempFilePath, $pdfPath);
+                    if (is_dir($tempDir) && count(scandir($tempDir)) <= 2) {
+                        rmdir($tempDir);
+                    }
+                }
+            }
+
+            // ---- Statut ----
+            $clientSigned = !empty($clientPath) || $clientAlreadySigned;
+            $signatureStatus = 'non_signe';
+            if ($techPath && $clientSigned) {
+                $signatureStatus = 'signe_tech_client';
+            } elseif ($techPath) {
+                $signatureStatus = 'signe_tech';
+            } elseif ($clientSigned) {
+                $signatureStatus = 'signe_client';
+            }
+
+            // ---- Écritures en base ----
+            $sql = "INSERT INTO intervention_local_signatures
+                (intervention_id, source_attachment_id, technicien_signature_path, client_signature_path,
+                 client_name, client_email, client_send_email, technicien_id, signed_at, ip_address)
+                VALUES (:iid, :source_id, :tech, :client, :client_name, :client_email, :client_send_email, :tid, NOW(), :ip)
+                ON DUPLICATE KEY UPDATE
+                technicien_signature_path = VALUES(technicien_signature_path),
+                client_signature_path = VALUES(client_signature_path),
+                client_name = VALUES(client_name),
+                client_email = VALUES(client_email),
+                client_send_email = VALUES(client_send_email),
+                technicien_id = VALUES(technicien_id),
+                signed_at = NOW(),
+                ip_address = VALUES(ip_address)";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
                 ':iid' => $interventionId,
@@ -6428,102 +6489,45 @@ class InterventionController
                 ':tid' => $_SESSION['user']['id'],
                 ':ip' => $_SERVER['REMOTE_ADDR'] ?? null,
             ]);
-            $signatureStatus = 'non_signe';
-            if ($techPath && $clientPath) {
-                $signatureStatus = 'signe_tech_client';
-            } elseif ($techPath) {
-                $signatureStatus = 'signe_tech';
-            } elseif ($clientPath) {
-                $signatureStatus = 'signe_client';
-            }
 
-            $pdfData = $this->prepareBonInterventionData($interventionId);
-
-            require_once __DIR__ . '/../classes/InterventionPDF.php';
-            $pdf = new InterventionPDF();
-            $pdf->generateBonIntervention(
-                $pdfData['intervention'],
-                $pdfData['comments'],
-                $pdfData['attachments'],
-                $pdfData['technicians'],
-                $pdfData['equipment'],
-                $pdfData['replacedParts'],
-                [
-                    'technicien' => $techPath,
-                    'client' => $clientPath,
-                ]
+            $stmt = $this->db->prepare(
+                "UPDATE pieces_jointes
+             SET signature_status = :s, nom_personnalise = :n, taille_fichier = :t
+             WHERE id = :id"
             );
-            $tempDir = __DIR__ . '/../../uploads/interventions/' . $interventionId . '/temp/';
-            if (!file_exists($tempDir)) {
-                mkdir($tempDir, 0777, true);
-            }
-            $tempFilePath = $tempDir . 'temp_signed_' . time() . '.pdf';
-            $pdf->saveToFile($tempFilePath);
-
-            if (file_exists($tempFilePath)) {
-                if (file_exists($pdfPath)) {
-                    unlink($pdfPath);
-                }
-                rename($tempFilePath, $pdfPath);
-
-                if (is_dir($tempDir) && count(scandir($tempDir)) <= 2) {
-                    rmdir($tempDir);
-                }
-            }
-            $sql = "UPDATE pieces_jointes 
-                SET signature_status = :signature_status,
-                    nom_personnalise = :nom_personnalise
-                WHERE id = :id";
-            $stmt = $this->db->prepare($sql);
             $stmt->execute([
-                ':signature_status' => $signatureStatus,
-                ':nom_personnalise' => str_replace('.pdf', ' (signé)', $pj['nom_personnalise'] ?? $pj['nom_fichier']),
+                ':s' => $signatureStatus,
+                ':n' => str_replace('.pdf', ' (signé)', $pj['nom_personnalise'] ?? $pj['nom_fichier']),
+                ':t' => filesize($pdfPath),
                 ':id' => $attachmentId
             ]);
 
-            // Mettre à jour le dernier BI signé
             $this->interventionModel->updateLastSignedBI($interventionId, $attachmentId);
 
-            // Historique
             $this->insertHistory(
                 $interventionId,
                 'Signature',
                 '',
                 '',
                 "Bon d'intervention (PJ #{$attachmentId}) mis à jour - " .
-                ($techPath ? "Signature technicien ajoutée" : "") .
-                ($techPath && $clientPath ? " et " : "") .
-                ($clientPath ? "Signature client ajoutée" : "") .
-                " - Statut: " . $signatureStatus .
-                " - Version " . ($pj['version'] ?? 1)
+                ($techSignatureData ? "Signature technicien ajoutée" : "") .
+                ($techSignatureData && $clientSignatureData ? " et " : "") .
+                ($clientSignatureData ? "Signature client ajoutée" : "") .
+                " - Statut: " . $signatureStatus . " - Version " . ($pj['version'] ?? 1)
             );
 
             $hasSolution = false;
             if ($signatureStatus === 'signe_tech_client') {
-                $sqlSol = "SELECT COUNT(*) FROM intervention_comments WHERE intervention_id = ? AND is_solution = 1";
-                $stmtSol = $this->db->prepare($sqlSol);
+                $stmtSol = $this->db->prepare("SELECT COUNT(*) FROM intervention_comments WHERE intervention_id = ? AND is_solution = 1");
                 $stmtSol->execute([$interventionId]);
                 $hasSolution = (int) $stmtSol->fetchColumn() > 0;
             }
-
-            $isClosed = (int) $intervention['status_id'] === 6;
-
-            $hasSolution = false;
-            if ($signatureStatus === 'signe_tech_client') {
-                $sqlSol = "SELECT COUNT(*) FROM intervention_comments WHERE intervention_id = ? AND is_solution = 1";
-                $stmtSol = $this->db->prepare($sqlSol);
-                $stmtSol->execute([$interventionId]);
-                $hasSolution = (int) $stmtSol->fetchColumn() > 0;
-            }
-
-            $fullySigned = ($signatureStatus === 'signe_tech_client');
-            $pdfUrl = BASE_URL . 'interventions/download/' . $attachmentId;
 
             echo json_encode([
                 'success' => true,
-                'pdf_url' => $pdfUrl,
-                'fully_signed' => $fullySigned,
-                'is_closed' => $isClosed,
+                'pdf_url' => BASE_URL . 'interventions/download/' . $attachmentId,
+                'fully_signed' => ($signatureStatus === 'signe_tech_client'),
+                'is_closed' => (int) $intervention['status_id'] === 6,
                 'has_solution' => $hasSolution,
                 'intervention_id' => $intervention['id'],
                 'client_send_email' => $input['client_send_email'] ?? true,
@@ -6533,6 +6537,61 @@ class InterventionController
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
         }
         exit;
+    }
+    /**
+     * Ajoute la signature technicien sur la dernière page d'un PDF existant
+     * (PDF déjà signé par le client via SignNow), sans régénérer le document.
+     */
+    private function stampTechnicianSignatureOnPdf(string $pdfPath, string $techSignatureRelPath): void
+    {
+        require_once __DIR__ . '/../../vendor/autoload.php';
+
+        if (!class_exists('\setasign\Fpdi\Tcpdf\Fpdi')) {
+            throw new Exception("FPDI n'est pas installé (composer require setasign/fpdi)");
+        }
+
+        $sigFile = __DIR__ . '/../../' . $techSignatureRelPath;
+        if (!file_exists($sigFile)) {
+            throw new Exception('Fichier de signature technicien introuvable');
+        }
+
+        // À AJUSTER : zone "Signature technicien" en mm, sur la dernière page
+        $x = 25;
+        $y = 230;
+        $w = 60;
+        $h = 25;
+
+        $tmp = $pdfPath . '.stamp.tmp';
+
+        try {
+            $pdf = new \setasign\Fpdi\Tcpdf\Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
+            $pdf->setPrintHeader(false);
+            $pdf->setPrintFooter(false);
+            $pdf->SetMargins(0, 0, 0);
+            $pdf->SetAutoPageBreak(false, 0);
+
+            $pageCount = $pdf->setSourceFile($pdfPath);
+            for ($i = 1; $i <= $pageCount; $i++) {
+                $tpl = $pdf->importPage($i);
+                $size = $pdf->getTemplateSize($tpl);
+                $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+                $pdf->useTemplate($tpl);
+
+                if ($i === $pageCount) {
+                    $pdf->Image($sigFile, $x, $y, $w, $h, 'PNG');
+                }
+            }
+            $pdf->Output($tmp, 'F');
+        } catch (\Throwable $e) {
+            @unlink($tmp);
+            custom_log('stampTechnicianSignatureOnPdf: ' . $e->getMessage(), 'ERROR');
+            throw new Exception("Impossible d'ajouter la signature sur le PDF signé par le client : " . $e->getMessage());
+        }
+
+        if (!file_exists($tmp) || filesize($tmp) === 0 || !rename($tmp, $pdfPath)) {
+            @unlink($tmp);
+            throw new Exception("Impossible d'enregistrer le PDF signé");
+        }
     }
     /**
      * Récupère les signatures existantes pour un BI spécifique
