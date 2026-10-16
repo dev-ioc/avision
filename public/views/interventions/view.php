@@ -1796,7 +1796,6 @@ $closeReason = [];
 			if (data.success) {
 				showAlert('Bon signé généré avec succès', 'success');
 				bootstrap.Modal.getInstance(document.getElementById('localSignatureModal')).hide();
-				window.open(data.pdf_url, '_blank');
 
 				if (data.fully_signed && !data.is_closed) {
 					openPostSignatureModal(data);

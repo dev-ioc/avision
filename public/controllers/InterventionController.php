@@ -7103,7 +7103,7 @@ class InterventionController
         }
 
         if (empty($intervention['contact_client'])) {
-            $warnings[] = "Aucun contact client (envoi pour signature impossible).";
+            $warnings[] = "Aucun contact client disponible. Vous pouvez envoyer un email par SMS ou renseigner le champ manuellement.";
         }
         if (empty($intervention['contract_id'])) {
             $warnings[] = "Aucun contrat sélectionné.";
