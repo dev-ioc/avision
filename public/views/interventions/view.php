@@ -1493,6 +1493,12 @@ $closeReason = [];
 				<a href="#" id="pdfDownloadLink" class="btn btn-primary" target="_blank"><i
 						class="bi bi-download me-1"></i>
 					Télécharger</a>
+				<button type="button" class="btn btn-success d-none" id="pdfBtnSend">
+					<i class="bi bi-send me-1"></i> Envoyer pour signature
+				</button>
+				<button type="button" class="btn btn-outline-success d-none" id="pdfBtnSignLocal">
+					<i class="bi bi-pen me-1"></i> Signer sur place
+				</button>
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
 			</div>
 		</div>
@@ -3595,6 +3601,61 @@ $closeReason = [];
 	} else {
 		checkSignNowSignatures(false);
 	}
+
+	// Après fermeture de la visionneuse, on enchaîne sur la modale demandée
+	function afterPdfViewerClosed(callback) {
+		const el = document.getElementById('pdfViewerModal');
+		el.addEventListener('hidden.bs.modal', function once() {
+			el.removeEventListener('hidden.bs.modal', once);
+			callback();
+		});
+		bootstrap.Modal.getInstance(el)?.hide();
+	}
+
+	document.getElementById('pdfBtnSend').addEventListener('click', () => {
+		const id = window.viewerBiId;
+		if (!id) return;
+		afterPdfViewerClosed(() => openSignatureModal(id));
+	});
+
+	document.getElementById('pdfBtnSignLocal').addEventListener('click', () => {
+		const id = window.viewerBiId;
+		if (!id) return;
+		afterPdfViewerClosed(() => {
+			openLocalSignatureModal(id, 'non_signe');
+			bootstrap.Modal.getOrCreateInstance(document.getElementById('localSignatureModal')).show();
+		});
+	});
+
+	document.getElementById('pdfViewerModal').addEventListener('hidden.bs.modal', () => setViewerBi(null));
+
+	// Ouverture automatique après génération
+	document.addEventListener('DOMContentLoaded', () => {
+		const biId = parseInt(new URLSearchParams(location.search).get('open_bi'), 10);
+		if (!biId) return;
+		setViewerBi(biId);
+		openPdfViewer(biId, "Bon d'intervention");
+		// évite la réouverture au rafraîchissement
+		history.replaceState(null, '', location.pathname);
+	});
+	window.viewerBiId = null;
+
+	function setViewerBi(id) {
+		window.viewerBiId = id;
+		const chk = document.getElementById('pdfConfirmChecked');
+		chk.checked = false;
+		document.getElementById('pdfConfirmWrap').classList.toggle('d-none', !id);
+		['pdfBtnSend', 'pdfBtnSignLocal'].forEach(b => {
+			const el = document.getElementById(b);
+			el.classList.toggle('d-none', !id);
+			el.disabled = true;
+		});
+	}
+
+	document.getElementById('pdfConfirmChecked').addEventListener('change', function () {
+		document.getElementById('pdfBtnSend').disabled = !this.checked;
+		document.getElementById('pdfBtnSignLocal').disabled = !this.checked;
+	});
 </script>
 <style>
 	.drop-zone {

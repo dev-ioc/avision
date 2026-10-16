@@ -477,7 +477,30 @@ include_once __DIR__ . '/../../includes/navbar.php';
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="confirmWarningsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border:none;border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.2);">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title d-flex align-items-center gap-2">
+                    <i class="bi bi-exclamation-triangle-fill text-warning fs-4"></i>
+                    <span>Points à vérifier</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body pt-2">
+                <p class="text-secondary mb-2">Avant de générer le bon d'intervention :</p>
+                <ul class="list-group list-group-flush mb-3" id="confirmWarningsList"></ul>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-warning" id="confirmWarningsOk">
+                    <i class="bi bi-file-pdf me-1"></i> Générer quand même
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 <script>
     // Fonctions pour la sélection des commentaires
     function selectAllComments() {
@@ -590,26 +613,58 @@ include_once __DIR__ . '/../../includes/navbar.php';
                 throw error;
             });
     }
+    function confirmWarnings(warnings) {
+        return new Promise(resolve => {
+            const el = document.getElementById('confirmWarningsModal');
+            const list = document.getElementById('confirmWarningsList');
+            const okBtn = document.getElementById('confirmWarningsOk');
 
+            list.innerHTML = '';
+            warnings.forEach(w => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item px-0 d-flex align-items-start gap-2';
+                li.innerHTML = '<i class="bi bi-dot text-warning fs-4 lh-1"></i><span></span>';
+                li.querySelector('span').textContent = w; // textContent : pas d'injection HTML
+                list.appendChild(li);
+            });
+
+            const modal = bootstrap.Modal.getOrCreateInstance(el);
+            let settled = false;
+
+            const onOk = () => { settled = true; modal.hide(); resolve(true); };
+            const onHidden = () => {
+                okBtn.removeEventListener('click', onOk);
+                el.removeEventListener('hidden.bs.modal', onHidden);
+                if (!settled) resolve(false);
+            };
+
+            okBtn.addEventListener('click', onOk);
+            el.addEventListener('hidden.bs.modal', onHidden);
+            modal.show();
+        });
+    }
     function generateBon() {
+        const btn = document.querySelector('button[onclick="generateBon()"]');
+        if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Génération...'; }
+        const reset = () => { if (btn) { btn.disabled = false; btn.innerHTML = '<i class="bi bi-file-pdf me-1"></i> Générer le bon d\'intervention'; } };
+
         fetch(`<?php echo BASE_URL; ?>interventions/checkBiGeneration/<?php echo $intervention['id']; ?>`, {
             method: 'GET',
             headers: { 'X-Requested-With': 'XMLHttpRequest' }
         })
-            .then(response => response.json())
-            .then(data => {
-                if (!data.allowed) {
-                    showAlert(data.error, 'warning');
-                    return;
+            .then(r => r.json())
+            .then(async data => {
+                if (!data.allowed) { showAlert(data.error, 'warning'); reset(); return; }
+
+                if (data.warnings && data.warnings.length) {
+                    const ok = await confirmWarnings(data.warnings);
+                    if (!ok) { reset(); return; }
                 }
 
-                saveSelection().then(() => {
-                    window.open(`<?php echo BASE_URL; ?>interventions/generateBonPdf/<?php echo $intervention['id']; ?>`, '_blank');
-                });
+                await saveSelection();
+                window.location.href = `<?php echo BASE_URL; ?>interventions/generateBonPdf/<?php echo $intervention['id']; ?>`;
             })
-            .catch(() => {
-                showAlert("Erreur lors de la vérification, merci de réessayer.", 'danger');
-            });
+            .catch(() => { showAlert("Erreur lors de la vérification, merci de réessayer.", 'danger'); reset(); });
     }
     function showAlert(message, type) {
         // Supprimer les alertes existantes pour éviter les doublons
@@ -733,183 +788,6 @@ include_once __DIR__ . '/../../includes/navbar.php';
         });
     }
 </script>
-
-<style>
-    /* Styles pour les cartes compactes */
-    .compact-card {
-        border: 1px solid #dee2e6;
-        border-radius: 6px;
-    }
-
-    .compact-card .card-header {
-        background-color: #f8f9fa;
-        border-bottom: 1px solid #dee2e6;
-        padding: 0.5rem 0.75rem;
-    }
-
-    .compact-card .card-body {
-        padding: 0.5rem 0.75rem;
-    }
-
-    .compact-table td {
-        padding: 0.25rem 0.5rem;
-        border: none;
-        vertical-align: top;
-    }
-
-    .compact-table tr {
-        border-bottom: 1px solid #f1f3f4;
-    }
-
-    .compact-table tr:last-child {
-        border-bottom: none;
-    }
-
-    /* Styles pour les miniatures */
-    .thumbnail-container img {
-        transition: transform 0.2s ease;
-        cursor: pointer;
-    }
-
-    .thumbnail-container img:hover {
-        transform: scale(1.05);
-    }
-
-    .images-selection .form-check {
-        transition: background-color 0.2s ease;
-    }
-
-    .images-selection .form-check:hover {
-        background-color: #f8f9fa;
-    }
-
-    .images-selection .form-check-input:checked+.form-check-label {
-        background-color: #e3f2fd;
-    }
-
-    /* Amélioration de l'apparence des checkboxes */
-    .images-selection .form-check-input {
-        margin-top: 0.5rem;
-    }
-
-    .images-selection .form-check-label {
-        cursor: pointer;
-        border-radius: 8px;
-        padding: 0.5rem;
-        margin-left: 0.5rem;
-    }
-</style>
-
-</div> <!-- Fin du container-fluid -->
-<!-- Modal Signature -->
-<div class="modal fade" id="signatureModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="bi bi-pen me-2"></i>Envoyer pour signature
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Chargement -->
-                <div id="signerLoading" class="text-center py-3">
-                    <div class="spinner-border text-primary" role="status"></div>
-                    <p class="mt-2 text-muted">Chargement des contacts...</p>
-                </div>
-
-                <!-- Choix du signataire -->
-                <div id="signerForm" style="display:none;">
-                    <?= csrf_field() ?>
-                    <div class="mb-4">
-                        <label class="form-label fw-semibold">Signataire</label>
-                        <!-- Contact principal de l'intervention -->
-                        <div class="form-check border rounded p-3 mb-2" id="optionPrincipal">
-                            <input class="form-check-input" type="radio" name="signerChoice" id="signerPrincipal"
-                                value="principal" checked>
-                            <label class="form-check-label w-100" for="signerPrincipal">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="bi bi-person-fill text-primary"></i>
-                                    <div>
-                                        <div class="fw-semibold" id="principalName">—</div>
-                                        <small class="text-muted" id="principalEmail">—</small>
-                                    </div>
-                                    <span class="badge bg-primary ms-auto">Contact intervention</span>
-                                </div>
-                            </label>
-                        </div>
-
-                        <!-- Select contacts -->
-                        <div id="otherContactWrapper" style="display:none;" class="ms-4 mt-2">
-                            <select class="form-select" id="otherContactSelect">
-                                <option value="">— Sélectionner un contact —</option>
-                            </select>
-                        </div>
-
-                        <!-- Signataire manuel -->
-                        <div class="form-check border rounded p-3 mb-2">
-                            <input class="form-check-input" type="radio" name="signerChoice" id="signerManual"
-                                value="manual">
-                            <label class="form-check-label w-100" for="signerManual">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="bi bi-pencil-fill text-warning"></i>
-                                    <span class="fw-semibold">Saisir manuellement</span>
-                                </div>
-                            </label>
-                        </div>
-
-                        <!-- Champs manuels -->
-                        <div id="manualFields" style="display:none;" class="ms-4 mt-2">
-                            <div class="row g-2">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" id="manualFirstname" placeholder="Prénom">
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" id="manualLastname" placeholder="Nom">
-                                </div>
-                                <div class="col-12">
-                                    <input type="email" class="form-control" id="manualEmail" placeholder="Email *"
-                                        required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Téléphone pour SMS OTP -->
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">
-                            Téléphone pour vérification SMS
-                            <span class="text-muted fw-normal">(optionnel mais recommandé)</span>
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-phone"></i></span>
-                            <input type="text" class="form-control" id="signerPhone" placeholder="+261 32 12 345 67">
-                        </div>
-                        <div class="form-text">
-                            Si renseigné, SignNow enverra un code SMS au signataire pour authentification.
-                        </div>
-                    </div>
-
-                    <!-- Récap -->
-                    <div class="alert alert-info d-none" id="signerRecap">
-                        <i class="bi bi-info-circle me-2"></i>
-                        <span id="signerRecapText"></span>
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Annuler
-                </button>
-                <button type="button" class="btn btn-success" id="btnSendSignature" disabled>
-                    <i class="bi bi-send me-1"></i> Envoyer la demande
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
     const interventionId = <?= (int) $intervention['id'] ?>;
     const clientId = <?= (int) ($intervention['client_id'] ?? 0) ?>;
@@ -1095,5 +973,136 @@ include_once __DIR__ . '/../../includes/navbar.php';
             btn.innerHTML = '<i class="bi bi-send me-1"></i> Envoyer la demande';
         }
     }
+
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.modal').forEach(function (modal) {
+            modal.addEventListener('hidden.bs.modal', function () {
+                const dialog = modal.querySelector('.modal-dialog');
+                if (dialog) {
+                    dialog.style.position = '';
+                    dialog.style.left = '';
+                    dialog.style.top = '';
+                    dialog.style.margin = '';
+                    dialog.style.width = '';
+                    dialog.style.maxWidth = '';
+                }
+            });
+
+            modal.addEventListener('shown.bs.modal', function () {
+                const dialog = modal.querySelector('.modal-dialog');
+                const header = modal.querySelector('.modal-header');
+                if (!dialog || !header) return;
+                if (header.dataset.draggable) return;
+                header.dataset.draggable = 'true';
+
+                header.style.cursor = 'grab';
+
+                let isDragging = false;
+                let startX, startY, startLeft, startTop;
+
+                header.addEventListener('mousedown', function (e) {
+                    if (e.target.closest('button')) return;
+
+                    isDragging = true;
+                    header.style.cursor = 'grabbing';
+
+                    const rect = dialog.getBoundingClientRect();
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    startLeft = rect.left;
+                    startTop = rect.top;
+                    dialog.style.width = rect.width + 'px';
+                    dialog.style.maxWidth = 'none';
+                    dialog.style.position = 'fixed';
+                    dialog.style.left = startLeft + 'px';
+                    dialog.style.top = startTop + 'px';
+                    dialog.style.margin = '0';
+                });
+
+                document.addEventListener('mousemove', function (e) {
+                    if (!isDragging) return;
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+                    dialog.style.left = (startLeft + dx) + 'px';
+                    dialog.style.top = (startTop + dy) + 'px';
+                });
+
+                document.addEventListener('mouseup', function () {
+                    if (isDragging) {
+                        isDragging = false;
+                        header.style.cursor = 'grab';
+                    }
+                });
+            });
+
+        });
+    });
+</script>
+<style>
+    /* Styles pour les cartes compactes */
+    .compact-card {
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+    }
+
+    .compact-card .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .compact-card .card-body {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .compact-table td {
+        padding: 0.25rem 0.5rem;
+        border: none;
+        vertical-align: top;
+    }
+
+    .compact-table tr {
+        border-bottom: 1px solid #f1f3f4;
+    }
+
+    .compact-table tr:last-child {
+        border-bottom: none;
+    }
+
+    /* Styles pour les miniatures */
+    .thumbnail-container img {
+        transition: transform 0.2s ease;
+        cursor: pointer;
+    }
+
+    .thumbnail-container img:hover {
+        transform: scale(1.05);
+    }
+
+    .images-selection .form-check {
+        transition: background-color 0.2s ease;
+    }
+
+    .images-selection .form-check:hover {
+        background-color: #f8f9fa;
+    }
+
+    .images-selection .form-check-input:checked+.form-check-label {
+        background-color: #e3f2fd;
+    }
+
+    /* Amélioration de l'apparence des checkboxes */
+    .images-selection .form-check-input {
+        margin-top: 0.5rem;
+    }
+
+    .images-selection .form-check-label {
+        cursor: pointer;
+        border-radius: 8px;
+        padding: 0.5rem;
+        margin-left: 0.5rem;
+    }
+</style>
 <?php include_once __DIR__ . '/../../includes/footer.php'; ?>

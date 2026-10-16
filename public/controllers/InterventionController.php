@@ -3955,17 +3955,20 @@ class InterventionController
                 header('Location: ' . BASE_URL . 'interventions/generateBon/' . $interventionId);
                 exit;
             }
-            if (file_exists($pdfPath)) {
-                $filename = basename($pdfPath);
-                header('Content-Type: application/pdf');
-                header('Content-Disposition: inline; filename="' . $filename . '"');
-                header('Cache-Control: private, max-age=0, must-revalidate');
-                header('Pragma: public');
-                readfile($pdfPath);
-                exit;
-            } else {
+            // Retrouver le BI qui vient d'être créé
+            $stmt = $this->db->prepare(
+                "SELECT pj.id FROM pieces_jointes pj
+     INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
+     WHERE lpj.type_liaison = 'bi' AND lpj.entite_id = ?
+     ORDER BY pj.date_creation DESC, pj.id DESC LIMIT 1"
+            );
+            $stmt->execute([$interventionId]);
+            $biId = (int) $stmt->fetchColumn();
+            if (!file_exists($pdfPath)) {
                 throw new Exception('Fichier PDF non trouvé');
             }
+            header('Location: ' . BASE_URL . 'interventions/view/' . $interventionId . '?open_bi=' . $biId);
+            exit;
 
         } catch (Exception $e) {
             custom_log("Erreur lors de la génération du PDF : " . $e->getMessage(), 'ERROR');
@@ -7067,14 +7070,56 @@ class InterventionController
             exit;
         }
 
-        // Admin/ADV toujours autorisés (pré-génération pour un technicien, etc.)
-        if (isAdmin()) {
-            echo json_encode(['allowed' => true, 'error' => null]);
-            exit;
+        // Blocage (règles de génération) : uniquement pour les non-admins
+        if (!isAdmin()) {
+            $result = $this->checkBiGenerationAllowed($id, $_SESSION['user']['id']);
+            if (!$result['allowed']) {
+                echo json_encode($result);
+                exit;
+            }
         }
 
-        $result = $this->checkBiGenerationAllowed($id, $_SESSION['user']['id']);
-        echo json_encode($result);
+        // Avertissements de cohérence : pour tout le monde, y compris les admins
+        $warnings = [];
+
+        $stmt = $this->db->prepare(
+            "SELECT COUNT(*) AS total,
+                SUM(start_time IS NULL) AS sans_debut,
+                SUM(temps_passe IS NULL OR temps_passe = 0) AS sans_duree
+         FROM intervention_techniciens WHERE intervention_id = ?"
+        );
+        $stmt->execute([$id]);
+        $t = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ((int) $t['total'] === 0) {
+            $warnings[] = "Aucun technicien assigné.";
+        } else {
+            if ((int) $t['sans_debut'] > 0) {
+                $warnings[] = "Date de début manquante pour un technicien.";
+            }
+            if ((int) $t['sans_duree'] > 0) {
+                $warnings[] = "Durée manquante pour un technicien.";
+            }
+        }
+
+        if (empty($intervention['contact_client'])) {
+            $warnings[] = "Aucun contact client (envoi pour signature impossible).";
+        }
+        if (empty($intervention['contract_id'])) {
+            $warnings[] = "Aucun contrat sélectionné.";
+        }
+        if (empty($intervention['room_id'])) {
+            $warnings[] = "Aucune salle principale rattachée à l'intervention.";
+        }
+        $stmt = $this->db->prepare(
+            "SELECT COUNT(*) FROM intervention_comments WHERE intervention_id = ? AND is_solution = 1"
+        );
+        $stmt->execute([$id]);
+        if ((int) $stmt->fetchColumn() === 0) {
+            $warnings[] = "Aucune solution documentée.";
+        }
+
+        echo json_encode(['allowed' => true, 'error' => null, 'warnings' => $warnings]);
         exit;
     }
 
