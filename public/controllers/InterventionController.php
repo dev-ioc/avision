@@ -7229,7 +7229,7 @@ class InterventionController
             // Fermeture automatique pour les préventives, une fois le BI signé par le technicien ET le client
             $isClosed = (int) $intervention['status_id'] === 6;
 
-            if (!$isClosed && (int) ($intervention['is_preventive'] ?? 0) === 1) {
+            if (!$isClosed) {
                 $sqlSig = "SELECT pj.signature_status
                        FROM pieces_jointes pj
                        INNER JOIN liaisons_pieces_jointes lpj ON pj.id = lpj.piece_jointe_id
