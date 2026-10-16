@@ -1490,9 +1490,13 @@ $closeReason = [];
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#" id="pdfDownloadLink" class="btn btn-primary" target="_blank"><i
-						class="bi bi-download me-1"></i>
-					Télécharger</a>
+				<div class="form-check me-auto d-none" id="pdfConfirmWrap">
+					<input class="form-check-input" type="checkbox" id="pdfConfirmChecked">
+					<label class="form-check-label" for="pdfConfirmChecked">J'ai contrôlé le bon d'intervention</label>
+				</div>
+				<a href="#" id="pdfDownloadLink" class="btn btn-primary" target="_blank">
+					<i class="bi bi-download me-1"></i> Télécharger
+				</a>
 				<button type="button" class="btn btn-success d-none" id="pdfBtnSend">
 					<i class="bi bi-send me-1"></i> Envoyer pour signature
 				</button>
@@ -2127,10 +2131,20 @@ $closeReason = [];
 	var pdfDoc = null, currentPdfPage = 1, pdfScale = 1.5, pdfCanvas = null, pdfCtx = null, currentImageScale = 1;
 
 	function openPdfViewer(id, name) {
+		setViewerBi(id);
+
 		document.getElementById('pdfFileName').innerText = name;
-		document.getElementById('pdfDownloadLink').href = window.BASE_URL + 'interventions/download/' + id;
-		currentPdfPage = 1; pdfScale = 1.5;
-		var modal = new bootstrap.Modal(document.getElementById('pdfViewerModal')); modal.show();
+		document.getElementById('pdfDownloadLink').href =
+			window.BASE_URL + 'interventions/download/' + id;
+
+		currentPdfPage = 1;
+		pdfScale = 1.5;
+
+		const modalElement = document.getElementById('pdfViewerModal');
+		const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+
+		modal.show();
+
 		var c = document.getElementById('pdfViewerContainer');
 		c.innerHTML = '<div class="text-center text-white py-5"><div class="spinner-border text-light" role="status"></div><p class="mt-3">Chargement…</p></div>';
 		fetch(window.BASE_URL + 'interventions/getFileData/' + id, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
@@ -3628,35 +3642,75 @@ $closeReason = [];
 		});
 	});
 
-	document.getElementById('pdfViewerModal').addEventListener('hidden.bs.modal', () => setViewerBi(null));
+	document.getElementById('pdfViewerModal')
+		?.addEventListener('hidden.bs.modal', function () {
+			window.viewerBiId = null;
+		});
 
 	// Ouverture automatique après génération
 	document.addEventListener('DOMContentLoaded', () => {
-		const biId = parseInt(new URLSearchParams(location.search).get('open_bi'), 10);
+		const biId = parseInt(
+			new URLSearchParams(location.search).get('open_bi'),
+			10
+		);
+
 		if (!biId) return;
-		setViewerBi(biId);
+
 		openPdfViewer(biId, "Bon d'intervention");
-		// évite la réouverture au rafraîchissement
+
 		history.replaceState(null, '', location.pathname);
 	});
-	window.viewerBiId = null;
 
+	window.viewerBiId = null;
 	function setViewerBi(id) {
 		window.viewerBiId = id;
-		const chk = document.getElementById('pdfConfirmChecked');
-		chk.checked = false;
-		document.getElementById('pdfConfirmWrap').classList.toggle('d-none', !id);
-		['pdfBtnSend', 'pdfBtnSignLocal'].forEach(b => {
-			const el = document.getElementById(b);
-			el.classList.toggle('d-none', !id);
-			el.disabled = true;
-		});
+
+		const confirmWrap = document.getElementById('pdfConfirmWrap');
+		const confirmCheckbox = document.getElementById('pdfConfirmChecked');
+		const sendButton = document.getElementById('pdfBtnSend');
+		const localButton = document.getElementById('pdfBtnSignLocal');
+
+		if (!confirmWrap || !confirmCheckbox || !sendButton || !localButton) {
+			console.error('Éléments de la popup BI introuvables');
+			return;
+		}
+
+		const active = Boolean(id);
+
+		confirmWrap.classList.toggle('d-none', !active);
+
+		// Réinitialisation uniquement lors de l'ouverture
+		// if (active) {
+		// 	confirmCheckbox.checked = false;
+		// 	sendButton.disabled = true;
+		// 	localButton.disabled = true;
+		// } else {
+		// 	sendButton.disabled = true;
+		// 	localButton.disabled = true;
+		// }
+
+		sendButton.classList.toggle('d-none', !active);
+		localButton.classList.toggle('d-none', !active);
 	}
 
-	document.getElementById('pdfConfirmChecked').addEventListener('change', function () {
-		document.getElementById('pdfBtnSend').disabled = !this.checked;
-		document.getElementById('pdfBtnSignLocal').disabled = !this.checked;
+	document.addEventListener('change', function (event) {
+		if (event.target.id !== 'pdfConfirmChecked') {
+			return;
+		}
+
+		const enabled = event.target.checked;
+		const sendButton = document.getElementById('pdfBtnSend');
+		const localButton = document.getElementById('pdfBtnSignLocal');
+
+		if (sendButton) {
+			sendButton.disabled = !enabled;
+		}
+
+		if (localButton) {
+			localButton.disabled = !enabled;
+		}
 	});
+
 </script>
 <style>
 	.drop-zone {
