@@ -1896,8 +1896,10 @@ $closeReason = [];
 				if (result.success) {
 					showToast('Notification envoyée', 'success');
 					bootstrap.Modal.getInstance(document.getElementById('postSignatureModal')).hide();
+					window.location.reload();
 				} else {
 					showToast('Erreur : ' + (result.error || 'Échec'), 'danger');
+					window.location.reload();
 				}
 			} catch (e) {
 				showToast('Erreur réseau', 'danger');
